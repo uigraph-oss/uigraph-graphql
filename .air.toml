@@ -1,0 +1,15 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  cmd = "go build -o ./tmp/main ."
+  bin = "./tmp/main"
+  delay = 1000
+  exclude_dir = ["tmp", "bin"]
+  include_ext = ["go", "graphqls"]
+  stop_on_error = true
+  poll = true
+  poll_interval = 500
+
+[misc]
+  clean_on_exit = true

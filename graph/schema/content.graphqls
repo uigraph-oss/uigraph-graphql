@@ -1,0 +1,264 @@
+extend type Query {
+    folders(orgId: ID!, type: String, parentId: ID):          [Folder!]!
+    folder(orgId: ID!, id: ID!):                              Folder!
+    diagrams(orgId: ID!, folderId: ID):                       [Diagram!]!
+    diagram(orgId: ID!, id: ID!):                             Diagram!
+    diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
+    diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
+    diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
+    maps(orgId: ID!, folderId: ID):                           [UIMap!]!
+    map(orgId: ID!, id: ID!):                                 UIMap!
+    frames(orgId: ID!, mapId: ID!):                           [Frame!]!
+    frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
+    focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
+    canvas(orgId: ID!, mapId: ID!):                           Canvas!
+}
+
+extend type Mutation {
+    createFolder(orgId: ID!, input: CreateFolderInput!):              Folder!
+    updateFolder(orgId: ID!, id: ID!, input: UpdateFolderInput!):     Folder!
+    deleteFolder(orgId: ID!, id: ID!):                                Boolean!
+
+    createDiagram(orgId: ID!, input: CreateDiagramInput!):            Diagram!
+    updateDiagram(orgId: ID!, id: ID!, input: UpdateDiagramInput!):   Diagram!
+    deleteDiagram(orgId: ID!, id: ID!):                               Boolean!
+    syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
+    createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
+    restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
+
+    createMap(orgId: ID!, input: CreateMapInput!):                    UIMap!
+    updateMap(orgId: ID!, id: ID!, input: UpdateMapInput!):           UIMap!
+    deleteMap(orgId: ID!, id: ID!):                                   Boolean!
+
+    createFrame(orgId: ID!, mapId: ID!, input: CreateFrameInput!):    Frame!
+    updateFrame(orgId: ID!, mapId: ID!, id: ID!, input: UpdateFrameInput!): Frame!
+    deleteFrame(orgId: ID!, mapId: ID!, id: ID!):                     Boolean!
+    syncFrame(orgId: ID!, mapId: ID!, input: SyncFrameInput!):        SyncFrameResult!
+
+    createFocalPoint(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFocalPointInput!): FocalPoint!
+    updateFocalPoint(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFocalPointInput!): FocalPoint!
+    deleteFocalPoint(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!):  Boolean!
+
+    upsertCanvas(orgId: ID!, mapId: ID!, input: UpsertCanvasInput!):  Canvas!
+}
+
+# ── Types ─────────────────────────────────────────────────────────────────────
+
+type Folder {
+    id:        ID!
+    orgId:     ID!
+    parentId:  ID
+    type:      String!
+    name:      String!
+    order:     Float!
+    createdBy: ID!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+type Diagram {
+    id:          ID!
+    orgId:       ID!
+    folderId:    ID
+    teamId:      ID
+    name:        String!
+    contentKey:  String!
+    contentHash: String!
+    source:      String
+    createdBy:   ID!
+    updatedBy:   ID
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type DiagramContent {
+    diagramId: ID!
+    content:   String!
+}
+
+type DiagramVersion {
+    id:            ID!
+    diagramId:     ID!
+    versionNumber: Int!
+    label:         String
+    contentKey:    String!
+    contentHash:   String!
+    isAutoVersion: Boolean!
+    source:        String
+    createdBy:     ID!
+    createdAt:     Time!
+}
+
+type SyncDiagramResult {
+    diagramId:      ID!
+    versionCreated: Boolean!
+    versionId:      ID
+}
+
+type UIMap {
+    id:          ID!
+    orgId:       ID!
+    folderId:    ID
+    teamId:      ID
+    name:        String!
+    description: String!
+    status:      String!
+    createdBy:   ID!
+    updatedBy:   ID
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type Frame {
+    id:                   ID!
+    mapId:                ID!
+    orgId:                ID!
+    parentFrameId:        ID
+    name:                 String!
+    description:          String!
+    templateType:         String!
+    screenshotKey:        String
+    screenshotContentHash: String
+    status:               String!
+    order:                Float!
+    source:               String
+    createdBy:            ID!
+    updatedBy:            ID
+    createdAt:            Time!
+    updatedAt:            Time!
+}
+
+type SyncFrameResult {
+    frameId:        ID!
+    versionCreated: Boolean!
+}
+
+type FocalPoint {
+    id:         ID!
+    frameId:    ID!
+    orgId:      ID!
+    name:       String!
+    locationX:  Float!
+    locationY:  Float!
+    visibility: String!
+    isActive:   Boolean!
+    createdBy:  ID!
+    updatedBy:  ID
+    createdAt:  Time!
+    updatedAt:  Time!
+}
+
+type Canvas {
+    mapId:           ID!
+    orgId:           ID!
+    zoom:            Float!
+    navigationX:     Float!
+    navigationY:     Float!
+    framePositions:  String!
+    updatedAt:       Time!
+}
+
+# ── Inputs ────────────────────────────────────────────────────────────────────
+
+input CreateFolderInput {
+    name:     String!
+    type:     String!
+    parentId: ID
+    order:    Float
+}
+
+input UpdateFolderInput {
+    name:     String
+    parentId: ID
+    order:    Float
+}
+
+input CreateDiagramInput {
+    name:     String!
+    content:  String!
+    folderId: ID
+    teamId:   ID
+    source:   String
+}
+
+input UpdateDiagramInput {
+    name:     String
+    content:  String
+    folderId: ID
+    teamId:   ID
+    source:   String
+}
+
+input SyncDiagramInput {
+    diagramId: ID
+    name:      String!
+    content:   String!
+    folderId:  ID
+    teamId:    ID
+    source:    String
+}
+
+input CreateMapInput {
+    name:        String!
+    description: String
+    folderId:    ID
+    teamId:      ID
+}
+
+input UpdateMapInput {
+    name:        String
+    description: String
+    status:      String
+    folderId:    ID
+    teamId:      ID
+}
+
+input CreateFrameInput {
+    name:          String!
+    description:   String
+    templateType:  String!
+    parentFrameId: ID
+    order:         Float
+    screenshot:    String
+}
+
+input UpdateFrameInput {
+    name:         String
+    description:  String
+    templateType: String
+    status:       String
+    order:        Float
+    screenshot:   String
+}
+
+input SyncFrameInput {
+    frameId:      ID
+    name:         String!
+    templateType: String!
+    description:  String
+    screenshot:   String!
+    source:       String
+}
+
+input CreateFocalPointInput {
+    name:       String!
+    locationX:  Float!
+    locationY:  Float!
+    visibility: String
+    isActive:   Boolean
+}
+
+input UpdateFocalPointInput {
+    name:       String
+    locationX:  Float
+    locationY:  Float
+    visibility: String
+    isActive:   Boolean
+}
+
+input UpsertCanvasInput {
+    zoom:           Float
+    navigationX:    Float
+    navigationY:    Float
+    framePositions: String
+}

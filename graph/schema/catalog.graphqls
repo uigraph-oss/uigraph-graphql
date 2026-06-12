@@ -1,0 +1,191 @@
+extend type Query {
+    services(orgId: ID!, folderId: ID):                              [Service!]!
+    service(orgId: ID!, id: ID!):                                    Service!
+    apiGroups(orgId: ID!, serviceId: ID!):                           [APIGroup!]!
+    apiGroup(orgId: ID!, serviceId: ID!, id: ID!):                   APIGroup!
+    apiGroupVersions(orgId: ID!, serviceId: ID!, apiGroupId: ID!):   [APIGroupVersion!]!
+    apiEndpoints(orgId: ID!, serviceId: ID!, apiGroupId: ID!):       [APIEndpoint!]!
+    apiEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!): APIEndpoint!
+}
+
+extend type Mutation {
+    createService(orgId: ID!, input: CreateServiceInput!):                         Service!
+    updateService(orgId: ID!, id: ID!, input: UpdateServiceInput!):                Service!
+    deleteService(orgId: ID!, id: ID!):                                            Boolean!
+
+    createAPIGroup(orgId: ID!, serviceId: ID!, input: CreateAPIGroupInput!):                        APIGroup!
+    updateAPIGroup(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateAPIGroupInput!):               APIGroup!
+    deleteAPIGroup(orgId: ID!, serviceId: ID!, id: ID!):                                            Boolean!
+    syncAPIGroup(orgId: ID!, serviceId: ID!, input: SyncAPIGroupInput!):                            SyncAPIGroupResult!
+
+    createAPIEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, input: CreateAPIEndpointInput!):             APIEndpoint!
+    updateAPIEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!, input: UpdateAPIEndpointInput!):    APIEndpoint!
+    deleteAPIEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!):                                    Boolean!
+}
+
+# ── Types ─────────────────────────────────────────────────────────────────────
+
+type Service {
+    id:               ID!
+    orgId:            ID!
+    folderId:         ID
+    teamId:           ID
+    name:             String!
+    slug:             String!
+    description:      String!
+    status:           String!
+    tier:             String!
+    category:         String!
+    language:         String!
+    gitRepoUrl:       String
+    jiraProjectUrl:   String
+    slackChannelUrl:  String
+    lastCommitSha:    String
+    labels:           [String!]!
+    metadata:         String!
+    createdBy:        ID!
+    updatedBy:        ID
+    createdAt:        Time!
+    updatedAt:        Time!
+}
+
+type APIGroup {
+    id:        ID!
+    serviceId: ID!
+    orgId:     ID!
+    name:      String!
+    version:   String!
+    label:     String
+    protocol:  String!
+    specKey:   String
+    specHash:  String
+    createdBy: ID!
+    updatedBy: ID
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+type APIGroupVersion {
+    id:            ID!
+    apiGroupId:    ID!
+    versionNumber: Int!
+    label:         String
+    specKey:       String!
+    specHash:      String!
+    isAutoVersion: Boolean!
+    createdBy:     ID!
+    createdAt:     Time!
+}
+
+type APIEndpoint {
+    id:          ID!
+    apiGroupId:  ID!
+    serviceId:   ID!
+    orgId:       ID!
+    operationId: String!
+    method:      String!
+    path:        String!
+    summary:     String!
+    description: String!
+    tags:        [String!]!
+    parameters:  String!
+    requestBody: String!
+    responses:   String!
+    order:       Float!
+    createdBy:   ID!
+    updatedBy:   ID
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type SyncAPIGroupResult {
+    apiGroupId:     ID!
+    versionCreated: Boolean!
+}
+
+# ── Inputs ────────────────────────────────────────────────────────────────────
+
+input CreateServiceInput {
+    name:             String!
+    slug:             String
+    description:      String
+    status:           String
+    tier:             String
+    category:         String
+    language:         String
+    folderId:         ID
+    teamId:           ID
+    gitRepoUrl:       String
+    jiraProjectUrl:   String
+    slackChannelUrl:  String
+    labels:           [String!]
+    metadata:         String
+}
+
+input UpdateServiceInput {
+    name:             String
+    slug:             String
+    description:      String
+    status:           String
+    tier:             String
+    category:         String
+    language:         String
+    folderId:         ID
+    teamId:           ID
+    gitRepoUrl:       String
+    jiraProjectUrl:   String
+    slackChannelUrl:  String
+    lastCommitSha:    String
+    labels:           [String!]
+    metadata:         String
+}
+
+input CreateAPIGroupInput {
+    name:     String!
+    version:  String
+    label:    String
+    protocol: String
+    spec:     String
+}
+
+input UpdateAPIGroupInput {
+    name:     String
+    version:  String
+    label:    String
+    protocol: String
+    spec:     String
+}
+
+input SyncAPIGroupInput {
+    apiGroupId: ID
+    name:       String!
+    version:    String
+    protocol:   String
+    spec:       String!
+}
+
+input CreateAPIEndpointInput {
+    operationId: String
+    method:      String!
+    path:        String!
+    summary:     String
+    description: String
+    tags:        [String!]
+    parameters:  String
+    requestBody: String
+    responses:   String
+    order:       Float
+}
+
+input UpdateAPIEndpointInput {
+    operationId: String
+    method:      String
+    path:        String
+    summary:     String
+    description: String
+    tags:        [String!]
+    parameters:  String
+    requestBody: String
+    responses:   String
+    order:       Float
+}

@@ -1,0 +1,27 @@
+extend type Query {
+    me: Me!
+    myOrgs: [OrgSummary!]!
+}
+
+extend type Mutation {
+    switchOrg(orgId: ID!): Boolean!
+}
+
+type Me {
+    userId:       ID!
+    orgId:        ID!
+    email:        String!
+    name:         String!
+    login:        String!
+    kind:         String!
+    role:         String!
+    authProvider: String!
+}
+
+type OrgSummary {
+    id:     ID!
+    name:   String!
+    slug:   String!
+    role:   String!
+    active: Boolean!
+}
