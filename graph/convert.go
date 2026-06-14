@@ -269,9 +269,6 @@ func focalPointMetasToModel(ms []client.FocalPointMeta) []*model.FocalPointMeta 
 	return out
 }
 
-// focalPointMetaBody decodes the JSON-string fields (componentImages,
-// componentModalFields) into parsed JSON so the API stores real JSON arrays
-// rather than quoted strings.
 func focalPointMetaBody(body map[string]interface{}) map[string]interface{} {
 	for _, key := range []string{"componentImages", "componentModalFields"} {
 		if s, ok := body[key].(string); ok {
@@ -283,8 +280,6 @@ func focalPointMetaBody(body map[string]interface{}) map[string]interface{} {
 	}
 	return body
 }
-
-// ── Catalog ───────────────────────────────────────────────────────────────────
 
 func serviceToModel(s *client.Service) *model.Service {
 	return &model.Service{

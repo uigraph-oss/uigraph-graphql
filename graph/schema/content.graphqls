@@ -323,8 +323,6 @@ input UpsertCanvasInput {
     framePositions: String
 }
 
-# ── Frame groups ────────────────────────────────────────────────────────────────
-
 type FrameGroup {
     id:          ID!
     frameId:     ID!
@@ -365,8 +363,6 @@ input UpdateFrameGroupInput {
     isActive:    Boolean
 }
 
-# ── Frame links ─────────────────────────────────────────────────────────────────
-
 type FrameLink {
     id:            ID!
     frameId:       ID!
@@ -404,9 +400,6 @@ input UpdateFrameLinkInput {
     isActive:      Boolean
 }
 
-# ── Focal point meta ────────────────────────────────────────────────────────────
-
-# componentImages and componentModalFields are JSON-encoded strings.
 type FocalPointMeta {
     id:                   ID!
     focalPointId:         ID!
