@@ -243,6 +243,75 @@ func (c *Client) UpsertCanvas(ctx context.Context, orgID, mapID string, body map
 	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/canvas", orgID, mapID), body, &out)
 }
 
+// ── Frame Groups ────────────────────────────────────────────────────────────────
+
+func (c *Client) ListFrameGroups(ctx context.Context, orgID, mapID, frameID string) ([]FrameGroup, error) {
+	var out struct {
+		Groups []FrameGroup `json:"groups"`
+	}
+	return out.Groups, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/groups", orgID, mapID, frameID), &out)
+}
+
+func (c *Client) CreateFrameGroup(ctx context.Context, orgID, mapID, frameID string, body map[string]interface{}) (*FrameGroup, error) {
+	var out FrameGroup
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/groups", orgID, mapID, frameID), body, &out)
+}
+
+func (c *Client) UpdateFrameGroup(ctx context.Context, orgID, mapID, frameID, id string, body map[string]interface{}) (*FrameGroup, error) {
+	var out FrameGroup
+	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/groups/%s", orgID, mapID, frameID, id), body, &out)
+}
+
+func (c *Client) DeleteFrameGroup(ctx context.Context, orgID, mapID, frameID, id string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/groups/%s", orgID, mapID, frameID, id))
+}
+
+// ── Frame Links ─────────────────────────────────────────────────────────────────
+
+func (c *Client) ListFrameLinks(ctx context.Context, orgID, mapID, frameID string) ([]FrameLink, error) {
+	var out struct {
+		Links []FrameLink `json:"links"`
+	}
+	return out.Links, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/links", orgID, mapID, frameID), &out)
+}
+
+func (c *Client) CreateFrameLink(ctx context.Context, orgID, mapID, frameID string, body map[string]interface{}) (*FrameLink, error) {
+	var out FrameLink
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/links", orgID, mapID, frameID), body, &out)
+}
+
+func (c *Client) UpdateFrameLink(ctx context.Context, orgID, mapID, frameID, id string, body map[string]interface{}) (*FrameLink, error) {
+	var out FrameLink
+	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/links/%s", orgID, mapID, frameID, id), body, &out)
+}
+
+func (c *Client) DeleteFrameLink(ctx context.Context, orgID, mapID, frameID, id string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/links/%s", orgID, mapID, frameID, id))
+}
+
+// ── Focal Point Meta ────────────────────────────────────────────────────────────
+
+func (c *Client) ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string) ([]FocalPointMeta, error) {
+	var out struct {
+		Meta []FocalPointMeta `json:"meta"`
+	}
+	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta", orgID, mapID, frameID, fpID), &out)
+}
+
+func (c *Client) CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*FocalPointMeta, error) {
+	var out FocalPointMeta
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta", orgID, mapID, frameID, fpID), body, &out)
+}
+
+func (c *Client) UpdateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string, body map[string]interface{}) (*FocalPointMeta, error) {
+	var out FocalPointMeta
+	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta/%s", orgID, mapID, frameID, fpID, id), body, &out)
+}
+
+func (c *Client) DeleteFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta/%s", orgID, mapID, frameID, fpID, id))
+}
+
 // rawJSON returns the JSON string of a raw message, defaulting to "{}".
 func rawJSON(b json.RawMessage) string {
 	if len(b) == 0 {

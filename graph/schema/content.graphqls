@@ -14,6 +14,9 @@ extend type Query {
     frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
     focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
     canvas(orgId: ID!, mapId: ID!):                           Canvas!
+    frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
+    frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
+    focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
 }
 
 extend type Mutation {
@@ -44,6 +47,18 @@ extend type Mutation {
     deleteFocalPoint(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!):  Boolean!
 
     upsertCanvas(orgId: ID!, mapId: ID!, input: UpsertCanvasInput!):  Canvas!
+
+    createFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFrameGroupInput!): FrameGroup!
+    updateFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFrameGroupInput!): FrameGroup!
+    deleteFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!): Boolean!
+
+    createFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFrameLinkInput!): FrameLink!
+    updateFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFrameLinkInput!): FrameLink!
+    deleteFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!): Boolean!
+
+    createFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, input: CreateFocalPointMetaInput!): FocalPointMeta!
+    updateFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!, input: UpdateFocalPointMetaInput!): FocalPointMeta!
+    deleteFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!): Boolean!
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────
@@ -177,6 +192,7 @@ type Frame {
     templateType:         String!
     screenshotKey:        String
     screenshotContentHash: String
+    screenshotUrl:        String
     status:               String!
     order:                Float!
     source:               String
@@ -329,4 +345,120 @@ input UpsertCanvasInput {
     navigationX:    Float
     navigationY:    Float
     framePositions: String
+}
+
+# ── Frame groups ────────────────────────────────────────────────────────────────
+
+type FrameGroup {
+    id:          ID!
+    frameId:     ID!
+    orgId:       ID!
+    name:        String!
+    description: String!
+    locationX:   Float!
+    locationY:   Float!
+    width:       Float!
+    height:      Float!
+    order:       Float!
+    isActive:    Boolean!
+    createdBy:   ID!
+    updatedBy:   ID
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+input CreateFrameGroupInput {
+    name:        String!
+    description: String
+    locationX:   Float
+    locationY:   Float
+    width:       Float
+    height:      Float
+    order:       Float
+    isActive:    Boolean
+}
+
+input UpdateFrameGroupInput {
+    name:        String
+    description: String
+    locationX:   Float
+    locationY:   Float
+    width:       Float
+    height:      Float
+    order:       Float
+    isActive:    Boolean
+}
+
+# ── Frame links ─────────────────────────────────────────────────────────────────
+
+type FrameLink {
+    id:            ID!
+    frameId:       ID!
+    orgId:         ID!
+    kind:          String!
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String!
+    locationX:     Float!
+    locationY:     Float!
+    isActive:      Boolean!
+    createdBy:     ID!
+    updatedBy:     ID
+    createdAt:     Time!
+    updatedAt:     Time!
+}
+
+input CreateFrameLinkInput {
+    kind:          String!
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String
+    locationX:     Float
+    locationY:     Float
+    isActive:      Boolean
+}
+
+input UpdateFrameLinkInput {
+    kind:          String
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String
+    locationX:     Float
+    locationY:     Float
+    isActive:      Boolean
+}
+
+# ── Focal point meta ────────────────────────────────────────────────────────────
+
+# componentImages and componentModalFields are JSON-encoded strings.
+type FocalPointMeta {
+    id:                   ID!
+    focalPointId:         ID!
+    orgId:                ID!
+    frameId:              ID!
+    componentId:          String!
+    componentLinkId:      String
+    componentImages:      String!
+    componentFlowDiagram: String
+    componentModalFields: String!
+    createdBy:            ID!
+    updatedBy:            ID
+    createdAt:            Time!
+    updatedAt:            Time!
+}
+
+input CreateFocalPointMetaInput {
+    componentId:          String!
+    componentLinkId:      String
+    componentImages:      String
+    componentFlowDiagram: String
+    componentModalFields: String
+}
+
+input UpdateFocalPointMetaInput {
+    componentId:          String
+    componentLinkId:      String
+    componentImages:      String
+    componentFlowDiagram: String
+    componentModalFields: String
 }

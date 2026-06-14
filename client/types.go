@@ -304,6 +304,7 @@ type Frame struct {
 	TemplateType          string     `json:"templateType"`
 	ScreenshotKey         *string    `json:"screenshotKey,omitempty"`
 	ScreenshotContentHash *string    `json:"screenshotContentHash,omitempty"`
+	ScreenshotURL         *string    `json:"screenshotUrl,omitempty"`
 	Status                string     `json:"status"`
 	Order                 float64    `json:"order"`
 	Source                *string    `json:"source,omitempty"`
@@ -338,6 +339,60 @@ type Canvas struct {
 	NavigationY    float64         `json:"navigationY"`
 	FramePositions json.RawMessage `json:"framePositions"`
 	UpdatedAt      time.Time       `json:"updatedAt"`
+}
+
+type FrameGroup struct {
+	ID          string     `json:"id"`
+	FrameID     string     `json:"frameId"`
+	OrgID       string     `json:"orgId"`
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	LocationX   float64    `json:"locationX"`
+	LocationY   float64    `json:"locationY"`
+	Width       float64    `json:"width"`
+	Height      float64    `json:"height"`
+	Order       float64    `json:"order"`
+	IsActive    bool       `json:"isActive"`
+	CreatedBy   string     `json:"createdBy"`
+	UpdatedBy   *string    `json:"updatedBy,omitempty"`
+	CreatedAt   time.Time  `json:"createdAt"`
+	UpdatedAt   time.Time  `json:"updatedAt"`
+	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
+}
+
+type FrameLink struct {
+	ID            string     `json:"id"`
+	FrameID       string     `json:"frameId"`
+	OrgID         string     `json:"orgId"`
+	Kind          string     `json:"kind"`
+	TargetFrameID *string    `json:"targetFrameId,omitempty"`
+	TargetMapID   *string    `json:"targetMapId,omitempty"`
+	Label         string     `json:"label"`
+	LocationX     float64    `json:"locationX"`
+	LocationY     float64    `json:"locationY"`
+	IsActive      bool       `json:"isActive"`
+	CreatedBy     string     `json:"createdBy"`
+	UpdatedBy     *string    `json:"updatedBy,omitempty"`
+	CreatedAt     time.Time  `json:"createdAt"`
+	UpdatedAt     time.Time  `json:"updatedAt"`
+	DeletedAt     *time.Time `json:"deletedAt,omitempty"`
+}
+
+type FocalPointMeta struct {
+	ID                   string          `json:"id"`
+	FocalPointID         string          `json:"focalPointId"`
+	OrgID                string          `json:"orgId"`
+	FrameID              string          `json:"frameId"`
+	ComponentID          string          `json:"componentId"`
+	ComponentLinkID      *string         `json:"componentLinkId,omitempty"`
+	ComponentImages      json.RawMessage `json:"componentImages"`
+	ComponentFlowDiagram *string         `json:"componentFlowDiagram,omitempty"`
+	ComponentModalFields json.RawMessage `json:"componentModalFields"`
+	CreatedBy            string          `json:"createdBy"`
+	UpdatedBy            *string         `json:"updatedBy,omitempty"`
+	CreatedAt            time.Time       `json:"createdAt"`
+	UpdatedAt            time.Time       `json:"updatedAt"`
+	DeletedAt            *time.Time      `json:"deletedAt,omitempty"`
 }
 
 // ── Catalog ───────────────────────────────────────────────────────────────────

@@ -118,11 +118,30 @@ type CreateFocalPointInput struct {
 	IsActive   *bool   `json:"isActive,omitempty"`
 }
 
+type CreateFocalPointMetaInput struct {
+	ComponentID          string  `json:"componentId"`
+	ComponentLinkID      *string `json:"componentLinkId,omitempty"`
+	ComponentImages      *string `json:"componentImages,omitempty"`
+	ComponentFlowDiagram *string `json:"componentFlowDiagram,omitempty"`
+	ComponentModalFields *string `json:"componentModalFields,omitempty"`
+}
+
 type CreateFolderInput struct {
 	Name     string   `json:"name"`
 	Type     string   `json:"type"`
 	ParentID *string  `json:"parentId,omitempty"`
 	Order    *float64 `json:"order,omitempty"`
+}
+
+type CreateFrameGroupInput struct {
+	Name        string   `json:"name"`
+	Description *string  `json:"description,omitempty"`
+	LocationX   *float64 `json:"locationX,omitempty"`
+	LocationY   *float64 `json:"locationY,omitempty"`
+	Width       *float64 `json:"width,omitempty"`
+	Height      *float64 `json:"height,omitempty"`
+	Order       *float64 `json:"order,omitempty"`
+	IsActive    *bool    `json:"isActive,omitempty"`
 }
 
 type CreateFrameInput struct {
@@ -132,6 +151,16 @@ type CreateFrameInput struct {
 	ParentFrameID *string  `json:"parentFrameId,omitempty"`
 	Order         *float64 `json:"order,omitempty"`
 	Screenshot    *string  `json:"screenshot,omitempty"`
+}
+
+type CreateFrameLinkInput struct {
+	Kind          string   `json:"kind"`
+	TargetFrameID *string  `json:"targetFrameId,omitempty"`
+	TargetMapID   *string  `json:"targetMapId,omitempty"`
+	Label         *string  `json:"label,omitempty"`
+	LocationX     *float64 `json:"locationX,omitempty"`
+	LocationY     *float64 `json:"locationY,omitempty"`
+	IsActive      *bool    `json:"isActive,omitempty"`
 }
 
 type CreateInvitationInput struct {
@@ -305,6 +334,22 @@ type FocalPoint struct {
 	UpdatedAt  time.Time `json:"updatedAt"`
 }
 
+type FocalPointMeta struct {
+	ID                   string    `json:"id"`
+	FocalPointID         string    `json:"focalPointId"`
+	OrgID                string    `json:"orgId"`
+	FrameID              string    `json:"frameId"`
+	ComponentID          string    `json:"componentId"`
+	ComponentLinkID      *string   `json:"componentLinkId,omitempty"`
+	ComponentImages      string    `json:"componentImages"`
+	ComponentFlowDiagram *string   `json:"componentFlowDiagram,omitempty"`
+	ComponentModalFields string    `json:"componentModalFields"`
+	CreatedBy            string    `json:"createdBy"`
+	UpdatedBy            *string   `json:"updatedBy,omitempty"`
+	CreatedAt            time.Time `json:"createdAt"`
+	UpdatedAt            time.Time `json:"updatedAt"`
+}
+
 type Folder struct {
 	ID        string    `json:"id"`
 	OrgID     string    `json:"orgId"`
@@ -327,6 +372,7 @@ type Frame struct {
 	TemplateType          string    `json:"templateType"`
 	ScreenshotKey         *string   `json:"screenshotKey,omitempty"`
 	ScreenshotContentHash *string   `json:"screenshotContentHash,omitempty"`
+	ScreenshotURL         *string   `json:"screenshotUrl,omitempty"`
 	Status                string    `json:"status"`
 	Order                 float64   `json:"order"`
 	Source                *string   `json:"source,omitempty"`
@@ -334,6 +380,41 @@ type Frame struct {
 	UpdatedBy             *string   `json:"updatedBy,omitempty"`
 	CreatedAt             time.Time `json:"createdAt"`
 	UpdatedAt             time.Time `json:"updatedAt"`
+}
+
+type FrameGroup struct {
+	ID          string    `json:"id"`
+	FrameID     string    `json:"frameId"`
+	OrgID       string    `json:"orgId"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	LocationX   float64   `json:"locationX"`
+	LocationY   float64   `json:"locationY"`
+	Width       float64   `json:"width"`
+	Height      float64   `json:"height"`
+	Order       float64   `json:"order"`
+	IsActive    bool      `json:"isActive"`
+	CreatedBy   string    `json:"createdBy"`
+	UpdatedBy   *string   `json:"updatedBy,omitempty"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+}
+
+type FrameLink struct {
+	ID            string    `json:"id"`
+	FrameID       string    `json:"frameId"`
+	OrgID         string    `json:"orgId"`
+	Kind          string    `json:"kind"`
+	TargetFrameID *string   `json:"targetFrameId,omitempty"`
+	TargetMapID   *string   `json:"targetMapId,omitempty"`
+	Label         string    `json:"label"`
+	LocationX     float64   `json:"locationX"`
+	LocationY     float64   `json:"locationY"`
+	IsActive      bool      `json:"isActive"`
+	CreatedBy     string    `json:"createdBy"`
+	UpdatedBy     *string   `json:"updatedBy,omitempty"`
+	CreatedAt     time.Time `json:"createdAt"`
+	UpdatedAt     time.Time `json:"updatedAt"`
 }
 
 type Invitation struct {
@@ -624,10 +705,29 @@ type UpdateFocalPointInput struct {
 	IsActive   *bool    `json:"isActive,omitempty"`
 }
 
+type UpdateFocalPointMetaInput struct {
+	ComponentID          *string `json:"componentId,omitempty"`
+	ComponentLinkID      *string `json:"componentLinkId,omitempty"`
+	ComponentImages      *string `json:"componentImages,omitempty"`
+	ComponentFlowDiagram *string `json:"componentFlowDiagram,omitempty"`
+	ComponentModalFields *string `json:"componentModalFields,omitempty"`
+}
+
 type UpdateFolderInput struct {
 	Name     *string  `json:"name,omitempty"`
 	ParentID *string  `json:"parentId,omitempty"`
 	Order    *float64 `json:"order,omitempty"`
+}
+
+type UpdateFrameGroupInput struct {
+	Name        *string  `json:"name,omitempty"`
+	Description *string  `json:"description,omitempty"`
+	LocationX   *float64 `json:"locationX,omitempty"`
+	LocationY   *float64 `json:"locationY,omitempty"`
+	Width       *float64 `json:"width,omitempty"`
+	Height      *float64 `json:"height,omitempty"`
+	Order       *float64 `json:"order,omitempty"`
+	IsActive    *bool    `json:"isActive,omitempty"`
 }
 
 type UpdateFrameInput struct {
@@ -637,6 +737,16 @@ type UpdateFrameInput struct {
 	Status       *string  `json:"status,omitempty"`
 	Order        *float64 `json:"order,omitempty"`
 	Screenshot   *string  `json:"screenshot,omitempty"`
+}
+
+type UpdateFrameLinkInput struct {
+	Kind          *string  `json:"kind,omitempty"`
+	TargetFrameID *string  `json:"targetFrameId,omitempty"`
+	TargetMapID   *string  `json:"targetMapId,omitempty"`
+	Label         *string  `json:"label,omitempty"`
+	LocationX     *float64 `json:"locationX,omitempty"`
+	LocationY     *float64 `json:"locationY,omitempty"`
+	IsActive      *bool    `json:"isActive,omitempty"`
 }
 
 type UpdateMapInput struct {

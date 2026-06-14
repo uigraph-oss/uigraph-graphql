@@ -189,6 +189,7 @@ func frameToModel(f *client.Frame) *model.Frame {
 		ID: f.ID, MapID: f.MapID, OrgID: f.OrgID, ParentFrameID: f.ParentFrameID,
 		Name: f.Name, Description: f.Description, TemplateType: f.TemplateType,
 		ScreenshotKey: f.ScreenshotKey, ScreenshotContentHash: f.ScreenshotContentHash,
+		ScreenshotURL: f.ScreenshotURL,
 		Status: f.Status, Order: f.Order, Source: f.Source,
 		CreatedBy: f.CreatedBy, UpdatedBy: f.UpdatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
 	}
@@ -210,6 +211,78 @@ func canvasToModel(c *client.Canvas) *model.Canvas {
 		FramePositions: rawStr(c.FramePositions),
 		UpdatedAt: c.UpdatedAt,
 	}
+}
+
+func frameGroupToModel(g *client.FrameGroup) *model.FrameGroup {
+	return &model.FrameGroup{
+		ID: g.ID, FrameID: g.FrameID, OrgID: g.OrgID,
+		Name: g.Name, Description: g.Description,
+		LocationX: g.LocationX, LocationY: g.LocationY,
+		Width: g.Width, Height: g.Height, Order: g.Order, IsActive: g.IsActive,
+		CreatedBy: g.CreatedBy, UpdatedBy: g.UpdatedBy,
+		CreatedAt: g.CreatedAt, UpdatedAt: g.UpdatedAt,
+	}
+}
+
+func frameGroupsToModel(gs []client.FrameGroup) []*model.FrameGroup {
+	out := make([]*model.FrameGroup, len(gs))
+	for i := range gs {
+		out[i] = frameGroupToModel(&gs[i])
+	}
+	return out
+}
+
+func frameLinkToModel(l *client.FrameLink) *model.FrameLink {
+	return &model.FrameLink{
+		ID: l.ID, FrameID: l.FrameID, OrgID: l.OrgID, Kind: l.Kind,
+		TargetFrameID: l.TargetFrameID, TargetMapID: l.TargetMapID,
+		Label: l.Label, LocationX: l.LocationX, LocationY: l.LocationY, IsActive: l.IsActive,
+		CreatedBy: l.CreatedBy, UpdatedBy: l.UpdatedBy,
+		CreatedAt: l.CreatedAt, UpdatedAt: l.UpdatedAt,
+	}
+}
+
+func frameLinksToModel(ls []client.FrameLink) []*model.FrameLink {
+	out := make([]*model.FrameLink, len(ls))
+	for i := range ls {
+		out[i] = frameLinkToModel(&ls[i])
+	}
+	return out
+}
+
+func focalPointMetaToModel(m *client.FocalPointMeta) *model.FocalPointMeta {
+	return &model.FocalPointMeta{
+		ID: m.ID, FocalPointID: m.FocalPointID, OrgID: m.OrgID, FrameID: m.FrameID,
+		ComponentID: m.ComponentID, ComponentLinkID: m.ComponentLinkID,
+		ComponentImages:      rawArrStr(m.ComponentImages),
+		ComponentFlowDiagram: m.ComponentFlowDiagram,
+		ComponentModalFields: rawArrStr(m.ComponentModalFields),
+		CreatedBy: m.CreatedBy, UpdatedBy: m.UpdatedBy,
+		CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
+	}
+}
+
+func focalPointMetasToModel(ms []client.FocalPointMeta) []*model.FocalPointMeta {
+	out := make([]*model.FocalPointMeta, len(ms))
+	for i := range ms {
+		out[i] = focalPointMetaToModel(&ms[i])
+	}
+	return out
+}
+
+// focalPointMetaBody decodes the JSON-string fields (componentImages,
+// componentModalFields) into parsed JSON so the API stores real JSON arrays
+// rather than quoted strings.
+func focalPointMetaBody(body map[string]interface{}) map[string]interface{} {
+	for _, key := range []string{"componentImages", "componentModalFields"} {
+		if s, ok := body[key].(string); ok {
+			var raw interface{}
+			if err := unmarshalJSONString(s, &raw); err == nil {
+				body[key] = raw
+			}
+		}
+	}
+	return body
 }
 
 // ── Catalog ───────────────────────────────────────────────────────────────────
