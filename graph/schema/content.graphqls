@@ -6,6 +6,8 @@ extend type Query {
     diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
     diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
+    flowDiagramComponents(orgId: ID!):                        FlowDiagramComponents!
+    diagramImages(orgId: ID!, diagramId: ID!):               [DiagramImage!]!
     maps(orgId: ID!, folderId: ID):                           [UIMap!]!
     map(orgId: ID!, id: ID!):                                 UIMap!
     frames(orgId: ID!, mapId: ID!):                           [Frame!]!
@@ -25,6 +27,8 @@ extend type Mutation {
     syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
     createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
     restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
+    updateDiagramThumbnail(orgId: ID!, id: ID!, input: UpdateDiagramThumbnailInput!): DiagramThumbnail!
+    createDiagramImage(orgId: ID!, diagramId: ID!, input: CreateDiagramImageInput!): CreateDiagramImageResult!
 
     createMap(orgId: ID!, input: CreateMapInput!):                    UIMap!
     updateMap(orgId: ID!, id: ID!, input: UpdateMapInput!):           UIMap!
@@ -57,18 +61,72 @@ type Folder {
 }
 
 type Diagram {
-    id:          ID!
-    orgId:       ID!
-    folderId:    ID
-    teamId:      ID
-    name:        String!
-    contentKey:  String!
-    contentHash: String!
-    source:      String
-    createdBy:   ID!
-    updatedBy:   ID
-    createdAt:   Time!
-    updatedAt:   Time!
+    id:                 ID!
+    orgId:              ID!
+    folderId:           ID
+    teamId:             ID
+    name:               String!
+    contentKey:         String!
+    contentHash:        String!
+    previewImageFileId: String
+    previewImageUrl:    String
+    source:             String
+    createdBy:          ID!
+    updatedBy:          ID
+    createdAt:          Time!
+    updatedAt:          Time!
+}
+
+type DiagramThumbnail {
+    fileId:        String!
+    fileUploadURL: String!
+}
+
+type FlowDiagramComponentField {
+    flowDiagramComponentFieldId: String!
+    label:                       String!
+    type:                        String!
+    required:                    Boolean!
+    readonly:                    Boolean
+    options:                     [String!]
+    order:                       Int!
+}
+
+type FlowDiagramComponent {
+    componentId:                String!
+    type:                       String!
+    name:                       String!
+    description:                String!
+    category:                   String!
+    tags:                       [String!]!
+    slug:                       String!
+    previewImageJpg:            String!
+    isActive:                   Boolean!
+    order:                      Int!
+    organizationId:             String
+    flowDiagramComponentFields: [FlowDiagramComponentField!]!
+}
+
+type FlowDiagramComponents {
+    components:       [FlowDiagramComponent!]!
+    customComponents: [FlowDiagramComponent!]!
+}
+
+type DiagramImage {
+    diagramImageId: String!
+    diagramId:      String!
+    fileId:         String!
+    fileURL:        String
+    fileName:       String
+    order:          Int!
+    createdBy:      ID!
+    createdAt:      Time!
+}
+
+type CreateDiagramImageResult {
+    diagramImageId: String!
+    fileId:         String!
+    fileUploadURL:  String!
 }
 
 type DiagramContent {
@@ -196,6 +254,16 @@ input SyncDiagramInput {
     folderId:  ID
     teamId:    ID
     source:    String
+}
+
+input UpdateDiagramThumbnailInput {
+    fileName:    String
+    contentType: String
+}
+
+input CreateDiagramImageInput {
+    fileName: String
+    order:    Int
 }
 
 input CreateMapInput {

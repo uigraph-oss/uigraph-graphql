@@ -112,6 +112,7 @@ func diagramToModel(d *client.Diagram) *model.Diagram {
 	return &model.Diagram{
 		ID: d.ID, OrgID: d.OrgID, FolderID: d.FolderID, TeamID: d.TeamID,
 		Name: d.Name, ContentKey: d.ContentKey, ContentHash: d.ContentHash,
+		PreviewImageFileID: d.PreviewImageFileID, PreviewImageURL: d.PreviewImageURL,
 		Source: d.Source, CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy,
 		CreatedAt: d.CreatedAt, UpdatedAt: d.UpdatedAt,
 	}
@@ -123,6 +124,56 @@ func diagramVersionToModel(v client.DiagramVersion) *model.DiagramVersion {
 		Label: v.Label, ContentKey: v.ContentKey, ContentHash: v.ContentHash,
 		IsAutoVersion: v.IsAutoVersion, Source: v.Source, CreatedBy: v.CreatedBy, CreatedAt: v.CreatedAt,
 	}
+}
+
+func flowComponentFieldToModel(f client.FlowDiagramComponentField) *model.FlowDiagramComponentField {
+	return &model.FlowDiagramComponentField{
+		FlowDiagramComponentFieldID: f.FlowDiagramComponentFieldID,
+		Label:                       f.Label,
+		Type:                        f.Type,
+		Required:                    f.Required,
+		Readonly:                    f.Readonly,
+		Options:                     f.Options,
+		Order:                       f.Order,
+	}
+}
+
+func flowComponentToModel(c client.FlowDiagramComponent) *model.FlowDiagramComponent {
+	fields := make([]*model.FlowDiagramComponentField, len(c.FlowDiagramComponentFields))
+	for i, f := range c.FlowDiagramComponentFields {
+		fields[i] = flowComponentFieldToModel(f)
+	}
+	return &model.FlowDiagramComponent{
+		ComponentID: c.ComponentID, Type: c.Type, Name: c.Name,
+		Description: c.Description, Category: c.Category, Tags: c.Tags,
+		Slug: c.Slug, PreviewImageJpg: c.PreviewImageJpg, IsActive: c.IsActive,
+		Order: c.Order, OrganizationID: c.OrganizationID,
+		FlowDiagramComponentFields: fields,
+	}
+}
+
+func flowComponentsToModel(components []client.FlowDiagramComponent) []*model.FlowDiagramComponent {
+	out := make([]*model.FlowDiagramComponent, len(components))
+	for i, c := range components {
+		out[i] = flowComponentToModel(c)
+	}
+	return out
+}
+
+func diagramImageToModel(img client.DiagramImage) *model.DiagramImage {
+	return &model.DiagramImage{
+		DiagramImageID: img.DiagramImageID, DiagramID: img.DiagramID,
+		FileID: img.FileID, FileURL: img.FileURL, FileName: img.FileName,
+		Order: img.Order, CreatedBy: img.CreatedBy, CreatedAt: img.CreatedAt,
+	}
+}
+
+func diagramImagesToModel(images []client.DiagramImage) []*model.DiagramImage {
+	out := make([]*model.DiagramImage, len(images))
+	for i, img := range images {
+		out[i] = diagramImageToModel(img)
+	}
+	return out
 }
 
 func uimapToModel(m *client.UIMap) *model.UIMap {

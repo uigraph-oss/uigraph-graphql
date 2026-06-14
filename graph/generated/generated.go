@@ -106,6 +106,12 @@ type ComplexityRoot struct {
 		Zoom           func(childComplexity int) int
 	}
 
+	CreateDiagramImageResult struct {
+		DiagramImageID func(childComplexity int) int
+		FileID         func(childComplexity int) int
+		FileUploadURL  func(childComplexity int) int
+	}
+
 	CreatedToken struct {
 		CreatedAt        func(childComplexity int) int
 		ID               func(childComplexity int) int
@@ -116,23 +122,41 @@ type ComplexityRoot struct {
 	}
 
 	Diagram struct {
-		ContentHash func(childComplexity int) int
-		ContentKey  func(childComplexity int) int
-		CreatedAt   func(childComplexity int) int
-		CreatedBy   func(childComplexity int) int
-		FolderID    func(childComplexity int) int
-		ID          func(childComplexity int) int
-		Name        func(childComplexity int) int
-		OrgID       func(childComplexity int) int
-		Source      func(childComplexity int) int
-		TeamID      func(childComplexity int) int
-		UpdatedAt   func(childComplexity int) int
-		UpdatedBy   func(childComplexity int) int
+		ContentHash        func(childComplexity int) int
+		ContentKey         func(childComplexity int) int
+		CreatedAt          func(childComplexity int) int
+		CreatedBy          func(childComplexity int) int
+		FolderID           func(childComplexity int) int
+		ID                 func(childComplexity int) int
+		Name               func(childComplexity int) int
+		OrgID              func(childComplexity int) int
+		PreviewImageFileID func(childComplexity int) int
+		PreviewImageURL    func(childComplexity int) int
+		Source             func(childComplexity int) int
+		TeamID             func(childComplexity int) int
+		UpdatedAt          func(childComplexity int) int
+		UpdatedBy          func(childComplexity int) int
 	}
 
 	DiagramContent struct {
 		Content   func(childComplexity int) int
 		DiagramID func(childComplexity int) int
+	}
+
+	DiagramImage struct {
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		DiagramID      func(childComplexity int) int
+		DiagramImageID func(childComplexity int) int
+		FileID         func(childComplexity int) int
+		FileName       func(childComplexity int) int
+		FileURL        func(childComplexity int) int
+		Order          func(childComplexity int) int
+	}
+
+	DiagramThumbnail struct {
+		FileID        func(childComplexity int) int
+		FileUploadURL func(childComplexity int) int
 	}
 
 	DiagramVersion struct {
@@ -146,6 +170,36 @@ type ComplexityRoot struct {
 		Label         func(childComplexity int) int
 		Source        func(childComplexity int) int
 		VersionNumber func(childComplexity int) int
+	}
+
+	FlowDiagramComponent struct {
+		Category                   func(childComplexity int) int
+		ComponentID                func(childComplexity int) int
+		Description                func(childComplexity int) int
+		FlowDiagramComponentFields func(childComplexity int) int
+		IsActive                   func(childComplexity int) int
+		Name                       func(childComplexity int) int
+		Order                      func(childComplexity int) int
+		OrganizationID             func(childComplexity int) int
+		PreviewImageJpg            func(childComplexity int) int
+		Slug                       func(childComplexity int) int
+		Tags                       func(childComplexity int) int
+		Type                       func(childComplexity int) int
+	}
+
+	FlowDiagramComponentField struct {
+		FlowDiagramComponentFieldID func(childComplexity int) int
+		Label                       func(childComplexity int) int
+		Options                     func(childComplexity int) int
+		Order                       func(childComplexity int) int
+		Readonly                    func(childComplexity int) int
+		Required                    func(childComplexity int) int
+		Type                        func(childComplexity int) int
+	}
+
+	FlowDiagramComponents struct {
+		Components       func(childComplexity int) int
+		CustomComponents func(childComplexity int) int
 	}
 
 	FocalPoint struct {
@@ -251,6 +305,7 @@ type ComplexityRoot struct {
 		CreateAPIEndpoint         func(childComplexity int, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) int
 		CreateAPIGroup            func(childComplexity int, orgID string, serviceID string, input model.CreateAPIGroupInput) int
 		CreateDiagram             func(childComplexity int, orgID string, input model.CreateDiagramInput) int
+		CreateDiagramImage        func(childComplexity int, orgID string, diagramID string, input model.CreateDiagramImageInput) int
 		CreateDiagramVersion      func(childComplexity int, orgID string, diagramID string, label *string) int
 		CreateFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
 		CreateFolder              func(childComplexity int, orgID string, input model.CreateFolderInput) int
@@ -291,6 +346,7 @@ type ComplexityRoot struct {
 		UpdateAPIEndpoint         func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) int
 		UpdateAPIGroup            func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
 		UpdateDiagram             func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
+		UpdateDiagramThumbnail    func(childComplexity int, orgID string, id string, input model.UpdateDiagramThumbnailInput) int
 		UpdateFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
 		UpdateFolder              func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
 		UpdateFrame               func(childComplexity int, orgID string, mapID string, id string, input model.UpdateFrameInput) int
@@ -354,9 +410,11 @@ type ComplexityRoot struct {
 		Canvas                func(childComplexity int, orgID string, mapID string) int
 		Diagram               func(childComplexity int, orgID string, id string) int
 		DiagramContent        func(childComplexity int, orgID string, id string) int
+		DiagramImages         func(childComplexity int, orgID string, diagramID string) int
 		DiagramVersionContent func(childComplexity int, orgID string, diagramID string, versionID string) int
 		DiagramVersions       func(childComplexity int, orgID string, diagramID string) int
 		Diagrams              func(childComplexity int, orgID string, folderID *string) int
+		FlowDiagramComponents func(childComplexity int, orgID string) int
 		FocalPoints           func(childComplexity int, orgID string, mapID string, frameID string) int
 		Folder                func(childComplexity int, orgID string, id string) int
 		Folders               func(childComplexity int, orgID string, typeArg *string, parentID *string) int
@@ -555,6 +613,8 @@ type MutationResolver interface {
 	SyncDiagram(ctx context.Context, orgID string, input model.SyncDiagramInput) (*model.SyncDiagramResult, error)
 	CreateDiagramVersion(ctx context.Context, orgID string, diagramID string, label *string) (*model.DiagramVersion, error)
 	RestoreDiagramVersion(ctx context.Context, orgID string, diagramID string, versionID string) (*model.Diagram, error)
+	UpdateDiagramThumbnail(ctx context.Context, orgID string, id string, input model.UpdateDiagramThumbnailInput) (*model.DiagramThumbnail, error)
+	CreateDiagramImage(ctx context.Context, orgID string, diagramID string, input model.CreateDiagramImageInput) (*model.CreateDiagramImageResult, error)
 	CreateMap(ctx context.Context, orgID string, input model.CreateMapInput) (*model.UIMap, error)
 	UpdateMap(ctx context.Context, orgID string, id string, input model.UpdateMapInput) (*model.UIMap, error)
 	DeleteMap(ctx context.Context, orgID string, id string) (bool, error)
@@ -608,6 +668,8 @@ type QueryResolver interface {
 	DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error)
 	DiagramVersions(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramVersion, error)
 	DiagramVersionContent(ctx context.Context, orgID string, diagramID string, versionID string) (*model.DiagramContent, error)
+	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
+	DiagramImages(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramImage, error)
 	Maps(ctx context.Context, orgID string, folderID *string) ([]*model.UIMap, error)
 	Map(ctx context.Context, orgID string, id string) (*model.UIMap, error)
 	Frames(ctx context.Context, orgID string, mapID string) ([]*model.Frame, error)
@@ -974,6 +1036,27 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Canvas.Zoom(childComplexity), true
 
+	case "CreateDiagramImageResult.diagramImageId":
+		if e.complexity.CreateDiagramImageResult.DiagramImageID == nil {
+			break
+		}
+
+		return e.complexity.CreateDiagramImageResult.DiagramImageID(childComplexity), true
+
+	case "CreateDiagramImageResult.fileId":
+		if e.complexity.CreateDiagramImageResult.FileID == nil {
+			break
+		}
+
+		return e.complexity.CreateDiagramImageResult.FileID(childComplexity), true
+
+	case "CreateDiagramImageResult.fileUploadURL":
+		if e.complexity.CreateDiagramImageResult.FileUploadURL == nil {
+			break
+		}
+
+		return e.complexity.CreateDiagramImageResult.FileUploadURL(childComplexity), true
+
 	case "CreatedToken.createdAt":
 		if e.complexity.CreatedToken.CreatedAt == nil {
 			break
@@ -1072,6 +1155,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Diagram.OrgID(childComplexity), true
 
+	case "Diagram.previewImageFileId":
+		if e.complexity.Diagram.PreviewImageFileID == nil {
+			break
+		}
+
+		return e.complexity.Diagram.PreviewImageFileID(childComplexity), true
+
+	case "Diagram.previewImageUrl":
+		if e.complexity.Diagram.PreviewImageURL == nil {
+			break
+		}
+
+		return e.complexity.Diagram.PreviewImageURL(childComplexity), true
+
 	case "Diagram.source":
 		if e.complexity.Diagram.Source == nil {
 			break
@@ -1113,6 +1210,76 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DiagramContent.DiagramID(childComplexity), true
+
+	case "DiagramImage.createdAt":
+		if e.complexity.DiagramImage.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.CreatedAt(childComplexity), true
+
+	case "DiagramImage.createdBy":
+		if e.complexity.DiagramImage.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.CreatedBy(childComplexity), true
+
+	case "DiagramImage.diagramId":
+		if e.complexity.DiagramImage.DiagramID == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.DiagramID(childComplexity), true
+
+	case "DiagramImage.diagramImageId":
+		if e.complexity.DiagramImage.DiagramImageID == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.DiagramImageID(childComplexity), true
+
+	case "DiagramImage.fileId":
+		if e.complexity.DiagramImage.FileID == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.FileID(childComplexity), true
+
+	case "DiagramImage.fileName":
+		if e.complexity.DiagramImage.FileName == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.FileName(childComplexity), true
+
+	case "DiagramImage.fileURL":
+		if e.complexity.DiagramImage.FileURL == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.FileURL(childComplexity), true
+
+	case "DiagramImage.order":
+		if e.complexity.DiagramImage.Order == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.Order(childComplexity), true
+
+	case "DiagramThumbnail.fileId":
+		if e.complexity.DiagramThumbnail.FileID == nil {
+			break
+		}
+
+		return e.complexity.DiagramThumbnail.FileID(childComplexity), true
+
+	case "DiagramThumbnail.fileUploadURL":
+		if e.complexity.DiagramThumbnail.FileUploadURL == nil {
+			break
+		}
+
+		return e.complexity.DiagramThumbnail.FileUploadURL(childComplexity), true
 
 	case "DiagramVersion.contentHash":
 		if e.complexity.DiagramVersion.ContentHash == nil {
@@ -1183,6 +1350,153 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DiagramVersion.VersionNumber(childComplexity), true
+
+	case "FlowDiagramComponent.category":
+		if e.complexity.FlowDiagramComponent.Category == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Category(childComplexity), true
+
+	case "FlowDiagramComponent.componentId":
+		if e.complexity.FlowDiagramComponent.ComponentID == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.ComponentID(childComplexity), true
+
+	case "FlowDiagramComponent.description":
+		if e.complexity.FlowDiagramComponent.Description == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Description(childComplexity), true
+
+	case "FlowDiagramComponent.flowDiagramComponentFields":
+		if e.complexity.FlowDiagramComponent.FlowDiagramComponentFields == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.FlowDiagramComponentFields(childComplexity), true
+
+	case "FlowDiagramComponent.isActive":
+		if e.complexity.FlowDiagramComponent.IsActive == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.IsActive(childComplexity), true
+
+	case "FlowDiagramComponent.name":
+		if e.complexity.FlowDiagramComponent.Name == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Name(childComplexity), true
+
+	case "FlowDiagramComponent.order":
+		if e.complexity.FlowDiagramComponent.Order == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Order(childComplexity), true
+
+	case "FlowDiagramComponent.organizationId":
+		if e.complexity.FlowDiagramComponent.OrganizationID == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.OrganizationID(childComplexity), true
+
+	case "FlowDiagramComponent.previewImageJpg":
+		if e.complexity.FlowDiagramComponent.PreviewImageJpg == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.PreviewImageJpg(childComplexity), true
+
+	case "FlowDiagramComponent.slug":
+		if e.complexity.FlowDiagramComponent.Slug == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Slug(childComplexity), true
+
+	case "FlowDiagramComponent.tags":
+		if e.complexity.FlowDiagramComponent.Tags == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Tags(childComplexity), true
+
+	case "FlowDiagramComponent.type":
+		if e.complexity.FlowDiagramComponent.Type == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Type(childComplexity), true
+
+	case "FlowDiagramComponentField.flowDiagramComponentFieldId":
+		if e.complexity.FlowDiagramComponentField.FlowDiagramComponentFieldID == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.FlowDiagramComponentFieldID(childComplexity), true
+
+	case "FlowDiagramComponentField.label":
+		if e.complexity.FlowDiagramComponentField.Label == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Label(childComplexity), true
+
+	case "FlowDiagramComponentField.options":
+		if e.complexity.FlowDiagramComponentField.Options == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Options(childComplexity), true
+
+	case "FlowDiagramComponentField.order":
+		if e.complexity.FlowDiagramComponentField.Order == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Order(childComplexity), true
+
+	case "FlowDiagramComponentField.readonly":
+		if e.complexity.FlowDiagramComponentField.Readonly == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Readonly(childComplexity), true
+
+	case "FlowDiagramComponentField.required":
+		if e.complexity.FlowDiagramComponentField.Required == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Required(childComplexity), true
+
+	case "FlowDiagramComponentField.type":
+		if e.complexity.FlowDiagramComponentField.Type == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Type(childComplexity), true
+
+	case "FlowDiagramComponents.components":
+		if e.complexity.FlowDiagramComponents.Components == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponents.Components(childComplexity), true
+
+	case "FlowDiagramComponents.customComponents":
+		if e.complexity.FlowDiagramComponents.CustomComponents == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponents.CustomComponents(childComplexity), true
 
 	case "FocalPoint.createdAt":
 		if e.complexity.FocalPoint.CreatedAt == nil {
@@ -1776,6 +2090,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateDiagram(childComplexity, args["orgId"].(string), args["input"].(model.CreateDiagramInput)), true
 
+	case "Mutation.createDiagramImage":
+		if e.complexity.Mutation.CreateDiagramImage == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createDiagramImage_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateDiagramImage(childComplexity, args["orgId"].(string), args["diagramId"].(string), args["input"].(model.CreateDiagramImageInput)), true
+
 	case "Mutation.createDiagramVersion":
 		if e.complexity.Mutation.CreateDiagramVersion == nil {
 			break
@@ -2251,6 +2577,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.UpdateDiagram(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateDiagramInput)), true
 
+	case "Mutation.updateDiagramThumbnail":
+		if e.complexity.Mutation.UpdateDiagramThumbnail == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateDiagramThumbnail_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateDiagramThumbnail(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateDiagramThumbnailInput)), true
+
 	case "Mutation.updateFocalPoint":
 		if e.complexity.Mutation.UpdateFocalPoint == nil {
 			break
@@ -2718,6 +3056,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.DiagramContent(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
+	case "Query.diagramImages":
+		if e.complexity.Query.DiagramImages == nil {
+			break
+		}
+
+		args, err := ec.field_Query_diagramImages_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.DiagramImages(childComplexity, args["orgId"].(string), args["diagramId"].(string)), true
+
 	case "Query.diagramVersionContent":
 		if e.complexity.Query.DiagramVersionContent == nil {
 			break
@@ -2753,6 +3103,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Diagrams(childComplexity, args["orgId"].(string), args["folderId"].(*string)), true
+
+	case "Query.flowDiagramComponents":
+		if e.complexity.Query.FlowDiagramComponents == nil {
+			break
+		}
+
+		args, err := ec.field_Query_flowDiagramComponents_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FlowDiagramComponents(childComplexity, args["orgId"].(string)), true
 
 	case "Query.focalPoints":
 		if e.complexity.Query.FocalPoints == nil {
@@ -3756,6 +4118,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputAddMemberInput,
 		ec.unmarshalInputCreateAPIEndpointInput,
 		ec.unmarshalInputCreateAPIGroupInput,
+		ec.unmarshalInputCreateDiagramImageInput,
 		ec.unmarshalInputCreateDiagramInput,
 		ec.unmarshalInputCreateFocalPointInput,
 		ec.unmarshalInputCreateFolderInput,
@@ -3775,6 +4138,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateAPIEndpointInput,
 		ec.unmarshalInputUpdateAPIGroupInput,
 		ec.unmarshalInputUpdateDiagramInput,
+		ec.unmarshalInputUpdateDiagramThumbnailInput,
 		ec.unmarshalInputUpdateFocalPointInput,
 		ec.unmarshalInputUpdateFolderInput,
 		ec.unmarshalInputUpdateFrameInput,
@@ -4298,6 +4662,8 @@ input UpdateAPIEndpointInput {
     diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
     diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
+    flowDiagramComponents(orgId: ID!):                        FlowDiagramComponents!
+    diagramImages(orgId: ID!, diagramId: ID!):               [DiagramImage!]!
     maps(orgId: ID!, folderId: ID):                           [UIMap!]!
     map(orgId: ID!, id: ID!):                                 UIMap!
     frames(orgId: ID!, mapId: ID!):                           [Frame!]!
@@ -4317,6 +4683,8 @@ extend type Mutation {
     syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
     createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
     restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
+    updateDiagramThumbnail(orgId: ID!, id: ID!, input: UpdateDiagramThumbnailInput!): DiagramThumbnail!
+    createDiagramImage(orgId: ID!, diagramId: ID!, input: CreateDiagramImageInput!): CreateDiagramImageResult!
 
     createMap(orgId: ID!, input: CreateMapInput!):                    UIMap!
     updateMap(orgId: ID!, id: ID!, input: UpdateMapInput!):           UIMap!
@@ -4349,18 +4717,72 @@ type Folder {
 }
 
 type Diagram {
-    id:          ID!
-    orgId:       ID!
-    folderId:    ID
-    teamId:      ID
-    name:        String!
-    contentKey:  String!
-    contentHash: String!
-    source:      String
-    createdBy:   ID!
-    updatedBy:   ID
-    createdAt:   Time!
-    updatedAt:   Time!
+    id:                 ID!
+    orgId:              ID!
+    folderId:           ID
+    teamId:             ID
+    name:               String!
+    contentKey:         String!
+    contentHash:        String!
+    previewImageFileId: String
+    previewImageUrl:    String
+    source:             String
+    createdBy:          ID!
+    updatedBy:          ID
+    createdAt:          Time!
+    updatedAt:          Time!
+}
+
+type DiagramThumbnail {
+    fileId:        String!
+    fileUploadURL: String!
+}
+
+type FlowDiagramComponentField {
+    flowDiagramComponentFieldId: String!
+    label:                       String!
+    type:                        String!
+    required:                    Boolean!
+    readonly:                    Boolean
+    options:                     [String!]
+    order:                       Int!
+}
+
+type FlowDiagramComponent {
+    componentId:                String!
+    type:                       String!
+    name:                       String!
+    description:                String!
+    category:                   String!
+    tags:                       [String!]!
+    slug:                       String!
+    previewImageJpg:            String!
+    isActive:                   Boolean!
+    order:                      Int!
+    organizationId:             String
+    flowDiagramComponentFields: [FlowDiagramComponentField!]!
+}
+
+type FlowDiagramComponents {
+    components:       [FlowDiagramComponent!]!
+    customComponents: [FlowDiagramComponent!]!
+}
+
+type DiagramImage {
+    diagramImageId: String!
+    diagramId:      String!
+    fileId:         String!
+    fileURL:        String
+    fileName:       String
+    order:          Int!
+    createdBy:      ID!
+    createdAt:      Time!
+}
+
+type CreateDiagramImageResult {
+    diagramImageId: String!
+    fileId:         String!
+    fileUploadURL:  String!
 }
 
 type DiagramContent {
@@ -4488,6 +4910,16 @@ input SyncDiagramInput {
     folderId:  ID
     teamId:    ID
     source:    String
+}
+
+input UpdateDiagramThumbnailInput {
+    fileName:    String
+    contentType: String
+}
+
+input CreateDiagramImageInput {
+    fileName: String
+    order:    Int
 }
 
 input CreateMapInput {
@@ -5049,6 +5481,80 @@ func (ec *executionContext) field_Mutation_createAPIGroup_argsInput(
 	}
 
 	var zeroVal model.CreateAPIGroupInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createDiagramImage_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createDiagramImage_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createDiagramImage_argsDiagramID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["diagramId"] = arg1
+	arg2, err := ec.field_Mutation_createDiagramImage_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createDiagramImage_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createDiagramImage_argsDiagramID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["diagramId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("diagramId"))
+	if tmp, ok := rawArgs["diagramId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createDiagramImage_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateDiagramImageInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateDiagramImageInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateDiagramImageInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateDiagramImageInput
 	return zeroVal, nil
 }
 
@@ -7340,6 +7846,80 @@ func (ec *executionContext) field_Mutation_updateAPIGroup_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_updateDiagramThumbnail_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateDiagramThumbnail_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateDiagramThumbnail_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	arg2, err := ec.field_Mutation_updateDiagramThumbnail_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateDiagramThumbnail_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateDiagramThumbnail_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateDiagramThumbnail_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateDiagramThumbnailInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateDiagramThumbnailInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateDiagramThumbnailInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateDiagramThumbnailInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateDiagramThumbnailInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_updateDiagram_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -8858,6 +9438,57 @@ func (ec *executionContext) field_Query_diagramContent_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_diagramImages_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_diagramImages_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_diagramImages_argsDiagramID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["diagramId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_diagramImages_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagramImages_argsDiagramID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["diagramId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("diagramId"))
+	if tmp, ok := rawArgs["diagramId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_diagramVersionContent_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -9082,6 +9713,34 @@ func (ec *executionContext) field_Query_diagrams_argsFolderID(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_flowDiagramComponents_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_flowDiagramComponents_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_flowDiagramComponents_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -12155,6 +12814,138 @@ func (ec *executionContext) fieldContext_Canvas_updatedAt(_ context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _CreateDiagramImageResult_diagramImageId(ctx context.Context, field graphql.CollectedField, obj *model.CreateDiagramImageResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CreateDiagramImageResult_diagramImageId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DiagramImageID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CreateDiagramImageResult_diagramImageId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CreateDiagramImageResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CreateDiagramImageResult_fileId(ctx context.Context, field graphql.CollectedField, obj *model.CreateDiagramImageResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CreateDiagramImageResult_fileId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CreateDiagramImageResult_fileId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CreateDiagramImageResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CreateDiagramImageResult_fileUploadURL(ctx context.Context, field graphql.CollectedField, obj *model.CreateDiagramImageResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CreateDiagramImageResult_fileUploadURL(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileUploadURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CreateDiagramImageResult_fileUploadURL(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CreateDiagramImageResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _CreatedToken_id(ctx context.Context, field graphql.CollectedField, obj *model.CreatedToken) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_CreatedToken_id(ctx, field)
 	if err != nil {
@@ -12721,6 +13512,88 @@ func (ec *executionContext) fieldContext_Diagram_contentHash(_ context.Context, 
 	return fc, nil
 }
 
+func (ec *executionContext) _Diagram_previewImageFileId(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_previewImageFileId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PreviewImageFileID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_previewImageFileId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Diagram_previewImageUrl(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PreviewImageURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_previewImageUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Diagram_source(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Diagram_source(ctx, field)
 	if err != nil {
@@ -13013,6 +13886,440 @@ func (ec *executionContext) _DiagramContent_content(ctx context.Context, field g
 func (ec *executionContext) fieldContext_DiagramContent_content(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "DiagramContent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_diagramImageId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_diagramImageId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DiagramImageID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_diagramImageId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_diagramId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_diagramId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DiagramID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_diagramId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_fileId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_fileId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_fileId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_fileURL(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_fileURL(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_fileURL(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_fileName(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_fileName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_fileName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_order(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_order(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Order, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_order(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramThumbnail_fileId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramThumbnail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramThumbnail_fileId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramThumbnail_fileId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramThumbnail",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramThumbnail_fileUploadURL(ctx context.Context, field graphql.CollectedField, obj *model.DiagramThumbnail) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramThumbnail_fileUploadURL(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileUploadURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramThumbnail_fileUploadURL(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramThumbnail",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -13452,6 +14759,989 @@ func (ec *executionContext) fieldContext_DiagramVersion_createdAt(_ context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_componentId(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_componentId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ComponentID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_componentId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_type(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_type(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_name(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_description(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_category(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_category(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Category, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_category(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_tags(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_tags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Tags, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_tags(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_slug(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_slug(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Slug, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_slug(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_previewImageJpg(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_previewImageJpg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PreviewImageJpg, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_previewImageJpg(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_isActive(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_isActive(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsActive, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_isActive(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_order(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_order(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Order, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_order(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_organizationId(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_organizationId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrganizationID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_organizationId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_flowDiagramComponentFields(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_flowDiagramComponentFields(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FlowDiagramComponentFields, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FlowDiagramComponentField)
+	fc.Result = res
+	return ec.marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentFieldᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_flowDiagramComponentFields(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "flowDiagramComponentFieldId":
+				return ec.fieldContext_FlowDiagramComponentField_flowDiagramComponentFieldId(ctx, field)
+			case "label":
+				return ec.fieldContext_FlowDiagramComponentField_label(ctx, field)
+			case "type":
+				return ec.fieldContext_FlowDiagramComponentField_type(ctx, field)
+			case "required":
+				return ec.fieldContext_FlowDiagramComponentField_required(ctx, field)
+			case "readonly":
+				return ec.fieldContext_FlowDiagramComponentField_readonly(ctx, field)
+			case "options":
+				return ec.fieldContext_FlowDiagramComponentField_options(ctx, field)
+			case "order":
+				return ec.fieldContext_FlowDiagramComponentField_order(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponentField", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_flowDiagramComponentFieldId(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_flowDiagramComponentFieldId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FlowDiagramComponentFieldID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_flowDiagramComponentFieldId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_label(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_label(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Label, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_label(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_type(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_type(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_required(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_required(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Required, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_required(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_readonly(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_readonly(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Readonly, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_readonly(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_options(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_options(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Options, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_options(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_order(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_order(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Order, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_order(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponents_components(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponents) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponents_components(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Components, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FlowDiagramComponent)
+	fc.Result = res
+	return ec.marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponents_components(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponents",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "componentId":
+				return ec.fieldContext_FlowDiagramComponent_componentId(ctx, field)
+			case "type":
+				return ec.fieldContext_FlowDiagramComponent_type(ctx, field)
+			case "name":
+				return ec.fieldContext_FlowDiagramComponent_name(ctx, field)
+			case "description":
+				return ec.fieldContext_FlowDiagramComponent_description(ctx, field)
+			case "category":
+				return ec.fieldContext_FlowDiagramComponent_category(ctx, field)
+			case "tags":
+				return ec.fieldContext_FlowDiagramComponent_tags(ctx, field)
+			case "slug":
+				return ec.fieldContext_FlowDiagramComponent_slug(ctx, field)
+			case "previewImageJpg":
+				return ec.fieldContext_FlowDiagramComponent_previewImageJpg(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FlowDiagramComponent_isActive(ctx, field)
+			case "order":
+				return ec.fieldContext_FlowDiagramComponent_order(ctx, field)
+			case "organizationId":
+				return ec.fieldContext_FlowDiagramComponent_organizationId(ctx, field)
+			case "flowDiagramComponentFields":
+				return ec.fieldContext_FlowDiagramComponent_flowDiagramComponentFields(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponent", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponents_customComponents(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponents) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponents_customComponents(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CustomComponents, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FlowDiagramComponent)
+	fc.Result = res
+	return ec.marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponents_customComponents(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponents",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "componentId":
+				return ec.fieldContext_FlowDiagramComponent_componentId(ctx, field)
+			case "type":
+				return ec.fieldContext_FlowDiagramComponent_type(ctx, field)
+			case "name":
+				return ec.fieldContext_FlowDiagramComponent_name(ctx, field)
+			case "description":
+				return ec.fieldContext_FlowDiagramComponent_description(ctx, field)
+			case "category":
+				return ec.fieldContext_FlowDiagramComponent_category(ctx, field)
+			case "tags":
+				return ec.fieldContext_FlowDiagramComponent_tags(ctx, field)
+			case "slug":
+				return ec.fieldContext_FlowDiagramComponent_slug(ctx, field)
+			case "previewImageJpg":
+				return ec.fieldContext_FlowDiagramComponent_previewImageJpg(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FlowDiagramComponent_isActive(ctx, field)
+			case "order":
+				return ec.fieldContext_FlowDiagramComponent_order(ctx, field)
+			case "organizationId":
+				return ec.fieldContext_FlowDiagramComponent_organizationId(ctx, field)
+			case "flowDiagramComponentFields":
+				return ec.fieldContext_FlowDiagramComponent_flowDiagramComponentFields(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponent", field.Name)
 		},
 	}
 	return fc, nil
@@ -18445,6 +20735,10 @@ func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewImageFileId":
+				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -18526,6 +20820,10 @@ func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewImageFileId":
+				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -18802,6 +21100,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewImageFileId":
+				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -18824,6 +21126,130 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_restoreDiagramVersion_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateDiagramThumbnail(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateDiagramThumbnail(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateDiagramThumbnail(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateDiagramThumbnailInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.DiagramThumbnail)
+	fc.Result = res
+	return ec.marshalNDiagramThumbnail2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramThumbnail(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateDiagramThumbnail(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "fileId":
+				return ec.fieldContext_DiagramThumbnail_fileId(ctx, field)
+			case "fileUploadURL":
+				return ec.fieldContext_DiagramThumbnail_fileUploadURL(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DiagramThumbnail", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateDiagramThumbnail_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createDiagramImage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createDiagramImage(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateDiagramImage(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string), fc.Args["input"].(model.CreateDiagramImageInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CreateDiagramImageResult)
+	fc.Result = res
+	return ec.marshalNCreateDiagramImageResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createDiagramImage(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "diagramImageId":
+				return ec.fieldContext_CreateDiagramImageResult_diagramImageId(ctx, field)
+			case "fileId":
+				return ec.fieldContext_CreateDiagramImageResult_fileId(ctx, field)
+			case "fileUploadURL":
+				return ec.fieldContext_CreateDiagramImageResult_fileUploadURL(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CreateDiagramImageResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createDiagramImage_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -23432,6 +25858,10 @@ func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, fie
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewImageFileId":
+				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -23513,6 +25943,10 @@ func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, fiel
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewImageFileId":
+				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -23734,6 +26168,140 @@ func (ec *executionContext) fieldContext_Query_diagramVersionContent(ctx context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_diagramVersionContent_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_flowDiagramComponents(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_flowDiagramComponents(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FlowDiagramComponents(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FlowDiagramComponents)
+	fc.Result = res
+	return ec.marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponents(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_flowDiagramComponents(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "components":
+				return ec.fieldContext_FlowDiagramComponents_components(ctx, field)
+			case "customComponents":
+				return ec.fieldContext_FlowDiagramComponents_customComponents(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponents", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_flowDiagramComponents_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_diagramImages(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_diagramImages(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().DiagramImages(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.DiagramImage)
+	fc.Result = res
+	return ec.marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImageᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_diagramImages(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "diagramImageId":
+				return ec.fieldContext_DiagramImage_diagramImageId(ctx, field)
+			case "diagramId":
+				return ec.fieldContext_DiagramImage_diagramId(ctx, field)
+			case "fileId":
+				return ec.fieldContext_DiagramImage_fileId(ctx, field)
+			case "fileURL":
+				return ec.fieldContext_DiagramImage_fileURL(ctx, field)
+			case "fileName":
+				return ec.fieldContext_DiagramImage_fileName(ctx, field)
+			case "order":
+				return ec.fieldContext_DiagramImage_order(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_DiagramImage_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_DiagramImage_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DiagramImage", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_diagramImages_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -31580,6 +34148,40 @@ func (ec *executionContext) unmarshalInputCreateAPIGroupInput(ctx context.Contex
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateDiagramImageInput(ctx context.Context, obj any) (model.CreateDiagramImageInput, error) {
+	var it model.CreateDiagramImageInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"fileName", "order"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "fileName":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileName"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileName = data
+		case "order":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Order = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateDiagramInput(ctx context.Context, obj any) (model.CreateDiagramInput, error) {
 	var it model.CreateDiagramInput
 	asMap := map[string]any{}
@@ -32626,6 +35228,40 @@ func (ec *executionContext) unmarshalInputUpdateDiagramInput(ctx context.Context
 				return it, err
 			}
 			it.Source = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdateDiagramThumbnailInput(ctx context.Context, obj any) (model.UpdateDiagramThumbnailInput, error) {
+	var it model.UpdateDiagramThumbnailInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"fileName", "contentType"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "fileName":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileName"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileName = data
+		case "contentType":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contentType"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ContentType = data
 		}
 	}
 
@@ -33855,6 +36491,55 @@ func (ec *executionContext) _Canvas(ctx context.Context, sel ast.SelectionSet, o
 	return out
 }
 
+var createDiagramImageResultImplementors = []string{"CreateDiagramImageResult"}
+
+func (ec *executionContext) _CreateDiagramImageResult(ctx context.Context, sel ast.SelectionSet, obj *model.CreateDiagramImageResult) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, createDiagramImageResultImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CreateDiagramImageResult")
+		case "diagramImageId":
+			out.Values[i] = ec._CreateDiagramImageResult_diagramImageId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "fileId":
+			out.Values[i] = ec._CreateDiagramImageResult_fileId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "fileUploadURL":
+			out.Values[i] = ec._CreateDiagramImageResult_fileUploadURL(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var createdTokenImplementors = []string{"CreatedToken"}
 
 func (ec *executionContext) _CreatedToken(ctx context.Context, sel ast.SelectionSet, obj *model.CreatedToken) graphql.Marshaler {
@@ -33959,6 +36644,10 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "previewImageFileId":
+			out.Values[i] = ec._Diagram_previewImageFileId(ctx, field, obj)
+		case "previewImageUrl":
+			out.Values[i] = ec._Diagram_previewImageUrl(ctx, field, obj)
 		case "source":
 			out.Values[i] = ec._Diagram_source(ctx, field, obj)
 		case "createdBy":
@@ -34045,6 +36734,118 @@ func (ec *executionContext) _DiagramContent(ctx context.Context, sel ast.Selecti
 	return out
 }
 
+var diagramImageImplementors = []string{"DiagramImage"}
+
+func (ec *executionContext) _DiagramImage(ctx context.Context, sel ast.SelectionSet, obj *model.DiagramImage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, diagramImageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("DiagramImage")
+		case "diagramImageId":
+			out.Values[i] = ec._DiagramImage_diagramImageId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "diagramId":
+			out.Values[i] = ec._DiagramImage_diagramId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "fileId":
+			out.Values[i] = ec._DiagramImage_fileId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "fileURL":
+			out.Values[i] = ec._DiagramImage_fileURL(ctx, field, obj)
+		case "fileName":
+			out.Values[i] = ec._DiagramImage_fileName(ctx, field, obj)
+		case "order":
+			out.Values[i] = ec._DiagramImage_order(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdBy":
+			out.Values[i] = ec._DiagramImage_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._DiagramImage_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var diagramThumbnailImplementors = []string{"DiagramThumbnail"}
+
+func (ec *executionContext) _DiagramThumbnail(ctx context.Context, sel ast.SelectionSet, obj *model.DiagramThumbnail) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, diagramThumbnailImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("DiagramThumbnail")
+		case "fileId":
+			out.Values[i] = ec._DiagramThumbnail_fileId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "fileUploadURL":
+			out.Values[i] = ec._DiagramThumbnail_fileUploadURL(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var diagramVersionImplementors = []string{"DiagramVersion"}
 
 func (ec *executionContext) _DiagramVersion(ctx context.Context, sel ast.SelectionSet, obj *model.DiagramVersion) graphql.Marshaler {
@@ -34097,6 +36898,204 @@ func (ec *executionContext) _DiagramVersion(ctx context.Context, sel ast.Selecti
 			}
 		case "createdAt":
 			out.Values[i] = ec._DiagramVersion_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var flowDiagramComponentImplementors = []string{"FlowDiagramComponent"}
+
+func (ec *executionContext) _FlowDiagramComponent(ctx context.Context, sel ast.SelectionSet, obj *model.FlowDiagramComponent) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, flowDiagramComponentImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FlowDiagramComponent")
+		case "componentId":
+			out.Values[i] = ec._FlowDiagramComponent_componentId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "type":
+			out.Values[i] = ec._FlowDiagramComponent_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._FlowDiagramComponent_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._FlowDiagramComponent_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "category":
+			out.Values[i] = ec._FlowDiagramComponent_category(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "tags":
+			out.Values[i] = ec._FlowDiagramComponent_tags(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "slug":
+			out.Values[i] = ec._FlowDiagramComponent_slug(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "previewImageJpg":
+			out.Values[i] = ec._FlowDiagramComponent_previewImageJpg(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "isActive":
+			out.Values[i] = ec._FlowDiagramComponent_isActive(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "order":
+			out.Values[i] = ec._FlowDiagramComponent_order(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "organizationId":
+			out.Values[i] = ec._FlowDiagramComponent_organizationId(ctx, field, obj)
+		case "flowDiagramComponentFields":
+			out.Values[i] = ec._FlowDiagramComponent_flowDiagramComponentFields(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var flowDiagramComponentFieldImplementors = []string{"FlowDiagramComponentField"}
+
+func (ec *executionContext) _FlowDiagramComponentField(ctx context.Context, sel ast.SelectionSet, obj *model.FlowDiagramComponentField) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, flowDiagramComponentFieldImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FlowDiagramComponentField")
+		case "flowDiagramComponentFieldId":
+			out.Values[i] = ec._FlowDiagramComponentField_flowDiagramComponentFieldId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "label":
+			out.Values[i] = ec._FlowDiagramComponentField_label(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "type":
+			out.Values[i] = ec._FlowDiagramComponentField_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "required":
+			out.Values[i] = ec._FlowDiagramComponentField_required(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "readonly":
+			out.Values[i] = ec._FlowDiagramComponentField_readonly(ctx, field, obj)
+		case "options":
+			out.Values[i] = ec._FlowDiagramComponentField_options(ctx, field, obj)
+		case "order":
+			out.Values[i] = ec._FlowDiagramComponentField_order(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var flowDiagramComponentsImplementors = []string{"FlowDiagramComponents"}
+
+func (ec *executionContext) _FlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, obj *model.FlowDiagramComponents) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, flowDiagramComponentsImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FlowDiagramComponents")
+		case "components":
+			out.Values[i] = ec._FlowDiagramComponents_components(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "customComponents":
+			out.Values[i] = ec._FlowDiagramComponents_customComponents(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -34942,6 +37941,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "restoreDiagramVersion":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_restoreDiagramVersion(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateDiagramThumbnail":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateDiagramThumbnail(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createDiagramImage":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createDiagramImage(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -35904,6 +38917,50 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_diagramVersionContent(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "flowDiagramComponents":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_flowDiagramComponents(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "diagramImages":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_diagramImages(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -37714,6 +40771,25 @@ func (ec *executionContext) unmarshalNCreateAPIGroupInput2githubᚗcomᚋuigraph
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateDiagramImageInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageInput(ctx context.Context, v any) (model.CreateDiagramImageInput, error) {
+	res, err := ec.unmarshalInputCreateDiagramImageInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNCreateDiagramImageResult2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageResult(ctx context.Context, sel ast.SelectionSet, v model.CreateDiagramImageResult) graphql.Marshaler {
+	return ec._CreateDiagramImageResult(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCreateDiagramImageResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageResult(ctx context.Context, sel ast.SelectionSet, v *model.CreateDiagramImageResult) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._CreateDiagramImageResult(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNCreateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramInput(ctx context.Context, v any) (model.CreateDiagramInput, error) {
 	res, err := ec.unmarshalInputCreateDiagramInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -37865,6 +40941,74 @@ func (ec *executionContext) marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋg
 	return ec._DiagramContent(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImageᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DiagramImage) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImage(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImage(ctx context.Context, sel ast.SelectionSet, v *model.DiagramImage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._DiagramImage(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNDiagramThumbnail2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramThumbnail(ctx context.Context, sel ast.SelectionSet, v model.DiagramThumbnail) graphql.Marshaler {
+	return ec._DiagramThumbnail(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNDiagramThumbnail2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramThumbnail(ctx context.Context, sel ast.SelectionSet, v *model.DiagramThumbnail) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._DiagramThumbnail(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNDiagramVersion2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramVersion(ctx context.Context, sel ast.SelectionSet, v model.DiagramVersion) graphql.Marshaler {
 	return ec._DiagramVersion(ctx, sel, &v)
 }
@@ -37937,6 +41081,128 @@ func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.S
 		}
 	}
 	return graphql.WrapContextMarshaler(ctx, res)
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FlowDiagramComponent) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNFlowDiagramComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponent(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponent(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponent) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FlowDiagramComponent(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentFieldᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FlowDiagramComponentField) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNFlowDiagramComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentField(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentField(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponentField) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FlowDiagramComponentField(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponents2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, v model.FlowDiagramComponents) graphql.Marshaler {
+	return ec._FlowDiagramComponents(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponents) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FlowDiagramComponents(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNFocalPoint2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPoint(ctx context.Context, sel ast.SelectionSet, v model.FocalPoint) graphql.Marshaler {
@@ -38969,6 +42235,11 @@ func (ec *executionContext) unmarshalNUpdateDiagramInput2githubᚗcomᚋuigraph�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNUpdateDiagramThumbnailInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateDiagramThumbnailInput(ctx context.Context, v any) (model.UpdateDiagramThumbnailInput, error) {
+	res, err := ec.unmarshalInputUpdateDiagramThumbnailInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNUpdateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFocalPointInput(ctx context.Context, v any) (model.UpdateFocalPointInput, error) {
 	res, err := ec.unmarshalInputUpdateFocalPointInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -39407,6 +42678,24 @@ func (ec *executionContext) marshalOID2ᚖstring(ctx context.Context, sel ast.Se
 	_ = sel
 	_ = ctx
 	res := graphql.MarshalID(*v)
+	return res
+}
+
+func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v any) (*int, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalInt(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.SelectionSet, v *int) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	_ = sel
+	_ = ctx
+	res := graphql.MarshalInt(*v)
 	return res
 }
 

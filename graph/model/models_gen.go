@@ -91,6 +91,17 @@ type CreateAPIGroupInput struct {
 	Spec     *string `json:"spec,omitempty"`
 }
 
+type CreateDiagramImageInput struct {
+	FileName *string `json:"fileName,omitempty"`
+	Order    *int    `json:"order,omitempty"`
+}
+
+type CreateDiagramImageResult struct {
+	DiagramImageID string `json:"diagramImageId"`
+	FileID         string `json:"fileId"`
+	FileUploadURL  string `json:"fileUploadURL"`
+}
+
 type CreateDiagramInput struct {
 	Name     string  `json:"name"`
 	Content  string  `json:"content"`
@@ -199,23 +210,41 @@ type CreatedToken struct {
 }
 
 type Diagram struct {
-	ID          string    `json:"id"`
-	OrgID       string    `json:"orgId"`
-	FolderID    *string   `json:"folderId,omitempty"`
-	TeamID      *string   `json:"teamId,omitempty"`
-	Name        string    `json:"name"`
-	ContentKey  string    `json:"contentKey"`
-	ContentHash string    `json:"contentHash"`
-	Source      *string   `json:"source,omitempty"`
-	CreatedBy   string    `json:"createdBy"`
-	UpdatedBy   *string   `json:"updatedBy,omitempty"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	ID                 string    `json:"id"`
+	OrgID              string    `json:"orgId"`
+	FolderID           *string   `json:"folderId,omitempty"`
+	TeamID             *string   `json:"teamId,omitempty"`
+	Name               string    `json:"name"`
+	ContentKey         string    `json:"contentKey"`
+	ContentHash        string    `json:"contentHash"`
+	PreviewImageFileID *string   `json:"previewImageFileId,omitempty"`
+	PreviewImageURL    *string   `json:"previewImageUrl,omitempty"`
+	Source             *string   `json:"source,omitempty"`
+	CreatedBy          string    `json:"createdBy"`
+	UpdatedBy          *string   `json:"updatedBy,omitempty"`
+	CreatedAt          time.Time `json:"createdAt"`
+	UpdatedAt          time.Time `json:"updatedAt"`
 }
 
 type DiagramContent struct {
 	DiagramID string `json:"diagramId"`
 	Content   string `json:"content"`
+}
+
+type DiagramImage struct {
+	DiagramImageID string    `json:"diagramImageId"`
+	DiagramID      string    `json:"diagramId"`
+	FileID         string    `json:"fileId"`
+	FileURL        *string   `json:"fileURL,omitempty"`
+	FileName       *string   `json:"fileName,omitempty"`
+	Order          int       `json:"order"`
+	CreatedBy      string    `json:"createdBy"`
+	CreatedAt      time.Time `json:"createdAt"`
+}
+
+type DiagramThumbnail struct {
+	FileID        string `json:"fileId"`
+	FileUploadURL string `json:"fileUploadURL"`
 }
 
 type DiagramVersion struct {
@@ -229,6 +258,36 @@ type DiagramVersion struct {
 	Source        *string   `json:"source,omitempty"`
 	CreatedBy     string    `json:"createdBy"`
 	CreatedAt     time.Time `json:"createdAt"`
+}
+
+type FlowDiagramComponent struct {
+	ComponentID                string                       `json:"componentId"`
+	Type                       string                       `json:"type"`
+	Name                       string                       `json:"name"`
+	Description                string                       `json:"description"`
+	Category                   string                       `json:"category"`
+	Tags                       []string                     `json:"tags"`
+	Slug                       string                       `json:"slug"`
+	PreviewImageJpg            string                       `json:"previewImageJpg"`
+	IsActive                   bool                         `json:"isActive"`
+	Order                      int                          `json:"order"`
+	OrganizationID             *string                      `json:"organizationId,omitempty"`
+	FlowDiagramComponentFields []*FlowDiagramComponentField `json:"flowDiagramComponentFields"`
+}
+
+type FlowDiagramComponentField struct {
+	FlowDiagramComponentFieldID string   `json:"flowDiagramComponentFieldId"`
+	Label                       string   `json:"label"`
+	Type                        string   `json:"type"`
+	Required                    bool     `json:"required"`
+	Readonly                    *bool    `json:"readonly,omitempty"`
+	Options                     []string `json:"options,omitempty"`
+	Order                       int      `json:"order"`
+}
+
+type FlowDiagramComponents struct {
+	Components       []*FlowDiagramComponent `json:"components"`
+	CustomComponents []*FlowDiagramComponent `json:"customComponents"`
 }
 
 type FocalPoint struct {
@@ -550,6 +609,11 @@ type UpdateDiagramInput struct {
 	FolderID *string `json:"folderId,omitempty"`
 	TeamID   *string `json:"teamId,omitempty"`
 	Source   *string `json:"source,omitempty"`
+}
+
+type UpdateDiagramThumbnailInput struct {
+	FileName    *string `json:"fileName,omitempty"`
+	ContentType *string `json:"contentType,omitempty"`
 }
 
 type UpdateFocalPointInput struct {
