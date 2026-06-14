@@ -184,6 +184,11 @@ func (c *Client) GetFrame(ctx context.Context, orgID, mapID, id string) (*Frame,
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s", orgID, mapID, id), &out)
 }
 
+func (c *Client) GetFrameByID(ctx context.Context, orgID, id string) (*Frame, error) {
+	var out Frame
+	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/frames/%s", orgID, id), &out)
+}
+
 func (c *Client) CreateFrame(ctx context.Context, orgID, mapID string, body map[string]interface{}) (*Frame, error) {
 	var out Frame
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames", orgID, mapID), body, &out)

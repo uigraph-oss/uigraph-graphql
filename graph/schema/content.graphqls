@@ -12,6 +12,7 @@ extend type Query {
     map(orgId: ID!, id: ID!):                                 UIMap!
     frames(orgId: ID!, mapId: ID!):                           [Frame!]!
     frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
+    frameById(orgId: ID!, id: ID!):                           Frame!
     focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
     canvas(orgId: ID!, mapId: ID!):                           Canvas!
     frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!

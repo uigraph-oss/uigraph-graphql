@@ -481,6 +481,7 @@ type ComplexityRoot struct {
 		Folder                func(childComplexity int, orgID string, id string) int
 		Folders               func(childComplexity int, orgID string, typeArg *string, parentID *string) int
 		Frame                 func(childComplexity int, orgID string, mapID string, id string) int
+		FrameByID             func(childComplexity int, orgID string, id string) int
 		FrameGroups           func(childComplexity int, orgID string, mapID string, frameID string) int
 		FrameLinks            func(childComplexity int, orgID string, mapID string, frameID string) int
 		Frames                func(childComplexity int, orgID string, mapID string) int
@@ -747,6 +748,7 @@ type QueryResolver interface {
 	Map(ctx context.Context, orgID string, id string) (*model.UIMap, error)
 	Frames(ctx context.Context, orgID string, mapID string) ([]*model.Frame, error)
 	Frame(ctx context.Context, orgID string, mapID string, id string) (*model.Frame, error)
+	FrameByID(ctx context.Context, orgID string, id string) (*model.Frame, error)
 	FocalPoints(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FocalPoint, error)
 	Canvas(ctx context.Context, orgID string, mapID string) (*model.Canvas, error)
 	FrameGroups(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameGroup, error)
@@ -3661,6 +3663,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.Frame(childComplexity, args["orgId"].(string), args["mapId"].(string), args["id"].(string)), true
 
+	case "Query.frameById":
+		if e.complexity.Query.FrameByID == nil {
+			break
+		}
+
+		args, err := ec.field_Query_frameById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FrameByID(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
 	case "Query.frameGroups":
 		if e.complexity.Query.FrameGroups == nil {
 			break
@@ -5195,6 +5209,7 @@ input UpdateAPIEndpointInput {
     map(orgId: ID!, id: ID!):                                 UIMap!
     frames(orgId: ID!, mapId: ID!):                           [Frame!]!
     frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
+    frameById(orgId: ID!, id: ID!):                           Frame!
     focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
     canvas(orgId: ID!, mapId: ID!):                           Canvas!
     frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
@@ -11707,6 +11722,57 @@ func (ec *executionContext) field_Query_folders_argsParentID(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_frameById_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_frameById_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_frameById_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameById_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -31110,6 +31176,97 @@ func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field 
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_frameById(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_frameById(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FrameByID(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Frame)
+	fc.Result = res
+	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_frameById(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Frame_id(ctx, field)
+			case "mapId":
+				return ec.fieldContext_Frame_mapId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Frame_orgId(ctx, field)
+			case "parentFrameId":
+				return ec.fieldContext_Frame_parentFrameId(ctx, field)
+			case "name":
+				return ec.fieldContext_Frame_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Frame_description(ctx, field)
+			case "templateType":
+				return ec.fieldContext_Frame_templateType(ctx, field)
+			case "screenshotKey":
+				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotContentHash":
+				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
+			case "screenshotUrl":
+				return ec.fieldContext_Frame_screenshotUrl(ctx, field)
+			case "status":
+				return ec.fieldContext_Frame_status(ctx, field)
+			case "order":
+				return ec.fieldContext_Frame_order(ctx, field)
+			case "source":
+				return ec.fieldContext_Frame_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Frame_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Frame_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Frame_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Frame", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_frameById_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_focalPoints(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_focalPoints(ctx, field)
 	if err != nil {
@@ -44526,6 +44683,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_frame(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "frameById":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_frameById(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}

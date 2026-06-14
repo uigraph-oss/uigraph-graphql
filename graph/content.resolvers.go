@@ -423,6 +423,15 @@ func (r *queryResolver) Frame(ctx context.Context, orgID string, mapID string, i
 	return frameToModel(f), nil
 }
 
+// FrameByID is the resolver for the frameById field.
+func (r *queryResolver) FrameByID(ctx context.Context, orgID string, id string) (*model.Frame, error) {
+	f, err := r.Client.GetFrameByID(ctx, orgID, id)
+	if err != nil {
+		return nil, err
+	}
+	return frameToModel(f), nil
+}
+
 // FocalPoints is the resolver for the focalPoints field.
 func (r *queryResolver) FocalPoints(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FocalPoint, error) {
 	fps, err := r.Client.ListFocalPoints(ctx, orgID, mapID, frameID)
