@@ -86,11 +86,6 @@ func (c *Client) DeleteDiagram(ctx context.Context, orgID, id string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s", orgID, id))
 }
 
-func (c *Client) UpdateDiagramThumbnail(ctx context.Context, orgID, id string, body map[string]interface{}) (map[string]interface{}, error) {
-	var out map[string]interface{}
-	return out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/thumbnail", orgID, id), body, &out)
-}
-
 func (c *Client) ListFlowDiagramComponents(ctx context.Context, orgID string) (*FlowComponents, error) {
 	var out FlowComponents
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/flow-diagram-components", orgID), &out)
@@ -101,11 +96,6 @@ func (c *Client) ListDiagramImages(ctx context.Context, orgID, diagramID string)
 		Images []DiagramImage `json:"images"`
 	}
 	return out.Images, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/images", orgID, diagramID), &out)
-}
-
-func (c *Client) CreateDiagramImage(ctx context.Context, orgID, diagramID string, body map[string]interface{}) (map[string]interface{}, error) {
-	var out map[string]interface{}
-	return out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/images", orgID, diagramID), body, &out)
 }
 
 func (c *Client) SyncDiagram(ctx context.Context, orgID string, body map[string]interface{}) (map[string]interface{}, error) {

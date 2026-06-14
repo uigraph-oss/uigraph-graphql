@@ -94,31 +94,6 @@ func (r *mutationResolver) RestoreDiagramVersion(ctx context.Context, orgID stri
 	return diagramToModel(d), nil
 }
 
-// UpdateDiagramThumbnail is the resolver for the updateDiagramThumbnail field.
-func (r *mutationResolver) UpdateDiagramThumbnail(ctx context.Context, orgID string, id string, input model.UpdateDiagramThumbnailInput) (*model.DiagramThumbnail, error) {
-	out, err := r.Client.UpdateDiagramThumbnail(ctx, orgID, id, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return &model.DiagramThumbnail{
-		FileID:        strFromMap(out, "fileId"),
-		FileUploadURL: strFromMap(out, "fileUploadURL"),
-	}, nil
-}
-
-// CreateDiagramImage is the resolver for the createDiagramImage field.
-func (r *mutationResolver) CreateDiagramImage(ctx context.Context, orgID string, diagramID string, input model.CreateDiagramImageInput) (*model.CreateDiagramImageResult, error) {
-	out, err := r.Client.CreateDiagramImage(ctx, orgID, diagramID, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return &model.CreateDiagramImageResult{
-		DiagramImageID: strFromMap(out, "diagramImageId"),
-		FileID:         strFromMap(out, "fileId"),
-		FileUploadURL:  strFromMap(out, "fileUploadURL"),
-	}, nil
-}
-
 // CreateMap is the resolver for the createMap field.
 func (r *mutationResolver) CreateMap(ctx context.Context, orgID string, input model.CreateMapInput) (*model.UIMap, error) {
 	m, err := r.Client.CreateMap(ctx, orgID, toMap(input))

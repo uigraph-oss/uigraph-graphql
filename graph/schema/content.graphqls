@@ -31,8 +31,6 @@ extend type Mutation {
     syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
     createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
     restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
-    updateDiagramThumbnail(orgId: ID!, id: ID!, input: UpdateDiagramThumbnailInput!): DiagramThumbnail!
-    createDiagramImage(orgId: ID!, diagramId: ID!, input: CreateDiagramImageInput!): CreateDiagramImageResult!
 
     createMap(orgId: ID!, input: CreateMapInput!):                    UIMap!
     updateMap(orgId: ID!, id: ID!, input: UpdateMapInput!):           UIMap!
@@ -84,18 +82,13 @@ type Diagram {
     name:               String!
     contentKey:         String!
     contentHash:        String!
-    previewImageFileId: String
-    previewImageUrl:    String
+    previewAssetId:     String
+    previewContentHash: String
     source:             String
     createdBy:          ID!
     updatedBy:          ID
     createdAt:          Time!
     updatedAt:          Time!
-}
-
-type DiagramThumbnail {
-    fileId:        String!
-    fileUploadURL: String!
 }
 
 type FlowDiagramComponentField {
@@ -131,18 +124,11 @@ type FlowDiagramComponents {
 type DiagramImage {
     diagramImageId: String!
     diagramId:      String!
-    fileId:         String!
-    fileURL:        String
+    assetId:        String!
     fileName:       String
     order:          Int!
     createdBy:      ID!
     createdAt:      Time!
-}
-
-type CreateDiagramImageResult {
-    diagramImageId: String!
-    fileId:         String!
-    fileUploadURL:  String!
 }
 
 type DiagramContent {
@@ -191,9 +177,8 @@ type Frame {
     name:                 String!
     description:          String!
     templateType:         String!
-    screenshotKey:        String
+    screenshotAssetId:    String
     screenshotContentHash: String
-    screenshotUrl:        String
     status:               String!
     order:                Float!
     source:               String
@@ -271,16 +256,6 @@ input SyncDiagramInput {
     folderId:  ID
     teamId:    ID
     source:    String
-}
-
-input UpdateDiagramThumbnailInput {
-    fileName:    String
-    contentType: String
-}
-
-input CreateDiagramImageInput {
-    fileName: String
-    order:    Int
 }
 
 input CreateMapInput {

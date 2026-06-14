@@ -106,12 +106,6 @@ type ComplexityRoot struct {
 		Zoom           func(childComplexity int) int
 	}
 
-	CreateDiagramImageResult struct {
-		DiagramImageID func(childComplexity int) int
-		FileID         func(childComplexity int) int
-		FileUploadURL  func(childComplexity int) int
-	}
-
 	CreatedToken struct {
 		CreatedAt        func(childComplexity int) int
 		ID               func(childComplexity int) int
@@ -130,8 +124,8 @@ type ComplexityRoot struct {
 		ID                 func(childComplexity int) int
 		Name               func(childComplexity int) int
 		OrgID              func(childComplexity int) int
-		PreviewImageFileID func(childComplexity int) int
-		PreviewImageURL    func(childComplexity int) int
+		PreviewAssetID     func(childComplexity int) int
+		PreviewContentHash func(childComplexity int) int
 		Source             func(childComplexity int) int
 		TeamID             func(childComplexity int) int
 		UpdatedAt          func(childComplexity int) int
@@ -144,19 +138,13 @@ type ComplexityRoot struct {
 	}
 
 	DiagramImage struct {
+		AssetID        func(childComplexity int) int
 		CreatedAt      func(childComplexity int) int
 		CreatedBy      func(childComplexity int) int
 		DiagramID      func(childComplexity int) int
 		DiagramImageID func(childComplexity int) int
-		FileID         func(childComplexity int) int
 		FileName       func(childComplexity int) int
-		FileURL        func(childComplexity int) int
 		Order          func(childComplexity int) int
-	}
-
-	DiagramThumbnail struct {
-		FileID        func(childComplexity int) int
-		FileUploadURL func(childComplexity int) int
 	}
 
 	DiagramVersion struct {
@@ -255,9 +243,8 @@ type ComplexityRoot struct {
 		Order                 func(childComplexity int) int
 		OrgID                 func(childComplexity int) int
 		ParentFrameID         func(childComplexity int) int
+		ScreenshotAssetID     func(childComplexity int) int
 		ScreenshotContentHash func(childComplexity int) int
-		ScreenshotKey         func(childComplexity int) int
-		ScreenshotURL         func(childComplexity int) int
 		Source                func(childComplexity int) int
 		Status                func(childComplexity int) int
 		TemplateType          func(childComplexity int) int
@@ -357,7 +344,6 @@ type ComplexityRoot struct {
 		CreateAPIEndpoint         func(childComplexity int, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) int
 		CreateAPIGroup            func(childComplexity int, orgID string, serviceID string, input model.CreateAPIGroupInput) int
 		CreateDiagram             func(childComplexity int, orgID string, input model.CreateDiagramInput) int
-		CreateDiagramImage        func(childComplexity int, orgID string, diagramID string, input model.CreateDiagramImageInput) int
 		CreateDiagramVersion      func(childComplexity int, orgID string, diagramID string, label *string) int
 		CreateFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
 		CreateFocalPointMeta      func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) int
@@ -404,7 +390,6 @@ type ComplexityRoot struct {
 		UpdateAPIEndpoint         func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) int
 		UpdateAPIGroup            func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
 		UpdateDiagram             func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
-		UpdateDiagramThumbnail    func(childComplexity int, orgID string, id string, input model.UpdateDiagramThumbnailInput) int
 		UpdateFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
 		UpdateFocalPointMeta      func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) int
 		UpdateFolder              func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
@@ -678,8 +663,6 @@ type MutationResolver interface {
 	SyncDiagram(ctx context.Context, orgID string, input model.SyncDiagramInput) (*model.SyncDiagramResult, error)
 	CreateDiagramVersion(ctx context.Context, orgID string, diagramID string, label *string) (*model.DiagramVersion, error)
 	RestoreDiagramVersion(ctx context.Context, orgID string, diagramID string, versionID string) (*model.Diagram, error)
-	UpdateDiagramThumbnail(ctx context.Context, orgID string, id string, input model.UpdateDiagramThumbnailInput) (*model.DiagramThumbnail, error)
-	CreateDiagramImage(ctx context.Context, orgID string, diagramID string, input model.CreateDiagramImageInput) (*model.CreateDiagramImageResult, error)
 	CreateMap(ctx context.Context, orgID string, input model.CreateMapInput) (*model.UIMap, error)
 	UpdateMap(ctx context.Context, orgID string, id string, input model.UpdateMapInput) (*model.UIMap, error)
 	DeleteMap(ctx context.Context, orgID string, id string) (bool, error)
@@ -1114,27 +1097,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Canvas.Zoom(childComplexity), true
 
-	case "CreateDiagramImageResult.diagramImageId":
-		if e.complexity.CreateDiagramImageResult.DiagramImageID == nil {
-			break
-		}
-
-		return e.complexity.CreateDiagramImageResult.DiagramImageID(childComplexity), true
-
-	case "CreateDiagramImageResult.fileId":
-		if e.complexity.CreateDiagramImageResult.FileID == nil {
-			break
-		}
-
-		return e.complexity.CreateDiagramImageResult.FileID(childComplexity), true
-
-	case "CreateDiagramImageResult.fileUploadURL":
-		if e.complexity.CreateDiagramImageResult.FileUploadURL == nil {
-			break
-		}
-
-		return e.complexity.CreateDiagramImageResult.FileUploadURL(childComplexity), true
-
 	case "CreatedToken.createdAt":
 		if e.complexity.CreatedToken.CreatedAt == nil {
 			break
@@ -1233,19 +1195,19 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Diagram.OrgID(childComplexity), true
 
-	case "Diagram.previewImageFileId":
-		if e.complexity.Diagram.PreviewImageFileID == nil {
+	case "Diagram.previewAssetId":
+		if e.complexity.Diagram.PreviewAssetID == nil {
 			break
 		}
 
-		return e.complexity.Diagram.PreviewImageFileID(childComplexity), true
+		return e.complexity.Diagram.PreviewAssetID(childComplexity), true
 
-	case "Diagram.previewImageUrl":
-		if e.complexity.Diagram.PreviewImageURL == nil {
+	case "Diagram.previewContentHash":
+		if e.complexity.Diagram.PreviewContentHash == nil {
 			break
 		}
 
-		return e.complexity.Diagram.PreviewImageURL(childComplexity), true
+		return e.complexity.Diagram.PreviewContentHash(childComplexity), true
 
 	case "Diagram.source":
 		if e.complexity.Diagram.Source == nil {
@@ -1289,6 +1251,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DiagramContent.DiagramID(childComplexity), true
 
+	case "DiagramImage.assetId":
+		if e.complexity.DiagramImage.AssetID == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.AssetID(childComplexity), true
+
 	case "DiagramImage.createdAt":
 		if e.complexity.DiagramImage.CreatedAt == nil {
 			break
@@ -1317,13 +1286,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DiagramImage.DiagramImageID(childComplexity), true
 
-	case "DiagramImage.fileId":
-		if e.complexity.DiagramImage.FileID == nil {
-			break
-		}
-
-		return e.complexity.DiagramImage.FileID(childComplexity), true
-
 	case "DiagramImage.fileName":
 		if e.complexity.DiagramImage.FileName == nil {
 			break
@@ -1331,33 +1293,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DiagramImage.FileName(childComplexity), true
 
-	case "DiagramImage.fileURL":
-		if e.complexity.DiagramImage.FileURL == nil {
-			break
-		}
-
-		return e.complexity.DiagramImage.FileURL(childComplexity), true
-
 	case "DiagramImage.order":
 		if e.complexity.DiagramImage.Order == nil {
 			break
 		}
 
 		return e.complexity.DiagramImage.Order(childComplexity), true
-
-	case "DiagramThumbnail.fileId":
-		if e.complexity.DiagramThumbnail.FileID == nil {
-			break
-		}
-
-		return e.complexity.DiagramThumbnail.FileID(childComplexity), true
-
-	case "DiagramThumbnail.fileUploadURL":
-		if e.complexity.DiagramThumbnail.FileUploadURL == nil {
-			break
-		}
-
-		return e.complexity.DiagramThumbnail.FileUploadURL(childComplexity), true
 
 	case "DiagramVersion.contentHash":
 		if e.complexity.DiagramVersion.ContentHash == nil {
@@ -1877,26 +1818,19 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Frame.ParentFrameID(childComplexity), true
 
+	case "Frame.screenshotAssetId":
+		if e.complexity.Frame.ScreenshotAssetID == nil {
+			break
+		}
+
+		return e.complexity.Frame.ScreenshotAssetID(childComplexity), true
+
 	case "Frame.screenshotContentHash":
 		if e.complexity.Frame.ScreenshotContentHash == nil {
 			break
 		}
 
 		return e.complexity.Frame.ScreenshotContentHash(childComplexity), true
-
-	case "Frame.screenshotKey":
-		if e.complexity.Frame.ScreenshotKey == nil {
-			break
-		}
-
-		return e.complexity.Frame.ScreenshotKey(childComplexity), true
-
-	case "Frame.screenshotUrl":
-		if e.complexity.Frame.ScreenshotURL == nil {
-			break
-		}
-
-		return e.complexity.Frame.ScreenshotURL(childComplexity), true
 
 	case "Frame.source":
 		if e.complexity.Frame.Source == nil {
@@ -2469,18 +2403,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateDiagram(childComplexity, args["orgId"].(string), args["input"].(model.CreateDiagramInput)), true
 
-	case "Mutation.createDiagramImage":
-		if e.complexity.Mutation.CreateDiagramImage == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDiagramImage_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateDiagramImage(childComplexity, args["orgId"].(string), args["diagramId"].(string), args["input"].(model.CreateDiagramImageInput)), true
-
 	case "Mutation.createDiagramVersion":
 		if e.complexity.Mutation.CreateDiagramVersion == nil {
 			break
@@ -3027,18 +2949,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateDiagram(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateDiagramInput)), true
-
-	case "Mutation.updateDiagramThumbnail":
-		if e.complexity.Mutation.UpdateDiagramThumbnail == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateDiagramThumbnail_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateDiagramThumbnail(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateDiagramThumbnailInput)), true
 
 	case "Mutation.updateFocalPoint":
 		if e.complexity.Mutation.UpdateFocalPoint == nil {
@@ -4653,7 +4563,6 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputAddMemberInput,
 		ec.unmarshalInputCreateAPIEndpointInput,
 		ec.unmarshalInputCreateAPIGroupInput,
-		ec.unmarshalInputCreateDiagramImageInput,
 		ec.unmarshalInputCreateDiagramInput,
 		ec.unmarshalInputCreateFocalPointInput,
 		ec.unmarshalInputCreateFocalPointMetaInput,
@@ -4676,7 +4585,6 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateAPIEndpointInput,
 		ec.unmarshalInputUpdateAPIGroupInput,
 		ec.unmarshalInputUpdateDiagramInput,
-		ec.unmarshalInputUpdateDiagramThumbnailInput,
 		ec.unmarshalInputUpdateFocalPointInput,
 		ec.unmarshalInputUpdateFocalPointMetaInput,
 		ec.unmarshalInputUpdateFolderInput,
@@ -5228,8 +5136,6 @@ extend type Mutation {
     syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
     createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
     restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
-    updateDiagramThumbnail(orgId: ID!, id: ID!, input: UpdateDiagramThumbnailInput!): DiagramThumbnail!
-    createDiagramImage(orgId: ID!, diagramId: ID!, input: CreateDiagramImageInput!): CreateDiagramImageResult!
 
     createMap(orgId: ID!, input: CreateMapInput!):                    UIMap!
     updateMap(orgId: ID!, id: ID!, input: UpdateMapInput!):           UIMap!
@@ -5281,18 +5187,13 @@ type Diagram {
     name:               String!
     contentKey:         String!
     contentHash:        String!
-    previewImageFileId: String
-    previewImageUrl:    String
+    previewAssetId:     String
+    previewContentHash: String
     source:             String
     createdBy:          ID!
     updatedBy:          ID
     createdAt:          Time!
     updatedAt:          Time!
-}
-
-type DiagramThumbnail {
-    fileId:        String!
-    fileUploadURL: String!
 }
 
 type FlowDiagramComponentField {
@@ -5328,18 +5229,11 @@ type FlowDiagramComponents {
 type DiagramImage {
     diagramImageId: String!
     diagramId:      String!
-    fileId:         String!
-    fileURL:        String
+    assetId:        String!
     fileName:       String
     order:          Int!
     createdBy:      ID!
     createdAt:      Time!
-}
-
-type CreateDiagramImageResult {
-    diagramImageId: String!
-    fileId:         String!
-    fileUploadURL:  String!
 }
 
 type DiagramContent {
@@ -5388,9 +5282,8 @@ type Frame {
     name:                 String!
     description:          String!
     templateType:         String!
-    screenshotKey:        String
+    screenshotAssetId:    String
     screenshotContentHash: String
-    screenshotUrl:        String
     status:               String!
     order:                Float!
     source:               String
@@ -5468,16 +5361,6 @@ input SyncDiagramInput {
     folderId:  ID
     teamId:    ID
     source:    String
-}
-
-input UpdateDiagramThumbnailInput {
-    fileName:    String
-    contentType: String
-}
-
-input CreateDiagramImageInput {
-    fileName: String
-    order:    Int
 }
 
 input CreateMapInput {
@@ -6155,80 +6038,6 @@ func (ec *executionContext) field_Mutation_createAPIGroup_argsInput(
 	}
 
 	var zeroVal model.CreateAPIGroupInput
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_createDiagramImage_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createDiagramImage_argsOrgID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["orgId"] = arg0
-	arg1, err := ec.field_Mutation_createDiagramImage_argsDiagramID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["diagramId"] = arg1
-	arg2, err := ec.field_Mutation_createDiagramImage_argsInput(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg2
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_createDiagramImage_argsOrgID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["orgId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
-	if tmp, ok := rawArgs["orgId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_createDiagramImage_argsDiagramID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["diagramId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("diagramId"))
-	if tmp, ok := rawArgs["diagramId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_createDiagramImage_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CreateDiagramImageInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CreateDiagramImageInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateDiagramImageInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageInput(ctx, tmp)
-	}
-
-	var zeroVal model.CreateDiagramImageInput
 	return zeroVal, nil
 }
 
@@ -9145,80 +8954,6 @@ func (ec *executionContext) field_Mutation_updateAPIGroup_argsInput(
 	}
 
 	var zeroVal model.UpdateAPIGroupInput
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDiagramThumbnail_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateDiagramThumbnail_argsOrgID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["orgId"] = arg0
-	arg1, err := ec.field_Mutation_updateDiagramThumbnail_argsID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["id"] = arg1
-	arg2, err := ec.field_Mutation_updateDiagramThumbnail_argsInput(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg2
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateDiagramThumbnail_argsOrgID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["orgId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
-	if tmp, ok := rawArgs["orgId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDiagramThumbnail_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateDiagramThumbnail_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.UpdateDiagramThumbnailInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.UpdateDiagramThumbnailInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateDiagramThumbnailInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateDiagramThumbnailInput(ctx, tmp)
-	}
-
-	var zeroVal model.UpdateDiagramThumbnailInput
 	return zeroVal, nil
 }
 
@@ -14795,138 +14530,6 @@ func (ec *executionContext) fieldContext_Canvas_updatedAt(_ context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _CreateDiagramImageResult_diagramImageId(ctx context.Context, field graphql.CollectedField, obj *model.CreateDiagramImageResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CreateDiagramImageResult_diagramImageId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DiagramImageID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CreateDiagramImageResult_diagramImageId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CreateDiagramImageResult",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CreateDiagramImageResult_fileId(ctx context.Context, field graphql.CollectedField, obj *model.CreateDiagramImageResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CreateDiagramImageResult_fileId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FileID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CreateDiagramImageResult_fileId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CreateDiagramImageResult",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CreateDiagramImageResult_fileUploadURL(ctx context.Context, field graphql.CollectedField, obj *model.CreateDiagramImageResult) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CreateDiagramImageResult_fileUploadURL(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FileUploadURL, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CreateDiagramImageResult_fileUploadURL(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CreateDiagramImageResult",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _CreatedToken_id(ctx context.Context, field graphql.CollectedField, obj *model.CreatedToken) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_CreatedToken_id(ctx, field)
 	if err != nil {
@@ -15493,8 +15096,8 @@ func (ec *executionContext) fieldContext_Diagram_contentHash(_ context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Diagram_previewImageFileId(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Diagram_previewImageFileId(ctx, field)
+func (ec *executionContext) _Diagram_previewAssetId(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_previewAssetId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -15507,7 +15110,7 @@ func (ec *executionContext) _Diagram_previewImageFileId(ctx context.Context, fie
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.PreviewImageFileID, nil
+		return obj.PreviewAssetID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -15521,7 +15124,7 @@ func (ec *executionContext) _Diagram_previewImageFileId(ctx context.Context, fie
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Diagram_previewImageFileId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Diagram_previewAssetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Diagram",
 		Field:      field,
@@ -15534,8 +15137,8 @@ func (ec *executionContext) fieldContext_Diagram_previewImageFileId(_ context.Co
 	return fc, nil
 }
 
-func (ec *executionContext) _Diagram_previewImageUrl(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+func (ec *executionContext) _Diagram_previewContentHash(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_previewContentHash(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -15548,7 +15151,7 @@ func (ec *executionContext) _Diagram_previewImageUrl(ctx context.Context, field 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.PreviewImageURL, nil
+		return obj.PreviewContentHash, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -15562,7 +15165,7 @@ func (ec *executionContext) _Diagram_previewImageUrl(ctx context.Context, field 
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Diagram_previewImageUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Diagram_previewContentHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Diagram",
 		Field:      field,
@@ -15965,8 +15568,8 @@ func (ec *executionContext) fieldContext_DiagramImage_diagramId(_ context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _DiagramImage_fileId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DiagramImage_fileId(ctx, field)
+func (ec *executionContext) _DiagramImage_assetId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_assetId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -15979,7 +15582,7 @@ func (ec *executionContext) _DiagramImage_fileId(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.FileID, nil
+		return obj.AssetID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -15996,48 +15599,7 @@ func (ec *executionContext) _DiagramImage_fileId(ctx context.Context, field grap
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_DiagramImage_fileId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DiagramImage",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DiagramImage_fileURL(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DiagramImage_fileURL(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FileURL, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DiagramImage_fileURL(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_DiagramImage_assetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "DiagramImage",
 		Field:      field,
@@ -16218,94 +15780,6 @@ func (ec *executionContext) fieldContext_DiagramImage_createdAt(_ context.Contex
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DiagramThumbnail_fileId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramThumbnail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DiagramThumbnail_fileId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FileID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DiagramThumbnail_fileId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DiagramThumbnail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DiagramThumbnail_fileUploadURL(ctx context.Context, field graphql.CollectedField, obj *model.DiagramThumbnail) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DiagramThumbnail_fileUploadURL(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FileUploadURL, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DiagramThumbnail_fileUploadURL(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DiagramThumbnail",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -19514,8 +18988,8 @@ func (ec *executionContext) fieldContext_Frame_templateType(_ context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _Frame_screenshotKey(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Frame_screenshotKey(ctx, field)
+func (ec *executionContext) _Frame_screenshotAssetId(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -19528,7 +19002,7 @@ func (ec *executionContext) _Frame_screenshotKey(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ScreenshotKey, nil
+		return obj.ScreenshotAssetID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -19542,7 +19016,7 @@ func (ec *executionContext) _Frame_screenshotKey(ctx context.Context, field grap
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Frame_screenshotKey(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Frame_screenshotAssetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Frame",
 		Field:      field,
@@ -19584,47 +19058,6 @@ func (ec *executionContext) _Frame_screenshotContentHash(ctx context.Context, fi
 }
 
 func (ec *executionContext) fieldContext_Frame_screenshotContentHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Frame",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Frame_screenshotUrl(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Frame_screenshotUrl(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ScreenshotURL, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Frame_screenshotUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Frame",
 		Field:      field,
@@ -24584,10 +24017,10 @@ func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewImageFileId":
-				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -24669,10 +24102,10 @@ func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewImageFileId":
-				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -24949,10 +24382,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewImageFileId":
-				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -24975,130 +24408,6 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_restoreDiagramVersion_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateDiagramThumbnail(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateDiagramThumbnail(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDiagramThumbnail(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateDiagramThumbnailInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.DiagramThumbnail)
-	fc.Result = res
-	return ec.marshalNDiagramThumbnail2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramThumbnail(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateDiagramThumbnail(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "fileId":
-				return ec.fieldContext_DiagramThumbnail_fileId(ctx, field)
-			case "fileUploadURL":
-				return ec.fieldContext_DiagramThumbnail_fileUploadURL(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type DiagramThumbnail", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateDiagramThumbnail_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createDiagramImage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createDiagramImage(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDiagramImage(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string), fc.Args["input"].(model.CreateDiagramImageInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.CreateDiagramImageResult)
-	fc.Result = res
-	return ec.marshalNCreateDiagramImageResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageResult(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createDiagramImage(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "diagramImageId":
-				return ec.fieldContext_CreateDiagramImageResult_diagramImageId(ctx, field)
-			case "fileId":
-				return ec.fieldContext_CreateDiagramImageResult_fileId(ctx, field)
-			case "fileUploadURL":
-				return ec.fieldContext_CreateDiagramImageResult_fileUploadURL(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CreateDiagramImageResult", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createDiagramImage_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -25371,12 +24680,10 @@ func (ec *executionContext) fieldContext_Mutation_createFrame(ctx context.Contex
 				return ec.fieldContext_Frame_description(ctx, field)
 			case "templateType":
 				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotKey":
-				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
-			case "screenshotUrl":
-				return ec.fieldContext_Frame_screenshotUrl(ctx, field)
 			case "status":
 				return ec.fieldContext_Frame_status(ctx, field)
 			case "order":
@@ -25462,12 +24769,10 @@ func (ec *executionContext) fieldContext_Mutation_updateFrame(ctx context.Contex
 				return ec.fieldContext_Frame_description(ctx, field)
 			case "templateType":
 				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotKey":
-				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
-			case "screenshotUrl":
-				return ec.fieldContext_Frame_screenshotUrl(ctx, field)
 			case "status":
 				return ec.fieldContext_Frame_status(ctx, field)
 			case "order":
@@ -30386,10 +29691,10 @@ func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, fie
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewImageFileId":
-				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -30471,10 +29776,10 @@ func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, fiel
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewImageFileId":
-				return ec.fieldContext_Diagram_previewImageFileId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -30806,10 +30111,8 @@ func (ec *executionContext) fieldContext_Query_diagramImages(ctx context.Context
 				return ec.fieldContext_DiagramImage_diagramImageId(ctx, field)
 			case "diagramId":
 				return ec.fieldContext_DiagramImage_diagramId(ctx, field)
-			case "fileId":
-				return ec.fieldContext_DiagramImage_fileId(ctx, field)
-			case "fileURL":
-				return ec.fieldContext_DiagramImage_fileURL(ctx, field)
+			case "assetId":
+				return ec.fieldContext_DiagramImage_assetId(ctx, field)
 			case "fileName":
 				return ec.fieldContext_DiagramImage_fileName(ctx, field)
 			case "order":
@@ -31047,12 +30350,10 @@ func (ec *executionContext) fieldContext_Query_frames(ctx context.Context, field
 				return ec.fieldContext_Frame_description(ctx, field)
 			case "templateType":
 				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotKey":
-				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
-			case "screenshotUrl":
-				return ec.fieldContext_Frame_screenshotUrl(ctx, field)
 			case "status":
 				return ec.fieldContext_Frame_status(ctx, field)
 			case "order":
@@ -31138,12 +30439,10 @@ func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field 
 				return ec.fieldContext_Frame_description(ctx, field)
 			case "templateType":
 				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotKey":
-				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
-			case "screenshotUrl":
-				return ec.fieldContext_Frame_screenshotUrl(ctx, field)
 			case "status":
 				return ec.fieldContext_Frame_status(ctx, field)
 			case "order":
@@ -31229,12 +30528,10 @@ func (ec *executionContext) fieldContext_Query_frameById(ctx context.Context, fi
 				return ec.fieldContext_Frame_description(ctx, field)
 			case "templateType":
 				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotKey":
-				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
-			case "screenshotUrl":
-				return ec.fieldContext_Frame_screenshotUrl(ctx, field)
 			case "status":
 				return ec.fieldContext_Frame_status(ctx, field)
 			case "order":
@@ -39026,40 +38323,6 @@ func (ec *executionContext) unmarshalInputCreateAPIGroupInput(ctx context.Contex
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputCreateDiagramImageInput(ctx context.Context, obj any) (model.CreateDiagramImageInput, error) {
-	var it model.CreateDiagramImageInput
-	asMap := map[string]any{}
-	for k, v := range obj.(map[string]any) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"fileName", "order"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "fileName":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileName"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.FileName = data
-		case "order":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Order = data
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputCreateDiagramInput(ctx context.Context, obj any) (model.CreateDiagramInput, error) {
 	var it model.CreateDiagramInput
 	asMap := map[string]any{}
@@ -40306,40 +39569,6 @@ func (ec *executionContext) unmarshalInputUpdateDiagramInput(ctx context.Context
 				return it, err
 			}
 			it.Source = data
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputUpdateDiagramThumbnailInput(ctx context.Context, obj any) (model.UpdateDiagramThumbnailInput, error) {
-	var it model.UpdateDiagramThumbnailInput
-	asMap := map[string]any{}
-	for k, v := range obj.(map[string]any) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"fileName", "contentType"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "fileName":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileName"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.FileName = data
-		case "contentType":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contentType"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ContentType = data
 		}
 	}
 
@@ -41769,55 +40998,6 @@ func (ec *executionContext) _Canvas(ctx context.Context, sel ast.SelectionSet, o
 	return out
 }
 
-var createDiagramImageResultImplementors = []string{"CreateDiagramImageResult"}
-
-func (ec *executionContext) _CreateDiagramImageResult(ctx context.Context, sel ast.SelectionSet, obj *model.CreateDiagramImageResult) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, createDiagramImageResultImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("CreateDiagramImageResult")
-		case "diagramImageId":
-			out.Values[i] = ec._CreateDiagramImageResult_diagramImageId(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "fileId":
-			out.Values[i] = ec._CreateDiagramImageResult_fileId(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "fileUploadURL":
-			out.Values[i] = ec._CreateDiagramImageResult_fileUploadURL(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
 var createdTokenImplementors = []string{"CreatedToken"}
 
 func (ec *executionContext) _CreatedToken(ctx context.Context, sel ast.SelectionSet, obj *model.CreatedToken) graphql.Marshaler {
@@ -41922,10 +41102,10 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "previewImageFileId":
-			out.Values[i] = ec._Diagram_previewImageFileId(ctx, field, obj)
-		case "previewImageUrl":
-			out.Values[i] = ec._Diagram_previewImageUrl(ctx, field, obj)
+		case "previewAssetId":
+			out.Values[i] = ec._Diagram_previewAssetId(ctx, field, obj)
+		case "previewContentHash":
+			out.Values[i] = ec._Diagram_previewContentHash(ctx, field, obj)
 		case "source":
 			out.Values[i] = ec._Diagram_source(ctx, field, obj)
 		case "createdBy":
@@ -42033,13 +41213,11 @@ func (ec *executionContext) _DiagramImage(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "fileId":
-			out.Values[i] = ec._DiagramImage_fileId(ctx, field, obj)
+		case "assetId":
+			out.Values[i] = ec._DiagramImage_assetId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "fileURL":
-			out.Values[i] = ec._DiagramImage_fileURL(ctx, field, obj)
 		case "fileName":
 			out.Values[i] = ec._DiagramImage_fileName(ctx, field, obj)
 		case "order":
@@ -42054,50 +41232,6 @@ func (ec *executionContext) _DiagramImage(ctx context.Context, sel ast.Selection
 			}
 		case "createdAt":
 			out.Values[i] = ec._DiagramImage_createdAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
-var diagramThumbnailImplementors = []string{"DiagramThumbnail"}
-
-func (ec *executionContext) _DiagramThumbnail(ctx context.Context, sel ast.SelectionSet, obj *model.DiagramThumbnail) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, diagramThumbnailImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DiagramThumbnail")
-		case "fileId":
-			out.Values[i] = ec._DiagramThumbnail_fileId(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "fileUploadURL":
-			out.Values[i] = ec._DiagramThumbnail_fileUploadURL(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -42700,12 +41834,10 @@ func (ec *executionContext) _Frame(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "screenshotKey":
-			out.Values[i] = ec._Frame_screenshotKey(ctx, field, obj)
+		case "screenshotAssetId":
+			out.Values[i] = ec._Frame_screenshotAssetId(ctx, field, obj)
 		case "screenshotContentHash":
 			out.Values[i] = ec._Frame_screenshotContentHash(ctx, field, obj)
-		case "screenshotUrl":
-			out.Values[i] = ec._Frame_screenshotUrl(ctx, field, obj)
 		case "status":
 			out.Values[i] = ec._Frame_status(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -43512,20 +42644,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "restoreDiagramVersion":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_restoreDiagramVersion(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "updateDiagramThumbnail":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateDiagramThumbnail(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createDiagramImage":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createDiagramImage(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -46493,25 +45611,6 @@ func (ec *executionContext) unmarshalNCreateAPIGroupInput2githubᚗcomᚋuigraph
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateDiagramImageInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageInput(ctx context.Context, v any) (model.CreateDiagramImageInput, error) {
-	res, err := ec.unmarshalInputCreateDiagramImageInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNCreateDiagramImageResult2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageResult(ctx context.Context, sel ast.SelectionSet, v model.CreateDiagramImageResult) graphql.Marshaler {
-	return ec._CreateDiagramImageResult(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNCreateDiagramImageResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramImageResult(ctx context.Context, sel ast.SelectionSet, v *model.CreateDiagramImageResult) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._CreateDiagramImageResult(ctx, sel, v)
-}
-
 func (ec *executionContext) unmarshalNCreateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramInput(ctx context.Context, v any) (model.CreateDiagramInput, error) {
 	res, err := ec.unmarshalInputCreateDiagramInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -46730,20 +45829,6 @@ func (ec *executionContext) marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgra
 		return graphql.Null
 	}
 	return ec._DiagramImage(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDiagramThumbnail2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramThumbnail(ctx context.Context, sel ast.SelectionSet, v model.DiagramThumbnail) graphql.Marshaler {
-	return ec._DiagramThumbnail(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDiagramThumbnail2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramThumbnail(ctx context.Context, sel ast.SelectionSet, v *model.DiagramThumbnail) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._DiagramThumbnail(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNDiagramVersion2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramVersion(ctx context.Context, sel ast.SelectionSet, v model.DiagramVersion) graphql.Marshaler {
@@ -48146,11 +47231,6 @@ func (ec *executionContext) unmarshalNUpdateDiagramInput2githubᚗcomᚋuigraph�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateDiagramThumbnailInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateDiagramThumbnailInput(ctx context.Context, v any) (model.UpdateDiagramThumbnailInput, error) {
-	res, err := ec.unmarshalInputUpdateDiagramThumbnailInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) unmarshalNUpdateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFocalPointInput(ctx context.Context, v any) (model.UpdateFocalPointInput, error) {
 	res, err := ec.unmarshalInputUpdateFocalPointInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -48604,24 +47684,6 @@ func (ec *executionContext) marshalOID2ᚖstring(ctx context.Context, sel ast.Se
 	_ = sel
 	_ = ctx
 	res := graphql.MarshalID(*v)
-	return res
-}
-
-func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v any) (*int, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := graphql.UnmarshalInt(v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.SelectionSet, v *int) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	_ = sel
-	_ = ctx
-	res := graphql.MarshalInt(*v)
 	return res
 }
 

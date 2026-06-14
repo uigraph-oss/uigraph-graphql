@@ -112,7 +112,7 @@ func diagramToModel(d *client.Diagram) *model.Diagram {
 	return &model.Diagram{
 		ID: d.ID, OrgID: d.OrgID, FolderID: d.FolderID, TeamID: d.TeamID,
 		Name: d.Name, ContentKey: d.ContentKey, ContentHash: d.ContentHash,
-		PreviewImageFileID: d.PreviewImageFileID, PreviewImageURL: d.PreviewImageURL,
+		PreviewAssetID: d.PreviewAssetID, PreviewContentHash: d.PreviewContentHash,
 		Source: d.Source, CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy,
 		CreatedAt: d.CreatedAt, UpdatedAt: d.UpdatedAt,
 	}
@@ -163,7 +163,7 @@ func flowComponentsToModel(components []client.FlowDiagramComponent) []*model.Fl
 func diagramImageToModel(img client.DiagramImage) *model.DiagramImage {
 	return &model.DiagramImage{
 		DiagramImageID: img.DiagramImageID, DiagramID: img.DiagramID,
-		FileID: img.FileID, FileURL: img.FileURL, FileName: img.FileName,
+		AssetID: img.AssetID, FileName: img.FileName,
 		Order: img.Order, CreatedBy: img.CreatedBy, CreatedAt: img.CreatedAt,
 	}
 }
@@ -188,8 +188,7 @@ func frameToModel(f *client.Frame) *model.Frame {
 	return &model.Frame{
 		ID: f.ID, MapID: f.MapID, OrgID: f.OrgID, ParentFrameID: f.ParentFrameID,
 		Name: f.Name, Description: f.Description, TemplateType: f.TemplateType,
-		ScreenshotKey: f.ScreenshotKey, ScreenshotContentHash: f.ScreenshotContentHash,
-		ScreenshotURL: f.ScreenshotURL,
+		ScreenshotAssetID: f.ScreenshotAssetID, ScreenshotContentHash: f.ScreenshotContentHash,
 		Status: f.Status, Order: f.Order, Source: f.Source,
 		CreatedBy: f.CreatedBy, UpdatedBy: f.UpdatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
 	}

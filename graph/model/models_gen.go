@@ -91,17 +91,6 @@ type CreateAPIGroupInput struct {
 	Spec     *string `json:"spec,omitempty"`
 }
 
-type CreateDiagramImageInput struct {
-	FileName *string `json:"fileName,omitempty"`
-	Order    *int    `json:"order,omitempty"`
-}
-
-type CreateDiagramImageResult struct {
-	DiagramImageID string `json:"diagramImageId"`
-	FileID         string `json:"fileId"`
-	FileUploadURL  string `json:"fileUploadURL"`
-}
-
 type CreateDiagramInput struct {
 	Name     string  `json:"name"`
 	Content  string  `json:"content"`
@@ -246,8 +235,8 @@ type Diagram struct {
 	Name               string    `json:"name"`
 	ContentKey         string    `json:"contentKey"`
 	ContentHash        string    `json:"contentHash"`
-	PreviewImageFileID *string   `json:"previewImageFileId,omitempty"`
-	PreviewImageURL    *string   `json:"previewImageUrl,omitempty"`
+	PreviewAssetID     *string   `json:"previewAssetId,omitempty"`
+	PreviewContentHash *string   `json:"previewContentHash,omitempty"`
 	Source             *string   `json:"source,omitempty"`
 	CreatedBy          string    `json:"createdBy"`
 	UpdatedBy          *string   `json:"updatedBy,omitempty"`
@@ -263,17 +252,11 @@ type DiagramContent struct {
 type DiagramImage struct {
 	DiagramImageID string    `json:"diagramImageId"`
 	DiagramID      string    `json:"diagramId"`
-	FileID         string    `json:"fileId"`
-	FileURL        *string   `json:"fileURL,omitempty"`
+	AssetID        string    `json:"assetId"`
 	FileName       *string   `json:"fileName,omitempty"`
 	Order          int       `json:"order"`
 	CreatedBy      string    `json:"createdBy"`
 	CreatedAt      time.Time `json:"createdAt"`
-}
-
-type DiagramThumbnail struct {
-	FileID        string `json:"fileId"`
-	FileUploadURL string `json:"fileUploadURL"`
 }
 
 type DiagramVersion struct {
@@ -370,9 +353,8 @@ type Frame struct {
 	Name                  string    `json:"name"`
 	Description           string    `json:"description"`
 	TemplateType          string    `json:"templateType"`
-	ScreenshotKey         *string   `json:"screenshotKey,omitempty"`
+	ScreenshotAssetID     *string   `json:"screenshotAssetId,omitempty"`
 	ScreenshotContentHash *string   `json:"screenshotContentHash,omitempty"`
-	ScreenshotURL         *string   `json:"screenshotUrl,omitempty"`
 	Status                string    `json:"status"`
 	Order                 float64   `json:"order"`
 	Source                *string   `json:"source,omitempty"`
@@ -690,11 +672,6 @@ type UpdateDiagramInput struct {
 	FolderID *string `json:"folderId,omitempty"`
 	TeamID   *string `json:"teamId,omitempty"`
 	Source   *string `json:"source,omitempty"`
-}
-
-type UpdateDiagramThumbnailInput struct {
-	FileName    *string `json:"fileName,omitempty"`
-	ContentType *string `json:"contentType,omitempty"`
 }
 
 type UpdateFocalPointInput struct {

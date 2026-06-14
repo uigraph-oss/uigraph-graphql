@@ -214,8 +214,8 @@ type Diagram struct {
 	Name               string     `json:"name"`
 	ContentKey         string     `json:"contentKey"`
 	ContentHash        string     `json:"contentHash"`
-	PreviewImageFileID *string    `json:"previewImageFileId,omitempty"`
-	PreviewImageURL    *string    `json:"previewImageUrl,omitempty"`
+	PreviewAssetID     *string    `json:"previewAssetId,omitempty"`
+	PreviewContentHash *string    `json:"previewContentHash,omitempty"`
 	Source             *string    `json:"source,omitempty"`
 	CreatedBy          string     `json:"createdBy"`
 	UpdatedBy          *string    `json:"updatedBy,omitempty"`
@@ -258,9 +258,8 @@ type DiagramImage struct {
 	DiagramImageID string    `json:"diagramImageId"`
 	DiagramID      string    `json:"diagramId"`
 	OrgID          string    `json:"orgId"`
-	FileID         string    `json:"fileId"`
+	AssetID        string    `json:"assetId"`
 	FileName       *string   `json:"fileName,omitempty"`
-	FileURL        *string   `json:"fileURL,omitempty"`
 	Order          int       `json:"order"`
 	CreatedBy      string    `json:"createdBy"`
 	CreatedAt      time.Time `json:"createdAt"`
@@ -302,9 +301,8 @@ type Frame struct {
 	Name                  string     `json:"name"`
 	Description           string     `json:"description"`
 	TemplateType          string     `json:"templateType"`
-	ScreenshotKey         *string    `json:"screenshotKey,omitempty"`
+	ScreenshotAssetID     *string    `json:"screenshotAssetId,omitempty"`
 	ScreenshotContentHash *string    `json:"screenshotContentHash,omitempty"`
-	ScreenshotURL         *string    `json:"screenshotUrl,omitempty"`
 	Status                string     `json:"status"`
 	Order                 float64    `json:"order"`
 	Source                *string    `json:"source,omitempty"`
