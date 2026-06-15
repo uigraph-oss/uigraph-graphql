@@ -55,9 +55,67 @@ type APIGroupVersion struct {
 	CreatedAt     time.Time `json:"createdAt"`
 }
 
+type APITestCase struct {
+	HTTPMethod         string       `json:"httpMethod"`
+	APISpecID          *string      `json:"apiSpecId,omitempty"`
+	OperationID        *string      `json:"operationId,omitempty"`
+	Auth               *AuthConfig  `json:"auth,omitempty"`
+	RequestHeaders     []*KeyValue  `json:"requestHeaders,omitempty"`
+	QueryParams        []*KeyValue  `json:"queryParams,omitempty"`
+	RequestBody        *string      `json:"requestBody,omitempty"`
+	ExpectedStatusCode *int         `json:"expectedStatusCode,omitempty"`
+	MaxResponseTimeMs  *int         `json:"maxResponseTimeMs,omitempty"`
+	ResponseBody       *string      `json:"responseBody,omitempty"`
+	Assertions         []*Assertion `json:"assertions,omitempty"`
+}
+
+type APITestCaseInput struct {
+	HTTPMethod         string            `json:"httpMethod"`
+	APISpecID          *string           `json:"apiSpecId,omitempty"`
+	OperationID        *string           `json:"operationId,omitempty"`
+	Auth               *AuthConfigInput  `json:"auth,omitempty"`
+	RequestHeaders     []*KeyValueInput  `json:"requestHeaders,omitempty"`
+	QueryParams        []*KeyValueInput  `json:"queryParams,omitempty"`
+	RequestBody        *string           `json:"requestBody,omitempty"`
+	ExpectedStatusCode *int              `json:"expectedStatusCode,omitempty"`
+	MaxResponseTimeMs  *int              `json:"maxResponseTimeMs,omitempty"`
+	ResponseBody       *string           `json:"responseBody,omitempty"`
+	Assertions         []*AssertionInput `json:"assertions,omitempty"`
+}
+
 type AddMemberInput struct {
 	UserID string `json:"userId"`
 	Role   string `json:"role"`
+}
+
+type Assertion struct {
+	Field string `json:"field"`
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}
+
+type AssertionInput struct {
+	Field string `json:"field"`
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}
+
+type AuthConfig struct {
+	Type          string  `json:"type"`
+	BearerToken   *string `json:"bearerToken,omitempty"`
+	APIKeyHeader  *string `json:"apiKeyHeader,omitempty"`
+	APIKeyValue   *string `json:"apiKeyValue,omitempty"`
+	BasicUsername *string `json:"basicUsername,omitempty"`
+	BasicPassword *string `json:"basicPassword,omitempty"`
+}
+
+type AuthConfigInput struct {
+	Type          string  `json:"type"`
+	BearerToken   *string `json:"bearerToken,omitempty"`
+	APIKeyHeader  *string `json:"apiKeyHeader,omitempty"`
+	APIKeyValue   *string `json:"apiKeyValue,omitempty"`
+	BasicUsername *string `json:"basicUsername,omitempty"`
+	BasicPassword *string `json:"basicPassword,omitempty"`
 }
 
 type Canvas struct {
@@ -214,6 +272,42 @@ type CreateServiceAccountInput struct {
 	Role        string  `json:"role"`
 }
 
+type CreateServiceDBInput struct {
+	DbName     string     `json:"dbName"`
+	DbType     *string    `json:"dbType,omitempty"`
+	Dialect    *string    `json:"dialect,omitempty"`
+	SchemaJSON *string    `json:"schemaJson,omitempty"`
+	Source     *string    `json:"source,omitempty"`
+	SourceTs   *time.Time `json:"sourceTs,omitempty"`
+}
+
+type CreateServiceDBVersionInput struct {
+	Label         *string    `json:"label,omitempty"`
+	IsAutoVersion *bool      `json:"isAutoVersion,omitempty"`
+	DbName        *string    `json:"dbName,omitempty"`
+	DbType        *string    `json:"dbType,omitempty"`
+	Dialect       *string    `json:"dialect,omitempty"`
+	SchemaJSON    *string    `json:"schemaJson,omitempty"`
+	Source        *string    `json:"source,omitempty"`
+	SourceTs      *time.Time `json:"sourceTs,omitempty"`
+}
+
+type CreateServiceDiagramInput struct {
+	DiagramID *string `json:"diagramId,omitempty"`
+	Name      *string `json:"name,omitempty"`
+	Content   *string `json:"content,omitempty"`
+	FolderID  *string `json:"folderId,omitempty"`
+	TeamID    *string `json:"teamId,omitempty"`
+	Source    *string `json:"source,omitempty"`
+}
+
+type CreateServiceDocInput struct {
+	FileName      string  `json:"fileName"`
+	FileType      *string `json:"fileType,omitempty"`
+	Description   *string `json:"description,omitempty"`
+	ContentBase64 string  `json:"contentBase64"`
+}
+
 type CreateServiceInput struct {
 	Name            string   `json:"name"`
 	Slug            *string  `json:"slug,omitempty"`
@@ -236,6 +330,59 @@ type CreateTeamInput struct {
 	Email *string `json:"email,omitempty"`
 }
 
+type CreateTestCaseInput struct {
+	TestPackID            string                 `json:"testPackId"`
+	Title                 string                 `json:"title"`
+	Order                 *float64               `json:"order,omitempty"`
+	Type                  string                 `json:"type"`
+	Description           *string                `json:"description,omitempty"`
+	Priority              *string                `json:"priority,omitempty"`
+	Labels                []string               `json:"labels,omitempty"`
+	LinkedTicket          *string                `json:"linkedTicket,omitempty"`
+	EstimatedDurationMins *int                   `json:"estimatedDurationMins,omitempty"`
+	TestOwner             *string                `json:"testOwner,omitempty"`
+	LinkedMapNodeID       *string                `json:"linkedMapNodeId,omitempty"`
+	IsCritical            *bool                  `json:"isCritical,omitempty"`
+	EvidenceRequired      *bool                  `json:"evidenceRequired,omitempty"`
+	Manual                *ManualTestCaseInput   `json:"manual,omitempty"`
+	API                   *APITestCaseInput      `json:"api,omitempty"`
+	Graphql               *GraphQLTestCaseInput  `json:"graphql,omitempty"`
+	Database              *DatabaseTestCaseInput `json:"database,omitempty"`
+	Grpc                  *GRPCTestCaseInput     `json:"grpc,omitempty"`
+	Status                *string                `json:"status,omitempty"`
+	Version               *int                   `json:"version,omitempty"`
+	BaselineRunResultID   *string                `json:"baselineRunResultId,omitempty"`
+	Dependencies          []string               `json:"dependencies,omitempty"`
+}
+
+type CreateTestPackInput struct {
+	Name string  `json:"name"`
+	Type *string `json:"type,omitempty"`
+}
+
+type CreateTestRunInput struct {
+	TestPackID    string     `json:"testPackId"`
+	Environment   string     `json:"environment"`
+	ReleaseLabel  *string    `json:"releaseLabel,omitempty"`
+	StartedAt     *time.Time `json:"startedAt,omitempty"`
+	CompletedAt   *time.Time `json:"completedAt,omitempty"`
+	Status        *string    `json:"status,omitempty"`
+	StartedBy     *string    `json:"startedBy,omitempty"`
+	OverallStatus *string    `json:"overallStatus,omitempty"`
+}
+
+type CreateTestRunResultInput struct {
+	TestRunID      string   `json:"testRunId"`
+	TestCaseID     string   `json:"testCaseId"`
+	Status         string   `json:"status"`
+	BlockedReason  *string  `json:"blockedReason,omitempty"`
+	ResponseStatus *int     `json:"responseStatus,omitempty"`
+	ResponseBody   *string  `json:"responseBody,omitempty"`
+	ResponseTimeMs *int     `json:"responseTimeMs,omitempty"`
+	Notes          *string  `json:"notes,omitempty"`
+	ScreenshotUrls []string `json:"screenshotUrls,omitempty"`
+}
+
 type CreateTokenInput struct {
 	Name      string  `json:"name"`
 	ExpiresAt *string `json:"expiresAt,omitempty"`
@@ -255,6 +402,24 @@ type CreatedToken struct {
 	Prefix           string    `json:"prefix"`
 	Token            string    `json:"token"`
 	CreatedAt        time.Time `json:"createdAt"`
+}
+
+type DatabaseTestCase struct {
+	Dialect       string       `json:"dialect"`
+	SchemaID      *string      `json:"schemaId,omitempty"`
+	Query         string       `json:"query"`
+	Assertions    []*Assertion `json:"assertions,omitempty"`
+	SetupQuery    *string      `json:"setupQuery,omitempty"`
+	TeardownQuery *string      `json:"teardownQuery,omitempty"`
+}
+
+type DatabaseTestCaseInput struct {
+	Dialect       string            `json:"dialect"`
+	SchemaID      *string           `json:"schemaId,omitempty"`
+	Query         string            `json:"query"`
+	Assertions    []*AssertionInput `json:"assertions,omitempty"`
+	SetupQuery    *string           `json:"setupQuery,omitempty"`
+	TeardownQuery *string           `json:"teardownQuery,omitempty"`
 }
 
 type Diagram struct {
@@ -430,6 +595,58 @@ type FrameLink struct {
 	UpdatedAt     time.Time `json:"updatedAt"`
 }
 
+type GRPCTestCase struct {
+	ServiceName    string       `json:"serviceName"`
+	MethodName     string       `json:"methodName"`
+	CallMode       string       `json:"callMode"`
+	ProtoFileID    *string      `json:"protoFileId,omitempty"`
+	ServerAddress  *string      `json:"serverAddress,omitempty"`
+	RequestMessage *string      `json:"requestMessage,omitempty"`
+	Metadata       []*KeyValue  `json:"metadata,omitempty"`
+	ExpectedStatus string       `json:"expectedStatus"`
+	DeadlineMs     *int         `json:"deadlineMs,omitempty"`
+	ResponseBody   *string      `json:"responseBody,omitempty"`
+	Assertions     []*Assertion `json:"assertions,omitempty"`
+	UseTLS         bool         `json:"useTLS"`
+	ExpectError    bool         `json:"expectError"`
+}
+
+type GRPCTestCaseInput struct {
+	ServiceName    string            `json:"serviceName"`
+	MethodName     string            `json:"methodName"`
+	CallMode       string            `json:"callMode"`
+	ProtoFileID    *string           `json:"protoFileId,omitempty"`
+	ServerAddress  *string           `json:"serverAddress,omitempty"`
+	RequestMessage *string           `json:"requestMessage,omitempty"`
+	Metadata       []*KeyValueInput  `json:"metadata,omitempty"`
+	ExpectedStatus string            `json:"expectedStatus"`
+	DeadlineMs     *int              `json:"deadlineMs,omitempty"`
+	ResponseBody   *string           `json:"responseBody,omitempty"`
+	Assertions     []*AssertionInput `json:"assertions,omitempty"`
+	UseTLS         bool              `json:"useTLS"`
+	ExpectError    bool              `json:"expectError"`
+}
+
+type GraphQLTestCase struct {
+	OperationType string       `json:"operationType"`
+	OperationName *string      `json:"operationName,omitempty"`
+	Query         string       `json:"query"`
+	Variables     *string      `json:"variables,omitempty"`
+	ResponseBody  *string      `json:"responseBody,omitempty"`
+	Assertions    []*Assertion `json:"assertions,omitempty"`
+	ExpectError   bool         `json:"expectError"`
+}
+
+type GraphQLTestCaseInput struct {
+	OperationType string            `json:"operationType"`
+	OperationName *string           `json:"operationName,omitempty"`
+	Query         string            `json:"query"`
+	Variables     *string           `json:"variables,omitempty"`
+	ResponseBody  *string           `json:"responseBody,omitempty"`
+	Assertions    []*AssertionInput `json:"assertions,omitempty"`
+	ExpectError   bool              `json:"expectError"`
+}
+
 type Invitation struct {
 	ID        string     `json:"id"`
 	OrgID     string     `json:"orgId"`
@@ -439,6 +656,16 @@ type Invitation struct {
 	CreatedBy string     `json:"createdBy"`
 	CreatedAt time.Time  `json:"createdAt"`
 	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
+}
+
+type KeyValue struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+type KeyValueInput struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 type LDAPConfig struct {
@@ -459,6 +686,22 @@ type LDAPConfig struct {
 	AllowSignUp       bool      `json:"allowSignUp"`
 	CreatedAt         time.Time `json:"createdAt"`
 	UpdatedAt         time.Time `json:"updatedAt"`
+}
+
+type ManualTestCase struct {
+	Preconditions   *string         `json:"preconditions,omitempty"`
+	TestData        *string         `json:"testData,omitempty"`
+	Steps           []*TestCaseStep `json:"steps,omitempty"`
+	ExpectedOutcome *string         `json:"expectedOutcome,omitempty"`
+	Postconditions  *string         `json:"postconditions,omitempty"`
+}
+
+type ManualTestCaseInput struct {
+	Preconditions   *string              `json:"preconditions,omitempty"`
+	TestData        *string              `json:"testData,omitempty"`
+	Steps           []*TestCaseStepInput `json:"steps,omitempty"`
+	ExpectedOutcome *string              `json:"expectedOutcome,omitempty"`
+	Postconditions  *string              `json:"postconditions,omitempty"`
 }
 
 type Me struct {
@@ -603,6 +846,70 @@ type ServiceAccountToken struct {
 	CreatedAt        time.Time  `json:"createdAt"`
 }
 
+type ServiceDb struct {
+	ID         string     `json:"id"`
+	ServiceID  string     `json:"serviceId"`
+	OrgID      string     `json:"orgId"`
+	DbName     string     `json:"dbName"`
+	DbType     string     `json:"dbType"`
+	Dialect    string     `json:"dialect"`
+	SchemaJSON string     `json:"schemaJson"`
+	Source     *string    `json:"source,omitempty"`
+	SourceTs   *time.Time `json:"sourceTs,omitempty"`
+	CreatedBy  string     `json:"createdBy"`
+	UpdatedBy  *string    `json:"updatedBy,omitempty"`
+	CreatedAt  time.Time  `json:"createdAt"`
+	UpdatedAt  time.Time  `json:"updatedAt"`
+}
+
+type ServiceDBVersion struct {
+	ID            string     `json:"id"`
+	ServiceDbID   string     `json:"serviceDbId"`
+	VersionNumber int        `json:"versionNumber"`
+	Label         *string    `json:"label,omitempty"`
+	SchemaJSON    string     `json:"schemaJson"`
+	Source        *string    `json:"source,omitempty"`
+	SourceTs      *time.Time `json:"sourceTs,omitempty"`
+	IsAutoVersion bool       `json:"isAutoVersion"`
+	CreatedBy     string     `json:"createdBy"`
+	CreatedAt     time.Time  `json:"createdAt"`
+}
+
+type ServiceDiagram struct {
+	ServiceID string    `json:"serviceId"`
+	DiagramID string    `json:"diagramId"`
+	OrgID     string    `json:"orgId"`
+	CreatedBy string    `json:"createdBy"`
+	UpdatedBy *string   `json:"updatedBy,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	Diagram   *Diagram  `json:"diagram,omitempty"`
+}
+
+type ServiceDoc struct {
+	ID          string    `json:"id"`
+	ServiceID   string    `json:"serviceId"`
+	OrgID       string    `json:"orgId"`
+	FileKey     string    `json:"fileKey"`
+	FileName    string    `json:"fileName"`
+	FileType    string    `json:"fileType"`
+	Description string    `json:"description"`
+	ContentHash string    `json:"contentHash"`
+	CreatedBy   string    `json:"createdBy"`
+	UpdatedBy   *string   `json:"updatedBy,omitempty"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+}
+
+type ServiceStats struct {
+	ServiceID     string `json:"serviceId"`
+	EndpointCount int    `json:"endpointCount"`
+	DiagramCount  int    `json:"diagramCount"`
+	DocCount      int    `json:"docCount"`
+	DbTableCount  int    `json:"dbTableCount"`
+	TestCaseCount int    `json:"testCaseCount"`
+}
+
 type SyncAPIGroupInput struct {
 	APIGroupID *string `json:"apiGroupId,omitempty"`
 	Name       string  `json:"name"`
@@ -660,6 +967,118 @@ type TeamMember struct {
 	UserID     string    `json:"userId"`
 	Permission string    `json:"permission"`
 	CreatedAt  time.Time `json:"createdAt"`
+}
+
+type TestCase struct {
+	TestCaseID            string            `json:"testCaseId"`
+	TestPackID            string            `json:"testPackId"`
+	ServiceID             string            `json:"serviceId"`
+	OrgID                 string            `json:"orgId"`
+	Title                 string            `json:"title"`
+	Order                 float64           `json:"order"`
+	Type                  string            `json:"type"`
+	Description           *string           `json:"description,omitempty"`
+	Priority              *string           `json:"priority,omitempty"`
+	Labels                []string          `json:"labels"`
+	LinkedTicket          *string           `json:"linkedTicket,omitempty"`
+	EstimatedDurationMins *int              `json:"estimatedDurationMins,omitempty"`
+	TestOwner             *string           `json:"testOwner,omitempty"`
+	LinkedMapNodeID       *string           `json:"linkedMapNodeId,omitempty"`
+	IsCritical            bool              `json:"isCritical"`
+	EvidenceRequired      bool              `json:"evidenceRequired"`
+	Manual                *ManualTestCase   `json:"manual,omitempty"`
+	API                   *APITestCase      `json:"api,omitempty"`
+	Graphql               *GraphQLTestCase  `json:"graphql,omitempty"`
+	Database              *DatabaseTestCase `json:"database,omitempty"`
+	Grpc                  *GRPCTestCase     `json:"grpc,omitempty"`
+	Status                string            `json:"status"`
+	Version               int               `json:"version"`
+	BaselineRunResultID   *string           `json:"baselineRunResultId,omitempty"`
+	Dependencies          []string          `json:"dependencies"`
+	CreatedBy             string            `json:"createdBy"`
+	UpdatedBy             *string           `json:"updatedBy,omitempty"`
+	DeletedBy             *string           `json:"deletedBy,omitempty"`
+	CreatedAt             time.Time         `json:"createdAt"`
+	UpdatedAt             time.Time         `json:"updatedAt"`
+	DeletedAt             *time.Time        `json:"deletedAt,omitempty"`
+}
+
+type TestCaseStep struct {
+	Order          int    `json:"order"`
+	Action         string `json:"action"`
+	ExpectedResult string `json:"expectedResult"`
+}
+
+type TestCaseStepInput struct {
+	Order          int    `json:"order"`
+	Action         string `json:"action"`
+	ExpectedResult string `json:"expectedResult"`
+}
+
+type TestPack struct {
+	TestPackID string     `json:"testPackId"`
+	ServiceID  string     `json:"serviceId"`
+	OrgID      string     `json:"orgId"`
+	Name       string     `json:"name"`
+	Type       string     `json:"type"`
+	CreatedBy  string     `json:"createdBy"`
+	UpdatedBy  *string    `json:"updatedBy,omitempty"`
+	DeletedBy  *string    `json:"deletedBy,omitempty"`
+	CreatedAt  time.Time  `json:"createdAt"`
+	UpdatedAt  time.Time  `json:"updatedAt"`
+	DeletedAt  *time.Time `json:"deletedAt,omitempty"`
+}
+
+type TestRun struct {
+	TestRunID     string     `json:"testRunId"`
+	TestPackID    string     `json:"testPackId"`
+	ServiceID     string     `json:"serviceId"`
+	OrgID         string     `json:"orgId"`
+	Environment   string     `json:"environment"`
+	ReleaseLabel  *string    `json:"releaseLabel,omitempty"`
+	StartedAt     *time.Time `json:"startedAt,omitempty"`
+	CompletedAt   *time.Time `json:"completedAt,omitempty"`
+	Status        string     `json:"status"`
+	StartedBy     *string    `json:"startedBy,omitempty"`
+	ExecutedBy    string     `json:"executedBy"`
+	ExecutedAt    time.Time  `json:"executedAt"`
+	OverallStatus string     `json:"overallStatus"`
+}
+
+type TestRunResult struct {
+	TestRunResultID string    `json:"testRunResultId"`
+	TestRunID       string    `json:"testRunId"`
+	TestCaseID      string    `json:"testCaseId"`
+	ServiceID       string    `json:"serviceId"`
+	OrgID           string    `json:"orgId"`
+	Status          string    `json:"status"`
+	BlockedReason   *string   `json:"blockedReason,omitempty"`
+	ResponseStatus  *int      `json:"responseStatus,omitempty"`
+	ResponseBody    *string   `json:"responseBody,omitempty"`
+	ResponseTimeMs  *int      `json:"responseTimeMs,omitempty"`
+	Notes           *string   `json:"notes,omitempty"`
+	ScreenshotUrls  []string  `json:"screenshotUrls"`
+	ExecutedAt      time.Time `json:"executedAt"`
+	ExecutedBy      string    `json:"executedBy"`
+}
+
+type TestRunSummary struct {
+	TestRunID     string     `json:"testRunId"`
+	TestPackID    string     `json:"testPackId"`
+	ServiceID     string     `json:"serviceId"`
+	Environment   string     `json:"environment"`
+	ReleaseLabel  *string    `json:"releaseLabel,omitempty"`
+	StartedAt     *time.Time `json:"startedAt,omitempty"`
+	CompletedAt   *time.Time `json:"completedAt,omitempty"`
+	Status        string     `json:"status"`
+	StartedBy     *string    `json:"startedBy,omitempty"`
+	ExecutedBy    string     `json:"executedBy"`
+	ExecutedAt    time.Time  `json:"executedAt"`
+	OverallStatus string     `json:"overallStatus"`
+	PassedCount   int        `json:"passedCount"`
+	FailedCount   int        `json:"failedCount"`
+	SkippedCount  int        `json:"skippedCount"`
+	BlockedCount  int        `json:"blockedCount"`
 }
 
 type UIMap struct {
@@ -777,6 +1196,22 @@ type UpdateServiceAccountInput struct {
 	Disabled    *bool   `json:"disabled,omitempty"`
 }
 
+type UpdateServiceDBInput struct {
+	DbName     *string    `json:"dbName,omitempty"`
+	DbType     *string    `json:"dbType,omitempty"`
+	Dialect    *string    `json:"dialect,omitempty"`
+	SchemaJSON *string    `json:"schemaJson,omitempty"`
+	Source     *string    `json:"source,omitempty"`
+	SourceTs   *time.Time `json:"sourceTs,omitempty"`
+}
+
+type UpdateServiceDocInput struct {
+	FileName      *string `json:"fileName,omitempty"`
+	FileType      *string `json:"fileType,omitempty"`
+	Description   *string `json:"description,omitempty"`
+	ContentBase64 *string `json:"contentBase64,omitempty"`
+}
+
 type UpdateServiceInput struct {
 	Name            *string  `json:"name,omitempty"`
 	Slug            *string  `json:"slug,omitempty"`
@@ -798,6 +1233,52 @@ type UpdateServiceInput struct {
 type UpdateTeamInput struct {
 	Name  *string `json:"name,omitempty"`
 	Email *string `json:"email,omitempty"`
+}
+
+type UpdateTestCaseInput struct {
+	TestPackID            *string                `json:"testPackId,omitempty"`
+	Title                 *string                `json:"title,omitempty"`
+	Order                 *float64               `json:"order,omitempty"`
+	Type                  *string                `json:"type,omitempty"`
+	Description           *string                `json:"description,omitempty"`
+	Priority              *string                `json:"priority,omitempty"`
+	Labels                []string               `json:"labels,omitempty"`
+	LinkedTicket          *string                `json:"linkedTicket,omitempty"`
+	EstimatedDurationMins *int                   `json:"estimatedDurationMins,omitempty"`
+	TestOwner             *string                `json:"testOwner,omitempty"`
+	LinkedMapNodeID       *string                `json:"linkedMapNodeId,omitempty"`
+	IsCritical            *bool                  `json:"isCritical,omitempty"`
+	EvidenceRequired      *bool                  `json:"evidenceRequired,omitempty"`
+	Manual                *ManualTestCaseInput   `json:"manual,omitempty"`
+	API                   *APITestCaseInput      `json:"api,omitempty"`
+	Graphql               *GraphQLTestCaseInput  `json:"graphql,omitempty"`
+	Database              *DatabaseTestCaseInput `json:"database,omitempty"`
+	Grpc                  *GRPCTestCaseInput     `json:"grpc,omitempty"`
+	Status                *string                `json:"status,omitempty"`
+	Version               *int                   `json:"version,omitempty"`
+	BaselineRunResultID   *string                `json:"baselineRunResultId,omitempty"`
+	Dependencies          []string               `json:"dependencies,omitempty"`
+}
+
+type UpdateTestPackInput struct {
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
+}
+
+type UpdateTestRunInput struct {
+	OverallStatus *string    `json:"overallStatus,omitempty"`
+	CompletedAt   *time.Time `json:"completedAt,omitempty"`
+	Status        *string    `json:"status,omitempty"`
+}
+
+type UpdateTestRunResultInput struct {
+	Status         *string  `json:"status,omitempty"`
+	BlockedReason  *string  `json:"blockedReason,omitempty"`
+	ResponseStatus *int     `json:"responseStatus,omitempty"`
+	ResponseBody   *string  `json:"responseBody,omitempty"`
+	ResponseTimeMs *int     `json:"responseTimeMs,omitempty"`
+	Notes          *string  `json:"notes,omitempty"`
+	ScreenshotUrls []string `json:"screenshotUrls,omitempty"`
 }
 
 type UpdateUserInput struct {
