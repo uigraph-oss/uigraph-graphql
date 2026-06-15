@@ -103,7 +103,7 @@ func createdTokenToModel(t *client.CreatedToken) *model.CreatedToken {
 
 func folderToModel(f *client.Folder) *model.Folder {
 	return &model.Folder{
-		ID: f.ID, OrgID: f.OrgID, ParentID: f.ParentID, Type: f.Type,
+		ID: f.ID, OrgID: f.OrgID, ParentID: f.ParentID, TeamID: f.TeamID, Type: f.Type,
 		Name: f.Name, Order: f.Order, CreatedBy: f.CreatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
 	}
 }
@@ -156,6 +156,39 @@ func flowComponentsToModel(components []client.FlowDiagramComponent) []*model.Fl
 	out := make([]*model.FlowDiagramComponent, len(components))
 	for i, c := range components {
 		out[i] = flowComponentToModel(c)
+	}
+	return out
+}
+
+func componentFieldToModel(f client.ComponentField) *model.ComponentField {
+	return &model.ComponentField{
+		ComponentFieldID: f.ComponentFieldID,
+		Label:            f.Label,
+		Type:             f.Type,
+		Required:         f.Required,
+		Readonly:         f.Readonly,
+		Options:          f.Options,
+		Order:            f.Order,
+	}
+}
+
+func componentToModel(c client.Component) *model.Component {
+	fields := make([]*model.ComponentField, len(c.ComponentFields))
+	for i, f := range c.ComponentFields {
+		fields[i] = componentFieldToModel(f)
+	}
+	return &model.Component{
+		ComponentID: c.ComponentID, Type: c.Type, Name: c.Name,
+		Description: c.Description, Category: c.Category, Tags: c.Tags,
+		Slug: c.Slug, PreviewImageJpg: c.PreviewImageJpg, IsActive: c.IsActive,
+		Order: c.Order, ComponentFields: fields,
+	}
+}
+
+func componentsToModel(components []client.Component) []*model.Component {
+	out := make([]*model.Component, len(components))
+	for i, c := range components {
+		out[i] = componentToModel(c)
 	}
 	return out
 }
