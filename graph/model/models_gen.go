@@ -70,6 +70,35 @@ type Canvas struct {
 	UpdatedAt      time.Time `json:"updatedAt"`
 }
 
+type Component struct {
+	ComponentID     string            `json:"componentId"`
+	Type            string            `json:"type"`
+	Name            string            `json:"name"`
+	Description     string            `json:"description"`
+	Category        string            `json:"category"`
+	Tags            []string          `json:"tags"`
+	Slug            string            `json:"slug"`
+	PreviewImageJpg string            `json:"previewImageJpg"`
+	IsActive        bool              `json:"isActive"`
+	Order           int               `json:"order"`
+	ComponentFields []*ComponentField `json:"componentFields"`
+}
+
+type ComponentField struct {
+	ComponentFieldID string   `json:"componentFieldId"`
+	Label            string   `json:"label"`
+	Type             string   `json:"type"`
+	Required         bool     `json:"required"`
+	Readonly         *bool    `json:"readonly,omitempty"`
+	Options          []string `json:"options,omitempty"`
+	Order            int      `json:"order"`
+}
+
+type Components struct {
+	Components       []*Component `json:"components"`
+	CustomComponents []*Component `json:"customComponents"`
+}
+
 type CreateAPIEndpointInput struct {
 	OperationID *string  `json:"operationId,omitempty"`
 	Method      string   `json:"method"`
@@ -119,6 +148,7 @@ type CreateFolderInput struct {
 	Name     string   `json:"name"`
 	Type     string   `json:"type"`
 	ParentID *string  `json:"parentId,omitempty"`
+	TeamID   *string  `json:"teamId,omitempty"`
 	Order    *float64 `json:"order,omitempty"`
 }
 
@@ -337,6 +367,7 @@ type Folder struct {
 	ID        string    `json:"id"`
 	OrgID     string    `json:"orgId"`
 	ParentID  *string   `json:"parentId,omitempty"`
+	TeamID    *string   `json:"teamId,omitempty"`
 	Type      string    `json:"type"`
 	Name      string    `json:"name"`
 	Order     float64   `json:"order"`
@@ -693,6 +724,7 @@ type UpdateFocalPointMetaInput struct {
 type UpdateFolderInput struct {
 	Name     *string  `json:"name,omitempty"`
 	ParentID *string  `json:"parentId,omitempty"`
+	TeamID   *string  `json:"teamId,omitempty"`
 	Order    *float64 `json:"order,omitempty"`
 }
 

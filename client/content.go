@@ -91,6 +91,11 @@ func (c *Client) ListFlowDiagramComponents(ctx context.Context, orgID string) (*
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/flow-diagram-components", orgID), &out)
 }
 
+func (c *Client) ListComponents(ctx context.Context, orgID string) (*Components, error) {
+	var out Components
+	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/components", orgID), &out)
+}
+
 func (c *Client) ListDiagramImages(ctx context.Context, orgID, diagramID string) ([]DiagramImage, error) {
 	var out struct {
 		Images []DiagramImage `json:"images"`

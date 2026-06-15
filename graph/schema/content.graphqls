@@ -7,6 +7,7 @@ extend type Query {
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
     diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
     flowDiagramComponents(orgId: ID!):                        FlowDiagramComponents!
+    components(orgId: ID!):                                   Components!
     diagramImages(orgId: ID!, diagramId: ID!):               [DiagramImage!]!
     maps(orgId: ID!, folderId: ID):                           [UIMap!]!
     map(orgId: ID!, id: ID!):                                 UIMap!
@@ -66,6 +67,7 @@ type Folder {
     id:        ID!
     orgId:     ID!
     parentId:  ID
+    teamId:    ID
     type:      String!
     name:      String!
     order:     Float!
@@ -119,6 +121,35 @@ type FlowDiagramComponent {
 type FlowDiagramComponents {
     components:       [FlowDiagramComponent!]!
     customComponents: [FlowDiagramComponent!]!
+}
+
+type ComponentField {
+    componentFieldId: String!
+    label:            String!
+    type:             String!
+    required:         Boolean!
+    readonly:         Boolean
+    options:          [String!]
+    order:            Int!
+}
+
+type Component {
+    componentId:     String!
+    type:            String!
+    name:            String!
+    description:     String!
+    category:        String!
+    tags:            [String!]!
+    slug:            String!
+    previewImageJpg: String!
+    isActive:        Boolean!
+    order:           Int!
+    componentFields: [ComponentField!]!
+}
+
+type Components {
+    components:       [Component!]!
+    customComponents: [Component!]!
 }
 
 type DiagramImage {
@@ -224,12 +255,14 @@ input CreateFolderInput {
     name:     String!
     type:     String!
     parentId: ID
+    teamId:   ID
     order:    Float
 }
 
 input UpdateFolderInput {
     name:     String
     parentId: ID
+    teamId:   ID
     order:    Float
 }
 
