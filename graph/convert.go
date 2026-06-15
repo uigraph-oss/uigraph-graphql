@@ -36,9 +36,9 @@ func rawArrStr(b json.RawMessage) string {
 
 func meToModel(m *client.MeResponse) *model.Me {
 	return &model.Me{
-		UserID: m.UserID, OrgID: m.OrgID,
-		Email: m.Email, Name: m.Name, Login: m.Login,
-		Kind: m.Kind, Role: m.Role, AuthProvider: m.AuthProvider,
+		UserID: m.UserID,
+		Email:  m.Email, Name: m.Name, Login: m.Login,
+		Role: m.Role, AuthProvider: m.AuthProvider,
 	}
 }
 

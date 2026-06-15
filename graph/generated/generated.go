@@ -321,10 +321,8 @@ type ComplexityRoot struct {
 	Me struct {
 		AuthProvider func(childComplexity int) int
 		Email        func(childComplexity int) int
-		Kind         func(childComplexity int) int
 		Login        func(childComplexity int) int
 		Name         func(childComplexity int) int
-		OrgID        func(childComplexity int) int
 		Role         func(childComplexity int) int
 		UserID       func(childComplexity int) int
 	}
@@ -2259,13 +2257,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Me.Email(childComplexity), true
 
-	case "Me.kind":
-		if e.complexity.Me.Kind == nil {
-			break
-		}
-
-		return e.complexity.Me.Kind(childComplexity), true
-
 	case "Me.login":
 		if e.complexity.Me.Login == nil {
 			break
@@ -2279,13 +2270,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Me.Name(childComplexity), true
-
-	case "Me.orgId":
-		if e.complexity.Me.OrgID == nil {
-			break
-		}
-
-		return e.complexity.Me.OrgID(childComplexity), true
 
 	case "Me.role":
 		if e.complexity.Me.Role == nil {
@@ -4894,11 +4878,9 @@ extend type Mutation {
 
 type Me {
     userId:       ID!
-    orgId:        ID!
     email:        String!
     name:         String!
     login:        String!
-    kind:         String!
     role:         String!
     authProvider: String!
 }
@@ -5428,8 +5410,6 @@ input UpsertCanvasInput {
     framePositions: String
 }
 
-# ── Frame groups ────────────────────────────────────────────────────────────────
-
 type FrameGroup {
     id:          ID!
     frameId:     ID!
@@ -5470,8 +5450,6 @@ input UpdateFrameGroupInput {
     isActive:    Boolean
 }
 
-# ── Frame links ─────────────────────────────────────────────────────────────────
-
 type FrameLink {
     id:            ID!
     frameId:       ID!
@@ -5509,9 +5487,6 @@ input UpdateFrameLinkInput {
     isActive:      Boolean
 }
 
-# ── Focal point meta ────────────────────────────────────────────────────────────
-
-# componentImages and componentModalFields are JSON-encoded strings.
 type FocalPointMeta {
     id:                   ID!
     focalPointId:         ID!
@@ -21777,50 +21752,6 @@ func (ec *executionContext) fieldContext_Me_userId(_ context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _Me_orgId(ctx context.Context, field graphql.CollectedField, obj *model.Me) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Me_orgId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OrgID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Me_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Me",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Me_email(ctx context.Context, field graphql.CollectedField, obj *model.Me) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Me_email(ctx, field)
 	if err != nil {
@@ -21941,50 +21872,6 @@ func (ec *executionContext) _Me_login(ctx context.Context, field graphql.Collect
 }
 
 func (ec *executionContext) fieldContext_Me_login(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Me",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Me_kind(ctx context.Context, field graphql.CollectedField, obj *model.Me) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Me_kind(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Kind, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Me_kind(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Me",
 		Field:      field,
@@ -28786,16 +28673,12 @@ func (ec *executionContext) fieldContext_Query_me(_ context.Context, field graph
 			switch field.Name {
 			case "userId":
 				return ec.fieldContext_Me_userId(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Me_orgId(ctx, field)
 			case "email":
 				return ec.fieldContext_Me_email(ctx, field)
 			case "name":
 				return ec.fieldContext_Me_name(ctx, field)
 			case "login":
 				return ec.fieldContext_Me_login(ctx, field)
-			case "kind":
-				return ec.fieldContext_Me_kind(ctx, field)
 			case "role":
 				return ec.fieldContext_Me_role(ctx, field)
 			case "authProvider":
@@ -42297,11 +42180,6 @@ func (ec *executionContext) _Me(ctx context.Context, sel ast.SelectionSet, obj *
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "orgId":
-			out.Values[i] = ec._Me_orgId(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "email":
 			out.Values[i] = ec._Me_email(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -42314,11 +42192,6 @@ func (ec *executionContext) _Me(ctx context.Context, sel ast.SelectionSet, obj *
 			}
 		case "login":
 			out.Values[i] = ec._Me_login(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "kind":
-			out.Values[i] = ec._Me_kind(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}

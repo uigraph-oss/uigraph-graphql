@@ -9,11 +9,9 @@ extend type Mutation {
 
 type Me {
     userId:       ID!
-    orgId:        ID!
     email:        String!
     name:         String!
     login:        String!
-    kind:         String!
     role:         String!
     authProvider: String!
 }

@@ -432,11 +432,9 @@ type LDAPConfig struct {
 
 type Me struct {
 	UserID       string `json:"userId"`
-	OrgID        string `json:"orgId"`
 	Email        string `json:"email"`
 	Name         string `json:"name"`
 	Login        string `json:"login"`
-	Kind         string `json:"kind"`
 	Role         string `json:"role"`
 	AuthProvider string `json:"authProvider"`
 }
