@@ -336,6 +336,11 @@ type ComplexityRoot struct {
 		UserID    func(childComplexity int) int
 	}
 
+	Membership struct {
+		JoinedAt func(childComplexity int) int
+		Role     func(childComplexity int) int
+	}
+
 	Mutation struct {
 		AddMember                 func(childComplexity int, orgID string, input model.AddMemberInput) int
 		AddTeamMember             func(childComplexity int, orgID string, teamID string, userID string, permission *string) int
@@ -438,11 +443,10 @@ type ComplexityRoot struct {
 	}
 
 	OrgSummary struct {
-		Active func(childComplexity int) int
-		ID     func(childComplexity int) int
-		Name   func(childComplexity int) int
-		Role   func(childComplexity int) int
-		Slug   func(childComplexity int) int
+		ID         func(childComplexity int) int
+		Membership func(childComplexity int) int
+		Name       func(childComplexity int) int
+		Slug       func(childComplexity int) int
 	}
 
 	Query struct {
@@ -2327,6 +2331,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Member.UserID(childComplexity), true
 
+	case "Membership.joinedAt":
+		if e.complexity.Membership.JoinedAt == nil {
+			break
+		}
+
+		return e.complexity.Membership.JoinedAt(childComplexity), true
+
+	case "Membership.role":
+		if e.complexity.Membership.Role == nil {
+			break
+		}
+
+		return e.complexity.Membership.Role(childComplexity), true
+
 	case "Mutation.addMember":
 		if e.complexity.Mutation.AddMember == nil {
 			break
@@ -3306,13 +3324,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Org.UpdatedAt(childComplexity), true
 
-	case "OrgSummary.active":
-		if e.complexity.OrgSummary.Active == nil {
-			break
-		}
-
-		return e.complexity.OrgSummary.Active(childComplexity), true
-
 	case "OrgSummary.id":
 		if e.complexity.OrgSummary.ID == nil {
 			break
@@ -3320,19 +3331,19 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.OrgSummary.ID(childComplexity), true
 
+	case "OrgSummary.membership":
+		if e.complexity.OrgSummary.Membership == nil {
+			break
+		}
+
+		return e.complexity.OrgSummary.Membership(childComplexity), true
+
 	case "OrgSummary.name":
 		if e.complexity.OrgSummary.Name == nil {
 			break
 		}
 
 		return e.complexity.OrgSummary.Name(childComplexity), true
-
-	case "OrgSummary.role":
-		if e.complexity.OrgSummary.Role == nil {
-			break
-		}
-
-		return e.complexity.OrgSummary.Role(childComplexity), true
 
 	case "OrgSummary.slug":
 		if e.complexity.OrgSummary.Slug == nil {
@@ -4885,12 +4896,18 @@ type Me {
     authProvider: String!
 }
 
+# An org the caller belongs to, with their membership in it.
 type OrgSummary {
-    id:     ID!
-    name:   String!
-    slug:   String!
-    role:   String!
-    active: Boolean!
+    id:         ID!
+    name:       String!
+    slug:       String!
+    membership: Membership!
+}
+
+# The caller's membership details within an org.
+type Membership {
+    role:     String!
+    joinedAt: Time!
 }
 `, BuiltIn: false},
 	{Name: "../schema/catalog.graphqls", Input: `extend type Query {
@@ -22236,6 +22253,94 @@ func (ec *executionContext) fieldContext_Member_updatedAt(_ context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _Membership_role(ctx context.Context, field graphql.CollectedField, obj *model.Membership) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Membership_role(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Role, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Membership_role(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Membership",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Membership_joinedAt(ctx context.Context, field graphql.CollectedField, obj *model.Membership) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Membership_joinedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.JoinedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Membership_joinedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Membership",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createUser(ctx, field)
 	if err != nil {
@@ -28105,8 +28210,8 @@ func (ec *executionContext) fieldContext_OrgSummary_slug(_ context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _OrgSummary_role(ctx context.Context, field graphql.CollectedField, obj *model.OrgSummary) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_OrgSummary_role(ctx, field)
+func (ec *executionContext) _OrgSummary_membership(ctx context.Context, field graphql.CollectedField, obj *model.OrgSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OrgSummary_membership(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -28119,7 +28224,7 @@ func (ec *executionContext) _OrgSummary_role(ctx context.Context, field graphql.
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Role, nil
+		return obj.Membership, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -28131,63 +28236,25 @@ func (ec *executionContext) _OrgSummary_role(ctx context.Context, field graphql.
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*model.Membership)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNMembership2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMembership(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_OrgSummary_role(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OrgSummary_membership(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "OrgSummary",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _OrgSummary_active(ctx context.Context, field graphql.CollectedField, obj *model.OrgSummary) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_OrgSummary_active(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Active, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_OrgSummary_active(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "OrgSummary",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
+			switch field.Name {
+			case "role":
+				return ec.fieldContext_Membership_role(ctx, field)
+			case "joinedAt":
+				return ec.fieldContext_Membership_joinedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Membership", field.Name)
 		},
 	}
 	return fc, nil
@@ -28735,10 +28802,8 @@ func (ec *executionContext) fieldContext_Query_myOrgs(_ context.Context, field g
 				return ec.fieldContext_OrgSummary_name(ctx, field)
 			case "slug":
 				return ec.fieldContext_OrgSummary_slug(ctx, field)
-			case "role":
-				return ec.fieldContext_OrgSummary_role(ctx, field)
-			case "active":
-				return ec.fieldContext_OrgSummary_active(ctx, field)
+			case "membership":
+				return ec.fieldContext_OrgSummary_membership(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type OrgSummary", field.Name)
 		},
@@ -42292,6 +42357,50 @@ func (ec *executionContext) _Member(ctx context.Context, sel ast.SelectionSet, o
 	return out
 }
 
+var membershipImplementors = []string{"Membership"}
+
+func (ec *executionContext) _Membership(ctx context.Context, sel ast.SelectionSet, obj *model.Membership) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, membershipImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Membership")
+		case "role":
+			out.Values[i] = ec._Membership_role(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "joinedAt":
+			out.Values[i] = ec._Membership_joinedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var mutationImplementors = []string{"Mutation"}
 
 func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -43024,13 +43133,8 @@ func (ec *executionContext) _OrgSummary(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "role":
-			out.Values[i] = ec._OrgSummary_role(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "active":
-			out.Values[i] = ec._OrgSummary_active(ctx, field, obj)
+		case "membership":
+			out.Values[i] = ec._OrgSummary_membership(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -46408,6 +46512,16 @@ func (ec *executionContext) marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 		return graphql.Null
 	}
 	return ec._Member(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMembership2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMembership(ctx context.Context, sel ast.SelectionSet, v *model.Membership) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Membership(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNOAuthProvider2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOAuthProviderᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OAuthProvider) graphql.Marshaler {

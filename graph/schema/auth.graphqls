@@ -16,10 +16,16 @@ type Me {
     authProvider: String!
 }
 
+# An org the caller belongs to, with their membership in it.
 type OrgSummary {
-    id:     ID!
-    name:   String!
-    slug:   String!
-    role:   String!
-    active: Boolean!
+    id:         ID!
+    name:       String!
+    slug:       String!
+    membership: Membership!
+}
+
+# The caller's membership details within an org.
+type Membership {
+    role:     String!
+    joinedAt: Time!
 }

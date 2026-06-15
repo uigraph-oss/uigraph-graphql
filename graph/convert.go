@@ -43,7 +43,14 @@ func meToModel(m *client.MeResponse) *model.Me {
 }
 
 func orgSummaryToModel(o client.OrgSummary) *model.OrgSummary {
-	return &model.OrgSummary{ID: o.ID, Name: o.Name, Slug: o.Slug, Role: o.Role, Active: o.Active}
+	return &model.OrgSummary{
+		ID: o.ID, Name: o.Name, Slug: o.Slug,
+		Membership: membershipToModel(o.Membership),
+	}
+}
+
+func membershipToModel(m client.Membership) *model.Membership {
+	return &model.Membership{Role: m.Role, JoinedAt: m.JoinedAt}
 }
 
 // ── Org ───────────────────────────────────────────────────────────────────────

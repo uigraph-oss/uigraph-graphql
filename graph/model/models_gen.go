@@ -448,6 +448,11 @@ type Member struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
+type Membership struct {
+	Role     string    `json:"role"`
+	JoinedAt time.Time `json:"joinedAt"`
+}
+
 type Mutation struct {
 }
 
@@ -482,11 +487,10 @@ type Org struct {
 }
 
 type OrgSummary struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Slug   string `json:"slug"`
-	Role   string `json:"role"`
-	Active bool   `json:"active"`
+	ID         string      `json:"id"`
+	Name       string      `json:"name"`
+	Slug       string      `json:"slug"`
+	Membership *Membership `json:"membership"`
 }
 
 type Query struct {
