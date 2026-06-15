@@ -86,6 +86,18 @@ func (c *Client) DeleteDiagram(ctx context.Context, orgID, id string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s", orgID, id))
 }
 
+func (c *Client) ListFlowDiagramComponents(ctx context.Context, orgID string) (*FlowComponents, error) {
+	var out FlowComponents
+	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/flow-diagram-components", orgID), &out)
+}
+
+func (c *Client) ListDiagramImages(ctx context.Context, orgID, diagramID string) ([]DiagramImage, error) {
+	var out struct {
+		Images []DiagramImage `json:"images"`
+	}
+	return out.Images, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/images", orgID, diagramID), &out)
+}
+
 func (c *Client) SyncDiagram(ctx context.Context, orgID string, body map[string]interface{}) (map[string]interface{}, error) {
 	var out map[string]interface{}
 	return out, c.post(ctx, "/api/v1/orgs/"+orgID+"/diagrams/sync", body, &out)
@@ -162,6 +174,11 @@ func (c *Client) GetFrame(ctx context.Context, orgID, mapID, id string) (*Frame,
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s", orgID, mapID, id), &out)
 }
 
+func (c *Client) GetFrameByID(ctx context.Context, orgID, id string) (*Frame, error) {
+	var out Frame
+	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/frames/%s", orgID, id), &out)
+}
+
 func (c *Client) CreateFrame(ctx context.Context, orgID, mapID string, body map[string]interface{}) (*Frame, error) {
 	var out Frame
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames", orgID, mapID), body, &out)
@@ -219,6 +236,75 @@ func (c *Client) GetCanvas(ctx context.Context, orgID, mapID string) (*Canvas, e
 func (c *Client) UpsertCanvas(ctx context.Context, orgID, mapID string, body map[string]interface{}) (*Canvas, error) {
 	var out Canvas
 	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/canvas", orgID, mapID), body, &out)
+}
+
+// ── Frame Groups ────────────────────────────────────────────────────────────────
+
+func (c *Client) ListFrameGroups(ctx context.Context, orgID, mapID, frameID string) ([]FrameGroup, error) {
+	var out struct {
+		Groups []FrameGroup `json:"groups"`
+	}
+	return out.Groups, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/groups", orgID, mapID, frameID), &out)
+}
+
+func (c *Client) CreateFrameGroup(ctx context.Context, orgID, mapID, frameID string, body map[string]interface{}) (*FrameGroup, error) {
+	var out FrameGroup
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/groups", orgID, mapID, frameID), body, &out)
+}
+
+func (c *Client) UpdateFrameGroup(ctx context.Context, orgID, mapID, frameID, id string, body map[string]interface{}) (*FrameGroup, error) {
+	var out FrameGroup
+	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/groups/%s", orgID, mapID, frameID, id), body, &out)
+}
+
+func (c *Client) DeleteFrameGroup(ctx context.Context, orgID, mapID, frameID, id string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/groups/%s", orgID, mapID, frameID, id))
+}
+
+// ── Frame Links ─────────────────────────────────────────────────────────────────
+
+func (c *Client) ListFrameLinks(ctx context.Context, orgID, mapID, frameID string) ([]FrameLink, error) {
+	var out struct {
+		Links []FrameLink `json:"links"`
+	}
+	return out.Links, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/links", orgID, mapID, frameID), &out)
+}
+
+func (c *Client) CreateFrameLink(ctx context.Context, orgID, mapID, frameID string, body map[string]interface{}) (*FrameLink, error) {
+	var out FrameLink
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/links", orgID, mapID, frameID), body, &out)
+}
+
+func (c *Client) UpdateFrameLink(ctx context.Context, orgID, mapID, frameID, id string, body map[string]interface{}) (*FrameLink, error) {
+	var out FrameLink
+	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/links/%s", orgID, mapID, frameID, id), body, &out)
+}
+
+func (c *Client) DeleteFrameLink(ctx context.Context, orgID, mapID, frameID, id string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/links/%s", orgID, mapID, frameID, id))
+}
+
+// ── Focal Point Meta ────────────────────────────────────────────────────────────
+
+func (c *Client) ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string) ([]FocalPointMeta, error) {
+	var out struct {
+		Meta []FocalPointMeta `json:"meta"`
+	}
+	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta", orgID, mapID, frameID, fpID), &out)
+}
+
+func (c *Client) CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*FocalPointMeta, error) {
+	var out FocalPointMeta
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta", orgID, mapID, frameID, fpID), body, &out)
+}
+
+func (c *Client) UpdateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string, body map[string]interface{}) (*FocalPointMeta, error) {
+	var out FocalPointMeta
+	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta/%s", orgID, mapID, frameID, fpID, id), body, &out)
+}
+
+func (c *Client) DeleteFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta/%s", orgID, mapID, frameID, fpID, id))
 }
 
 // rawJSON returns the JSON string of a raw message, defaulting to "{}".

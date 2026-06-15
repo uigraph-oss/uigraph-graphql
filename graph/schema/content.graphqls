@@ -6,12 +6,18 @@ extend type Query {
     diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
     diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
+    flowDiagramComponents(orgId: ID!):                        FlowDiagramComponents!
+    diagramImages(orgId: ID!, diagramId: ID!):               [DiagramImage!]!
     maps(orgId: ID!, folderId: ID):                           [UIMap!]!
     map(orgId: ID!, id: ID!):                                 UIMap!
     frames(orgId: ID!, mapId: ID!):                           [Frame!]!
     frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
+    frameById(orgId: ID!, id: ID!):                           Frame!
     focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
     canvas(orgId: ID!, mapId: ID!):                           Canvas!
+    frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
+    frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
+    focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
 }
 
 extend type Mutation {
@@ -40,6 +46,18 @@ extend type Mutation {
     deleteFocalPoint(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!):  Boolean!
 
     upsertCanvas(orgId: ID!, mapId: ID!, input: UpsertCanvasInput!):  Canvas!
+
+    createFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFrameGroupInput!): FrameGroup!
+    updateFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFrameGroupInput!): FrameGroup!
+    deleteFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!): Boolean!
+
+    createFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFrameLinkInput!): FrameLink!
+    updateFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFrameLinkInput!): FrameLink!
+    deleteFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!): Boolean!
+
+    createFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, input: CreateFocalPointMetaInput!): FocalPointMeta!
+    updateFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!, input: UpdateFocalPointMetaInput!): FocalPointMeta!
+    deleteFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!): Boolean!
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────
@@ -57,18 +75,60 @@ type Folder {
 }
 
 type Diagram {
-    id:          ID!
-    orgId:       ID!
-    folderId:    ID
-    teamId:      ID
-    name:        String!
-    contentKey:  String!
-    contentHash: String!
-    source:      String
-    createdBy:   ID!
-    updatedBy:   ID
-    createdAt:   Time!
-    updatedAt:   Time!
+    id:                 ID!
+    orgId:              ID!
+    folderId:           ID
+    teamId:             ID
+    name:               String!
+    contentKey:         String!
+    contentHash:        String!
+    previewAssetId:     String
+    previewContentHash: String
+    source:             String
+    createdBy:          ID!
+    updatedBy:          ID
+    createdAt:          Time!
+    updatedAt:          Time!
+}
+
+type FlowDiagramComponentField {
+    flowDiagramComponentFieldId: String!
+    label:                       String!
+    type:                        String!
+    required:                    Boolean!
+    readonly:                    Boolean
+    options:                     [String!]
+    order:                       Int!
+}
+
+type FlowDiagramComponent {
+    componentId:                String!
+    type:                       String!
+    name:                       String!
+    description:                String!
+    category:                   String!
+    tags:                       [String!]!
+    slug:                       String!
+    previewImageJpg:            String!
+    isActive:                   Boolean!
+    order:                      Int!
+    organizationId:             String
+    flowDiagramComponentFields: [FlowDiagramComponentField!]!
+}
+
+type FlowDiagramComponents {
+    components:       [FlowDiagramComponent!]!
+    customComponents: [FlowDiagramComponent!]!
+}
+
+type DiagramImage {
+    diagramImageId: String!
+    diagramId:      String!
+    assetId:        String!
+    fileName:       String
+    order:          Int!
+    createdBy:      ID!
+    createdAt:      Time!
 }
 
 type DiagramContent {
@@ -117,7 +177,7 @@ type Frame {
     name:                 String!
     description:          String!
     templateType:         String!
-    screenshotKey:        String
+    screenshotAssetId:    String
     screenshotContentHash: String
     status:               String!
     order:                Float!
@@ -261,4 +321,113 @@ input UpsertCanvasInput {
     navigationX:    Float
     navigationY:    Float
     framePositions: String
+}
+
+type FrameGroup {
+    id:          ID!
+    frameId:     ID!
+    orgId:       ID!
+    name:        String!
+    description: String!
+    locationX:   Float!
+    locationY:   Float!
+    width:       Float!
+    height:      Float!
+    order:       Float!
+    isActive:    Boolean!
+    createdBy:   ID!
+    updatedBy:   ID
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+input CreateFrameGroupInput {
+    name:        String!
+    description: String
+    locationX:   Float
+    locationY:   Float
+    width:       Float
+    height:      Float
+    order:       Float
+    isActive:    Boolean
+}
+
+input UpdateFrameGroupInput {
+    name:        String
+    description: String
+    locationX:   Float
+    locationY:   Float
+    width:       Float
+    height:      Float
+    order:       Float
+    isActive:    Boolean
+}
+
+type FrameLink {
+    id:            ID!
+    frameId:       ID!
+    orgId:         ID!
+    kind:          String!
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String!
+    locationX:     Float!
+    locationY:     Float!
+    isActive:      Boolean!
+    createdBy:     ID!
+    updatedBy:     ID
+    createdAt:     Time!
+    updatedAt:     Time!
+}
+
+input CreateFrameLinkInput {
+    kind:          String!
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String
+    locationX:     Float
+    locationY:     Float
+    isActive:      Boolean
+}
+
+input UpdateFrameLinkInput {
+    kind:          String
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String
+    locationX:     Float
+    locationY:     Float
+    isActive:      Boolean
+}
+
+type FocalPointMeta {
+    id:                   ID!
+    focalPointId:         ID!
+    orgId:                ID!
+    frameId:              ID!
+    componentId:          String!
+    componentLinkId:      String
+    componentImages:      String!
+    componentFlowDiagram: String
+    componentModalFields: String!
+    createdBy:            ID!
+    updatedBy:            ID
+    createdAt:            Time!
+    updatedAt:            Time!
+}
+
+input CreateFocalPointMetaInput {
+    componentId:          String!
+    componentLinkId:      String
+    componentImages:      String
+    componentFlowDiagram: String
+    componentModalFields: String
+}
+
+input UpdateFocalPointMetaInput {
+    componentId:          String
+    componentLinkId:      String
+    componentImages:      String
+    componentFlowDiagram: String
+    componentModalFields: String
 }

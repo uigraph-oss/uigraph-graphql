@@ -112,6 +112,7 @@ func diagramToModel(d *client.Diagram) *model.Diagram {
 	return &model.Diagram{
 		ID: d.ID, OrgID: d.OrgID, FolderID: d.FolderID, TeamID: d.TeamID,
 		Name: d.Name, ContentKey: d.ContentKey, ContentHash: d.ContentHash,
+		PreviewAssetID: d.PreviewAssetID, PreviewContentHash: d.PreviewContentHash,
 		Source: d.Source, CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy,
 		CreatedAt: d.CreatedAt, UpdatedAt: d.UpdatedAt,
 	}
@@ -123,6 +124,56 @@ func diagramVersionToModel(v client.DiagramVersion) *model.DiagramVersion {
 		Label: v.Label, ContentKey: v.ContentKey, ContentHash: v.ContentHash,
 		IsAutoVersion: v.IsAutoVersion, Source: v.Source, CreatedBy: v.CreatedBy, CreatedAt: v.CreatedAt,
 	}
+}
+
+func flowComponentFieldToModel(f client.FlowDiagramComponentField) *model.FlowDiagramComponentField {
+	return &model.FlowDiagramComponentField{
+		FlowDiagramComponentFieldID: f.FlowDiagramComponentFieldID,
+		Label:                       f.Label,
+		Type:                        f.Type,
+		Required:                    f.Required,
+		Readonly:                    f.Readonly,
+		Options:                     f.Options,
+		Order:                       f.Order,
+	}
+}
+
+func flowComponentToModel(c client.FlowDiagramComponent) *model.FlowDiagramComponent {
+	fields := make([]*model.FlowDiagramComponentField, len(c.FlowDiagramComponentFields))
+	for i, f := range c.FlowDiagramComponentFields {
+		fields[i] = flowComponentFieldToModel(f)
+	}
+	return &model.FlowDiagramComponent{
+		ComponentID: c.ComponentID, Type: c.Type, Name: c.Name,
+		Description: c.Description, Category: c.Category, Tags: c.Tags,
+		Slug: c.Slug, PreviewImageJpg: c.PreviewImageJpg, IsActive: c.IsActive,
+		Order: c.Order, OrganizationID: c.OrganizationID,
+		FlowDiagramComponentFields: fields,
+	}
+}
+
+func flowComponentsToModel(components []client.FlowDiagramComponent) []*model.FlowDiagramComponent {
+	out := make([]*model.FlowDiagramComponent, len(components))
+	for i, c := range components {
+		out[i] = flowComponentToModel(c)
+	}
+	return out
+}
+
+func diagramImageToModel(img client.DiagramImage) *model.DiagramImage {
+	return &model.DiagramImage{
+		DiagramImageID: img.DiagramImageID, DiagramID: img.DiagramID,
+		AssetID: img.AssetID, FileName: img.FileName,
+		Order: img.Order, CreatedBy: img.CreatedBy, CreatedAt: img.CreatedAt,
+	}
+}
+
+func diagramImagesToModel(images []client.DiagramImage) []*model.DiagramImage {
+	out := make([]*model.DiagramImage, len(images))
+	for i, img := range images {
+		out[i] = diagramImageToModel(img)
+	}
+	return out
 }
 
 func uimapToModel(m *client.UIMap) *model.UIMap {
@@ -137,7 +188,7 @@ func frameToModel(f *client.Frame) *model.Frame {
 	return &model.Frame{
 		ID: f.ID, MapID: f.MapID, OrgID: f.OrgID, ParentFrameID: f.ParentFrameID,
 		Name: f.Name, Description: f.Description, TemplateType: f.TemplateType,
-		ScreenshotKey: f.ScreenshotKey, ScreenshotContentHash: f.ScreenshotContentHash,
+		ScreenshotAssetID: f.ScreenshotAssetID, ScreenshotContentHash: f.ScreenshotContentHash,
 		Status: f.Status, Order: f.Order, Source: f.Source,
 		CreatedBy: f.CreatedBy, UpdatedBy: f.UpdatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
 	}
@@ -161,7 +212,74 @@ func canvasToModel(c *client.Canvas) *model.Canvas {
 	}
 }
 
-// ── Catalog ───────────────────────────────────────────────────────────────────
+func frameGroupToModel(g *client.FrameGroup) *model.FrameGroup {
+	return &model.FrameGroup{
+		ID: g.ID, FrameID: g.FrameID, OrgID: g.OrgID,
+		Name: g.Name, Description: g.Description,
+		LocationX: g.LocationX, LocationY: g.LocationY,
+		Width: g.Width, Height: g.Height, Order: g.Order, IsActive: g.IsActive,
+		CreatedBy: g.CreatedBy, UpdatedBy: g.UpdatedBy,
+		CreatedAt: g.CreatedAt, UpdatedAt: g.UpdatedAt,
+	}
+}
+
+func frameGroupsToModel(gs []client.FrameGroup) []*model.FrameGroup {
+	out := make([]*model.FrameGroup, len(gs))
+	for i := range gs {
+		out[i] = frameGroupToModel(&gs[i])
+	}
+	return out
+}
+
+func frameLinkToModel(l *client.FrameLink) *model.FrameLink {
+	return &model.FrameLink{
+		ID: l.ID, FrameID: l.FrameID, OrgID: l.OrgID, Kind: l.Kind,
+		TargetFrameID: l.TargetFrameID, TargetMapID: l.TargetMapID,
+		Label: l.Label, LocationX: l.LocationX, LocationY: l.LocationY, IsActive: l.IsActive,
+		CreatedBy: l.CreatedBy, UpdatedBy: l.UpdatedBy,
+		CreatedAt: l.CreatedAt, UpdatedAt: l.UpdatedAt,
+	}
+}
+
+func frameLinksToModel(ls []client.FrameLink) []*model.FrameLink {
+	out := make([]*model.FrameLink, len(ls))
+	for i := range ls {
+		out[i] = frameLinkToModel(&ls[i])
+	}
+	return out
+}
+
+func focalPointMetaToModel(m *client.FocalPointMeta) *model.FocalPointMeta {
+	return &model.FocalPointMeta{
+		ID: m.ID, FocalPointID: m.FocalPointID, OrgID: m.OrgID, FrameID: m.FrameID,
+		ComponentID: m.ComponentID, ComponentLinkID: m.ComponentLinkID,
+		ComponentImages:      rawArrStr(m.ComponentImages),
+		ComponentFlowDiagram: m.ComponentFlowDiagram,
+		ComponentModalFields: rawArrStr(m.ComponentModalFields),
+		CreatedBy: m.CreatedBy, UpdatedBy: m.UpdatedBy,
+		CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
+	}
+}
+
+func focalPointMetasToModel(ms []client.FocalPointMeta) []*model.FocalPointMeta {
+	out := make([]*model.FocalPointMeta, len(ms))
+	for i := range ms {
+		out[i] = focalPointMetaToModel(&ms[i])
+	}
+	return out
+}
+
+func focalPointMetaBody(body map[string]interface{}) map[string]interface{} {
+	for _, key := range []string{"componentImages", "componentModalFields"} {
+		if s, ok := body[key].(string); ok {
+			var raw interface{}
+			if err := unmarshalJSONString(s, &raw); err == nil {
+				body[key] = raw
+			}
+		}
+	}
+	return body
+}
 
 func serviceToModel(s *client.Service) *model.Service {
 	return &model.Service{

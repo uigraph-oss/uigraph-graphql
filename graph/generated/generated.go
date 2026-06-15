@@ -116,23 +116,35 @@ type ComplexityRoot struct {
 	}
 
 	Diagram struct {
-		ContentHash func(childComplexity int) int
-		ContentKey  func(childComplexity int) int
-		CreatedAt   func(childComplexity int) int
-		CreatedBy   func(childComplexity int) int
-		FolderID    func(childComplexity int) int
-		ID          func(childComplexity int) int
-		Name        func(childComplexity int) int
-		OrgID       func(childComplexity int) int
-		Source      func(childComplexity int) int
-		TeamID      func(childComplexity int) int
-		UpdatedAt   func(childComplexity int) int
-		UpdatedBy   func(childComplexity int) int
+		ContentHash        func(childComplexity int) int
+		ContentKey         func(childComplexity int) int
+		CreatedAt          func(childComplexity int) int
+		CreatedBy          func(childComplexity int) int
+		FolderID           func(childComplexity int) int
+		ID                 func(childComplexity int) int
+		Name               func(childComplexity int) int
+		OrgID              func(childComplexity int) int
+		PreviewAssetID     func(childComplexity int) int
+		PreviewContentHash func(childComplexity int) int
+		Source             func(childComplexity int) int
+		TeamID             func(childComplexity int) int
+		UpdatedAt          func(childComplexity int) int
+		UpdatedBy          func(childComplexity int) int
 	}
 
 	DiagramContent struct {
 		Content   func(childComplexity int) int
 		DiagramID func(childComplexity int) int
+	}
+
+	DiagramImage struct {
+		AssetID        func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		DiagramID      func(childComplexity int) int
+		DiagramImageID func(childComplexity int) int
+		FileName       func(childComplexity int) int
+		Order          func(childComplexity int) int
 	}
 
 	DiagramVersion struct {
@@ -148,6 +160,36 @@ type ComplexityRoot struct {
 		VersionNumber func(childComplexity int) int
 	}
 
+	FlowDiagramComponent struct {
+		Category                   func(childComplexity int) int
+		ComponentID                func(childComplexity int) int
+		Description                func(childComplexity int) int
+		FlowDiagramComponentFields func(childComplexity int) int
+		IsActive                   func(childComplexity int) int
+		Name                       func(childComplexity int) int
+		Order                      func(childComplexity int) int
+		OrganizationID             func(childComplexity int) int
+		PreviewImageJpg            func(childComplexity int) int
+		Slug                       func(childComplexity int) int
+		Tags                       func(childComplexity int) int
+		Type                       func(childComplexity int) int
+	}
+
+	FlowDiagramComponentField struct {
+		FlowDiagramComponentFieldID func(childComplexity int) int
+		Label                       func(childComplexity int) int
+		Options                     func(childComplexity int) int
+		Order                       func(childComplexity int) int
+		Readonly                    func(childComplexity int) int
+		Required                    func(childComplexity int) int
+		Type                        func(childComplexity int) int
+	}
+
+	FlowDiagramComponents struct {
+		Components       func(childComplexity int) int
+		CustomComponents func(childComplexity int) int
+	}
+
 	FocalPoint struct {
 		CreatedAt  func(childComplexity int) int
 		CreatedBy  func(childComplexity int) int
@@ -161,6 +203,22 @@ type ComplexityRoot struct {
 		UpdatedAt  func(childComplexity int) int
 		UpdatedBy  func(childComplexity int) int
 		Visibility func(childComplexity int) int
+	}
+
+	FocalPointMeta struct {
+		ComponentFlowDiagram func(childComplexity int) int
+		ComponentID          func(childComplexity int) int
+		ComponentImages      func(childComplexity int) int
+		ComponentLinkID      func(childComplexity int) int
+		ComponentModalFields func(childComplexity int) int
+		CreatedAt            func(childComplexity int) int
+		CreatedBy            func(childComplexity int) int
+		FocalPointID         func(childComplexity int) int
+		FrameID              func(childComplexity int) int
+		ID                   func(childComplexity int) int
+		OrgID                func(childComplexity int) int
+		UpdatedAt            func(childComplexity int) int
+		UpdatedBy            func(childComplexity int) int
 	}
 
 	Folder struct {
@@ -185,13 +243,48 @@ type ComplexityRoot struct {
 		Order                 func(childComplexity int) int
 		OrgID                 func(childComplexity int) int
 		ParentFrameID         func(childComplexity int) int
+		ScreenshotAssetID     func(childComplexity int) int
 		ScreenshotContentHash func(childComplexity int) int
-		ScreenshotKey         func(childComplexity int) int
 		Source                func(childComplexity int) int
 		Status                func(childComplexity int) int
 		TemplateType          func(childComplexity int) int
 		UpdatedAt             func(childComplexity int) int
 		UpdatedBy             func(childComplexity int) int
+	}
+
+	FrameGroup struct {
+		CreatedAt   func(childComplexity int) int
+		CreatedBy   func(childComplexity int) int
+		Description func(childComplexity int) int
+		FrameID     func(childComplexity int) int
+		Height      func(childComplexity int) int
+		ID          func(childComplexity int) int
+		IsActive    func(childComplexity int) int
+		LocationX   func(childComplexity int) int
+		LocationY   func(childComplexity int) int
+		Name        func(childComplexity int) int
+		Order       func(childComplexity int) int
+		OrgID       func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
+		UpdatedBy   func(childComplexity int) int
+		Width       func(childComplexity int) int
+	}
+
+	FrameLink struct {
+		CreatedAt     func(childComplexity int) int
+		CreatedBy     func(childComplexity int) int
+		FrameID       func(childComplexity int) int
+		ID            func(childComplexity int) int
+		IsActive      func(childComplexity int) int
+		Kind          func(childComplexity int) int
+		Label         func(childComplexity int) int
+		LocationX     func(childComplexity int) int
+		LocationY     func(childComplexity int) int
+		OrgID         func(childComplexity int) int
+		TargetFrameID func(childComplexity int) int
+		TargetMapID   func(childComplexity int) int
+		UpdatedAt     func(childComplexity int) int
+		UpdatedBy     func(childComplexity int) int
 	}
 
 	Invitation struct {
@@ -253,8 +346,11 @@ type ComplexityRoot struct {
 		CreateDiagram             func(childComplexity int, orgID string, input model.CreateDiagramInput) int
 		CreateDiagramVersion      func(childComplexity int, orgID string, diagramID string, label *string) int
 		CreateFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
+		CreateFocalPointMeta      func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) int
 		CreateFolder              func(childComplexity int, orgID string, input model.CreateFolderInput) int
 		CreateFrame               func(childComplexity int, orgID string, mapID string, input model.CreateFrameInput) int
+		CreateFrameGroup          func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
+		CreateFrameLink           func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
 		CreateInvitation          func(childComplexity int, orgID string, input model.CreateInvitationInput) int
 		CreateMap                 func(childComplexity int, orgID string, input model.CreateMapInput) int
 		CreateOrg                 func(childComplexity int, input model.CreateOrgInput) int
@@ -268,8 +364,11 @@ type ComplexityRoot struct {
 		DeleteAPIGroup            func(childComplexity int, orgID string, serviceID string, id string) int
 		DeleteDiagram             func(childComplexity int, orgID string, id string) int
 		DeleteFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteFocalPointMeta      func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string) int
 		DeleteFolder              func(childComplexity int, orgID string, id string) int
 		DeleteFrame               func(childComplexity int, orgID string, mapID string, id string) int
+		DeleteFrameGroup          func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteFrameLink           func(childComplexity int, orgID string, mapID string, frameID string, id string) int
 		DeleteLdap                func(childComplexity int) int
 		DeleteMap                 func(childComplexity int, orgID string, id string) int
 		DeleteOAuthProvider       func(childComplexity int, provider string) int
@@ -292,8 +391,11 @@ type ComplexityRoot struct {
 		UpdateAPIGroup            func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
 		UpdateDiagram             func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
 		UpdateFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
+		UpdateFocalPointMeta      func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) int
 		UpdateFolder              func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
 		UpdateFrame               func(childComplexity int, orgID string, mapID string, id string, input model.UpdateFrameInput) int
+		UpdateFrameGroup          func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) int
+		UpdateFrameLink           func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
 		UpdateMap                 func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
 		UpdateMemberRole          func(childComplexity int, orgID string, userID string, role string) int
 		UpdateOrg                 func(childComplexity int, id string, input model.UpdateOrgInput) int
@@ -354,13 +456,19 @@ type ComplexityRoot struct {
 		Canvas                func(childComplexity int, orgID string, mapID string) int
 		Diagram               func(childComplexity int, orgID string, id string) int
 		DiagramContent        func(childComplexity int, orgID string, id string) int
+		DiagramImages         func(childComplexity int, orgID string, diagramID string) int
 		DiagramVersionContent func(childComplexity int, orgID string, diagramID string, versionID string) int
 		DiagramVersions       func(childComplexity int, orgID string, diagramID string) int
 		Diagrams              func(childComplexity int, orgID string, folderID *string) int
+		FlowDiagramComponents func(childComplexity int, orgID string) int
+		FocalPointMeta        func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string) int
 		FocalPoints           func(childComplexity int, orgID string, mapID string, frameID string) int
 		Folder                func(childComplexity int, orgID string, id string) int
 		Folders               func(childComplexity int, orgID string, typeArg *string, parentID *string) int
 		Frame                 func(childComplexity int, orgID string, mapID string, id string) int
+		FrameByID             func(childComplexity int, orgID string, id string) int
+		FrameGroups           func(childComplexity int, orgID string, mapID string, frameID string) int
+		FrameLinks            func(childComplexity int, orgID string, mapID string, frameID string) int
 		Frames                func(childComplexity int, orgID string, mapID string) int
 		Invitations           func(childComplexity int, orgID string) int
 		Ldap                  func(childComplexity int) int
@@ -566,6 +674,15 @@ type MutationResolver interface {
 	UpdateFocalPoint(ctx context.Context, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) (*model.FocalPoint, error)
 	DeleteFocalPoint(ctx context.Context, orgID string, mapID string, frameID string, id string) (bool, error)
 	UpsertCanvas(ctx context.Context, orgID string, mapID string, input model.UpsertCanvasInput) (*model.Canvas, error)
+	CreateFrameGroup(ctx context.Context, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) (*model.FrameGroup, error)
+	UpdateFrameGroup(ctx context.Context, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) (*model.FrameGroup, error)
+	DeleteFrameGroup(ctx context.Context, orgID string, mapID string, frameID string, id string) (bool, error)
+	CreateFrameLink(ctx context.Context, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) (*model.FrameLink, error)
+	UpdateFrameLink(ctx context.Context, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) (*model.FrameLink, error)
+	DeleteFrameLink(ctx context.Context, orgID string, mapID string, frameID string, id string) (bool, error)
+	CreateFocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) (*model.FocalPointMeta, error)
+	UpdateFocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) (*model.FocalPointMeta, error)
+	DeleteFocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string, id string) (bool, error)
 	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
 	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
 	DeleteOrg(ctx context.Context, id string) (bool, error)
@@ -608,12 +725,18 @@ type QueryResolver interface {
 	DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error)
 	DiagramVersions(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramVersion, error)
 	DiagramVersionContent(ctx context.Context, orgID string, diagramID string, versionID string) (*model.DiagramContent, error)
+	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
+	DiagramImages(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramImage, error)
 	Maps(ctx context.Context, orgID string, folderID *string) ([]*model.UIMap, error)
 	Map(ctx context.Context, orgID string, id string) (*model.UIMap, error)
 	Frames(ctx context.Context, orgID string, mapID string) ([]*model.Frame, error)
 	Frame(ctx context.Context, orgID string, mapID string, id string) (*model.Frame, error)
+	FrameByID(ctx context.Context, orgID string, id string) (*model.Frame, error)
 	FocalPoints(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FocalPoint, error)
 	Canvas(ctx context.Context, orgID string, mapID string) (*model.Canvas, error)
+	FrameGroups(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameGroup, error)
+	FrameLinks(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameLink, error)
+	FocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string) ([]*model.FocalPointMeta, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
 	Orgs(ctx context.Context) ([]*model.Org, error)
 	Members(ctx context.Context, orgID string) ([]*model.Member, error)
@@ -1072,6 +1195,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Diagram.OrgID(childComplexity), true
 
+	case "Diagram.previewAssetId":
+		if e.complexity.Diagram.PreviewAssetID == nil {
+			break
+		}
+
+		return e.complexity.Diagram.PreviewAssetID(childComplexity), true
+
+	case "Diagram.previewContentHash":
+		if e.complexity.Diagram.PreviewContentHash == nil {
+			break
+		}
+
+		return e.complexity.Diagram.PreviewContentHash(childComplexity), true
+
 	case "Diagram.source":
 		if e.complexity.Diagram.Source == nil {
 			break
@@ -1113,6 +1250,55 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DiagramContent.DiagramID(childComplexity), true
+
+	case "DiagramImage.assetId":
+		if e.complexity.DiagramImage.AssetID == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.AssetID(childComplexity), true
+
+	case "DiagramImage.createdAt":
+		if e.complexity.DiagramImage.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.CreatedAt(childComplexity), true
+
+	case "DiagramImage.createdBy":
+		if e.complexity.DiagramImage.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.CreatedBy(childComplexity), true
+
+	case "DiagramImage.diagramId":
+		if e.complexity.DiagramImage.DiagramID == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.DiagramID(childComplexity), true
+
+	case "DiagramImage.diagramImageId":
+		if e.complexity.DiagramImage.DiagramImageID == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.DiagramImageID(childComplexity), true
+
+	case "DiagramImage.fileName":
+		if e.complexity.DiagramImage.FileName == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.FileName(childComplexity), true
+
+	case "DiagramImage.order":
+		if e.complexity.DiagramImage.Order == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.Order(childComplexity), true
 
 	case "DiagramVersion.contentHash":
 		if e.complexity.DiagramVersion.ContentHash == nil {
@@ -1183,6 +1369,153 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DiagramVersion.VersionNumber(childComplexity), true
+
+	case "FlowDiagramComponent.category":
+		if e.complexity.FlowDiagramComponent.Category == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Category(childComplexity), true
+
+	case "FlowDiagramComponent.componentId":
+		if e.complexity.FlowDiagramComponent.ComponentID == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.ComponentID(childComplexity), true
+
+	case "FlowDiagramComponent.description":
+		if e.complexity.FlowDiagramComponent.Description == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Description(childComplexity), true
+
+	case "FlowDiagramComponent.flowDiagramComponentFields":
+		if e.complexity.FlowDiagramComponent.FlowDiagramComponentFields == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.FlowDiagramComponentFields(childComplexity), true
+
+	case "FlowDiagramComponent.isActive":
+		if e.complexity.FlowDiagramComponent.IsActive == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.IsActive(childComplexity), true
+
+	case "FlowDiagramComponent.name":
+		if e.complexity.FlowDiagramComponent.Name == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Name(childComplexity), true
+
+	case "FlowDiagramComponent.order":
+		if e.complexity.FlowDiagramComponent.Order == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Order(childComplexity), true
+
+	case "FlowDiagramComponent.organizationId":
+		if e.complexity.FlowDiagramComponent.OrganizationID == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.OrganizationID(childComplexity), true
+
+	case "FlowDiagramComponent.previewImageJpg":
+		if e.complexity.FlowDiagramComponent.PreviewImageJpg == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.PreviewImageJpg(childComplexity), true
+
+	case "FlowDiagramComponent.slug":
+		if e.complexity.FlowDiagramComponent.Slug == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Slug(childComplexity), true
+
+	case "FlowDiagramComponent.tags":
+		if e.complexity.FlowDiagramComponent.Tags == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Tags(childComplexity), true
+
+	case "FlowDiagramComponent.type":
+		if e.complexity.FlowDiagramComponent.Type == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponent.Type(childComplexity), true
+
+	case "FlowDiagramComponentField.flowDiagramComponentFieldId":
+		if e.complexity.FlowDiagramComponentField.FlowDiagramComponentFieldID == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.FlowDiagramComponentFieldID(childComplexity), true
+
+	case "FlowDiagramComponentField.label":
+		if e.complexity.FlowDiagramComponentField.Label == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Label(childComplexity), true
+
+	case "FlowDiagramComponentField.options":
+		if e.complexity.FlowDiagramComponentField.Options == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Options(childComplexity), true
+
+	case "FlowDiagramComponentField.order":
+		if e.complexity.FlowDiagramComponentField.Order == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Order(childComplexity), true
+
+	case "FlowDiagramComponentField.readonly":
+		if e.complexity.FlowDiagramComponentField.Readonly == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Readonly(childComplexity), true
+
+	case "FlowDiagramComponentField.required":
+		if e.complexity.FlowDiagramComponentField.Required == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Required(childComplexity), true
+
+	case "FlowDiagramComponentField.type":
+		if e.complexity.FlowDiagramComponentField.Type == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponentField.Type(childComplexity), true
+
+	case "FlowDiagramComponents.components":
+		if e.complexity.FlowDiagramComponents.Components == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponents.Components(childComplexity), true
+
+	case "FlowDiagramComponents.customComponents":
+		if e.complexity.FlowDiagramComponents.CustomComponents == nil {
+			break
+		}
+
+		return e.complexity.FlowDiagramComponents.CustomComponents(childComplexity), true
 
 	case "FocalPoint.createdAt":
 		if e.complexity.FocalPoint.CreatedAt == nil {
@@ -1267,6 +1600,97 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.FocalPoint.Visibility(childComplexity), true
+
+	case "FocalPointMeta.componentFlowDiagram":
+		if e.complexity.FocalPointMeta.ComponentFlowDiagram == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.ComponentFlowDiagram(childComplexity), true
+
+	case "FocalPointMeta.componentId":
+		if e.complexity.FocalPointMeta.ComponentID == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.ComponentID(childComplexity), true
+
+	case "FocalPointMeta.componentImages":
+		if e.complexity.FocalPointMeta.ComponentImages == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.ComponentImages(childComplexity), true
+
+	case "FocalPointMeta.componentLinkId":
+		if e.complexity.FocalPointMeta.ComponentLinkID == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.ComponentLinkID(childComplexity), true
+
+	case "FocalPointMeta.componentModalFields":
+		if e.complexity.FocalPointMeta.ComponentModalFields == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.ComponentModalFields(childComplexity), true
+
+	case "FocalPointMeta.createdAt":
+		if e.complexity.FocalPointMeta.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.CreatedAt(childComplexity), true
+
+	case "FocalPointMeta.createdBy":
+		if e.complexity.FocalPointMeta.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.CreatedBy(childComplexity), true
+
+	case "FocalPointMeta.focalPointId":
+		if e.complexity.FocalPointMeta.FocalPointID == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.FocalPointID(childComplexity), true
+
+	case "FocalPointMeta.frameId":
+		if e.complexity.FocalPointMeta.FrameID == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.FrameID(childComplexity), true
+
+	case "FocalPointMeta.id":
+		if e.complexity.FocalPointMeta.ID == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.ID(childComplexity), true
+
+	case "FocalPointMeta.orgId":
+		if e.complexity.FocalPointMeta.OrgID == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.OrgID(childComplexity), true
+
+	case "FocalPointMeta.updatedAt":
+		if e.complexity.FocalPointMeta.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.UpdatedAt(childComplexity), true
+
+	case "FocalPointMeta.updatedBy":
+		if e.complexity.FocalPointMeta.UpdatedBy == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.UpdatedBy(childComplexity), true
 
 	case "Folder.createdAt":
 		if e.complexity.Folder.CreatedAt == nil {
@@ -1394,19 +1818,19 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Frame.ParentFrameID(childComplexity), true
 
+	case "Frame.screenshotAssetId":
+		if e.complexity.Frame.ScreenshotAssetID == nil {
+			break
+		}
+
+		return e.complexity.Frame.ScreenshotAssetID(childComplexity), true
+
 	case "Frame.screenshotContentHash":
 		if e.complexity.Frame.ScreenshotContentHash == nil {
 			break
 		}
 
 		return e.complexity.Frame.ScreenshotContentHash(childComplexity), true
-
-	case "Frame.screenshotKey":
-		if e.complexity.Frame.ScreenshotKey == nil {
-			break
-		}
-
-		return e.complexity.Frame.ScreenshotKey(childComplexity), true
 
 	case "Frame.source":
 		if e.complexity.Frame.Source == nil {
@@ -1442,6 +1866,209 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Frame.UpdatedBy(childComplexity), true
+
+	case "FrameGroup.createdAt":
+		if e.complexity.FrameGroup.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.CreatedAt(childComplexity), true
+
+	case "FrameGroup.createdBy":
+		if e.complexity.FrameGroup.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.CreatedBy(childComplexity), true
+
+	case "FrameGroup.description":
+		if e.complexity.FrameGroup.Description == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.Description(childComplexity), true
+
+	case "FrameGroup.frameId":
+		if e.complexity.FrameGroup.FrameID == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.FrameID(childComplexity), true
+
+	case "FrameGroup.height":
+		if e.complexity.FrameGroup.Height == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.Height(childComplexity), true
+
+	case "FrameGroup.id":
+		if e.complexity.FrameGroup.ID == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.ID(childComplexity), true
+
+	case "FrameGroup.isActive":
+		if e.complexity.FrameGroup.IsActive == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.IsActive(childComplexity), true
+
+	case "FrameGroup.locationX":
+		if e.complexity.FrameGroup.LocationX == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.LocationX(childComplexity), true
+
+	case "FrameGroup.locationY":
+		if e.complexity.FrameGroup.LocationY == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.LocationY(childComplexity), true
+
+	case "FrameGroup.name":
+		if e.complexity.FrameGroup.Name == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.Name(childComplexity), true
+
+	case "FrameGroup.order":
+		if e.complexity.FrameGroup.Order == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.Order(childComplexity), true
+
+	case "FrameGroup.orgId":
+		if e.complexity.FrameGroup.OrgID == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.OrgID(childComplexity), true
+
+	case "FrameGroup.updatedAt":
+		if e.complexity.FrameGroup.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.UpdatedAt(childComplexity), true
+
+	case "FrameGroup.updatedBy":
+		if e.complexity.FrameGroup.UpdatedBy == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.UpdatedBy(childComplexity), true
+
+	case "FrameGroup.width":
+		if e.complexity.FrameGroup.Width == nil {
+			break
+		}
+
+		return e.complexity.FrameGroup.Width(childComplexity), true
+
+	case "FrameLink.createdAt":
+		if e.complexity.FrameLink.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.CreatedAt(childComplexity), true
+
+	case "FrameLink.createdBy":
+		if e.complexity.FrameLink.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.CreatedBy(childComplexity), true
+
+	case "FrameLink.frameId":
+		if e.complexity.FrameLink.FrameID == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.FrameID(childComplexity), true
+
+	case "FrameLink.id":
+		if e.complexity.FrameLink.ID == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.ID(childComplexity), true
+
+	case "FrameLink.isActive":
+		if e.complexity.FrameLink.IsActive == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.IsActive(childComplexity), true
+
+	case "FrameLink.kind":
+		if e.complexity.FrameLink.Kind == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.Kind(childComplexity), true
+
+	case "FrameLink.label":
+		if e.complexity.FrameLink.Label == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.Label(childComplexity), true
+
+	case "FrameLink.locationX":
+		if e.complexity.FrameLink.LocationX == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.LocationX(childComplexity), true
+
+	case "FrameLink.locationY":
+		if e.complexity.FrameLink.LocationY == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.LocationY(childComplexity), true
+
+	case "FrameLink.orgId":
+		if e.complexity.FrameLink.OrgID == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.OrgID(childComplexity), true
+
+	case "FrameLink.targetFrameId":
+		if e.complexity.FrameLink.TargetFrameID == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.TargetFrameID(childComplexity), true
+
+	case "FrameLink.targetMapId":
+		if e.complexity.FrameLink.TargetMapID == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.TargetMapID(childComplexity), true
+
+	case "FrameLink.updatedAt":
+		if e.complexity.FrameLink.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.UpdatedAt(childComplexity), true
+
+	case "FrameLink.updatedBy":
+		if e.complexity.FrameLink.UpdatedBy == nil {
+			break
+		}
+
+		return e.complexity.FrameLink.UpdatedBy(childComplexity), true
 
 	case "Invitation.code":
 		if e.complexity.Invitation.Code == nil {
@@ -1800,6 +2427,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateFocalPoint(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["input"].(model.CreateFocalPointInput)), true
 
+	case "Mutation.createFocalPointMeta":
+		if e.complexity.Mutation.CreateFocalPointMeta == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createFocalPointMeta_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateFocalPointMeta(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["focalPointId"].(string), args["input"].(model.CreateFocalPointMetaInput)), true
+
 	case "Mutation.createFolder":
 		if e.complexity.Mutation.CreateFolder == nil {
 			break
@@ -1823,6 +2462,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateFrame(childComplexity, args["orgId"].(string), args["mapId"].(string), args["input"].(model.CreateFrameInput)), true
+
+	case "Mutation.createFrameGroup":
+		if e.complexity.Mutation.CreateFrameGroup == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createFrameGroup_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateFrameGroup(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["input"].(model.CreateFrameGroupInput)), true
+
+	case "Mutation.createFrameLink":
+		if e.complexity.Mutation.CreateFrameLink == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createFrameLink_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateFrameLink(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["input"].(model.CreateFrameLinkInput)), true
 
 	case "Mutation.createInvitation":
 		if e.complexity.Mutation.CreateInvitation == nil {
@@ -1980,6 +2643,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.DeleteFocalPoint(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["id"].(string)), true
 
+	case "Mutation.deleteFocalPointMeta":
+		if e.complexity.Mutation.DeleteFocalPointMeta == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteFocalPointMeta_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteFocalPointMeta(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["focalPointId"].(string), args["id"].(string)), true
+
 	case "Mutation.deleteFolder":
 		if e.complexity.Mutation.DeleteFolder == nil {
 			break
@@ -2003,6 +2678,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteFrame(childComplexity, args["orgId"].(string), args["mapId"].(string), args["id"].(string)), true
+
+	case "Mutation.deleteFrameGroup":
+		if e.complexity.Mutation.DeleteFrameGroup == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteFrameGroup_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteFrameGroup(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["id"].(string)), true
+
+	case "Mutation.deleteFrameLink":
+		if e.complexity.Mutation.DeleteFrameLink == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteFrameLink_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteFrameLink(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["id"].(string)), true
 
 	case "Mutation.deleteLDAP":
 		if e.complexity.Mutation.DeleteLdap == nil {
@@ -2263,6 +2962,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.UpdateFocalPoint(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["id"].(string), args["input"].(model.UpdateFocalPointInput)), true
 
+	case "Mutation.updateFocalPointMeta":
+		if e.complexity.Mutation.UpdateFocalPointMeta == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateFocalPointMeta_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateFocalPointMeta(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["focalPointId"].(string), args["id"].(string), args["input"].(model.UpdateFocalPointMetaInput)), true
+
 	case "Mutation.updateFolder":
 		if e.complexity.Mutation.UpdateFolder == nil {
 			break
@@ -2286,6 +2997,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateFrame(childComplexity, args["orgId"].(string), args["mapId"].(string), args["id"].(string), args["input"].(model.UpdateFrameInput)), true
+
+	case "Mutation.updateFrameGroup":
+		if e.complexity.Mutation.UpdateFrameGroup == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateFrameGroup_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateFrameGroup(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["id"].(string), args["input"].(model.UpdateFrameGroupInput)), true
+
+	case "Mutation.updateFrameLink":
+		if e.complexity.Mutation.UpdateFrameLink == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateFrameLink_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateFrameLink(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["id"].(string), args["input"].(model.UpdateFrameLinkInput)), true
 
 	case "Mutation.updateMap":
 		if e.complexity.Mutation.UpdateMap == nil {
@@ -2718,6 +3453,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.DiagramContent(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
+	case "Query.diagramImages":
+		if e.complexity.Query.DiagramImages == nil {
+			break
+		}
+
+		args, err := ec.field_Query_diagramImages_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.DiagramImages(childComplexity, args["orgId"].(string), args["diagramId"].(string)), true
+
 	case "Query.diagramVersionContent":
 		if e.complexity.Query.DiagramVersionContent == nil {
 			break
@@ -2753,6 +3500,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Diagrams(childComplexity, args["orgId"].(string), args["folderId"].(*string)), true
+
+	case "Query.flowDiagramComponents":
+		if e.complexity.Query.FlowDiagramComponents == nil {
+			break
+		}
+
+		args, err := ec.field_Query_flowDiagramComponents_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FlowDiagramComponents(childComplexity, args["orgId"].(string)), true
+
+	case "Query.focalPointMeta":
+		if e.complexity.Query.FocalPointMeta == nil {
+			break
+		}
+
+		args, err := ec.field_Query_focalPointMeta_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FocalPointMeta(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["focalPointId"].(string)), true
 
 	case "Query.focalPoints":
 		if e.complexity.Query.FocalPoints == nil {
@@ -2801,6 +3572,42 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Frame(childComplexity, args["orgId"].(string), args["mapId"].(string), args["id"].(string)), true
+
+	case "Query.frameById":
+		if e.complexity.Query.FrameByID == nil {
+			break
+		}
+
+		args, err := ec.field_Query_frameById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FrameByID(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
+	case "Query.frameGroups":
+		if e.complexity.Query.FrameGroups == nil {
+			break
+		}
+
+		args, err := ec.field_Query_frameGroups_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FrameGroups(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string)), true
+
+	case "Query.frameLinks":
+		if e.complexity.Query.FrameLinks == nil {
+			break
+		}
+
+		args, err := ec.field_Query_frameLinks_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FrameLinks(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string)), true
 
 	case "Query.frames":
 		if e.complexity.Query.Frames == nil {
@@ -3758,8 +4565,11 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateAPIGroupInput,
 		ec.unmarshalInputCreateDiagramInput,
 		ec.unmarshalInputCreateFocalPointInput,
+		ec.unmarshalInputCreateFocalPointMetaInput,
 		ec.unmarshalInputCreateFolderInput,
+		ec.unmarshalInputCreateFrameGroupInput,
 		ec.unmarshalInputCreateFrameInput,
+		ec.unmarshalInputCreateFrameLinkInput,
 		ec.unmarshalInputCreateInvitationInput,
 		ec.unmarshalInputCreateMapInput,
 		ec.unmarshalInputCreateOrgInput,
@@ -3776,8 +4586,11 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateAPIGroupInput,
 		ec.unmarshalInputUpdateDiagramInput,
 		ec.unmarshalInputUpdateFocalPointInput,
+		ec.unmarshalInputUpdateFocalPointMetaInput,
 		ec.unmarshalInputUpdateFolderInput,
+		ec.unmarshalInputUpdateFrameGroupInput,
 		ec.unmarshalInputUpdateFrameInput,
+		ec.unmarshalInputUpdateFrameLinkInput,
 		ec.unmarshalInputUpdateMapInput,
 		ec.unmarshalInputUpdateOrgInput,
 		ec.unmarshalInputUpdateServiceAccountInput,
@@ -4298,12 +5111,18 @@ input UpdateAPIEndpointInput {
     diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
     diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
+    flowDiagramComponents(orgId: ID!):                        FlowDiagramComponents!
+    diagramImages(orgId: ID!, diagramId: ID!):               [DiagramImage!]!
     maps(orgId: ID!, folderId: ID):                           [UIMap!]!
     map(orgId: ID!, id: ID!):                                 UIMap!
     frames(orgId: ID!, mapId: ID!):                           [Frame!]!
     frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
+    frameById(orgId: ID!, id: ID!):                           Frame!
     focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
     canvas(orgId: ID!, mapId: ID!):                           Canvas!
+    frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
+    frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
+    focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
 }
 
 extend type Mutation {
@@ -4332,6 +5151,18 @@ extend type Mutation {
     deleteFocalPoint(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!):  Boolean!
 
     upsertCanvas(orgId: ID!, mapId: ID!, input: UpsertCanvasInput!):  Canvas!
+
+    createFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFrameGroupInput!): FrameGroup!
+    updateFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFrameGroupInput!): FrameGroup!
+    deleteFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!): Boolean!
+
+    createFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFrameLinkInput!): FrameLink!
+    updateFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFrameLinkInput!): FrameLink!
+    deleteFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!): Boolean!
+
+    createFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, input: CreateFocalPointMetaInput!): FocalPointMeta!
+    updateFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!, input: UpdateFocalPointMetaInput!): FocalPointMeta!
+    deleteFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!): Boolean!
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────
@@ -4349,18 +5180,60 @@ type Folder {
 }
 
 type Diagram {
-    id:          ID!
-    orgId:       ID!
-    folderId:    ID
-    teamId:      ID
-    name:        String!
-    contentKey:  String!
-    contentHash: String!
-    source:      String
-    createdBy:   ID!
-    updatedBy:   ID
-    createdAt:   Time!
-    updatedAt:   Time!
+    id:                 ID!
+    orgId:              ID!
+    folderId:           ID
+    teamId:             ID
+    name:               String!
+    contentKey:         String!
+    contentHash:        String!
+    previewAssetId:     String
+    previewContentHash: String
+    source:             String
+    createdBy:          ID!
+    updatedBy:          ID
+    createdAt:          Time!
+    updatedAt:          Time!
+}
+
+type FlowDiagramComponentField {
+    flowDiagramComponentFieldId: String!
+    label:                       String!
+    type:                        String!
+    required:                    Boolean!
+    readonly:                    Boolean
+    options:                     [String!]
+    order:                       Int!
+}
+
+type FlowDiagramComponent {
+    componentId:                String!
+    type:                       String!
+    name:                       String!
+    description:                String!
+    category:                   String!
+    tags:                       [String!]!
+    slug:                       String!
+    previewImageJpg:            String!
+    isActive:                   Boolean!
+    order:                      Int!
+    organizationId:             String
+    flowDiagramComponentFields: [FlowDiagramComponentField!]!
+}
+
+type FlowDiagramComponents {
+    components:       [FlowDiagramComponent!]!
+    customComponents: [FlowDiagramComponent!]!
+}
+
+type DiagramImage {
+    diagramImageId: String!
+    diagramId:      String!
+    assetId:        String!
+    fileName:       String
+    order:          Int!
+    createdBy:      ID!
+    createdAt:      Time!
 }
 
 type DiagramContent {
@@ -4409,7 +5282,7 @@ type Frame {
     name:                 String!
     description:          String!
     templateType:         String!
-    screenshotKey:        String
+    screenshotAssetId:    String
     screenshotContentHash: String
     status:               String!
     order:                Float!
@@ -4553,6 +5426,122 @@ input UpsertCanvasInput {
     navigationX:    Float
     navigationY:    Float
     framePositions: String
+}
+
+# ── Frame groups ────────────────────────────────────────────────────────────────
+
+type FrameGroup {
+    id:          ID!
+    frameId:     ID!
+    orgId:       ID!
+    name:        String!
+    description: String!
+    locationX:   Float!
+    locationY:   Float!
+    width:       Float!
+    height:      Float!
+    order:       Float!
+    isActive:    Boolean!
+    createdBy:   ID!
+    updatedBy:   ID
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+input CreateFrameGroupInput {
+    name:        String!
+    description: String
+    locationX:   Float
+    locationY:   Float
+    width:       Float
+    height:      Float
+    order:       Float
+    isActive:    Boolean
+}
+
+input UpdateFrameGroupInput {
+    name:        String
+    description: String
+    locationX:   Float
+    locationY:   Float
+    width:       Float
+    height:      Float
+    order:       Float
+    isActive:    Boolean
+}
+
+# ── Frame links ─────────────────────────────────────────────────────────────────
+
+type FrameLink {
+    id:            ID!
+    frameId:       ID!
+    orgId:         ID!
+    kind:          String!
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String!
+    locationX:     Float!
+    locationY:     Float!
+    isActive:      Boolean!
+    createdBy:     ID!
+    updatedBy:     ID
+    createdAt:     Time!
+    updatedAt:     Time!
+}
+
+input CreateFrameLinkInput {
+    kind:          String!
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String
+    locationX:     Float
+    locationY:     Float
+    isActive:      Boolean
+}
+
+input UpdateFrameLinkInput {
+    kind:          String
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String
+    locationX:     Float
+    locationY:     Float
+    isActive:      Boolean
+}
+
+# ── Focal point meta ────────────────────────────────────────────────────────────
+
+# componentImages and componentModalFields are JSON-encoded strings.
+type FocalPointMeta {
+    id:                   ID!
+    focalPointId:         ID!
+    orgId:                ID!
+    frameId:              ID!
+    componentId:          String!
+    componentLinkId:      String
+    componentImages:      String!
+    componentFlowDiagram: String
+    componentModalFields: String!
+    createdBy:            ID!
+    updatedBy:            ID
+    createdAt:            Time!
+    updatedAt:            Time!
+}
+
+input CreateFocalPointMetaInput {
+    componentId:          String!
+    componentLinkId:      String
+    componentImages:      String
+    componentFlowDiagram: String
+    componentModalFields: String
+}
+
+input UpdateFocalPointMetaInput {
+    componentId:          String
+    componentLinkId:      String
+    componentImages:      String
+    componentFlowDiagram: String
+    componentModalFields: String
 }
 `, BuiltIn: false},
 	{Name: "../schema/org.graphqls", Input: `extend type Query {
@@ -5177,6 +6166,126 @@ func (ec *executionContext) field_Mutation_createDiagram_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_createFocalPointMeta_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createFocalPointMeta_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createFocalPointMeta_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Mutation_createFocalPointMeta_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Mutation_createFocalPointMeta_argsFocalPointID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["focalPointId"] = arg3
+	arg4, err := ec.field_Mutation_createFocalPointMeta_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg4
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createFocalPointMeta_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFocalPointMeta_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFocalPointMeta_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFocalPointMeta_argsFocalPointID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["focalPointId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("focalPointId"))
+	if tmp, ok := rawArgs["focalPointId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFocalPointMeta_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateFocalPointMetaInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateFocalPointMetaInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFocalPointMetaInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateFocalPointMetaInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_createFocalPoint_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -5322,6 +6431,200 @@ func (ec *executionContext) field_Mutation_createFolder_argsInput(
 	}
 
 	var zeroVal model.CreateFolderInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFrameGroup_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createFrameGroup_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createFrameGroup_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Mutation_createFrameGroup_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Mutation_createFrameGroup_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createFrameGroup_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFrameGroup_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFrameGroup_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFrameGroup_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateFrameGroupInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateFrameGroupInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameGroupInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateFrameGroupInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFrameLink_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createFrameLink_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createFrameLink_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Mutation_createFrameLink_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Mutation_createFrameLink_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createFrameLink_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFrameLink_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFrameLink_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createFrameLink_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateFrameLinkInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateFrameLinkInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameLinkInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateFrameLinkInput
 	return zeroVal, nil
 }
 
@@ -6034,6 +7337,126 @@ func (ec *executionContext) field_Mutation_deleteDiagram_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_deleteFocalPointMeta_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteFocalPointMeta_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteFocalPointMeta_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Mutation_deleteFocalPointMeta_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Mutation_deleteFocalPointMeta_argsFocalPointID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["focalPointId"] = arg3
+	arg4, err := ec.field_Mutation_deleteFocalPointMeta_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg4
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteFocalPointMeta_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFocalPointMeta_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFocalPointMeta_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFocalPointMeta_argsFocalPointID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["focalPointId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("focalPointId"))
+	if tmp, ok := rawArgs["focalPointId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFocalPointMeta_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_deleteFocalPoint_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -6165,6 +7588,200 @@ func (ec *executionContext) field_Mutation_deleteFolder_argsOrgID(
 }
 
 func (ec *executionContext) field_Mutation_deleteFolder_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFrameGroup_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteFrameGroup_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteFrameGroup_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Mutation_deleteFrameGroup_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Mutation_deleteFrameGroup_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteFrameGroup_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFrameGroup_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFrameGroup_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFrameGroup_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFrameLink_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteFrameLink_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteFrameLink_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Mutation_deleteFrameLink_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Mutation_deleteFrameLink_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteFrameLink_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFrameLink_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFrameLink_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteFrameLink_argsID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
@@ -7414,6 +9031,149 @@ func (ec *executionContext) field_Mutation_updateDiagram_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_updateFocalPointMeta_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateFocalPointMeta_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateFocalPointMeta_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Mutation_updateFocalPointMeta_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Mutation_updateFocalPointMeta_argsFocalPointID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["focalPointId"] = arg3
+	arg4, err := ec.field_Mutation_updateFocalPointMeta_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg4
+	arg5, err := ec.field_Mutation_updateFocalPointMeta_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg5
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateFocalPointMeta_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFocalPointMeta_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFocalPointMeta_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFocalPointMeta_argsFocalPointID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["focalPointId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("focalPointId"))
+	if tmp, ok := rawArgs["focalPointId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFocalPointMeta_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFocalPointMeta_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateFocalPointMetaInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateFocalPointMetaInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFocalPointMetaInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateFocalPointMetaInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_updateFocalPoint_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -7605,6 +9365,246 @@ func (ec *executionContext) field_Mutation_updateFolder_argsInput(
 	}
 
 	var zeroVal model.UpdateFolderInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameGroup_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateFrameGroup_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateFrameGroup_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Mutation_updateFrameGroup_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Mutation_updateFrameGroup_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg3
+	arg4, err := ec.field_Mutation_updateFrameGroup_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg4
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateFrameGroup_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameGroup_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameGroup_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameGroup_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameGroup_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateFrameGroupInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateFrameGroupInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameGroupInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateFrameGroupInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameLink_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateFrameLink_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateFrameLink_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Mutation_updateFrameLink_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Mutation_updateFrameLink_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg3
+	arg4, err := ec.field_Mutation_updateFrameLink_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg4
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateFrameLink_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameLink_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameLink_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameLink_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateFrameLink_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateFrameLinkInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateFrameLinkInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameLinkInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateFrameLinkInput
 	return zeroVal, nil
 }
 
@@ -8858,6 +10858,57 @@ func (ec *executionContext) field_Query_diagramContent_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_diagramImages_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_diagramImages_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_diagramImages_argsDiagramID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["diagramId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_diagramImages_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagramImages_argsDiagramID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["diagramId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("diagramId"))
+	if tmp, ok := rawArgs["diagramId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_diagramVersionContent_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -9085,6 +11136,131 @@ func (ec *executionContext) field_Query_diagrams_argsFolderID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_flowDiagramComponents_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_flowDiagramComponents_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_flowDiagramComponents_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_focalPointMeta_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_focalPointMeta_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_focalPointMeta_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Query_focalPointMeta_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	arg3, err := ec.field_Query_focalPointMeta_argsFocalPointID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["focalPointId"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Query_focalPointMeta_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_focalPointMeta_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_focalPointMeta_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_focalPointMeta_argsFocalPointID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["focalPointId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("focalPointId"))
+	if tmp, ok := rawArgs["focalPointId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_focalPoints_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -9281,6 +11457,205 @@ func (ec *executionContext) field_Query_folders_argsParentID(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_frameById_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_frameById_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_frameById_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameById_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameGroups_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_frameGroups_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_frameGroups_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Query_frameGroups_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Query_frameGroups_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameGroups_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameGroups_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameLinks_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_frameLinks_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_frameLinks_argsMapID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["mapId"] = arg1
+	arg2, err := ec.field_Query_frameLinks_argsFrameID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["frameId"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Query_frameLinks_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameLinks_argsMapID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["mapId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
+	if tmp, ok := rawArgs["mapId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frameLinks_argsFrameID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["frameId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("frameId"))
+	if tmp, ok := rawArgs["frameId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -12721,6 +15096,88 @@ func (ec *executionContext) fieldContext_Diagram_contentHash(_ context.Context, 
 	return fc, nil
 }
 
+func (ec *executionContext) _Diagram_previewAssetId(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_previewAssetId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PreviewAssetID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_previewAssetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Diagram_previewContentHash(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_previewContentHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PreviewContentHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_previewContentHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Diagram_source(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Diagram_source(ctx, field)
 	if err != nil {
@@ -13018,6 +15475,311 @@ func (ec *executionContext) fieldContext_DiagramContent_content(_ context.Contex
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_diagramImageId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_diagramImageId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DiagramImageID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_diagramImageId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_diagramId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_diagramId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DiagramID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_diagramId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_assetId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_assetId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AssetID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_assetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_fileName(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_fileName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_fileName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_order(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_order(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Order, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_order(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -13452,6 +16214,989 @@ func (ec *executionContext) fieldContext_DiagramVersion_createdAt(_ context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_componentId(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_componentId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ComponentID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_componentId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_type(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_type(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_name(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_description(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_category(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_category(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Category, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_category(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_tags(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_tags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Tags, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_tags(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_slug(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_slug(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Slug, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_slug(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_previewImageJpg(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_previewImageJpg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PreviewImageJpg, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_previewImageJpg(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_isActive(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_isActive(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsActive, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_isActive(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_order(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_order(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Order, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_order(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_organizationId(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_organizationId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrganizationID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_organizationId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponent_flowDiagramComponentFields(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponent_flowDiagramComponentFields(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FlowDiagramComponentFields, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FlowDiagramComponentField)
+	fc.Result = res
+	return ec.marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentFieldᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponent_flowDiagramComponentFields(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "flowDiagramComponentFieldId":
+				return ec.fieldContext_FlowDiagramComponentField_flowDiagramComponentFieldId(ctx, field)
+			case "label":
+				return ec.fieldContext_FlowDiagramComponentField_label(ctx, field)
+			case "type":
+				return ec.fieldContext_FlowDiagramComponentField_type(ctx, field)
+			case "required":
+				return ec.fieldContext_FlowDiagramComponentField_required(ctx, field)
+			case "readonly":
+				return ec.fieldContext_FlowDiagramComponentField_readonly(ctx, field)
+			case "options":
+				return ec.fieldContext_FlowDiagramComponentField_options(ctx, field)
+			case "order":
+				return ec.fieldContext_FlowDiagramComponentField_order(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponentField", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_flowDiagramComponentFieldId(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_flowDiagramComponentFieldId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FlowDiagramComponentFieldID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_flowDiagramComponentFieldId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_label(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_label(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Label, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_label(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_type(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_type(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_required(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_required(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Required, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_required(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_readonly(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_readonly(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Readonly, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*bool)
+	fc.Result = res
+	return ec.marshalOBoolean2ᚖbool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_readonly(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_options(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_options(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Options, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_options(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponentField_order(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponentField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponentField_order(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Order, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponentField_order(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponentField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponents_components(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponents) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponents_components(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Components, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FlowDiagramComponent)
+	fc.Result = res
+	return ec.marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponents_components(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponents",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "componentId":
+				return ec.fieldContext_FlowDiagramComponent_componentId(ctx, field)
+			case "type":
+				return ec.fieldContext_FlowDiagramComponent_type(ctx, field)
+			case "name":
+				return ec.fieldContext_FlowDiagramComponent_name(ctx, field)
+			case "description":
+				return ec.fieldContext_FlowDiagramComponent_description(ctx, field)
+			case "category":
+				return ec.fieldContext_FlowDiagramComponent_category(ctx, field)
+			case "tags":
+				return ec.fieldContext_FlowDiagramComponent_tags(ctx, field)
+			case "slug":
+				return ec.fieldContext_FlowDiagramComponent_slug(ctx, field)
+			case "previewImageJpg":
+				return ec.fieldContext_FlowDiagramComponent_previewImageJpg(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FlowDiagramComponent_isActive(ctx, field)
+			case "order":
+				return ec.fieldContext_FlowDiagramComponent_order(ctx, field)
+			case "organizationId":
+				return ec.fieldContext_FlowDiagramComponent_organizationId(ctx, field)
+			case "flowDiagramComponentFields":
+				return ec.fieldContext_FlowDiagramComponent_flowDiagramComponentFields(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponent", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FlowDiagramComponents_customComponents(ctx context.Context, field graphql.CollectedField, obj *model.FlowDiagramComponents) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FlowDiagramComponents_customComponents(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CustomComponents, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FlowDiagramComponent)
+	fc.Result = res
+	return ec.marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FlowDiagramComponents_customComponents(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FlowDiagramComponents",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "componentId":
+				return ec.fieldContext_FlowDiagramComponent_componentId(ctx, field)
+			case "type":
+				return ec.fieldContext_FlowDiagramComponent_type(ctx, field)
+			case "name":
+				return ec.fieldContext_FlowDiagramComponent_name(ctx, field)
+			case "description":
+				return ec.fieldContext_FlowDiagramComponent_description(ctx, field)
+			case "category":
+				return ec.fieldContext_FlowDiagramComponent_category(ctx, field)
+			case "tags":
+				return ec.fieldContext_FlowDiagramComponent_tags(ctx, field)
+			case "slug":
+				return ec.fieldContext_FlowDiagramComponent_slug(ctx, field)
+			case "previewImageJpg":
+				return ec.fieldContext_FlowDiagramComponent_previewImageJpg(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FlowDiagramComponent_isActive(ctx, field)
+			case "order":
+				return ec.fieldContext_FlowDiagramComponent_order(ctx, field)
+			case "organizationId":
+				return ec.fieldContext_FlowDiagramComponent_organizationId(ctx, field)
+			case "flowDiagramComponentFields":
+				return ec.fieldContext_FlowDiagramComponent_flowDiagramComponentFields(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponent", field.Name)
 		},
 	}
 	return fc, nil
@@ -13972,6 +17717,569 @@ func (ec *executionContext) _FocalPoint_updatedAt(ctx context.Context, field gra
 func (ec *executionContext) fieldContext_FocalPoint_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "FocalPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_id(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_focalPointId(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_focalPointId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FocalPointID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_focalPointId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_orgId(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_frameId(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_frameId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FrameID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_frameId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_componentId(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_componentId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ComponentID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_componentId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_componentLinkId(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_componentLinkId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ComponentLinkID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_componentLinkId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_componentImages(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_componentImages(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ComponentImages, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_componentImages(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_componentFlowDiagram(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_componentFlowDiagram(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ComponentFlowDiagram, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_componentFlowDiagram(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_componentModalFields(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_componentModalFields(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ComponentModalFields, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_componentModalFields(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_updatedBy(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_updatedBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -14680,8 +18988,8 @@ func (ec *executionContext) fieldContext_Frame_templateType(_ context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _Frame_screenshotKey(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Frame_screenshotKey(ctx, field)
+func (ec *executionContext) _Frame_screenshotAssetId(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -14694,7 +19002,7 @@ func (ec *executionContext) _Frame_screenshotKey(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ScreenshotKey, nil
+		return obj.ScreenshotAssetID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -14708,7 +19016,7 @@ func (ec *executionContext) _Frame_screenshotKey(ctx context.Context, field grap
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Frame_screenshotKey(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Frame_screenshotAssetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Frame",
 		Field:      field,
@@ -15054,6 +19362,1270 @@ func (ec *executionContext) _Frame_updatedAt(ctx context.Context, field graphql.
 func (ec *executionContext) fieldContext_Frame_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Frame",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_id(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_frameId(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_frameId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FrameID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_frameId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_orgId(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_name(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_description(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_locationX(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_locationX(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LocationX, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_locationX(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_locationY(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_locationY(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LocationY, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_locationY(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_width(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_width(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Width, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_width(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_height(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_height(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Height, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_height(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_order(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_order(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Order, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_order(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_isActive(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_isActive(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsActive, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_isActive(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_updatedBy(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_updatedBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_updatedBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameGroup_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.FrameGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameGroup_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameGroup_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_id(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_frameId(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_frameId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FrameID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_frameId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_orgId(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_kind(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_kind(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Kind, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_kind(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_targetFrameId(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_targetFrameId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TargetFrameID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_targetFrameId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_targetMapId(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_targetMapId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TargetMapID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_targetMapId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_label(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_label(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Label, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_label(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_locationX(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_locationX(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LocationX, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_locationX(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_locationY(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_locationY(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LocationY, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_locationY(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_isActive(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_isActive(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsActive, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_isActive(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_updatedBy(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_updatedBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_updatedBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameLink_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.FrameLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameLink_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameLink_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameLink",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -18445,6 +24017,10 @@ func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -18526,6 +24102,10 @@ func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -18802,6 +24382,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -19096,8 +24680,8 @@ func (ec *executionContext) fieldContext_Mutation_createFrame(ctx context.Contex
 				return ec.fieldContext_Frame_description(ctx, field)
 			case "templateType":
 				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotKey":
-				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -19185,8 +24769,8 @@ func (ec *executionContext) fieldContext_Mutation_updateFrame(ctx context.Contex
 				return ec.fieldContext_Frame_description(ctx, field)
 			case "templateType":
 				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotKey":
-				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -19619,6 +25203,681 @@ func (ec *executionContext) fieldContext_Mutation_upsertCanvas(ctx context.Conte
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_upsertCanvas_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createFrameGroup(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createFrameGroup(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateFrameGroup(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["input"].(model.CreateFrameGroupInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FrameGroup)
+	fc.Result = res
+	return ec.marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createFrameGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FrameGroup_id(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FrameGroup_frameId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FrameGroup_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_FrameGroup_name(ctx, field)
+			case "description":
+				return ec.fieldContext_FrameGroup_description(ctx, field)
+			case "locationX":
+				return ec.fieldContext_FrameGroup_locationX(ctx, field)
+			case "locationY":
+				return ec.fieldContext_FrameGroup_locationY(ctx, field)
+			case "width":
+				return ec.fieldContext_FrameGroup_width(ctx, field)
+			case "height":
+				return ec.fieldContext_FrameGroup_height(ctx, field)
+			case "order":
+				return ec.fieldContext_FrameGroup_order(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FrameGroup_isActive(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FrameGroup_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FrameGroup_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FrameGroup_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FrameGroup_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FrameGroup", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createFrameGroup_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateFrameGroup(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateFrameGroup(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateFrameGroup(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateFrameGroupInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FrameGroup)
+	fc.Result = res
+	return ec.marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateFrameGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FrameGroup_id(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FrameGroup_frameId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FrameGroup_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_FrameGroup_name(ctx, field)
+			case "description":
+				return ec.fieldContext_FrameGroup_description(ctx, field)
+			case "locationX":
+				return ec.fieldContext_FrameGroup_locationX(ctx, field)
+			case "locationY":
+				return ec.fieldContext_FrameGroup_locationY(ctx, field)
+			case "width":
+				return ec.fieldContext_FrameGroup_width(ctx, field)
+			case "height":
+				return ec.fieldContext_FrameGroup_height(ctx, field)
+			case "order":
+				return ec.fieldContext_FrameGroup_order(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FrameGroup_isActive(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FrameGroup_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FrameGroup_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FrameGroup_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FrameGroup_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FrameGroup", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateFrameGroup_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteFrameGroup(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteFrameGroup(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteFrameGroup(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteFrameGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteFrameGroup_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createFrameLink(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createFrameLink(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateFrameLink(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["input"].(model.CreateFrameLinkInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FrameLink)
+	fc.Result = res
+	return ec.marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createFrameLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FrameLink_id(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FrameLink_frameId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FrameLink_orgId(ctx, field)
+			case "kind":
+				return ec.fieldContext_FrameLink_kind(ctx, field)
+			case "targetFrameId":
+				return ec.fieldContext_FrameLink_targetFrameId(ctx, field)
+			case "targetMapId":
+				return ec.fieldContext_FrameLink_targetMapId(ctx, field)
+			case "label":
+				return ec.fieldContext_FrameLink_label(ctx, field)
+			case "locationX":
+				return ec.fieldContext_FrameLink_locationX(ctx, field)
+			case "locationY":
+				return ec.fieldContext_FrameLink_locationY(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FrameLink_isActive(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FrameLink_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FrameLink_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FrameLink_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FrameLink_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FrameLink", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createFrameLink_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateFrameLink(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateFrameLink(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateFrameLink(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateFrameLinkInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FrameLink)
+	fc.Result = res
+	return ec.marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateFrameLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FrameLink_id(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FrameLink_frameId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FrameLink_orgId(ctx, field)
+			case "kind":
+				return ec.fieldContext_FrameLink_kind(ctx, field)
+			case "targetFrameId":
+				return ec.fieldContext_FrameLink_targetFrameId(ctx, field)
+			case "targetMapId":
+				return ec.fieldContext_FrameLink_targetMapId(ctx, field)
+			case "label":
+				return ec.fieldContext_FrameLink_label(ctx, field)
+			case "locationX":
+				return ec.fieldContext_FrameLink_locationX(ctx, field)
+			case "locationY":
+				return ec.fieldContext_FrameLink_locationY(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FrameLink_isActive(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FrameLink_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FrameLink_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FrameLink_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FrameLink_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FrameLink", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateFrameLink_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteFrameLink(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteFrameLink(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteFrameLink(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteFrameLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteFrameLink_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createFocalPointMeta(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createFocalPointMeta(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateFocalPointMeta(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["focalPointId"].(string), fc.Args["input"].(model.CreateFocalPointMetaInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FocalPointMeta)
+	fc.Result = res
+	return ec.marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createFocalPointMeta(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FocalPointMeta_id(ctx, field)
+			case "focalPointId":
+				return ec.fieldContext_FocalPointMeta_focalPointId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FocalPointMeta_orgId(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FocalPointMeta_frameId(ctx, field)
+			case "componentId":
+				return ec.fieldContext_FocalPointMeta_componentId(ctx, field)
+			case "componentLinkId":
+				return ec.fieldContext_FocalPointMeta_componentLinkId(ctx, field)
+			case "componentImages":
+				return ec.fieldContext_FocalPointMeta_componentImages(ctx, field)
+			case "componentFlowDiagram":
+				return ec.fieldContext_FocalPointMeta_componentFlowDiagram(ctx, field)
+			case "componentModalFields":
+				return ec.fieldContext_FocalPointMeta_componentModalFields(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FocalPointMeta_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FocalPointMeta", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createFocalPointMeta_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateFocalPointMeta(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateFocalPointMeta(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateFocalPointMeta(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["focalPointId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateFocalPointMetaInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FocalPointMeta)
+	fc.Result = res
+	return ec.marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateFocalPointMeta(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FocalPointMeta_id(ctx, field)
+			case "focalPointId":
+				return ec.fieldContext_FocalPointMeta_focalPointId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FocalPointMeta_orgId(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FocalPointMeta_frameId(ctx, field)
+			case "componentId":
+				return ec.fieldContext_FocalPointMeta_componentId(ctx, field)
+			case "componentLinkId":
+				return ec.fieldContext_FocalPointMeta_componentLinkId(ctx, field)
+			case "componentImages":
+				return ec.fieldContext_FocalPointMeta_componentImages(ctx, field)
+			case "componentFlowDiagram":
+				return ec.fieldContext_FocalPointMeta_componentFlowDiagram(ctx, field)
+			case "componentModalFields":
+				return ec.fieldContext_FocalPointMeta_componentModalFields(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FocalPointMeta_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FocalPointMeta", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateFocalPointMeta_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteFocalPointMeta(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteFocalPointMeta(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteFocalPointMeta(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["focalPointId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteFocalPointMeta(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteFocalPointMeta_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -23432,6 +29691,10 @@ func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, fie
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -23513,6 +29776,10 @@ func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, fiel
 				return ec.fieldContext_Diagram_contentKey(ctx, field)
 			case "contentHash":
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -23740,6 +30007,138 @@ func (ec *executionContext) fieldContext_Query_diagramVersionContent(ctx context
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_flowDiagramComponents(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_flowDiagramComponents(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FlowDiagramComponents(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FlowDiagramComponents)
+	fc.Result = res
+	return ec.marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponents(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_flowDiagramComponents(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "components":
+				return ec.fieldContext_FlowDiagramComponents_components(ctx, field)
+			case "customComponents":
+				return ec.fieldContext_FlowDiagramComponents_customComponents(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponents", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_flowDiagramComponents_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_diagramImages(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_diagramImages(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().DiagramImages(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.DiagramImage)
+	fc.Result = res
+	return ec.marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImageᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_diagramImages(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "diagramImageId":
+				return ec.fieldContext_DiagramImage_diagramImageId(ctx, field)
+			case "diagramId":
+				return ec.fieldContext_DiagramImage_diagramId(ctx, field)
+			case "assetId":
+				return ec.fieldContext_DiagramImage_assetId(ctx, field)
+			case "fileName":
+				return ec.fieldContext_DiagramImage_fileName(ctx, field)
+			case "order":
+				return ec.fieldContext_DiagramImage_order(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_DiagramImage_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_DiagramImage_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DiagramImage", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_diagramImages_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_maps(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_maps(ctx, field)
 	if err != nil {
@@ -23951,8 +30350,8 @@ func (ec *executionContext) fieldContext_Query_frames(ctx context.Context, field
 				return ec.fieldContext_Frame_description(ctx, field)
 			case "templateType":
 				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotKey":
-				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -24040,8 +30439,8 @@ func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field 
 				return ec.fieldContext_Frame_description(ctx, field)
 			case "templateType":
 				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotKey":
-				return ec.fieldContext_Frame_screenshotKey(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -24070,6 +30469,95 @@ func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field 
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_frame_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_frameById(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_frameById(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FrameByID(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Frame)
+	fc.Result = res
+	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_frameById(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Frame_id(ctx, field)
+			case "mapId":
+				return ec.fieldContext_Frame_mapId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Frame_orgId(ctx, field)
+			case "parentFrameId":
+				return ec.fieldContext_Frame_parentFrameId(ctx, field)
+			case "name":
+				return ec.fieldContext_Frame_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Frame_description(ctx, field)
+			case "templateType":
+				return ec.fieldContext_Frame_templateType(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotContentHash":
+				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
+			case "status":
+				return ec.fieldContext_Frame_status(ctx, field)
+			case "order":
+				return ec.fieldContext_Frame_order(ctx, field)
+			case "source":
+				return ec.fieldContext_Frame_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Frame_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Frame_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Frame_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Frame", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_frameById_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -24222,6 +30710,261 @@ func (ec *executionContext) fieldContext_Query_canvas(ctx context.Context, field
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_canvas_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_frameGroups(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_frameGroups(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FrameGroups(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FrameGroup)
+	fc.Result = res
+	return ec.marshalNFrameGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroupᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_frameGroups(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FrameGroup_id(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FrameGroup_frameId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FrameGroup_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_FrameGroup_name(ctx, field)
+			case "description":
+				return ec.fieldContext_FrameGroup_description(ctx, field)
+			case "locationX":
+				return ec.fieldContext_FrameGroup_locationX(ctx, field)
+			case "locationY":
+				return ec.fieldContext_FrameGroup_locationY(ctx, field)
+			case "width":
+				return ec.fieldContext_FrameGroup_width(ctx, field)
+			case "height":
+				return ec.fieldContext_FrameGroup_height(ctx, field)
+			case "order":
+				return ec.fieldContext_FrameGroup_order(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FrameGroup_isActive(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FrameGroup_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FrameGroup_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FrameGroup_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FrameGroup_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FrameGroup", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_frameGroups_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_frameLinks(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_frameLinks(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FrameLinks(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FrameLink)
+	fc.Result = res
+	return ec.marshalNFrameLink2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLinkᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_frameLinks(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FrameLink_id(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FrameLink_frameId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FrameLink_orgId(ctx, field)
+			case "kind":
+				return ec.fieldContext_FrameLink_kind(ctx, field)
+			case "targetFrameId":
+				return ec.fieldContext_FrameLink_targetFrameId(ctx, field)
+			case "targetMapId":
+				return ec.fieldContext_FrameLink_targetMapId(ctx, field)
+			case "label":
+				return ec.fieldContext_FrameLink_label(ctx, field)
+			case "locationX":
+				return ec.fieldContext_FrameLink_locationX(ctx, field)
+			case "locationY":
+				return ec.fieldContext_FrameLink_locationY(ctx, field)
+			case "isActive":
+				return ec.fieldContext_FrameLink_isActive(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FrameLink_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FrameLink_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FrameLink_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FrameLink_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FrameLink", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_frameLinks_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_focalPointMeta(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_focalPointMeta(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FocalPointMeta(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["frameId"].(string), fc.Args["focalPointId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FocalPointMeta)
+	fc.Result = res
+	return ec.marshalNFocalPointMeta2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMetaᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_focalPointMeta(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FocalPointMeta_id(ctx, field)
+			case "focalPointId":
+				return ec.fieldContext_FocalPointMeta_focalPointId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FocalPointMeta_orgId(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FocalPointMeta_frameId(ctx, field)
+			case "componentId":
+				return ec.fieldContext_FocalPointMeta_componentId(ctx, field)
+			case "componentLinkId":
+				return ec.fieldContext_FocalPointMeta_componentLinkId(ctx, field)
+			case "componentImages":
+				return ec.fieldContext_FocalPointMeta_componentImages(ctx, field)
+			case "componentFlowDiagram":
+				return ec.fieldContext_FocalPointMeta_componentFlowDiagram(ctx, field)
+			case "componentModalFields":
+				return ec.fieldContext_FocalPointMeta_componentModalFields(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FocalPointMeta_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FocalPointMeta", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_focalPointMeta_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -31690,6 +38433,61 @@ func (ec *executionContext) unmarshalInputCreateFocalPointInput(ctx context.Cont
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateFocalPointMetaInput(ctx context.Context, obj any) (model.CreateFocalPointMetaInput, error) {
+	var it model.CreateFocalPointMetaInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"componentId", "componentLinkId", "componentImages", "componentFlowDiagram", "componentModalFields"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "componentId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentId"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentID = data
+		case "componentLinkId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentLinkId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentLinkID = data
+		case "componentImages":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentImages"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentImages = data
+		case "componentFlowDiagram":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentFlowDiagram"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentFlowDiagram = data
+		case "componentModalFields":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentModalFields"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentModalFields = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateFolderInput(ctx context.Context, obj any) (model.CreateFolderInput, error) {
 	var it model.CreateFolderInput
 	asMap := map[string]any{}
@@ -31732,6 +38530,82 @@ func (ec *executionContext) unmarshalInputCreateFolderInput(ctx context.Context,
 				return it, err
 			}
 			it.Order = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputCreateFrameGroupInput(ctx context.Context, obj any) (model.CreateFrameGroupInput, error) {
+	var it model.CreateFrameGroupInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "locationX", "locationY", "width", "height", "order", "isActive"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "locationX":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("locationX"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LocationX = data
+		case "locationY":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("locationY"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LocationY = data
+		case "width":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("width"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Width = data
+		case "height":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("height"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Height = data
+		case "order":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Order = data
+		case "isActive":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isActive"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IsActive = data
 		}
 	}
 
@@ -31794,6 +38668,75 @@ func (ec *executionContext) unmarshalInputCreateFrameInput(ctx context.Context, 
 				return it, err
 			}
 			it.Screenshot = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputCreateFrameLinkInput(ctx context.Context, obj any) (model.CreateFrameLinkInput, error) {
+	var it model.CreateFrameLinkInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"kind", "targetFrameId", "targetMapId", "label", "locationX", "locationY", "isActive"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "kind":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Kind = data
+		case "targetFrameId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("targetFrameId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TargetFrameID = data
+		case "targetMapId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("targetMapId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TargetMapID = data
+		case "label":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("label"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Label = data
+		case "locationX":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("locationX"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LocationX = data
+		case "locationY":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("locationY"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LocationY = data
+		case "isActive":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isActive"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IsActive = data
 		}
 	}
 
@@ -32687,6 +39630,61 @@ func (ec *executionContext) unmarshalInputUpdateFocalPointInput(ctx context.Cont
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateFocalPointMetaInput(ctx context.Context, obj any) (model.UpdateFocalPointMetaInput, error) {
+	var it model.UpdateFocalPointMetaInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"componentId", "componentLinkId", "componentImages", "componentFlowDiagram", "componentModalFields"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "componentId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentID = data
+		case "componentLinkId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentLinkId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentLinkID = data
+		case "componentImages":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentImages"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentImages = data
+		case "componentFlowDiagram":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentFlowDiagram"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentFlowDiagram = data
+		case "componentModalFields":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("componentModalFields"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ComponentModalFields = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateFolderInput(ctx context.Context, obj any) (model.UpdateFolderInput, error) {
 	var it model.UpdateFolderInput
 	asMap := map[string]any{}
@@ -32722,6 +39720,82 @@ func (ec *executionContext) unmarshalInputUpdateFolderInput(ctx context.Context,
 				return it, err
 			}
 			it.Order = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdateFrameGroupInput(ctx context.Context, obj any) (model.UpdateFrameGroupInput, error) {
+	var it model.UpdateFrameGroupInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "locationX", "locationY", "width", "height", "order", "isActive"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "locationX":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("locationX"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LocationX = data
+		case "locationY":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("locationY"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LocationY = data
+		case "width":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("width"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Width = data
+		case "height":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("height"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Height = data
+		case "order":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Order = data
+		case "isActive":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isActive"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IsActive = data
 		}
 	}
 
@@ -32784,6 +39858,75 @@ func (ec *executionContext) unmarshalInputUpdateFrameInput(ctx context.Context, 
 				return it, err
 			}
 			it.Screenshot = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdateFrameLinkInput(ctx context.Context, obj any) (model.UpdateFrameLinkInput, error) {
+	var it model.UpdateFrameLinkInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"kind", "targetFrameId", "targetMapId", "label", "locationX", "locationY", "isActive"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "kind":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Kind = data
+		case "targetFrameId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("targetFrameId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TargetFrameID = data
+		case "targetMapId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("targetMapId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TargetMapID = data
+		case "label":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("label"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Label = data
+		case "locationX":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("locationX"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LocationX = data
+		case "locationY":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("locationY"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LocationY = data
+		case "isActive":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isActive"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IsActive = data
 		}
 	}
 
@@ -33959,6 +41102,10 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "previewAssetId":
+			out.Values[i] = ec._Diagram_previewAssetId(ctx, field, obj)
+		case "previewContentHash":
+			out.Values[i] = ec._Diagram_previewContentHash(ctx, field, obj)
 		case "source":
 			out.Values[i] = ec._Diagram_source(ctx, field, obj)
 		case "createdBy":
@@ -34019,6 +41166,72 @@ func (ec *executionContext) _DiagramContent(ctx context.Context, sel ast.Selecti
 			}
 		case "content":
 			out.Values[i] = ec._DiagramContent_content(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var diagramImageImplementors = []string{"DiagramImage"}
+
+func (ec *executionContext) _DiagramImage(ctx context.Context, sel ast.SelectionSet, obj *model.DiagramImage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, diagramImageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("DiagramImage")
+		case "diagramImageId":
+			out.Values[i] = ec._DiagramImage_diagramImageId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "diagramId":
+			out.Values[i] = ec._DiagramImage_diagramId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "assetId":
+			out.Values[i] = ec._DiagramImage_assetId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "fileName":
+			out.Values[i] = ec._DiagramImage_fileName(ctx, field, obj)
+		case "order":
+			out.Values[i] = ec._DiagramImage_order(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdBy":
+			out.Values[i] = ec._DiagramImage_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._DiagramImage_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -34123,6 +41336,204 @@ func (ec *executionContext) _DiagramVersion(ctx context.Context, sel ast.Selecti
 	return out
 }
 
+var flowDiagramComponentImplementors = []string{"FlowDiagramComponent"}
+
+func (ec *executionContext) _FlowDiagramComponent(ctx context.Context, sel ast.SelectionSet, obj *model.FlowDiagramComponent) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, flowDiagramComponentImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FlowDiagramComponent")
+		case "componentId":
+			out.Values[i] = ec._FlowDiagramComponent_componentId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "type":
+			out.Values[i] = ec._FlowDiagramComponent_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._FlowDiagramComponent_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._FlowDiagramComponent_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "category":
+			out.Values[i] = ec._FlowDiagramComponent_category(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "tags":
+			out.Values[i] = ec._FlowDiagramComponent_tags(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "slug":
+			out.Values[i] = ec._FlowDiagramComponent_slug(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "previewImageJpg":
+			out.Values[i] = ec._FlowDiagramComponent_previewImageJpg(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "isActive":
+			out.Values[i] = ec._FlowDiagramComponent_isActive(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "order":
+			out.Values[i] = ec._FlowDiagramComponent_order(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "organizationId":
+			out.Values[i] = ec._FlowDiagramComponent_organizationId(ctx, field, obj)
+		case "flowDiagramComponentFields":
+			out.Values[i] = ec._FlowDiagramComponent_flowDiagramComponentFields(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var flowDiagramComponentFieldImplementors = []string{"FlowDiagramComponentField"}
+
+func (ec *executionContext) _FlowDiagramComponentField(ctx context.Context, sel ast.SelectionSet, obj *model.FlowDiagramComponentField) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, flowDiagramComponentFieldImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FlowDiagramComponentField")
+		case "flowDiagramComponentFieldId":
+			out.Values[i] = ec._FlowDiagramComponentField_flowDiagramComponentFieldId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "label":
+			out.Values[i] = ec._FlowDiagramComponentField_label(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "type":
+			out.Values[i] = ec._FlowDiagramComponentField_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "required":
+			out.Values[i] = ec._FlowDiagramComponentField_required(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "readonly":
+			out.Values[i] = ec._FlowDiagramComponentField_readonly(ctx, field, obj)
+		case "options":
+			out.Values[i] = ec._FlowDiagramComponentField_options(ctx, field, obj)
+		case "order":
+			out.Values[i] = ec._FlowDiagramComponentField_order(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var flowDiagramComponentsImplementors = []string{"FlowDiagramComponents"}
+
+func (ec *executionContext) _FlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, obj *model.FlowDiagramComponents) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, flowDiagramComponentsImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FlowDiagramComponents")
+		case "components":
+			out.Values[i] = ec._FlowDiagramComponents_components(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "customComponents":
+			out.Values[i] = ec._FlowDiagramComponents_customComponents(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var focalPointImplementors = []string{"FocalPoint"}
 
 func (ec *executionContext) _FocalPoint(ctx context.Context, sel ast.SelectionSet, obj *model.FocalPoint) graphql.Marshaler {
@@ -34188,6 +41599,96 @@ func (ec *executionContext) _FocalPoint(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedAt":
 			out.Values[i] = ec._FocalPoint_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var focalPointMetaImplementors = []string{"FocalPointMeta"}
+
+func (ec *executionContext) _FocalPointMeta(ctx context.Context, sel ast.SelectionSet, obj *model.FocalPointMeta) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, focalPointMetaImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FocalPointMeta")
+		case "id":
+			out.Values[i] = ec._FocalPointMeta_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "focalPointId":
+			out.Values[i] = ec._FocalPointMeta_focalPointId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "orgId":
+			out.Values[i] = ec._FocalPointMeta_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "frameId":
+			out.Values[i] = ec._FocalPointMeta_frameId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "componentId":
+			out.Values[i] = ec._FocalPointMeta_componentId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "componentLinkId":
+			out.Values[i] = ec._FocalPointMeta_componentLinkId(ctx, field, obj)
+		case "componentImages":
+			out.Values[i] = ec._FocalPointMeta_componentImages(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "componentFlowDiagram":
+			out.Values[i] = ec._FocalPointMeta_componentFlowDiagram(ctx, field, obj)
+		case "componentModalFields":
+			out.Values[i] = ec._FocalPointMeta_componentModalFields(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdBy":
+			out.Values[i] = ec._FocalPointMeta_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedBy":
+			out.Values[i] = ec._FocalPointMeta_updatedBy(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._FocalPointMeta_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._FocalPointMeta_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -34333,8 +41834,8 @@ func (ec *executionContext) _Frame(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "screenshotKey":
-			out.Values[i] = ec._Frame_screenshotKey(ctx, field, obj)
+		case "screenshotAssetId":
+			out.Values[i] = ec._Frame_screenshotAssetId(ctx, field, obj)
 		case "screenshotContentHash":
 			out.Values[i] = ec._Frame_screenshotContentHash(ctx, field, obj)
 		case "status":
@@ -34363,6 +41864,207 @@ func (ec *executionContext) _Frame(ctx context.Context, sel ast.SelectionSet, ob
 			}
 		case "updatedAt":
 			out.Values[i] = ec._Frame_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var frameGroupImplementors = []string{"FrameGroup"}
+
+func (ec *executionContext) _FrameGroup(ctx context.Context, sel ast.SelectionSet, obj *model.FrameGroup) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, frameGroupImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FrameGroup")
+		case "id":
+			out.Values[i] = ec._FrameGroup_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "frameId":
+			out.Values[i] = ec._FrameGroup_frameId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "orgId":
+			out.Values[i] = ec._FrameGroup_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._FrameGroup_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._FrameGroup_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "locationX":
+			out.Values[i] = ec._FrameGroup_locationX(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "locationY":
+			out.Values[i] = ec._FrameGroup_locationY(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "width":
+			out.Values[i] = ec._FrameGroup_width(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "height":
+			out.Values[i] = ec._FrameGroup_height(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "order":
+			out.Values[i] = ec._FrameGroup_order(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "isActive":
+			out.Values[i] = ec._FrameGroup_isActive(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdBy":
+			out.Values[i] = ec._FrameGroup_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedBy":
+			out.Values[i] = ec._FrameGroup_updatedBy(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._FrameGroup_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._FrameGroup_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var frameLinkImplementors = []string{"FrameLink"}
+
+func (ec *executionContext) _FrameLink(ctx context.Context, sel ast.SelectionSet, obj *model.FrameLink) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, frameLinkImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FrameLink")
+		case "id":
+			out.Values[i] = ec._FrameLink_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "frameId":
+			out.Values[i] = ec._FrameLink_frameId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "orgId":
+			out.Values[i] = ec._FrameLink_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "kind":
+			out.Values[i] = ec._FrameLink_kind(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "targetFrameId":
+			out.Values[i] = ec._FrameLink_targetFrameId(ctx, field, obj)
+		case "targetMapId":
+			out.Values[i] = ec._FrameLink_targetMapId(ctx, field, obj)
+		case "label":
+			out.Values[i] = ec._FrameLink_label(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "locationX":
+			out.Values[i] = ec._FrameLink_locationX(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "locationY":
+			out.Values[i] = ec._FrameLink_locationY(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "isActive":
+			out.Values[i] = ec._FrameLink_isActive(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdBy":
+			out.Values[i] = ec._FrameLink_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedBy":
+			out.Values[i] = ec._FrameLink_updatedBy(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._FrameLink_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._FrameLink_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -35019,6 +42721,69 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "upsertCanvas":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_upsertCanvas(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createFrameGroup":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createFrameGroup(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateFrameGroup":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateFrameGroup(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteFrameGroup":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteFrameGroup(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createFrameLink":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createFrameLink(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateFrameLink":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateFrameLink(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteFrameLink":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteFrameLink(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createFocalPointMeta":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createFocalPointMeta(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateFocalPointMeta":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateFocalPointMeta(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteFocalPointMeta":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteFocalPointMeta(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -35916,6 +43681,50 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "flowDiagramComponents":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_flowDiagramComponents(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "diagramImages":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_diagramImages(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "maps":
 			field := field
 
@@ -36004,6 +43813,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "frameById":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_frameById(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "focalPoints":
 			field := field
 
@@ -36036,6 +43867,72 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_canvas(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "frameGroups":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_frameGroups(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "frameLinks":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_frameLinks(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "focalPointMeta":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_focalPointMeta(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -37724,13 +45621,28 @@ func (ec *executionContext) unmarshalNCreateFocalPointInput2githubᚗcomᚋuigra
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFocalPointMetaInput(ctx context.Context, v any) (model.CreateFocalPointMetaInput, error) {
+	res, err := ec.unmarshalInputCreateFocalPointMetaInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFolderInput(ctx context.Context, v any) (model.CreateFolderInput, error) {
 	res, err := ec.unmarshalInputCreateFolderInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameGroupInput(ctx context.Context, v any) (model.CreateFrameGroupInput, error) {
+	res, err := ec.unmarshalInputCreateFrameGroupInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameInput(ctx context.Context, v any) (model.CreateFrameInput, error) {
 	res, err := ec.unmarshalInputCreateFrameInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCreateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameLinkInput(ctx context.Context, v any) (model.CreateFrameLinkInput, error) {
+	res, err := ec.unmarshalInputCreateFrameLinkInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -37865,6 +45777,60 @@ func (ec *executionContext) marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋg
 	return ec._DiagramContent(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImageᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DiagramImage) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImage(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImage(ctx context.Context, sel ast.SelectionSet, v *model.DiagramImage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._DiagramImage(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNDiagramVersion2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramVersion(ctx context.Context, sel ast.SelectionSet, v model.DiagramVersion) graphql.Marshaler {
 	return ec._DiagramVersion(ctx, sel, &v)
 }
@@ -37939,6 +45905,128 @@ func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.S
 	return graphql.WrapContextMarshaler(ctx, res)
 }
 
+func (ec *executionContext) marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FlowDiagramComponent) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNFlowDiagramComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponent(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponent(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponent) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FlowDiagramComponent(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentFieldᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FlowDiagramComponentField) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNFlowDiagramComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentField(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentField(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponentField) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FlowDiagramComponentField(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponents2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, v model.FlowDiagramComponents) graphql.Marshaler {
+	return ec._FlowDiagramComponents(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponents) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FlowDiagramComponents(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNFocalPoint2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPoint(ctx context.Context, sel ast.SelectionSet, v model.FocalPoint) graphql.Marshaler {
 	return ec._FocalPoint(ctx, sel, &v)
 }
@@ -37995,6 +46083,64 @@ func (ec *executionContext) marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraph
 		return graphql.Null
 	}
 	return ec._FocalPoint(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNFocalPointMeta2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx context.Context, sel ast.SelectionSet, v model.FocalPointMeta) graphql.Marshaler {
+	return ec._FocalPointMeta(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNFocalPointMeta2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMetaᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FocalPointMeta) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx context.Context, sel ast.SelectionSet, v *model.FocalPointMeta) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FocalPointMeta(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNFolder2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFolder(ctx context.Context, sel ast.SelectionSet, v model.Folder) graphql.Marshaler {
@@ -38111,6 +46257,122 @@ func (ec *executionContext) marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋ
 		return graphql.Null
 	}
 	return ec._Frame(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNFrameGroup2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx context.Context, sel ast.SelectionSet, v model.FrameGroup) graphql.Marshaler {
+	return ec._FrameGroup(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNFrameGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FrameGroup) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx context.Context, sel ast.SelectionSet, v *model.FrameGroup) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FrameGroup(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNFrameLink2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx context.Context, sel ast.SelectionSet, v model.FrameLink) graphql.Marshaler {
+	return ec._FrameLink(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNFrameLink2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLinkᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FrameLink) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx context.Context, sel ast.SelectionSet, v *model.FrameLink) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FrameLink(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNID2string(ctx context.Context, v any) (string, error) {
@@ -38974,13 +47236,28 @@ func (ec *executionContext) unmarshalNUpdateFocalPointInput2githubᚗcomᚋuigra
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNUpdateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFocalPointMetaInput(ctx context.Context, v any) (model.UpdateFocalPointMetaInput, error) {
+	res, err := ec.unmarshalInputUpdateFocalPointMetaInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNUpdateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFolderInput(ctx context.Context, v any) (model.UpdateFolderInput, error) {
 	res, err := ec.unmarshalInputUpdateFolderInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNUpdateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameGroupInput(ctx context.Context, v any) (model.UpdateFrameGroupInput, error) {
+	res, err := ec.unmarshalInputUpdateFrameGroupInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNUpdateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameInput(ctx context.Context, v any) (model.UpdateFrameInput, error) {
 	res, err := ec.unmarshalInputUpdateFrameInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameLinkInput(ctx context.Context, v any) (model.UpdateFrameLinkInput, error) {
+	res, err := ec.unmarshalInputUpdateFrameLinkInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

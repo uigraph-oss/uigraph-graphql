@@ -207,19 +207,62 @@ type Folder struct {
 }
 
 type Diagram struct {
-	ID          string     `json:"id"`
-	OrgID       string     `json:"orgId"`
-	FolderID    *string    `json:"folderId,omitempty"`
-	TeamID      *string    `json:"teamId,omitempty"`
-	Name        string     `json:"name"`
-	ContentKey  string     `json:"contentKey"`
-	ContentHash string     `json:"contentHash"`
-	Source      *string    `json:"source,omitempty"`
-	CreatedBy   string     `json:"createdBy"`
-	UpdatedBy   *string    `json:"updatedBy,omitempty"`
-	CreatedAt   time.Time  `json:"createdAt"`
-	UpdatedAt   time.Time  `json:"updatedAt"`
-	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
+	ID                 string     `json:"id"`
+	OrgID              string     `json:"orgId"`
+	FolderID           *string    `json:"folderId,omitempty"`
+	TeamID             *string    `json:"teamId,omitempty"`
+	Name               string     `json:"name"`
+	ContentKey         string     `json:"contentKey"`
+	ContentHash        string     `json:"contentHash"`
+	PreviewAssetID     *string    `json:"previewAssetId,omitempty"`
+	PreviewContentHash *string    `json:"previewContentHash,omitempty"`
+	Source             *string    `json:"source,omitempty"`
+	CreatedBy          string     `json:"createdBy"`
+	UpdatedBy          *string    `json:"updatedBy,omitempty"`
+	CreatedAt          time.Time  `json:"createdAt"`
+	UpdatedAt          time.Time  `json:"updatedAt"`
+	DeletedAt          *time.Time `json:"deletedAt,omitempty"`
+}
+
+type FlowDiagramComponentField struct {
+	FlowDiagramComponentFieldID string   `json:"flowDiagramComponentFieldId"`
+	Label                       string   `json:"label"`
+	Type                        string   `json:"type"`
+	Required                    bool     `json:"required"`
+	Readonly                    *bool    `json:"readonly,omitempty"`
+	Options                     []string `json:"options,omitempty"`
+	Order                       int      `json:"order"`
+}
+
+type FlowDiagramComponent struct {
+	ComponentID                string                      `json:"componentId"`
+	Type                       string                      `json:"type"`
+	Name                       string                      `json:"name"`
+	Description                string                      `json:"description"`
+	Category                   string                      `json:"category"`
+	Tags                       []string                    `json:"tags"`
+	Slug                       string                      `json:"slug"`
+	PreviewImageJpg            string                      `json:"previewImageJpg"`
+	IsActive                   bool                        `json:"isActive"`
+	Order                      int                         `json:"order"`
+	OrganizationID             *string                     `json:"organizationId,omitempty"`
+	FlowDiagramComponentFields []FlowDiagramComponentField `json:"flowDiagramComponentFields"`
+}
+
+type FlowComponents struct {
+	Components       []FlowDiagramComponent `json:"components"`
+	CustomComponents []FlowDiagramComponent `json:"customComponents"`
+}
+
+type DiagramImage struct {
+	DiagramImageID string    `json:"diagramImageId"`
+	DiagramID      string    `json:"diagramId"`
+	OrgID          string    `json:"orgId"`
+	AssetID        string    `json:"assetId"`
+	FileName       *string   `json:"fileName,omitempty"`
+	Order          int       `json:"order"`
+	CreatedBy      string    `json:"createdBy"`
+	CreatedAt      time.Time `json:"createdAt"`
 }
 
 type DiagramVersion struct {
@@ -258,7 +301,7 @@ type Frame struct {
 	Name                  string     `json:"name"`
 	Description           string     `json:"description"`
 	TemplateType          string     `json:"templateType"`
-	ScreenshotKey         *string    `json:"screenshotKey,omitempty"`
+	ScreenshotAssetID     *string    `json:"screenshotAssetId,omitempty"`
 	ScreenshotContentHash *string    `json:"screenshotContentHash,omitempty"`
 	Status                string     `json:"status"`
 	Order                 float64    `json:"order"`
@@ -294,6 +337,60 @@ type Canvas struct {
 	NavigationY    float64         `json:"navigationY"`
 	FramePositions json.RawMessage `json:"framePositions"`
 	UpdatedAt      time.Time       `json:"updatedAt"`
+}
+
+type FrameGroup struct {
+	ID          string     `json:"id"`
+	FrameID     string     `json:"frameId"`
+	OrgID       string     `json:"orgId"`
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	LocationX   float64    `json:"locationX"`
+	LocationY   float64    `json:"locationY"`
+	Width       float64    `json:"width"`
+	Height      float64    `json:"height"`
+	Order       float64    `json:"order"`
+	IsActive    bool       `json:"isActive"`
+	CreatedBy   string     `json:"createdBy"`
+	UpdatedBy   *string    `json:"updatedBy,omitempty"`
+	CreatedAt   time.Time  `json:"createdAt"`
+	UpdatedAt   time.Time  `json:"updatedAt"`
+	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
+}
+
+type FrameLink struct {
+	ID            string     `json:"id"`
+	FrameID       string     `json:"frameId"`
+	OrgID         string     `json:"orgId"`
+	Kind          string     `json:"kind"`
+	TargetFrameID *string    `json:"targetFrameId,omitempty"`
+	TargetMapID   *string    `json:"targetMapId,omitempty"`
+	Label         string     `json:"label"`
+	LocationX     float64    `json:"locationX"`
+	LocationY     float64    `json:"locationY"`
+	IsActive      bool       `json:"isActive"`
+	CreatedBy     string     `json:"createdBy"`
+	UpdatedBy     *string    `json:"updatedBy,omitempty"`
+	CreatedAt     time.Time  `json:"createdAt"`
+	UpdatedAt     time.Time  `json:"updatedAt"`
+	DeletedAt     *time.Time `json:"deletedAt,omitempty"`
+}
+
+type FocalPointMeta struct {
+	ID                   string          `json:"id"`
+	FocalPointID         string          `json:"focalPointId"`
+	OrgID                string          `json:"orgId"`
+	FrameID              string          `json:"frameId"`
+	ComponentID          string          `json:"componentId"`
+	ComponentLinkID      *string         `json:"componentLinkId,omitempty"`
+	ComponentImages      json.RawMessage `json:"componentImages"`
+	ComponentFlowDiagram *string         `json:"componentFlowDiagram,omitempty"`
+	ComponentModalFields json.RawMessage `json:"componentModalFields"`
+	CreatedBy            string          `json:"createdBy"`
+	UpdatedBy            *string         `json:"updatedBy,omitempty"`
+	CreatedAt            time.Time       `json:"createdAt"`
+	UpdatedAt            time.Time       `json:"updatedAt"`
+	DeletedAt            *time.Time      `json:"deletedAt,omitempty"`
 }
 
 // ── Catalog ───────────────────────────────────────────────────────────────────
