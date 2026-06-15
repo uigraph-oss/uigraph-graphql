@@ -241,7 +241,7 @@ func canvasToModel(c *client.Canvas) *model.Canvas {
 		MapID: c.MapID, OrgID: c.OrgID,
 		Zoom: c.Zoom, NavigationX: c.NavigationX, NavigationY: c.NavigationY,
 		FramePositions: rawStr(c.FramePositions),
-		UpdatedAt: c.UpdatedAt,
+		UpdatedAt:      c.UpdatedAt,
 	}
 }
 
@@ -289,7 +289,7 @@ func focalPointMetaToModel(m *client.FocalPointMeta) *model.FocalPointMeta {
 		ComponentImages:      rawArrStr(m.ComponentImages),
 		ComponentFlowDiagram: m.ComponentFlowDiagram,
 		ComponentModalFields: rawArrStr(m.ComponentModalFields),
-		CreatedBy: m.CreatedBy, UpdatedBy: m.UpdatedBy,
+		CreatedBy:            m.CreatedBy, UpdatedBy: m.UpdatedBy,
 		CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
 	}
 }
@@ -327,6 +327,17 @@ func serviceToModel(s *client.Service) *model.Service {
 	}
 }
 
+func serviceStatsToModel(s client.ServiceStats) *model.ServiceStats {
+	return &model.ServiceStats{
+		ServiceID:     s.ServiceID,
+		EndpointCount: s.EndpointCount,
+		DiagramCount:  s.DiagramCount,
+		DocCount:      s.DocCount,
+		DbTableCount:  s.DBTableCount,
+		TestCaseCount: s.TestCaseCount,
+	}
+}
+
 func apiGroupToModel(g *client.APIGroup) *model.APIGroup {
 	return &model.APIGroup{
 		ID: g.ID, ServiceID: g.ServiceID, OrgID: g.OrgID,
@@ -344,6 +355,50 @@ func apiGroupVersionToModel(v client.APIGroupVersion) *model.APIGroupVersion {
 	}
 }
 
+func serviceDocToModel(d *client.ServiceDoc) *model.ServiceDoc {
+	return &model.ServiceDoc{
+		ID: d.ID, ServiceID: d.ServiceID, OrgID: d.OrgID,
+		FileKey: d.FileKey, FileName: d.FileName, FileType: d.FileType,
+		Description: d.Description, ContentHash: d.ContentHash,
+		CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy, CreatedAt: d.CreatedAt, UpdatedAt: d.UpdatedAt,
+	}
+}
+
+func serviceDiagramToModel(d *client.ServiceDiagram) *model.ServiceDiagram {
+	out := &model.ServiceDiagram{
+		ServiceID: d.ServiceID,
+		DiagramID: d.DiagramID,
+		OrgID:     d.OrgID,
+		CreatedBy: d.CreatedBy,
+		UpdatedBy: d.UpdatedBy,
+		CreatedAt: d.CreatedAt,
+		UpdatedAt: d.UpdatedAt,
+	}
+	if d.Diagram != nil {
+		out.Diagram = diagramToModel(d.Diagram)
+	}
+	return out
+}
+
+func serviceDBToModel(d *client.ServiceDB) *model.ServiceDb {
+	return &model.ServiceDb{
+		ID: d.ID, ServiceID: d.ServiceID, OrgID: d.OrgID,
+		DbName: d.DBName, DbType: d.DBType, Dialect: d.Dialect,
+		SchemaJSON: rawStr(d.SchemaJSON),
+		Source:     d.Source, SourceTs: d.SourceTS,
+		CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy, CreatedAt: d.CreatedAt, UpdatedAt: d.UpdatedAt,
+	}
+}
+
+func serviceDBVersionToModel(v client.ServiceDBVersion) *model.ServiceDBVersion {
+	return &model.ServiceDBVersion{
+		ID: v.ID, ServiceDbID: v.ServiceDBID, VersionNumber: v.VersionNumber,
+		Label: v.Label, SchemaJSON: rawStr(v.SchemaJSON),
+		Source: v.Source, SourceTs: v.SourceTS,
+		IsAutoVersion: v.IsAutoVersion, CreatedBy: v.CreatedBy, CreatedAt: v.CreatedAt,
+	}
+}
+
 func apiEndpointToModel(e *client.APIEndpoint) *model.APIEndpoint {
 	return &model.APIEndpoint{
 		ID: e.ID, APIGroupID: e.APIGroupID, ServiceID: e.ServiceID, OrgID: e.OrgID,
@@ -353,7 +408,200 @@ func apiEndpointToModel(e *client.APIEndpoint) *model.APIEndpoint {
 		RequestBody: rawStr(e.RequestBody),
 		Responses:   rawStr(e.Responses),
 		Order:       e.Order,
-		CreatedBy: e.CreatedBy, UpdatedBy: e.UpdatedBy, CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt,
+		CreatedBy:   e.CreatedBy, UpdatedBy: e.UpdatedBy, CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt,
+	}
+}
+
+func keyValueToModel(v client.KeyValue) *model.KeyValue {
+	return &model.KeyValue{Key: v.Key, Value: v.Value}
+}
+
+func assertionToModel(a client.Assertion) *model.Assertion {
+	return &model.Assertion{Field: a.Field, Type: a.Type, Value: a.Value}
+}
+
+func authConfigToModel(a *client.AuthConfig) *model.AuthConfig {
+	if a == nil {
+		return nil
+	}
+	return &model.AuthConfig{
+		Type:          a.Type,
+		BearerToken:   a.BearerToken,
+		APIKeyHeader:  a.APIKeyHeader,
+		APIKeyValue:   a.APIKeyValue,
+		BasicUsername: a.BasicUsername,
+		BasicPassword: a.BasicPassword,
+	}
+}
+
+func testCaseStepToModel(s client.TestCaseStep) *model.TestCaseStep {
+	return &model.TestCaseStep{Order: s.Order, Action: s.Action, ExpectedResult: s.ExpectedResult}
+}
+
+func manualTestCaseToModel(m *client.ManualTestCase) *model.ManualTestCase {
+	if m == nil {
+		return nil
+	}
+	steps := make([]*model.TestCaseStep, len(m.Steps))
+	for i, s := range m.Steps {
+		steps[i] = testCaseStepToModel(s)
+	}
+	return &model.ManualTestCase{
+		Preconditions:   m.Preconditions,
+		TestData:        m.TestData,
+		Steps:           steps,
+		ExpectedOutcome: m.ExpectedOutcome,
+		Postconditions:  m.Postconditions,
+	}
+}
+
+func apiTestCaseToModel(a *client.APITestCase) *model.APITestCase {
+	if a == nil {
+		return nil
+	}
+	headers := make([]*model.KeyValue, len(a.RequestHeaders))
+	for i, v := range a.RequestHeaders {
+		headers[i] = keyValueToModel(v)
+	}
+	params := make([]*model.KeyValue, len(a.QueryParams))
+	for i, v := range a.QueryParams {
+		params[i] = keyValueToModel(v)
+	}
+	assertions := make([]*model.Assertion, len(a.Assertions))
+	for i, v := range a.Assertions {
+		assertions[i] = assertionToModel(v)
+	}
+	return &model.APITestCase{
+		HTTPMethod:         a.HTTPMethod,
+		APISpecID:          a.APISpecID,
+		OperationID:        a.OperationID,
+		Auth:               authConfigToModel(a.Auth),
+		RequestHeaders:     headers,
+		QueryParams:        params,
+		RequestBody:        a.RequestBody,
+		ExpectedStatusCode: a.ExpectedStatusCode,
+		MaxResponseTimeMs:  a.MaxResponseTimeMs,
+		ResponseBody:       a.ResponseBody,
+		Assertions:         assertions,
+	}
+}
+
+func graphQLTestCaseToModel(g *client.GraphQLTestCase) *model.GraphQLTestCase {
+	if g == nil {
+		return nil
+	}
+	assertions := make([]*model.Assertion, len(g.Assertions))
+	for i, v := range g.Assertions {
+		assertions[i] = assertionToModel(v)
+	}
+	return &model.GraphQLTestCase{
+		OperationType: g.OperationType,
+		OperationName: g.OperationName,
+		Query:         g.Query,
+		Variables:     g.Variables,
+		ResponseBody:  g.ResponseBody,
+		Assertions:    assertions,
+		ExpectError:   g.ExpectError,
+	}
+}
+
+func databaseTestCaseToModel(d *client.DatabaseTestCase) *model.DatabaseTestCase {
+	if d == nil {
+		return nil
+	}
+	assertions := make([]*model.Assertion, len(d.Assertions))
+	for i, v := range d.Assertions {
+		assertions[i] = assertionToModel(v)
+	}
+	return &model.DatabaseTestCase{
+		Dialect:       d.Dialect,
+		SchemaID:      d.SchemaID,
+		Query:         d.Query,
+		Assertions:    assertions,
+		SetupQuery:    d.SetupQuery,
+		TeardownQuery: d.TeardownQuery,
+	}
+}
+
+func grpcTestCaseToModel(g *client.GRPCTestCase) *model.GRPCTestCase {
+	if g == nil {
+		return nil
+	}
+	metadata := make([]*model.KeyValue, len(g.Metadata))
+	for i, v := range g.Metadata {
+		metadata[i] = keyValueToModel(v)
+	}
+	assertions := make([]*model.Assertion, len(g.Assertions))
+	for i, v := range g.Assertions {
+		assertions[i] = assertionToModel(v)
+	}
+	return &model.GRPCTestCase{
+		ServiceName:    g.ServiceName,
+		MethodName:     g.MethodName,
+		CallMode:       g.CallMode,
+		ProtoFileID:    g.ProtoFileID,
+		ServerAddress:  g.ServerAddress,
+		RequestMessage: g.RequestMessage,
+		Metadata:       metadata,
+		ExpectedStatus: g.ExpectedStatus,
+		DeadlineMs:     g.DeadlineMs,
+		ResponseBody:   g.ResponseBody,
+		Assertions:     assertions,
+		UseTLS:         g.UseTLS,
+		ExpectError:    g.ExpectError,
+	}
+}
+
+func testPackToModel(p *client.TestPack) *model.TestPack {
+	return &model.TestPack{
+		TestPackID: p.TestPackID, ServiceID: p.ServiceID, OrgID: p.OrgID,
+		Name: p.Name, Type: p.Type,
+		CreatedBy: p.CreatedBy, UpdatedBy: p.UpdatedBy, DeletedBy: p.DeletedBy,
+		CreatedAt: p.CreatedAt, UpdatedAt: p.UpdatedAt, DeletedAt: p.DeletedAt,
+	}
+}
+
+func testCaseToModel(tc *client.TestCase) *model.TestCase {
+	return &model.TestCase{
+		TestCaseID: tc.TestCaseID, TestPackID: tc.TestPackID, ServiceID: tc.ServiceID, OrgID: tc.OrgID,
+		Title: tc.Title, Order: tc.Order, Type: tc.Type, Description: tc.Description, Priority: tc.Priority,
+		Labels: tc.Labels, LinkedTicket: tc.LinkedTicket, EstimatedDurationMins: tc.EstimatedDurationMins,
+		TestOwner: tc.TestOwner, LinkedMapNodeID: tc.LinkedMapNodeID, IsCritical: tc.IsCritical, EvidenceRequired: tc.EvidenceRequired,
+		Manual: manualTestCaseToModel(tc.Manual), API: apiTestCaseToModel(tc.API),
+		Graphql: graphQLTestCaseToModel(tc.GraphQL), Database: databaseTestCaseToModel(tc.Database), Grpc: grpcTestCaseToModel(tc.GRPC),
+		Status: tc.Status, Version: tc.Version, BaselineRunResultID: tc.BaselineRunResultID, Dependencies: tc.Dependencies,
+		CreatedBy: tc.CreatedBy, UpdatedBy: tc.UpdatedBy, DeletedBy: tc.DeletedBy, CreatedAt: tc.CreatedAt, UpdatedAt: tc.UpdatedAt, DeletedAt: tc.DeletedAt,
+	}
+}
+
+func testRunToModel(tr *client.TestRun) *model.TestRun {
+	return &model.TestRun{
+		TestRunID: tr.TestRunID, TestPackID: tr.TestPackID, ServiceID: tr.ServiceID, OrgID: tr.OrgID,
+		Environment: tr.Environment, ReleaseLabel: tr.ReleaseLabel, StartedAt: tr.StartedAt, CompletedAt: tr.CompletedAt,
+		Status: tr.Status, StartedBy: tr.StartedBy, ExecutedBy: tr.ExecutedBy, ExecutedAt: tr.ExecutedAt, OverallStatus: tr.OverallStatus,
+	}
+}
+
+func testRunSummaryToModel(s client.TestRunSummary) *model.TestRunSummary {
+	return &model.TestRunSummary{
+		TestRunID: s.TestRunID, TestPackID: s.TestPackID, ServiceID: s.ServiceID,
+		Environment: s.Environment, ReleaseLabel: s.ReleaseLabel, StartedAt: s.StartedAt, CompletedAt: s.CompletedAt,
+		Status: s.Status, StartedBy: s.StartedBy, ExecutedBy: s.ExecutedBy, ExecutedAt: s.ExecutedAt, OverallStatus: s.OverallStatus,
+		PassedCount: s.PassedCount, FailedCount: s.FailedCount, SkippedCount: s.SkippedCount, BlockedCount: s.BlockedCount,
+	}
+}
+
+func testRunResultToModel(rr *client.TestRunResult) *model.TestRunResult {
+	var responseTimeMs *int
+	if rr.ResponseTimeMs != nil {
+		v := int(*rr.ResponseTimeMs)
+		responseTimeMs = &v
+	}
+	return &model.TestRunResult{
+		TestRunResultID: rr.TestRunResultID, TestRunID: rr.TestRunID, TestCaseID: rr.TestCaseID,
+		ServiceID: rr.ServiceID, OrgID: rr.OrgID, Status: rr.Status, BlockedReason: rr.BlockedReason,
+		ResponseStatus: rr.ResponseStatus, ResponseBody: rr.ResponseBody, ResponseTimeMs: responseTimeMs,
+		Notes: rr.Notes, ScreenshotUrls: rr.ScreenshotURLs, ExecutedAt: rr.ExecutedAt, ExecutedBy: rr.ExecutedBy,
 	}
 }
 
@@ -479,6 +727,14 @@ func servicesToModel(services []client.Service) []*model.Service {
 	return out
 }
 
+func serviceStatsListToModel(stats []client.ServiceStats) []*model.ServiceStats {
+	out := make([]*model.ServiceStats, len(stats))
+	for i, s := range stats {
+		out[i] = serviceStatsToModel(s)
+	}
+	return out
+}
+
 func apiGroupsToModel(groups []client.APIGroup) []*model.APIGroup {
 	out := make([]*model.APIGroup, len(groups))
 	for i := range groups {
@@ -495,10 +751,82 @@ func apiGroupVersionsToModel(versions []client.APIGroupVersion) []*model.APIGrou
 	return out
 }
 
+func serviceDocsToModel(docs []client.ServiceDoc) []*model.ServiceDoc {
+	out := make([]*model.ServiceDoc, len(docs))
+	for i := range docs {
+		out[i] = serviceDocToModel(&docs[i])
+	}
+	return out
+}
+
+func serviceDiagramsToModel(diagrams []client.ServiceDiagram) []*model.ServiceDiagram {
+	out := make([]*model.ServiceDiagram, len(diagrams))
+	for i := range diagrams {
+		out[i] = serviceDiagramToModel(&diagrams[i])
+	}
+	return out
+}
+
+func serviceDBsToModel(dbs []client.ServiceDB) []*model.ServiceDb {
+	out := make([]*model.ServiceDb, len(dbs))
+	for i := range dbs {
+		out[i] = serviceDBToModel(&dbs[i])
+	}
+	return out
+}
+
+func serviceDBVersionsToModel(versions []client.ServiceDBVersion) []*model.ServiceDBVersion {
+	out := make([]*model.ServiceDBVersion, len(versions))
+	for i, v := range versions {
+		out[i] = serviceDBVersionToModel(v)
+	}
+	return out
+}
+
 func apiEndpointsToModel(endpoints []client.APIEndpoint) []*model.APIEndpoint {
 	out := make([]*model.APIEndpoint, len(endpoints))
 	for i := range endpoints {
 		out[i] = apiEndpointToModel(&endpoints[i])
+	}
+	return out
+}
+
+func testPacksToModel(packs []client.TestPack) []*model.TestPack {
+	out := make([]*model.TestPack, len(packs))
+	for i := range packs {
+		out[i] = testPackToModel(&packs[i])
+	}
+	return out
+}
+
+func testCasesToModel(cases []client.TestCase) []*model.TestCase {
+	out := make([]*model.TestCase, len(cases))
+	for i := range cases {
+		out[i] = testCaseToModel(&cases[i])
+	}
+	return out
+}
+
+func testRunsToModel(runs []client.TestRun) []*model.TestRun {
+	out := make([]*model.TestRun, len(runs))
+	for i := range runs {
+		out[i] = testRunToModel(&runs[i])
+	}
+	return out
+}
+
+func testRunSummariesToModel(summaries []client.TestRunSummary) []*model.TestRunSummary {
+	out := make([]*model.TestRunSummary, len(summaries))
+	for i, s := range summaries {
+		out[i] = testRunSummaryToModel(s)
+	}
+	return out
+}
+
+func testRunResultsToModel(results []client.TestRunResult) []*model.TestRunResult {
+	out := make([]*model.TestRunResult, len(results))
+	for i := range results {
+		out[i] = testRunResultToModel(&results[i])
 	}
 	return out
 }
