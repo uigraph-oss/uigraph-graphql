@@ -289,7 +289,7 @@ func focalPointMetaToModel(m *client.FocalPointMeta) *model.FocalPointMeta {
 		ComponentImages:      rawArrStr(m.ComponentImages),
 		ComponentFlowDiagram: m.ComponentFlowDiagram,
 		ComponentModalFields: rawArrStr(m.ComponentModalFields),
-		CreatedBy:            m.CreatedBy, UpdatedBy: m.UpdatedBy,
+		CreatedBy: m.CreatedBy, UpdatedBy: m.UpdatedBy,
 		CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
 	}
 }
