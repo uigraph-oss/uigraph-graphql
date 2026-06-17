@@ -204,6 +204,7 @@ type ComplexityRoot struct {
 		OrgID              func(childComplexity int) int
 		PreviewAssetID     func(childComplexity int) int
 		PreviewContentHash func(childComplexity int) int
+		PreviewImageURL    func(childComplexity int) int
 		Source             func(childComplexity int) int
 		TeamID             func(childComplexity int) int
 		UpdatedAt          func(childComplexity int) int
@@ -958,6 +959,8 @@ type ComplexityRoot struct {
 }
 
 type DiagramResolver interface {
+	PreviewImageURL(ctx context.Context, obj *model.Diagram) (*string, error)
+
 	CreatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error)
 	UpdatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error)
 }
@@ -1939,6 +1942,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Diagram.PreviewContentHash(childComplexity), true
+
+	case "Diagram.previewImageUrl":
+		if e.complexity.Diagram.PreviewImageURL == nil {
+			break
+		}
+
+		return e.complexity.Diagram.PreviewImageURL(childComplexity), true
 
 	case "Diagram.source":
 		if e.complexity.Diagram.Source == nil {
@@ -8063,6 +8073,7 @@ type Diagram {
     contentKey:         String!
     contentHash:        String!
     previewAssetId:     String
+    previewImageUrl:    String
     previewContentHash: String
     source:             String
     createdBy:          ID!
@@ -22999,6 +23010,47 @@ func (ec *executionContext) fieldContext_Diagram_previewAssetId(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _Diagram_previewImageUrl(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Diagram().PreviewImageURL(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_previewImageUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Diagram_previewContentHash(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Diagram_previewContentHash(ctx, field)
 	if err != nil {
@@ -34778,6 +34830,8 @@ func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -34867,6 +34921,8 @@ func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -35151,6 +35207,8 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -41561,6 +41619,8 @@ func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, fie
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -41650,6 +41710,8 @@ func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, fiel
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -47936,6 +47998,8 @@ func (ec *executionContext) fieldContext_ServiceDiagram_diagram(_ context.Contex
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -61273,6 +61337,39 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "previewAssetId":
 			out.Values[i] = ec._Diagram_previewAssetId(ctx, field, obj)
+		case "previewImageUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Diagram_previewImageUrl(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "previewContentHash":
 			out.Values[i] = ec._Diagram_previewContentHash(ctx, field, obj)
 		case "source":

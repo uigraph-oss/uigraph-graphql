@@ -37,6 +37,8 @@ models:
         resolver: true
       updatedByActor:
         resolver: true
+      previewImageUrl:
+        resolver: true
   Service:
     fields:
       createdByActor:

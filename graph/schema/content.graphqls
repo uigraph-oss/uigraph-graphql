@@ -85,6 +85,7 @@ type Diagram {
     contentKey:         String!
     contentHash:        String!
     previewAssetId:     String
+    previewImageUrl:    String
     previewContentHash: String
     source:             String
     createdBy:          ID!

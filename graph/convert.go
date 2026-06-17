@@ -29,6 +29,23 @@ func (r *Resolver) resolveActor(ctx context.Context, orgID, id string) (*model.A
 	return m, nil
 }
 
+// resolveAssetURL resolves a single asset id within an org to a presigned GET
+// URL, returning nil when id is empty or no url is produced.
+func (r *Resolver) resolveAssetURL(ctx context.Context, orgID, assetID string) (*string, error) {
+	if assetID == "" {
+		return nil, nil
+	}
+	urls, err := r.Client.ResolveAssetURLs(ctx, orgID, []string{assetID})
+	if err != nil {
+		return nil, err
+	}
+	u, ok := urls[assetID]
+	if !ok || u == "" {
+		return nil, nil
+	}
+	return &u, nil
+}
+
 // toMap JSON-round-trips a struct into map[string]interface{}.
 // This correctly handles optional fields: nil pointer fields are omitted
 // from the resulting map (because of omitempty in the input struct tags).

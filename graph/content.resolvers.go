@@ -11,6 +11,14 @@ import (
 	"github.com/uigraph/graphql/graph/model"
 )
 
+// PreviewImageURL is the resolver for the previewImageUrl field.
+func (r *diagramResolver) PreviewImageURL(ctx context.Context, obj *model.Diagram) (*string, error) {
+	if obj.PreviewAssetID == nil {
+		return nil, nil
+	}
+	return r.resolveAssetURL(ctx, obj.OrgID, *obj.PreviewAssetID)
+}
+
 // CreatedByActor is the resolver for the createdByActor field.
 func (r *diagramResolver) CreatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error) {
 	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
