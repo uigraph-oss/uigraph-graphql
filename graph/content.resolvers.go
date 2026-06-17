@@ -37,12 +37,30 @@ func (r *diagramImageResolver) ImageURL(ctx context.Context, obj *model.DiagramI
 	return r.resolveAssetURL(ctx, obj.OrgID, obj.AssetID)
 }
 
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *diagramVersionResolver) CreatedByActor(ctx context.Context, obj *model.DiagramVersion) (*model.Actor, error) {
+	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
+}
+
 // ScreenshotImageURL is the resolver for the screenshotImageUrl field.
 func (r *frameResolver) ScreenshotImageURL(ctx context.Context, obj *model.Frame) (*string, error) {
 	if obj.ScreenshotAssetID == nil {
 		return nil, nil
 	}
 	return r.resolveAssetURL(ctx, obj.OrgID, *obj.ScreenshotAssetID)
+}
+
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *frameResolver) CreatedByActor(ctx context.Context, obj *model.Frame) (*model.Actor, error) {
+	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
+}
+
+// UpdatedByActor is the resolver for the updatedByActor field.
+func (r *frameResolver) UpdatedByActor(ctx context.Context, obj *model.Frame) (*model.Actor, error) {
+	if obj.UpdatedBy == nil {
+		return nil, nil
+	}
+	return r.resolveActor(ctx, obj.OrgID, *obj.UpdatedBy)
 }
 
 // CreateFolder is the resolver for the createFolder field.
@@ -117,7 +135,7 @@ func (r *mutationResolver) CreateDiagramVersion(ctx context.Context, orgID strin
 	if err != nil {
 		return nil, err
 	}
-	return diagramVersionToModel(*v), nil
+	return diagramVersionToModel(orgID, *v), nil
 }
 
 // RestoreDiagramVersion is the resolver for the restoreDiagramVersion field.
@@ -358,7 +376,7 @@ func (r *queryResolver) DiagramVersions(ctx context.Context, orgID string, diagr
 	if err != nil {
 		return nil, err
 	}
-	return diagramVersionsToModel(versions), nil
+	return diagramVersionsToModel(orgID, versions), nil
 }
 
 // DiagramVersionContent is the resolver for the diagramVersionContent field.
@@ -503,9 +521,15 @@ func (r *Resolver) Diagram() generated.DiagramResolver { return &diagramResolver
 // DiagramImage returns generated.DiagramImageResolver implementation.
 func (r *Resolver) DiagramImage() generated.DiagramImageResolver { return &diagramImageResolver{r} }
 
+// DiagramVersion returns generated.DiagramVersionResolver implementation.
+func (r *Resolver) DiagramVersion() generated.DiagramVersionResolver {
+	return &diagramVersionResolver{r}
+}
+
 // Frame returns generated.FrameResolver implementation.
 func (r *Resolver) Frame() generated.FrameResolver { return &frameResolver{r} }
 
 type diagramResolver struct{ *Resolver }
 type diagramImageResolver struct{ *Resolver }
+type diagramVersionResolver struct{ *Resolver }
 type frameResolver struct{ *Resolver }

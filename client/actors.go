@@ -9,11 +9,12 @@ import (
 // Actor is public identity info for a created_by / updated_by / deleted_by id,
 // resolved by uigraph-api to either a user or a service account.
 type Actor struct {
-	ID       string `json:"id"`
-	Type     string `json:"type"`
-	Name     string `json:"name"`
-	Email    string `json:"email,omitempty"`
-	Disabled bool   `json:"disabled"`
+	ID        string `json:"id"`
+	Type      string `json:"type"`
+	Name      string `json:"name"`
+	Email     string `json:"email,omitempty"`
+	Disabled  bool   `json:"disabled"`
+	AvatarURL string `json:"avatarUrl,omitempty"`
 }
 
 // ResolveActors resolves the given ids within an org, returning a map from id

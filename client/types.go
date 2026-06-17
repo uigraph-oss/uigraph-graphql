@@ -17,6 +17,7 @@ type MeResponse struct {
 	Kind         string `json:"kind"`
 	Role         string `json:"role"`
 	AuthProvider string `json:"authProvider"`
+	AvatarURL    string `json:"avatarUrl,omitempty"`
 }
 
 type OrgSummary struct {

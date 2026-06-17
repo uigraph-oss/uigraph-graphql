@@ -26,6 +26,9 @@ func (r *Resolver) resolveActor(ctx context.Context, orgID, id string) (*model.A
 	if a.Email != "" {
 		m.Email = &a.Email
 	}
+	if a.AvatarURL != "" {
+		m.AvatarURL = &a.AvatarURL
+	}
 	return m, nil
 }
 
@@ -74,11 +77,15 @@ func rawArrStr(b json.RawMessage) string {
 // ── Auth ─────────────────────────────────────────────────────────────────────
 
 func meToModel(m *client.MeResponse) *model.Me {
-	return &model.Me{
+	me := &model.Me{
 		UserID: m.UserID, OrgID: m.OrgID,
 		Email: m.Email, Name: m.Name, Login: m.Login,
 		Kind: m.Kind, Role: m.Role, AuthProvider: m.AuthProvider,
 	}
+	if m.AvatarURL != "" {
+		me.AvatarURL = &m.AvatarURL
+	}
+	return me
 }
 
 func orgSummaryToModel(o client.OrgSummary) *model.OrgSummary {
@@ -157,9 +164,9 @@ func diagramToModel(d *client.Diagram) *model.Diagram {
 	}
 }
 
-func diagramVersionToModel(v client.DiagramVersion) *model.DiagramVersion {
+func diagramVersionToModel(orgID string, v client.DiagramVersion) *model.DiagramVersion {
 	return &model.DiagramVersion{
-		ID: v.ID, DiagramID: v.DiagramID, VersionNumber: v.VersionNumber,
+		ID: v.ID, OrgID: orgID, DiagramID: v.DiagramID, VersionNumber: v.VersionNumber,
 		Label: v.Label, ContentKey: v.ContentKey, ContentHash: v.ContentHash,
 		IsAutoVersion: v.IsAutoVersion, Source: v.Source, CreatedBy: v.CreatedBy, CreatedAt: v.CreatedAt,
 	}
@@ -386,9 +393,9 @@ func apiGroupToModel(g *client.APIGroup) *model.APIGroup {
 	}
 }
 
-func apiGroupVersionToModel(v client.APIGroupVersion) *model.APIGroupVersion {
+func apiGroupVersionToModel(orgID string, v client.APIGroupVersion) *model.APIGroupVersion {
 	return &model.APIGroupVersion{
-		ID: v.ID, APIGroupID: v.APIGroupID, VersionNumber: v.VersionNumber,
+		ID: v.ID, OrgID: orgID, APIGroupID: v.APIGroupID, VersionNumber: v.VersionNumber,
 		Label: v.Label, SpecKey: v.SpecKey, SpecHash: v.SpecHash,
 		IsAutoVersion: v.IsAutoVersion, CreatedBy: v.CreatedBy, CreatedAt: v.CreatedAt,
 	}
@@ -429,9 +436,9 @@ func serviceDBToModel(d *client.ServiceDB) *model.ServiceDb {
 	}
 }
 
-func serviceDBVersionToModel(v client.ServiceDBVersion) *model.ServiceDBVersion {
+func serviceDBVersionToModel(orgID string, v client.ServiceDBVersion) *model.ServiceDBVersion {
 	return &model.ServiceDBVersion{
-		ID: v.ID, ServiceDbID: v.ServiceDBID, VersionNumber: v.VersionNumber,
+		ID: v.ID, OrgID: orgID, ServiceDbID: v.ServiceDBID, VersionNumber: v.VersionNumber,
 		Label: v.Label, SchemaJSON: rawStr(v.SchemaJSON),
 		Source: v.Source, SourceTs: v.SourceTS,
 		IsAutoVersion: v.IsAutoVersion, CreatedBy: v.CreatedBy, CreatedAt: v.CreatedAt,
@@ -726,10 +733,10 @@ func diagramsToModel(diagrams []client.Diagram) []*model.Diagram {
 	return out
 }
 
-func diagramVersionsToModel(versions []client.DiagramVersion) []*model.DiagramVersion {
+func diagramVersionsToModel(orgID string, versions []client.DiagramVersion) []*model.DiagramVersion {
 	out := make([]*model.DiagramVersion, len(versions))
 	for i, v := range versions {
-		out[i] = diagramVersionToModel(v)
+		out[i] = diagramVersionToModel(orgID, v)
 	}
 	return out
 }
@@ -782,10 +789,10 @@ func apiGroupsToModel(groups []client.APIGroup) []*model.APIGroup {
 	return out
 }
 
-func apiGroupVersionsToModel(versions []client.APIGroupVersion) []*model.APIGroupVersion {
+func apiGroupVersionsToModel(orgID string, versions []client.APIGroupVersion) []*model.APIGroupVersion {
 	out := make([]*model.APIGroupVersion, len(versions))
 	for i, v := range versions {
-		out[i] = apiGroupVersionToModel(v)
+		out[i] = apiGroupVersionToModel(orgID, v)
 	}
 	return out
 }
@@ -814,10 +821,10 @@ func serviceDBsToModel(dbs []client.ServiceDB) []*model.ServiceDb {
 	return out
 }
 
-func serviceDBVersionsToModel(versions []client.ServiceDBVersion) []*model.ServiceDBVersion {
+func serviceDBVersionsToModel(orgID string, versions []client.ServiceDBVersion) []*model.ServiceDBVersion {
 	out := make([]*model.ServiceDBVersion, len(versions))
 	for i, v := range versions {
-		out[i] = serviceDBVersionToModel(v)
+		out[i] = serviceDBVersionToModel(orgID, v)
 	}
 	return out
 }
