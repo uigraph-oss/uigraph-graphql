@@ -1,11 +1,33 @@
 package graph
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/uigraph/graphql/client"
 	"github.com/uigraph/graphql/graph/model"
 )
+
+// resolveActor resolves a single created_by / updated_by id within an org to
+// its public actor info, returning nil when id is empty or matches no actor.
+func (r *Resolver) resolveActor(ctx context.Context, orgID, id string) (*model.Actor, error) {
+	if id == "" {
+		return nil, nil
+	}
+	actors, err := r.Client.ResolveActors(ctx, orgID, []string{id})
+	if err != nil {
+		return nil, err
+	}
+	a := actors[id]
+	if a == nil {
+		return nil, nil
+	}
+	m := &model.Actor{ID: a.ID, Type: a.Type, Name: a.Name, Disabled: a.Disabled}
+	if a.Email != "" {
+		m.Email = &a.Email
+	}
+	return m, nil
+}
 
 // toMap JSON-round-trips a struct into map[string]interface{}.
 // This correctly handles optional fields: nil pointer fields are omitted

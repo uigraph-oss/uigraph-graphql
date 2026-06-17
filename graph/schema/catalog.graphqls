@@ -87,6 +87,8 @@ type Service {
     metadata:         String!
     createdBy:        ID!
     updatedBy:        ID
+    createdByActor:   Actor
+    updatedByActor:   Actor
     createdAt:        Time!
     updatedAt:        Time!
 }

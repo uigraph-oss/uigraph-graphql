@@ -83,6 +83,14 @@ type APITestCaseInput struct {
 	Assertions         []*AssertionInput `json:"assertions,omitempty"`
 }
 
+type Actor struct {
+	ID       string  `json:"id"`
+	Type     string  `json:"type"`
+	Name     string  `json:"name"`
+	Email    *string `json:"email,omitempty"`
+	Disabled bool    `json:"disabled"`
+}
+
 type AddMemberInput struct {
 	UserID string `json:"userId"`
 	Role   string `json:"role"`
@@ -435,6 +443,8 @@ type Diagram struct {
 	Source             *string   `json:"source,omitempty"`
 	CreatedBy          string    `json:"createdBy"`
 	UpdatedBy          *string   `json:"updatedBy,omitempty"`
+	CreatedByActor     *Actor    `json:"createdByActor,omitempty"`
+	UpdatedByActor     *Actor    `json:"updatedByActor,omitempty"`
 	CreatedAt          time.Time `json:"createdAt"`
 	UpdatedAt          time.Time `json:"updatedAt"`
 }
@@ -820,6 +830,8 @@ type Service struct {
 	Metadata        string    `json:"metadata"`
 	CreatedBy       string    `json:"createdBy"`
 	UpdatedBy       *string   `json:"updatedBy,omitempty"`
+	CreatedByActor  *Actor    `json:"createdByActor,omitempty"`
+	UpdatedByActor  *Actor    `json:"updatedByActor,omitempty"`
 	CreatedAt       time.Time `json:"createdAt"`
 	UpdatedAt       time.Time `json:"updatedAt"`
 }

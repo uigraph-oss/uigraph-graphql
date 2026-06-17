@@ -31,3 +31,15 @@ models:
       - github.com/99designs/gqlgen/graphql.Int32
   Time:
     model: github.com/99designs/gqlgen/graphql.Time
+  Diagram:
+    fields:
+      createdByActor:
+        resolver: true
+      updatedByActor:
+        resolver: true
+  Service:
+    fields:
+      createdByActor:
+        resolver: true
+      updatedByActor:
+        resolver: true

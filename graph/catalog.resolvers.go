@@ -8,6 +8,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/uigraph/graphql/graph/generated"
 	"github.com/uigraph/graphql/graph/model"
 )
 
@@ -439,3 +440,21 @@ func (r *queryResolver) TestRunResults(ctx context.Context, orgID string, servic
 	}
 	return testRunResultsToModel(results), nil
 }
+
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *serviceResolver) CreatedByActor(ctx context.Context, obj *model.Service) (*model.Actor, error) {
+	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
+}
+
+// UpdatedByActor is the resolver for the updatedByActor field.
+func (r *serviceResolver) UpdatedByActor(ctx context.Context, obj *model.Service) (*model.Actor, error) {
+	if obj.UpdatedBy == nil {
+		return nil, nil
+	}
+	return r.resolveActor(ctx, obj.OrgID, *obj.UpdatedBy)
+}
+
+// Service returns generated.ServiceResolver implementation.
+func (r *Resolver) Service() generated.ServiceResolver { return &serviceResolver{r} }
+
+type serviceResolver struct{ *Resolver }

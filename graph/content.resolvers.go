@@ -7,8 +7,22 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/graph/generated"
 	"github.com/uigraph/graphql/graph/model"
 )
+
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *diagramResolver) CreatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error) {
+	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
+}
+
+// UpdatedByActor is the resolver for the updatedByActor field.
+func (r *diagramResolver) UpdatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error) {
+	if obj.UpdatedBy == nil {
+		return nil, nil
+	}
+	return r.resolveActor(ctx, obj.OrgID, *obj.UpdatedBy)
+}
 
 // CreateFolder is the resolver for the createFolder field.
 func (r *mutationResolver) CreateFolder(ctx context.Context, orgID string, input model.CreateFolderInput) (*model.Folder, error) {
@@ -461,3 +475,8 @@ func (r *queryResolver) FocalPointMeta(ctx context.Context, orgID string, mapID 
 	}
 	return focalPointMetasToModel(metas), nil
 }
+
+// Diagram returns generated.DiagramResolver implementation.
+func (r *Resolver) Diagram() generated.DiagramResolver { return &diagramResolver{r} }
+
+type diagramResolver struct{ *Resolver }
