@@ -158,7 +158,9 @@ type Components {
 type DiagramImage {
     diagramImageId: String!
     diagramId:      String!
+    orgId:          ID!
     assetId:        String!
+    imageUrl:       String
     fileName:       String
     order:          Int!
     createdBy:      ID!
@@ -212,6 +214,7 @@ type Frame {
     description:          String!
     templateType:         String!
     screenshotAssetId:    String
+    screenshotImageUrl:   String
     screenshotContentHash: String
     status:               String!
     order:                Float!

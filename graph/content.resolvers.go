@@ -32,6 +32,19 @@ func (r *diagramResolver) UpdatedByActor(ctx context.Context, obj *model.Diagram
 	return r.resolveActor(ctx, obj.OrgID, *obj.UpdatedBy)
 }
 
+// ImageURL is the resolver for the imageUrl field.
+func (r *diagramImageResolver) ImageURL(ctx context.Context, obj *model.DiagramImage) (*string, error) {
+	return r.resolveAssetURL(ctx, obj.OrgID, obj.AssetID)
+}
+
+// ScreenshotImageURL is the resolver for the screenshotImageUrl field.
+func (r *frameResolver) ScreenshotImageURL(ctx context.Context, obj *model.Frame) (*string, error) {
+	if obj.ScreenshotAssetID == nil {
+		return nil, nil
+	}
+	return r.resolveAssetURL(ctx, obj.OrgID, *obj.ScreenshotAssetID)
+}
+
 // CreateFolder is the resolver for the createFolder field.
 func (r *mutationResolver) CreateFolder(ctx context.Context, orgID string, input model.CreateFolderInput) (*model.Folder, error) {
 	f, err := r.Client.CreateFolder(ctx, orgID, toMap(input))
@@ -487,4 +500,12 @@ func (r *queryResolver) FocalPointMeta(ctx context.Context, orgID string, mapID 
 // Diagram returns generated.DiagramResolver implementation.
 func (r *Resolver) Diagram() generated.DiagramResolver { return &diagramResolver{r} }
 
+// DiagramImage returns generated.DiagramImageResolver implementation.
+func (r *Resolver) DiagramImage() generated.DiagramImageResolver { return &diagramImageResolver{r} }
+
+// Frame returns generated.FrameResolver implementation.
+func (r *Resolver) Frame() generated.FrameResolver { return &frameResolver{r} }
+
 type diagramResolver struct{ *Resolver }
+type diagramImageResolver struct{ *Resolver }
+type frameResolver struct{ *Resolver }

@@ -39,6 +39,14 @@ models:
         resolver: true
       previewImageUrl:
         resolver: true
+  DiagramImage:
+    fields:
+      imageUrl:
+        resolver: true
+  Frame:
+    fields:
+      screenshotImageUrl:
+        resolver: true
   Service:
     fields:
       createdByActor:

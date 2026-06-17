@@ -458,7 +458,9 @@ type DiagramContent struct {
 type DiagramImage struct {
 	DiagramImageID string    `json:"diagramImageId"`
 	DiagramID      string    `json:"diagramId"`
+	OrgID          string    `json:"orgId"`
 	AssetID        string    `json:"assetId"`
+	ImageURL       *string   `json:"imageUrl,omitempty"`
 	FileName       *string   `json:"fileName,omitempty"`
 	Order          int       `json:"order"`
 	CreatedBy      string    `json:"createdBy"`
@@ -561,6 +563,7 @@ type Frame struct {
 	Description           string    `json:"description"`
 	TemplateType          string    `json:"templateType"`
 	ScreenshotAssetID     *string   `json:"screenshotAssetId,omitempty"`
+	ScreenshotImageURL    *string   `json:"screenshotImageUrl,omitempty"`
 	ScreenshotContentHash *string   `json:"screenshotContentHash,omitempty"`
 	Status                string    `json:"status"`
 	Order                 float64   `json:"order"`

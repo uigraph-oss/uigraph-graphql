@@ -235,7 +235,7 @@ func componentsToModel(components []client.Component) []*model.Component {
 func diagramImageToModel(img client.DiagramImage) *model.DiagramImage {
 	return &model.DiagramImage{
 		DiagramImageID: img.DiagramImageID, DiagramID: img.DiagramID,
-		AssetID: img.AssetID, FileName: img.FileName,
+		OrgID: img.OrgID, AssetID: img.AssetID, FileName: img.FileName,
 		Order: img.Order, CreatedBy: img.CreatedBy, CreatedAt: img.CreatedAt,
 	}
 }

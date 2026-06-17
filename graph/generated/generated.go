@@ -40,6 +40,8 @@ type Config struct {
 
 type ResolverRoot interface {
 	Diagram() DiagramResolver
+	DiagramImage() DiagramImageResolver
+	Frame() FrameResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 	Service() ServiceResolver
@@ -224,7 +226,9 @@ type ComplexityRoot struct {
 		DiagramID      func(childComplexity int) int
 		DiagramImageID func(childComplexity int) int
 		FileName       func(childComplexity int) int
+		ImageURL       func(childComplexity int) int
 		Order          func(childComplexity int) int
+		OrgID          func(childComplexity int) int
 	}
 
 	DiagramVersion struct {
@@ -326,6 +330,7 @@ type ComplexityRoot struct {
 		ParentFrameID         func(childComplexity int) int
 		ScreenshotAssetID     func(childComplexity int) int
 		ScreenshotContentHash func(childComplexity int) int
+		ScreenshotImageURL    func(childComplexity int) int
 		Source                func(childComplexity int) int
 		Status                func(childComplexity int) int
 		TemplateType          func(childComplexity int) int
@@ -963,6 +968,12 @@ type DiagramResolver interface {
 
 	CreatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error)
 	UpdatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error)
+}
+type DiagramImageResolver interface {
+	ImageURL(ctx context.Context, obj *model.DiagramImage) (*string, error)
+}
+type FrameResolver interface {
+	ScreenshotImageURL(ctx context.Context, obj *model.Frame) (*string, error)
 }
 type MutationResolver interface {
 	CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error)
@@ -2041,12 +2052,26 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DiagramImage.FileName(childComplexity), true
 
+	case "DiagramImage.imageUrl":
+		if e.complexity.DiagramImage.ImageURL == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.ImageURL(childComplexity), true
+
 	case "DiagramImage.order":
 		if e.complexity.DiagramImage.Order == nil {
 			break
 		}
 
 		return e.complexity.DiagramImage.Order(childComplexity), true
+
+	case "DiagramImage.orgId":
+		if e.complexity.DiagramImage.OrgID == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.OrgID(childComplexity), true
 
 	case "DiagramVersion.contentHash":
 		if e.complexity.DiagramVersion.ContentHash == nil {
@@ -2586,6 +2611,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Frame.ScreenshotContentHash(childComplexity), true
+
+	case "Frame.screenshotImageUrl":
+		if e.complexity.Frame.ScreenshotImageURL == nil {
+			break
+		}
+
+		return e.complexity.Frame.ScreenshotImageURL(childComplexity), true
 
 	case "Frame.source":
 		if e.complexity.Frame.Source == nil {
@@ -8146,7 +8178,9 @@ type Components {
 type DiagramImage {
     diagramImageId: String!
     diagramId:      String!
+    orgId:          ID!
     assetId:        String!
+    imageUrl:       String
     fileName:       String
     order:          Int!
     createdBy:      ID!
@@ -8200,6 +8234,7 @@ type Frame {
     description:          String!
     templateType:         String!
     screenshotAssetId:    String
+    screenshotImageUrl:   String
     screenshotContentHash: String
     status:               String!
     order:                Float!
@@ -23588,6 +23623,50 @@ func (ec *executionContext) fieldContext_DiagramImage_diagramId(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _DiagramImage_orgId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _DiagramImage_assetId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DiagramImage_assetId(ctx, field)
 	if err != nil {
@@ -23625,6 +23704,47 @@ func (ec *executionContext) fieldContext_DiagramImage_assetId(_ context.Context,
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_imageUrl(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_imageUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.DiagramImage().ImageURL(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_imageUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
@@ -27083,6 +27203,47 @@ func (ec *executionContext) fieldContext_Frame_screenshotAssetId(_ context.Conte
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Frame_screenshotImageUrl(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Frame().ScreenshotImageURL(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Frame_screenshotImageUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Frame",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
@@ -35511,6 +35672,8 @@ func (ec *executionContext) fieldContext_Mutation_createFrame(ctx context.Contex
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -35600,6 +35763,8 @@ func (ec *executionContext) fieldContext_Mutation_updateFrame(ctx context.Contex
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -42110,8 +42275,12 @@ func (ec *executionContext) fieldContext_Query_diagramImages(ctx context.Context
 				return ec.fieldContext_DiagramImage_diagramImageId(ctx, field)
 			case "diagramId":
 				return ec.fieldContext_DiagramImage_diagramId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_DiagramImage_orgId(ctx, field)
 			case "assetId":
 				return ec.fieldContext_DiagramImage_assetId(ctx, field)
+			case "imageUrl":
+				return ec.fieldContext_DiagramImage_imageUrl(ctx, field)
 			case "fileName":
 				return ec.fieldContext_DiagramImage_fileName(ctx, field)
 			case "order":
@@ -42351,6 +42520,8 @@ func (ec *executionContext) fieldContext_Query_frames(ctx context.Context, field
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -42440,6 +42611,8 @@ func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field 
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -42529,6 +42702,8 @@ func (ec *executionContext) fieldContext_Query_frameById(ctx context.Context, fi
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -61538,34 +61713,72 @@ func (ec *executionContext) _DiagramImage(ctx context.Context, sel ast.Selection
 		case "diagramImageId":
 			out.Values[i] = ec._DiagramImage_diagramImageId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "diagramId":
 			out.Values[i] = ec._DiagramImage_diagramId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._DiagramImage_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "assetId":
 			out.Values[i] = ec._DiagramImage_assetId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "imageUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._DiagramImage_imageUrl(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "fileName":
 			out.Values[i] = ec._DiagramImage_fileName(ctx, field, obj)
 		case "order":
 			out.Values[i] = ec._DiagramImage_order(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "createdBy":
 			out.Values[i] = ec._DiagramImage_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "createdAt":
 			out.Values[i] = ec._DiagramImage_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -62139,67 +62352,100 @@ func (ec *executionContext) _Frame(ctx context.Context, sel ast.SelectionSet, ob
 		case "id":
 			out.Values[i] = ec._Frame_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "mapId":
 			out.Values[i] = ec._Frame_mapId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "orgId":
 			out.Values[i] = ec._Frame_orgId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "parentFrameId":
 			out.Values[i] = ec._Frame_parentFrameId(ctx, field, obj)
 		case "name":
 			out.Values[i] = ec._Frame_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "description":
 			out.Values[i] = ec._Frame_description(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "templateType":
 			out.Values[i] = ec._Frame_templateType(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "screenshotAssetId":
 			out.Values[i] = ec._Frame_screenshotAssetId(ctx, field, obj)
+		case "screenshotImageUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Frame_screenshotImageUrl(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "screenshotContentHash":
 			out.Values[i] = ec._Frame_screenshotContentHash(ctx, field, obj)
 		case "status":
 			out.Values[i] = ec._Frame_status(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "order":
 			out.Values[i] = ec._Frame_order(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "source":
 			out.Values[i] = ec._Frame_source(ctx, field, obj)
 		case "createdBy":
 			out.Values[i] = ec._Frame_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Frame_updatedBy(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._Frame_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedAt":
 			out.Values[i] = ec._Frame_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
