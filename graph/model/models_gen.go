@@ -44,15 +44,17 @@ type APIGroup struct {
 }
 
 type APIGroupVersion struct {
-	ID            string    `json:"id"`
-	APIGroupID    string    `json:"apiGroupId"`
-	VersionNumber int       `json:"versionNumber"`
-	Label         *string   `json:"label,omitempty"`
-	SpecKey       string    `json:"specKey"`
-	SpecHash      string    `json:"specHash"`
-	IsAutoVersion bool      `json:"isAutoVersion"`
-	CreatedBy     string    `json:"createdBy"`
-	CreatedAt     time.Time `json:"createdAt"`
+	ID             string    `json:"id"`
+	OrgID          string    `json:"orgId"`
+	APIGroupID     string    `json:"apiGroupId"`
+	VersionNumber  int       `json:"versionNumber"`
+	Label          *string   `json:"label,omitempty"`
+	SpecKey        string    `json:"specKey"`
+	SpecHash       string    `json:"specHash"`
+	IsAutoVersion  bool      `json:"isAutoVersion"`
+	CreatedBy      string    `json:"createdBy"`
+	CreatedByActor *Actor    `json:"createdByActor,omitempty"`
+	CreatedAt      time.Time `json:"createdAt"`
 }
 
 type APITestCase struct {
@@ -81,6 +83,15 @@ type APITestCaseInput struct {
 	MaxResponseTimeMs  *int              `json:"maxResponseTimeMs,omitempty"`
 	ResponseBody       *string           `json:"responseBody,omitempty"`
 	Assertions         []*AssertionInput `json:"assertions,omitempty"`
+}
+
+type Actor struct {
+	ID        string  `json:"id"`
+	Type      string  `json:"type"`
+	Name      string  `json:"name"`
+	Email     *string `json:"email,omitempty"`
+	Disabled  bool    `json:"disabled"`
+	AvatarURL *string `json:"avatarUrl,omitempty"`
 }
 
 type AddMemberInput struct {
@@ -431,10 +442,13 @@ type Diagram struct {
 	ContentKey         string    `json:"contentKey"`
 	ContentHash        string    `json:"contentHash"`
 	PreviewAssetID     *string   `json:"previewAssetId,omitempty"`
+	PreviewImageURL    *string   `json:"previewImageUrl,omitempty"`
 	PreviewContentHash *string   `json:"previewContentHash,omitempty"`
 	Source             *string   `json:"source,omitempty"`
 	CreatedBy          string    `json:"createdBy"`
 	UpdatedBy          *string   `json:"updatedBy,omitempty"`
+	CreatedByActor     *Actor    `json:"createdByActor,omitempty"`
+	UpdatedByActor     *Actor    `json:"updatedByActor,omitempty"`
 	CreatedAt          time.Time `json:"createdAt"`
 	UpdatedAt          time.Time `json:"updatedAt"`
 }
@@ -447,7 +461,9 @@ type DiagramContent struct {
 type DiagramImage struct {
 	DiagramImageID string    `json:"diagramImageId"`
 	DiagramID      string    `json:"diagramId"`
+	OrgID          string    `json:"orgId"`
 	AssetID        string    `json:"assetId"`
+	ImageURL       *string   `json:"imageUrl,omitempty"`
 	FileName       *string   `json:"fileName,omitempty"`
 	Order          int       `json:"order"`
 	CreatedBy      string    `json:"createdBy"`
@@ -455,16 +471,18 @@ type DiagramImage struct {
 }
 
 type DiagramVersion struct {
-	ID            string    `json:"id"`
-	DiagramID     string    `json:"diagramId"`
-	VersionNumber int       `json:"versionNumber"`
-	Label         *string   `json:"label,omitempty"`
-	ContentKey    string    `json:"contentKey"`
-	ContentHash   string    `json:"contentHash"`
-	IsAutoVersion bool      `json:"isAutoVersion"`
-	Source        *string   `json:"source,omitempty"`
-	CreatedBy     string    `json:"createdBy"`
-	CreatedAt     time.Time `json:"createdAt"`
+	ID             string    `json:"id"`
+	OrgID          string    `json:"orgId"`
+	DiagramID      string    `json:"diagramId"`
+	VersionNumber  int       `json:"versionNumber"`
+	Label          *string   `json:"label,omitempty"`
+	ContentKey     string    `json:"contentKey"`
+	ContentHash    string    `json:"contentHash"`
+	IsAutoVersion  bool      `json:"isAutoVersion"`
+	Source         *string   `json:"source,omitempty"`
+	CreatedBy      string    `json:"createdBy"`
+	CreatedByActor *Actor    `json:"createdByActor,omitempty"`
+	CreatedAt      time.Time `json:"createdAt"`
 }
 
 type FlowDiagramComponent struct {
@@ -550,12 +568,15 @@ type Frame struct {
 	Description           string    `json:"description"`
 	TemplateType          string    `json:"templateType"`
 	ScreenshotAssetID     *string   `json:"screenshotAssetId,omitempty"`
+	ScreenshotImageURL    *string   `json:"screenshotImageUrl,omitempty"`
 	ScreenshotContentHash *string   `json:"screenshotContentHash,omitempty"`
 	Status                string    `json:"status"`
 	Order                 float64   `json:"order"`
 	Source                *string   `json:"source,omitempty"`
 	CreatedBy             string    `json:"createdBy"`
 	UpdatedBy             *string   `json:"updatedBy,omitempty"`
+	CreatedByActor        *Actor    `json:"createdByActor,omitempty"`
+	UpdatedByActor        *Actor    `json:"updatedByActor,omitempty"`
 	CreatedAt             time.Time `json:"createdAt"`
 	UpdatedAt             time.Time `json:"updatedAt"`
 }
@@ -705,14 +726,15 @@ type ManualTestCaseInput struct {
 }
 
 type Me struct {
-	UserID       string `json:"userId"`
-	OrgID        string `json:"orgId"`
-	Email        string `json:"email"`
-	Name         string `json:"name"`
-	Login        string `json:"login"`
-	Kind         string `json:"kind"`
-	Role         string `json:"role"`
-	AuthProvider string `json:"authProvider"`
+	UserID       string  `json:"userId"`
+	OrgID        string  `json:"orgId"`
+	Email        string  `json:"email"`
+	Name         string  `json:"name"`
+	Login        string  `json:"login"`
+	Kind         string  `json:"kind"`
+	Role         string  `json:"role"`
+	AuthProvider string  `json:"authProvider"`
+	AvatarURL    *string `json:"avatarUrl,omitempty"`
 }
 
 type Member struct {
@@ -820,6 +842,8 @@ type Service struct {
 	Metadata        string    `json:"metadata"`
 	CreatedBy       string    `json:"createdBy"`
 	UpdatedBy       *string   `json:"updatedBy,omitempty"`
+	CreatedByActor  *Actor    `json:"createdByActor,omitempty"`
+	UpdatedByActor  *Actor    `json:"updatedByActor,omitempty"`
 	CreatedAt       time.Time `json:"createdAt"`
 	UpdatedAt       time.Time `json:"updatedAt"`
 }
@@ -847,32 +871,36 @@ type ServiceAccountToken struct {
 }
 
 type ServiceDb struct {
-	ID         string     `json:"id"`
-	ServiceID  string     `json:"serviceId"`
-	OrgID      string     `json:"orgId"`
-	DbName     string     `json:"dbName"`
-	DbType     string     `json:"dbType"`
-	Dialect    string     `json:"dialect"`
-	SchemaJSON string     `json:"schemaJson"`
-	Source     *string    `json:"source,omitempty"`
-	SourceTs   *time.Time `json:"sourceTs,omitempty"`
-	CreatedBy  string     `json:"createdBy"`
-	UpdatedBy  *string    `json:"updatedBy,omitempty"`
-	CreatedAt  time.Time  `json:"createdAt"`
-	UpdatedAt  time.Time  `json:"updatedAt"`
+	ID             string     `json:"id"`
+	ServiceID      string     `json:"serviceId"`
+	OrgID          string     `json:"orgId"`
+	DbName         string     `json:"dbName"`
+	DbType         string     `json:"dbType"`
+	Dialect        string     `json:"dialect"`
+	SchemaJSON     string     `json:"schemaJson"`
+	Source         *string    `json:"source,omitempty"`
+	SourceTs       *time.Time `json:"sourceTs,omitempty"`
+	CreatedBy      string     `json:"createdBy"`
+	UpdatedBy      *string    `json:"updatedBy,omitempty"`
+	CreatedByActor *Actor     `json:"createdByActor,omitempty"`
+	UpdatedByActor *Actor     `json:"updatedByActor,omitempty"`
+	CreatedAt      time.Time  `json:"createdAt"`
+	UpdatedAt      time.Time  `json:"updatedAt"`
 }
 
 type ServiceDBVersion struct {
-	ID            string     `json:"id"`
-	ServiceDbID   string     `json:"serviceDbId"`
-	VersionNumber int        `json:"versionNumber"`
-	Label         *string    `json:"label,omitempty"`
-	SchemaJSON    string     `json:"schemaJson"`
-	Source        *string    `json:"source,omitempty"`
-	SourceTs      *time.Time `json:"sourceTs,omitempty"`
-	IsAutoVersion bool       `json:"isAutoVersion"`
-	CreatedBy     string     `json:"createdBy"`
-	CreatedAt     time.Time  `json:"createdAt"`
+	ID             string     `json:"id"`
+	OrgID          string     `json:"orgId"`
+	ServiceDbID    string     `json:"serviceDbId"`
+	VersionNumber  int        `json:"versionNumber"`
+	Label          *string    `json:"label,omitempty"`
+	SchemaJSON     string     `json:"schemaJson"`
+	Source         *string    `json:"source,omitempty"`
+	SourceTs       *time.Time `json:"sourceTs,omitempty"`
+	IsAutoVersion  bool       `json:"isAutoVersion"`
+	CreatedBy      string     `json:"createdBy"`
+	CreatedByActor *Actor     `json:"createdByActor,omitempty"`
+	CreatedAt      time.Time  `json:"createdAt"`
 }
 
 type ServiceDiagram struct {

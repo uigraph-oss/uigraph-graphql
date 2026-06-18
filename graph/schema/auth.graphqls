@@ -16,6 +16,7 @@ type Me {
     kind:         String!
     role:         String!
     authProvider: String!
+    avatarUrl:    String
 }
 
 type OrgSummary {

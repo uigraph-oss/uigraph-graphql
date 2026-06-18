@@ -87,6 +87,8 @@ type Service {
     metadata:         String!
     createdBy:        ID!
     updatedBy:        ID
+    createdByActor:   Actor @goField(forceResolver: true)
+    updatedByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time!
     updatedAt:        Time!
 }
@@ -118,6 +120,7 @@ type APIGroup {
 
 type APIGroupVersion {
     id:            ID!
+    orgId:         ID!
     apiGroupId:    ID!
     versionNumber: Int!
     label:         String
@@ -125,6 +128,7 @@ type APIGroupVersion {
     specHash:      String!
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 
@@ -166,12 +170,15 @@ type ServiceDB {
     sourceTs:   Time
     createdBy:  ID!
     updatedBy:  ID
+    createdByActor: Actor @goField(forceResolver: true)
+    updatedByActor: Actor @goField(forceResolver: true)
     createdAt:  Time!
     updatedAt:  Time!
 }
 
 type ServiceDBVersion {
     id:            ID!
+    orgId:         ID!
     serviceDbId:   ID!
     versionNumber: Int!
     label:         String
@@ -180,6 +187,7 @@ type ServiceDBVersion {
     sourceTs:      Time
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 

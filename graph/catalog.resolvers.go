@@ -8,8 +8,14 @@ import (
 	"context"
 	"time"
 
+	"github.com/uigraph/graphql/graph/generated"
 	"github.com/uigraph/graphql/graph/model"
 )
+
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *aPIGroupVersionResolver) CreatedByActor(ctx context.Context, obj *model.APIGroupVersion) (*model.Actor, error) {
+	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
+}
 
 // CreateService is the resolver for the createService field.
 func (r *mutationResolver) CreateService(ctx context.Context, orgID string, input model.CreateServiceInput) (*model.Service, error) {
@@ -135,7 +141,7 @@ func (r *mutationResolver) CreateServiceDBVersion(ctx context.Context, orgID str
 	if err != nil {
 		return nil, err
 	}
-	return serviceDBVersionToModel(*v), nil
+	return serviceDBVersionToModel(orgID, *v), nil
 }
 
 // RestoreServiceDBVersion is the resolver for the restoreServiceDBVersion field.
@@ -302,7 +308,7 @@ func (r *queryResolver) APIGroupVersions(ctx context.Context, orgID string, serv
 	if err != nil {
 		return nil, err
 	}
-	return apiGroupVersionsToModel(versions), nil
+	return apiGroupVersionsToModel(orgID, versions), nil
 }
 
 // ServiceDocs is the resolver for the serviceDocs field.
@@ -356,7 +362,7 @@ func (r *queryResolver) ServiceDBVersions(ctx context.Context, orgID string, ser
 	if err != nil {
 		return nil, err
 	}
-	return serviceDBVersionsToModel(versions), nil
+	return serviceDBVersionsToModel(orgID, versions), nil
 }
 
 // APIEndpoints is the resolver for the apiEndpoints field.
@@ -439,3 +445,55 @@ func (r *queryResolver) TestRunResults(ctx context.Context, orgID string, servic
 	}
 	return testRunResultsToModel(results), nil
 }
+
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *serviceResolver) CreatedByActor(ctx context.Context, obj *model.Service) (*model.Actor, error) {
+	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
+}
+
+// UpdatedByActor is the resolver for the updatedByActor field.
+func (r *serviceResolver) UpdatedByActor(ctx context.Context, obj *model.Service) (*model.Actor, error) {
+	if obj.UpdatedBy == nil {
+		return nil, nil
+	}
+	return r.resolveActor(ctx, obj.OrgID, *obj.UpdatedBy)
+}
+
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *serviceDBResolver) CreatedByActor(ctx context.Context, obj *model.ServiceDb) (*model.Actor, error) {
+	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
+}
+
+// UpdatedByActor is the resolver for the updatedByActor field.
+func (r *serviceDBResolver) UpdatedByActor(ctx context.Context, obj *model.ServiceDb) (*model.Actor, error) {
+	if obj.UpdatedBy == nil {
+		return nil, nil
+	}
+	return r.resolveActor(ctx, obj.OrgID, *obj.UpdatedBy)
+}
+
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *serviceDBVersionResolver) CreatedByActor(ctx context.Context, obj *model.ServiceDBVersion) (*model.Actor, error) {
+	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
+}
+
+// APIGroupVersion returns generated.APIGroupVersionResolver implementation.
+func (r *Resolver) APIGroupVersion() generated.APIGroupVersionResolver {
+	return &aPIGroupVersionResolver{r}
+}
+
+// Service returns generated.ServiceResolver implementation.
+func (r *Resolver) Service() generated.ServiceResolver { return &serviceResolver{r} }
+
+// ServiceDB returns generated.ServiceDBResolver implementation.
+func (r *Resolver) ServiceDB() generated.ServiceDBResolver { return &serviceDBResolver{r} }
+
+// ServiceDBVersion returns generated.ServiceDBVersionResolver implementation.
+func (r *Resolver) ServiceDBVersion() generated.ServiceDBVersionResolver {
+	return &serviceDBVersionResolver{r}
+}
+
+type aPIGroupVersionResolver struct{ *Resolver }
+type serviceResolver struct{ *Resolver }
+type serviceDBResolver struct{ *Resolver }
+type serviceDBVersionResolver struct{ *Resolver }

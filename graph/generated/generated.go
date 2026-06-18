@@ -39,8 +39,16 @@ type Config struct {
 }
 
 type ResolverRoot interface {
+	APIGroupVersion() APIGroupVersionResolver
+	Diagram() DiagramResolver
+	DiagramImage() DiagramImageResolver
+	DiagramVersion() DiagramVersionResolver
+	Frame() FrameResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
+	Service() ServiceResolver
+	ServiceDB() ServiceDBResolver
+	ServiceDBVersion() ServiceDBVersionResolver
 }
 
 type DirectiveRoot struct {
@@ -85,15 +93,17 @@ type ComplexityRoot struct {
 	}
 
 	APIGroupVersion struct {
-		APIGroupID    func(childComplexity int) int
-		CreatedAt     func(childComplexity int) int
-		CreatedBy     func(childComplexity int) int
-		ID            func(childComplexity int) int
-		IsAutoVersion func(childComplexity int) int
-		Label         func(childComplexity int) int
-		SpecHash      func(childComplexity int) int
-		SpecKey       func(childComplexity int) int
-		VersionNumber func(childComplexity int) int
+		APIGroupID     func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		CreatedByActor func(childComplexity int) int
+		ID             func(childComplexity int) int
+		IsAutoVersion  func(childComplexity int) int
+		Label          func(childComplexity int) int
+		OrgID          func(childComplexity int) int
+		SpecHash       func(childComplexity int) int
+		SpecKey        func(childComplexity int) int
+		VersionNumber  func(childComplexity int) int
 	}
 
 	APITestCase struct {
@@ -108,6 +118,15 @@ type ComplexityRoot struct {
 		RequestBody        func(childComplexity int) int
 		RequestHeaders     func(childComplexity int) int
 		ResponseBody       func(childComplexity int) int
+	}
+
+	Actor struct {
+		AvatarURL func(childComplexity int) int
+		Disabled  func(childComplexity int) int
+		Email     func(childComplexity int) int
+		ID        func(childComplexity int) int
+		Name      func(childComplexity int) int
+		Type      func(childComplexity int) int
 	}
 
 	Assertion struct {
@@ -187,16 +206,19 @@ type ComplexityRoot struct {
 		ContentKey         func(childComplexity int) int
 		CreatedAt          func(childComplexity int) int
 		CreatedBy          func(childComplexity int) int
+		CreatedByActor     func(childComplexity int) int
 		FolderID           func(childComplexity int) int
 		ID                 func(childComplexity int) int
 		Name               func(childComplexity int) int
 		OrgID              func(childComplexity int) int
 		PreviewAssetID     func(childComplexity int) int
 		PreviewContentHash func(childComplexity int) int
+		PreviewImageURL    func(childComplexity int) int
 		Source             func(childComplexity int) int
 		TeamID             func(childComplexity int) int
 		UpdatedAt          func(childComplexity int) int
 		UpdatedBy          func(childComplexity int) int
+		UpdatedByActor     func(childComplexity int) int
 	}
 
 	DiagramContent struct {
@@ -211,20 +233,24 @@ type ComplexityRoot struct {
 		DiagramID      func(childComplexity int) int
 		DiagramImageID func(childComplexity int) int
 		FileName       func(childComplexity int) int
+		ImageURL       func(childComplexity int) int
 		Order          func(childComplexity int) int
+		OrgID          func(childComplexity int) int
 	}
 
 	DiagramVersion struct {
-		ContentHash   func(childComplexity int) int
-		ContentKey    func(childComplexity int) int
-		CreatedAt     func(childComplexity int) int
-		CreatedBy     func(childComplexity int) int
-		DiagramID     func(childComplexity int) int
-		ID            func(childComplexity int) int
-		IsAutoVersion func(childComplexity int) int
-		Label         func(childComplexity int) int
-		Source        func(childComplexity int) int
-		VersionNumber func(childComplexity int) int
+		ContentHash    func(childComplexity int) int
+		ContentKey     func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		CreatedByActor func(childComplexity int) int
+		DiagramID      func(childComplexity int) int
+		ID             func(childComplexity int) int
+		IsAutoVersion  func(childComplexity int) int
+		Label          func(childComplexity int) int
+		OrgID          func(childComplexity int) int
+		Source         func(childComplexity int) int
+		VersionNumber  func(childComplexity int) int
 	}
 
 	FlowDiagramComponent struct {
@@ -304,6 +330,7 @@ type ComplexityRoot struct {
 	Frame struct {
 		CreatedAt             func(childComplexity int) int
 		CreatedBy             func(childComplexity int) int
+		CreatedByActor        func(childComplexity int) int
 		Description           func(childComplexity int) int
 		ID                    func(childComplexity int) int
 		MapID                 func(childComplexity int) int
@@ -313,11 +340,13 @@ type ComplexityRoot struct {
 		ParentFrameID         func(childComplexity int) int
 		ScreenshotAssetID     func(childComplexity int) int
 		ScreenshotContentHash func(childComplexity int) int
+		ScreenshotImageURL    func(childComplexity int) int
 		Source                func(childComplexity int) int
 		Status                func(childComplexity int) int
 		TemplateType          func(childComplexity int) int
 		UpdatedAt             func(childComplexity int) int
 		UpdatedBy             func(childComplexity int) int
+		UpdatedByActor        func(childComplexity int) int
 	}
 
 	FrameGroup struct {
@@ -427,6 +456,7 @@ type ComplexityRoot struct {
 
 	Me struct {
 		AuthProvider func(childComplexity int) int
+		AvatarURL    func(childComplexity int) int
 		Email        func(childComplexity int) int
 		Kind         func(childComplexity int) int
 		Login        func(childComplexity int) int
@@ -671,6 +701,7 @@ type ComplexityRoot struct {
 		Category        func(childComplexity int) int
 		CreatedAt       func(childComplexity int) int
 		CreatedBy       func(childComplexity int) int
+		CreatedByActor  func(childComplexity int) int
 		Description     func(childComplexity int) int
 		FolderID        func(childComplexity int) int
 		GitRepoURL      func(childComplexity int) int
@@ -689,6 +720,7 @@ type ComplexityRoot struct {
 		Tier            func(childComplexity int) int
 		UpdatedAt       func(childComplexity int) int
 		UpdatedBy       func(childComplexity int) int
+		UpdatedByActor  func(childComplexity int) int
 	}
 
 	ServiceAccount struct {
@@ -714,32 +746,36 @@ type ComplexityRoot struct {
 	}
 
 	ServiceDB struct {
-		CreatedAt  func(childComplexity int) int
-		CreatedBy  func(childComplexity int) int
-		DbName     func(childComplexity int) int
-		DbType     func(childComplexity int) int
-		Dialect    func(childComplexity int) int
-		ID         func(childComplexity int) int
-		OrgID      func(childComplexity int) int
-		SchemaJSON func(childComplexity int) int
-		ServiceID  func(childComplexity int) int
-		Source     func(childComplexity int) int
-		SourceTs   func(childComplexity int) int
-		UpdatedAt  func(childComplexity int) int
-		UpdatedBy  func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		CreatedByActor func(childComplexity int) int
+		DbName         func(childComplexity int) int
+		DbType         func(childComplexity int) int
+		Dialect        func(childComplexity int) int
+		ID             func(childComplexity int) int
+		OrgID          func(childComplexity int) int
+		SchemaJSON     func(childComplexity int) int
+		ServiceID      func(childComplexity int) int
+		Source         func(childComplexity int) int
+		SourceTs       func(childComplexity int) int
+		UpdatedAt      func(childComplexity int) int
+		UpdatedBy      func(childComplexity int) int
+		UpdatedByActor func(childComplexity int) int
 	}
 
 	ServiceDBVersion struct {
-		CreatedAt     func(childComplexity int) int
-		CreatedBy     func(childComplexity int) int
-		ID            func(childComplexity int) int
-		IsAutoVersion func(childComplexity int) int
-		Label         func(childComplexity int) int
-		SchemaJSON    func(childComplexity int) int
-		ServiceDbID   func(childComplexity int) int
-		Source        func(childComplexity int) int
-		SourceTs      func(childComplexity int) int
-		VersionNumber func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		CreatedByActor func(childComplexity int) int
+		ID             func(childComplexity int) int
+		IsAutoVersion  func(childComplexity int) int
+		Label          func(childComplexity int) int
+		OrgID          func(childComplexity int) int
+		SchemaJSON     func(childComplexity int) int
+		ServiceDbID    func(childComplexity int) int
+		Source         func(childComplexity int) int
+		SourceTs       func(childComplexity int) int
+		VersionNumber  func(childComplexity int) int
 	}
 
 	ServiceDiagram struct {
@@ -943,6 +979,27 @@ type ComplexityRoot struct {
 	}
 }
 
+type APIGroupVersionResolver interface {
+	CreatedByActor(ctx context.Context, obj *model.APIGroupVersion) (*model.Actor, error)
+}
+type DiagramResolver interface {
+	PreviewImageURL(ctx context.Context, obj *model.Diagram) (*string, error)
+
+	CreatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error)
+	UpdatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error)
+}
+type DiagramImageResolver interface {
+	ImageURL(ctx context.Context, obj *model.DiagramImage) (*string, error)
+}
+type DiagramVersionResolver interface {
+	CreatedByActor(ctx context.Context, obj *model.DiagramVersion) (*model.Actor, error)
+}
+type FrameResolver interface {
+	ScreenshotImageURL(ctx context.Context, obj *model.Frame) (*string, error)
+
+	CreatedByActor(ctx context.Context, obj *model.Frame) (*model.Actor, error)
+	UpdatedByActor(ctx context.Context, obj *model.Frame) (*model.Actor, error)
+}
 type MutationResolver interface {
 	CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error)
 	UpdateUser(ctx context.Context, id string, input model.UpdateUserInput) (*model.User, error)
@@ -1092,6 +1149,17 @@ type QueryResolver interface {
 	ServiceAccounts(ctx context.Context, orgID string) ([]*model.ServiceAccount, error)
 	ServiceAccount(ctx context.Context, orgID string, id string) (*model.ServiceAccount, error)
 	ServiceAccountTokens(ctx context.Context, orgID string, saID string) ([]*model.ServiceAccountToken, error)
+}
+type ServiceResolver interface {
+	CreatedByActor(ctx context.Context, obj *model.Service) (*model.Actor, error)
+	UpdatedByActor(ctx context.Context, obj *model.Service) (*model.Actor, error)
+}
+type ServiceDBResolver interface {
+	CreatedByActor(ctx context.Context, obj *model.ServiceDb) (*model.Actor, error)
+	UpdatedByActor(ctx context.Context, obj *model.ServiceDb) (*model.Actor, error)
+}
+type ServiceDBVersionResolver interface {
+	CreatedByActor(ctx context.Context, obj *model.ServiceDBVersion) (*model.Actor, error)
 }
 
 type executableSchema struct {
@@ -1351,6 +1419,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.APIGroupVersion.CreatedBy(childComplexity), true
 
+	case "APIGroupVersion.createdByActor":
+		if e.complexity.APIGroupVersion.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.APIGroupVersion.CreatedByActor(childComplexity), true
+
 	case "APIGroupVersion.id":
 		if e.complexity.APIGroupVersion.ID == nil {
 			break
@@ -1371,6 +1446,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.APIGroupVersion.Label(childComplexity), true
+
+	case "APIGroupVersion.orgId":
+		if e.complexity.APIGroupVersion.OrgID == nil {
+			break
+		}
+
+		return e.complexity.APIGroupVersion.OrgID(childComplexity), true
 
 	case "APIGroupVersion.specHash":
 		if e.complexity.APIGroupVersion.SpecHash == nil {
@@ -1469,6 +1551,48 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.APITestCase.ResponseBody(childComplexity), true
+
+	case "Actor.avatarUrl":
+		if e.complexity.Actor.AvatarURL == nil {
+			break
+		}
+
+		return e.complexity.Actor.AvatarURL(childComplexity), true
+
+	case "Actor.disabled":
+		if e.complexity.Actor.Disabled == nil {
+			break
+		}
+
+		return e.complexity.Actor.Disabled(childComplexity), true
+
+	case "Actor.email":
+		if e.complexity.Actor.Email == nil {
+			break
+		}
+
+		return e.complexity.Actor.Email(childComplexity), true
+
+	case "Actor.id":
+		if e.complexity.Actor.ID == nil {
+			break
+		}
+
+		return e.complexity.Actor.ID(childComplexity), true
+
+	case "Actor.name":
+		if e.complexity.Actor.Name == nil {
+			break
+		}
+
+		return e.complexity.Actor.Name(childComplexity), true
+
+	case "Actor.type":
+		if e.complexity.Actor.Type == nil {
+			break
+		}
+
+		return e.complexity.Actor.Type(childComplexity), true
 
 	case "Assertion.field":
 		if e.complexity.Assertion.Field == nil {
@@ -1834,6 +1958,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Diagram.CreatedBy(childComplexity), true
 
+	case "Diagram.createdByActor":
+		if e.complexity.Diagram.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.Diagram.CreatedByActor(childComplexity), true
+
 	case "Diagram.folderId":
 		if e.complexity.Diagram.FolderID == nil {
 			break
@@ -1876,6 +2007,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Diagram.PreviewContentHash(childComplexity), true
 
+	case "Diagram.previewImageUrl":
+		if e.complexity.Diagram.PreviewImageURL == nil {
+			break
+		}
+
+		return e.complexity.Diagram.PreviewImageURL(childComplexity), true
+
 	case "Diagram.source":
 		if e.complexity.Diagram.Source == nil {
 			break
@@ -1903,6 +2041,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Diagram.UpdatedBy(childComplexity), true
+
+	case "Diagram.updatedByActor":
+		if e.complexity.Diagram.UpdatedByActor == nil {
+			break
+		}
+
+		return e.complexity.Diagram.UpdatedByActor(childComplexity), true
 
 	case "DiagramContent.content":
 		if e.complexity.DiagramContent.Content == nil {
@@ -1960,12 +2105,26 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DiagramImage.FileName(childComplexity), true
 
+	case "DiagramImage.imageUrl":
+		if e.complexity.DiagramImage.ImageURL == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.ImageURL(childComplexity), true
+
 	case "DiagramImage.order":
 		if e.complexity.DiagramImage.Order == nil {
 			break
 		}
 
 		return e.complexity.DiagramImage.Order(childComplexity), true
+
+	case "DiagramImage.orgId":
+		if e.complexity.DiagramImage.OrgID == nil {
+			break
+		}
+
+		return e.complexity.DiagramImage.OrgID(childComplexity), true
 
 	case "DiagramVersion.contentHash":
 		if e.complexity.DiagramVersion.ContentHash == nil {
@@ -1995,6 +2154,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DiagramVersion.CreatedBy(childComplexity), true
 
+	case "DiagramVersion.createdByActor":
+		if e.complexity.DiagramVersion.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.DiagramVersion.CreatedByActor(childComplexity), true
+
 	case "DiagramVersion.diagramId":
 		if e.complexity.DiagramVersion.DiagramID == nil {
 			break
@@ -2022,6 +2188,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DiagramVersion.Label(childComplexity), true
+
+	case "DiagramVersion.orgId":
+		if e.complexity.DiagramVersion.OrgID == nil {
+			break
+		}
+
+		return e.complexity.DiagramVersion.OrgID(childComplexity), true
 
 	case "DiagramVersion.source":
 		if e.complexity.DiagramVersion.Source == nil {
@@ -2443,6 +2616,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Frame.CreatedBy(childComplexity), true
 
+	case "Frame.createdByActor":
+		if e.complexity.Frame.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.Frame.CreatedByActor(childComplexity), true
+
 	case "Frame.description":
 		if e.complexity.Frame.Description == nil {
 			break
@@ -2506,6 +2686,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Frame.ScreenshotContentHash(childComplexity), true
 
+	case "Frame.screenshotImageUrl":
+		if e.complexity.Frame.ScreenshotImageURL == nil {
+			break
+		}
+
+		return e.complexity.Frame.ScreenshotImageURL(childComplexity), true
+
 	case "Frame.source":
 		if e.complexity.Frame.Source == nil {
 			break
@@ -2540,6 +2727,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Frame.UpdatedBy(childComplexity), true
+
+	case "Frame.updatedByActor":
+		if e.complexity.Frame.UpdatedByActor == nil {
+			break
+		}
+
+		return e.complexity.Frame.UpdatedByActor(childComplexity), true
 
 	case "FrameGroup.createdAt":
 		if e.complexity.FrameGroup.CreatedAt == nil {
@@ -3114,6 +3308,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Me.AuthProvider(childComplexity), true
+
+	case "Me.avatarUrl":
+		if e.complexity.Me.AvatarURL == nil {
+			break
+		}
+
+		return e.complexity.Me.AvatarURL(childComplexity), true
 
 	case "Me.email":
 		if e.complexity.Me.Email == nil {
@@ -5319,6 +5520,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Service.CreatedBy(childComplexity), true
 
+	case "Service.createdByActor":
+		if e.complexity.Service.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.Service.CreatedByActor(childComplexity), true
+
 	case "Service.description":
 		if e.complexity.Service.Description == nil {
 			break
@@ -5444,6 +5652,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Service.UpdatedBy(childComplexity), true
+
+	case "Service.updatedByActor":
+		if e.complexity.Service.UpdatedByActor == nil {
+			break
+		}
+
+		return e.complexity.Service.UpdatedByActor(childComplexity), true
 
 	case "ServiceAccount.createdAt":
 		if e.complexity.ServiceAccount.CreatedAt == nil {
@@ -5571,6 +5786,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDB.CreatedBy(childComplexity), true
 
+	case "ServiceDB.createdByActor":
+		if e.complexity.ServiceDB.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.ServiceDB.CreatedByActor(childComplexity), true
+
 	case "ServiceDB.dbName":
 		if e.complexity.ServiceDB.DbName == nil {
 			break
@@ -5648,6 +5870,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDB.UpdatedBy(childComplexity), true
 
+	case "ServiceDB.updatedByActor":
+		if e.complexity.ServiceDB.UpdatedByActor == nil {
+			break
+		}
+
+		return e.complexity.ServiceDB.UpdatedByActor(childComplexity), true
+
 	case "ServiceDBVersion.createdAt":
 		if e.complexity.ServiceDBVersion.CreatedAt == nil {
 			break
@@ -5661,6 +5890,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ServiceDBVersion.CreatedBy(childComplexity), true
+
+	case "ServiceDBVersion.createdByActor":
+		if e.complexity.ServiceDBVersion.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.ServiceDBVersion.CreatedByActor(childComplexity), true
 
 	case "ServiceDBVersion.id":
 		if e.complexity.ServiceDBVersion.ID == nil {
@@ -5682,6 +5918,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ServiceDBVersion.Label(childComplexity), true
+
+	case "ServiceDBVersion.orgId":
+		if e.complexity.ServiceDBVersion.OrgID == nil {
+			break
+		}
+
+		return e.complexity.ServiceDBVersion.OrgID(childComplexity), true
 
 	case "ServiceDBVersion.schemaJson":
 		if e.complexity.ServiceDBVersion.SchemaJSON == nil {
@@ -6951,6 +7194,17 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
+	{Name: "../schema/actor.graphqls", Input: `# Actor is the resolved public identity behind a createdBy / updatedBy / deletedBy
+# id. The id may belong to a human user or a service account.
+type Actor {
+    id:        ID!
+    type:      String!
+    name:      String!
+    email:     String
+    disabled:  Boolean!
+    avatarUrl: String
+}
+`, BuiltIn: false},
 	{Name: "../schema/admin.graphqls", Input: `extend type Query {
     users:               [User!]!
     user(id: ID!):       User!
@@ -7154,6 +7408,7 @@ type Me {
     kind:         String!
     role:         String!
     authProvider: String!
+    avatarUrl:    String
 }
 
 type OrgSummary {
@@ -7253,6 +7508,8 @@ type Service {
     metadata:         String!
     createdBy:        ID!
     updatedBy:        ID
+    createdByActor:   Actor @goField(forceResolver: true)
+    updatedByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time!
     updatedAt:        Time!
 }
@@ -7284,6 +7541,7 @@ type APIGroup {
 
 type APIGroupVersion {
     id:            ID!
+    orgId:         ID!
     apiGroupId:    ID!
     versionNumber: Int!
     label:         String
@@ -7291,6 +7549,7 @@ type APIGroupVersion {
     specHash:      String!
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 
@@ -7332,12 +7591,15 @@ type ServiceDB {
     sourceTs:   Time
     createdBy:  ID!
     updatedBy:  ID
+    createdByActor: Actor @goField(forceResolver: true)
+    updatedByActor: Actor @goField(forceResolver: true)
     createdAt:  Time!
     updatedAt:  Time!
 }
 
 type ServiceDBVersion {
     id:            ID!
+    orgId:         ID!
     serviceDbId:   ID!
     versionNumber: Int!
     label:         String
@@ -7346,6 +7608,7 @@ type ServiceDBVersion {
     sourceTs:      Time
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 
@@ -7966,10 +8229,13 @@ type Diagram {
     contentKey:         String!
     contentHash:        String!
     previewAssetId:     String
+    previewImageUrl:    String @goField(forceResolver: true)
     previewContentHash: String
     source:             String
     createdBy:          ID!
     updatedBy:          ID
+    createdByActor:     Actor @goField(forceResolver: true)
+    updatedByActor:     Actor @goField(forceResolver: true)
     createdAt:          Time!
     updatedAt:          Time!
 }
@@ -8036,7 +8302,9 @@ type Components {
 type DiagramImage {
     diagramImageId: String!
     diagramId:      String!
+    orgId:          ID!
     assetId:        String!
+    imageUrl:       String @goField(forceResolver: true)
     fileName:       String
     order:          Int!
     createdBy:      ID!
@@ -8050,6 +8318,7 @@ type DiagramContent {
 
 type DiagramVersion {
     id:            ID!
+    orgId:         ID!
     diagramId:     ID!
     versionNumber: Int!
     label:         String
@@ -8058,6 +8327,7 @@ type DiagramVersion {
     isAutoVersion: Boolean!
     source:        String
     createdBy:     ID!
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 
@@ -8090,12 +8360,15 @@ type Frame {
     description:          String!
     templateType:         String!
     screenshotAssetId:    String
+    screenshotImageUrl:   String @goField(forceResolver: true)
     screenshotContentHash: String
     status:               String!
     order:                Float!
     source:               String
     createdBy:            ID!
     updatedBy:            ID
+    createdByActor:       Actor @goField(forceResolver: true)
+    updatedByActor:       Actor @goField(forceResolver: true)
     createdAt:            Time!
     updatedAt:            Time!
 }
@@ -8345,6 +8618,14 @@ input UpdateFocalPointMetaInput {
     componentFlowDiagram: String
     componentModalFields: String
 }
+`, BuiltIn: false},
+	{Name: "../schema/directives.graphqls", Input: `# gqlgen's @goField directive. forceResolver makes a field resolved by a
+# generated resolver method instead of being auto-bound to a model field.
+directive @goField(
+    forceResolver: Boolean
+    name: String
+    omittable: Boolean
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 `, BuiltIn: false},
 	{Name: "../schema/org.graphqls", Input: `extend type Query {
     org(id: ID!):                                     Org!
@@ -19352,6 +19633,50 @@ func (ec *executionContext) fieldContext_APIGroupVersion_id(_ context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _APIGroupVersion_orgId(ctx context.Context, field graphql.CollectedField, obj *model.APIGroupVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIGroupVersion_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIGroupVersion_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIGroupVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _APIGroupVersion_apiGroupId(ctx context.Context, field graphql.CollectedField, obj *model.APIGroupVersion) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_APIGroupVersion_apiGroupId(ctx, field)
 	if err != nil {
@@ -19652,6 +19977,61 @@ func (ec *executionContext) fieldContext_APIGroupVersion_createdBy(_ context.Con
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _APIGroupVersion_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.APIGroupVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIGroupVersion_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.APIGroupVersion().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIGroupVersion_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIGroupVersion",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
 		},
 	}
 	return fc, nil
@@ -20184,6 +20564,264 @@ func (ec *executionContext) fieldContext_APITestCase_assertions(_ context.Contex
 				return ec.fieldContext_Assertion_value(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Assertion", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Actor_id(ctx context.Context, field graphql.CollectedField, obj *model.Actor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Actor_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Actor_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Actor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Actor_type(ctx context.Context, field graphql.CollectedField, obj *model.Actor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Actor_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Actor_type(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Actor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Actor_name(ctx context.Context, field graphql.CollectedField, obj *model.Actor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Actor_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Actor_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Actor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Actor_email(ctx context.Context, field graphql.CollectedField, obj *model.Actor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Actor_email(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Actor_email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Actor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Actor_disabled(ctx context.Context, field graphql.CollectedField, obj *model.Actor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Actor_disabled(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Disabled, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Actor_disabled(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Actor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Actor_avatarUrl(ctx context.Context, field graphql.CollectedField, obj *model.Actor) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Actor_avatarUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvatarURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Actor_avatarUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Actor",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -22683,6 +23321,47 @@ func (ec *executionContext) fieldContext_Diagram_previewAssetId(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _Diagram_previewImageUrl(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Diagram().PreviewImageURL(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_previewImageUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Diagram_previewContentHash(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Diagram_previewContentHash(ctx, field)
 	if err != nil {
@@ -22845,6 +23524,116 @@ func (ec *executionContext) fieldContext_Diagram_updatedBy(_ context.Context, fi
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Diagram_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Diagram().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Diagram_updatedByActor(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_updatedByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Diagram().UpdatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
 		},
 	}
 	return fc, nil
@@ -23114,6 +23903,50 @@ func (ec *executionContext) fieldContext_DiagramImage_diagramId(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _DiagramImage_orgId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _DiagramImage_assetId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DiagramImage_assetId(ctx, field)
 	if err != nil {
@@ -23151,6 +23984,47 @@ func (ec *executionContext) fieldContext_DiagramImage_assetId(_ context.Context,
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramImage_imageUrl(ctx context.Context, field graphql.CollectedField, obj *model.DiagramImage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramImage_imageUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.DiagramImage().ImageURL(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramImage_imageUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramImage",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
@@ -23363,6 +24237,50 @@ func (ec *executionContext) _DiagramVersion_id(ctx context.Context, field graphq
 }
 
 func (ec *executionContext) fieldContext_DiagramVersion_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramVersion_orgId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramVersion_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramVersion_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "DiagramVersion",
 		Field:      field,
@@ -23716,6 +24634,61 @@ func (ec *executionContext) fieldContext_DiagramVersion_createdBy(_ context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramVersion_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.DiagramVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramVersion_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.DiagramVersion().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramVersion_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramVersion",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
 		},
 	}
 	return fc, nil
@@ -26616,6 +27589,47 @@ func (ec *executionContext) fieldContext_Frame_screenshotAssetId(_ context.Conte
 	return fc, nil
 }
 
+func (ec *executionContext) _Frame_screenshotImageUrl(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Frame().ScreenshotImageURL(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Frame_screenshotImageUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Frame",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Frame_screenshotContentHash(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 	if err != nil {
@@ -26866,6 +27880,116 @@ func (ec *executionContext) fieldContext_Frame_updatedBy(_ context.Context, fiel
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Frame_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Frame().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Frame_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Frame",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Frame_updatedByActor(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_updatedByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Frame().UpdatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Frame_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Frame",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
 		},
 	}
 	return fc, nil
@@ -30842,6 +31966,47 @@ func (ec *executionContext) fieldContext_Me_authProvider(_ context.Context, fiel
 	return fc, nil
 }
 
+func (ec *executionContext) _Me_avatarUrl(ctx context.Context, field graphql.CollectedField, obj *model.Me) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Me_avatarUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvatarURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Me_avatarUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Me",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Member_userId(ctx context.Context, field graphql.CollectedField, obj *model.Member) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Member_userId(ctx, field)
 	if err != nil {
@@ -31817,6 +32982,10 @@ func (ec *executionContext) fieldContext_Mutation_createService(ctx context.Cont
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Service_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Service_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Service_createdAt(ctx, field)
 			case "updatedAt":
@@ -31916,6 +33085,10 @@ func (ec *executionContext) fieldContext_Mutation_updateService(ctx context.Cont
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Service_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Service_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Service_createdAt(ctx, field)
 			case "updatedAt":
@@ -32681,6 +33854,10 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDB(ctx context.Co
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_ServiceDB_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDB_createdAt(ctx, field)
 			case "updatedAt":
@@ -32764,6 +33941,10 @@ func (ec *executionContext) fieldContext_Mutation_updateServiceDB(ctx context.Co
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_ServiceDB_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDB_createdAt(ctx, field)
 			case "updatedAt":
@@ -32882,6 +34063,8 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDBVersion(ctx con
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_ServiceDBVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_ServiceDBVersion_orgId(ctx, field)
 			case "serviceDbId":
 				return ec.fieldContext_ServiceDBVersion_serviceDbId(ctx, field)
 			case "versionNumber":
@@ -32898,6 +34081,8 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDBVersion(ctx con
 				return ec.fieldContext_ServiceDBVersion_isAutoVersion(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_ServiceDBVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_ServiceDBVersion_createdByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDBVersion_createdAt(ctx, field)
 			}
@@ -32979,6 +34164,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreServiceDBVersion(ctx co
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_ServiceDB_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDB_createdAt(ctx, field)
 			case "updatedAt":
@@ -34348,6 +35537,8 @@ func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -34356,6 +35547,10 @@ func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Diagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -34433,6 +35628,8 @@ func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -34441,6 +35638,10 @@ func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Diagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -34622,6 +35823,8 @@ func (ec *executionContext) fieldContext_Mutation_createDiagramVersion(ctx conte
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_DiagramVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_DiagramVersion_orgId(ctx, field)
 			case "diagramId":
 				return ec.fieldContext_DiagramVersion_diagramId(ctx, field)
 			case "versionNumber":
@@ -34638,6 +35841,8 @@ func (ec *executionContext) fieldContext_Mutation_createDiagramVersion(ctx conte
 				return ec.fieldContext_DiagramVersion_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_DiagramVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_DiagramVersion_createdByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_DiagramVersion_createdAt(ctx, field)
 			}
@@ -34713,6 +35918,8 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -34721,6 +35928,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Diagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -35011,6 +36222,8 @@ func (ec *executionContext) fieldContext_Mutation_createFrame(ctx context.Contex
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -35023,6 +36236,10 @@ func (ec *executionContext) fieldContext_Mutation_createFrame(ctx context.Contex
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Frame_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Frame_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Frame_createdAt(ctx, field)
 			case "updatedAt":
@@ -35100,6 +36317,8 @@ func (ec *executionContext) fieldContext_Mutation_updateFrame(ctx context.Contex
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -35112,6 +36331,10 @@ func (ec *executionContext) fieldContext_Mutation_updateFrame(ctx context.Contex
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Frame_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Frame_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Frame_createdAt(ctx, field)
 			case "updatedAt":
@@ -39129,6 +40352,8 @@ func (ec *executionContext) fieldContext_Query_me(_ context.Context, field graph
 				return ec.fieldContext_Me_role(ctx, field)
 			case "authProvider":
 				return ec.fieldContext_Me_authProvider(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Me_avatarUrl(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Me", field.Name)
 		},
@@ -39269,6 +40494,10 @@ func (ec *executionContext) fieldContext_Query_services(ctx context.Context, fie
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Service_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Service_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Service_createdAt(ctx, field)
 			case "updatedAt":
@@ -39368,6 +40597,10 @@ func (ec *executionContext) fieldContext_Query_service(ctx context.Context, fiel
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Service_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Service_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Service_createdAt(ctx, field)
 			case "updatedAt":
@@ -39597,6 +40830,8 @@ func (ec *executionContext) fieldContext_Query_apiGroupVersions(ctx context.Cont
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_APIGroupVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_APIGroupVersion_orgId(ctx, field)
 			case "apiGroupId":
 				return ec.fieldContext_APIGroupVersion_apiGroupId(ctx, field)
 			case "versionNumber":
@@ -39611,6 +40846,8 @@ func (ec *executionContext) fieldContext_Query_apiGroupVersions(ctx context.Cont
 				return ec.fieldContext_APIGroupVersion_isAutoVersion(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_APIGroupVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_APIGroupVersion_createdByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroupVersion_createdAt(ctx, field)
 			}
@@ -39927,6 +41164,10 @@ func (ec *executionContext) fieldContext_Query_serviceDBs(ctx context.Context, f
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_ServiceDB_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDB_createdAt(ctx, field)
 			case "updatedAt":
@@ -40010,6 +41251,10 @@ func (ec *executionContext) fieldContext_Query_serviceDB(ctx context.Context, fi
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_ServiceDB_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDB_createdAt(ctx, field)
 			case "updatedAt":
@@ -40073,6 +41318,8 @@ func (ec *executionContext) fieldContext_Query_serviceDBVersions(ctx context.Con
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_ServiceDBVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_ServiceDBVersion_orgId(ctx, field)
 			case "serviceDbId":
 				return ec.fieldContext_ServiceDBVersion_serviceDbId(ctx, field)
 			case "versionNumber":
@@ -40089,6 +41336,8 @@ func (ec *executionContext) fieldContext_Query_serviceDBVersions(ctx context.Con
 				return ec.fieldContext_ServiceDBVersion_isAutoVersion(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_ServiceDBVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_ServiceDBVersion_createdByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDBVersion_createdAt(ctx, field)
 			}
@@ -41111,6 +42360,8 @@ func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, fie
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -41119,6 +42370,10 @@ func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, fie
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Diagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -41196,6 +42451,8 @@ func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, fiel
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -41204,6 +42461,10 @@ func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, fiel
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Diagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -41328,6 +42589,8 @@ func (ec *executionContext) fieldContext_Query_diagramVersions(ctx context.Conte
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_DiagramVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_DiagramVersion_orgId(ctx, field)
 			case "diagramId":
 				return ec.fieldContext_DiagramVersion_diagramId(ctx, field)
 			case "versionNumber":
@@ -41344,6 +42607,8 @@ func (ec *executionContext) fieldContext_Query_diagramVersions(ctx context.Conte
 				return ec.fieldContext_DiagramVersion_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_DiagramVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_DiagramVersion_createdByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_DiagramVersion_createdAt(ctx, field)
 			}
@@ -41590,8 +42855,12 @@ func (ec *executionContext) fieldContext_Query_diagramImages(ctx context.Context
 				return ec.fieldContext_DiagramImage_diagramImageId(ctx, field)
 			case "diagramId":
 				return ec.fieldContext_DiagramImage_diagramId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_DiagramImage_orgId(ctx, field)
 			case "assetId":
 				return ec.fieldContext_DiagramImage_assetId(ctx, field)
+			case "imageUrl":
+				return ec.fieldContext_DiagramImage_imageUrl(ctx, field)
 			case "fileName":
 				return ec.fieldContext_DiagramImage_fileName(ctx, field)
 			case "order":
@@ -41831,6 +43100,8 @@ func (ec *executionContext) fieldContext_Query_frames(ctx context.Context, field
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -41843,6 +43114,10 @@ func (ec *executionContext) fieldContext_Query_frames(ctx context.Context, field
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Frame_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Frame_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Frame_createdAt(ctx, field)
 			case "updatedAt":
@@ -41920,6 +43195,8 @@ func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field 
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -41932,6 +43209,10 @@ func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field 
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Frame_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Frame_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Frame_createdAt(ctx, field)
 			case "updatedAt":
@@ -42009,6 +43290,8 @@ func (ec *executionContext) fieldContext_Query_frameById(ctx context.Context, fi
 				return ec.fieldContext_Frame_templateType(ctx, field)
 			case "screenshotAssetId":
 				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
 			case "screenshotContentHash":
 				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
 			case "status":
@@ -42021,6 +43304,10 @@ func (ec *executionContext) fieldContext_Query_frameById(ctx context.Context, fi
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Frame_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Frame_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Frame_createdAt(ctx, field)
 			case "updatedAt":
@@ -45235,6 +46522,116 @@ func (ec *executionContext) fieldContext_Service_updatedBy(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _Service_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Service_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Service().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Service_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Service",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Service_updatedByActor(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Service_updatedByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Service().UpdatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Service_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Service",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Service_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Service_createdAt(ctx, field)
 	if err != nil {
@@ -46496,6 +47893,116 @@ func (ec *executionContext) fieldContext_ServiceDB_updatedBy(_ context.Context, 
 	return fc, nil
 }
 
+func (ec *executionContext) _ServiceDB_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDB_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.ServiceDB().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDB_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDB",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDB_updatedByActor(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDB_updatedByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.ServiceDB().UpdatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDB_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDB",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ServiceDB_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceDB_createdAt(ctx, field)
 	if err != nil {
@@ -46616,6 +48123,50 @@ func (ec *executionContext) _ServiceDBVersion_id(ctx context.Context, field grap
 }
 
 func (ec *executionContext) fieldContext_ServiceDBVersion_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDBVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDBVersion_orgId(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDBVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDBVersion_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDBVersion_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "ServiceDBVersion",
 		Field:      field,
@@ -46966,6 +48517,61 @@ func (ec *executionContext) fieldContext_ServiceDBVersion_createdBy(_ context.Co
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDBVersion_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDBVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDBVersion_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.ServiceDBVersion().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDBVersion_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDBVersion",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
 		},
 	}
 	return fc, nil
@@ -47372,6 +48978,8 @@ func (ec *executionContext) fieldContext_ServiceDiagram_diagram(_ context.Contex
 				return ec.fieldContext_Diagram_contentHash(ctx, field)
 			case "previewAssetId":
 				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
 			case "source":
@@ -47380,6 +48988,10 @@ func (ec *executionContext) fieldContext_ServiceDiagram_diagram(_ context.Contex
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Diagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -60007,44 +61619,82 @@ func (ec *executionContext) _APIGroupVersion(ctx context.Context, sel ast.Select
 		case "id":
 			out.Values[i] = ec._APIGroupVersion_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._APIGroupVersion_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "apiGroupId":
 			out.Values[i] = ec._APIGroupVersion_apiGroupId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "versionNumber":
 			out.Values[i] = ec._APIGroupVersion_versionNumber(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "label":
 			out.Values[i] = ec._APIGroupVersion_label(ctx, field, obj)
 		case "specKey":
 			out.Values[i] = ec._APIGroupVersion_specKey(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "specHash":
 			out.Values[i] = ec._APIGroupVersion_specHash(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "isAutoVersion":
 			out.Values[i] = ec._APIGroupVersion_isAutoVersion(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "createdBy":
 			out.Values[i] = ec._APIGroupVersion_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._APIGroupVersion_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._APIGroupVersion_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -60105,6 +61755,64 @@ func (ec *executionContext) _APITestCase(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._APITestCase_responseBody(ctx, field, obj)
 		case "assertions":
 			out.Values[i] = ec._APITestCase_assertions(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var actorImplementors = []string{"Actor"}
+
+func (ec *executionContext) _Actor(ctx context.Context, sel ast.SelectionSet, obj *model.Actor) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, actorImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Actor")
+		case "id":
+			out.Values[i] = ec._Actor_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "type":
+			out.Values[i] = ec._Actor_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._Actor_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "email":
+			out.Values[i] = ec._Actor_email(ctx, field, obj)
+		case "disabled":
+			out.Values[i] = ec._Actor_disabled(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "avatarUrl":
+			out.Values[i] = ec._Actor_avatarUrl(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -60621,12 +62329,12 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 		case "id":
 			out.Values[i] = ec._Diagram_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "orgId":
 			out.Values[i] = ec._Diagram_orgId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "folderId":
 			out.Values[i] = ec._Diagram_folderId(ctx, field, obj)
@@ -60635,20 +62343,53 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 		case "name":
 			out.Values[i] = ec._Diagram_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "contentKey":
 			out.Values[i] = ec._Diagram_contentKey(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "contentHash":
 			out.Values[i] = ec._Diagram_contentHash(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "previewAssetId":
 			out.Values[i] = ec._Diagram_previewAssetId(ctx, field, obj)
+		case "previewImageUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Diagram_previewImageUrl(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "previewContentHash":
 			out.Values[i] = ec._Diagram_previewContentHash(ctx, field, obj)
 		case "source":
@@ -60656,19 +62397,85 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 		case "createdBy":
 			out.Values[i] = ec._Diagram_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Diagram_updatedBy(ctx, field, obj)
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Diagram_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "updatedByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Diagram_updatedByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._Diagram_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedAt":
 			out.Values[i] = ec._Diagram_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -60751,34 +62558,72 @@ func (ec *executionContext) _DiagramImage(ctx context.Context, sel ast.Selection
 		case "diagramImageId":
 			out.Values[i] = ec._DiagramImage_diagramImageId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "diagramId":
 			out.Values[i] = ec._DiagramImage_diagramId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._DiagramImage_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "assetId":
 			out.Values[i] = ec._DiagramImage_assetId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "imageUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._DiagramImage_imageUrl(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "fileName":
 			out.Values[i] = ec._DiagramImage_fileName(ctx, field, obj)
 		case "order":
 			out.Values[i] = ec._DiagramImage_order(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "createdBy":
 			out.Values[i] = ec._DiagramImage_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "createdAt":
 			out.Values[i] = ec._DiagramImage_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -60817,46 +62662,84 @@ func (ec *executionContext) _DiagramVersion(ctx context.Context, sel ast.Selecti
 		case "id":
 			out.Values[i] = ec._DiagramVersion_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._DiagramVersion_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "diagramId":
 			out.Values[i] = ec._DiagramVersion_diagramId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "versionNumber":
 			out.Values[i] = ec._DiagramVersion_versionNumber(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "label":
 			out.Values[i] = ec._DiagramVersion_label(ctx, field, obj)
 		case "contentKey":
 			out.Values[i] = ec._DiagramVersion_contentKey(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "contentHash":
 			out.Values[i] = ec._DiagramVersion_contentHash(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "isAutoVersion":
 			out.Values[i] = ec._DiagramVersion_isAutoVersion(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "source":
 			out.Values[i] = ec._DiagramVersion_source(ctx, field, obj)
 		case "createdBy":
 			out.Values[i] = ec._DiagramVersion_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._DiagramVersion_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._DiagramVersion_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -61352,67 +63235,166 @@ func (ec *executionContext) _Frame(ctx context.Context, sel ast.SelectionSet, ob
 		case "id":
 			out.Values[i] = ec._Frame_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "mapId":
 			out.Values[i] = ec._Frame_mapId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "orgId":
 			out.Values[i] = ec._Frame_orgId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "parentFrameId":
 			out.Values[i] = ec._Frame_parentFrameId(ctx, field, obj)
 		case "name":
 			out.Values[i] = ec._Frame_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "description":
 			out.Values[i] = ec._Frame_description(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "templateType":
 			out.Values[i] = ec._Frame_templateType(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "screenshotAssetId":
 			out.Values[i] = ec._Frame_screenshotAssetId(ctx, field, obj)
+		case "screenshotImageUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Frame_screenshotImageUrl(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "screenshotContentHash":
 			out.Values[i] = ec._Frame_screenshotContentHash(ctx, field, obj)
 		case "status":
 			out.Values[i] = ec._Frame_status(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "order":
 			out.Values[i] = ec._Frame_order(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "source":
 			out.Values[i] = ec._Frame_source(ctx, field, obj)
 		case "createdBy":
 			out.Values[i] = ec._Frame_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Frame_updatedBy(ctx, field, obj)
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Frame_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "updatedByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Frame_updatedByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._Frame_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedAt":
 			out.Values[i] = ec._Frame_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -62102,6 +64084,8 @@ func (ec *executionContext) _Me(ctx context.Context, sel ast.SelectionSet, obj *
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "avatarUrl":
+			out.Values[i] = ec._Me_avatarUrl(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -64626,12 +66610,12 @@ func (ec *executionContext) _Service(ctx context.Context, sel ast.SelectionSet, 
 		case "id":
 			out.Values[i] = ec._Service_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "orgId":
 			out.Values[i] = ec._Service_orgId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "folderId":
 			out.Values[i] = ec._Service_folderId(ctx, field, obj)
@@ -64640,37 +66624,37 @@ func (ec *executionContext) _Service(ctx context.Context, sel ast.SelectionSet, 
 		case "name":
 			out.Values[i] = ec._Service_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "slug":
 			out.Values[i] = ec._Service_slug(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "description":
 			out.Values[i] = ec._Service_description(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "status":
 			out.Values[i] = ec._Service_status(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "tier":
 			out.Values[i] = ec._Service_tier(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "category":
 			out.Values[i] = ec._Service_category(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "language":
 			out.Values[i] = ec._Service_language(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "gitRepoUrl":
 			out.Values[i] = ec._Service_gitRepoUrl(ctx, field, obj)
@@ -64683,29 +66667,95 @@ func (ec *executionContext) _Service(ctx context.Context, sel ast.SelectionSet, 
 		case "labels":
 			out.Values[i] = ec._Service_labels(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "metadata":
 			out.Values[i] = ec._Service_metadata(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "createdBy":
 			out.Values[i] = ec._Service_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Service_updatedBy(ctx, field, obj)
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Service_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "updatedByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Service_updatedByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._Service_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedAt":
 			out.Values[i] = ec._Service_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -64886,37 +66936,37 @@ func (ec *executionContext) _ServiceDB(ctx context.Context, sel ast.SelectionSet
 		case "id":
 			out.Values[i] = ec._ServiceDB_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "serviceId":
 			out.Values[i] = ec._ServiceDB_serviceId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "orgId":
 			out.Values[i] = ec._ServiceDB_orgId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "dbName":
 			out.Values[i] = ec._ServiceDB_dbName(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "dbType":
 			out.Values[i] = ec._ServiceDB_dbType(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "dialect":
 			out.Values[i] = ec._ServiceDB_dialect(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "schemaJson":
 			out.Values[i] = ec._ServiceDB_schemaJson(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "source":
 			out.Values[i] = ec._ServiceDB_source(ctx, field, obj)
@@ -64925,19 +66975,85 @@ func (ec *executionContext) _ServiceDB(ctx context.Context, sel ast.SelectionSet
 		case "createdBy":
 			out.Values[i] = ec._ServiceDB_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedBy":
 			out.Values[i] = ec._ServiceDB_updatedBy(ctx, field, obj)
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._ServiceDB_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "updatedByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._ServiceDB_updatedByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._ServiceDB_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedAt":
 			out.Values[i] = ec._ServiceDB_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -64976,24 +67092,29 @@ func (ec *executionContext) _ServiceDBVersion(ctx context.Context, sel ast.Selec
 		case "id":
 			out.Values[i] = ec._ServiceDBVersion_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._ServiceDBVersion_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "serviceDbId":
 			out.Values[i] = ec._ServiceDBVersion_serviceDbId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "versionNumber":
 			out.Values[i] = ec._ServiceDBVersion_versionNumber(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "label":
 			out.Values[i] = ec._ServiceDBVersion_label(ctx, field, obj)
 		case "schemaJson":
 			out.Values[i] = ec._ServiceDBVersion_schemaJson(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "source":
 			out.Values[i] = ec._ServiceDBVersion_source(ctx, field, obj)
@@ -65002,17 +67123,50 @@ func (ec *executionContext) _ServiceDBVersion(ctx context.Context, sel ast.Selec
 		case "isAutoVersion":
 			out.Values[i] = ec._ServiceDBVersion_isAutoVersion(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "createdBy":
 			out.Values[i] = ec._ServiceDBVersion_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._ServiceDBVersion_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._ServiceDBVersion_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -69631,6 +71785,13 @@ func (ec *executionContext) unmarshalOAPITestCaseInput2ᚖgithubᚗcomᚋuigraph
 	}
 	res, err := ec.unmarshalInputAPITestCaseInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx context.Context, sel ast.SelectionSet, v *model.Actor) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Actor(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Assertion) graphql.Marshaler {
