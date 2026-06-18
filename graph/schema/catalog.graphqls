@@ -87,8 +87,8 @@ type Service {
     metadata:         String!
     createdBy:        ID!
     updatedBy:        ID
-    createdByActor:   Actor
-    updatedByActor:   Actor
+    createdByActor:   Actor @goField(forceResolver: true)
+    updatedByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time!
     updatedAt:        Time!
 }
@@ -128,7 +128,7 @@ type APIGroupVersion {
     specHash:      String!
     isAutoVersion: Boolean!
     createdBy:     ID!
-    createdByActor: Actor
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 
@@ -170,8 +170,8 @@ type ServiceDB {
     sourceTs:   Time
     createdBy:  ID!
     updatedBy:  ID
-    createdByActor: Actor
-    updatedByActor: Actor
+    createdByActor: Actor @goField(forceResolver: true)
+    updatedByActor: Actor @goField(forceResolver: true)
     createdAt:  Time!
     updatedAt:  Time!
 }
@@ -187,7 +187,7 @@ type ServiceDBVersion {
     sourceTs:      Time
     isAutoVersion: Boolean!
     createdBy:     ID!
-    createdByActor: Actor
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 

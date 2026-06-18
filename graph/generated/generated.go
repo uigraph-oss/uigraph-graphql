@@ -7508,8 +7508,8 @@ type Service {
     metadata:         String!
     createdBy:        ID!
     updatedBy:        ID
-    createdByActor:   Actor
-    updatedByActor:   Actor
+    createdByActor:   Actor @goField(forceResolver: true)
+    updatedByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time!
     updatedAt:        Time!
 }
@@ -7549,7 +7549,7 @@ type APIGroupVersion {
     specHash:      String!
     isAutoVersion: Boolean!
     createdBy:     ID!
-    createdByActor: Actor
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 
@@ -7591,8 +7591,8 @@ type ServiceDB {
     sourceTs:   Time
     createdBy:  ID!
     updatedBy:  ID
-    createdByActor: Actor
-    updatedByActor: Actor
+    createdByActor: Actor @goField(forceResolver: true)
+    updatedByActor: Actor @goField(forceResolver: true)
     createdAt:  Time!
     updatedAt:  Time!
 }
@@ -7608,7 +7608,7 @@ type ServiceDBVersion {
     sourceTs:      Time
     isAutoVersion: Boolean!
     createdBy:     ID!
-    createdByActor: Actor
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 
@@ -8229,13 +8229,13 @@ type Diagram {
     contentKey:         String!
     contentHash:        String!
     previewAssetId:     String
-    previewImageUrl:    String
+    previewImageUrl:    String @goField(forceResolver: true)
     previewContentHash: String
     source:             String
     createdBy:          ID!
     updatedBy:          ID
-    createdByActor:     Actor
-    updatedByActor:     Actor
+    createdByActor:     Actor @goField(forceResolver: true)
+    updatedByActor:     Actor @goField(forceResolver: true)
     createdAt:          Time!
     updatedAt:          Time!
 }
@@ -8304,7 +8304,7 @@ type DiagramImage {
     diagramId:      String!
     orgId:          ID!
     assetId:        String!
-    imageUrl:       String
+    imageUrl:       String @goField(forceResolver: true)
     fileName:       String
     order:          Int!
     createdBy:      ID!
@@ -8327,7 +8327,7 @@ type DiagramVersion {
     isAutoVersion: Boolean!
     source:        String
     createdBy:     ID!
-    createdByActor: Actor
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 
@@ -8360,15 +8360,15 @@ type Frame {
     description:          String!
     templateType:         String!
     screenshotAssetId:    String
-    screenshotImageUrl:   String
+    screenshotImageUrl:   String @goField(forceResolver: true)
     screenshotContentHash: String
     status:               String!
     order:                Float!
     source:               String
     createdBy:            ID!
     updatedBy:            ID
-    createdByActor:       Actor
-    updatedByActor:       Actor
+    createdByActor:       Actor @goField(forceResolver: true)
+    updatedByActor:       Actor @goField(forceResolver: true)
     createdAt:            Time!
     updatedAt:            Time!
 }
@@ -8618,6 +8618,14 @@ input UpdateFocalPointMetaInput {
     componentFlowDiagram: String
     componentModalFields: String
 }
+`, BuiltIn: false},
+	{Name: "../schema/directives.graphqls", Input: `# gqlgen's @goField directive. forceResolver makes a field resolved by a
+# generated resolver method instead of being auto-bound to a model field.
+directive @goField(
+    forceResolver: Boolean
+    name: String
+    omittable: Boolean
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 `, BuiltIn: false},
 	{Name: "../schema/org.graphqls", Input: `extend type Query {
     org(id: ID!):                                     Org!

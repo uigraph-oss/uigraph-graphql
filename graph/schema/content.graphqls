@@ -85,13 +85,13 @@ type Diagram {
     contentKey:         String!
     contentHash:        String!
     previewAssetId:     String
-    previewImageUrl:    String
+    previewImageUrl:    String @goField(forceResolver: true)
     previewContentHash: String
     source:             String
     createdBy:          ID!
     updatedBy:          ID
-    createdByActor:     Actor
-    updatedByActor:     Actor
+    createdByActor:     Actor @goField(forceResolver: true)
+    updatedByActor:     Actor @goField(forceResolver: true)
     createdAt:          Time!
     updatedAt:          Time!
 }
@@ -160,7 +160,7 @@ type DiagramImage {
     diagramId:      String!
     orgId:          ID!
     assetId:        String!
-    imageUrl:       String
+    imageUrl:       String @goField(forceResolver: true)
     fileName:       String
     order:          Int!
     createdBy:      ID!
@@ -183,7 +183,7 @@ type DiagramVersion {
     isAutoVersion: Boolean!
     source:        String
     createdBy:     ID!
-    createdByActor: Actor
+    createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
 
@@ -216,15 +216,15 @@ type Frame {
     description:          String!
     templateType:         String!
     screenshotAssetId:    String
-    screenshotImageUrl:   String
+    screenshotImageUrl:   String @goField(forceResolver: true)
     screenshotContentHash: String
     status:               String!
     order:                Float!
     source:               String
     createdBy:            ID!
     updatedBy:            ID
-    createdByActor:       Actor
-    updatedByActor:       Actor
+    createdByActor:       Actor @goField(forceResolver: true)
+    updatedByActor:       Actor @goField(forceResolver: true)
     createdAt:            Time!
     updatedAt:            Time!
 }

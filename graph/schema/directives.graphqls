@@ -1,0 +1,7 @@
+# gqlgen's @goField directive. forceResolver makes a field resolved by a
+# generated resolver method instead of being auto-bound to a model field.
+directive @goField(
+    forceResolver: Boolean
+    name: String
+    omittable: Boolean
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
