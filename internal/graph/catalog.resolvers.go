@@ -19,7 +19,7 @@ func (r *aPIGroupVersionResolver) CreatedByActor(ctx context.Context, obj *model
 
 // CreateService is the resolver for the createService field.
 func (r *mutationResolver) CreateService(ctx context.Context, orgID string, input model.CreateServiceInput) (*model.Service, error) {
-	s, err := r.Client.CreateService(ctx, orgID, convert.ToMap(input))
+	s, err := r.Catalog.CreateService(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (r *mutationResolver) CreateService(ctx context.Context, orgID string, inpu
 
 // UpdateService is the resolver for the updateService field.
 func (r *mutationResolver) UpdateService(ctx context.Context, orgID string, id string, input model.UpdateServiceInput) (*model.Service, error) {
-	s, err := r.Client.UpdateService(ctx, orgID, id, convert.ToMap(input))
+	s, err := r.Catalog.UpdateService(ctx, orgID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -37,12 +37,12 @@ func (r *mutationResolver) UpdateService(ctx context.Context, orgID string, id s
 
 // DeleteService is the resolver for the deleteService field.
 func (r *mutationResolver) DeleteService(ctx context.Context, orgID string, id string) (bool, error) {
-	return true, r.Client.DeleteService(ctx, orgID, id)
+	return true, r.Catalog.DeleteService(ctx, orgID, id)
 }
 
 // CreateAPIGroup is the resolver for the createAPIGroup field.
 func (r *mutationResolver) CreateAPIGroup(ctx context.Context, orgID string, serviceID string, input model.CreateAPIGroupInput) (*model.APIGroup, error) {
-	g, err := r.Client.CreateAPIGroup(ctx, orgID, serviceID, convert.ToMap(input))
+	g, err := r.Catalog.CreateAPIGroup(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (r *mutationResolver) CreateAPIGroup(ctx context.Context, orgID string, ser
 
 // UpdateAPIGroup is the resolver for the updateAPIGroup field.
 func (r *mutationResolver) UpdateAPIGroup(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) (*model.APIGroup, error) {
-	g, err := r.Client.UpdateAPIGroup(ctx, orgID, serviceID, id, convert.ToMap(input))
+	g, err := r.Catalog.UpdateAPIGroup(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -60,12 +60,12 @@ func (r *mutationResolver) UpdateAPIGroup(ctx context.Context, orgID string, ser
 
 // DeleteAPIGroup is the resolver for the deleteAPIGroup field.
 func (r *mutationResolver) DeleteAPIGroup(ctx context.Context, orgID string, serviceID string, id string) (bool, error) {
-	return true, r.Client.DeleteAPIGroup(ctx, orgID, serviceID, id)
+	return true, r.Catalog.DeleteAPIGroup(ctx, orgID, serviceID, id)
 }
 
 // SyncAPIGroup is the resolver for the syncAPIGroup field.
 func (r *mutationResolver) SyncAPIGroup(ctx context.Context, orgID string, serviceID string, input model.SyncAPIGroupInput) (*model.SyncAPIGroupResult, error) {
-	out, err := r.Client.SyncAPIGroup(ctx, orgID, serviceID, convert.ToMap(input))
+	out, err := r.Catalog.SyncAPIGroup(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (r *mutationResolver) SyncAPIGroup(ctx context.Context, orgID string, servi
 
 // CreateServiceDoc is the resolver for the createServiceDoc field.
 func (r *mutationResolver) CreateServiceDoc(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDocInput) (*model.ServiceDoc, error) {
-	d, err := r.Client.CreateServiceDoc(ctx, orgID, serviceID, convert.ToMap(input))
+	d, err := r.Catalog.CreateServiceDoc(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (r *mutationResolver) CreateServiceDoc(ctx context.Context, orgID string, s
 
 // UpdateServiceDoc is the resolver for the updateServiceDoc field.
 func (r *mutationResolver) UpdateServiceDoc(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateServiceDocInput) (*model.ServiceDoc, error) {
-	d, err := r.Client.UpdateServiceDoc(ctx, orgID, serviceID, id, convert.ToMap(input))
+	d, err := r.Catalog.UpdateServiceDoc(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -95,12 +95,12 @@ func (r *mutationResolver) UpdateServiceDoc(ctx context.Context, orgID string, s
 
 // DeleteServiceDoc is the resolver for the deleteServiceDoc field.
 func (r *mutationResolver) DeleteServiceDoc(ctx context.Context, orgID string, serviceID string, id string) (bool, error) {
-	return true, r.Client.DeleteServiceDoc(ctx, orgID, serviceID, id)
+	return true, r.Catalog.DeleteServiceDoc(ctx, orgID, serviceID, id)
 }
 
 // CreateServiceDiagram is the resolver for the createServiceDiagram field.
 func (r *mutationResolver) CreateServiceDiagram(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDiagramInput) (*model.ServiceDiagram, error) {
-	d, err := r.Client.CreateServiceDiagram(ctx, orgID, serviceID, convert.ToMap(input))
+	d, err := r.Catalog.CreateServiceDiagram(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -109,12 +109,12 @@ func (r *mutationResolver) CreateServiceDiagram(ctx context.Context, orgID strin
 
 // DeleteServiceDiagram is the resolver for the deleteServiceDiagram field.
 func (r *mutationResolver) DeleteServiceDiagram(ctx context.Context, orgID string, serviceID string, diagramID string) (bool, error) {
-	return true, r.Client.DeleteServiceDiagram(ctx, orgID, serviceID, diagramID)
+	return true, r.Catalog.DeleteServiceDiagram(ctx, orgID, serviceID, diagramID)
 }
 
 // CreateServiceDb is the resolver for the createServiceDB field.
 func (r *mutationResolver) CreateServiceDb(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDBInput) (*model.ServiceDb, error) {
-	d, err := r.Client.CreateServiceDB(ctx, orgID, serviceID, convert.ToMap(input))
+	d, err := r.Catalog.CreateServiceDB(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +123,7 @@ func (r *mutationResolver) CreateServiceDb(ctx context.Context, orgID string, se
 
 // UpdateServiceDb is the resolver for the updateServiceDB field.
 func (r *mutationResolver) UpdateServiceDb(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) (*model.ServiceDb, error) {
-	d, err := r.Client.UpdateServiceDB(ctx, orgID, serviceID, id, convert.ToMap(input))
+	d, err := r.Catalog.UpdateServiceDB(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -132,12 +132,12 @@ func (r *mutationResolver) UpdateServiceDb(ctx context.Context, orgID string, se
 
 // DeleteServiceDb is the resolver for the deleteServiceDB field.
 func (r *mutationResolver) DeleteServiceDb(ctx context.Context, orgID string, serviceID string, id string) (bool, error) {
-	return true, r.Client.DeleteServiceDB(ctx, orgID, serviceID, id)
+	return true, r.Catalog.DeleteServiceDB(ctx, orgID, serviceID, id)
 }
 
 // CreateServiceDBVersion is the resolver for the createServiceDBVersion field.
 func (r *mutationResolver) CreateServiceDBVersion(ctx context.Context, orgID string, serviceID string, serviceDbID string, input model.CreateServiceDBVersionInput) (*model.ServiceDBVersion, error) {
-	v, err := r.Client.CreateServiceDBVersion(ctx, orgID, serviceID, serviceDbID, convert.ToMap(input))
+	v, err := r.Catalog.CreateServiceDBVersion(ctx, orgID, serviceID, serviceDbID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -146,7 +146,7 @@ func (r *mutationResolver) CreateServiceDBVersion(ctx context.Context, orgID str
 
 // RestoreServiceDBVersion is the resolver for the restoreServiceDBVersion field.
 func (r *mutationResolver) RestoreServiceDBVersion(ctx context.Context, orgID string, serviceID string, serviceDbID string, versionID string) (*model.ServiceDb, error) {
-	d, err := r.Client.RestoreServiceDBVersion(ctx, orgID, serviceID, serviceDbID, versionID)
+	d, err := r.Catalog.RestoreServiceDBVersion(ctx, orgID, serviceID, serviceDbID, versionID)
 	if err != nil {
 		return nil, err
 	}
@@ -155,7 +155,7 @@ func (r *mutationResolver) RestoreServiceDBVersion(ctx context.Context, orgID st
 
 // CreateAPIEndpoint is the resolver for the createAPIEndpoint field.
 func (r *mutationResolver) CreateAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) (*model.APIEndpoint, error) {
-	e, err := r.Client.CreateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, convert.ToMap(input))
+	e, err := r.Catalog.CreateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +164,7 @@ func (r *mutationResolver) CreateAPIEndpoint(ctx context.Context, orgID string, 
 
 // UpdateAPIEndpoint is the resolver for the updateAPIEndpoint field.
 func (r *mutationResolver) UpdateAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) (*model.APIEndpoint, error) {
-	e, err := r.Client.UpdateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id, convert.ToMap(input))
+	e, err := r.Catalog.UpdateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -173,7 +173,7 @@ func (r *mutationResolver) UpdateAPIEndpoint(ctx context.Context, orgID string, 
 
 // DeleteAPIEndpoint is the resolver for the deleteAPIEndpoint field.
 func (r *mutationResolver) DeleteAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, id string) (bool, error) {
-	return true, r.Client.DeleteAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id)
+	return true, r.Catalog.DeleteAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id)
 }
 
 // Services is the resolver for the services field.
@@ -186,7 +186,7 @@ func (r *queryResolver) Services(ctx context.Context, orgID string, folderID *st
 	if teamID != nil {
 		tid = *teamID
 	}
-	services, err := r.Client.ListServices(ctx, orgID, fid, tid)
+	services, err := r.Catalog.ListServices(ctx, orgID, fid, tid)
 	if err != nil {
 		return nil, err
 	}
@@ -195,7 +195,7 @@ func (r *queryResolver) Services(ctx context.Context, orgID string, folderID *st
 
 // Service is the resolver for the service field.
 func (r *queryResolver) Service(ctx context.Context, orgID string, id string) (*model.Service, error) {
-	s, err := r.Client.GetService(ctx, orgID, id)
+	s, err := r.Catalog.GetService(ctx, orgID, id)
 	if err != nil {
 		return nil, err
 	}
@@ -204,7 +204,7 @@ func (r *queryResolver) Service(ctx context.Context, orgID string, id string) (*
 
 // APIGroups is the resolver for the apiGroups field.
 func (r *queryResolver) APIGroups(ctx context.Context, orgID string, serviceID string) ([]*model.APIGroup, error) {
-	groups, err := r.Client.ListAPIGroups(ctx, orgID, serviceID)
+	groups, err := r.Catalog.ListAPIGroups(ctx, orgID, serviceID)
 	if err != nil {
 		return nil, err
 	}
@@ -213,7 +213,7 @@ func (r *queryResolver) APIGroups(ctx context.Context, orgID string, serviceID s
 
 // APIGroup is the resolver for the apiGroup field.
 func (r *queryResolver) APIGroup(ctx context.Context, orgID string, serviceID string, id string) (*model.APIGroup, error) {
-	g, err := r.Client.GetAPIGroup(ctx, orgID, serviceID, id)
+	g, err := r.Catalog.GetAPIGroup(ctx, orgID, serviceID, id)
 	if err != nil {
 		return nil, err
 	}
@@ -222,7 +222,7 @@ func (r *queryResolver) APIGroup(ctx context.Context, orgID string, serviceID st
 
 // APIGroupVersions is the resolver for the apiGroupVersions field.
 func (r *queryResolver) APIGroupVersions(ctx context.Context, orgID string, serviceID string, apiGroupID string) ([]*model.APIGroupVersion, error) {
-	versions, err := r.Client.ListAPIGroupVersions(ctx, orgID, serviceID, apiGroupID)
+	versions, err := r.Catalog.ListAPIGroupVersions(ctx, orgID, serviceID, apiGroupID)
 	if err != nil {
 		return nil, err
 	}
@@ -231,7 +231,7 @@ func (r *queryResolver) APIGroupVersions(ctx context.Context, orgID string, serv
 
 // ServiceDocs is the resolver for the serviceDocs field.
 func (r *queryResolver) ServiceDocs(ctx context.Context, orgID string, serviceID string) ([]*model.ServiceDoc, error) {
-	docs, err := r.Client.ListServiceDocs(ctx, orgID, serviceID)
+	docs, err := r.Catalog.ListServiceDocs(ctx, orgID, serviceID)
 	if err != nil {
 		return nil, err
 	}
@@ -240,7 +240,7 @@ func (r *queryResolver) ServiceDocs(ctx context.Context, orgID string, serviceID
 
 // ServiceDoc is the resolver for the serviceDoc field.
 func (r *queryResolver) ServiceDoc(ctx context.Context, orgID string, serviceID string, id string) (*model.ServiceDoc, error) {
-	d, err := r.Client.GetServiceDoc(ctx, orgID, serviceID, id)
+	d, err := r.Catalog.GetServiceDoc(ctx, orgID, serviceID, id)
 	if err != nil {
 		return nil, err
 	}
@@ -249,7 +249,7 @@ func (r *queryResolver) ServiceDoc(ctx context.Context, orgID string, serviceID 
 
 // ServiceDiagrams is the resolver for the serviceDiagrams field.
 func (r *queryResolver) ServiceDiagrams(ctx context.Context, orgID string, serviceID string) ([]*model.ServiceDiagram, error) {
-	diagrams, err := r.Client.ListServiceDiagrams(ctx, orgID, serviceID)
+	diagrams, err := r.Catalog.ListServiceDiagrams(ctx, orgID, serviceID)
 	if err != nil {
 		return nil, err
 	}
@@ -258,7 +258,7 @@ func (r *queryResolver) ServiceDiagrams(ctx context.Context, orgID string, servi
 
 // ServiceDBs is the resolver for the serviceDBs field.
 func (r *queryResolver) ServiceDBs(ctx context.Context, orgID string, serviceID string) ([]*model.ServiceDb, error) {
-	dbs, err := r.Client.ListServiceDBs(ctx, orgID, serviceID)
+	dbs, err := r.Catalog.ListServiceDBs(ctx, orgID, serviceID)
 	if err != nil {
 		return nil, err
 	}
@@ -267,7 +267,7 @@ func (r *queryResolver) ServiceDBs(ctx context.Context, orgID string, serviceID 
 
 // ServiceDb is the resolver for the serviceDB field.
 func (r *queryResolver) ServiceDb(ctx context.Context, orgID string, serviceID string, id string) (*model.ServiceDb, error) {
-	d, err := r.Client.GetServiceDB(ctx, orgID, serviceID, id)
+	d, err := r.Catalog.GetServiceDB(ctx, orgID, serviceID, id)
 	if err != nil {
 		return nil, err
 	}
@@ -276,7 +276,7 @@ func (r *queryResolver) ServiceDb(ctx context.Context, orgID string, serviceID s
 
 // ServiceDBVersions is the resolver for the serviceDBVersions field.
 func (r *queryResolver) ServiceDBVersions(ctx context.Context, orgID string, serviceID string, serviceDbID string) ([]*model.ServiceDBVersion, error) {
-	versions, err := r.Client.ListServiceDBVersions(ctx, orgID, serviceID, serviceDbID)
+	versions, err := r.Catalog.ListServiceDBVersions(ctx, orgID, serviceID, serviceDbID)
 	if err != nil {
 		return nil, err
 	}
@@ -285,7 +285,7 @@ func (r *queryResolver) ServiceDBVersions(ctx context.Context, orgID string, ser
 
 // APIEndpoints is the resolver for the apiEndpoints field.
 func (r *queryResolver) APIEndpoints(ctx context.Context, orgID string, serviceID string, apiGroupID string) ([]*model.APIEndpoint, error) {
-	endpoints, err := r.Client.ListAPIEndpoints(ctx, orgID, serviceID, apiGroupID)
+	endpoints, err := r.Catalog.ListAPIEndpoints(ctx, orgID, serviceID, apiGroupID)
 	if err != nil {
 		return nil, err
 	}
@@ -294,7 +294,7 @@ func (r *queryResolver) APIEndpoints(ctx context.Context, orgID string, serviceI
 
 // APIEndpoint is the resolver for the apiEndpoint field.
 func (r *queryResolver) APIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, id string) (*model.APIEndpoint, error) {
-	e, err := r.Client.GetAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id)
+	e, err := r.Catalog.GetAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id)
 	if err != nil {
 		return nil, err
 	}
@@ -303,7 +303,7 @@ func (r *queryResolver) APIEndpoint(ctx context.Context, orgID string, serviceID
 
 // ServiceStats is the resolver for the serviceStats field.
 func (r *queryResolver) ServiceStats(ctx context.Context, orgID string, serviceID *string) ([]*model.ServiceStats, error) {
-	stats, err := r.Client.ListServiceStats(ctx, orgID, serviceID)
+	stats, err := r.Catalog.ListServiceStats(ctx, orgID, serviceID)
 	if err != nil {
 		return nil, err
 	}

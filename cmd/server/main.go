@@ -22,7 +22,18 @@ func main() {
 
 	c := uigraphapi.New(cfg.APIBaseURL)
 
-	resolver := &graph.Resolver{Client: c}
+	resolver := &graph.Resolver{
+		Auth:      c,
+		OrgAPI:    c,
+		Admin:     c,
+		FolderAPI: c,
+		DiagramAPI: c,
+		Component: c,
+		UIMap:     c,
+		Catalog:   c,
+		TestPack:  c,
+		Actor:     c,
+	}
 	schema := generated.NewExecutableSchema(generated.Config{Resolvers: resolver})
 	srv := newServer(schema, cfg.Env)
 

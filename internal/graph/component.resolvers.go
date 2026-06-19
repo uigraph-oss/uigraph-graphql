@@ -13,7 +13,7 @@ import (
 
 // FlowDiagramComponents is the resolver for the flowDiagramComponents field.
 func (r *queryResolver) FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error) {
-	res, err := r.Client.ListFlowDiagramComponents(ctx, orgID)
+	res, err := r.Component.ListFlowDiagramComponents(ctx, orgID)
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func (r *queryResolver) FlowDiagramComponents(ctx context.Context, orgID string)
 
 // Components is the resolver for the components field.
 func (r *queryResolver) Components(ctx context.Context, orgID string) (*model.Components, error) {
-	res, err := r.Client.ListComponents(ctx, orgID)
+	res, err := r.Component.ListComponents(ctx, orgID)
 	if err != nil {
 		return nil, err
 	}

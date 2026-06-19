@@ -13,12 +13,12 @@ import (
 
 // SwitchOrg is the resolver for the switchOrg field.
 func (r *mutationResolver) SwitchOrg(ctx context.Context, orgID string) (bool, error) {
-	return true, r.Client.SwitchOrg(ctx, orgID)
+	return true, r.Auth.SwitchOrg(ctx, orgID)
 }
 
 // Me is the resolver for the me field.
 func (r *queryResolver) Me(ctx context.Context) (*model.Me, error) {
-	me, err := r.Client.Me(ctx)
+	me, err := r.Auth.Me(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27,7 +27,7 @@ func (r *queryResolver) Me(ctx context.Context) (*model.Me, error) {
 
 // MyOrgs is the resolver for the myOrgs field.
 func (r *queryResolver) MyOrgs(ctx context.Context) ([]*model.OrgSummary, error) {
-	orgs, err := r.Client.MyOrgs(ctx)
+	orgs, err := r.Auth.MyOrgs(ctx)
 	if err != nil {
 		return nil, err
 	}

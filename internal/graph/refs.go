@@ -12,7 +12,7 @@ func (r *Resolver) resolveActor(ctx context.Context, orgID, id string) (*model.A
 	if id == "" {
 		return nil, nil
 	}
-	actors, err := r.Client.ResolveActors(ctx, orgID, []string{id})
+	actors, err := r.Actor.ResolveActors(ctx, orgID, []string{id})
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (r *Resolver) resolveAssetURL(ctx context.Context, orgID, assetID string) (
 	if assetID == "" {
 		return nil, nil
 	}
-	urls, err := r.Client.ResolveAssetURLs(ctx, orgID, []string{assetID})
+	urls, err := r.Actor.ResolveAssetURLs(ctx, orgID, []string{assetID})
 	if err != nil {
 		return nil, err
 	}

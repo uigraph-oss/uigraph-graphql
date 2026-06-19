@@ -45,7 +45,7 @@ func (r *diagramVersionResolver) CreatedByActor(ctx context.Context, obj *model.
 
 // CreateDiagram is the resolver for the createDiagram field.
 func (r *mutationResolver) CreateDiagram(ctx context.Context, orgID string, input model.CreateDiagramInput) (*model.Diagram, error) {
-	d, err := r.Client.CreateDiagram(ctx, orgID, convert.ToMap(input))
+	d, err := r.DiagramAPI.CreateDiagram(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ func (r *mutationResolver) CreateDiagram(ctx context.Context, orgID string, inpu
 
 // UpdateDiagram is the resolver for the updateDiagram field.
 func (r *mutationResolver) UpdateDiagram(ctx context.Context, orgID string, id string, input model.UpdateDiagramInput) (*model.Diagram, error) {
-	d, err := r.Client.UpdateDiagram(ctx, orgID, id, convert.ToMap(input))
+	d, err := r.DiagramAPI.UpdateDiagram(ctx, orgID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -63,12 +63,12 @@ func (r *mutationResolver) UpdateDiagram(ctx context.Context, orgID string, id s
 
 // DeleteDiagram is the resolver for the deleteDiagram field.
 func (r *mutationResolver) DeleteDiagram(ctx context.Context, orgID string, id string) (bool, error) {
-	return true, r.Client.DeleteDiagram(ctx, orgID, id)
+	return true, r.DiagramAPI.DeleteDiagram(ctx, orgID, id)
 }
 
 // SyncDiagram is the resolver for the syncDiagram field.
 func (r *mutationResolver) SyncDiagram(ctx context.Context, orgID string, input model.SyncDiagramInput) (*model.SyncDiagramResult, error) {
-	out, err := r.Client.SyncDiagram(ctx, orgID, convert.ToMap(input))
+	out, err := r.DiagramAPI.SyncDiagram(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (r *mutationResolver) CreateDiagramVersion(ctx context.Context, orgID strin
 	if label != nil {
 		body["label"] = *label
 	}
-	v, err := r.Client.CreateDiagramVersion(ctx, orgID, diagramID, body)
+	v, err := r.DiagramAPI.CreateDiagramVersion(ctx, orgID, diagramID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +97,7 @@ func (r *mutationResolver) CreateDiagramVersion(ctx context.Context, orgID strin
 
 // RestoreDiagramVersion is the resolver for the restoreDiagramVersion field.
 func (r *mutationResolver) RestoreDiagramVersion(ctx context.Context, orgID string, diagramID string, versionID string) (*model.Diagram, error) {
-	d, err := r.Client.RestoreDiagramVersion(ctx, orgID, diagramID, versionID)
+	d, err := r.DiagramAPI.RestoreDiagramVersion(ctx, orgID, diagramID, versionID)
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +110,7 @@ func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *st
 	if folderID != nil {
 		fid = *folderID
 	}
-	diagrams, err := r.Client.ListDiagrams(ctx, orgID, fid)
+	diagrams, err := r.DiagramAPI.ListDiagrams(ctx, orgID, fid)
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,7 @@ func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *st
 
 // Diagram is the resolver for the diagram field.
 func (r *queryResolver) Diagram(ctx context.Context, orgID string, id string) (*model.Diagram, error) {
-	d, err := r.Client.GetDiagram(ctx, orgID, id)
+	d, err := r.DiagramAPI.GetDiagram(ctx, orgID, id)
 	if err != nil {
 		return nil, err
 	}
@@ -128,7 +128,7 @@ func (r *queryResolver) Diagram(ctx context.Context, orgID string, id string) (*
 
 // DiagramContent is the resolver for the diagramContent field.
 func (r *queryResolver) DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error) {
-	content, err := r.Client.GetDiagramContent(ctx, orgID, id)
+	content, err := r.DiagramAPI.GetDiagramContent(ctx, orgID, id)
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +137,7 @@ func (r *queryResolver) DiagramContent(ctx context.Context, orgID string, id str
 
 // DiagramVersions is the resolver for the diagramVersions field.
 func (r *queryResolver) DiagramVersions(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramVersion, error) {
-	versions, err := r.Client.ListDiagramVersions(ctx, orgID, diagramID)
+	versions, err := r.DiagramAPI.ListDiagramVersions(ctx, orgID, diagramID)
 	if err != nil {
 		return nil, err
 	}
@@ -146,7 +146,7 @@ func (r *queryResolver) DiagramVersions(ctx context.Context, orgID string, diagr
 
 // DiagramVersionContent is the resolver for the diagramVersionContent field.
 func (r *queryResolver) DiagramVersionContent(ctx context.Context, orgID string, diagramID string, versionID string) (*model.DiagramContent, error) {
-	content, err := r.Client.GetDiagramVersionContent(ctx, orgID, diagramID, versionID)
+	content, err := r.DiagramAPI.GetDiagramVersionContent(ctx, orgID, diagramID, versionID)
 	if err != nil {
 		return nil, err
 	}
@@ -155,7 +155,7 @@ func (r *queryResolver) DiagramVersionContent(ctx context.Context, orgID string,
 
 // DiagramImages is the resolver for the diagramImages field.
 func (r *queryResolver) DiagramImages(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramImage, error) {
-	images, err := r.Client.ListDiagramImages(ctx, orgID, diagramID)
+	images, err := r.DiagramAPI.ListDiagramImages(ctx, orgID, diagramID)
 	if err != nil {
 		return nil, err
 	}

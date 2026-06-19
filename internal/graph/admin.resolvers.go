@@ -14,7 +14,7 @@ import (
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
-	u, err := r.Client.CreateUser(ctx, convert.ToMap(input))
+	u, err := r.Admin.CreateUser(ctx, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +23,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUse
 
 // UpdateUser is the resolver for the updateUser field.
 func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input model.UpdateUserInput) (*model.User, error) {
-	u, err := r.Client.UpdateUser(ctx, id, convert.ToMap(input))
+	u, err := r.Admin.UpdateUser(ctx, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -32,47 +32,47 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input mode
 
 // DisableUser is the resolver for the disableUser field.
 func (r *mutationResolver) DisableUser(ctx context.Context, id string) (bool, error) {
-	return true, r.Client.DisableUser(ctx, id)
+	return true, r.Admin.DisableUser(ctx, id)
 }
 
 // UpsertOAuthProvider is the resolver for the upsertOAuthProvider field.
 func (r *mutationResolver) UpsertOAuthProvider(ctx context.Context, provider string, input model.UpsertOAuthInput) (bool, error) {
-	return true, r.Client.UpsertOAuthProvider(ctx, provider, convert.ToMap(input))
+	return true, r.Admin.UpsertOAuthProvider(ctx, provider, convert.ToMap(input))
 }
 
 // DeleteOAuthProvider is the resolver for the deleteOAuthProvider field.
 func (r *mutationResolver) DeleteOAuthProvider(ctx context.Context, provider string) (bool, error) {
-	return true, r.Client.DeleteOAuthProvider(ctx, provider)
+	return true, r.Admin.DeleteOAuthProvider(ctx, provider)
 }
 
 // CreateRoleMapping is the resolver for the createRoleMapping field.
 func (r *mutationResolver) CreateRoleMapping(ctx context.Context, input model.CreateRoleMappingInput) (bool, error) {
-	return true, r.Client.CreateRoleMapping(ctx, convert.ToMap(input))
+	return true, r.Admin.CreateRoleMapping(ctx, convert.ToMap(input))
 }
 
 // DeleteRoleMapping is the resolver for the deleteRoleMapping field.
 func (r *mutationResolver) DeleteRoleMapping(ctx context.Context, id string) (bool, error) {
-	return true, r.Client.DeleteRoleMapping(ctx, id)
+	return true, r.Admin.DeleteRoleMapping(ctx, id)
 }
 
 // UpsertLdap is the resolver for the upsertLDAP field.
 func (r *mutationResolver) UpsertLdap(ctx context.Context, input model.UpsertLDAPInput) (bool, error) {
-	return true, r.Client.UpsertLDAP(ctx, convert.ToMap(input))
+	return true, r.Admin.UpsertLDAP(ctx, convert.ToMap(input))
 }
 
 // DeleteLdap is the resolver for the deleteLDAP field.
 func (r *mutationResolver) DeleteLdap(ctx context.Context) (bool, error) {
-	return true, r.Client.DeleteLDAP(ctx)
+	return true, r.Admin.DeleteLDAP(ctx)
 }
 
 // UpsertSaml is the resolver for the upsertSAML field.
 func (r *mutationResolver) UpsertSaml(ctx context.Context, input model.UpsertSAMLInput) (bool, error) {
-	return true, r.Client.UpsertSAML(ctx, convert.ToMap(input))
+	return true, r.Admin.UpsertSAML(ctx, convert.ToMap(input))
 }
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	users, err := r.Client.ListUsers(ctx)
+	users, err := r.Admin.ListUsers(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
-	u, err := r.Client.GetUser(ctx, id)
+	u, err := r.Admin.GetUser(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error
 
 // OauthProviders is the resolver for the oauthProviders field.
 func (r *queryResolver) OauthProviders(ctx context.Context) ([]*model.OAuthProvider, error) {
-	providers, err := r.Client.ListOAuthProviders(ctx)
+	providers, err := r.Admin.ListOAuthProviders(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func (r *queryResolver) OauthProviders(ctx context.Context) ([]*model.OAuthProvi
 
 // RoleMappings is the resolver for the roleMappings field.
 func (r *queryResolver) RoleMappings(ctx context.Context) ([]*model.RoleMapping, error) {
-	mappings, err := r.Client.ListRoleMappings(ctx)
+	mappings, err := r.Admin.ListRoleMappings(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +109,7 @@ func (r *queryResolver) RoleMappings(ctx context.Context) ([]*model.RoleMapping,
 // Ldap is the resolver for the ldap field.
 // Single-config GET returns 404 when not yet configured; treat as null.
 func (r *queryResolver) Ldap(ctx context.Context) (*model.LDAPConfig, error) {
-	l, err := r.Client.GetLDAP(ctx)
+	l, err := r.Admin.GetLDAP(ctx)
 	if err != nil {
 		if uigraphapi.IsNotFound(err) {
 			return nil, nil
@@ -122,7 +122,7 @@ func (r *queryResolver) Ldap(ctx context.Context) (*model.LDAPConfig, error) {
 // Saml is the resolver for the saml field.
 // Single-config GET returns 404 when not yet configured; treat as null.
 func (r *queryResolver) Saml(ctx context.Context) (*model.SAMLConfig, error) {
-	s, err := r.Client.GetSAML(ctx)
+	s, err := r.Admin.GetSAML(ctx)
 	if err != nil {
 		if uigraphapi.IsNotFound(err) {
 			return nil, nil

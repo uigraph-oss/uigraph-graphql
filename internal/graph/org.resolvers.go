@@ -13,7 +13,7 @@ import (
 
 // CreateOrg is the resolver for the createOrg field.
 func (r *mutationResolver) CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error) {
-	o, err := r.Client.CreateOrg(ctx, convert.ToMap(input))
+	o, err := r.OrgAPI.CreateOrg(ctx, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -22,7 +22,7 @@ func (r *mutationResolver) CreateOrg(ctx context.Context, input model.CreateOrgI
 
 // UpdateOrg is the resolver for the updateOrg field.
 func (r *mutationResolver) UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error) {
-	o, err := r.Client.UpdateOrg(ctx, id, convert.ToMap(input))
+	o, err := r.OrgAPI.UpdateOrg(ctx, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -31,12 +31,12 @@ func (r *mutationResolver) UpdateOrg(ctx context.Context, id string, input model
 
 // DeleteOrg is the resolver for the deleteOrg field.
 func (r *mutationResolver) DeleteOrg(ctx context.Context, id string) (bool, error) {
-	return true, r.Client.DeleteOrg(ctx, id)
+	return true, r.OrgAPI.DeleteOrg(ctx, id)
 }
 
 // AddMember is the resolver for the addMember field.
 func (r *mutationResolver) AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error) {
-	m, err := r.Client.AddMember(ctx, orgID, convert.ToMap(input))
+	m, err := r.OrgAPI.AddMember(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (r *mutationResolver) AddMember(ctx context.Context, orgID string, input mo
 
 // UpdateMemberRole is the resolver for the updateMemberRole field.
 func (r *mutationResolver) UpdateMemberRole(ctx context.Context, orgID string, userID string, role string) (*model.Member, error) {
-	m, err := r.Client.UpdateMemberRole(ctx, orgID, userID, map[string]interface{}{"role": role})
+	m, err := r.OrgAPI.UpdateMemberRole(ctx, orgID, userID, map[string]interface{}{"role": role})
 	if err != nil {
 		return nil, err
 	}
@@ -54,12 +54,12 @@ func (r *mutationResolver) UpdateMemberRole(ctx context.Context, orgID string, u
 
 // RemoveMember is the resolver for the removeMember field.
 func (r *mutationResolver) RemoveMember(ctx context.Context, orgID string, userID string) (bool, error) {
-	return true, r.Client.RemoveMember(ctx, orgID, userID)
+	return true, r.OrgAPI.RemoveMember(ctx, orgID, userID)
 }
 
 // CreateTeam is the resolver for the createTeam field.
 func (r *mutationResolver) CreateTeam(ctx context.Context, orgID string, input model.CreateTeamInput) (*model.Team, error) {
-	t, err := r.Client.CreateTeam(ctx, orgID, convert.ToMap(input))
+	t, err := r.OrgAPI.CreateTeam(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (r *mutationResolver) CreateTeam(ctx context.Context, orgID string, input m
 
 // UpdateTeam is the resolver for the updateTeam field.
 func (r *mutationResolver) UpdateTeam(ctx context.Context, orgID string, teamID string, input model.UpdateTeamInput) (*model.Team, error) {
-	t, err := r.Client.UpdateTeam(ctx, orgID, teamID, convert.ToMap(input))
+	t, err := r.OrgAPI.UpdateTeam(ctx, orgID, teamID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (r *mutationResolver) UpdateTeam(ctx context.Context, orgID string, teamID 
 
 // DeleteTeam is the resolver for the deleteTeam field.
 func (r *mutationResolver) DeleteTeam(ctx context.Context, orgID string, teamID string) (bool, error) {
-	return true, r.Client.DeleteTeam(ctx, orgID, teamID)
+	return true, r.OrgAPI.DeleteTeam(ctx, orgID, teamID)
 }
 
 // AddTeamMember is the resolver for the addTeamMember field.
@@ -86,17 +86,17 @@ func (r *mutationResolver) AddTeamMember(ctx context.Context, orgID string, team
 	if permission != nil {
 		body["permission"] = *permission
 	}
-	return true, r.Client.AddTeamMember(ctx, orgID, teamID, body)
+	return true, r.OrgAPI.AddTeamMember(ctx, orgID, teamID, body)
 }
 
 // RemoveTeamMember is the resolver for the removeTeamMember field.
 func (r *mutationResolver) RemoveTeamMember(ctx context.Context, orgID string, teamID string, userID string) (bool, error) {
-	return true, r.Client.RemoveTeamMember(ctx, orgID, teamID, userID)
+	return true, r.OrgAPI.RemoveTeamMember(ctx, orgID, teamID, userID)
 }
 
 // CreateInvitation is the resolver for the createInvitation field.
 func (r *mutationResolver) CreateInvitation(ctx context.Context, orgID string, input model.CreateInvitationInput) (*model.Invitation, error) {
-	inv, err := r.Client.CreateInvitation(ctx, orgID, convert.ToMap(input))
+	inv, err := r.OrgAPI.CreateInvitation(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -105,12 +105,12 @@ func (r *mutationResolver) CreateInvitation(ctx context.Context, orgID string, i
 
 // RevokeInvitation is the resolver for the revokeInvitation field.
 func (r *mutationResolver) RevokeInvitation(ctx context.Context, orgID string, invitationID string) (bool, error) {
-	return true, r.Client.RevokeInvitation(ctx, orgID, invitationID)
+	return true, r.OrgAPI.RevokeInvitation(ctx, orgID, invitationID)
 }
 
 // CreateServiceAccount is the resolver for the createServiceAccount field.
 func (r *mutationResolver) CreateServiceAccount(ctx context.Context, orgID string, input model.CreateServiceAccountInput) (*model.ServiceAccount, error) {
-	sa, err := r.Client.CreateServiceAccount(ctx, orgID, convert.ToMap(input))
+	sa, err := r.OrgAPI.CreateServiceAccount(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,7 @@ func (r *mutationResolver) CreateServiceAccount(ctx context.Context, orgID strin
 
 // UpdateServiceAccount is the resolver for the updateServiceAccount field.
 func (r *mutationResolver) UpdateServiceAccount(ctx context.Context, orgID string, id string, input model.UpdateServiceAccountInput) (*model.ServiceAccount, error) {
-	sa, err := r.Client.UpdateServiceAccount(ctx, orgID, id, convert.ToMap(input))
+	sa, err := r.OrgAPI.UpdateServiceAccount(ctx, orgID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -128,12 +128,12 @@ func (r *mutationResolver) UpdateServiceAccount(ctx context.Context, orgID strin
 
 // DeleteServiceAccount is the resolver for the deleteServiceAccount field.
 func (r *mutationResolver) DeleteServiceAccount(ctx context.Context, orgID string, id string) (bool, error) {
-	return true, r.Client.DeleteServiceAccount(ctx, orgID, id)
+	return true, r.OrgAPI.DeleteServiceAccount(ctx, orgID, id)
 }
 
 // CreateServiceAccountToken is the resolver for the createServiceAccountToken field.
 func (r *mutationResolver) CreateServiceAccountToken(ctx context.Context, orgID string, saID string, input model.CreateTokenInput) (*model.CreatedToken, error) {
-	t, err := r.Client.CreateServiceAccountToken(ctx, orgID, saID, convert.ToMap(input))
+	t, err := r.OrgAPI.CreateServiceAccountToken(ctx, orgID, saID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -142,12 +142,12 @@ func (r *mutationResolver) CreateServiceAccountToken(ctx context.Context, orgID 
 
 // RevokeServiceAccountToken is the resolver for the revokeServiceAccountToken field.
 func (r *mutationResolver) RevokeServiceAccountToken(ctx context.Context, orgID string, saID string, tokenID string) (bool, error) {
-	return true, r.Client.RevokeServiceAccountToken(ctx, orgID, saID, tokenID)
+	return true, r.OrgAPI.RevokeServiceAccountToken(ctx, orgID, saID, tokenID)
 }
 
 // Org is the resolver for the org field.
 func (r *queryResolver) Org(ctx context.Context, id string) (*model.Org, error) {
-	o, err := r.Client.GetOrg(ctx, id)
+	o, err := r.OrgAPI.GetOrg(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ func (r *queryResolver) Org(ctx context.Context, id string) (*model.Org, error) 
 
 // Orgs is the resolver for the orgs field.
 func (r *queryResolver) Orgs(ctx context.Context) ([]*model.Org, error) {
-	orgs, err := r.Client.ListOrgs(ctx)
+	orgs, err := r.OrgAPI.ListOrgs(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func (r *queryResolver) Orgs(ctx context.Context) ([]*model.Org, error) {
 
 // Members is the resolver for the members field.
 func (r *queryResolver) Members(ctx context.Context, orgID string) ([]*model.Member, error) {
-	members, err := r.Client.ListMembers(ctx, orgID)
+	members, err := r.OrgAPI.ListMembers(ctx, orgID)
 	if err != nil {
 		return nil, err
 	}
@@ -174,7 +174,7 @@ func (r *queryResolver) Members(ctx context.Context, orgID string) ([]*model.Mem
 
 // Teams is the resolver for the teams field.
 func (r *queryResolver) Teams(ctx context.Context, orgID string) ([]*model.Team, error) {
-	teams, err := r.Client.ListTeams(ctx, orgID)
+	teams, err := r.OrgAPI.ListTeams(ctx, orgID)
 	if err != nil {
 		return nil, err
 	}
@@ -183,7 +183,7 @@ func (r *queryResolver) Teams(ctx context.Context, orgID string) ([]*model.Team,
 
 // Team is the resolver for the team field.
 func (r *queryResolver) Team(ctx context.Context, orgID string, teamID string) (*model.Team, error) {
-	t, err := r.Client.GetTeam(ctx, orgID, teamID)
+	t, err := r.OrgAPI.GetTeam(ctx, orgID, teamID)
 	if err != nil {
 		return nil, err
 	}
@@ -192,7 +192,7 @@ func (r *queryResolver) Team(ctx context.Context, orgID string, teamID string) (
 
 // TeamMembers is the resolver for the teamMembers field.
 func (r *queryResolver) TeamMembers(ctx context.Context, orgID string, teamID string) ([]*model.TeamMember, error) {
-	members, err := r.Client.ListTeamMembers(ctx, orgID, teamID)
+	members, err := r.OrgAPI.ListTeamMembers(ctx, orgID, teamID)
 	if err != nil {
 		return nil, err
 	}
@@ -201,7 +201,7 @@ func (r *queryResolver) TeamMembers(ctx context.Context, orgID string, teamID st
 
 // Invitations is the resolver for the invitations field.
 func (r *queryResolver) Invitations(ctx context.Context, orgID string) ([]*model.Invitation, error) {
-	invs, err := r.Client.ListInvitations(ctx, orgID)
+	invs, err := r.OrgAPI.ListInvitations(ctx, orgID)
 	if err != nil {
 		return nil, err
 	}
@@ -210,7 +210,7 @@ func (r *queryResolver) Invitations(ctx context.Context, orgID string) ([]*model
 
 // ServiceAccounts is the resolver for the serviceAccounts field.
 func (r *queryResolver) ServiceAccounts(ctx context.Context, orgID string) ([]*model.ServiceAccount, error) {
-	sas, err := r.Client.ListServiceAccounts(ctx, orgID)
+	sas, err := r.OrgAPI.ListServiceAccounts(ctx, orgID)
 	if err != nil {
 		return nil, err
 	}
@@ -219,7 +219,7 @@ func (r *queryResolver) ServiceAccounts(ctx context.Context, orgID string) ([]*m
 
 // ServiceAccount is the resolver for the serviceAccount field.
 func (r *queryResolver) ServiceAccount(ctx context.Context, orgID string, id string) (*model.ServiceAccount, error) {
-	sa, err := r.Client.GetServiceAccount(ctx, orgID, id)
+	sa, err := r.OrgAPI.GetServiceAccount(ctx, orgID, id)
 	if err != nil {
 		return nil, err
 	}
@@ -228,7 +228,7 @@ func (r *queryResolver) ServiceAccount(ctx context.Context, orgID string, id str
 
 // ServiceAccountTokens is the resolver for the serviceAccountTokens field.
 func (r *queryResolver) ServiceAccountTokens(ctx context.Context, orgID string, saID string) ([]*model.ServiceAccountToken, error) {
-	tokens, err := r.Client.ListServiceAccountTokens(ctx, orgID, saID)
+	tokens, err := r.OrgAPI.ListServiceAccountTokens(ctx, orgID, saID)
 	if err != nil {
 		return nil, err
 	}
