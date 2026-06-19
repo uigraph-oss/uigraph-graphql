@@ -10,7 +10,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 
-	"github.com/uigraph/graphql/client"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 	"github.com/uigraph/graphql/graph"
 	"github.com/uigraph/graphql/graph/generated"
 	"github.com/uigraph/graphql/internal/config"
@@ -20,7 +20,7 @@ import (
 func main() {
 	cfg := config.Load()
 
-	c := client.New(cfg.APIBaseURL)
+	c := uigraphapi.New(cfg.APIBaseURL)
 
 	resolver := &graph.Resolver{Client: c}
 	schema := generated.NewExecutableSchema(generated.Config{Resolvers: resolver})

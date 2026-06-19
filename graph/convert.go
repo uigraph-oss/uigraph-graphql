@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/uigraph/graphql/client"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 	"github.com/uigraph/graphql/graph/model"
 )
 
@@ -76,7 +76,7 @@ func rawArrStr(b json.RawMessage) string {
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
 
-func meToModel(m *client.MeResponse) *model.Me {
+func meToModel(m *uigraphapi.MeResponse) *model.Me {
 	me := &model.Me{
 		UserID: m.UserID, OrgID: m.OrgID,
 		Email: m.Email, Name: m.Name, Login: m.Login,
@@ -88,21 +88,21 @@ func meToModel(m *client.MeResponse) *model.Me {
 	return me
 }
 
-func orgSummaryToModel(o client.OrgSummary) *model.OrgSummary {
+func orgSummaryToModel(o uigraphapi.OrgSummary) *model.OrgSummary {
 	return &model.OrgSummary{ID: o.ID, Name: o.Name, Slug: o.Slug, Role: o.Role, Active: o.Active}
 }
 
 // ── Org ───────────────────────────────────────────────────────────────────────
 
-func orgToModel(o *client.Org) *model.Org {
+func orgToModel(o *uigraphapi.Org) *model.Org {
 	return &model.Org{ID: o.ID, Name: o.Name, Slug: o.Slug, Disabled: o.Disabled, CreatedAt: o.CreatedAt, UpdatedAt: o.UpdatedAt}
 }
 
-func memberToModel(m client.Member) *model.Member {
+func memberToModel(m uigraphapi.Member) *model.Member {
 	return &model.Member{UserID: m.UserID, OrgID: m.OrgID, Role: m.Role, Source: m.Source, CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt}
 }
 
-func teamToModel(t *client.Team) *model.Team {
+func teamToModel(t *uigraphapi.Team) *model.Team {
 	m := &model.Team{ID: t.ID, OrgID: t.OrgID, Name: t.Name, CreatedAt: t.CreatedAt, UpdatedAt: t.UpdatedAt}
 	if t.Email != "" {
 		m.Email = &t.Email
@@ -113,32 +113,32 @@ func teamToModel(t *client.Team) *model.Team {
 	return m
 }
 
-func teamMemberToModel(m client.TeamMember) *model.TeamMember {
+func teamMemberToModel(m uigraphapi.TeamMember) *model.TeamMember {
 	return &model.TeamMember{TeamID: m.TeamID, UserID: m.UserID, Permission: m.Permission, CreatedAt: m.CreatedAt}
 }
 
-func invitationToModel(i client.Invitation) *model.Invitation {
+func invitationToModel(i uigraphapi.Invitation) *model.Invitation {
 	return &model.Invitation{
 		ID: i.ID, OrgID: i.OrgID, Email: i.Email, Role: i.Role,
 		Code: i.Code, CreatedBy: i.CreatedBy, CreatedAt: i.CreatedAt, ExpiresAt: i.ExpiresAt,
 	}
 }
 
-func serviceAccountToModel(sa client.ServiceAccount) *model.ServiceAccount {
+func serviceAccountToModel(sa uigraphapi.ServiceAccount) *model.ServiceAccount {
 	return &model.ServiceAccount{
 		ID: sa.ID, OrgID: sa.OrgID, Name: sa.Name, Description: sa.Description,
 		Role: sa.Role, Disabled: sa.Disabled, CreatedAt: sa.CreatedAt, UpdatedAt: sa.UpdatedAt,
 	}
 }
 
-func saTokenToModel(t client.ServiceAccountToken) *model.ServiceAccountToken {
+func saTokenToModel(t uigraphapi.ServiceAccountToken) *model.ServiceAccountToken {
 	return &model.ServiceAccountToken{
 		ID: t.ID, ServiceAccountID: t.ServiceAccountID, Name: t.Name, Prefix: t.Prefix,
 		ExpiresAt: t.ExpiresAt, LastUsedAt: t.LastUsedAt, Revoked: t.Revoked, CreatedAt: t.CreatedAt,
 	}
 }
 
-func createdTokenToModel(t *client.CreatedToken) *model.CreatedToken {
+func createdTokenToModel(t *uigraphapi.CreatedToken) *model.CreatedToken {
 	return &model.CreatedToken{
 		ID: t.ID, ServiceAccountID: t.ServiceAccountID, Name: t.Name,
 		Prefix: t.Prefix, Token: t.Token, CreatedAt: t.CreatedAt,
@@ -147,14 +147,14 @@ func createdTokenToModel(t *client.CreatedToken) *model.CreatedToken {
 
 // ── Content ───────────────────────────────────────────────────────────────────
 
-func folderToModel(f *client.Folder) *model.Folder {
+func folderToModel(f *uigraphapi.Folder) *model.Folder {
 	return &model.Folder{
 		ID: f.ID, OrgID: f.OrgID, ParentID: f.ParentID, TeamID: f.TeamID, Type: f.Type,
 		Name: f.Name, Order: f.Order, CreatedBy: f.CreatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
 	}
 }
 
-func diagramToModel(d *client.Diagram) *model.Diagram {
+func diagramToModel(d *uigraphapi.Diagram) *model.Diagram {
 	return &model.Diagram{
 		ID: d.ID, OrgID: d.OrgID, FolderID: d.FolderID, TeamID: d.TeamID,
 		Name: d.Name, ContentKey: d.ContentKey, ContentHash: d.ContentHash,
@@ -164,7 +164,7 @@ func diagramToModel(d *client.Diagram) *model.Diagram {
 	}
 }
 
-func diagramVersionToModel(orgID string, v client.DiagramVersion) *model.DiagramVersion {
+func diagramVersionToModel(orgID string, v uigraphapi.DiagramVersion) *model.DiagramVersion {
 	return &model.DiagramVersion{
 		ID: v.ID, OrgID: orgID, DiagramID: v.DiagramID, VersionNumber: v.VersionNumber,
 		Label: v.Label, ContentKey: v.ContentKey, ContentHash: v.ContentHash,
@@ -172,7 +172,7 @@ func diagramVersionToModel(orgID string, v client.DiagramVersion) *model.Diagram
 	}
 }
 
-func flowComponentFieldToModel(f client.FlowDiagramComponentField) *model.FlowDiagramComponentField {
+func flowComponentFieldToModel(f uigraphapi.FlowDiagramComponentField) *model.FlowDiagramComponentField {
 	return &model.FlowDiagramComponentField{
 		FlowDiagramComponentFieldID: f.FlowDiagramComponentFieldID,
 		Label:                       f.Label,
@@ -184,7 +184,7 @@ func flowComponentFieldToModel(f client.FlowDiagramComponentField) *model.FlowDi
 	}
 }
 
-func flowComponentToModel(c client.FlowDiagramComponent) *model.FlowDiagramComponent {
+func flowComponentToModel(c uigraphapi.FlowDiagramComponent) *model.FlowDiagramComponent {
 	fields := make([]*model.FlowDiagramComponentField, len(c.FlowDiagramComponentFields))
 	for i, f := range c.FlowDiagramComponentFields {
 		fields[i] = flowComponentFieldToModel(f)
@@ -198,7 +198,7 @@ func flowComponentToModel(c client.FlowDiagramComponent) *model.FlowDiagramCompo
 	}
 }
 
-func flowComponentsToModel(components []client.FlowDiagramComponent) []*model.FlowDiagramComponent {
+func flowComponentsToModel(components []uigraphapi.FlowDiagramComponent) []*model.FlowDiagramComponent {
 	out := make([]*model.FlowDiagramComponent, len(components))
 	for i, c := range components {
 		out[i] = flowComponentToModel(c)
@@ -206,7 +206,7 @@ func flowComponentsToModel(components []client.FlowDiagramComponent) []*model.Fl
 	return out
 }
 
-func componentFieldToModel(f client.ComponentField) *model.ComponentField {
+func componentFieldToModel(f uigraphapi.ComponentField) *model.ComponentField {
 	return &model.ComponentField{
 		ComponentFieldID: f.ComponentFieldID,
 		Label:            f.Label,
@@ -218,7 +218,7 @@ func componentFieldToModel(f client.ComponentField) *model.ComponentField {
 	}
 }
 
-func componentToModel(c client.Component) *model.Component {
+func componentToModel(c uigraphapi.Component) *model.Component {
 	fields := make([]*model.ComponentField, len(c.ComponentFields))
 	for i, f := range c.ComponentFields {
 		fields[i] = componentFieldToModel(f)
@@ -231,7 +231,7 @@ func componentToModel(c client.Component) *model.Component {
 	}
 }
 
-func componentsToModel(components []client.Component) []*model.Component {
+func componentsToModel(components []uigraphapi.Component) []*model.Component {
 	out := make([]*model.Component, len(components))
 	for i, c := range components {
 		out[i] = componentToModel(c)
@@ -239,7 +239,7 @@ func componentsToModel(components []client.Component) []*model.Component {
 	return out
 }
 
-func diagramImageToModel(img client.DiagramImage) *model.DiagramImage {
+func diagramImageToModel(img uigraphapi.DiagramImage) *model.DiagramImage {
 	return &model.DiagramImage{
 		DiagramImageID: img.DiagramImageID, DiagramID: img.DiagramID,
 		OrgID: img.OrgID, AssetID: img.AssetID, FileName: img.FileName,
@@ -247,7 +247,7 @@ func diagramImageToModel(img client.DiagramImage) *model.DiagramImage {
 	}
 }
 
-func diagramImagesToModel(images []client.DiagramImage) []*model.DiagramImage {
+func diagramImagesToModel(images []uigraphapi.DiagramImage) []*model.DiagramImage {
 	out := make([]*model.DiagramImage, len(images))
 	for i, img := range images {
 		out[i] = diagramImageToModel(img)
@@ -255,7 +255,7 @@ func diagramImagesToModel(images []client.DiagramImage) []*model.DiagramImage {
 	return out
 }
 
-func uimapToModel(m *client.UIMap) *model.UIMap {
+func uimapToModel(m *uigraphapi.UIMap) *model.UIMap {
 	return &model.UIMap{
 		ID: m.ID, OrgID: m.OrgID, FolderID: m.FolderID, TeamID: m.TeamID,
 		Name: m.Name, Description: m.Description, Status: m.Status,
@@ -263,7 +263,7 @@ func uimapToModel(m *client.UIMap) *model.UIMap {
 	}
 }
 
-func frameToModel(f *client.Frame) *model.Frame {
+func frameToModel(f *uigraphapi.Frame) *model.Frame {
 	return &model.Frame{
 		ID: f.ID, MapID: f.MapID, OrgID: f.OrgID, ParentFrameID: f.ParentFrameID,
 		Name: f.Name, Description: f.Description, TemplateType: f.TemplateType,
@@ -273,7 +273,7 @@ func frameToModel(f *client.Frame) *model.Frame {
 	}
 }
 
-func focalPointToModel(fp *client.FocalPoint) *model.FocalPoint {
+func focalPointToModel(fp *uigraphapi.FocalPoint) *model.FocalPoint {
 	return &model.FocalPoint{
 		ID: fp.ID, FrameID: fp.FrameID, OrgID: fp.OrgID,
 		Name: fp.Name, LocationX: fp.LocationX, LocationY: fp.LocationY,
@@ -282,7 +282,7 @@ func focalPointToModel(fp *client.FocalPoint) *model.FocalPoint {
 	}
 }
 
-func canvasToModel(c *client.Canvas) *model.Canvas {
+func canvasToModel(c *uigraphapi.Canvas) *model.Canvas {
 	return &model.Canvas{
 		MapID: c.MapID, OrgID: c.OrgID,
 		Zoom: c.Zoom, NavigationX: c.NavigationX, NavigationY: c.NavigationY,
@@ -291,7 +291,7 @@ func canvasToModel(c *client.Canvas) *model.Canvas {
 	}
 }
 
-func frameGroupToModel(g *client.FrameGroup) *model.FrameGroup {
+func frameGroupToModel(g *uigraphapi.FrameGroup) *model.FrameGroup {
 	return &model.FrameGroup{
 		ID: g.ID, FrameID: g.FrameID, OrgID: g.OrgID,
 		Name: g.Name, Description: g.Description,
@@ -302,7 +302,7 @@ func frameGroupToModel(g *client.FrameGroup) *model.FrameGroup {
 	}
 }
 
-func frameGroupsToModel(gs []client.FrameGroup) []*model.FrameGroup {
+func frameGroupsToModel(gs []uigraphapi.FrameGroup) []*model.FrameGroup {
 	out := make([]*model.FrameGroup, len(gs))
 	for i := range gs {
 		out[i] = frameGroupToModel(&gs[i])
@@ -310,7 +310,7 @@ func frameGroupsToModel(gs []client.FrameGroup) []*model.FrameGroup {
 	return out
 }
 
-func frameLinkToModel(l *client.FrameLink) *model.FrameLink {
+func frameLinkToModel(l *uigraphapi.FrameLink) *model.FrameLink {
 	return &model.FrameLink{
 		ID: l.ID, FrameID: l.FrameID, OrgID: l.OrgID, Kind: l.Kind,
 		TargetFrameID: l.TargetFrameID, TargetMapID: l.TargetMapID,
@@ -320,7 +320,7 @@ func frameLinkToModel(l *client.FrameLink) *model.FrameLink {
 	}
 }
 
-func frameLinksToModel(ls []client.FrameLink) []*model.FrameLink {
+func frameLinksToModel(ls []uigraphapi.FrameLink) []*model.FrameLink {
 	out := make([]*model.FrameLink, len(ls))
 	for i := range ls {
 		out[i] = frameLinkToModel(&ls[i])
@@ -328,7 +328,7 @@ func frameLinksToModel(ls []client.FrameLink) []*model.FrameLink {
 	return out
 }
 
-func focalPointMetaToModel(m *client.FocalPointMeta) *model.FocalPointMeta {
+func focalPointMetaToModel(m *uigraphapi.FocalPointMeta) *model.FocalPointMeta {
 	return &model.FocalPointMeta{
 		ID: m.ID, FocalPointID: m.FocalPointID, OrgID: m.OrgID, FrameID: m.FrameID,
 		ComponentID: m.ComponentID, ComponentLinkID: m.ComponentLinkID,
@@ -340,7 +340,7 @@ func focalPointMetaToModel(m *client.FocalPointMeta) *model.FocalPointMeta {
 	}
 }
 
-func focalPointMetasToModel(ms []client.FocalPointMeta) []*model.FocalPointMeta {
+func focalPointMetasToModel(ms []uigraphapi.FocalPointMeta) []*model.FocalPointMeta {
 	out := make([]*model.FocalPointMeta, len(ms))
 	for i := range ms {
 		out[i] = focalPointMetaToModel(&ms[i])
@@ -360,7 +360,7 @@ func focalPointMetaBody(body map[string]interface{}) map[string]interface{} {
 	return body
 }
 
-func serviceToModel(s *client.Service) *model.Service {
+func serviceToModel(s *uigraphapi.Service) *model.Service {
 	return &model.Service{
 		ID: s.ID, OrgID: s.OrgID, FolderID: s.FolderID, TeamID: s.TeamID,
 		Name: s.Name, Slug: s.Slug, Description: s.Description,
@@ -373,7 +373,7 @@ func serviceToModel(s *client.Service) *model.Service {
 	}
 }
 
-func serviceStatsToModel(s client.ServiceStats) *model.ServiceStats {
+func serviceStatsToModel(s uigraphapi.ServiceStats) *model.ServiceStats {
 	return &model.ServiceStats{
 		ServiceID:     s.ServiceID,
 		EndpointCount: s.EndpointCount,
@@ -384,7 +384,7 @@ func serviceStatsToModel(s client.ServiceStats) *model.ServiceStats {
 	}
 }
 
-func apiGroupToModel(g *client.APIGroup) *model.APIGroup {
+func apiGroupToModel(g *uigraphapi.APIGroup) *model.APIGroup {
 	return &model.APIGroup{
 		ID: g.ID, ServiceID: g.ServiceID, OrgID: g.OrgID,
 		Name: g.Name, Version: g.Version, Label: g.Label, Protocol: g.Protocol,
@@ -393,7 +393,7 @@ func apiGroupToModel(g *client.APIGroup) *model.APIGroup {
 	}
 }
 
-func apiGroupVersionToModel(orgID string, v client.APIGroupVersion) *model.APIGroupVersion {
+func apiGroupVersionToModel(orgID string, v uigraphapi.APIGroupVersion) *model.APIGroupVersion {
 	return &model.APIGroupVersion{
 		ID: v.ID, OrgID: orgID, APIGroupID: v.APIGroupID, VersionNumber: v.VersionNumber,
 		Label: v.Label, SpecKey: v.SpecKey, SpecHash: v.SpecHash,
@@ -401,7 +401,7 @@ func apiGroupVersionToModel(orgID string, v client.APIGroupVersion) *model.APIGr
 	}
 }
 
-func serviceDocToModel(d *client.ServiceDoc) *model.ServiceDoc {
+func serviceDocToModel(d *uigraphapi.ServiceDoc) *model.ServiceDoc {
 	return &model.ServiceDoc{
 		ID: d.ID, ServiceID: d.ServiceID, OrgID: d.OrgID,
 		FileKey: d.FileKey, FileName: d.FileName, FileType: d.FileType,
@@ -410,7 +410,7 @@ func serviceDocToModel(d *client.ServiceDoc) *model.ServiceDoc {
 	}
 }
 
-func serviceDiagramToModel(d *client.ServiceDiagram) *model.ServiceDiagram {
+func serviceDiagramToModel(d *uigraphapi.ServiceDiagram) *model.ServiceDiagram {
 	out := &model.ServiceDiagram{
 		ServiceID: d.ServiceID,
 		DiagramID: d.DiagramID,
@@ -426,7 +426,7 @@ func serviceDiagramToModel(d *client.ServiceDiagram) *model.ServiceDiagram {
 	return out
 }
 
-func serviceDBToModel(d *client.ServiceDB) *model.ServiceDb {
+func serviceDBToModel(d *uigraphapi.ServiceDB) *model.ServiceDb {
 	return &model.ServiceDb{
 		ID: d.ID, ServiceID: d.ServiceID, OrgID: d.OrgID,
 		DbName: d.DBName, DbType: d.DBType, Dialect: d.Dialect,
@@ -436,7 +436,7 @@ func serviceDBToModel(d *client.ServiceDB) *model.ServiceDb {
 	}
 }
 
-func serviceDBVersionToModel(orgID string, v client.ServiceDBVersion) *model.ServiceDBVersion {
+func serviceDBVersionToModel(orgID string, v uigraphapi.ServiceDBVersion) *model.ServiceDBVersion {
 	return &model.ServiceDBVersion{
 		ID: v.ID, OrgID: orgID, ServiceDbID: v.ServiceDBID, VersionNumber: v.VersionNumber,
 		Label: v.Label, SchemaJSON: rawStr(v.SchemaJSON),
@@ -445,7 +445,7 @@ func serviceDBVersionToModel(orgID string, v client.ServiceDBVersion) *model.Ser
 	}
 }
 
-func apiEndpointToModel(e *client.APIEndpoint) *model.APIEndpoint {
+func apiEndpointToModel(e *uigraphapi.APIEndpoint) *model.APIEndpoint {
 	return &model.APIEndpoint{
 		ID: e.ID, APIGroupID: e.APIGroupID, ServiceID: e.ServiceID, OrgID: e.OrgID,
 		OperationID: e.OperationID, Method: e.Method, Path: e.Path,
@@ -458,15 +458,15 @@ func apiEndpointToModel(e *client.APIEndpoint) *model.APIEndpoint {
 	}
 }
 
-func keyValueToModel(v client.KeyValue) *model.KeyValue {
+func keyValueToModel(v uigraphapi.KeyValue) *model.KeyValue {
 	return &model.KeyValue{Key: v.Key, Value: v.Value}
 }
 
-func assertionToModel(a client.Assertion) *model.Assertion {
+func assertionToModel(a uigraphapi.Assertion) *model.Assertion {
 	return &model.Assertion{Field: a.Field, Type: a.Type, Value: a.Value}
 }
 
-func authConfigToModel(a *client.AuthConfig) *model.AuthConfig {
+func authConfigToModel(a *uigraphapi.AuthConfig) *model.AuthConfig {
 	if a == nil {
 		return nil
 	}
@@ -480,11 +480,11 @@ func authConfigToModel(a *client.AuthConfig) *model.AuthConfig {
 	}
 }
 
-func testCaseStepToModel(s client.TestCaseStep) *model.TestCaseStep {
+func testCaseStepToModel(s uigraphapi.TestCaseStep) *model.TestCaseStep {
 	return &model.TestCaseStep{Order: s.Order, Action: s.Action, ExpectedResult: s.ExpectedResult}
 }
 
-func manualTestCaseToModel(m *client.ManualTestCase) *model.ManualTestCase {
+func manualTestCaseToModel(m *uigraphapi.ManualTestCase) *model.ManualTestCase {
 	if m == nil {
 		return nil
 	}
@@ -501,7 +501,7 @@ func manualTestCaseToModel(m *client.ManualTestCase) *model.ManualTestCase {
 	}
 }
 
-func apiTestCaseToModel(a *client.APITestCase) *model.APITestCase {
+func apiTestCaseToModel(a *uigraphapi.APITestCase) *model.APITestCase {
 	if a == nil {
 		return nil
 	}
@@ -532,7 +532,7 @@ func apiTestCaseToModel(a *client.APITestCase) *model.APITestCase {
 	}
 }
 
-func graphQLTestCaseToModel(g *client.GraphQLTestCase) *model.GraphQLTestCase {
+func graphQLTestCaseToModel(g *uigraphapi.GraphQLTestCase) *model.GraphQLTestCase {
 	if g == nil {
 		return nil
 	}
@@ -551,7 +551,7 @@ func graphQLTestCaseToModel(g *client.GraphQLTestCase) *model.GraphQLTestCase {
 	}
 }
 
-func databaseTestCaseToModel(d *client.DatabaseTestCase) *model.DatabaseTestCase {
+func databaseTestCaseToModel(d *uigraphapi.DatabaseTestCase) *model.DatabaseTestCase {
 	if d == nil {
 		return nil
 	}
@@ -569,7 +569,7 @@ func databaseTestCaseToModel(d *client.DatabaseTestCase) *model.DatabaseTestCase
 	}
 }
 
-func grpcTestCaseToModel(g *client.GRPCTestCase) *model.GRPCTestCase {
+func grpcTestCaseToModel(g *uigraphapi.GRPCTestCase) *model.GRPCTestCase {
 	if g == nil {
 		return nil
 	}
@@ -598,7 +598,7 @@ func grpcTestCaseToModel(g *client.GRPCTestCase) *model.GRPCTestCase {
 	}
 }
 
-func testPackToModel(p *client.TestPack) *model.TestPack {
+func testPackToModel(p *uigraphapi.TestPack) *model.TestPack {
 	return &model.TestPack{
 		TestPackID: p.TestPackID, ServiceID: p.ServiceID, OrgID: p.OrgID,
 		Name: p.Name, Type: p.Type,
@@ -607,7 +607,7 @@ func testPackToModel(p *client.TestPack) *model.TestPack {
 	}
 }
 
-func testCaseToModel(tc *client.TestCase) *model.TestCase {
+func testCaseToModel(tc *uigraphapi.TestCase) *model.TestCase {
 	return &model.TestCase{
 		TestCaseID: tc.TestCaseID, TestPackID: tc.TestPackID, ServiceID: tc.ServiceID, OrgID: tc.OrgID,
 		Title: tc.Title, Order: tc.Order, Type: tc.Type, Description: tc.Description, Priority: tc.Priority,
@@ -620,7 +620,7 @@ func testCaseToModel(tc *client.TestCase) *model.TestCase {
 	}
 }
 
-func testRunToModel(tr *client.TestRun) *model.TestRun {
+func testRunToModel(tr *uigraphapi.TestRun) *model.TestRun {
 	return &model.TestRun{
 		TestRunID: tr.TestRunID, TestPackID: tr.TestPackID, ServiceID: tr.ServiceID, OrgID: tr.OrgID,
 		Environment: tr.Environment, ReleaseLabel: tr.ReleaseLabel, StartedAt: tr.StartedAt, CompletedAt: tr.CompletedAt,
@@ -628,7 +628,7 @@ func testRunToModel(tr *client.TestRun) *model.TestRun {
 	}
 }
 
-func testRunSummaryToModel(s client.TestRunSummary) *model.TestRunSummary {
+func testRunSummaryToModel(s uigraphapi.TestRunSummary) *model.TestRunSummary {
 	return &model.TestRunSummary{
 		TestRunID: s.TestRunID, TestPackID: s.TestPackID, ServiceID: s.ServiceID,
 		Environment: s.Environment, ReleaseLabel: s.ReleaseLabel, StartedAt: s.StartedAt, CompletedAt: s.CompletedAt,
@@ -637,7 +637,7 @@ func testRunSummaryToModel(s client.TestRunSummary) *model.TestRunSummary {
 	}
 }
 
-func testRunResultToModel(rr *client.TestRunResult) *model.TestRunResult {
+func testRunResultToModel(rr *uigraphapi.TestRunResult) *model.TestRunResult {
 	var responseTimeMs *int
 	if rr.ResponseTimeMs != nil {
 		v := int(*rr.ResponseTimeMs)
@@ -653,7 +653,7 @@ func testRunResultToModel(rr *client.TestRunResult) *model.TestRunResult {
 
 // ── List helpers ──────────────────────────────────────────────────────────────
 
-func orgsToModel(orgs []client.Org) []*model.Org {
+func orgsToModel(orgs []uigraphapi.Org) []*model.Org {
 	out := make([]*model.Org, len(orgs))
 	for i := range orgs {
 		out[i] = orgToModel(&orgs[i])
@@ -661,7 +661,7 @@ func orgsToModel(orgs []client.Org) []*model.Org {
 	return out
 }
 
-func orgSummariesToModel(orgs []client.OrgSummary) []*model.OrgSummary {
+func orgSummariesToModel(orgs []uigraphapi.OrgSummary) []*model.OrgSummary {
 	out := make([]*model.OrgSummary, len(orgs))
 	for i, o := range orgs {
 		out[i] = orgSummaryToModel(o)
@@ -669,7 +669,7 @@ func orgSummariesToModel(orgs []client.OrgSummary) []*model.OrgSummary {
 	return out
 }
 
-func membersToModel(members []client.Member) []*model.Member {
+func membersToModel(members []uigraphapi.Member) []*model.Member {
 	out := make([]*model.Member, len(members))
 	for i, m := range members {
 		out[i] = memberToModel(m)
@@ -677,7 +677,7 @@ func membersToModel(members []client.Member) []*model.Member {
 	return out
 }
 
-func teamsToModel(teams []client.Team) []*model.Team {
+func teamsToModel(teams []uigraphapi.Team) []*model.Team {
 	out := make([]*model.Team, len(teams))
 	for i := range teams {
 		out[i] = teamToModel(&teams[i])
@@ -685,7 +685,7 @@ func teamsToModel(teams []client.Team) []*model.Team {
 	return out
 }
 
-func teamMembersToModel(members []client.TeamMember) []*model.TeamMember {
+func teamMembersToModel(members []uigraphapi.TeamMember) []*model.TeamMember {
 	out := make([]*model.TeamMember, len(members))
 	for i, m := range members {
 		out[i] = teamMemberToModel(m)
@@ -693,7 +693,7 @@ func teamMembersToModel(members []client.TeamMember) []*model.TeamMember {
 	return out
 }
 
-func invitationsToModel(invs []client.Invitation) []*model.Invitation {
+func invitationsToModel(invs []uigraphapi.Invitation) []*model.Invitation {
 	out := make([]*model.Invitation, len(invs))
 	for i, inv := range invs {
 		out[i] = invitationToModel(inv)
@@ -701,7 +701,7 @@ func invitationsToModel(invs []client.Invitation) []*model.Invitation {
 	return out
 }
 
-func serviceAccountsToModel(sas []client.ServiceAccount) []*model.ServiceAccount {
+func serviceAccountsToModel(sas []uigraphapi.ServiceAccount) []*model.ServiceAccount {
 	out := make([]*model.ServiceAccount, len(sas))
 	for i, sa := range sas {
 		out[i] = serviceAccountToModel(sa)
@@ -709,7 +709,7 @@ func serviceAccountsToModel(sas []client.ServiceAccount) []*model.ServiceAccount
 	return out
 }
 
-func saTokensToModel(tokens []client.ServiceAccountToken) []*model.ServiceAccountToken {
+func saTokensToModel(tokens []uigraphapi.ServiceAccountToken) []*model.ServiceAccountToken {
 	out := make([]*model.ServiceAccountToken, len(tokens))
 	for i, t := range tokens {
 		out[i] = saTokenToModel(t)
@@ -717,7 +717,7 @@ func saTokensToModel(tokens []client.ServiceAccountToken) []*model.ServiceAccoun
 	return out
 }
 
-func foldersToModel(folders []client.Folder) []*model.Folder {
+func foldersToModel(folders []uigraphapi.Folder) []*model.Folder {
 	out := make([]*model.Folder, len(folders))
 	for i := range folders {
 		out[i] = folderToModel(&folders[i])
@@ -725,7 +725,7 @@ func foldersToModel(folders []client.Folder) []*model.Folder {
 	return out
 }
 
-func diagramsToModel(diagrams []client.Diagram) []*model.Diagram {
+func diagramsToModel(diagrams []uigraphapi.Diagram) []*model.Diagram {
 	out := make([]*model.Diagram, len(diagrams))
 	for i := range diagrams {
 		out[i] = diagramToModel(&diagrams[i])
@@ -733,7 +733,7 @@ func diagramsToModel(diagrams []client.Diagram) []*model.Diagram {
 	return out
 }
 
-func diagramVersionsToModel(orgID string, versions []client.DiagramVersion) []*model.DiagramVersion {
+func diagramVersionsToModel(orgID string, versions []uigraphapi.DiagramVersion) []*model.DiagramVersion {
 	out := make([]*model.DiagramVersion, len(versions))
 	for i, v := range versions {
 		out[i] = diagramVersionToModel(orgID, v)
@@ -741,7 +741,7 @@ func diagramVersionsToModel(orgID string, versions []client.DiagramVersion) []*m
 	return out
 }
 
-func uimapsToModel(maps []client.UIMap) []*model.UIMap {
+func uimapsToModel(maps []uigraphapi.UIMap) []*model.UIMap {
 	out := make([]*model.UIMap, len(maps))
 	for i := range maps {
 		out[i] = uimapToModel(&maps[i])
@@ -749,7 +749,7 @@ func uimapsToModel(maps []client.UIMap) []*model.UIMap {
 	return out
 }
 
-func framesToModel(frames []client.Frame) []*model.Frame {
+func framesToModel(frames []uigraphapi.Frame) []*model.Frame {
 	out := make([]*model.Frame, len(frames))
 	for i := range frames {
 		out[i] = frameToModel(&frames[i])
@@ -757,7 +757,7 @@ func framesToModel(frames []client.Frame) []*model.Frame {
 	return out
 }
 
-func focalPointsToModel(fps []client.FocalPoint) []*model.FocalPoint {
+func focalPointsToModel(fps []uigraphapi.FocalPoint) []*model.FocalPoint {
 	out := make([]*model.FocalPoint, len(fps))
 	for i := range fps {
 		out[i] = focalPointToModel(&fps[i])
@@ -765,7 +765,7 @@ func focalPointsToModel(fps []client.FocalPoint) []*model.FocalPoint {
 	return out
 }
 
-func servicesToModel(services []client.Service) []*model.Service {
+func servicesToModel(services []uigraphapi.Service) []*model.Service {
 	out := make([]*model.Service, len(services))
 	for i := range services {
 		out[i] = serviceToModel(&services[i])
@@ -773,7 +773,7 @@ func servicesToModel(services []client.Service) []*model.Service {
 	return out
 }
 
-func serviceStatsListToModel(stats []client.ServiceStats) []*model.ServiceStats {
+func serviceStatsListToModel(stats []uigraphapi.ServiceStats) []*model.ServiceStats {
 	out := make([]*model.ServiceStats, len(stats))
 	for i, s := range stats {
 		out[i] = serviceStatsToModel(s)
@@ -781,7 +781,7 @@ func serviceStatsListToModel(stats []client.ServiceStats) []*model.ServiceStats 
 	return out
 }
 
-func apiGroupsToModel(groups []client.APIGroup) []*model.APIGroup {
+func apiGroupsToModel(groups []uigraphapi.APIGroup) []*model.APIGroup {
 	out := make([]*model.APIGroup, len(groups))
 	for i := range groups {
 		out[i] = apiGroupToModel(&groups[i])
@@ -789,7 +789,7 @@ func apiGroupsToModel(groups []client.APIGroup) []*model.APIGroup {
 	return out
 }
 
-func apiGroupVersionsToModel(orgID string, versions []client.APIGroupVersion) []*model.APIGroupVersion {
+func apiGroupVersionsToModel(orgID string, versions []uigraphapi.APIGroupVersion) []*model.APIGroupVersion {
 	out := make([]*model.APIGroupVersion, len(versions))
 	for i, v := range versions {
 		out[i] = apiGroupVersionToModel(orgID, v)
@@ -797,7 +797,7 @@ func apiGroupVersionsToModel(orgID string, versions []client.APIGroupVersion) []
 	return out
 }
 
-func serviceDocsToModel(docs []client.ServiceDoc) []*model.ServiceDoc {
+func serviceDocsToModel(docs []uigraphapi.ServiceDoc) []*model.ServiceDoc {
 	out := make([]*model.ServiceDoc, len(docs))
 	for i := range docs {
 		out[i] = serviceDocToModel(&docs[i])
@@ -805,7 +805,7 @@ func serviceDocsToModel(docs []client.ServiceDoc) []*model.ServiceDoc {
 	return out
 }
 
-func serviceDiagramsToModel(diagrams []client.ServiceDiagram) []*model.ServiceDiagram {
+func serviceDiagramsToModel(diagrams []uigraphapi.ServiceDiagram) []*model.ServiceDiagram {
 	out := make([]*model.ServiceDiagram, len(diagrams))
 	for i := range diagrams {
 		out[i] = serviceDiagramToModel(&diagrams[i])
@@ -813,7 +813,7 @@ func serviceDiagramsToModel(diagrams []client.ServiceDiagram) []*model.ServiceDi
 	return out
 }
 
-func serviceDBsToModel(dbs []client.ServiceDB) []*model.ServiceDb {
+func serviceDBsToModel(dbs []uigraphapi.ServiceDB) []*model.ServiceDb {
 	out := make([]*model.ServiceDb, len(dbs))
 	for i := range dbs {
 		out[i] = serviceDBToModel(&dbs[i])
@@ -821,7 +821,7 @@ func serviceDBsToModel(dbs []client.ServiceDB) []*model.ServiceDb {
 	return out
 }
 
-func serviceDBVersionsToModel(orgID string, versions []client.ServiceDBVersion) []*model.ServiceDBVersion {
+func serviceDBVersionsToModel(orgID string, versions []uigraphapi.ServiceDBVersion) []*model.ServiceDBVersion {
 	out := make([]*model.ServiceDBVersion, len(versions))
 	for i, v := range versions {
 		out[i] = serviceDBVersionToModel(orgID, v)
@@ -829,7 +829,7 @@ func serviceDBVersionsToModel(orgID string, versions []client.ServiceDBVersion) 
 	return out
 }
 
-func apiEndpointsToModel(endpoints []client.APIEndpoint) []*model.APIEndpoint {
+func apiEndpointsToModel(endpoints []uigraphapi.APIEndpoint) []*model.APIEndpoint {
 	out := make([]*model.APIEndpoint, len(endpoints))
 	for i := range endpoints {
 		out[i] = apiEndpointToModel(&endpoints[i])
@@ -837,7 +837,7 @@ func apiEndpointsToModel(endpoints []client.APIEndpoint) []*model.APIEndpoint {
 	return out
 }
 
-func testPacksToModel(packs []client.TestPack) []*model.TestPack {
+func testPacksToModel(packs []uigraphapi.TestPack) []*model.TestPack {
 	out := make([]*model.TestPack, len(packs))
 	for i := range packs {
 		out[i] = testPackToModel(&packs[i])
@@ -845,7 +845,7 @@ func testPacksToModel(packs []client.TestPack) []*model.TestPack {
 	return out
 }
 
-func testCasesToModel(cases []client.TestCase) []*model.TestCase {
+func testCasesToModel(cases []uigraphapi.TestCase) []*model.TestCase {
 	out := make([]*model.TestCase, len(cases))
 	for i := range cases {
 		out[i] = testCaseToModel(&cases[i])
@@ -853,7 +853,7 @@ func testCasesToModel(cases []client.TestCase) []*model.TestCase {
 	return out
 }
 
-func testRunsToModel(runs []client.TestRun) []*model.TestRun {
+func testRunsToModel(runs []uigraphapi.TestRun) []*model.TestRun {
 	out := make([]*model.TestRun, len(runs))
 	for i := range runs {
 		out[i] = testRunToModel(&runs[i])
@@ -861,7 +861,7 @@ func testRunsToModel(runs []client.TestRun) []*model.TestRun {
 	return out
 }
 
-func testRunSummariesToModel(summaries []client.TestRunSummary) []*model.TestRunSummary {
+func testRunSummariesToModel(summaries []uigraphapi.TestRunSummary) []*model.TestRunSummary {
 	out := make([]*model.TestRunSummary, len(summaries))
 	for i, s := range summaries {
 		out[i] = testRunSummaryToModel(s)
@@ -869,7 +869,7 @@ func testRunSummariesToModel(summaries []client.TestRunSummary) []*model.TestRun
 	return out
 }
 
-func testRunResultsToModel(results []client.TestRunResult) []*model.TestRunResult {
+func testRunResultsToModel(results []uigraphapi.TestRunResult) []*model.TestRunResult {
 	out := make([]*model.TestRunResult, len(results))
 	for i := range results {
 		out[i] = testRunResultToModel(&results[i])
@@ -879,7 +879,7 @@ func testRunResultsToModel(results []client.TestRunResult) []*model.TestRunResul
 
 // ── Users ─────────────────────────────────────────────────────────────────────
 
-func userToModel(u *client.User) *model.User {
+func userToModel(u *uigraphapi.User) *model.User {
 	return &model.User{
 		ID: u.ID, Email: u.Email, Name: u.Name, Login: u.Login,
 		Disabled: u.Disabled, Role: u.Role, LastSeenAt: u.LastSeenAt,
@@ -887,7 +887,7 @@ func userToModel(u *client.User) *model.User {
 	}
 }
 
-func usersToModel(users []client.User) []*model.User {
+func usersToModel(users []uigraphapi.User) []*model.User {
 	out := make([]*model.User, len(users))
 	for i := range users {
 		out[i] = userToModel(&users[i])
@@ -897,7 +897,7 @@ func usersToModel(users []client.User) []*model.User {
 
 // ── SSO ───────────────────────────────────────────────────────────────────────
 
-func oauthProviderToModel(p client.OAuthProvider) *model.OAuthProvider {
+func oauthProviderToModel(p uigraphapi.OAuthProvider) *model.OAuthProvider {
 	return &model.OAuthProvider{
 		ID: p.ID, ProviderName: p.ProviderName, Type: p.Type, DisplayName: p.DisplayName,
 		ClientID: p.ClientID, ClientSecret: p.ClientSecret,
@@ -908,7 +908,7 @@ func oauthProviderToModel(p client.OAuthProvider) *model.OAuthProvider {
 	}
 }
 
-func oauthProvidersToModel(providers []client.OAuthProvider) []*model.OAuthProvider {
+func oauthProvidersToModel(providers []uigraphapi.OAuthProvider) []*model.OAuthProvider {
 	out := make([]*model.OAuthProvider, len(providers))
 	for i := range providers {
 		out[i] = oauthProviderToModel(providers[i])
@@ -916,7 +916,7 @@ func oauthProvidersToModel(providers []client.OAuthProvider) []*model.OAuthProvi
 	return out
 }
 
-func roleMappingToModel(m client.RoleMapping) *model.RoleMapping {
+func roleMappingToModel(m uigraphapi.RoleMapping) *model.RoleMapping {
 	return &model.RoleMapping{
 		ID: m.ID, OrganizationID: m.OrganizationID,
 		ClaimKey: m.ClaimKey, ClaimValue: m.ClaimValue, Role: m.Role, Scope: m.Scope,
@@ -924,7 +924,7 @@ func roleMappingToModel(m client.RoleMapping) *model.RoleMapping {
 	}
 }
 
-func roleMappingsToModel(mappings []client.RoleMapping) []*model.RoleMapping {
+func roleMappingsToModel(mappings []uigraphapi.RoleMapping) []*model.RoleMapping {
 	out := make([]*model.RoleMapping, len(mappings))
 	for i := range mappings {
 		out[i] = roleMappingToModel(mappings[i])
@@ -932,7 +932,7 @@ func roleMappingsToModel(mappings []client.RoleMapping) []*model.RoleMapping {
 	return out
 }
 
-func ldapToModel(l *client.LDAPConfig) *model.LDAPConfig {
+func ldapToModel(l *uigraphapi.LDAPConfig) *model.LDAPConfig {
 	return &model.LDAPConfig{
 		ID: l.ID, Host: l.Host, Port: l.Port,
 		UseSsl: l.UseSSL, StartTLS: l.StartTLS, SkipTLSVerify: l.SkipTLSVerify,
@@ -944,7 +944,7 @@ func ldapToModel(l *client.LDAPConfig) *model.LDAPConfig {
 	}
 }
 
-func samlToModel(s *client.SAMLConfig) *model.SAMLConfig {
+func samlToModel(s *uigraphapi.SAMLConfig) *model.SAMLConfig {
 	return &model.SAMLConfig{
 		ID: s.ID, IdpMetadataURL: s.IDPMetadataURL, IdpMetadataXML: s.IDPMetadataXML,
 		IdpEntityID: s.IDPEntityID, IdpSsoURL: s.IDPSsoURL, IdpCert: s.IDPCert,

@@ -1,5 +1,5 @@
 // REST DTO types matching uigraph-api JSON responses.
-package client
+package uigraphapi
 
 import (
 	"encoding/json"

@@ -7,7 +7,7 @@ package graph
 import (
 	"context"
 
-	"github.com/uigraph/graphql/client"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 	"github.com/uigraph/graphql/graph/model"
 )
 
@@ -110,7 +110,7 @@ func (r *queryResolver) RoleMappings(ctx context.Context) ([]*model.RoleMapping,
 func (r *queryResolver) Ldap(ctx context.Context) (*model.LDAPConfig, error) {
 	l, err := r.Client.GetLDAP(ctx)
 	if err != nil {
-		if client.IsNotFound(err) {
+		if uigraphapi.IsNotFound(err) {
 			return nil, nil
 		}
 		return nil, err
@@ -123,7 +123,7 @@ func (r *queryResolver) Ldap(ctx context.Context) (*model.LDAPConfig, error) {
 func (r *queryResolver) Saml(ctx context.Context) (*model.SAMLConfig, error) {
 	s, err := r.Client.GetSAML(ctx)
 	if err != nil {
-		if client.IsNotFound(err) {
+		if uigraphapi.IsNotFound(err) {
 			return nil, nil
 		}
 		return nil, err

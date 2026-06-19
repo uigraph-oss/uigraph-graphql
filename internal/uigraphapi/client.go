@@ -1,5 +1,5 @@
 // Package client provides a typed HTTP client for the uigraph-api REST API.
-package client
+package uigraphapi
 
 import (
 	"bytes"
