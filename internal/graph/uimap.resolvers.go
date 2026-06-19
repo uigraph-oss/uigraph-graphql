@@ -11,37 +11,6 @@ import (
 	"github.com/uigraph/graphql/internal/graph/model"
 )
 
-// PreviewImageURL is the resolver for the previewImageUrl field.
-func (r *diagramResolver) PreviewImageURL(ctx context.Context, obj *model.Diagram) (*string, error) {
-	if obj.PreviewAssetID == nil {
-		return nil, nil
-	}
-	return r.resolveAssetURL(ctx, obj.OrgID, *obj.PreviewAssetID)
-}
-
-// CreatedByActor is the resolver for the createdByActor field.
-func (r *diagramResolver) CreatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error) {
-	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
-}
-
-// UpdatedByActor is the resolver for the updatedByActor field.
-func (r *diagramResolver) UpdatedByActor(ctx context.Context, obj *model.Diagram) (*model.Actor, error) {
-	if obj.UpdatedBy == nil {
-		return nil, nil
-	}
-	return r.resolveActor(ctx, obj.OrgID, *obj.UpdatedBy)
-}
-
-// ImageURL is the resolver for the imageUrl field.
-func (r *diagramImageResolver) ImageURL(ctx context.Context, obj *model.DiagramImage) (*string, error) {
-	return r.resolveAssetURL(ctx, obj.OrgID, obj.AssetID)
-}
-
-// CreatedByActor is the resolver for the createdByActor field.
-func (r *diagramVersionResolver) CreatedByActor(ctx context.Context, obj *model.DiagramVersion) (*model.Actor, error) {
-	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
-}
-
 // ScreenshotImageURL is the resolver for the screenshotImageUrl field.
 func (r *frameResolver) ScreenshotImageURL(ctx context.Context, obj *model.Frame) (*string, error) {
 	if obj.ScreenshotAssetID == nil {
@@ -61,90 +30,6 @@ func (r *frameResolver) UpdatedByActor(ctx context.Context, obj *model.Frame) (*
 		return nil, nil
 	}
 	return r.resolveActor(ctx, obj.OrgID, *obj.UpdatedBy)
-}
-
-// CreateFolder is the resolver for the createFolder field.
-func (r *mutationResolver) CreateFolder(ctx context.Context, orgID string, input model.CreateFolderInput) (*model.Folder, error) {
-	f, err := r.Client.CreateFolder(ctx, orgID, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return folderToModel(f), nil
-}
-
-// UpdateFolder is the resolver for the updateFolder field.
-func (r *mutationResolver) UpdateFolder(ctx context.Context, orgID string, id string, input model.UpdateFolderInput) (*model.Folder, error) {
-	f, err := r.Client.UpdateFolder(ctx, orgID, id, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return folderToModel(f), nil
-}
-
-// DeleteFolder is the resolver for the deleteFolder field.
-func (r *mutationResolver) DeleteFolder(ctx context.Context, orgID string, id string) (bool, error) {
-	return true, r.Client.DeleteFolder(ctx, orgID, id)
-}
-
-// CreateDiagram is the resolver for the createDiagram field.
-func (r *mutationResolver) CreateDiagram(ctx context.Context, orgID string, input model.CreateDiagramInput) (*model.Diagram, error) {
-	d, err := r.Client.CreateDiagram(ctx, orgID, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return diagramToModel(d), nil
-}
-
-// UpdateDiagram is the resolver for the updateDiagram field.
-func (r *mutationResolver) UpdateDiagram(ctx context.Context, orgID string, id string, input model.UpdateDiagramInput) (*model.Diagram, error) {
-	d, err := r.Client.UpdateDiagram(ctx, orgID, id, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return diagramToModel(d), nil
-}
-
-// DeleteDiagram is the resolver for the deleteDiagram field.
-func (r *mutationResolver) DeleteDiagram(ctx context.Context, orgID string, id string) (bool, error) {
-	return true, r.Client.DeleteDiagram(ctx, orgID, id)
-}
-
-// SyncDiagram is the resolver for the syncDiagram field.
-func (r *mutationResolver) SyncDiagram(ctx context.Context, orgID string, input model.SyncDiagramInput) (*model.SyncDiagramResult, error) {
-	out, err := r.Client.SyncDiagram(ctx, orgID, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	res := &model.SyncDiagramResult{
-		DiagramID:      strFromMap(out, "diagramId"),
-		VersionCreated: boolFromMap(out, "versionCreated"),
-	}
-	if v := optStrFromMap(out, "versionId"); v != nil {
-		res.VersionID = v
-	}
-	return res, nil
-}
-
-// CreateDiagramVersion is the resolver for the createDiagramVersion field.
-func (r *mutationResolver) CreateDiagramVersion(ctx context.Context, orgID string, diagramID string, label *string) (*model.DiagramVersion, error) {
-	body := map[string]interface{}{}
-	if label != nil {
-		body["label"] = *label
-	}
-	v, err := r.Client.CreateDiagramVersion(ctx, orgID, diagramID, body)
-	if err != nil {
-		return nil, err
-	}
-	return diagramVersionToModel(orgID, *v), nil
-}
-
-// RestoreDiagramVersion is the resolver for the restoreDiagramVersion field.
-func (r *mutationResolver) RestoreDiagramVersion(ctx context.Context, orgID string, diagramID string, versionID string) (*model.Diagram, error) {
-	d, err := r.Client.RestoreDiagramVersion(ctx, orgID, diagramID, versionID)
-	if err != nil {
-		return nil, err
-	}
-	return diagramToModel(d), nil
 }
 
 // CreateMap is the resolver for the createMap field.
@@ -313,114 +198,6 @@ func (r *mutationResolver) DeleteFocalPointMeta(ctx context.Context, orgID strin
 	return true, r.Client.DeleteFocalPointMeta(ctx, orgID, mapID, frameID, focalPointID, id)
 }
 
-// Folders is the resolver for the folders field.
-func (r *queryResolver) Folders(ctx context.Context, orgID string, typeArg *string, parentID *string) ([]*model.Folder, error) {
-	t := ""
-	if typeArg != nil {
-		t = *typeArg
-	}
-	p := ""
-	if parentID != nil {
-		p = *parentID
-	}
-	folders, err := r.Client.ListFolders(ctx, orgID, t, p)
-	if err != nil {
-		return nil, err
-	}
-	return foldersToModel(folders), nil
-}
-
-// Folder is the resolver for the folder field.
-func (r *queryResolver) Folder(ctx context.Context, orgID string, id string) (*model.Folder, error) {
-	f, err := r.Client.GetFolder(ctx, orgID, id)
-	if err != nil {
-		return nil, err
-	}
-	return folderToModel(f), nil
-}
-
-// Diagrams is the resolver for the diagrams field.
-func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *string) ([]*model.Diagram, error) {
-	fid := ""
-	if folderID != nil {
-		fid = *folderID
-	}
-	diagrams, err := r.Client.ListDiagrams(ctx, orgID, fid)
-	if err != nil {
-		return nil, err
-	}
-	return diagramsToModel(diagrams), nil
-}
-
-// Diagram is the resolver for the diagram field.
-func (r *queryResolver) Diagram(ctx context.Context, orgID string, id string) (*model.Diagram, error) {
-	d, err := r.Client.GetDiagram(ctx, orgID, id)
-	if err != nil {
-		return nil, err
-	}
-	return diagramToModel(d), nil
-}
-
-// DiagramContent is the resolver for the diagramContent field.
-func (r *queryResolver) DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error) {
-	content, err := r.Client.GetDiagramContent(ctx, orgID, id)
-	if err != nil {
-		return nil, err
-	}
-	return &model.DiagramContent{DiagramID: id, Content: content}, nil
-}
-
-// DiagramVersions is the resolver for the diagramVersions field.
-func (r *queryResolver) DiagramVersions(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramVersion, error) {
-	versions, err := r.Client.ListDiagramVersions(ctx, orgID, diagramID)
-	if err != nil {
-		return nil, err
-	}
-	return diagramVersionsToModel(orgID, versions), nil
-}
-
-// DiagramVersionContent is the resolver for the diagramVersionContent field.
-func (r *queryResolver) DiagramVersionContent(ctx context.Context, orgID string, diagramID string, versionID string) (*model.DiagramContent, error) {
-	content, err := r.Client.GetDiagramVersionContent(ctx, orgID, diagramID, versionID)
-	if err != nil {
-		return nil, err
-	}
-	return &model.DiagramContent{DiagramID: diagramID, Content: content}, nil
-}
-
-// FlowDiagramComponents is the resolver for the flowDiagramComponents field.
-func (r *queryResolver) FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error) {
-	res, err := r.Client.ListFlowDiagramComponents(ctx, orgID)
-	if err != nil {
-		return nil, err
-	}
-	return &model.FlowDiagramComponents{
-		Components:       flowComponentsToModel(res.Components),
-		CustomComponents: flowComponentsToModel(res.CustomComponents),
-	}, nil
-}
-
-// Components is the resolver for the components field.
-func (r *queryResolver) Components(ctx context.Context, orgID string) (*model.Components, error) {
-	res, err := r.Client.ListComponents(ctx, orgID)
-	if err != nil {
-		return nil, err
-	}
-	return &model.Components{
-		Components:       componentsToModel(res.Components),
-		CustomComponents: componentsToModel(res.CustomComponents),
-	}, nil
-}
-
-// DiagramImages is the resolver for the diagramImages field.
-func (r *queryResolver) DiagramImages(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramImage, error) {
-	images, err := r.Client.ListDiagramImages(ctx, orgID, diagramID)
-	if err != nil {
-		return nil, err
-	}
-	return diagramImagesToModel(images), nil
-}
-
 // Maps is the resolver for the maps field.
 func (r *queryResolver) Maps(ctx context.Context, orgID string, folderID *string) ([]*model.UIMap, error) {
 	fid := ""
@@ -515,21 +292,7 @@ func (r *queryResolver) FocalPointMeta(ctx context.Context, orgID string, mapID 
 	return focalPointMetasToModel(metas), nil
 }
 
-// Diagram returns generated.DiagramResolver implementation.
-func (r *Resolver) Diagram() generated.DiagramResolver { return &diagramResolver{r} }
-
-// DiagramImage returns generated.DiagramImageResolver implementation.
-func (r *Resolver) DiagramImage() generated.DiagramImageResolver { return &diagramImageResolver{r} }
-
-// DiagramVersion returns generated.DiagramVersionResolver implementation.
-func (r *Resolver) DiagramVersion() generated.DiagramVersionResolver {
-	return &diagramVersionResolver{r}
-}
-
 // Frame returns generated.FrameResolver implementation.
 func (r *Resolver) Frame() generated.FrameResolver { return &frameResolver{r} }
 
-type diagramResolver struct{ *Resolver }
-type diagramImageResolver struct{ *Resolver }
-type diagramVersionResolver struct{ *Resolver }
 type frameResolver struct{ *Resolver }

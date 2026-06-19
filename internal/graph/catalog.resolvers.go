@@ -6,7 +6,6 @@ package graph
 
 import (
 	"context"
-	"time"
 
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
@@ -176,88 +175,6 @@ func (r *mutationResolver) DeleteAPIEndpoint(ctx context.Context, orgID string, 
 	return true, r.Client.DeleteAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id)
 }
 
-// CreateTestPack is the resolver for the createTestPack field.
-func (r *mutationResolver) CreateTestPack(ctx context.Context, orgID string, serviceID string, input model.CreateTestPackInput) (*model.TestPack, error) {
-	p, err := r.Client.CreateTestPack(ctx, orgID, serviceID, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return testPackToModel(p), nil
-}
-
-// UpdateTestPack is the resolver for the updateTestPack field.
-func (r *mutationResolver) UpdateTestPack(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestPackInput) (*model.TestPack, error) {
-	p, err := r.Client.UpdateTestPack(ctx, orgID, serviceID, id, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return testPackToModel(p), nil
-}
-
-// DeleteTestPack is the resolver for the deleteTestPack field.
-func (r *mutationResolver) DeleteTestPack(ctx context.Context, orgID string, serviceID string, id string) (bool, error) {
-	return true, r.Client.DeleteTestPack(ctx, orgID, serviceID, id)
-}
-
-// CreateTestCase is the resolver for the createTestCase field.
-func (r *mutationResolver) CreateTestCase(ctx context.Context, orgID string, serviceID string, input model.CreateTestCaseInput) (*model.TestCase, error) {
-	tc, err := r.Client.CreateTestCase(ctx, orgID, serviceID, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return testCaseToModel(tc), nil
-}
-
-// UpdateTestCase is the resolver for the updateTestCase field.
-func (r *mutationResolver) UpdateTestCase(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) (*model.TestCase, error) {
-	tc, err := r.Client.UpdateTestCase(ctx, orgID, serviceID, id, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return testCaseToModel(tc), nil
-}
-
-// DeleteTestCase is the resolver for the deleteTestCase field.
-func (r *mutationResolver) DeleteTestCase(ctx context.Context, orgID string, serviceID string, id string) (bool, error) {
-	return true, r.Client.DeleteTestCase(ctx, orgID, serviceID, id)
-}
-
-// CreateTestRun is the resolver for the createTestRun field.
-func (r *mutationResolver) CreateTestRun(ctx context.Context, orgID string, serviceID string, input model.CreateTestRunInput) (*model.TestRun, error) {
-	tr, err := r.Client.CreateTestRun(ctx, orgID, serviceID, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return testRunToModel(tr), nil
-}
-
-// UpdateTestRun is the resolver for the updateTestRun field.
-func (r *mutationResolver) UpdateTestRun(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestRunInput) (*model.TestRun, error) {
-	tr, err := r.Client.UpdateTestRun(ctx, orgID, serviceID, id, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return testRunToModel(tr), nil
-}
-
-// CreateTestRunResult is the resolver for the createTestRunResult field.
-func (r *mutationResolver) CreateTestRunResult(ctx context.Context, orgID string, serviceID string, input model.CreateTestRunResultInput) (*model.TestRunResult, error) {
-	rr, err := r.Client.CreateTestRunResult(ctx, orgID, serviceID, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return testRunResultToModel(rr), nil
-}
-
-// UpdateTestRunResult is the resolver for the updateTestRunResult field.
-func (r *mutationResolver) UpdateTestRunResult(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestRunResultInput) (*model.TestRunResult, error) {
-	rr, err := r.Client.UpdateTestRunResult(ctx, orgID, serviceID, id, toMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return testRunResultToModel(rr), nil
-}
-
 // Services is the resolver for the services field.
 func (r *queryResolver) Services(ctx context.Context, orgID string, folderID *string, teamID *string) ([]*model.Service, error) {
 	fid := ""
@@ -390,60 +307,6 @@ func (r *queryResolver) ServiceStats(ctx context.Context, orgID string, serviceI
 		return nil, err
 	}
 	return serviceStatsListToModel(stats), nil
-}
-
-// TestPacks is the resolver for the testPacks field.
-func (r *queryResolver) TestPacks(ctx context.Context, orgID string, serviceID string) ([]*model.TestPack, error) {
-	packs, err := r.Client.ListTestPacks(ctx, orgID, serviceID)
-	if err != nil {
-		return nil, err
-	}
-	return testPacksToModel(packs), nil
-}
-
-// TestCases is the resolver for the testCases field.
-func (r *queryResolver) TestCases(ctx context.Context, orgID string, serviceID string, testPackID *string) ([]*model.TestCase, error) {
-	cases, err := r.Client.ListTestCases(ctx, orgID, serviceID, testPackID)
-	if err != nil {
-		return nil, err
-	}
-	return testCasesToModel(cases), nil
-}
-
-// TestRun is the resolver for the testRun field.
-func (r *queryResolver) TestRun(ctx context.Context, orgID string, serviceID string, id string) (*model.TestRun, error) {
-	tr, err := r.Client.GetTestRun(ctx, orgID, serviceID, id)
-	if err != nil {
-		return nil, err
-	}
-	return testRunToModel(tr), nil
-}
-
-// TestRuns is the resolver for the testRuns field.
-func (r *queryResolver) TestRuns(ctx context.Context, orgID string, serviceID string, testPackID *string) ([]*model.TestRun, error) {
-	runs, err := r.Client.ListTestRuns(ctx, orgID, serviceID, testPackID)
-	if err != nil {
-		return nil, err
-	}
-	return testRunsToModel(runs), nil
-}
-
-// TestRunsSummary is the resolver for the testRunsSummary field.
-func (r *queryResolver) TestRunsSummary(ctx context.Context, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) ([]*model.TestRunSummary, error) {
-	summary, err := r.Client.ListTestRunsSummary(ctx, orgID, serviceID, testPackID, environment, status, executedBy, fromDate, toDate)
-	if err != nil {
-		return nil, err
-	}
-	return testRunSummariesToModel(summary), nil
-}
-
-// TestRunResults is the resolver for the testRunResults field.
-func (r *queryResolver) TestRunResults(ctx context.Context, orgID string, serviceID string, testRunID string) ([]*model.TestRunResult, error) {
-	results, err := r.Client.ListTestRunResults(ctx, orgID, serviceID, testRunID)
-	if err != nil {
-		return nil, err
-	}
-	return testRunResultsToModel(results), nil
 }
 
 // CreatedByActor is the resolver for the createdByActor field.

@@ -1,0 +1,281 @@
+extend type Query {
+    maps(orgId: ID!, folderId: ID):                           [UIMap!]!
+    map(orgId: ID!, id: ID!):                                 UIMap!
+    frames(orgId: ID!, mapId: ID!):                           [Frame!]!
+    frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
+    frameById(orgId: ID!, id: ID!):                           Frame!
+    focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
+    canvas(orgId: ID!, mapId: ID!):                           Canvas!
+    frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
+    frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
+    focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
+}
+
+extend type Mutation {
+    createMap(orgId: ID!, input: CreateMapInput!):                    UIMap!
+    updateMap(orgId: ID!, id: ID!, input: UpdateMapInput!):           UIMap!
+    deleteMap(orgId: ID!, id: ID!):                                   Boolean!
+
+    createFrame(orgId: ID!, mapId: ID!, input: CreateFrameInput!):    Frame!
+    updateFrame(orgId: ID!, mapId: ID!, id: ID!, input: UpdateFrameInput!): Frame!
+    deleteFrame(orgId: ID!, mapId: ID!, id: ID!):                     Boolean!
+    syncFrame(orgId: ID!, mapId: ID!, input: SyncFrameInput!):        SyncFrameResult!
+
+    createFocalPoint(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFocalPointInput!): FocalPoint!
+    updateFocalPoint(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFocalPointInput!): FocalPoint!
+    deleteFocalPoint(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!):  Boolean!
+
+    upsertCanvas(orgId: ID!, mapId: ID!, input: UpsertCanvasInput!):  Canvas!
+
+    createFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFrameGroupInput!): FrameGroup!
+    updateFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFrameGroupInput!): FrameGroup!
+    deleteFrameGroup(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!): Boolean!
+
+    createFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, input: CreateFrameLinkInput!): FrameLink!
+    updateFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!, input: UpdateFrameLinkInput!): FrameLink!
+    deleteFrameLink(orgId: ID!, mapId: ID!, frameId: ID!, id: ID!): Boolean!
+
+    createFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, input: CreateFocalPointMetaInput!): FocalPointMeta!
+    updateFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!, input: UpdateFocalPointMetaInput!): FocalPointMeta!
+    deleteFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!): Boolean!
+}
+
+type UIMap {
+    id:          ID!
+    orgId:       ID!
+    folderId:    ID
+    teamId:      ID
+    name:        String!
+    description: String!
+    status:      String!
+    createdBy:   ID!
+    updatedBy:   ID
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type Frame {
+    id:                   ID!
+    mapId:                ID!
+    orgId:                ID!
+    parentFrameId:        ID
+    name:                 String!
+    description:          String!
+    templateType:         String!
+    screenshotAssetId:    String
+    screenshotImageUrl:   String @goField(forceResolver: true)
+    screenshotContentHash: String
+    status:               String!
+    order:                Float!
+    source:               String
+    createdBy:            ID!
+    updatedBy:            ID
+    createdByActor:       Actor @goField(forceResolver: true)
+    updatedByActor:       Actor @goField(forceResolver: true)
+    createdAt:            Time!
+    updatedAt:            Time!
+}
+
+type SyncFrameResult {
+    frameId:        ID!
+    versionCreated: Boolean!
+}
+
+type FocalPoint {
+    id:         ID!
+    frameId:    ID!
+    orgId:      ID!
+    name:       String!
+    locationX:  Float!
+    locationY:  Float!
+    visibility: String!
+    isActive:   Boolean!
+    createdBy:  ID!
+    updatedBy:  ID
+    createdAt:  Time!
+    updatedAt:  Time!
+}
+
+type Canvas {
+    mapId:           ID!
+    orgId:           ID!
+    zoom:            Float!
+    navigationX:     Float!
+    navigationY:     Float!
+    framePositions:  String!
+    updatedAt:       Time!
+}
+
+type FrameGroup {
+    id:          ID!
+    frameId:     ID!
+    orgId:       ID!
+    name:        String!
+    description: String!
+    locationX:   Float!
+    locationY:   Float!
+    width:       Float!
+    height:      Float!
+    order:       Float!
+    isActive:    Boolean!
+    createdBy:   ID!
+    updatedBy:   ID
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type FrameLink {
+    id:            ID!
+    frameId:       ID!
+    orgId:         ID!
+    kind:          String!
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String!
+    locationX:     Float!
+    locationY:     Float!
+    isActive:      Boolean!
+    createdBy:     ID!
+    updatedBy:     ID
+    createdAt:     Time!
+    updatedAt:     Time!
+}
+
+type FocalPointMeta {
+    id:                   ID!
+    focalPointId:         ID!
+    orgId:                ID!
+    frameId:              ID!
+    componentId:          String!
+    componentLinkId:      String
+    componentImages:      String!
+    componentFlowDiagram: String
+    componentModalFields: String!
+    createdBy:            ID!
+    updatedBy:            ID
+    createdAt:            Time!
+    updatedAt:            Time!
+}
+
+input CreateMapInput {
+    name:        String!
+    description: String
+    folderId:    ID
+    teamId:      ID
+}
+
+input UpdateMapInput {
+    name:        String
+    description: String
+    status:      String
+    folderId:    ID
+    teamId:      ID
+}
+
+input CreateFrameInput {
+    name:          String!
+    description:   String
+    templateType:  String!
+    parentFrameId: ID
+    order:         Float
+    screenshot:    String
+}
+
+input UpdateFrameInput {
+    name:         String
+    description:  String
+    templateType: String
+    status:       String
+    order:        Float
+    screenshot:   String
+}
+
+input SyncFrameInput {
+    frameId:      ID
+    name:         String!
+    templateType: String!
+    description:  String
+    screenshot:   String!
+    source:       String
+}
+
+input CreateFocalPointInput {
+    name:       String!
+    locationX:  Float!
+    locationY:  Float!
+    visibility: String
+    isActive:   Boolean
+}
+
+input UpdateFocalPointInput {
+    name:       String
+    locationX:  Float
+    locationY:  Float
+    visibility: String
+    isActive:   Boolean
+}
+
+input UpsertCanvasInput {
+    zoom:           Float
+    navigationX:    Float
+    navigationY:    Float
+    framePositions: String
+}
+
+input CreateFrameGroupInput {
+    name:        String!
+    description: String
+    locationX:   Float
+    locationY:   Float
+    width:       Float
+    height:      Float
+    order:       Float
+    isActive:    Boolean
+}
+
+input UpdateFrameGroupInput {
+    name:        String
+    description: String
+    locationX:   Float
+    locationY:   Float
+    width:       Float
+    height:      Float
+    order:       Float
+    isActive:    Boolean
+}
+
+input CreateFrameLinkInput {
+    kind:          String!
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String
+    locationX:     Float
+    locationY:     Float
+    isActive:      Boolean
+}
+
+input UpdateFrameLinkInput {
+    kind:          String
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String
+    locationX:     Float
+    locationY:     Float
+    isActive:      Boolean
+}
+
+input CreateFocalPointMetaInput {
+    componentId:          String!
+    componentLinkId:      String
+    componentImages:      String
+    componentFlowDiagram: String
+    componentModalFields: String
+}
+
+input UpdateFocalPointMetaInput {
+    componentId:          String
+    componentLinkId:      String
+    componentImages:      String
+    componentFlowDiagram: String
+    componentModalFields: String
+}

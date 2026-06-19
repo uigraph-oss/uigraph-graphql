@@ -1032,6 +1032,33 @@ type MutationResolver interface {
 	CreateAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) (*model.APIEndpoint, error)
 	UpdateAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) (*model.APIEndpoint, error)
 	DeleteAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, id string) (bool, error)
+	CreateDiagram(ctx context.Context, orgID string, input model.CreateDiagramInput) (*model.Diagram, error)
+	UpdateDiagram(ctx context.Context, orgID string, id string, input model.UpdateDiagramInput) (*model.Diagram, error)
+	DeleteDiagram(ctx context.Context, orgID string, id string) (bool, error)
+	SyncDiagram(ctx context.Context, orgID string, input model.SyncDiagramInput) (*model.SyncDiagramResult, error)
+	CreateDiagramVersion(ctx context.Context, orgID string, diagramID string, label *string) (*model.DiagramVersion, error)
+	RestoreDiagramVersion(ctx context.Context, orgID string, diagramID string, versionID string) (*model.Diagram, error)
+	CreateFolder(ctx context.Context, orgID string, input model.CreateFolderInput) (*model.Folder, error)
+	UpdateFolder(ctx context.Context, orgID string, id string, input model.UpdateFolderInput) (*model.Folder, error)
+	DeleteFolder(ctx context.Context, orgID string, id string) (bool, error)
+	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
+	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
+	DeleteOrg(ctx context.Context, id string) (bool, error)
+	AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error)
+	UpdateMemberRole(ctx context.Context, orgID string, userID string, role string) (*model.Member, error)
+	RemoveMember(ctx context.Context, orgID string, userID string) (bool, error)
+	CreateTeam(ctx context.Context, orgID string, input model.CreateTeamInput) (*model.Team, error)
+	UpdateTeam(ctx context.Context, orgID string, teamID string, input model.UpdateTeamInput) (*model.Team, error)
+	DeleteTeam(ctx context.Context, orgID string, teamID string) (bool, error)
+	AddTeamMember(ctx context.Context, orgID string, teamID string, userID string, permission *string) (bool, error)
+	RemoveTeamMember(ctx context.Context, orgID string, teamID string, userID string) (bool, error)
+	CreateInvitation(ctx context.Context, orgID string, input model.CreateInvitationInput) (*model.Invitation, error)
+	RevokeInvitation(ctx context.Context, orgID string, invitationID string) (bool, error)
+	CreateServiceAccount(ctx context.Context, orgID string, input model.CreateServiceAccountInput) (*model.ServiceAccount, error)
+	UpdateServiceAccount(ctx context.Context, orgID string, id string, input model.UpdateServiceAccountInput) (*model.ServiceAccount, error)
+	DeleteServiceAccount(ctx context.Context, orgID string, id string) (bool, error)
+	CreateServiceAccountToken(ctx context.Context, orgID string, saID string, input model.CreateTokenInput) (*model.CreatedToken, error)
+	RevokeServiceAccountToken(ctx context.Context, orgID string, saID string, tokenID string) (bool, error)
 	CreateTestPack(ctx context.Context, orgID string, serviceID string, input model.CreateTestPackInput) (*model.TestPack, error)
 	UpdateTestPack(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestPackInput) (*model.TestPack, error)
 	DeleteTestPack(ctx context.Context, orgID string, serviceID string, id string) (bool, error)
@@ -1042,15 +1069,6 @@ type MutationResolver interface {
 	UpdateTestRun(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestRunInput) (*model.TestRun, error)
 	CreateTestRunResult(ctx context.Context, orgID string, serviceID string, input model.CreateTestRunResultInput) (*model.TestRunResult, error)
 	UpdateTestRunResult(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestRunResultInput) (*model.TestRunResult, error)
-	CreateFolder(ctx context.Context, orgID string, input model.CreateFolderInput) (*model.Folder, error)
-	UpdateFolder(ctx context.Context, orgID string, id string, input model.UpdateFolderInput) (*model.Folder, error)
-	DeleteFolder(ctx context.Context, orgID string, id string) (bool, error)
-	CreateDiagram(ctx context.Context, orgID string, input model.CreateDiagramInput) (*model.Diagram, error)
-	UpdateDiagram(ctx context.Context, orgID string, id string, input model.UpdateDiagramInput) (*model.Diagram, error)
-	DeleteDiagram(ctx context.Context, orgID string, id string) (bool, error)
-	SyncDiagram(ctx context.Context, orgID string, input model.SyncDiagramInput) (*model.SyncDiagramResult, error)
-	CreateDiagramVersion(ctx context.Context, orgID string, diagramID string, label *string) (*model.DiagramVersion, error)
-	RestoreDiagramVersion(ctx context.Context, orgID string, diagramID string, versionID string) (*model.Diagram, error)
 	CreateMap(ctx context.Context, orgID string, input model.CreateMapInput) (*model.UIMap, error)
 	UpdateMap(ctx context.Context, orgID string, id string, input model.UpdateMapInput) (*model.UIMap, error)
 	DeleteMap(ctx context.Context, orgID string, id string) (bool, error)
@@ -1071,24 +1089,6 @@ type MutationResolver interface {
 	CreateFocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) (*model.FocalPointMeta, error)
 	UpdateFocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) (*model.FocalPointMeta, error)
 	DeleteFocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string, id string) (bool, error)
-	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
-	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
-	DeleteOrg(ctx context.Context, id string) (bool, error)
-	AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error)
-	UpdateMemberRole(ctx context.Context, orgID string, userID string, role string) (*model.Member, error)
-	RemoveMember(ctx context.Context, orgID string, userID string) (bool, error)
-	CreateTeam(ctx context.Context, orgID string, input model.CreateTeamInput) (*model.Team, error)
-	UpdateTeam(ctx context.Context, orgID string, teamID string, input model.UpdateTeamInput) (*model.Team, error)
-	DeleteTeam(ctx context.Context, orgID string, teamID string) (bool, error)
-	AddTeamMember(ctx context.Context, orgID string, teamID string, userID string, permission *string) (bool, error)
-	RemoveTeamMember(ctx context.Context, orgID string, teamID string, userID string) (bool, error)
-	CreateInvitation(ctx context.Context, orgID string, input model.CreateInvitationInput) (*model.Invitation, error)
-	RevokeInvitation(ctx context.Context, orgID string, invitationID string) (bool, error)
-	CreateServiceAccount(ctx context.Context, orgID string, input model.CreateServiceAccountInput) (*model.ServiceAccount, error)
-	UpdateServiceAccount(ctx context.Context, orgID string, id string, input model.UpdateServiceAccountInput) (*model.ServiceAccount, error)
-	DeleteServiceAccount(ctx context.Context, orgID string, id string) (bool, error)
-	CreateServiceAccountToken(ctx context.Context, orgID string, saID string, input model.CreateTokenInput) (*model.CreatedToken, error)
-	RevokeServiceAccountToken(ctx context.Context, orgID string, saID string, tokenID string) (bool, error)
 }
 type QueryResolver interface {
 	Users(ctx context.Context) ([]*model.User, error)
@@ -1113,32 +1113,16 @@ type QueryResolver interface {
 	APIEndpoints(ctx context.Context, orgID string, serviceID string, apiGroupID string) ([]*model.APIEndpoint, error)
 	APIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, id string) (*model.APIEndpoint, error)
 	ServiceStats(ctx context.Context, orgID string, serviceID *string) ([]*model.ServiceStats, error)
-	TestPacks(ctx context.Context, orgID string, serviceID string) ([]*model.TestPack, error)
-	TestCases(ctx context.Context, orgID string, serviceID string, testPackID *string) ([]*model.TestCase, error)
-	TestRun(ctx context.Context, orgID string, serviceID string, id string) (*model.TestRun, error)
-	TestRuns(ctx context.Context, orgID string, serviceID string, testPackID *string) ([]*model.TestRun, error)
-	TestRunsSummary(ctx context.Context, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) ([]*model.TestRunSummary, error)
-	TestRunResults(ctx context.Context, orgID string, serviceID string, testRunID string) ([]*model.TestRunResult, error)
-	Folders(ctx context.Context, orgID string, typeArg *string, parentID *string) ([]*model.Folder, error)
-	Folder(ctx context.Context, orgID string, id string) (*model.Folder, error)
+	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
+	Components(ctx context.Context, orgID string) (*model.Components, error)
 	Diagrams(ctx context.Context, orgID string, folderID *string) ([]*model.Diagram, error)
 	Diagram(ctx context.Context, orgID string, id string) (*model.Diagram, error)
 	DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error)
 	DiagramVersions(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramVersion, error)
 	DiagramVersionContent(ctx context.Context, orgID string, diagramID string, versionID string) (*model.DiagramContent, error)
-	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
-	Components(ctx context.Context, orgID string) (*model.Components, error)
 	DiagramImages(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramImage, error)
-	Maps(ctx context.Context, orgID string, folderID *string) ([]*model.UIMap, error)
-	Map(ctx context.Context, orgID string, id string) (*model.UIMap, error)
-	Frames(ctx context.Context, orgID string, mapID string) ([]*model.Frame, error)
-	Frame(ctx context.Context, orgID string, mapID string, id string) (*model.Frame, error)
-	FrameByID(ctx context.Context, orgID string, id string) (*model.Frame, error)
-	FocalPoints(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FocalPoint, error)
-	Canvas(ctx context.Context, orgID string, mapID string) (*model.Canvas, error)
-	FrameGroups(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameGroup, error)
-	FrameLinks(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameLink, error)
-	FocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string) ([]*model.FocalPointMeta, error)
+	Folders(ctx context.Context, orgID string, typeArg *string, parentID *string) ([]*model.Folder, error)
+	Folder(ctx context.Context, orgID string, id string) (*model.Folder, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
 	Orgs(ctx context.Context) ([]*model.Org, error)
 	Members(ctx context.Context, orgID string) ([]*model.Member, error)
@@ -1149,6 +1133,22 @@ type QueryResolver interface {
 	ServiceAccounts(ctx context.Context, orgID string) ([]*model.ServiceAccount, error)
 	ServiceAccount(ctx context.Context, orgID string, id string) (*model.ServiceAccount, error)
 	ServiceAccountTokens(ctx context.Context, orgID string, saID string) ([]*model.ServiceAccountToken, error)
+	TestPacks(ctx context.Context, orgID string, serviceID string) ([]*model.TestPack, error)
+	TestCases(ctx context.Context, orgID string, serviceID string, testPackID *string) ([]*model.TestCase, error)
+	TestRun(ctx context.Context, orgID string, serviceID string, id string) (*model.TestRun, error)
+	TestRuns(ctx context.Context, orgID string, serviceID string, testPackID *string) ([]*model.TestRun, error)
+	TestRunsSummary(ctx context.Context, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) ([]*model.TestRunSummary, error)
+	TestRunResults(ctx context.Context, orgID string, serviceID string, testRunID string) ([]*model.TestRunResult, error)
+	Maps(ctx context.Context, orgID string, folderID *string) ([]*model.UIMap, error)
+	Map(ctx context.Context, orgID string, id string) (*model.UIMap, error)
+	Frames(ctx context.Context, orgID string, mapID string) ([]*model.Frame, error)
+	Frame(ctx context.Context, orgID string, mapID string, id string) (*model.Frame, error)
+	FrameByID(ctx context.Context, orgID string, id string) (*model.Frame, error)
+	FocalPoints(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FocalPoint, error)
+	Canvas(ctx context.Context, orgID string, mapID string) (*model.Canvas, error)
+	FrameGroups(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameGroup, error)
+	FrameLinks(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameLink, error)
+	FocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string) ([]*model.FocalPointMeta, error)
 }
 type ServiceResolver interface {
 	CreatedByActor(ctx context.Context, obj *model.Service) (*model.Actor, error)
@@ -7434,21 +7434,6 @@ type OrgSummary {
     apiEndpoints(orgId: ID!, serviceId: ID!, apiGroupId: ID!):       [APIEndpoint!]!
     apiEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!): APIEndpoint!
     serviceStats(orgId: ID!, serviceId: ID):                         [ServiceStats!]!
-    testPacks(orgId: ID!, serviceId: ID!):                           [TestPack!]!
-    testCases(orgId: ID!, serviceId: ID!, testPackId: ID):           [TestCase!]!
-    testRun(orgId: ID!, serviceId: ID!, id: ID!):                    TestRun!
-    testRuns(orgId: ID!, serviceId: ID!, testPackId: ID):            [TestRun!]!
-    testRunsSummary(
-        orgId: ID!,
-        serviceId: ID!,
-        testPackId: ID,
-        environment: String,
-        status: String,
-        executedBy: ID,
-        fromDate: Time,
-        toDate: Time
-    ): [TestRunSummary!]!
-    testRunResults(orgId: ID!, serviceId: ID!, testRunId: ID!):      [TestRunResult!]!
 }
 
 extend type Mutation {
@@ -7474,19 +7459,7 @@ extend type Mutation {
     createAPIEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, input: CreateAPIEndpointInput!):             APIEndpoint!
     updateAPIEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!, input: UpdateAPIEndpointInput!):    APIEndpoint!
     deleteAPIEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!):                                    Boolean!
-    createTestPack(orgId: ID!, serviceId: ID!, input: CreateTestPackInput!):                                    TestPack!
-    updateTestPack(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestPackInput!):                           TestPack!
-    deleteTestPack(orgId: ID!, serviceId: ID!, id: ID!):                                                         Boolean!
-    createTestCase(orgId: ID!, serviceId: ID!, input: CreateTestCaseInput!):                                     TestCase!
-    updateTestCase(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestCaseInput!):                           TestCase!
-    deleteTestCase(orgId: ID!, serviceId: ID!, id: ID!):                                                         Boolean!
-    createTestRun(orgId: ID!, serviceId: ID!, input: CreateTestRunInput!):                                       TestRun!
-    updateTestRun(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestRunInput!):                             TestRun!
-    createTestRunResult(orgId: ID!, serviceId: ID!, input: CreateTestRunResultInput!):                          TestRunResult!
-    updateTestRunResult(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestRunResultInput!):                TestRunResult!
 }
-
-# ── Types ─────────────────────────────────────────────────────────────────────
 
 type Service {
     id:               ID!
@@ -7636,6 +7609,557 @@ type APIEndpoint {
 type SyncAPIGroupResult {
     apiGroupId:     ID!
     versionCreated: Boolean!
+}
+
+input CreateServiceInput {
+    name:             String!
+    slug:             String
+    description:      String
+    status:           String
+    tier:             String
+    category:         String
+    language:         String
+    folderId:         ID
+    teamId:           ID
+    gitRepoUrl:       String
+    jiraProjectUrl:   String
+    slackChannelUrl:  String
+    labels:           [String!]
+    metadata:         String
+}
+
+input UpdateServiceInput {
+    name:             String
+    slug:             String
+    description:      String
+    status:           String
+    tier:             String
+    category:         String
+    language:         String
+    folderId:         ID
+    teamId:           ID
+    gitRepoUrl:       String
+    jiraProjectUrl:   String
+    slackChannelUrl:  String
+    lastCommitSha:    String
+    labels:           [String!]
+    metadata:         String
+}
+
+input CreateAPIGroupInput {
+    name:     String!
+    version:  String
+    label:    String
+    protocol: String
+    spec:     String
+}
+
+input UpdateAPIGroupInput {
+    name:     String
+    version:  String
+    label:    String
+    protocol: String
+    spec:     String
+}
+
+input SyncAPIGroupInput {
+    apiGroupId: ID
+    name:       String!
+    version:    String
+    protocol:   String
+    spec:       String!
+}
+
+input CreateServiceDocInput {
+    fileName:      String!
+    fileType:      String
+    description:   String
+    contentBase64: String!
+}
+
+input UpdateServiceDocInput {
+    fileName:      String
+    fileType:      String
+    description:   String
+    contentBase64: String
+}
+
+input CreateServiceDiagramInput {
+    diagramId: ID
+    name: String
+    content: String
+    folderId: ID
+    teamId: ID
+    source: String
+}
+
+input CreateServiceDBInput {
+    dbName:     String!
+    dbType:     String
+    dialect:    String
+    schemaJson: String
+    source:     String
+    sourceTs:   Time
+}
+
+input UpdateServiceDBInput {
+    dbName:     String
+    dbType:     String
+    dialect:    String
+    schemaJson: String
+    source:     String
+    sourceTs:   Time
+}
+
+input CreateServiceDBVersionInput {
+    label:         String
+    isAutoVersion: Boolean
+    dbName:        String
+    dbType:        String
+    dialect:       String
+    schemaJson:    String
+    source:        String
+    sourceTs:      Time
+}
+
+input CreateAPIEndpointInput {
+    operationId: String
+    method:      String!
+    path:        String!
+    summary:     String
+    description: String
+    tags:        [String!]
+    parameters:  String
+    requestBody: String
+    responses:   String
+    order:       Float
+}
+
+input UpdateAPIEndpointInput {
+    operationId: String
+    method:      String
+    path:        String
+    summary:     String
+    description: String
+    tags:        [String!]
+    parameters:  String
+    requestBody: String
+    responses:   String
+    order:       Float
+}
+`, BuiltIn: false},
+	{Name: "../schema/component.graphqls", Input: `extend type Query {
+    flowDiagramComponents(orgId: ID!):                        FlowDiagramComponents!
+    components(orgId: ID!):                                   Components!
+}
+
+type FlowDiagramComponentField {
+    flowDiagramComponentFieldId: String!
+    label:                       String!
+    type:                        String!
+    required:                    Boolean!
+    readonly:                    Boolean
+    options:                     [String!]
+    order:                       Int!
+}
+
+type FlowDiagramComponent {
+    componentId:                String!
+    type:                       String!
+    name:                       String!
+    description:                String!
+    category:                   String!
+    tags:                       [String!]!
+    slug:                       String!
+    previewImageJpg:            String!
+    isActive:                   Boolean!
+    order:                      Int!
+    organizationId:             String
+    flowDiagramComponentFields: [FlowDiagramComponentField!]!
+}
+
+type FlowDiagramComponents {
+    components:       [FlowDiagramComponent!]!
+    customComponents: [FlowDiagramComponent!]!
+}
+
+type ComponentField {
+    componentFieldId: String!
+    label:            String!
+    type:             String!
+    required:         Boolean!
+    readonly:         Boolean
+    options:          [String!]
+    order:            Int!
+}
+
+type Component {
+    componentId:     String!
+    type:            String!
+    name:            String!
+    description:     String!
+    category:        String!
+    tags:            [String!]!
+    slug:            String!
+    previewImageJpg: String!
+    isActive:        Boolean!
+    order:           Int!
+    componentFields: [ComponentField!]!
+}
+
+type Components {
+    components:       [Component!]!
+    customComponents: [Component!]!
+}
+`, BuiltIn: false},
+	{Name: "../schema/diagram.graphqls", Input: `extend type Query {
+    diagrams(orgId: ID!, folderId: ID):                       [Diagram!]!
+    diagram(orgId: ID!, id: ID!):                             Diagram!
+    diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
+    diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
+    diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
+    diagramImages(orgId: ID!, diagramId: ID!):               [DiagramImage!]!
+}
+
+extend type Mutation {
+    createDiagram(orgId: ID!, input: CreateDiagramInput!):            Diagram!
+    updateDiagram(orgId: ID!, id: ID!, input: UpdateDiagramInput!):   Diagram!
+    deleteDiagram(orgId: ID!, id: ID!):                               Boolean!
+    syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
+    createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
+    restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
+}
+
+type Diagram {
+    id:                 ID!
+    orgId:              ID!
+    folderId:           ID
+    teamId:             ID
+    name:               String!
+    contentKey:         String!
+    contentHash:        String!
+    previewAssetId:     String
+    previewImageUrl:    String @goField(forceResolver: true)
+    previewContentHash: String
+    source:             String
+    createdBy:          ID!
+    updatedBy:          ID
+    createdByActor:     Actor @goField(forceResolver: true)
+    updatedByActor:     Actor @goField(forceResolver: true)
+    createdAt:          Time!
+    updatedAt:          Time!
+}
+
+type DiagramImage {
+    diagramImageId: String!
+    diagramId:      String!
+    orgId:          ID!
+    assetId:        String!
+    imageUrl:       String @goField(forceResolver: true)
+    fileName:       String
+    order:          Int!
+    createdBy:      ID!
+    createdAt:      Time!
+}
+
+type DiagramContent {
+    diagramId: ID!
+    content:   String!
+}
+
+type DiagramVersion {
+    id:            ID!
+    orgId:         ID!
+    diagramId:     ID!
+    versionNumber: Int!
+    label:         String
+    contentKey:    String!
+    contentHash:   String!
+    isAutoVersion: Boolean!
+    source:        String
+    createdBy:     ID!
+    createdByActor: Actor @goField(forceResolver: true)
+    createdAt:     Time!
+}
+
+type SyncDiagramResult {
+    diagramId:      ID!
+    versionCreated: Boolean!
+    versionId:      ID
+}
+
+input CreateDiagramInput {
+    name:     String!
+    content:  String!
+    folderId: ID
+    teamId:   ID
+    source:   String
+}
+
+input UpdateDiagramInput {
+    name:     String
+    content:  String
+    folderId: ID
+    teamId:   ID
+    source:   String
+}
+
+input SyncDiagramInput {
+    diagramId: ID
+    name:      String!
+    content:   String!
+    folderId:  ID
+    teamId:    ID
+    source:    String
+}
+`, BuiltIn: false},
+	{Name: "../schema/directives.graphqls", Input: `# gqlgen's @goField directive. forceResolver makes a field resolved by a
+# generated resolver method instead of being auto-bound to a model field.
+directive @goField(
+    forceResolver: Boolean
+    name: String
+    omittable: Boolean
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+`, BuiltIn: false},
+	{Name: "../schema/folder.graphqls", Input: `extend type Query {
+    folders(orgId: ID!, type: String, parentId: ID):          [Folder!]!
+    folder(orgId: ID!, id: ID!):                              Folder!
+}
+
+extend type Mutation {
+    createFolder(orgId: ID!, input: CreateFolderInput!):              Folder!
+    updateFolder(orgId: ID!, id: ID!, input: UpdateFolderInput!):     Folder!
+    deleteFolder(orgId: ID!, id: ID!):                                Boolean!
+}
+
+type Folder {
+    id:        ID!
+    orgId:     ID!
+    parentId:  ID
+    teamId:    ID
+    type:      String!
+    name:      String!
+    order:     Float!
+    createdBy: ID!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+input CreateFolderInput {
+    name:     String!
+    type:     String!
+    parentId: ID
+    teamId:   ID
+    order:    Float
+}
+
+input UpdateFolderInput {
+    name:     String
+    parentId: ID
+    teamId:   ID
+    order:    Float
+}
+`, BuiltIn: false},
+	{Name: "../schema/org.graphqls", Input: `extend type Query {
+    org(id: ID!):                                     Org!
+    orgs:                                             [Org!]!
+    members(orgId: ID!):                              [Member!]!
+    teams(orgId: ID!):                                [Team!]!
+    team(orgId: ID!, teamId: ID!):                    Team!
+    teamMembers(orgId: ID!, teamId: ID!):             [TeamMember!]!
+    invitations(orgId: ID!):                          [Invitation!]!
+    serviceAccounts(orgId: ID!):                      [ServiceAccount!]!
+    serviceAccount(orgId: ID!, id: ID!):              ServiceAccount!
+    serviceAccountTokens(orgId: ID!, saId: ID!):      [ServiceAccountToken!]!
+}
+
+extend type Mutation {
+    createOrg(input: CreateOrgInput!):                Org!
+    updateOrg(id: ID!, input: UpdateOrgInput!):       Org!
+    deleteOrg(id: ID!):                               Boolean!
+
+    addMember(orgId: ID!, input: AddMemberInput!):                       Member!
+    updateMemberRole(orgId: ID!, userId: ID!, role: String!):            Member!
+    removeMember(orgId: ID!, userId: ID!):                               Boolean!
+
+    createTeam(orgId: ID!, input: CreateTeamInput!):                     Team!
+    updateTeam(orgId: ID!, teamId: ID!, input: UpdateTeamInput!):        Team!
+    deleteTeam(orgId: ID!, teamId: ID!):                                 Boolean!
+    addTeamMember(orgId: ID!, teamId: ID!, userId: ID!, permission: String): Boolean!
+    removeTeamMember(orgId: ID!, teamId: ID!, userId: ID!):              Boolean!
+
+    createInvitation(orgId: ID!, input: CreateInvitationInput!):         Invitation!
+    revokeInvitation(orgId: ID!, invitationId: ID!):                     Boolean!
+
+    createServiceAccount(orgId: ID!, input: CreateServiceAccountInput!):         ServiceAccount!
+    updateServiceAccount(orgId: ID!, id: ID!, input: UpdateServiceAccountInput!): ServiceAccount!
+    deleteServiceAccount(orgId: ID!, id: ID!):                                    Boolean!
+    createServiceAccountToken(orgId: ID!, saId: ID!, input: CreateTokenInput!):  CreatedToken!
+    revokeServiceAccountToken(orgId: ID!, saId: ID!, tokenId: ID!):              Boolean!
+}
+
+# ── Types ─────────────────────────────────────────────────────────────────────
+
+type Org {
+    id:        ID!
+    name:      String!
+    slug:      String!
+    disabled:  Boolean!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+type Member {
+    userId:    ID!
+    orgId:     ID!
+    role:      String!
+    source:    String!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+type Team {
+    id:         ID!
+    orgId:      ID!
+    name:       String!
+    email:      String
+    externalId: String
+    createdAt:  Time!
+    updatedAt:  Time!
+}
+
+type TeamMember {
+    teamId:     ID!
+    userId:     ID!
+    permission: String!
+    createdAt:  Time!
+}
+
+type Invitation {
+    id:        ID!
+    orgId:     ID!
+    email:     String!
+    role:      String!
+    code:      String!
+    createdBy: ID!
+    createdAt: Time!
+    expiresAt: Time
+}
+
+type ServiceAccount {
+    id:          ID!
+    orgId:       ID!
+    name:        String!
+    description: String!
+    role:        String!
+    disabled:    Boolean!
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type ServiceAccountToken {
+    id:               ID!
+    serviceAccountId: ID!
+    name:             String!
+    prefix:           String!
+    expiresAt:        Time
+    lastUsedAt:       Time
+    revoked:          Boolean!
+    createdAt:        Time!
+}
+
+type CreatedToken {
+    id:               ID!
+    serviceAccountId: ID!
+    name:             String!
+    prefix:           String!
+    token:            String!
+    createdAt:        Time!
+}
+
+# ── Inputs ────────────────────────────────────────────────────────────────────
+
+input CreateOrgInput {
+    name: String!
+    slug: String
+}
+
+input UpdateOrgInput {
+    name:     String
+    disabled: Boolean
+}
+
+input AddMemberInput {
+    userId: ID!
+    role:   String!
+}
+
+input CreateTeamInput {
+    name:  String!
+    email: String
+}
+
+input UpdateTeamInput {
+    name:  String
+    email: String
+}
+
+input CreateInvitationInput {
+    email: String!
+    role:  String!
+}
+
+input CreateServiceAccountInput {
+    name:        String!
+    description: String
+    role:        String!
+}
+
+input UpdateServiceAccountInput {
+    name:        String
+    description: String
+    disabled:    Boolean
+}
+
+input CreateTokenInput {
+    name:      String!
+    expiresAt: String
+}
+`, BuiltIn: false},
+	{Name: "../schema/schema.graphqls", Input: `scalar Time
+
+type Query
+type Mutation
+`, BuiltIn: false},
+	{Name: "../schema/testpack.graphqls", Input: `extend type Query {
+    testPacks(orgId: ID!, serviceId: ID!):                           [TestPack!]!
+    testCases(orgId: ID!, serviceId: ID!, testPackId: ID):           [TestCase!]!
+    testRun(orgId: ID!, serviceId: ID!, id: ID!):                    TestRun!
+    testRuns(orgId: ID!, serviceId: ID!, testPackId: ID):            [TestRun!]!
+    testRunsSummary(
+        orgId: ID!,
+        serviceId: ID!,
+        testPackId: ID,
+        environment: String,
+        status: String,
+        executedBy: ID,
+        fromDate: Time,
+        toDate: Time
+    ): [TestRunSummary!]!
+    testRunResults(orgId: ID!, serviceId: ID!, testRunId: ID!):      [TestRunResult!]!
+}
+
+extend type Mutation {
+    createTestPack(orgId: ID!, serviceId: ID!, input: CreateTestPackInput!):                                    TestPack!
+    updateTestPack(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestPackInput!):                           TestPack!
+    deleteTestPack(orgId: ID!, serviceId: ID!, id: ID!):                                                         Boolean!
+    createTestCase(orgId: ID!, serviceId: ID!, input: CreateTestCaseInput!):                                     TestCase!
+    updateTestCase(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestCaseInput!):                           TestCase!
+    deleteTestCase(orgId: ID!, serviceId: ID!, id: ID!):                                                         Boolean!
+    createTestRun(orgId: ID!, serviceId: ID!, input: CreateTestRunInput!):                                       TestRun!
+    updateTestRun(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestRunInput!):                             TestRun!
+    createTestRunResult(orgId: ID!, serviceId: ID!, input: CreateTestRunResultInput!):                          TestRunResult!
+    updateTestRunResult(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestRunResultInput!):                TestRunResult!
 }
 
 type KeyValue {
@@ -7821,145 +8345,6 @@ type TestRunResult {
     executedBy:      ID!
 }
 
-# ── Inputs ────────────────────────────────────────────────────────────────────
-
-input CreateServiceInput {
-    name:             String!
-    slug:             String
-    description:      String
-    status:           String
-    tier:             String
-    category:         String
-    language:         String
-    folderId:         ID
-    teamId:           ID
-    gitRepoUrl:       String
-    jiraProjectUrl:   String
-    slackChannelUrl:  String
-    labels:           [String!]
-    metadata:         String
-}
-
-input UpdateServiceInput {
-    name:             String
-    slug:             String
-    description:      String
-    status:           String
-    tier:             String
-    category:         String
-    language:         String
-    folderId:         ID
-    teamId:           ID
-    gitRepoUrl:       String
-    jiraProjectUrl:   String
-    slackChannelUrl:  String
-    lastCommitSha:    String
-    labels:           [String!]
-    metadata:         String
-}
-
-input CreateAPIGroupInput {
-    name:     String!
-    version:  String
-    label:    String
-    protocol: String
-    spec:     String
-}
-
-input UpdateAPIGroupInput {
-    name:     String
-    version:  String
-    label:    String
-    protocol: String
-    spec:     String
-}
-
-input SyncAPIGroupInput {
-    apiGroupId: ID
-    name:       String!
-    version:    String
-    protocol:   String
-    spec:       String!
-}
-
-input CreateServiceDocInput {
-    fileName:      String!
-    fileType:      String
-    description:   String
-    contentBase64: String!
-}
-
-input UpdateServiceDocInput {
-    fileName:      String
-    fileType:      String
-    description:   String
-    contentBase64: String
-}
-
-input CreateServiceDiagramInput {
-    diagramId: ID
-    name: String
-    content: String
-    folderId: ID
-    teamId: ID
-    source: String
-}
-
-input CreateServiceDBInput {
-    dbName:     String!
-    dbType:     String
-    dialect:    String
-    schemaJson: String
-    source:     String
-    sourceTs:   Time
-}
-
-input UpdateServiceDBInput {
-    dbName:     String
-    dbType:     String
-    dialect:    String
-    schemaJson: String
-    source:     String
-    sourceTs:   Time
-}
-
-input CreateServiceDBVersionInput {
-    label:         String
-    isAutoVersion: Boolean
-    dbName:        String
-    dbType:        String
-    dialect:       String
-    schemaJson:    String
-    source:        String
-    sourceTs:      Time
-}
-
-input CreateAPIEndpointInput {
-    operationId: String
-    method:      String!
-    path:        String!
-    summary:     String
-    description: String
-    tags:        [String!]
-    parameters:  String
-    requestBody: String
-    responses:   String
-    order:       Float
-}
-
-input UpdateAPIEndpointInput {
-    operationId: String
-    method:      String
-    path:        String
-    summary:     String
-    description: String
-    tags:        [String!]
-    parameters:  String
-    requestBody: String
-    responses:   String
-    order:       Float
-}
-
 input KeyValueInput {
     key:   String!
     value: String!
@@ -8142,17 +8527,7 @@ input UpdateTestRunResultInput {
     screenshotUrls: [String!]
 }
 `, BuiltIn: false},
-	{Name: "../schema/content.graphqls", Input: `extend type Query {
-    folders(orgId: ID!, type: String, parentId: ID):          [Folder!]!
-    folder(orgId: ID!, id: ID!):                              Folder!
-    diagrams(orgId: ID!, folderId: ID):                       [Diagram!]!
-    diagram(orgId: ID!, id: ID!):                             Diagram!
-    diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
-    diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
-    diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
-    flowDiagramComponents(orgId: ID!):                        FlowDiagramComponents!
-    components(orgId: ID!):                                   Components!
-    diagramImages(orgId: ID!, diagramId: ID!):               [DiagramImage!]!
+	{Name: "../schema/uimap.graphqls", Input: `extend type Query {
     maps(orgId: ID!, folderId: ID):                           [UIMap!]!
     map(orgId: ID!, id: ID!):                                 UIMap!
     frames(orgId: ID!, mapId: ID!):                           [Frame!]!
@@ -8166,17 +8541,6 @@ input UpdateTestRunResultInput {
 }
 
 extend type Mutation {
-    createFolder(orgId: ID!, input: CreateFolderInput!):              Folder!
-    updateFolder(orgId: ID!, id: ID!, input: UpdateFolderInput!):     Folder!
-    deleteFolder(orgId: ID!, id: ID!):                                Boolean!
-
-    createDiagram(orgId: ID!, input: CreateDiagramInput!):            Diagram!
-    updateDiagram(orgId: ID!, id: ID!, input: UpdateDiagramInput!):   Diagram!
-    deleteDiagram(orgId: ID!, id: ID!):                               Boolean!
-    syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
-    createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
-    restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
-
     createMap(orgId: ID!, input: CreateMapInput!):                    UIMap!
     updateMap(orgId: ID!, id: ID!, input: UpdateMapInput!):           UIMap!
     deleteMap(orgId: ID!, id: ID!):                                   Boolean!
@@ -8203,138 +8567,6 @@ extend type Mutation {
     createFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, input: CreateFocalPointMetaInput!): FocalPointMeta!
     updateFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!, input: UpdateFocalPointMetaInput!): FocalPointMeta!
     deleteFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!): Boolean!
-}
-
-# ── Types ─────────────────────────────────────────────────────────────────────
-
-type Folder {
-    id:        ID!
-    orgId:     ID!
-    parentId:  ID
-    teamId:    ID
-    type:      String!
-    name:      String!
-    order:     Float!
-    createdBy: ID!
-    createdAt: Time!
-    updatedAt: Time!
-}
-
-type Diagram {
-    id:                 ID!
-    orgId:              ID!
-    folderId:           ID
-    teamId:             ID
-    name:               String!
-    contentKey:         String!
-    contentHash:        String!
-    previewAssetId:     String
-    previewImageUrl:    String @goField(forceResolver: true)
-    previewContentHash: String
-    source:             String
-    createdBy:          ID!
-    updatedBy:          ID
-    createdByActor:     Actor @goField(forceResolver: true)
-    updatedByActor:     Actor @goField(forceResolver: true)
-    createdAt:          Time!
-    updatedAt:          Time!
-}
-
-type FlowDiagramComponentField {
-    flowDiagramComponentFieldId: String!
-    label:                       String!
-    type:                        String!
-    required:                    Boolean!
-    readonly:                    Boolean
-    options:                     [String!]
-    order:                       Int!
-}
-
-type FlowDiagramComponent {
-    componentId:                String!
-    type:                       String!
-    name:                       String!
-    description:                String!
-    category:                   String!
-    tags:                       [String!]!
-    slug:                       String!
-    previewImageJpg:            String!
-    isActive:                   Boolean!
-    order:                      Int!
-    organizationId:             String
-    flowDiagramComponentFields: [FlowDiagramComponentField!]!
-}
-
-type FlowDiagramComponents {
-    components:       [FlowDiagramComponent!]!
-    customComponents: [FlowDiagramComponent!]!
-}
-
-type ComponentField {
-    componentFieldId: String!
-    label:            String!
-    type:             String!
-    required:         Boolean!
-    readonly:         Boolean
-    options:          [String!]
-    order:            Int!
-}
-
-type Component {
-    componentId:     String!
-    type:            String!
-    name:            String!
-    description:     String!
-    category:        String!
-    tags:            [String!]!
-    slug:            String!
-    previewImageJpg: String!
-    isActive:        Boolean!
-    order:           Int!
-    componentFields: [ComponentField!]!
-}
-
-type Components {
-    components:       [Component!]!
-    customComponents: [Component!]!
-}
-
-type DiagramImage {
-    diagramImageId: String!
-    diagramId:      String!
-    orgId:          ID!
-    assetId:        String!
-    imageUrl:       String @goField(forceResolver: true)
-    fileName:       String
-    order:          Int!
-    createdBy:      ID!
-    createdAt:      Time!
-}
-
-type DiagramContent {
-    diagramId: ID!
-    content:   String!
-}
-
-type DiagramVersion {
-    id:            ID!
-    orgId:         ID!
-    diagramId:     ID!
-    versionNumber: Int!
-    label:         String
-    contentKey:    String!
-    contentHash:   String!
-    isAutoVersion: Boolean!
-    source:        String
-    createdBy:     ID!
-    createdByActor: Actor @goField(forceResolver: true)
-    createdAt:     Time!
-}
-
-type SyncDiagramResult {
-    diagramId:      ID!
-    versionCreated: Boolean!
-    versionId:      ID
 }
 
 type UIMap {
@@ -8403,46 +8635,55 @@ type Canvas {
     updatedAt:       Time!
 }
 
-# ── Inputs ────────────────────────────────────────────────────────────────────
-
-input CreateFolderInput {
-    name:     String!
-    type:     String!
-    parentId: ID
-    teamId:   ID
-    order:    Float
+type FrameGroup {
+    id:          ID!
+    frameId:     ID!
+    orgId:       ID!
+    name:        String!
+    description: String!
+    locationX:   Float!
+    locationY:   Float!
+    width:       Float!
+    height:      Float!
+    order:       Float!
+    isActive:    Boolean!
+    createdBy:   ID!
+    updatedBy:   ID
+    createdAt:   Time!
+    updatedAt:   Time!
 }
 
-input UpdateFolderInput {
-    name:     String
-    parentId: ID
-    teamId:   ID
-    order:    Float
+type FrameLink {
+    id:            ID!
+    frameId:       ID!
+    orgId:         ID!
+    kind:          String!
+    targetFrameId: ID
+    targetMapId:   ID
+    label:         String!
+    locationX:     Float!
+    locationY:     Float!
+    isActive:      Boolean!
+    createdBy:     ID!
+    updatedBy:     ID
+    createdAt:     Time!
+    updatedAt:     Time!
 }
 
-input CreateDiagramInput {
-    name:     String!
-    content:  String!
-    folderId: ID
-    teamId:   ID
-    source:   String
-}
-
-input UpdateDiagramInput {
-    name:     String
-    content:  String
-    folderId: ID
-    teamId:   ID
-    source:   String
-}
-
-input SyncDiagramInput {
-    diagramId: ID
-    name:      String!
-    content:   String!
-    folderId:  ID
-    teamId:    ID
-    source:    String
+type FocalPointMeta {
+    id:                   ID!
+    focalPointId:         ID!
+    orgId:                ID!
+    frameId:              ID!
+    componentId:          String!
+    componentLinkId:      String
+    componentImages:      String!
+    componentFlowDiagram: String
+    componentModalFields: String!
+    createdBy:            ID!
+    updatedBy:            ID
+    createdAt:            Time!
+    updatedAt:            Time!
 }
 
 input CreateMapInput {
@@ -8510,24 +8751,6 @@ input UpsertCanvasInput {
     framePositions: String
 }
 
-type FrameGroup {
-    id:          ID!
-    frameId:     ID!
-    orgId:       ID!
-    name:        String!
-    description: String!
-    locationX:   Float!
-    locationY:   Float!
-    width:       Float!
-    height:      Float!
-    order:       Float!
-    isActive:    Boolean!
-    createdBy:   ID!
-    updatedBy:   ID
-    createdAt:   Time!
-    updatedAt:   Time!
-}
-
 input CreateFrameGroupInput {
     name:        String!
     description: String
@@ -8550,23 +8773,6 @@ input UpdateFrameGroupInput {
     isActive:    Boolean
 }
 
-type FrameLink {
-    id:            ID!
-    frameId:       ID!
-    orgId:         ID!
-    kind:          String!
-    targetFrameId: ID
-    targetMapId:   ID
-    label:         String!
-    locationX:     Float!
-    locationY:     Float!
-    isActive:      Boolean!
-    createdBy:     ID!
-    updatedBy:     ID
-    createdAt:     Time!
-    updatedAt:     Time!
-}
-
 input CreateFrameLinkInput {
     kind:          String!
     targetFrameId: ID
@@ -8587,22 +8793,6 @@ input UpdateFrameLinkInput {
     isActive:      Boolean
 }
 
-type FocalPointMeta {
-    id:                   ID!
-    focalPointId:         ID!
-    orgId:                ID!
-    frameId:              ID!
-    componentId:          String!
-    componentLinkId:      String
-    componentImages:      String!
-    componentFlowDiagram: String
-    componentModalFields: String!
-    createdBy:            ID!
-    updatedBy:            ID
-    createdAt:            Time!
-    updatedAt:            Time!
-}
-
 input CreateFocalPointMetaInput {
     componentId:          String!
     componentLinkId:      String
@@ -8618,185 +8808,6 @@ input UpdateFocalPointMetaInput {
     componentFlowDiagram: String
     componentModalFields: String
 }
-`, BuiltIn: false},
-	{Name: "../schema/directives.graphqls", Input: `# gqlgen's @goField directive. forceResolver makes a field resolved by a
-# generated resolver method instead of being auto-bound to a model field.
-directive @goField(
-    forceResolver: Boolean
-    name: String
-    omittable: Boolean
-) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
-`, BuiltIn: false},
-	{Name: "../schema/org.graphqls", Input: `extend type Query {
-    org(id: ID!):                                     Org!
-    orgs:                                             [Org!]!
-    members(orgId: ID!):                              [Member!]!
-    teams(orgId: ID!):                                [Team!]!
-    team(orgId: ID!, teamId: ID!):                    Team!
-    teamMembers(orgId: ID!, teamId: ID!):             [TeamMember!]!
-    invitations(orgId: ID!):                          [Invitation!]!
-    serviceAccounts(orgId: ID!):                      [ServiceAccount!]!
-    serviceAccount(orgId: ID!, id: ID!):              ServiceAccount!
-    serviceAccountTokens(orgId: ID!, saId: ID!):      [ServiceAccountToken!]!
-}
-
-extend type Mutation {
-    createOrg(input: CreateOrgInput!):                Org!
-    updateOrg(id: ID!, input: UpdateOrgInput!):       Org!
-    deleteOrg(id: ID!):                               Boolean!
-
-    addMember(orgId: ID!, input: AddMemberInput!):                       Member!
-    updateMemberRole(orgId: ID!, userId: ID!, role: String!):            Member!
-    removeMember(orgId: ID!, userId: ID!):                               Boolean!
-
-    createTeam(orgId: ID!, input: CreateTeamInput!):                     Team!
-    updateTeam(orgId: ID!, teamId: ID!, input: UpdateTeamInput!):        Team!
-    deleteTeam(orgId: ID!, teamId: ID!):                                 Boolean!
-    addTeamMember(orgId: ID!, teamId: ID!, userId: ID!, permission: String): Boolean!
-    removeTeamMember(orgId: ID!, teamId: ID!, userId: ID!):              Boolean!
-
-    createInvitation(orgId: ID!, input: CreateInvitationInput!):         Invitation!
-    revokeInvitation(orgId: ID!, invitationId: ID!):                     Boolean!
-
-    createServiceAccount(orgId: ID!, input: CreateServiceAccountInput!):         ServiceAccount!
-    updateServiceAccount(orgId: ID!, id: ID!, input: UpdateServiceAccountInput!): ServiceAccount!
-    deleteServiceAccount(orgId: ID!, id: ID!):                                    Boolean!
-    createServiceAccountToken(orgId: ID!, saId: ID!, input: CreateTokenInput!):  CreatedToken!
-    revokeServiceAccountToken(orgId: ID!, saId: ID!, tokenId: ID!):              Boolean!
-}
-
-# ── Types ─────────────────────────────────────────────────────────────────────
-
-type Org {
-    id:        ID!
-    name:      String!
-    slug:      String!
-    disabled:  Boolean!
-    createdAt: Time!
-    updatedAt: Time!
-}
-
-type Member {
-    userId:    ID!
-    orgId:     ID!
-    role:      String!
-    source:    String!
-    createdAt: Time!
-    updatedAt: Time!
-}
-
-type Team {
-    id:         ID!
-    orgId:      ID!
-    name:       String!
-    email:      String
-    externalId: String
-    createdAt:  Time!
-    updatedAt:  Time!
-}
-
-type TeamMember {
-    teamId:     ID!
-    userId:     ID!
-    permission: String!
-    createdAt:  Time!
-}
-
-type Invitation {
-    id:        ID!
-    orgId:     ID!
-    email:     String!
-    role:      String!
-    code:      String!
-    createdBy: ID!
-    createdAt: Time!
-    expiresAt: Time
-}
-
-type ServiceAccount {
-    id:          ID!
-    orgId:       ID!
-    name:        String!
-    description: String!
-    role:        String!
-    disabled:    Boolean!
-    createdAt:   Time!
-    updatedAt:   Time!
-}
-
-type ServiceAccountToken {
-    id:               ID!
-    serviceAccountId: ID!
-    name:             String!
-    prefix:           String!
-    expiresAt:        Time
-    lastUsedAt:       Time
-    revoked:          Boolean!
-    createdAt:        Time!
-}
-
-type CreatedToken {
-    id:               ID!
-    serviceAccountId: ID!
-    name:             String!
-    prefix:           String!
-    token:            String!
-    createdAt:        Time!
-}
-
-# ── Inputs ────────────────────────────────────────────────────────────────────
-
-input CreateOrgInput {
-    name: String!
-    slug: String
-}
-
-input UpdateOrgInput {
-    name:     String
-    disabled: Boolean
-}
-
-input AddMemberInput {
-    userId: ID!
-    role:   String!
-}
-
-input CreateTeamInput {
-    name:  String!
-    email: String
-}
-
-input UpdateTeamInput {
-    name:  String
-    email: String
-}
-
-input CreateInvitationInput {
-    email: String!
-    role:  String!
-}
-
-input CreateServiceAccountInput {
-    name:        String!
-    description: String
-    role:        String!
-}
-
-input UpdateServiceAccountInput {
-    name:        String
-    description: String
-    disabled:    Boolean
-}
-
-input CreateTokenInput {
-    name:      String!
-    expiresAt: String
-}
-`, BuiltIn: false},
-	{Name: "../schema/schema.graphqls", Input: `scalar Time
-
-type Query
-type Mutation
 `, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
@@ -34431,6 +34442,1833 @@ func (ec *executionContext) fieldContext_Mutation_deleteAPIEndpoint(ctx context.
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createDiagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createDiagram(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateDiagram(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateDiagramInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Diagram)
+	fc.Result = res
+	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Diagram_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Diagram_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Diagram_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Diagram_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_Diagram_name(ctx, field)
+			case "contentKey":
+				return ec.fieldContext_Diagram_contentKey(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "source":
+				return ec.fieldContext_Diagram_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Diagram_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Diagram_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Diagram_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createDiagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateDiagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateDiagram(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateDiagram(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateDiagramInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Diagram)
+	fc.Result = res
+	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Diagram_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Diagram_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Diagram_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Diagram_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_Diagram_name(ctx, field)
+			case "contentKey":
+				return ec.fieldContext_Diagram_contentKey(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "source":
+				return ec.fieldContext_Diagram_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Diagram_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Diagram_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Diagram_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateDiagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteDiagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteDiagram(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteDiagram(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteDiagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_syncDiagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_syncDiagram(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SyncDiagram(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.SyncDiagramInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.SyncDiagramResult)
+	fc.Result = res
+	return ec.marshalNSyncDiagramResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncDiagramResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_syncDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "diagramId":
+				return ec.fieldContext_SyncDiagramResult_diagramId(ctx, field)
+			case "versionCreated":
+				return ec.fieldContext_SyncDiagramResult_versionCreated(ctx, field)
+			case "versionId":
+				return ec.fieldContext_SyncDiagramResult_versionId(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SyncDiagramResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_syncDiagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createDiagramVersion(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createDiagramVersion(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateDiagramVersion(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string), fc.Args["label"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.DiagramVersion)
+	fc.Result = res
+	return ec.marshalNDiagramVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersion(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createDiagramVersion(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_DiagramVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_DiagramVersion_orgId(ctx, field)
+			case "diagramId":
+				return ec.fieldContext_DiagramVersion_diagramId(ctx, field)
+			case "versionNumber":
+				return ec.fieldContext_DiagramVersion_versionNumber(ctx, field)
+			case "label":
+				return ec.fieldContext_DiagramVersion_label(ctx, field)
+			case "contentKey":
+				return ec.fieldContext_DiagramVersion_contentKey(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_DiagramVersion_contentHash(ctx, field)
+			case "isAutoVersion":
+				return ec.fieldContext_DiagramVersion_isAutoVersion(ctx, field)
+			case "source":
+				return ec.fieldContext_DiagramVersion_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_DiagramVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_DiagramVersion_createdByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_DiagramVersion_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DiagramVersion", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createDiagramVersion_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_restoreDiagramVersion(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_restoreDiagramVersion(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RestoreDiagramVersion(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string), fc.Args["versionId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Diagram)
+	fc.Result = res
+	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Diagram_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Diagram_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Diagram_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Diagram_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_Diagram_name(ctx, field)
+			case "contentKey":
+				return ec.fieldContext_Diagram_contentKey(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "source":
+				return ec.fieldContext_Diagram_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Diagram_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Diagram_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Diagram_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_restoreDiagramVersion_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createFolder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createFolder(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateFolder(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateFolderInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Folder)
+	fc.Result = res
+	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Folder_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Folder_orgId(ctx, field)
+			case "parentId":
+				return ec.fieldContext_Folder_parentId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Folder_teamId(ctx, field)
+			case "type":
+				return ec.fieldContext_Folder_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Folder_name(ctx, field)
+			case "order":
+				return ec.fieldContext_Folder_order(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Folder_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Folder_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Folder_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Folder", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createFolder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateFolder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateFolder(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateFolder(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateFolderInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Folder)
+	fc.Result = res
+	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Folder_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Folder_orgId(ctx, field)
+			case "parentId":
+				return ec.fieldContext_Folder_parentId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Folder_teamId(ctx, field)
+			case "type":
+				return ec.fieldContext_Folder_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Folder_name(ctx, field)
+			case "order":
+				return ec.fieldContext_Folder_order(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Folder_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Folder_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Folder_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Folder", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateFolder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteFolder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteFolder(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteFolder(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteFolder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createOrg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createOrg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateOrg(rctx, fc.Args["input"].(model.CreateOrgInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Org)
+	fc.Result = res
+	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Org_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Org_name(ctx, field)
+			case "slug":
+				return ec.fieldContext_Org_slug(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Org_disabled(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Org_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Org_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateOrg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateOrg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateOrg(rctx, fc.Args["id"].(string), fc.Args["input"].(model.UpdateOrgInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Org)
+	fc.Result = res
+	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Org_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Org_name(ctx, field)
+			case "slug":
+				return ec.fieldContext_Org_slug(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Org_disabled(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Org_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Org_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteOrg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteOrg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteOrg(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_addMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_addMember(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().AddMember(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.AddMemberInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Member)
+	fc.Result = res
+	return ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_addMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "userId":
+				return ec.fieldContext_Member_userId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Member_orgId(ctx, field)
+			case "role":
+				return ec.fieldContext_Member_role(ctx, field)
+			case "source":
+				return ec.fieldContext_Member_source(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Member_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Member_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Member", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_addMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateMemberRole(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateMemberRole(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMemberRole(rctx, fc.Args["orgId"].(string), fc.Args["userId"].(string), fc.Args["role"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Member)
+	fc.Result = res
+	return ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateMemberRole(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "userId":
+				return ec.fieldContext_Member_userId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Member_orgId(ctx, field)
+			case "role":
+				return ec.fieldContext_Member_role(ctx, field)
+			case "source":
+				return ec.fieldContext_Member_source(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Member_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Member_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Member", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateMemberRole_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_removeMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_removeMember(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveMember(rctx, fc.Args["orgId"].(string), fc.Args["userId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_removeMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_removeMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createTeam(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createTeam(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateTeam(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateTeamInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Team)
+	fc.Result = res
+	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createTeam(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Team_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Team_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_Team_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Team_email(ctx, field)
+			case "externalId":
+				return ec.fieldContext_Team_externalId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Team_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Team_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Team", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createTeam_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateTeam(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateTeam(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateTeam(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string), fc.Args["input"].(model.UpdateTeamInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Team)
+	fc.Result = res
+	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateTeam(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Team_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Team_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_Team_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Team_email(ctx, field)
+			case "externalId":
+				return ec.fieldContext_Team_externalId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Team_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Team_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Team", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateTeam_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteTeam(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteTeam(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteTeam(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteTeam(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteTeam_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_addTeamMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_addTeamMember(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().AddTeamMember(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string), fc.Args["userId"].(string), fc.Args["permission"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_addTeamMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_addTeamMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_removeTeamMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_removeTeamMember(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveTeamMember(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string), fc.Args["userId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_removeTeamMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_removeTeamMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createInvitation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createInvitation(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateInvitation(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateInvitationInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Invitation)
+	fc.Result = res
+	return ec.marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createInvitation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Invitation_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Invitation_orgId(ctx, field)
+			case "email":
+				return ec.fieldContext_Invitation_email(ctx, field)
+			case "role":
+				return ec.fieldContext_Invitation_role(ctx, field)
+			case "code":
+				return ec.fieldContext_Invitation_code(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Invitation_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Invitation_createdAt(ctx, field)
+			case "expiresAt":
+				return ec.fieldContext_Invitation_expiresAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Invitation", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createInvitation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_revokeInvitation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_revokeInvitation(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RevokeInvitation(rctx, fc.Args["orgId"].(string), fc.Args["invitationId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_revokeInvitation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_revokeInvitation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createServiceAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createServiceAccount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateServiceAccount(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateServiceAccountInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ServiceAccount)
+	fc.Result = res
+	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createServiceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ServiceAccount_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_ServiceAccount_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_ServiceAccount_name(ctx, field)
+			case "description":
+				return ec.fieldContext_ServiceAccount_description(ctx, field)
+			case "role":
+				return ec.fieldContext_ServiceAccount_role(ctx, field)
+			case "disabled":
+				return ec.fieldContext_ServiceAccount_disabled(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ServiceAccount_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ServiceAccount_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServiceAccount", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createServiceAccount_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateServiceAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateServiceAccount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateServiceAccount(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateServiceAccountInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ServiceAccount)
+	fc.Result = res
+	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateServiceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ServiceAccount_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_ServiceAccount_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_ServiceAccount_name(ctx, field)
+			case "description":
+				return ec.fieldContext_ServiceAccount_description(ctx, field)
+			case "role":
+				return ec.fieldContext_ServiceAccount_role(ctx, field)
+			case "disabled":
+				return ec.fieldContext_ServiceAccount_disabled(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ServiceAccount_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ServiceAccount_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServiceAccount", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateServiceAccount_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteServiceAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteServiceAccount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteServiceAccount(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteServiceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteServiceAccount_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createServiceAccountToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createServiceAccountToken(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateServiceAccountToken(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string), fc.Args["input"].(model.CreateTokenInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CreatedToken)
+	fc.Result = res
+	return ec.marshalNCreatedToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreatedToken(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createServiceAccountToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_CreatedToken_id(ctx, field)
+			case "serviceAccountId":
+				return ec.fieldContext_CreatedToken_serviceAccountId(ctx, field)
+			case "name":
+				return ec.fieldContext_CreatedToken_name(ctx, field)
+			case "prefix":
+				return ec.fieldContext_CreatedToken_prefix(ctx, field)
+			case "token":
+				return ec.fieldContext_CreatedToken_token(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_CreatedToken_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CreatedToken", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createServiceAccountToken_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_revokeServiceAccountToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_revokeServiceAccountToken(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RevokeServiceAccountToken(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string), fc.Args["tokenId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_revokeServiceAccountToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_revokeServiceAccountToken_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createTestPack(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createTestPack(ctx, field)
 	if err != nil {
@@ -35267,687 +37105,6 @@ func (ec *executionContext) fieldContext_Mutation_updateTestRunResult(ctx contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_updateTestRunResult_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createFolder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createFolder(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateFolder(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateFolderInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Folder)
-	fc.Result = res
-	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Folder_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Folder_orgId(ctx, field)
-			case "parentId":
-				return ec.fieldContext_Folder_parentId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Folder_teamId(ctx, field)
-			case "type":
-				return ec.fieldContext_Folder_type(ctx, field)
-			case "name":
-				return ec.fieldContext_Folder_name(ctx, field)
-			case "order":
-				return ec.fieldContext_Folder_order(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Folder_createdBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Folder_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Folder_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Folder", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createFolder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateFolder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateFolder(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateFolder(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateFolderInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Folder)
-	fc.Result = res
-	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Folder_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Folder_orgId(ctx, field)
-			case "parentId":
-				return ec.fieldContext_Folder_parentId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Folder_teamId(ctx, field)
-			case "type":
-				return ec.fieldContext_Folder_type(ctx, field)
-			case "name":
-				return ec.fieldContext_Folder_name(ctx, field)
-			case "order":
-				return ec.fieldContext_Folder_order(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Folder_createdBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Folder_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Folder_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Folder", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateFolder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_deleteFolder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteFolder(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteFolder(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_deleteFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_deleteFolder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createDiagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createDiagram(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDiagram(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateDiagramInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Diagram)
-	fc.Result = res
-	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Diagram_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Diagram_orgId(ctx, field)
-			case "folderId":
-				return ec.fieldContext_Diagram_folderId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Diagram_teamId(ctx, field)
-			case "name":
-				return ec.fieldContext_Diagram_name(ctx, field)
-			case "contentKey":
-				return ec.fieldContext_Diagram_contentKey(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewAssetId":
-				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
-			case "previewContentHash":
-				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
-			case "source":
-				return ec.fieldContext_Diagram_source(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Diagram_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_Diagram_updatedBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_Diagram_createdByActor(ctx, field)
-			case "updatedByActor":
-				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Diagram_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Diagram_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createDiagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateDiagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateDiagram(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateDiagram(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateDiagramInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Diagram)
-	fc.Result = res
-	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Diagram_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Diagram_orgId(ctx, field)
-			case "folderId":
-				return ec.fieldContext_Diagram_folderId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Diagram_teamId(ctx, field)
-			case "name":
-				return ec.fieldContext_Diagram_name(ctx, field)
-			case "contentKey":
-				return ec.fieldContext_Diagram_contentKey(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewAssetId":
-				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
-			case "previewContentHash":
-				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
-			case "source":
-				return ec.fieldContext_Diagram_source(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Diagram_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_Diagram_updatedBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_Diagram_createdByActor(ctx, field)
-			case "updatedByActor":
-				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Diagram_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Diagram_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateDiagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_deleteDiagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteDiagram(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteDiagram(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_deleteDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_deleteDiagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_syncDiagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_syncDiagram(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().SyncDiagram(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.SyncDiagramInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.SyncDiagramResult)
-	fc.Result = res
-	return ec.marshalNSyncDiagramResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncDiagramResult(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_syncDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "diagramId":
-				return ec.fieldContext_SyncDiagramResult_diagramId(ctx, field)
-			case "versionCreated":
-				return ec.fieldContext_SyncDiagramResult_versionCreated(ctx, field)
-			case "versionId":
-				return ec.fieldContext_SyncDiagramResult_versionId(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type SyncDiagramResult", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_syncDiagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createDiagramVersion(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createDiagramVersion(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDiagramVersion(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string), fc.Args["label"].(*string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.DiagramVersion)
-	fc.Result = res
-	return ec.marshalNDiagramVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersion(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createDiagramVersion(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_DiagramVersion_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_DiagramVersion_orgId(ctx, field)
-			case "diagramId":
-				return ec.fieldContext_DiagramVersion_diagramId(ctx, field)
-			case "versionNumber":
-				return ec.fieldContext_DiagramVersion_versionNumber(ctx, field)
-			case "label":
-				return ec.fieldContext_DiagramVersion_label(ctx, field)
-			case "contentKey":
-				return ec.fieldContext_DiagramVersion_contentKey(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_DiagramVersion_contentHash(ctx, field)
-			case "isAutoVersion":
-				return ec.fieldContext_DiagramVersion_isAutoVersion(ctx, field)
-			case "source":
-				return ec.fieldContext_DiagramVersion_source(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_DiagramVersion_createdBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_DiagramVersion_createdByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_DiagramVersion_createdAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type DiagramVersion", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createDiagramVersion_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_restoreDiagramVersion(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_restoreDiagramVersion(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RestoreDiagramVersion(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string), fc.Args["versionId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Diagram)
-	fc.Result = res
-	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Diagram_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Diagram_orgId(ctx, field)
-			case "folderId":
-				return ec.fieldContext_Diagram_folderId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Diagram_teamId(ctx, field)
-			case "name":
-				return ec.fieldContext_Diagram_name(ctx, field)
-			case "contentKey":
-				return ec.fieldContext_Diagram_contentKey(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewAssetId":
-				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
-			case "previewContentHash":
-				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
-			case "source":
-				return ec.fieldContext_Diagram_source(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Diagram_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_Diagram_updatedBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_Diagram_createdByActor(ctx, field)
-			case "updatedByActor":
-				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Diagram_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Diagram_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_restoreDiagramVersion_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -37430,1152 +38587,6 @@ func (ec *executionContext) fieldContext_Mutation_deleteFocalPointMeta(ctx conte
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteFocalPointMeta_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createOrg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createOrg(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateOrg(rctx, fc.Args["input"].(model.CreateOrgInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Org)
-	fc.Result = res
-	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Org_id(ctx, field)
-			case "name":
-				return ec.fieldContext_Org_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_Org_slug(ctx, field)
-			case "disabled":
-				return ec.fieldContext_Org_disabled(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Org_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Org_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateOrg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateOrg(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateOrg(rctx, fc.Args["id"].(string), fc.Args["input"].(model.UpdateOrgInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Org)
-	fc.Result = res
-	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Org_id(ctx, field)
-			case "name":
-				return ec.fieldContext_Org_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_Org_slug(ctx, field)
-			case "disabled":
-				return ec.fieldContext_Org_disabled(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Org_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Org_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_deleteOrg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteOrg(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteOrg(rctx, fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_deleteOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_deleteOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_addMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_addMember(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().AddMember(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.AddMemberInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Member)
-	fc.Result = res
-	return ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_addMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "userId":
-				return ec.fieldContext_Member_userId(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Member_orgId(ctx, field)
-			case "role":
-				return ec.fieldContext_Member_role(ctx, field)
-			case "source":
-				return ec.fieldContext_Member_source(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Member_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Member_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Member", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_addMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateMemberRole(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateMemberRole(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateMemberRole(rctx, fc.Args["orgId"].(string), fc.Args["userId"].(string), fc.Args["role"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Member)
-	fc.Result = res
-	return ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateMemberRole(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "userId":
-				return ec.fieldContext_Member_userId(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Member_orgId(ctx, field)
-			case "role":
-				return ec.fieldContext_Member_role(ctx, field)
-			case "source":
-				return ec.fieldContext_Member_source(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Member_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Member_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Member", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateMemberRole_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_removeMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_removeMember(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RemoveMember(rctx, fc.Args["orgId"].(string), fc.Args["userId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_removeMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_removeMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createTeam(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createTeam(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateTeam(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateTeamInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Team)
-	fc.Result = res
-	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createTeam(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Team_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Team_orgId(ctx, field)
-			case "name":
-				return ec.fieldContext_Team_name(ctx, field)
-			case "email":
-				return ec.fieldContext_Team_email(ctx, field)
-			case "externalId":
-				return ec.fieldContext_Team_externalId(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Team_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Team_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Team", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createTeam_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateTeam(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateTeam(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateTeam(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string), fc.Args["input"].(model.UpdateTeamInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Team)
-	fc.Result = res
-	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateTeam(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Team_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Team_orgId(ctx, field)
-			case "name":
-				return ec.fieldContext_Team_name(ctx, field)
-			case "email":
-				return ec.fieldContext_Team_email(ctx, field)
-			case "externalId":
-				return ec.fieldContext_Team_externalId(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Team_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Team_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Team", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateTeam_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_deleteTeam(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteTeam(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteTeam(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_deleteTeam(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_deleteTeam_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_addTeamMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_addTeamMember(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().AddTeamMember(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string), fc.Args["userId"].(string), fc.Args["permission"].(*string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_addTeamMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_addTeamMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_removeTeamMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_removeTeamMember(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RemoveTeamMember(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string), fc.Args["userId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_removeTeamMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_removeTeamMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createInvitation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createInvitation(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateInvitation(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateInvitationInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Invitation)
-	fc.Result = res
-	return ec.marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createInvitation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Invitation_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Invitation_orgId(ctx, field)
-			case "email":
-				return ec.fieldContext_Invitation_email(ctx, field)
-			case "role":
-				return ec.fieldContext_Invitation_role(ctx, field)
-			case "code":
-				return ec.fieldContext_Invitation_code(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Invitation_createdBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Invitation_createdAt(ctx, field)
-			case "expiresAt":
-				return ec.fieldContext_Invitation_expiresAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Invitation", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createInvitation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_revokeInvitation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_revokeInvitation(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RevokeInvitation(rctx, fc.Args["orgId"].(string), fc.Args["invitationId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_revokeInvitation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_revokeInvitation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createServiceAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createServiceAccount(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateServiceAccount(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateServiceAccountInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.ServiceAccount)
-	fc.Result = res
-	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createServiceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_ServiceAccount_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_ServiceAccount_orgId(ctx, field)
-			case "name":
-				return ec.fieldContext_ServiceAccount_name(ctx, field)
-			case "description":
-				return ec.fieldContext_ServiceAccount_description(ctx, field)
-			case "role":
-				return ec.fieldContext_ServiceAccount_role(ctx, field)
-			case "disabled":
-				return ec.fieldContext_ServiceAccount_disabled(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_ServiceAccount_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_ServiceAccount_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type ServiceAccount", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createServiceAccount_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateServiceAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateServiceAccount(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateServiceAccount(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateServiceAccountInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.ServiceAccount)
-	fc.Result = res
-	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateServiceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_ServiceAccount_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_ServiceAccount_orgId(ctx, field)
-			case "name":
-				return ec.fieldContext_ServiceAccount_name(ctx, field)
-			case "description":
-				return ec.fieldContext_ServiceAccount_description(ctx, field)
-			case "role":
-				return ec.fieldContext_ServiceAccount_role(ctx, field)
-			case "disabled":
-				return ec.fieldContext_ServiceAccount_disabled(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_ServiceAccount_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_ServiceAccount_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type ServiceAccount", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateServiceAccount_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_deleteServiceAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_deleteServiceAccount(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteServiceAccount(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_deleteServiceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_deleteServiceAccount_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createServiceAccountToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createServiceAccountToken(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateServiceAccountToken(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string), fc.Args["input"].(model.CreateTokenInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.CreatedToken)
-	fc.Result = res
-	return ec.marshalNCreatedToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreatedToken(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createServiceAccountToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_CreatedToken_id(ctx, field)
-			case "serviceAccountId":
-				return ec.fieldContext_CreatedToken_serviceAccountId(ctx, field)
-			case "name":
-				return ec.fieldContext_CreatedToken_name(ctx, field)
-			case "prefix":
-				return ec.fieldContext_CreatedToken_prefix(ctx, field)
-			case "token":
-				return ec.fieldContext_CreatedToken_token(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_CreatedToken_createdAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type CreatedToken", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createServiceAccountToken_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_revokeServiceAccountToken(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_revokeServiceAccountToken(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RevokeServiceAccountToken(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string), fc.Args["tokenId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_revokeServiceAccountToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_revokeServiceAccountToken_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -41613,6 +41624,1437 @@ func (ec *executionContext) fieldContext_Query_serviceStats(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_flowDiagramComponents(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_flowDiagramComponents(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FlowDiagramComponents(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FlowDiagramComponents)
+	fc.Result = res
+	return ec.marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponents(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_flowDiagramComponents(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "components":
+				return ec.fieldContext_FlowDiagramComponents_components(ctx, field)
+			case "customComponents":
+				return ec.fieldContext_FlowDiagramComponents_customComponents(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponents", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_flowDiagramComponents_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_components(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_components(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Components(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Components)
+	fc.Result = res
+	return ec.marshalNComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponents(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_components(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "components":
+				return ec.fieldContext_Components_components(ctx, field)
+			case "customComponents":
+				return ec.fieldContext_Components_customComponents(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Components", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_components_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_diagrams(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_diagrams(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Diagrams(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Diagram)
+	fc.Result = res
+	return ec.marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Diagram_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Diagram_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Diagram_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Diagram_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_Diagram_name(ctx, field)
+			case "contentKey":
+				return ec.fieldContext_Diagram_contentKey(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "source":
+				return ec.fieldContext_Diagram_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Diagram_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Diagram_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Diagram_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_diagrams_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_diagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_diagram(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Diagram(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Diagram)
+	fc.Result = res
+	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Diagram_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Diagram_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Diagram_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Diagram_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_Diagram_name(ctx, field)
+			case "contentKey":
+				return ec.fieldContext_Diagram_contentKey(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "source":
+				return ec.fieldContext_Diagram_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Diagram_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Diagram_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Diagram_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_diagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_diagramContent(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_diagramContent(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().DiagramContent(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.DiagramContent)
+	fc.Result = res
+	return ec.marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramContent(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_diagramContent(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "diagramId":
+				return ec.fieldContext_DiagramContent_diagramId(ctx, field)
+			case "content":
+				return ec.fieldContext_DiagramContent_content(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DiagramContent", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_diagramContent_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_diagramVersions(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_diagramVersions(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().DiagramVersions(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.DiagramVersion)
+	fc.Result = res
+	return ec.marshalNDiagramVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersionᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_diagramVersions(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_DiagramVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_DiagramVersion_orgId(ctx, field)
+			case "diagramId":
+				return ec.fieldContext_DiagramVersion_diagramId(ctx, field)
+			case "versionNumber":
+				return ec.fieldContext_DiagramVersion_versionNumber(ctx, field)
+			case "label":
+				return ec.fieldContext_DiagramVersion_label(ctx, field)
+			case "contentKey":
+				return ec.fieldContext_DiagramVersion_contentKey(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_DiagramVersion_contentHash(ctx, field)
+			case "isAutoVersion":
+				return ec.fieldContext_DiagramVersion_isAutoVersion(ctx, field)
+			case "source":
+				return ec.fieldContext_DiagramVersion_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_DiagramVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_DiagramVersion_createdByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_DiagramVersion_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DiagramVersion", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_diagramVersions_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_diagramVersionContent(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_diagramVersionContent(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().DiagramVersionContent(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string), fc.Args["versionId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.DiagramContent)
+	fc.Result = res
+	return ec.marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramContent(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_diagramVersionContent(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "diagramId":
+				return ec.fieldContext_DiagramContent_diagramId(ctx, field)
+			case "content":
+				return ec.fieldContext_DiagramContent_content(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DiagramContent", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_diagramVersionContent_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_diagramImages(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_diagramImages(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().DiagramImages(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.DiagramImage)
+	fc.Result = res
+	return ec.marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramImageᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_diagramImages(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "diagramImageId":
+				return ec.fieldContext_DiagramImage_diagramImageId(ctx, field)
+			case "diagramId":
+				return ec.fieldContext_DiagramImage_diagramId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_DiagramImage_orgId(ctx, field)
+			case "assetId":
+				return ec.fieldContext_DiagramImage_assetId(ctx, field)
+			case "imageUrl":
+				return ec.fieldContext_DiagramImage_imageUrl(ctx, field)
+			case "fileName":
+				return ec.fieldContext_DiagramImage_fileName(ctx, field)
+			case "order":
+				return ec.fieldContext_DiagramImage_order(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_DiagramImage_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_DiagramImage_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DiagramImage", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_diagramImages_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_folders(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_folders(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Folders(rctx, fc.Args["orgId"].(string), fc.Args["type"].(*string), fc.Args["parentId"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Folder)
+	fc.Result = res
+	return ec.marshalNFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolderᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_folders(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Folder_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Folder_orgId(ctx, field)
+			case "parentId":
+				return ec.fieldContext_Folder_parentId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Folder_teamId(ctx, field)
+			case "type":
+				return ec.fieldContext_Folder_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Folder_name(ctx, field)
+			case "order":
+				return ec.fieldContext_Folder_order(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Folder_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Folder_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Folder_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Folder", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_folders_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_folder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_folder(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Folder(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Folder)
+	fc.Result = res
+	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_folder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Folder_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Folder_orgId(ctx, field)
+			case "parentId":
+				return ec.fieldContext_Folder_parentId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Folder_teamId(ctx, field)
+			case "type":
+				return ec.fieldContext_Folder_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Folder_name(ctx, field)
+			case "order":
+				return ec.fieldContext_Folder_order(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Folder_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Folder_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Folder_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Folder", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_folder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_org(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_org(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Org(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Org)
+	fc.Result = res
+	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_org(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Org_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Org_name(ctx, field)
+			case "slug":
+				return ec.fieldContext_Org_slug(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Org_disabled(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Org_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Org_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_org_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_orgs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_orgs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Orgs(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Org)
+	fc.Result = res
+	return ec.marshalNOrg2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrgᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_orgs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Org_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Org_name(ctx, field)
+			case "slug":
+				return ec.fieldContext_Org_slug(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Org_disabled(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Org_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Org_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_members(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_members(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Members(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Member)
+	fc.Result = res
+	return ec.marshalNMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMemberᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_members(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "userId":
+				return ec.fieldContext_Member_userId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Member_orgId(ctx, field)
+			case "role":
+				return ec.fieldContext_Member_role(ctx, field)
+			case "source":
+				return ec.fieldContext_Member_source(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Member_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Member_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Member", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_members_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_teams(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_teams(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Teams(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Team)
+	fc.Result = res
+	return ec.marshalNTeam2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_teams(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Team_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Team_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_Team_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Team_email(ctx, field)
+			case "externalId":
+				return ec.fieldContext_Team_externalId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Team_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Team_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Team", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_teams_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_team(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_team(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Team(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Team)
+	fc.Result = res
+	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_team(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Team_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Team_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_Team_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Team_email(ctx, field)
+			case "externalId":
+				return ec.fieldContext_Team_externalId(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Team_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Team_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Team", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_team_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_teamMembers(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_teamMembers(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().TeamMembers(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.TeamMember)
+	fc.Result = res
+	return ec.marshalNTeamMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamMemberᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_teamMembers(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "teamId":
+				return ec.fieldContext_TeamMember_teamId(ctx, field)
+			case "userId":
+				return ec.fieldContext_TeamMember_userId(ctx, field)
+			case "permission":
+				return ec.fieldContext_TeamMember_permission(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_TeamMember_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type TeamMember", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_teamMembers_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_invitations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_invitations(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Invitations(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Invitation)
+	fc.Result = res
+	return ec.marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitationᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_invitations(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Invitation_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Invitation_orgId(ctx, field)
+			case "email":
+				return ec.fieldContext_Invitation_email(ctx, field)
+			case "role":
+				return ec.fieldContext_Invitation_role(ctx, field)
+			case "code":
+				return ec.fieldContext_Invitation_code(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Invitation_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Invitation_createdAt(ctx, field)
+			case "expiresAt":
+				return ec.fieldContext_Invitation_expiresAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Invitation", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_invitations_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_serviceAccounts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serviceAccounts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServiceAccounts(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.ServiceAccount)
+	fc.Result = res
+	return ec.marshalNServiceAccount2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serviceAccounts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ServiceAccount_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_ServiceAccount_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_ServiceAccount_name(ctx, field)
+			case "description":
+				return ec.fieldContext_ServiceAccount_description(ctx, field)
+			case "role":
+				return ec.fieldContext_ServiceAccount_role(ctx, field)
+			case "disabled":
+				return ec.fieldContext_ServiceAccount_disabled(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ServiceAccount_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ServiceAccount_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServiceAccount", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_serviceAccounts_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_serviceAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serviceAccount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServiceAccount(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ServiceAccount)
+	fc.Result = res
+	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serviceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ServiceAccount_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_ServiceAccount_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_ServiceAccount_name(ctx, field)
+			case "description":
+				return ec.fieldContext_ServiceAccount_description(ctx, field)
+			case "role":
+				return ec.fieldContext_ServiceAccount_role(ctx, field)
+			case "disabled":
+				return ec.fieldContext_ServiceAccount_disabled(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ServiceAccount_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ServiceAccount_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServiceAccount", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_serviceAccount_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_serviceAccountTokens(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serviceAccountTokens(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServiceAccountTokens(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.ServiceAccountToken)
+	fc.Result = res
+	return ec.marshalNServiceAccountToken2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountTokenᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serviceAccountTokens(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ServiceAccountToken_id(ctx, field)
+			case "serviceAccountId":
+				return ec.fieldContext_ServiceAccountToken_serviceAccountId(ctx, field)
+			case "name":
+				return ec.fieldContext_ServiceAccountToken_name(ctx, field)
+			case "prefix":
+				return ec.fieldContext_ServiceAccountToken_prefix(ctx, field)
+			case "expiresAt":
+				return ec.fieldContext_ServiceAccountToken_expiresAt(ctx, field)
+			case "lastUsedAt":
+				return ec.fieldContext_ServiceAccountToken_lastUsedAt(ctx, field)
+			case "revoked":
+				return ec.fieldContext_ServiceAccountToken_revoked(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ServiceAccountToken_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServiceAccountToken", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_serviceAccountTokens_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_testPacks(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_testPacks(ctx, field)
 	if err != nil {
@@ -42145,742 +43587,6 @@ func (ec *executionContext) fieldContext_Query_testRunResults(ctx context.Contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_testRunResults_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_folders(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_folders(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Folders(rctx, fc.Args["orgId"].(string), fc.Args["type"].(*string), fc.Args["parentId"].(*string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Folder)
-	fc.Result = res
-	return ec.marshalNFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolderᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_folders(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Folder_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Folder_orgId(ctx, field)
-			case "parentId":
-				return ec.fieldContext_Folder_parentId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Folder_teamId(ctx, field)
-			case "type":
-				return ec.fieldContext_Folder_type(ctx, field)
-			case "name":
-				return ec.fieldContext_Folder_name(ctx, field)
-			case "order":
-				return ec.fieldContext_Folder_order(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Folder_createdBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Folder_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Folder_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Folder", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_folders_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_folder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_folder(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Folder(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Folder)
-	fc.Result = res
-	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_folder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Folder_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Folder_orgId(ctx, field)
-			case "parentId":
-				return ec.fieldContext_Folder_parentId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Folder_teamId(ctx, field)
-			case "type":
-				return ec.fieldContext_Folder_type(ctx, field)
-			case "name":
-				return ec.fieldContext_Folder_name(ctx, field)
-			case "order":
-				return ec.fieldContext_Folder_order(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Folder_createdBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Folder_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Folder_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Folder", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_folder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_diagrams(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_diagrams(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Diagrams(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Diagram)
-	fc.Result = res
-	return ec.marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Diagram_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Diagram_orgId(ctx, field)
-			case "folderId":
-				return ec.fieldContext_Diagram_folderId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Diagram_teamId(ctx, field)
-			case "name":
-				return ec.fieldContext_Diagram_name(ctx, field)
-			case "contentKey":
-				return ec.fieldContext_Diagram_contentKey(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewAssetId":
-				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
-			case "previewContentHash":
-				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
-			case "source":
-				return ec.fieldContext_Diagram_source(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Diagram_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_Diagram_updatedBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_Diagram_createdByActor(ctx, field)
-			case "updatedByActor":
-				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Diagram_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Diagram_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_diagrams_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_diagram(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_diagram(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Diagram(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Diagram)
-	fc.Result = res
-	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Diagram_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Diagram_orgId(ctx, field)
-			case "folderId":
-				return ec.fieldContext_Diagram_folderId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Diagram_teamId(ctx, field)
-			case "name":
-				return ec.fieldContext_Diagram_name(ctx, field)
-			case "contentKey":
-				return ec.fieldContext_Diagram_contentKey(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewAssetId":
-				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
-			case "previewContentHash":
-				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
-			case "source":
-				return ec.fieldContext_Diagram_source(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Diagram_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_Diagram_updatedBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_Diagram_createdByActor(ctx, field)
-			case "updatedByActor":
-				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Diagram_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Diagram_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_diagram_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_diagramContent(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_diagramContent(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DiagramContent(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.DiagramContent)
-	fc.Result = res
-	return ec.marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramContent(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_diagramContent(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "diagramId":
-				return ec.fieldContext_DiagramContent_diagramId(ctx, field)
-			case "content":
-				return ec.fieldContext_DiagramContent_content(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type DiagramContent", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_diagramContent_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_diagramVersions(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_diagramVersions(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DiagramVersions(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.DiagramVersion)
-	fc.Result = res
-	return ec.marshalNDiagramVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersionᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_diagramVersions(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_DiagramVersion_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_DiagramVersion_orgId(ctx, field)
-			case "diagramId":
-				return ec.fieldContext_DiagramVersion_diagramId(ctx, field)
-			case "versionNumber":
-				return ec.fieldContext_DiagramVersion_versionNumber(ctx, field)
-			case "label":
-				return ec.fieldContext_DiagramVersion_label(ctx, field)
-			case "contentKey":
-				return ec.fieldContext_DiagramVersion_contentKey(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_DiagramVersion_contentHash(ctx, field)
-			case "isAutoVersion":
-				return ec.fieldContext_DiagramVersion_isAutoVersion(ctx, field)
-			case "source":
-				return ec.fieldContext_DiagramVersion_source(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_DiagramVersion_createdBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_DiagramVersion_createdByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_DiagramVersion_createdAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type DiagramVersion", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_diagramVersions_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_diagramVersionContent(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_diagramVersionContent(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DiagramVersionContent(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string), fc.Args["versionId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.DiagramContent)
-	fc.Result = res
-	return ec.marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramContent(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_diagramVersionContent(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "diagramId":
-				return ec.fieldContext_DiagramContent_diagramId(ctx, field)
-			case "content":
-				return ec.fieldContext_DiagramContent_content(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type DiagramContent", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_diagramVersionContent_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_flowDiagramComponents(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_flowDiagramComponents(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().FlowDiagramComponents(rctx, fc.Args["orgId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.FlowDiagramComponents)
-	fc.Result = res
-	return ec.marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponents(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_flowDiagramComponents(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "components":
-				return ec.fieldContext_FlowDiagramComponents_components(ctx, field)
-			case "customComponents":
-				return ec.fieldContext_FlowDiagramComponents_customComponents(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type FlowDiagramComponents", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_flowDiagramComponents_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_components(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_components(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Components(rctx, fc.Args["orgId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Components)
-	fc.Result = res
-	return ec.marshalNComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponents(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_components(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "components":
-				return ec.fieldContext_Components_components(ctx, field)
-			case "customComponents":
-				return ec.fieldContext_Components_customComponents(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Components", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_components_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_diagramImages(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_diagramImages(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().DiagramImages(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.DiagramImage)
-	fc.Result = res
-	return ec.marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramImageᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_diagramImages(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "diagramImageId":
-				return ec.fieldContext_DiagramImage_diagramImageId(ctx, field)
-			case "diagramId":
-				return ec.fieldContext_DiagramImage_diagramId(ctx, field)
-			case "orgId":
-				return ec.fieldContext_DiagramImage_orgId(ctx, field)
-			case "assetId":
-				return ec.fieldContext_DiagramImage_assetId(ctx, field)
-			case "imageUrl":
-				return ec.fieldContext_DiagramImage_imageUrl(ctx, field)
-			case "fileName":
-				return ec.fieldContext_DiagramImage_fileName(ctx, field)
-			case "order":
-				return ec.fieldContext_DiagramImage_order(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_DiagramImage_createdBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_DiagramImage_createdAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type DiagramImage", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_diagramImages_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -43731,701 +44437,6 @@ func (ec *executionContext) fieldContext_Query_focalPointMeta(ctx context.Contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_focalPointMeta_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_org(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_org(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Org(rctx, fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Org)
-	fc.Result = res
-	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_org(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Org_id(ctx, field)
-			case "name":
-				return ec.fieldContext_Org_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_Org_slug(ctx, field)
-			case "disabled":
-				return ec.fieldContext_Org_disabled(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Org_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Org_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_org_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_orgs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_orgs(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Orgs(rctx)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Org)
-	fc.Result = res
-	return ec.marshalNOrg2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrgᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_orgs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Org_id(ctx, field)
-			case "name":
-				return ec.fieldContext_Org_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_Org_slug(ctx, field)
-			case "disabled":
-				return ec.fieldContext_Org_disabled(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Org_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Org_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_members(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_members(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Members(rctx, fc.Args["orgId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Member)
-	fc.Result = res
-	return ec.marshalNMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMemberᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_members(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "userId":
-				return ec.fieldContext_Member_userId(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Member_orgId(ctx, field)
-			case "role":
-				return ec.fieldContext_Member_role(ctx, field)
-			case "source":
-				return ec.fieldContext_Member_source(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Member_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Member_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Member", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_members_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_teams(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_teams(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Teams(rctx, fc.Args["orgId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Team)
-	fc.Result = res
-	return ec.marshalNTeam2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_teams(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Team_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Team_orgId(ctx, field)
-			case "name":
-				return ec.fieldContext_Team_name(ctx, field)
-			case "email":
-				return ec.fieldContext_Team_email(ctx, field)
-			case "externalId":
-				return ec.fieldContext_Team_externalId(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Team_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Team_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Team", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_teams_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_team(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_team(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Team(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Team)
-	fc.Result = res
-	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_team(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Team_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Team_orgId(ctx, field)
-			case "name":
-				return ec.fieldContext_Team_name(ctx, field)
-			case "email":
-				return ec.fieldContext_Team_email(ctx, field)
-			case "externalId":
-				return ec.fieldContext_Team_externalId(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Team_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Team_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Team", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_team_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_teamMembers(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_teamMembers(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().TeamMembers(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.TeamMember)
-	fc.Result = res
-	return ec.marshalNTeamMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamMemberᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_teamMembers(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "teamId":
-				return ec.fieldContext_TeamMember_teamId(ctx, field)
-			case "userId":
-				return ec.fieldContext_TeamMember_userId(ctx, field)
-			case "permission":
-				return ec.fieldContext_TeamMember_permission(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_TeamMember_createdAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type TeamMember", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_teamMembers_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_invitations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_invitations(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Invitations(rctx, fc.Args["orgId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Invitation)
-	fc.Result = res
-	return ec.marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitationᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_invitations(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Invitation_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Invitation_orgId(ctx, field)
-			case "email":
-				return ec.fieldContext_Invitation_email(ctx, field)
-			case "role":
-				return ec.fieldContext_Invitation_role(ctx, field)
-			case "code":
-				return ec.fieldContext_Invitation_code(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Invitation_createdBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Invitation_createdAt(ctx, field)
-			case "expiresAt":
-				return ec.fieldContext_Invitation_expiresAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Invitation", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_invitations_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_serviceAccounts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_serviceAccounts(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().ServiceAccounts(rctx, fc.Args["orgId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.ServiceAccount)
-	fc.Result = res
-	return ec.marshalNServiceAccount2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_serviceAccounts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_ServiceAccount_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_ServiceAccount_orgId(ctx, field)
-			case "name":
-				return ec.fieldContext_ServiceAccount_name(ctx, field)
-			case "description":
-				return ec.fieldContext_ServiceAccount_description(ctx, field)
-			case "role":
-				return ec.fieldContext_ServiceAccount_role(ctx, field)
-			case "disabled":
-				return ec.fieldContext_ServiceAccount_disabled(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_ServiceAccount_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_ServiceAccount_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type ServiceAccount", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_serviceAccounts_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_serviceAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_serviceAccount(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().ServiceAccount(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.ServiceAccount)
-	fc.Result = res
-	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_serviceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_ServiceAccount_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_ServiceAccount_orgId(ctx, field)
-			case "name":
-				return ec.fieldContext_ServiceAccount_name(ctx, field)
-			case "description":
-				return ec.fieldContext_ServiceAccount_description(ctx, field)
-			case "role":
-				return ec.fieldContext_ServiceAccount_role(ctx, field)
-			case "disabled":
-				return ec.fieldContext_ServiceAccount_disabled(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_ServiceAccount_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_ServiceAccount_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type ServiceAccount", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_serviceAccount_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_serviceAccountTokens(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_serviceAccountTokens(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().ServiceAccountTokens(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.ServiceAccountToken)
-	fc.Result = res
-	return ec.marshalNServiceAccountToken2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountTokenᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_serviceAccountTokens(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_ServiceAccountToken_id(ctx, field)
-			case "serviceAccountId":
-				return ec.fieldContext_ServiceAccountToken_serviceAccountId(ctx, field)
-			case "name":
-				return ec.fieldContext_ServiceAccountToken_name(ctx, field)
-			case "prefix":
-				return ec.fieldContext_ServiceAccountToken_prefix(ctx, field)
-			case "expiresAt":
-				return ec.fieldContext_ServiceAccountToken_expiresAt(ctx, field)
-			case "lastUsedAt":
-				return ec.fieldContext_ServiceAccountToken_lastUsedAt(ctx, field)
-			case "revoked":
-				return ec.fieldContext_ServiceAccountToken_revoked(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_ServiceAccountToken_createdAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type ServiceAccountToken", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_serviceAccountTokens_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -64409,6 +64420,195 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "createDiagram":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createDiagram(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateDiagram":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateDiagram(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteDiagram":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteDiagram(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "syncDiagram":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_syncDiagram(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createDiagramVersion":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createDiagramVersion(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "restoreDiagramVersion":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_restoreDiagramVersion(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createFolder":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createFolder(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateFolder":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateFolder(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteFolder":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteFolder(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createOrg":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createOrg(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateOrg":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateOrg(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteOrg":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteOrg(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "addMember":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_addMember(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateMemberRole":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateMemberRole(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "removeMember":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_removeMember(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createTeam":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createTeam(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateTeam":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateTeam(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteTeam":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteTeam(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "addTeamMember":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_addTeamMember(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "removeTeamMember":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_removeTeamMember(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createInvitation":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createInvitation(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "revokeInvitation":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_revokeInvitation(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createServiceAccount":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createServiceAccount(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateServiceAccount":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateServiceAccount(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteServiceAccount":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteServiceAccount(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createServiceAccountToken":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createServiceAccountToken(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "revokeServiceAccountToken":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_revokeServiceAccountToken(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createTestPack":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createTestPack(ctx, field)
@@ -64475,69 +64675,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "updateTestRunResult":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateTestRunResult(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createFolder":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createFolder(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "updateFolder":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateFolder(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "deleteFolder":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_deleteFolder(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createDiagram":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createDiagram(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "updateDiagram":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateDiagram(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "deleteDiagram":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_deleteDiagram(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "syncDiagram":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_syncDiagram(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createDiagramVersion":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createDiagramVersion(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "restoreDiagramVersion":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_restoreDiagramVersion(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -64678,132 +64815,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteFocalPointMeta":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteFocalPointMeta(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createOrg":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createOrg(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "updateOrg":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateOrg(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "deleteOrg":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_deleteOrg(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "addMember":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_addMember(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "updateMemberRole":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateMemberRole(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "removeMember":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_removeMember(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createTeam":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createTeam(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "updateTeam":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateTeam(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "deleteTeam":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_deleteTeam(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "addTeamMember":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_addTeamMember(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "removeTeamMember":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_removeTeamMember(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createInvitation":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createInvitation(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "revokeInvitation":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_revokeInvitation(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createServiceAccount":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createServiceAccount(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "updateServiceAccount":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateServiceAccount(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "deleteServiceAccount":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_deleteServiceAccount(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createServiceAccountToken":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createServiceAccountToken(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "revokeServiceAccountToken":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_revokeServiceAccountToken(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -65575,7 +65586,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "testPacks":
+		case "flowDiagramComponents":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -65584,7 +65595,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_testPacks(ctx, field)
+				res = ec._Query_flowDiagramComponents(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -65597,7 +65608,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "testCases":
+		case "components":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -65606,139 +65617,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_testCases(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "testRun":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_testRun(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "testRuns":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_testRuns(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "testRunsSummary":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_testRunsSummary(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "testRunResults":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_testRunResults(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "folders":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_folders(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "folder":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_folder(ctx, field)
+				res = ec._Query_components(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -65861,50 +65740,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "flowDiagramComponents":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_flowDiagramComponents(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "components":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_components(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "diagramImages":
 			field := field
 
@@ -65927,7 +65762,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "maps":
+		case "folders":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -65936,7 +65771,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_maps(ctx, field)
+				res = ec._Query_folders(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -65949,7 +65784,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "map":
+		case "folder":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -65958,183 +65793,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_map(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "frames":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_frames(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "frame":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_frame(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "frameById":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_frameById(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "focalPoints":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_focalPoints(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "canvas":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_canvas(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "frameGroups":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_frameGroups(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "frameLinks":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_frameLinks(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "focalPointMeta":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_focalPointMeta(ctx, field)
+				res = ec._Query_folder(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -66355,6 +66014,358 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_serviceAccountTokens(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "testPacks":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_testPacks(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "testCases":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_testCases(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "testRun":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_testRun(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "testRuns":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_testRuns(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "testRunsSummary":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_testRunsSummary(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "testRunResults":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_testRunResults(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "maps":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_maps(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "map":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_map(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "frames":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_frames(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "frame":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_frame(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "frameById":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_frameById(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "focalPoints":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_focalPoints(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "canvas":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_canvas(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "frameGroups":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_frameGroups(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "frameLinks":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_frameLinks(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "focalPointMeta":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_focalPointMeta(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
