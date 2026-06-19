@@ -85,8 +85,10 @@ func FocalPointMetaToModel(m *uigraphapi.FocalPointMeta) *model.FocalPointMeta {
 		ComponentImages:      RawArrStr(m.ComponentImages),
 		ComponentFlowDiagram: m.ComponentFlowDiagram,
 		ComponentModalFields: RawArrStr(m.ComponentModalFields),
-		CreatedBy: m.CreatedBy, UpdatedBy: m.UpdatedBy,
-		CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
+		CreatedBy:            m.CreatedBy,
+		UpdatedBy:            m.UpdatedBy,
+		CreatedAt:            m.CreatedAt,
+		UpdatedAt:            m.UpdatedAt,
 	}
 }
 

@@ -34,7 +34,7 @@ func TestAuth_NoHeadersMeansNothingPropagated(t *testing.T) {
 	inbound := httptest.NewRequest(http.MethodGet, "/graphql", nil)
 
 	var capturedCtx context.Context
-	handler := Auth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := Auth(http.HandlerFunc(func(_ http.ResponseWriter, r *http.Request) {
 		capturedCtx = r.Context()
 	}))
 	handler.ServeHTTP(httptest.NewRecorder(), inbound)
@@ -52,7 +52,7 @@ func TestBearerToken(t *testing.T) {
 	inbound.Header.Set("Authorization", "Bearer abc123")
 
 	var capturedCtx context.Context
-	handler := Auth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := Auth(http.HandlerFunc(func(_ http.ResponseWriter, r *http.Request) {
 		capturedCtx = r.Context()
 	}))
 	handler.ServeHTTP(httptest.NewRecorder(), inbound)
@@ -67,7 +67,7 @@ func TestBearerToken_NonBearerAuthReturnsEmpty(t *testing.T) {
 	inbound.Header.Set("Authorization", "Basic dXNlcjpwYXNz")
 
 	var capturedCtx context.Context
-	handler := Auth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := Auth(http.HandlerFunc(func(_ http.ResponseWriter, r *http.Request) {
 		capturedCtx = r.Context()
 	}))
 	handler.ServeHTTP(httptest.NewRecorder(), inbound)

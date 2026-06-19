@@ -36,7 +36,7 @@ func TestClientGet_DecodesResponse(t *testing.T) {
 // TestClientGet_404ReturnsAPIError verifies that a 404 response causes the
 // client to return an *APIError with Status == 404 and IsNotFound returns true.
 func TestClientGet_404ReturnsAPIError(t *testing.T) {
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		_, _ = w.Write([]byte(`{"error":"not found"}`))
 	}))
@@ -62,7 +62,7 @@ func TestClientGet_404ReturnsAPIError(t *testing.T) {
 // TestClientGet_500IsNotIsNotFound verifies that a 500 response returns an error
 // that is NOT classified as "not found" by IsNotFound.
 func TestClientGet_500IsNotIsNotFound(t *testing.T) {
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}))
 	defer srv.Close()
@@ -144,7 +144,7 @@ func TestClientPing_Success(t *testing.T) {
 // TestClientPing_Error verifies that Ping returns an error when the server
 // responds with a non-2xx status.
 func TestClientPing_Error(t *testing.T) {
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}))
 	defer srv.Close()

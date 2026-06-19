@@ -24,25 +24,25 @@ type fakeAuthClient struct {
 	err error
 }
 
-func (f *fakeAuthClient) Me(ctx context.Context) (*uigraphapi.MeResponse, error) {
+func (f *fakeAuthClient) Me(_ context.Context) (*uigraphapi.MeResponse, error) {
 	return f.me, f.err
 }
-func (f *fakeAuthClient) MyOrgs(ctx context.Context) ([]uigraphapi.OrgSummary, error) {
+func (f *fakeAuthClient) MyOrgs(_ context.Context) ([]uigraphapi.OrgSummary, error) {
 	return nil, nil
 }
-func (f *fakeAuthClient) SwitchOrg(ctx context.Context, orgID string) error { return nil }
+func (f *fakeAuthClient) SwitchOrg(_ context.Context, _ string) error { return nil }
 
 type fakeFolderClient struct {
 	created *uigraphapi.Folder
 }
 
-func (f *fakeFolderClient) ListFolders(ctx context.Context, orgID, folderType, parentID string) ([]uigraphapi.Folder, error) {
+func (f *fakeFolderClient) ListFolders(_ context.Context, _, _, _ string) ([]uigraphapi.Folder, error) {
 	return nil, nil
 }
-func (f *fakeFolderClient) GetFolder(ctx context.Context, orgID, id string) (*uigraphapi.Folder, error) {
+func (f *fakeFolderClient) GetFolder(_ context.Context, _, _ string) (*uigraphapi.Folder, error) {
 	return nil, nil
 }
-func (f *fakeFolderClient) CreateFolder(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Folder, error) {
+func (f *fakeFolderClient) CreateFolder(_ context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Folder, error) {
 	f.created = &uigraphapi.Folder{
 		ID:    "folder-1",
 		OrgID: orgID,
@@ -51,10 +51,10 @@ func (f *fakeFolderClient) CreateFolder(ctx context.Context, orgID string, body 
 	}
 	return f.created, nil
 }
-func (f *fakeFolderClient) UpdateFolder(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.Folder, error) {
+func (f *fakeFolderClient) UpdateFolder(_ context.Context, _, _ string, _ map[string]interface{}) (*uigraphapi.Folder, error) {
 	return nil, nil
 }
-func (f *fakeFolderClient) DeleteFolder(ctx context.Context, orgID, id string) error { return nil }
+func (f *fakeFolderClient) DeleteFolder(_ context.Context, _, _ string) error { return nil }
 
 func newTestServer(resolver *graph.Resolver) *httptest.Server {
 	schema := generated.NewExecutableSchema(generated.Config{Resolvers: resolver})

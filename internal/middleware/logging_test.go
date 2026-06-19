@@ -21,7 +21,7 @@ func TestLogging_SetsRequestIDInContext(t *testing.T) {
 }
 
 func TestLogging_RecordsResponseStatus(t *testing.T) {
-	handler := Logging(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := Logging(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusTeapot)
 	}))
 
@@ -34,7 +34,7 @@ func TestLogging_RecordsResponseStatus(t *testing.T) {
 }
 
 func TestLogging_EchoesRequestIDInResponseHeader(t *testing.T) {
-	handler := Logging(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := Logging(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}))
 

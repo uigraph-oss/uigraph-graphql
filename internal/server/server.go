@@ -59,7 +59,7 @@ func Run(cfg *config.Config) error {
 		slog.Info("playground enabled", "url", "http://localhost:"+cfg.Port+"/playground")
 	}
 
-	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("ok"))
 	})
