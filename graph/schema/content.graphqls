@@ -19,6 +19,7 @@ extend type Query {
     frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
     frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
     focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
+    focalPointMetaByComponentLink(orgId: ID!, componentLinkId: ID!): [FocalPointMeta!]!
 }
 
 extend type Mutation {

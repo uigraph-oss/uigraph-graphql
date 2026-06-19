@@ -635,65 +635,66 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		APIEndpoint           func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
-		APIEndpoints          func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
-		APIGroup              func(childComplexity int, orgID string, serviceID string, id string) int
-		APIGroupVersions      func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
-		APIGroups             func(childComplexity int, orgID string, serviceID string) int
-		Canvas                func(childComplexity int, orgID string, mapID string) int
-		Comments              func(childComplexity int, orgID string, resourceID string) int
-		Components            func(childComplexity int, orgID string) int
-		Diagram               func(childComplexity int, orgID string, id string) int
-		DiagramContent        func(childComplexity int, orgID string, id string) int
-		DiagramImages         func(childComplexity int, orgID string, diagramID string) int
-		DiagramVersionContent func(childComplexity int, orgID string, diagramID string, versionID string) int
-		DiagramVersions       func(childComplexity int, orgID string, diagramID string) int
-		Diagrams              func(childComplexity int, orgID string, folderID *string) int
-		FlowDiagramComponents func(childComplexity int, orgID string) int
-		FocalPointMeta        func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string) int
-		FocalPoints           func(childComplexity int, orgID string, mapID string, frameID string) int
-		Folder                func(childComplexity int, orgID string, id string) int
-		Folders               func(childComplexity int, orgID string, typeArg *string, parentID *string) int
-		Frame                 func(childComplexity int, orgID string, mapID string, id string) int
-		FrameByID             func(childComplexity int, orgID string, id string) int
-		FrameGroups           func(childComplexity int, orgID string, mapID string, frameID string) int
-		FrameLinks            func(childComplexity int, orgID string, mapID string, frameID string) int
-		Frames                func(childComplexity int, orgID string, mapID string) int
-		Invitations           func(childComplexity int, orgID string) int
-		Ldap                  func(childComplexity int) int
-		Map                   func(childComplexity int, orgID string, id string) int
-		Maps                  func(childComplexity int, orgID string, folderID *string) int
-		Me                    func(childComplexity int) int
-		Members               func(childComplexity int, orgID string) int
-		MyOrgs                func(childComplexity int) int
-		OauthProviders        func(childComplexity int) int
-		Org                   func(childComplexity int, id string) int
-		Orgs                  func(childComplexity int) int
-		RoleMappings          func(childComplexity int) int
-		Saml                  func(childComplexity int) int
-		Service               func(childComplexity int, orgID string, id string) int
-		ServiceAccount        func(childComplexity int, orgID string, id string) int
-		ServiceAccountTokens  func(childComplexity int, orgID string, saID string) int
-		ServiceAccounts       func(childComplexity int, orgID string) int
-		ServiceDBVersions     func(childComplexity int, orgID string, serviceID string, serviceDbID string) int
-		ServiceDBs            func(childComplexity int, orgID string, serviceID string) int
-		ServiceDb             func(childComplexity int, orgID string, serviceID string, id string) int
-		ServiceDiagrams       func(childComplexity int, orgID string, serviceID string) int
-		ServiceDoc            func(childComplexity int, orgID string, serviceID string, id string) int
-		ServiceDocs           func(childComplexity int, orgID string, serviceID string) int
-		ServiceStats          func(childComplexity int, orgID string, serviceID *string) int
-		Services              func(childComplexity int, orgID string, folderID *string, teamID *string) int
-		Team                  func(childComplexity int, orgID string, teamID string) int
-		TeamMembers           func(childComplexity int, orgID string, teamID string) int
-		Teams                 func(childComplexity int, orgID string) int
-		TestCases             func(childComplexity int, orgID string, serviceID string, testPackID *string) int
-		TestPacks             func(childComplexity int, orgID string, serviceID string) int
-		TestRun               func(childComplexity int, orgID string, serviceID string, id string) int
-		TestRunResults        func(childComplexity int, orgID string, serviceID string, testRunID string) int
-		TestRuns              func(childComplexity int, orgID string, serviceID string, testPackID *string) int
-		TestRunsSummary       func(childComplexity int, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) int
-		User                  func(childComplexity int, id string) int
-		Users                 func(childComplexity int) int
+		APIEndpoint                   func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
+		APIEndpoints                  func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
+		APIGroup                      func(childComplexity int, orgID string, serviceID string, id string) int
+		APIGroupVersions              func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
+		APIGroups                     func(childComplexity int, orgID string, serviceID string) int
+		Canvas                        func(childComplexity int, orgID string, mapID string) int
+		Comments                      func(childComplexity int, orgID string, resourceID string) int
+		Components                    func(childComplexity int, orgID string) int
+		Diagram                       func(childComplexity int, orgID string, id string) int
+		DiagramContent                func(childComplexity int, orgID string, id string) int
+		DiagramImages                 func(childComplexity int, orgID string, diagramID string) int
+		DiagramVersionContent         func(childComplexity int, orgID string, diagramID string, versionID string) int
+		DiagramVersions               func(childComplexity int, orgID string, diagramID string) int
+		Diagrams                      func(childComplexity int, orgID string, folderID *string) int
+		FlowDiagramComponents         func(childComplexity int, orgID string) int
+		FocalPointMeta                func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string) int
+		FocalPointMetaByComponentLink func(childComplexity int, orgID string, componentLinkID string) int
+		FocalPoints                   func(childComplexity int, orgID string, mapID string, frameID string) int
+		Folder                        func(childComplexity int, orgID string, id string) int
+		Folders                       func(childComplexity int, orgID string, typeArg *string, parentID *string) int
+		Frame                         func(childComplexity int, orgID string, mapID string, id string) int
+		FrameByID                     func(childComplexity int, orgID string, id string) int
+		FrameGroups                   func(childComplexity int, orgID string, mapID string, frameID string) int
+		FrameLinks                    func(childComplexity int, orgID string, mapID string, frameID string) int
+		Frames                        func(childComplexity int, orgID string, mapID string) int
+		Invitations                   func(childComplexity int, orgID string) int
+		Ldap                          func(childComplexity int) int
+		Map                           func(childComplexity int, orgID string, id string) int
+		Maps                          func(childComplexity int, orgID string, folderID *string) int
+		Me                            func(childComplexity int) int
+		Members                       func(childComplexity int, orgID string) int
+		MyOrgs                        func(childComplexity int) int
+		OauthProviders                func(childComplexity int) int
+		Org                           func(childComplexity int, id string) int
+		Orgs                          func(childComplexity int) int
+		RoleMappings                  func(childComplexity int) int
+		Saml                          func(childComplexity int) int
+		Service                       func(childComplexity int, orgID string, id string) int
+		ServiceAccount                func(childComplexity int, orgID string, id string) int
+		ServiceAccountTokens          func(childComplexity int, orgID string, saID string) int
+		ServiceAccounts               func(childComplexity int, orgID string) int
+		ServiceDBVersions             func(childComplexity int, orgID string, serviceID string, serviceDbID string) int
+		ServiceDBs                    func(childComplexity int, orgID string, serviceID string) int
+		ServiceDb                     func(childComplexity int, orgID string, serviceID string, id string) int
+		ServiceDiagrams               func(childComplexity int, orgID string, serviceID string) int
+		ServiceDoc                    func(childComplexity int, orgID string, serviceID string, id string) int
+		ServiceDocs                   func(childComplexity int, orgID string, serviceID string) int
+		ServiceStats                  func(childComplexity int, orgID string, serviceID *string) int
+		Services                      func(childComplexity int, orgID string, folderID *string, teamID *string) int
+		Team                          func(childComplexity int, orgID string, teamID string) int
+		TeamMembers                   func(childComplexity int, orgID string, teamID string) int
+		Teams                         func(childComplexity int, orgID string) int
+		TestCases                     func(childComplexity int, orgID string, serviceID string, testPackID *string) int
+		TestPacks                     func(childComplexity int, orgID string, serviceID string) int
+		TestRun                       func(childComplexity int, orgID string, serviceID string, id string) int
+		TestRunResults                func(childComplexity int, orgID string, serviceID string, testRunID string) int
+		TestRuns                      func(childComplexity int, orgID string, serviceID string, testPackID *string) int
+		TestRunsSummary               func(childComplexity int, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) int
+		User                          func(childComplexity int, id string) int
+		Users                         func(childComplexity int) int
 	}
 
 	RoleMapping struct {
@@ -1182,6 +1183,7 @@ type QueryResolver interface {
 	FrameGroups(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameGroup, error)
 	FrameLinks(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameLink, error)
 	FocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string) ([]*model.FocalPointMeta, error)
+	FocalPointMetaByComponentLink(ctx context.Context, orgID string, componentLinkID string) ([]*model.FocalPointMeta, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
 	Orgs(ctx context.Context) ([]*model.Org, error)
 	Members(ctx context.Context, orgID string) ([]*model.Member, error)
@@ -5092,6 +5094,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.FocalPointMeta(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["focalPointId"].(string)), true
 
+	case "Query.focalPointMetaByComponentLink":
+		if e.complexity.Query.FocalPointMetaByComponentLink == nil {
+			break
+		}
+
+		args, err := ec.field_Query_focalPointMetaByComponentLink_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FocalPointMetaByComponentLink(childComplexity, args["orgId"].(string), args["componentLinkId"].(string)), true
+
 	case "Query.focalPoints":
 		if e.complexity.Query.FocalPoints == nil {
 			break
@@ -8471,6 +8485,7 @@ input UpdateCommentInput {
     frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
     frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
     focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
+    focalPointMetaByComponentLink(orgId: ID!, componentLinkId: ID!): [FocalPointMeta!]!
 }
 
 extend type Mutation {
@@ -16702,6 +16717,57 @@ func (ec *executionContext) field_Query_flowDiagramComponents_argsOrgID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
 	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_focalPointMetaByComponentLink_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_focalPointMetaByComponentLink_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_focalPointMetaByComponentLink_argsComponentLinkID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["componentLinkId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_focalPointMetaByComponentLink_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_focalPointMetaByComponentLink_argsComponentLinkID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["componentLinkId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("componentLinkId"))
+	if tmp, ok := rawArgs["componentLinkId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -45790,6 +45856,89 @@ func (ec *executionContext) fieldContext_Query_focalPointMeta(ctx context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_focalPointMetaByComponentLink(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_focalPointMetaByComponentLink(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().FocalPointMetaByComponentLink(rctx, fc.Args["orgId"].(string), fc.Args["componentLinkId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FocalPointMeta)
+	fc.Result = res
+	return ec.marshalNFocalPointMeta2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMetaᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_focalPointMetaByComponentLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_FocalPointMeta_id(ctx, field)
+			case "focalPointId":
+				return ec.fieldContext_FocalPointMeta_focalPointId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_FocalPointMeta_orgId(ctx, field)
+			case "frameId":
+				return ec.fieldContext_FocalPointMeta_frameId(ctx, field)
+			case "componentId":
+				return ec.fieldContext_FocalPointMeta_componentId(ctx, field)
+			case "componentLinkId":
+				return ec.fieldContext_FocalPointMeta_componentLinkId(ctx, field)
+			case "componentImages":
+				return ec.fieldContext_FocalPointMeta_componentImages(ctx, field)
+			case "componentFlowDiagram":
+				return ec.fieldContext_FocalPointMeta_componentFlowDiagram(ctx, field)
+			case "componentModalFields":
+				return ec.fieldContext_FocalPointMeta_componentModalFields(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_FocalPointMeta_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type FocalPointMeta", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_focalPointMetaByComponentLink_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_org(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_org(ctx, field)
 	if err != nil {
@@ -68685,6 +68834,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_focalPointMeta(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "focalPointMetaByComponentLink":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_focalPointMetaByComponentLink(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}

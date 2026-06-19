@@ -538,6 +538,15 @@ func (r *queryResolver) FocalPointMeta(ctx context.Context, orgID string, mapID 
 	return focalPointMetasToModel(metas), nil
 }
 
+// FocalPointMetaByComponentLink is the resolver for the focalPointMetaByComponentLink field.
+func (r *queryResolver) FocalPointMetaByComponentLink(ctx context.Context, orgID string, componentLinkID string) ([]*model.FocalPointMeta, error) {
+	metas, err := r.Client.ListFocalPointMetaByComponentLink(ctx, orgID, componentLinkID)
+	if err != nil {
+		return nil, err
+	}
+	return focalPointMetasToModel(metas), nil
+}
+
 // Diagram returns generated.DiagramResolver implementation.
 func (r *Resolver) Diagram() generated.DiagramResolver { return &diagramResolver{r} }
 
