@@ -102,6 +102,7 @@ func newGraphQLServer(schema graphql.ExecutableSchema, env string) *handler.Serv
 	srv.AddTransport(transport.GET{})
 	srv.AddTransport(transport.POST{})
 	srv.SetErrorPresenter(graph.ErrorPresenter)
+	srv.Use(extension.FixedComplexityLimit(1000))
 	if env != "prod" {
 		srv.Use(extension.Introspection{})
 	}
