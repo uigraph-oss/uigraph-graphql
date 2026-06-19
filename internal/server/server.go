@@ -63,6 +63,7 @@ func Run(cfg *config.Config) error {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("ok"))
 	})
+	mux.HandleFunc("GET /readyz", readyzHandler(c))
 
 	httpSrv := &http.Server{
 		Addr:              ":" + cfg.Port,
@@ -107,4 +108,19 @@ func newGraphQLServer(schema graphql.ExecutableSchema, env string) *handler.Serv
 		srv.Use(extension.Introspection{})
 	}
 	return srv
+}
+
+func readyzHandler(c *uigraphapi.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
+		defer cancel()
+		if err := c.Ping(ctx); err != nil {
+			slog.WarnContext(ctx, "readiness check failed", "err", err)
+			w.WriteHeader(http.StatusServiceUnavailable)
+			_, _ = w.Write([]byte("not ready"))
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("ok"))
+	}
 }

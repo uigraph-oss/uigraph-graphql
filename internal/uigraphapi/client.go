@@ -27,6 +27,11 @@ func New(baseURL string) *Client {
 	}
 }
 
+// Ping checks that the configured uigraph-api backend is reachable.
+func (c *Client) Ping(ctx context.Context) error {
+	return c.get(ctx, "/healthz", nil)
+}
+
 // ── internal helpers ─────────────────────────────────────────────────────────
 
 func (c *Client) do(ctx context.Context, method, path string, body, out interface{}) error {
