@@ -9,7 +9,11 @@ import (
 )
 
 func main() {
-	cfg := config.Load()
+	cfg, err := config.Load()
+	if err != nil {
+		slog.Error("invalid configuration", "err", err)
+		os.Exit(1)
+	}
 
 	if err := server.Run(cfg); err != nil {
 		slog.Error("server exited with error", "err", err)
