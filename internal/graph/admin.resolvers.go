@@ -7,26 +7,27 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
-	u, err := r.Client.CreateUser(ctx, toMap(input))
+	u, err := r.Client.CreateUser(ctx, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return userToModel(u), nil
+	return convert.UserToModel(u), nil
 }
 
 // UpdateUser is the resolver for the updateUser field.
 func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input model.UpdateUserInput) (*model.User, error) {
-	u, err := r.Client.UpdateUser(ctx, id, toMap(input))
+	u, err := r.Client.UpdateUser(ctx, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return userToModel(u), nil
+	return convert.UserToModel(u), nil
 }
 
 // DisableUser is the resolver for the disableUser field.
@@ -36,7 +37,7 @@ func (r *mutationResolver) DisableUser(ctx context.Context, id string) (bool, er
 
 // UpsertOAuthProvider is the resolver for the upsertOAuthProvider field.
 func (r *mutationResolver) UpsertOAuthProvider(ctx context.Context, provider string, input model.UpsertOAuthInput) (bool, error) {
-	return true, r.Client.UpsertOAuthProvider(ctx, provider, toMap(input))
+	return true, r.Client.UpsertOAuthProvider(ctx, provider, convert.ToMap(input))
 }
 
 // DeleteOAuthProvider is the resolver for the deleteOAuthProvider field.
@@ -46,7 +47,7 @@ func (r *mutationResolver) DeleteOAuthProvider(ctx context.Context, provider str
 
 // CreateRoleMapping is the resolver for the createRoleMapping field.
 func (r *mutationResolver) CreateRoleMapping(ctx context.Context, input model.CreateRoleMappingInput) (bool, error) {
-	return true, r.Client.CreateRoleMapping(ctx, toMap(input))
+	return true, r.Client.CreateRoleMapping(ctx, convert.ToMap(input))
 }
 
 // DeleteRoleMapping is the resolver for the deleteRoleMapping field.
@@ -56,7 +57,7 @@ func (r *mutationResolver) DeleteRoleMapping(ctx context.Context, id string) (bo
 
 // UpsertLdap is the resolver for the upsertLDAP field.
 func (r *mutationResolver) UpsertLdap(ctx context.Context, input model.UpsertLDAPInput) (bool, error) {
-	return true, r.Client.UpsertLDAP(ctx, toMap(input))
+	return true, r.Client.UpsertLDAP(ctx, convert.ToMap(input))
 }
 
 // DeleteLdap is the resolver for the deleteLDAP field.
@@ -66,7 +67,7 @@ func (r *mutationResolver) DeleteLdap(ctx context.Context) (bool, error) {
 
 // UpsertSaml is the resolver for the upsertSAML field.
 func (r *mutationResolver) UpsertSaml(ctx context.Context, input model.UpsertSAMLInput) (bool, error) {
-	return true, r.Client.UpsertSAML(ctx, toMap(input))
+	return true, r.Client.UpsertSAML(ctx, convert.ToMap(input))
 }
 
 // Users is the resolver for the users field.
@@ -75,7 +76,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	return usersToModel(users), nil
+	return convert.UsersToModel(users), nil
 }
 
 // User is the resolver for the user field.
@@ -84,7 +85,7 @@ func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error
 	if err != nil {
 		return nil, err
 	}
-	return userToModel(u), nil
+	return convert.UserToModel(u), nil
 }
 
 // OauthProviders is the resolver for the oauthProviders field.
@@ -93,7 +94,7 @@ func (r *queryResolver) OauthProviders(ctx context.Context) ([]*model.OAuthProvi
 	if err != nil {
 		return nil, err
 	}
-	return oauthProvidersToModel(providers), nil
+	return convert.OAuthProvidersToModel(providers), nil
 }
 
 // RoleMappings is the resolver for the roleMappings field.
@@ -102,7 +103,7 @@ func (r *queryResolver) RoleMappings(ctx context.Context) ([]*model.RoleMapping,
 	if err != nil {
 		return nil, err
 	}
-	return roleMappingsToModel(mappings), nil
+	return convert.RoleMappingsToModel(mappings), nil
 }
 
 // Ldap is the resolver for the ldap field.
@@ -115,7 +116,7 @@ func (r *queryResolver) Ldap(ctx context.Context) (*model.LDAPConfig, error) {
 		}
 		return nil, err
 	}
-	return ldapToModel(l), nil
+	return convert.LDAPToModel(l), nil
 }
 
 // Saml is the resolver for the saml field.
@@ -128,5 +129,5 @@ func (r *queryResolver) Saml(ctx context.Context) (*model.SAMLConfig, error) {
 		}
 		return nil, err
 	}
-	return samlToModel(s), nil
+	return convert.SAMLToModel(s), nil
 }

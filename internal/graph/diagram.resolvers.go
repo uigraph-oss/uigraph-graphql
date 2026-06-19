@@ -7,6 +7,7 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
 )
@@ -44,20 +45,20 @@ func (r *diagramVersionResolver) CreatedByActor(ctx context.Context, obj *model.
 
 // CreateDiagram is the resolver for the createDiagram field.
 func (r *mutationResolver) CreateDiagram(ctx context.Context, orgID string, input model.CreateDiagramInput) (*model.Diagram, error) {
-	d, err := r.Client.CreateDiagram(ctx, orgID, toMap(input))
+	d, err := r.Client.CreateDiagram(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return diagramToModel(d), nil
+	return convert.DiagramToModel(d), nil
 }
 
 // UpdateDiagram is the resolver for the updateDiagram field.
 func (r *mutationResolver) UpdateDiagram(ctx context.Context, orgID string, id string, input model.UpdateDiagramInput) (*model.Diagram, error) {
-	d, err := r.Client.UpdateDiagram(ctx, orgID, id, toMap(input))
+	d, err := r.Client.UpdateDiagram(ctx, orgID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return diagramToModel(d), nil
+	return convert.DiagramToModel(d), nil
 }
 
 // DeleteDiagram is the resolver for the deleteDiagram field.
@@ -67,15 +68,15 @@ func (r *mutationResolver) DeleteDiagram(ctx context.Context, orgID string, id s
 
 // SyncDiagram is the resolver for the syncDiagram field.
 func (r *mutationResolver) SyncDiagram(ctx context.Context, orgID string, input model.SyncDiagramInput) (*model.SyncDiagramResult, error) {
-	out, err := r.Client.SyncDiagram(ctx, orgID, toMap(input))
+	out, err := r.Client.SyncDiagram(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
 	res := &model.SyncDiagramResult{
-		DiagramID:      strFromMap(out, "diagramId"),
-		VersionCreated: boolFromMap(out, "versionCreated"),
+		DiagramID:      convert.StrFromMap(out, "diagramId"),
+		VersionCreated: convert.BoolFromMap(out, "versionCreated"),
 	}
-	if v := optStrFromMap(out, "versionId"); v != nil {
+	if v := convert.OptStrFromMap(out, "versionId"); v != nil {
 		res.VersionID = v
 	}
 	return res, nil
@@ -91,7 +92,7 @@ func (r *mutationResolver) CreateDiagramVersion(ctx context.Context, orgID strin
 	if err != nil {
 		return nil, err
 	}
-	return diagramVersionToModel(orgID, *v), nil
+	return convert.DiagramVersionToModel(orgID, *v), nil
 }
 
 // RestoreDiagramVersion is the resolver for the restoreDiagramVersion field.
@@ -100,7 +101,7 @@ func (r *mutationResolver) RestoreDiagramVersion(ctx context.Context, orgID stri
 	if err != nil {
 		return nil, err
 	}
-	return diagramToModel(d), nil
+	return convert.DiagramToModel(d), nil
 }
 
 // Diagrams is the resolver for the diagrams field.
@@ -113,7 +114,7 @@ func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *st
 	if err != nil {
 		return nil, err
 	}
-	return diagramsToModel(diagrams), nil
+	return convert.DiagramsToModel(diagrams), nil
 }
 
 // Diagram is the resolver for the diagram field.
@@ -122,7 +123,7 @@ func (r *queryResolver) Diagram(ctx context.Context, orgID string, id string) (*
 	if err != nil {
 		return nil, err
 	}
-	return diagramToModel(d), nil
+	return convert.DiagramToModel(d), nil
 }
 
 // DiagramContent is the resolver for the diagramContent field.
@@ -140,7 +141,7 @@ func (r *queryResolver) DiagramVersions(ctx context.Context, orgID string, diagr
 	if err != nil {
 		return nil, err
 	}
-	return diagramVersionsToModel(orgID, versions), nil
+	return convert.DiagramVersionsToModel(orgID, versions), nil
 }
 
 // DiagramVersionContent is the resolver for the diagramVersionContent field.
@@ -158,7 +159,7 @@ func (r *queryResolver) DiagramImages(ctx context.Context, orgID string, diagram
 	if err != nil {
 		return nil, err
 	}
-	return diagramImagesToModel(images), nil
+	return convert.DiagramImagesToModel(images), nil
 }
 
 // Diagram returns generated.DiagramResolver implementation.

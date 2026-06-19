@@ -7,6 +7,7 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
 )
 
@@ -21,7 +22,7 @@ func (r *queryResolver) Me(ctx context.Context) (*model.Me, error) {
 	if err != nil {
 		return nil, err
 	}
-	return meToModel(me), nil
+	return convert.MeToModel(me), nil
 }
 
 // MyOrgs is the resolver for the myOrgs field.
@@ -30,5 +31,5 @@ func (r *queryResolver) MyOrgs(ctx context.Context) ([]*model.OrgSummary, error)
 	if err != nil {
 		return nil, err
 	}
-	return orgSummariesToModel(orgs), nil
+	return convert.OrgSummariesToModel(orgs), nil
 }

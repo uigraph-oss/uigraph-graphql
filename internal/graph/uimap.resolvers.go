@@ -7,6 +7,7 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
 )
@@ -34,20 +35,20 @@ func (r *frameResolver) UpdatedByActor(ctx context.Context, obj *model.Frame) (*
 
 // CreateMap is the resolver for the createMap field.
 func (r *mutationResolver) CreateMap(ctx context.Context, orgID string, input model.CreateMapInput) (*model.UIMap, error) {
-	m, err := r.Client.CreateMap(ctx, orgID, toMap(input))
+	m, err := r.Client.CreateMap(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return uimapToModel(m), nil
+	return convert.UIMapToModel(m), nil
 }
 
 // UpdateMap is the resolver for the updateMap field.
 func (r *mutationResolver) UpdateMap(ctx context.Context, orgID string, id string, input model.UpdateMapInput) (*model.UIMap, error) {
-	m, err := r.Client.UpdateMap(ctx, orgID, id, toMap(input))
+	m, err := r.Client.UpdateMap(ctx, orgID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return uimapToModel(m), nil
+	return convert.UIMapToModel(m), nil
 }
 
 // DeleteMap is the resolver for the deleteMap field.
@@ -57,20 +58,20 @@ func (r *mutationResolver) DeleteMap(ctx context.Context, orgID string, id strin
 
 // CreateFrame is the resolver for the createFrame field.
 func (r *mutationResolver) CreateFrame(ctx context.Context, orgID string, mapID string, input model.CreateFrameInput) (*model.Frame, error) {
-	f, err := r.Client.CreateFrame(ctx, orgID, mapID, toMap(input))
+	f, err := r.Client.CreateFrame(ctx, orgID, mapID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return frameToModel(f), nil
+	return convert.FrameToModel(f), nil
 }
 
 // UpdateFrame is the resolver for the updateFrame field.
 func (r *mutationResolver) UpdateFrame(ctx context.Context, orgID string, mapID string, id string, input model.UpdateFrameInput) (*model.Frame, error) {
-	f, err := r.Client.UpdateFrame(ctx, orgID, mapID, id, toMap(input))
+	f, err := r.Client.UpdateFrame(ctx, orgID, mapID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return frameToModel(f), nil
+	return convert.FrameToModel(f), nil
 }
 
 // DeleteFrame is the resolver for the deleteFrame field.
@@ -80,32 +81,32 @@ func (r *mutationResolver) DeleteFrame(ctx context.Context, orgID string, mapID 
 
 // SyncFrame is the resolver for the syncFrame field.
 func (r *mutationResolver) SyncFrame(ctx context.Context, orgID string, mapID string, input model.SyncFrameInput) (*model.SyncFrameResult, error) {
-	out, err := r.Client.SyncFrame(ctx, orgID, mapID, toMap(input))
+	out, err := r.Client.SyncFrame(ctx, orgID, mapID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
 	return &model.SyncFrameResult{
-		FrameID:        strFromMap(out, "frameId"),
-		VersionCreated: boolFromMap(out, "versionCreated"),
+		FrameID:        convert.StrFromMap(out, "frameId"),
+		VersionCreated: convert.BoolFromMap(out, "versionCreated"),
 	}, nil
 }
 
 // CreateFocalPoint is the resolver for the createFocalPoint field.
 func (r *mutationResolver) CreateFocalPoint(ctx context.Context, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) (*model.FocalPoint, error) {
-	fp, err := r.Client.CreateFocalPoint(ctx, orgID, mapID, frameID, toMap(input))
+	fp, err := r.Client.CreateFocalPoint(ctx, orgID, mapID, frameID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return focalPointToModel(fp), nil
+	return convert.FocalPointToModel(fp), nil
 }
 
 // UpdateFocalPoint is the resolver for the updateFocalPoint field.
 func (r *mutationResolver) UpdateFocalPoint(ctx context.Context, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) (*model.FocalPoint, error) {
-	fp, err := r.Client.UpdateFocalPoint(ctx, orgID, mapID, frameID, id, toMap(input))
+	fp, err := r.Client.UpdateFocalPoint(ctx, orgID, mapID, frameID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return focalPointToModel(fp), nil
+	return convert.FocalPointToModel(fp), nil
 }
 
 // DeleteFocalPoint is the resolver for the deleteFocalPoint field.
@@ -115,10 +116,10 @@ func (r *mutationResolver) DeleteFocalPoint(ctx context.Context, orgID string, m
 
 // UpsertCanvas is the resolver for the upsertCanvas field.
 func (r *mutationResolver) UpsertCanvas(ctx context.Context, orgID string, mapID string, input model.UpsertCanvasInput) (*model.Canvas, error) {
-	body := toMap(input)
+	body := convert.ToMap(input)
 	if fp, ok := body["framePositions"].(string); ok {
 		var raw interface{}
-		if err := unmarshalJSONString(fp, &raw); err == nil {
+		if err := convert.UnmarshalJSONString(fp, &raw); err == nil {
 			body["framePositions"] = raw
 		}
 	}
@@ -126,25 +127,25 @@ func (r *mutationResolver) UpsertCanvas(ctx context.Context, orgID string, mapID
 	if err != nil {
 		return nil, err
 	}
-	return canvasToModel(c), nil
+	return convert.CanvasToModel(c), nil
 }
 
 // CreateFrameGroup is the resolver for the createFrameGroup field.
 func (r *mutationResolver) CreateFrameGroup(ctx context.Context, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) (*model.FrameGroup, error) {
-	g, err := r.Client.CreateFrameGroup(ctx, orgID, mapID, frameID, toMap(input))
+	g, err := r.Client.CreateFrameGroup(ctx, orgID, mapID, frameID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return frameGroupToModel(g), nil
+	return convert.FrameGroupToModel(g), nil
 }
 
 // UpdateFrameGroup is the resolver for the updateFrameGroup field.
 func (r *mutationResolver) UpdateFrameGroup(ctx context.Context, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) (*model.FrameGroup, error) {
-	g, err := r.Client.UpdateFrameGroup(ctx, orgID, mapID, frameID, id, toMap(input))
+	g, err := r.Client.UpdateFrameGroup(ctx, orgID, mapID, frameID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return frameGroupToModel(g), nil
+	return convert.FrameGroupToModel(g), nil
 }
 
 // DeleteFrameGroup is the resolver for the deleteFrameGroup field.
@@ -154,20 +155,20 @@ func (r *mutationResolver) DeleteFrameGroup(ctx context.Context, orgID string, m
 
 // CreateFrameLink is the resolver for the createFrameLink field.
 func (r *mutationResolver) CreateFrameLink(ctx context.Context, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) (*model.FrameLink, error) {
-	l, err := r.Client.CreateFrameLink(ctx, orgID, mapID, frameID, toMap(input))
+	l, err := r.Client.CreateFrameLink(ctx, orgID, mapID, frameID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return frameLinkToModel(l), nil
+	return convert.FrameLinkToModel(l), nil
 }
 
 // UpdateFrameLink is the resolver for the updateFrameLink field.
 func (r *mutationResolver) UpdateFrameLink(ctx context.Context, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) (*model.FrameLink, error) {
-	l, err := r.Client.UpdateFrameLink(ctx, orgID, mapID, frameID, id, toMap(input))
+	l, err := r.Client.UpdateFrameLink(ctx, orgID, mapID, frameID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return frameLinkToModel(l), nil
+	return convert.FrameLinkToModel(l), nil
 }
 
 // DeleteFrameLink is the resolver for the deleteFrameLink field.
@@ -177,20 +178,20 @@ func (r *mutationResolver) DeleteFrameLink(ctx context.Context, orgID string, ma
 
 // CreateFocalPointMeta is the resolver for the createFocalPointMeta field.
 func (r *mutationResolver) CreateFocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) (*model.FocalPointMeta, error) {
-	m, err := r.Client.CreateFocalPointMeta(ctx, orgID, mapID, frameID, focalPointID, focalPointMetaBody(toMap(input)))
+	m, err := r.Client.CreateFocalPointMeta(ctx, orgID, mapID, frameID, focalPointID, convert.FocalPointMetaBody(convert.ToMap(input)))
 	if err != nil {
 		return nil, err
 	}
-	return focalPointMetaToModel(m), nil
+	return convert.FocalPointMetaToModel(m), nil
 }
 
 // UpdateFocalPointMeta is the resolver for the updateFocalPointMeta field.
 func (r *mutationResolver) UpdateFocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) (*model.FocalPointMeta, error) {
-	m, err := r.Client.UpdateFocalPointMeta(ctx, orgID, mapID, frameID, focalPointID, id, focalPointMetaBody(toMap(input)))
+	m, err := r.Client.UpdateFocalPointMeta(ctx, orgID, mapID, frameID, focalPointID, id, convert.FocalPointMetaBody(convert.ToMap(input)))
 	if err != nil {
 		return nil, err
 	}
-	return focalPointMetaToModel(m), nil
+	return convert.FocalPointMetaToModel(m), nil
 }
 
 // DeleteFocalPointMeta is the resolver for the deleteFocalPointMeta field.
@@ -208,7 +209,7 @@ func (r *queryResolver) Maps(ctx context.Context, orgID string, folderID *string
 	if err != nil {
 		return nil, err
 	}
-	return uimapsToModel(maps), nil
+	return convert.UIMapsToModel(maps), nil
 }
 
 // Map is the resolver for the map field.
@@ -217,7 +218,7 @@ func (r *queryResolver) Map(ctx context.Context, orgID string, id string) (*mode
 	if err != nil {
 		return nil, err
 	}
-	return uimapToModel(m), nil
+	return convert.UIMapToModel(m), nil
 }
 
 // Frames is the resolver for the frames field.
@@ -226,7 +227,7 @@ func (r *queryResolver) Frames(ctx context.Context, orgID string, mapID string) 
 	if err != nil {
 		return nil, err
 	}
-	return framesToModel(frames), nil
+	return convert.FramesToModel(frames), nil
 }
 
 // Frame is the resolver for the frame field.
@@ -235,7 +236,7 @@ func (r *queryResolver) Frame(ctx context.Context, orgID string, mapID string, i
 	if err != nil {
 		return nil, err
 	}
-	return frameToModel(f), nil
+	return convert.FrameToModel(f), nil
 }
 
 // FrameByID is the resolver for the frameById field.
@@ -244,7 +245,7 @@ func (r *queryResolver) FrameByID(ctx context.Context, orgID string, id string) 
 	if err != nil {
 		return nil, err
 	}
-	return frameToModel(f), nil
+	return convert.FrameToModel(f), nil
 }
 
 // FocalPoints is the resolver for the focalPoints field.
@@ -253,7 +254,7 @@ func (r *queryResolver) FocalPoints(ctx context.Context, orgID string, mapID str
 	if err != nil {
 		return nil, err
 	}
-	return focalPointsToModel(fps), nil
+	return convert.FocalPointsToModel(fps), nil
 }
 
 // Canvas is the resolver for the canvas field.
@@ -262,7 +263,7 @@ func (r *queryResolver) Canvas(ctx context.Context, orgID string, mapID string) 
 	if err != nil {
 		return nil, err
 	}
-	return canvasToModel(c), nil
+	return convert.CanvasToModel(c), nil
 }
 
 // FrameGroups is the resolver for the frameGroups field.
@@ -271,7 +272,7 @@ func (r *queryResolver) FrameGroups(ctx context.Context, orgID string, mapID str
 	if err != nil {
 		return nil, err
 	}
-	return frameGroupsToModel(groups), nil
+	return convert.FrameGroupsToModel(groups), nil
 }
 
 // FrameLinks is the resolver for the frameLinks field.
@@ -280,7 +281,7 @@ func (r *queryResolver) FrameLinks(ctx context.Context, orgID string, mapID stri
 	if err != nil {
 		return nil, err
 	}
-	return frameLinksToModel(links), nil
+	return convert.FrameLinksToModel(links), nil
 }
 
 // FocalPointMeta is the resolver for the focalPointMeta field.
@@ -289,7 +290,7 @@ func (r *queryResolver) FocalPointMeta(ctx context.Context, orgID string, mapID 
 	if err != nil {
 		return nil, err
 	}
-	return focalPointMetasToModel(metas), nil
+	return convert.FocalPointMetasToModel(metas), nil
 }
 
 // Frame returns generated.FrameResolver implementation.

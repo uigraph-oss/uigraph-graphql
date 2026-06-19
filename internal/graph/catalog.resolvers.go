@@ -7,6 +7,7 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
 )
@@ -18,20 +19,20 @@ func (r *aPIGroupVersionResolver) CreatedByActor(ctx context.Context, obj *model
 
 // CreateService is the resolver for the createService field.
 func (r *mutationResolver) CreateService(ctx context.Context, orgID string, input model.CreateServiceInput) (*model.Service, error) {
-	s, err := r.Client.CreateService(ctx, orgID, toMap(input))
+	s, err := r.Client.CreateService(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceToModel(s), nil
+	return convert.ServiceToModel(s), nil
 }
 
 // UpdateService is the resolver for the updateService field.
 func (r *mutationResolver) UpdateService(ctx context.Context, orgID string, id string, input model.UpdateServiceInput) (*model.Service, error) {
-	s, err := r.Client.UpdateService(ctx, orgID, id, toMap(input))
+	s, err := r.Client.UpdateService(ctx, orgID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceToModel(s), nil
+	return convert.ServiceToModel(s), nil
 }
 
 // DeleteService is the resolver for the deleteService field.
@@ -41,20 +42,20 @@ func (r *mutationResolver) DeleteService(ctx context.Context, orgID string, id s
 
 // CreateAPIGroup is the resolver for the createAPIGroup field.
 func (r *mutationResolver) CreateAPIGroup(ctx context.Context, orgID string, serviceID string, input model.CreateAPIGroupInput) (*model.APIGroup, error) {
-	g, err := r.Client.CreateAPIGroup(ctx, orgID, serviceID, toMap(input))
+	g, err := r.Client.CreateAPIGroup(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return apiGroupToModel(g), nil
+	return convert.APIGroupToModel(g), nil
 }
 
 // UpdateAPIGroup is the resolver for the updateAPIGroup field.
 func (r *mutationResolver) UpdateAPIGroup(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) (*model.APIGroup, error) {
-	g, err := r.Client.UpdateAPIGroup(ctx, orgID, serviceID, id, toMap(input))
+	g, err := r.Client.UpdateAPIGroup(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return apiGroupToModel(g), nil
+	return convert.APIGroupToModel(g), nil
 }
 
 // DeleteAPIGroup is the resolver for the deleteAPIGroup field.
@@ -64,32 +65,32 @@ func (r *mutationResolver) DeleteAPIGroup(ctx context.Context, orgID string, ser
 
 // SyncAPIGroup is the resolver for the syncAPIGroup field.
 func (r *mutationResolver) SyncAPIGroup(ctx context.Context, orgID string, serviceID string, input model.SyncAPIGroupInput) (*model.SyncAPIGroupResult, error) {
-	out, err := r.Client.SyncAPIGroup(ctx, orgID, serviceID, toMap(input))
+	out, err := r.Client.SyncAPIGroup(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
 	return &model.SyncAPIGroupResult{
-		APIGroupID:     strFromMap(out, "apiGroupId"),
-		VersionCreated: boolFromMap(out, "versionCreated"),
+		APIGroupID:     convert.StrFromMap(out, "apiGroupId"),
+		VersionCreated: convert.BoolFromMap(out, "versionCreated"),
 	}, nil
 }
 
 // CreateServiceDoc is the resolver for the createServiceDoc field.
 func (r *mutationResolver) CreateServiceDoc(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDocInput) (*model.ServiceDoc, error) {
-	d, err := r.Client.CreateServiceDoc(ctx, orgID, serviceID, toMap(input))
+	d, err := r.Client.CreateServiceDoc(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceDocToModel(d), nil
+	return convert.ServiceDocToModel(d), nil
 }
 
 // UpdateServiceDoc is the resolver for the updateServiceDoc field.
 func (r *mutationResolver) UpdateServiceDoc(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateServiceDocInput) (*model.ServiceDoc, error) {
-	d, err := r.Client.UpdateServiceDoc(ctx, orgID, serviceID, id, toMap(input))
+	d, err := r.Client.UpdateServiceDoc(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceDocToModel(d), nil
+	return convert.ServiceDocToModel(d), nil
 }
 
 // DeleteServiceDoc is the resolver for the deleteServiceDoc field.
@@ -99,11 +100,11 @@ func (r *mutationResolver) DeleteServiceDoc(ctx context.Context, orgID string, s
 
 // CreateServiceDiagram is the resolver for the createServiceDiagram field.
 func (r *mutationResolver) CreateServiceDiagram(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDiagramInput) (*model.ServiceDiagram, error) {
-	d, err := r.Client.CreateServiceDiagram(ctx, orgID, serviceID, toMap(input))
+	d, err := r.Client.CreateServiceDiagram(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceDiagramToModel(d), nil
+	return convert.ServiceDiagramToModel(d), nil
 }
 
 // DeleteServiceDiagram is the resolver for the deleteServiceDiagram field.
@@ -113,20 +114,20 @@ func (r *mutationResolver) DeleteServiceDiagram(ctx context.Context, orgID strin
 
 // CreateServiceDb is the resolver for the createServiceDB field.
 func (r *mutationResolver) CreateServiceDb(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDBInput) (*model.ServiceDb, error) {
-	d, err := r.Client.CreateServiceDB(ctx, orgID, serviceID, toMap(input))
+	d, err := r.Client.CreateServiceDB(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceDBToModel(d), nil
+	return convert.ServiceDBToModel(d), nil
 }
 
 // UpdateServiceDb is the resolver for the updateServiceDB field.
 func (r *mutationResolver) UpdateServiceDb(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) (*model.ServiceDb, error) {
-	d, err := r.Client.UpdateServiceDB(ctx, orgID, serviceID, id, toMap(input))
+	d, err := r.Client.UpdateServiceDB(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceDBToModel(d), nil
+	return convert.ServiceDBToModel(d), nil
 }
 
 // DeleteServiceDb is the resolver for the deleteServiceDB field.
@@ -136,11 +137,11 @@ func (r *mutationResolver) DeleteServiceDb(ctx context.Context, orgID string, se
 
 // CreateServiceDBVersion is the resolver for the createServiceDBVersion field.
 func (r *mutationResolver) CreateServiceDBVersion(ctx context.Context, orgID string, serviceID string, serviceDbID string, input model.CreateServiceDBVersionInput) (*model.ServiceDBVersion, error) {
-	v, err := r.Client.CreateServiceDBVersion(ctx, orgID, serviceID, serviceDbID, toMap(input))
+	v, err := r.Client.CreateServiceDBVersion(ctx, orgID, serviceID, serviceDbID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceDBVersionToModel(orgID, *v), nil
+	return convert.ServiceDBVersionToModel(orgID, *v), nil
 }
 
 // RestoreServiceDBVersion is the resolver for the restoreServiceDBVersion field.
@@ -149,25 +150,25 @@ func (r *mutationResolver) RestoreServiceDBVersion(ctx context.Context, orgID st
 	if err != nil {
 		return nil, err
 	}
-	return serviceDBToModel(d), nil
+	return convert.ServiceDBToModel(d), nil
 }
 
 // CreateAPIEndpoint is the resolver for the createAPIEndpoint field.
 func (r *mutationResolver) CreateAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) (*model.APIEndpoint, error) {
-	e, err := r.Client.CreateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, toMap(input))
+	e, err := r.Client.CreateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return apiEndpointToModel(e), nil
+	return convert.APIEndpointToModel(e), nil
 }
 
 // UpdateAPIEndpoint is the resolver for the updateAPIEndpoint field.
 func (r *mutationResolver) UpdateAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) (*model.APIEndpoint, error) {
-	e, err := r.Client.UpdateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id, toMap(input))
+	e, err := r.Client.UpdateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return apiEndpointToModel(e), nil
+	return convert.APIEndpointToModel(e), nil
 }
 
 // DeleteAPIEndpoint is the resolver for the deleteAPIEndpoint field.
@@ -189,7 +190,7 @@ func (r *queryResolver) Services(ctx context.Context, orgID string, folderID *st
 	if err != nil {
 		return nil, err
 	}
-	return servicesToModel(services), nil
+	return convert.ServicesToModel(services), nil
 }
 
 // Service is the resolver for the service field.
@@ -198,7 +199,7 @@ func (r *queryResolver) Service(ctx context.Context, orgID string, id string) (*
 	if err != nil {
 		return nil, err
 	}
-	return serviceToModel(s), nil
+	return convert.ServiceToModel(s), nil
 }
 
 // APIGroups is the resolver for the apiGroups field.
@@ -207,7 +208,7 @@ func (r *queryResolver) APIGroups(ctx context.Context, orgID string, serviceID s
 	if err != nil {
 		return nil, err
 	}
-	return apiGroupsToModel(groups), nil
+	return convert.APIGroupsToModel(groups), nil
 }
 
 // APIGroup is the resolver for the apiGroup field.
@@ -216,7 +217,7 @@ func (r *queryResolver) APIGroup(ctx context.Context, orgID string, serviceID st
 	if err != nil {
 		return nil, err
 	}
-	return apiGroupToModel(g), nil
+	return convert.APIGroupToModel(g), nil
 }
 
 // APIGroupVersions is the resolver for the apiGroupVersions field.
@@ -225,7 +226,7 @@ func (r *queryResolver) APIGroupVersions(ctx context.Context, orgID string, serv
 	if err != nil {
 		return nil, err
 	}
-	return apiGroupVersionsToModel(orgID, versions), nil
+	return convert.APIGroupVersionsToModel(orgID, versions), nil
 }
 
 // ServiceDocs is the resolver for the serviceDocs field.
@@ -234,7 +235,7 @@ func (r *queryResolver) ServiceDocs(ctx context.Context, orgID string, serviceID
 	if err != nil {
 		return nil, err
 	}
-	return serviceDocsToModel(docs), nil
+	return convert.ServiceDocsToModel(docs), nil
 }
 
 // ServiceDoc is the resolver for the serviceDoc field.
@@ -243,7 +244,7 @@ func (r *queryResolver) ServiceDoc(ctx context.Context, orgID string, serviceID 
 	if err != nil {
 		return nil, err
 	}
-	return serviceDocToModel(d), nil
+	return convert.ServiceDocToModel(d), nil
 }
 
 // ServiceDiagrams is the resolver for the serviceDiagrams field.
@@ -252,7 +253,7 @@ func (r *queryResolver) ServiceDiagrams(ctx context.Context, orgID string, servi
 	if err != nil {
 		return nil, err
 	}
-	return serviceDiagramsToModel(diagrams), nil
+	return convert.ServiceDiagramsToModel(diagrams), nil
 }
 
 // ServiceDBs is the resolver for the serviceDBs field.
@@ -261,7 +262,7 @@ func (r *queryResolver) ServiceDBs(ctx context.Context, orgID string, serviceID 
 	if err != nil {
 		return nil, err
 	}
-	return serviceDBsToModel(dbs), nil
+	return convert.ServiceDBsToModel(dbs), nil
 }
 
 // ServiceDb is the resolver for the serviceDB field.
@@ -270,7 +271,7 @@ func (r *queryResolver) ServiceDb(ctx context.Context, orgID string, serviceID s
 	if err != nil {
 		return nil, err
 	}
-	return serviceDBToModel(d), nil
+	return convert.ServiceDBToModel(d), nil
 }
 
 // ServiceDBVersions is the resolver for the serviceDBVersions field.
@@ -279,7 +280,7 @@ func (r *queryResolver) ServiceDBVersions(ctx context.Context, orgID string, ser
 	if err != nil {
 		return nil, err
 	}
-	return serviceDBVersionsToModel(orgID, versions), nil
+	return convert.ServiceDBVersionsToModel(orgID, versions), nil
 }
 
 // APIEndpoints is the resolver for the apiEndpoints field.
@@ -288,7 +289,7 @@ func (r *queryResolver) APIEndpoints(ctx context.Context, orgID string, serviceI
 	if err != nil {
 		return nil, err
 	}
-	return apiEndpointsToModel(endpoints), nil
+	return convert.APIEndpointsToModel(endpoints), nil
 }
 
 // APIEndpoint is the resolver for the apiEndpoint field.
@@ -297,7 +298,7 @@ func (r *queryResolver) APIEndpoint(ctx context.Context, orgID string, serviceID
 	if err != nil {
 		return nil, err
 	}
-	return apiEndpointToModel(e), nil
+	return convert.APIEndpointToModel(e), nil
 }
 
 // ServiceStats is the resolver for the serviceStats field.
@@ -306,7 +307,7 @@ func (r *queryResolver) ServiceStats(ctx context.Context, orgID string, serviceI
 	if err != nil {
 		return nil, err
 	}
-	return serviceStatsListToModel(stats), nil
+	return convert.ServiceStatsListToModel(stats), nil
 }
 
 // CreatedByActor is the resolver for the createdByActor field.

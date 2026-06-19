@@ -7,25 +7,26 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
 )
 
 // CreateOrg is the resolver for the createOrg field.
 func (r *mutationResolver) CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error) {
-	o, err := r.Client.CreateOrg(ctx, toMap(input))
+	o, err := r.Client.CreateOrg(ctx, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return orgToModel(o), nil
+	return convert.OrgToModel(o), nil
 }
 
 // UpdateOrg is the resolver for the updateOrg field.
 func (r *mutationResolver) UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error) {
-	o, err := r.Client.UpdateOrg(ctx, id, toMap(input))
+	o, err := r.Client.UpdateOrg(ctx, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return orgToModel(o), nil
+	return convert.OrgToModel(o), nil
 }
 
 // DeleteOrg is the resolver for the deleteOrg field.
@@ -35,11 +36,11 @@ func (r *mutationResolver) DeleteOrg(ctx context.Context, id string) (bool, erro
 
 // AddMember is the resolver for the addMember field.
 func (r *mutationResolver) AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error) {
-	m, err := r.Client.AddMember(ctx, orgID, toMap(input))
+	m, err := r.Client.AddMember(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return memberToModel(*m), nil
+	return convert.MemberToModel(*m), nil
 }
 
 // UpdateMemberRole is the resolver for the updateMemberRole field.
@@ -48,7 +49,7 @@ func (r *mutationResolver) UpdateMemberRole(ctx context.Context, orgID string, u
 	if err != nil {
 		return nil, err
 	}
-	return memberToModel(*m), nil
+	return convert.MemberToModel(*m), nil
 }
 
 // RemoveMember is the resolver for the removeMember field.
@@ -58,20 +59,20 @@ func (r *mutationResolver) RemoveMember(ctx context.Context, orgID string, userI
 
 // CreateTeam is the resolver for the createTeam field.
 func (r *mutationResolver) CreateTeam(ctx context.Context, orgID string, input model.CreateTeamInput) (*model.Team, error) {
-	t, err := r.Client.CreateTeam(ctx, orgID, toMap(input))
+	t, err := r.Client.CreateTeam(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return teamToModel(t), nil
+	return convert.TeamToModel(t), nil
 }
 
 // UpdateTeam is the resolver for the updateTeam field.
 func (r *mutationResolver) UpdateTeam(ctx context.Context, orgID string, teamID string, input model.UpdateTeamInput) (*model.Team, error) {
-	t, err := r.Client.UpdateTeam(ctx, orgID, teamID, toMap(input))
+	t, err := r.Client.UpdateTeam(ctx, orgID, teamID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return teamToModel(t), nil
+	return convert.TeamToModel(t), nil
 }
 
 // DeleteTeam is the resolver for the deleteTeam field.
@@ -95,11 +96,11 @@ func (r *mutationResolver) RemoveTeamMember(ctx context.Context, orgID string, t
 
 // CreateInvitation is the resolver for the createInvitation field.
 func (r *mutationResolver) CreateInvitation(ctx context.Context, orgID string, input model.CreateInvitationInput) (*model.Invitation, error) {
-	inv, err := r.Client.CreateInvitation(ctx, orgID, toMap(input))
+	inv, err := r.Client.CreateInvitation(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return invitationToModel(*inv), nil
+	return convert.InvitationToModel(*inv), nil
 }
 
 // RevokeInvitation is the resolver for the revokeInvitation field.
@@ -109,20 +110,20 @@ func (r *mutationResolver) RevokeInvitation(ctx context.Context, orgID string, i
 
 // CreateServiceAccount is the resolver for the createServiceAccount field.
 func (r *mutationResolver) CreateServiceAccount(ctx context.Context, orgID string, input model.CreateServiceAccountInput) (*model.ServiceAccount, error) {
-	sa, err := r.Client.CreateServiceAccount(ctx, orgID, toMap(input))
+	sa, err := r.Client.CreateServiceAccount(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceAccountToModel(*sa), nil
+	return convert.ServiceAccountToModel(*sa), nil
 }
 
 // UpdateServiceAccount is the resolver for the updateServiceAccount field.
 func (r *mutationResolver) UpdateServiceAccount(ctx context.Context, orgID string, id string, input model.UpdateServiceAccountInput) (*model.ServiceAccount, error) {
-	sa, err := r.Client.UpdateServiceAccount(ctx, orgID, id, toMap(input))
+	sa, err := r.Client.UpdateServiceAccount(ctx, orgID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return serviceAccountToModel(*sa), nil
+	return convert.ServiceAccountToModel(*sa), nil
 }
 
 // DeleteServiceAccount is the resolver for the deleteServiceAccount field.
@@ -132,11 +133,11 @@ func (r *mutationResolver) DeleteServiceAccount(ctx context.Context, orgID strin
 
 // CreateServiceAccountToken is the resolver for the createServiceAccountToken field.
 func (r *mutationResolver) CreateServiceAccountToken(ctx context.Context, orgID string, saID string, input model.CreateTokenInput) (*model.CreatedToken, error) {
-	t, err := r.Client.CreateServiceAccountToken(ctx, orgID, saID, toMap(input))
+	t, err := r.Client.CreateServiceAccountToken(ctx, orgID, saID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return createdTokenToModel(t), nil
+	return convert.CreatedTokenToModel(t), nil
 }
 
 // RevokeServiceAccountToken is the resolver for the revokeServiceAccountToken field.
@@ -150,7 +151,7 @@ func (r *queryResolver) Org(ctx context.Context, id string) (*model.Org, error) 
 	if err != nil {
 		return nil, err
 	}
-	return orgToModel(o), nil
+	return convert.OrgToModel(o), nil
 }
 
 // Orgs is the resolver for the orgs field.
@@ -159,7 +160,7 @@ func (r *queryResolver) Orgs(ctx context.Context) ([]*model.Org, error) {
 	if err != nil {
 		return nil, err
 	}
-	return orgsToModel(orgs), nil
+	return convert.OrgsToModel(orgs), nil
 }
 
 // Members is the resolver for the members field.
@@ -168,7 +169,7 @@ func (r *queryResolver) Members(ctx context.Context, orgID string) ([]*model.Mem
 	if err != nil {
 		return nil, err
 	}
-	return membersToModel(members), nil
+	return convert.MembersToModel(members), nil
 }
 
 // Teams is the resolver for the teams field.
@@ -177,7 +178,7 @@ func (r *queryResolver) Teams(ctx context.Context, orgID string) ([]*model.Team,
 	if err != nil {
 		return nil, err
 	}
-	return teamsToModel(teams), nil
+	return convert.TeamsToModel(teams), nil
 }
 
 // Team is the resolver for the team field.
@@ -186,7 +187,7 @@ func (r *queryResolver) Team(ctx context.Context, orgID string, teamID string) (
 	if err != nil {
 		return nil, err
 	}
-	return teamToModel(t), nil
+	return convert.TeamToModel(t), nil
 }
 
 // TeamMembers is the resolver for the teamMembers field.
@@ -195,7 +196,7 @@ func (r *queryResolver) TeamMembers(ctx context.Context, orgID string, teamID st
 	if err != nil {
 		return nil, err
 	}
-	return teamMembersToModel(members), nil
+	return convert.TeamMembersToModel(members), nil
 }
 
 // Invitations is the resolver for the invitations field.
@@ -204,7 +205,7 @@ func (r *queryResolver) Invitations(ctx context.Context, orgID string) ([]*model
 	if err != nil {
 		return nil, err
 	}
-	return invitationsToModel(invs), nil
+	return convert.InvitationsToModel(invs), nil
 }
 
 // ServiceAccounts is the resolver for the serviceAccounts field.
@@ -213,7 +214,7 @@ func (r *queryResolver) ServiceAccounts(ctx context.Context, orgID string) ([]*m
 	if err != nil {
 		return nil, err
 	}
-	return serviceAccountsToModel(sas), nil
+	return convert.ServiceAccountsToModel(sas), nil
 }
 
 // ServiceAccount is the resolver for the serviceAccount field.
@@ -222,7 +223,7 @@ func (r *queryResolver) ServiceAccount(ctx context.Context, orgID string, id str
 	if err != nil {
 		return nil, err
 	}
-	return serviceAccountToModel(*sa), nil
+	return convert.ServiceAccountToModel(*sa), nil
 }
 
 // ServiceAccountTokens is the resolver for the serviceAccountTokens field.
@@ -231,5 +232,5 @@ func (r *queryResolver) ServiceAccountTokens(ctx context.Context, orgID string, 
 	if err != nil {
 		return nil, err
 	}
-	return saTokensToModel(tokens), nil
+	return convert.SATokensToModel(tokens), nil
 }

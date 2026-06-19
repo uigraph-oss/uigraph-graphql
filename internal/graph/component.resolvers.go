@@ -7,6 +7,7 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
 )
 
@@ -17,8 +18,8 @@ func (r *queryResolver) FlowDiagramComponents(ctx context.Context, orgID string)
 		return nil, err
 	}
 	return &model.FlowDiagramComponents{
-		Components:       flowComponentsToModel(res.Components),
-		CustomComponents: flowComponentsToModel(res.CustomComponents),
+		Components:       convert.FlowComponentsToModel(res.Components),
+		CustomComponents: convert.FlowComponentsToModel(res.CustomComponents),
 	}, nil
 }
 
@@ -29,7 +30,7 @@ func (r *queryResolver) Components(ctx context.Context, orgID string) (*model.Co
 		return nil, err
 	}
 	return &model.Components{
-		Components:       componentsToModel(res.Components),
-		CustomComponents: componentsToModel(res.CustomComponents),
+		Components:       convert.ComponentsToModel(res.Components),
+		CustomComponents: convert.ComponentsToModel(res.CustomComponents),
 	}, nil
 }

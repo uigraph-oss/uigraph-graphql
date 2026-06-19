@@ -8,25 +8,26 @@ import (
 	"context"
 	"time"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
 )
 
 // CreateTestPack is the resolver for the createTestPack field.
 func (r *mutationResolver) CreateTestPack(ctx context.Context, orgID string, serviceID string, input model.CreateTestPackInput) (*model.TestPack, error) {
-	p, err := r.Client.CreateTestPack(ctx, orgID, serviceID, toMap(input))
+	p, err := r.Client.CreateTestPack(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return testPackToModel(p), nil
+	return convert.TestPackToModel(p), nil
 }
 
 // UpdateTestPack is the resolver for the updateTestPack field.
 func (r *mutationResolver) UpdateTestPack(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestPackInput) (*model.TestPack, error) {
-	p, err := r.Client.UpdateTestPack(ctx, orgID, serviceID, id, toMap(input))
+	p, err := r.Client.UpdateTestPack(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return testPackToModel(p), nil
+	return convert.TestPackToModel(p), nil
 }
 
 // DeleteTestPack is the resolver for the deleteTestPack field.
@@ -36,20 +37,20 @@ func (r *mutationResolver) DeleteTestPack(ctx context.Context, orgID string, ser
 
 // CreateTestCase is the resolver for the createTestCase field.
 func (r *mutationResolver) CreateTestCase(ctx context.Context, orgID string, serviceID string, input model.CreateTestCaseInput) (*model.TestCase, error) {
-	tc, err := r.Client.CreateTestCase(ctx, orgID, serviceID, toMap(input))
+	tc, err := r.Client.CreateTestCase(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return testCaseToModel(tc), nil
+	return convert.TestCaseToModel(tc), nil
 }
 
 // UpdateTestCase is the resolver for the updateTestCase field.
 func (r *mutationResolver) UpdateTestCase(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) (*model.TestCase, error) {
-	tc, err := r.Client.UpdateTestCase(ctx, orgID, serviceID, id, toMap(input))
+	tc, err := r.Client.UpdateTestCase(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return testCaseToModel(tc), nil
+	return convert.TestCaseToModel(tc), nil
 }
 
 // DeleteTestCase is the resolver for the deleteTestCase field.
@@ -59,38 +60,38 @@ func (r *mutationResolver) DeleteTestCase(ctx context.Context, orgID string, ser
 
 // CreateTestRun is the resolver for the createTestRun field.
 func (r *mutationResolver) CreateTestRun(ctx context.Context, orgID string, serviceID string, input model.CreateTestRunInput) (*model.TestRun, error) {
-	tr, err := r.Client.CreateTestRun(ctx, orgID, serviceID, toMap(input))
+	tr, err := r.Client.CreateTestRun(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return testRunToModel(tr), nil
+	return convert.TestRunToModel(tr), nil
 }
 
 // UpdateTestRun is the resolver for the updateTestRun field.
 func (r *mutationResolver) UpdateTestRun(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestRunInput) (*model.TestRun, error) {
-	tr, err := r.Client.UpdateTestRun(ctx, orgID, serviceID, id, toMap(input))
+	tr, err := r.Client.UpdateTestRun(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return testRunToModel(tr), nil
+	return convert.TestRunToModel(tr), nil
 }
 
 // CreateTestRunResult is the resolver for the createTestRunResult field.
 func (r *mutationResolver) CreateTestRunResult(ctx context.Context, orgID string, serviceID string, input model.CreateTestRunResultInput) (*model.TestRunResult, error) {
-	rr, err := r.Client.CreateTestRunResult(ctx, orgID, serviceID, toMap(input))
+	rr, err := r.Client.CreateTestRunResult(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return testRunResultToModel(rr), nil
+	return convert.TestRunResultToModel(rr), nil
 }
 
 // UpdateTestRunResult is the resolver for the updateTestRunResult field.
 func (r *mutationResolver) UpdateTestRunResult(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestRunResultInput) (*model.TestRunResult, error) {
-	rr, err := r.Client.UpdateTestRunResult(ctx, orgID, serviceID, id, toMap(input))
+	rr, err := r.Client.UpdateTestRunResult(ctx, orgID, serviceID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return testRunResultToModel(rr), nil
+	return convert.TestRunResultToModel(rr), nil
 }
 
 // TestPacks is the resolver for the testPacks field.
@@ -99,7 +100,7 @@ func (r *queryResolver) TestPacks(ctx context.Context, orgID string, serviceID s
 	if err != nil {
 		return nil, err
 	}
-	return testPacksToModel(packs), nil
+	return convert.TestPacksToModel(packs), nil
 }
 
 // TestCases is the resolver for the testCases field.
@@ -108,7 +109,7 @@ func (r *queryResolver) TestCases(ctx context.Context, orgID string, serviceID s
 	if err != nil {
 		return nil, err
 	}
-	return testCasesToModel(cases), nil
+	return convert.TestCasesToModel(cases), nil
 }
 
 // TestRun is the resolver for the testRun field.
@@ -117,7 +118,7 @@ func (r *queryResolver) TestRun(ctx context.Context, orgID string, serviceID str
 	if err != nil {
 		return nil, err
 	}
-	return testRunToModel(tr), nil
+	return convert.TestRunToModel(tr), nil
 }
 
 // TestRuns is the resolver for the testRuns field.
@@ -126,7 +127,7 @@ func (r *queryResolver) TestRuns(ctx context.Context, orgID string, serviceID st
 	if err != nil {
 		return nil, err
 	}
-	return testRunsToModel(runs), nil
+	return convert.TestRunsToModel(runs), nil
 }
 
 // TestRunsSummary is the resolver for the testRunsSummary field.
@@ -135,7 +136,7 @@ func (r *queryResolver) TestRunsSummary(ctx context.Context, orgID string, servi
 	if err != nil {
 		return nil, err
 	}
-	return testRunSummariesToModel(summary), nil
+	return convert.TestRunSummariesToModel(summary), nil
 }
 
 // TestRunResults is the resolver for the testRunResults field.
@@ -144,5 +145,5 @@ func (r *queryResolver) TestRunResults(ctx context.Context, orgID string, servic
 	if err != nil {
 		return nil, err
 	}
-	return testRunResultsToModel(results), nil
+	return convert.TestRunResultsToModel(results), nil
 }

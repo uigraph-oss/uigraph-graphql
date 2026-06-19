@@ -7,25 +7,26 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
 )
 
 // CreateFolder is the resolver for the createFolder field.
 func (r *mutationResolver) CreateFolder(ctx context.Context, orgID string, input model.CreateFolderInput) (*model.Folder, error) {
-	f, err := r.Client.CreateFolder(ctx, orgID, toMap(input))
+	f, err := r.Client.CreateFolder(ctx, orgID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return folderToModel(f), nil
+	return convert.FolderToModel(f), nil
 }
 
 // UpdateFolder is the resolver for the updateFolder field.
 func (r *mutationResolver) UpdateFolder(ctx context.Context, orgID string, id string, input model.UpdateFolderInput) (*model.Folder, error) {
-	f, err := r.Client.UpdateFolder(ctx, orgID, id, toMap(input))
+	f, err := r.Client.UpdateFolder(ctx, orgID, id, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return folderToModel(f), nil
+	return convert.FolderToModel(f), nil
 }
 
 // DeleteFolder is the resolver for the deleteFolder field.
@@ -47,7 +48,7 @@ func (r *queryResolver) Folders(ctx context.Context, orgID string, typeArg *stri
 	if err != nil {
 		return nil, err
 	}
-	return foldersToModel(folders), nil
+	return convert.FoldersToModel(folders), nil
 }
 
 // Folder is the resolver for the folder field.
@@ -56,5 +57,5 @@ func (r *queryResolver) Folder(ctx context.Context, orgID string, id string) (*m
 	if err != nil {
 		return nil, err
 	}
-	return folderToModel(f), nil
+	return convert.FolderToModel(f), nil
 }
