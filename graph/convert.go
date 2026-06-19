@@ -99,11 +99,15 @@ func orgToModel(o *client.Org) *model.Org {
 }
 
 func memberToModel(m client.Member) *model.Member {
-	return &model.Member{UserID: m.UserID, OrgID: m.OrgID, Role: m.Role, Source: m.Source, CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt}
+	return &model.Member{
+		UserID: m.UserID, OrgID: m.OrgID, Role: m.Role, Source: m.Source,
+		Email: m.Email, Name: m.Name, TeamID: m.TeamID, TeamName: m.TeamName,
+		CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
+	}
 }
 
 func teamToModel(t *client.Team) *model.Team {
-	m := &model.Team{ID: t.ID, OrgID: t.OrgID, Name: t.Name, CreatedAt: t.CreatedAt, UpdatedAt: t.UpdatedAt}
+	m := &model.Team{ID: t.ID, OrgID: t.OrgID, Name: t.Name, MemberCount: t.MemberCount, CreatedAt: t.CreatedAt, UpdatedAt: t.UpdatedAt}
 	if t.Email != "" {
 		m.Email = &t.Email
 	}
@@ -344,6 +348,23 @@ func focalPointMetasToModel(ms []client.FocalPointMeta) []*model.FocalPointMeta 
 	out := make([]*model.FocalPointMeta, len(ms))
 	for i := range ms {
 		out[i] = focalPointMetaToModel(&ms[i])
+	}
+	return out
+}
+
+func commentToModel(c *client.Comment) *model.Comment {
+	return &model.Comment{
+		ID: c.ID, OrgID: c.OrgID, ResourceID: c.ResourceID,
+		ParentCommentID: c.ParentCommentID, Text: c.Text,
+		CreatedBy: c.CreatedBy, UpdatedBy: c.UpdatedBy,
+		CreatedAt: c.CreatedAt, UpdatedAt: c.UpdatedAt,
+	}
+}
+
+func commentsToModel(cs []client.Comment) []*model.Comment {
+	out := make([]*model.Comment, len(cs))
+	for i := range cs {
+		out[i] = commentToModel(&cs[i])
 	}
 	return out
 }

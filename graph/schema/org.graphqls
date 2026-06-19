@@ -52,18 +52,23 @@ type Member {
     orgId:     ID!
     role:      String!
     source:    String!
+    email:     String!
+    name:      String!
+    teamId:    ID
+    teamName:  String
     createdAt: Time!
     updatedAt: Time!
 }
 
 type Team {
-    id:         ID!
-    orgId:      ID!
-    name:       String!
-    email:      String
-    externalId: String
-    createdAt:  Time!
-    updatedAt:  Time!
+    id:          ID!
+    orgId:       ID!
+    name:        String!
+    email:       String
+    externalId:  String
+    memberCount: Int!
+    createdAt:   Time!
+    updatedAt:   Time!
 }
 
 type TeamMember {

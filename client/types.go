@@ -133,18 +133,23 @@ type Member struct {
 	OrgID     string    `json:"orgId"`
 	Role      string    `json:"role"`
 	Source    string    `json:"source"`
+	Email     string    `json:"email"`
+	Name      string    `json:"name"`
+	TeamID    *string   `json:"teamId,omitempty"`
+	TeamName  *string   `json:"teamName,omitempty"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 type Team struct {
-	ID         string    `json:"id"`
-	OrgID      string    `json:"orgId"`
-	Name       string    `json:"name"`
-	Email      string    `json:"email,omitempty"`
-	ExternalID string    `json:"externalId,omitempty"`
-	CreatedAt  time.Time `json:"createdAt"`
-	UpdatedAt  time.Time `json:"updatedAt"`
+	ID          string    `json:"id"`
+	OrgID       string    `json:"orgId"`
+	Name        string    `json:"name"`
+	Email       string    `json:"email,omitempty"`
+	ExternalID  string    `json:"externalId,omitempty"`
+	MemberCount int       `json:"memberCount"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
 type TeamMember struct {
@@ -422,6 +427,23 @@ type FocalPointMeta struct {
 	CreatedAt            time.Time       `json:"createdAt"`
 	UpdatedAt            time.Time       `json:"updatedAt"`
 	DeletedAt            *time.Time      `json:"deletedAt,omitempty"`
+}
+
+type AssetUpload struct {
+	AssetID   string `json:"assetId"`
+	UploadURL string `json:"uploadUrl"`
+}
+
+type Comment struct {
+	ID              string    `json:"id"`
+	OrgID           string    `json:"orgId"`
+	ResourceID      string    `json:"resourceId"`
+	ParentCommentID *string   `json:"parentCommentId,omitempty"`
+	Text            string    `json:"text"`
+	CreatedBy       string    `json:"createdBy"`
+	UpdatedBy       *string   `json:"updatedBy,omitempty"`
+	CreatedAt       time.Time `json:"createdAt"`
+	UpdatedAt       time.Time `json:"updatedAt"`
 }
 
 // ── Catalog ───────────────────────────────────────────────────────────────────

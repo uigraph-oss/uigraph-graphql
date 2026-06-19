@@ -155,6 +155,32 @@ type Components {
     customComponents: [Component!]!
 }
 
+extend type Mutation {
+    createCustomComponent(orgId: ID!, input: CustomComponentInput!):          Component!
+    updateCustomComponent(orgId: ID!, id: ID!, input: CustomComponentInput!): Component!
+    deleteCustomComponent(orgId: ID!, id: ID!):                              Boolean!
+}
+
+input CustomComponentInput {
+    name:            String!
+    description:     String
+    category:        String
+    tags:            [String!]
+    isActive:        Boolean
+    order:           Int
+    componentFields: [CustomComponentFieldInput!]
+}
+
+input CustomComponentFieldInput {
+    componentFieldId: ID
+    label:            String!
+    type:             String!
+    required:         Boolean
+    readonly:         Boolean
+    options:          [String!]
+    order:            Int
+}
+
 type DiagramImage {
     diagramImageId: String!
     diagramId:      String!

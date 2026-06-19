@@ -313,6 +313,29 @@ func (r *mutationResolver) DeleteFocalPointMeta(ctx context.Context, orgID strin
 	return true, r.Client.DeleteFocalPointMeta(ctx, orgID, mapID, frameID, focalPointID, id)
 }
 
+// CreateCustomComponent is the resolver for the createCustomComponent field.
+func (r *mutationResolver) CreateCustomComponent(ctx context.Context, orgID string, input model.CustomComponentInput) (*model.Component, error) {
+	c, err := r.Client.CreateCustomComponent(ctx, orgID, toMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return componentToModel(*c), nil
+}
+
+// UpdateCustomComponent is the resolver for the updateCustomComponent field.
+func (r *mutationResolver) UpdateCustomComponent(ctx context.Context, orgID string, id string, input model.CustomComponentInput) (*model.Component, error) {
+	c, err := r.Client.UpdateCustomComponent(ctx, orgID, id, toMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return componentToModel(*c), nil
+}
+
+// DeleteCustomComponent is the resolver for the deleteCustomComponent field.
+func (r *mutationResolver) DeleteCustomComponent(ctx context.Context, orgID string, id string) (bool, error) {
+	return true, r.Client.DeleteCustomComponent(ctx, orgID, id)
+}
+
 // Folders is the resolver for the folders field.
 func (r *queryResolver) Folders(ctx context.Context, orgID string, typeArg *string, parentID *string) ([]*model.Folder, error) {
 	t := ""

@@ -1,0 +1,10 @@
+extend type Mutation {
+    # createAssetUpload allocates a new asset id and returns a short-lived
+    # presigned PUT URL the client uploads the file to directly.
+    createAssetUpload(orgId: ID!): AssetUpload!
+}
+
+type AssetUpload {
+    assetId:   ID!
+    uploadUrl: String!
+}

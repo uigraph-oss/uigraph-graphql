@@ -111,6 +111,11 @@ type AssertionInput struct {
 	Value string `json:"value"`
 }
 
+type AssetUpload struct {
+	AssetID   string `json:"assetId"`
+	UploadURL string `json:"uploadUrl"`
+}
+
 type AuthConfig struct {
 	Type          string  `json:"type"`
 	BearerToken   *string `json:"bearerToken,omitempty"`
@@ -137,6 +142,19 @@ type Canvas struct {
 	NavigationY    float64   `json:"navigationY"`
 	FramePositions string    `json:"framePositions"`
 	UpdatedAt      time.Time `json:"updatedAt"`
+}
+
+type Comment struct {
+	ID              string    `json:"id"`
+	OrgID           string    `json:"orgId"`
+	ResourceID      string    `json:"resourceId"`
+	ParentCommentID *string   `json:"parentCommentId,omitempty"`
+	Text            string    `json:"text"`
+	CreatedBy       string    `json:"createdBy"`
+	UpdatedBy       *string   `json:"updatedBy,omitempty"`
+	CreatedByActor  *Actor    `json:"createdByActor,omitempty"`
+	CreatedAt       time.Time `json:"createdAt"`
+	UpdatedAt       time.Time `json:"updatedAt"`
 }
 
 type Component struct {
@@ -187,6 +205,12 @@ type CreateAPIGroupInput struct {
 	Label    *string `json:"label,omitempty"`
 	Protocol *string `json:"protocol,omitempty"`
 	Spec     *string `json:"spec,omitempty"`
+}
+
+type CreateCommentInput struct {
+	ResourceID      string  `json:"resourceId"`
+	Text            string  `json:"text"`
+	ParentCommentID *string `json:"parentCommentId,omitempty"`
 }
 
 type CreateDiagramInput struct {
@@ -413,6 +437,26 @@ type CreatedToken struct {
 	Prefix           string    `json:"prefix"`
 	Token            string    `json:"token"`
 	CreatedAt        time.Time `json:"createdAt"`
+}
+
+type CustomComponentFieldInput struct {
+	ComponentFieldID *string  `json:"componentFieldId,omitempty"`
+	Label            string   `json:"label"`
+	Type             string   `json:"type"`
+	Required         *bool    `json:"required,omitempty"`
+	Readonly         *bool    `json:"readonly,omitempty"`
+	Options          []string `json:"options,omitempty"`
+	Order            *int     `json:"order,omitempty"`
+}
+
+type CustomComponentInput struct {
+	Name            string                       `json:"name"`
+	Description     *string                      `json:"description,omitempty"`
+	Category        *string                      `json:"category,omitempty"`
+	Tags            []string                     `json:"tags,omitempty"`
+	IsActive        *bool                        `json:"isActive,omitempty"`
+	Order           *int                         `json:"order,omitempty"`
+	ComponentFields []*CustomComponentFieldInput `json:"componentFields,omitempty"`
 }
 
 type DatabaseTestCase struct {
@@ -742,6 +786,10 @@ type Member struct {
 	OrgID     string    `json:"orgId"`
 	Role      string    `json:"role"`
 	Source    string    `json:"source"`
+	Email     string    `json:"email"`
+	Name      string    `json:"name"`
+	TeamID    *string   `json:"teamId,omitempty"`
+	TeamName  *string   `json:"teamName,omitempty"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
@@ -981,13 +1029,14 @@ type SyncFrameResult struct {
 }
 
 type Team struct {
-	ID         string    `json:"id"`
-	OrgID      string    `json:"orgId"`
-	Name       string    `json:"name"`
-	Email      *string   `json:"email,omitempty"`
-	ExternalID *string   `json:"externalId,omitempty"`
-	CreatedAt  time.Time `json:"createdAt"`
-	UpdatedAt  time.Time `json:"updatedAt"`
+	ID          string    `json:"id"`
+	OrgID       string    `json:"orgId"`
+	Name        string    `json:"name"`
+	Email       *string   `json:"email,omitempty"`
+	ExternalID  *string   `json:"externalId,omitempty"`
+	MemberCount int       `json:"memberCount"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
 type TeamMember struct {
@@ -1142,6 +1191,10 @@ type UpdateAPIGroupInput struct {
 	Label    *string `json:"label,omitempty"`
 	Protocol *string `json:"protocol,omitempty"`
 	Spec     *string `json:"spec,omitempty"`
+}
+
+type UpdateCommentInput struct {
+	Text *string `json:"text,omitempty"`
 }
 
 type UpdateDiagramInput struct {

@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"net/url"
 	"strings"
 )
@@ -17,4 +18,10 @@ func (c *Client) ResolveAssetURLs(ctx context.Context, orgID string, ids []strin
 	}
 	path := "/api/v1/orgs/" + orgID + "/assets/urls?ids=" + url.QueryEscape(strings.Join(ids, ","))
 	return out.URLs, c.get(ctx, path, &out)
+}
+
+// CreateAssetUpload allocates a new asset id and returns a presigned PUT URL.
+func (c *Client) CreateAssetUpload(ctx context.Context, orgID string) (*AssetUpload, error) {
+	var out AssetUpload
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/assets", orgID), map[string]interface{}{}, &out)
 }
