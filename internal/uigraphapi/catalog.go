@@ -2,12 +2,148 @@ package uigraphapi
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"time"
 )
 
-// ── Services ──────────────────────────────────────────────────────────────────
+type Service struct {
+	ID              string          `json:"id"`
+	OrgID           string          `json:"orgId"`
+	FolderID        *string         `json:"folderId,omitempty"`
+	TeamID          *string         `json:"teamId,omitempty"`
+	Name            string          `json:"name"`
+	Slug            string          `json:"slug"`
+	Description     string          `json:"description"`
+	Status          string          `json:"status"`
+	Tier            string          `json:"tier"`
+	Category        string          `json:"category"`
+	Language        string          `json:"language"`
+	GitRepoURL      *string         `json:"gitRepoUrl,omitempty"`
+	JiraProjectURL  *string         `json:"jiraProjectUrl,omitempty"`
+	SlackChannelURL *string         `json:"slackChannelUrl,omitempty"`
+	LastCommitSha   *string         `json:"lastCommitSha,omitempty"`
+	Labels          []string        `json:"labels"`
+	Metadata        json.RawMessage `json:"metadata,omitempty"`
+	CreatedBy       string          `json:"createdBy"`
+	UpdatedBy       *string         `json:"updatedBy,omitempty"`
+	CreatedAt       time.Time       `json:"createdAt"`
+	UpdatedAt       time.Time       `json:"updatedAt"`
+}
+
+type ServiceStats struct {
+	ServiceID     string `json:"serviceId"`
+	EndpointCount int    `json:"endpointCount"`
+	DiagramCount  int    `json:"diagramCount"`
+	DocCount      int    `json:"docCount"`
+	DBTableCount  int    `json:"dbTableCount"`
+	TestCaseCount int    `json:"testCaseCount"`
+}
+
+type APIGroup struct {
+	ID        string    `json:"id"`
+	ServiceID string    `json:"serviceId"`
+	OrgID     string    `json:"orgId"`
+	Name      string    `json:"name"`
+	Version   string    `json:"version"`
+	Label     *string   `json:"label,omitempty"`
+	Protocol  string    `json:"protocol"`
+	SpecKey   *string   `json:"specKey,omitempty"`
+	SpecHash  *string   `json:"specHash,omitempty"`
+	CreatedBy string    `json:"createdBy"`
+	UpdatedBy *string   `json:"updatedBy,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
+
+type APIGroupVersion struct {
+	ID            string    `json:"id"`
+	APIGroupID    string    `json:"apiGroupId"`
+	VersionNumber int       `json:"versionNumber"`
+	Label         *string   `json:"label,omitempty"`
+	SpecKey       string    `json:"specKey"`
+	SpecHash      string    `json:"specHash"`
+	IsAutoVersion bool      `json:"isAutoVersion"`
+	CreatedBy     string    `json:"createdBy"`
+	CreatedAt     time.Time `json:"createdAt"`
+}
+
+type ServiceDoc struct {
+	ID          string    `json:"id"`
+	ServiceID   string    `json:"serviceId"`
+	OrgID       string    `json:"orgId"`
+	FileKey     string    `json:"fileKey"`
+	FileName    string    `json:"fileName"`
+	FileType    string    `json:"fileType"`
+	Description string    `json:"description"`
+	ContentHash string    `json:"contentHash"`
+	CreatedBy   string    `json:"createdBy"`
+	UpdatedBy   *string   `json:"updatedBy,omitempty"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+}
+
+type ServiceDiagram struct {
+	ServiceID string    `json:"serviceId"`
+	DiagramID string    `json:"diagramId"`
+	OrgID     string    `json:"orgId"`
+	CreatedBy string    `json:"createdBy"`
+	UpdatedBy *string   `json:"updatedBy,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	Diagram   *Diagram  `json:"diagram,omitempty"`
+}
+
+type ServiceDB struct {
+	ID         string          `json:"id"`
+	ServiceID  string          `json:"serviceId"`
+	OrgID      string          `json:"orgId"`
+	DBName     string          `json:"dbName"`
+	DBType     string          `json:"dbType"`
+	Dialect    string          `json:"dialect"`
+	SchemaJSON json.RawMessage `json:"schemaJson"`
+	Source     *string         `json:"source,omitempty"`
+	SourceTS   *time.Time      `json:"sourceTs,omitempty"`
+	CreatedBy  string          `json:"createdBy"`
+	UpdatedBy  *string         `json:"updatedBy,omitempty"`
+	CreatedAt  time.Time       `json:"createdAt"`
+	UpdatedAt  time.Time       `json:"updatedAt"`
+}
+
+type ServiceDBVersion struct {
+	ID            string          `json:"id"`
+	ServiceDBID   string          `json:"serviceDbId"`
+	VersionNumber int             `json:"versionNumber"`
+	Label         *string         `json:"label,omitempty"`
+	SchemaJSON    json.RawMessage `json:"schemaJson"`
+	Source        *string         `json:"source,omitempty"`
+	SourceTS      *time.Time      `json:"sourceTs,omitempty"`
+	IsAutoVersion bool            `json:"isAutoVersion"`
+	CreatedBy     string          `json:"createdBy"`
+	CreatedAt     time.Time       `json:"createdAt"`
+}
+
+type APIEndpoint struct {
+	ID          string          `json:"id"`
+	APIGroupID  string          `json:"apiGroupId"`
+	ServiceID   string          `json:"serviceId"`
+	OrgID       string          `json:"orgId"`
+	OperationID string          `json:"operationId"`
+	Method      string          `json:"method"`
+	Path        string          `json:"path"`
+	Summary     string          `json:"summary"`
+	Description string          `json:"description"`
+	Tags        []string        `json:"tags"`
+	Parameters  json.RawMessage `json:"parameters"`
+	RequestBody json.RawMessage `json:"requestBody"`
+	Responses   json.RawMessage `json:"responses"`
+	Order       float64         `json:"order"`
+	CreatedBy   string          `json:"createdBy"`
+	UpdatedBy   *string         `json:"updatedBy,omitempty"`
+	CreatedAt   time.Time       `json:"createdAt"`
+	UpdatedAt   time.Time       `json:"updatedAt"`
+}
 
 func (c *Client) ListServices(ctx context.Context, orgID, folderID, teamID string) ([]Service, error) {
 	path := "/api/v1/orgs/" + orgID + "/services"
@@ -59,8 +195,6 @@ func (c *Client) ListServiceStats(ctx context.Context, orgID string, serviceID *
 	return out.Stats, c.get(ctx, path, &out)
 }
 
-// ── API Groups ────────────────────────────────────────────────────────────────
-
 func (c *Client) ListAPIGroups(ctx context.Context, orgID, serviceID string) ([]APIGroup, error) {
 	var out struct {
 		APIGroups []APIGroup `json:"apiGroups"`
@@ -99,8 +233,6 @@ func (c *Client) ListAPIGroupVersions(ctx context.Context, orgID, serviceID, api
 	return out.Versions, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups/%s/versions", orgID, serviceID, apiGroupID), &out)
 }
 
-// ── Service Docs ──────────────────────────────────────────────────────────────
-
 func (c *Client) ListServiceDocs(ctx context.Context, orgID, serviceID string) ([]ServiceDoc, error) {
 	var out struct {
 		Docs []ServiceDoc `json:"docs"`
@@ -127,8 +259,6 @@ func (c *Client) DeleteServiceDoc(ctx context.Context, orgID, serviceID, id stri
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/docs/%s", orgID, serviceID, id))
 }
 
-// ── Service Diagrams ──────────────────────────────────────────────────────────
-
 func (c *Client) ListServiceDiagrams(ctx context.Context, orgID, serviceID string) ([]ServiceDiagram, error) {
 	var out struct {
 		Diagrams []ServiceDiagram `json:"diagrams"`
@@ -144,8 +274,6 @@ func (c *Client) CreateServiceDiagram(ctx context.Context, orgID, serviceID stri
 func (c *Client) DeleteServiceDiagram(ctx context.Context, orgID, serviceID, diagramID string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/diagrams/%s", orgID, serviceID, diagramID))
 }
-
-// ── Service DBs ───────────────────────────────────────────────────────────────
 
 func (c *Client) ListServiceDBs(ctx context.Context, orgID, serviceID string) ([]ServiceDB, error) {
 	var out struct {
@@ -190,8 +318,6 @@ func (c *Client) RestoreServiceDBVersion(ctx context.Context, orgID, serviceID, 
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/dbs/%s/versions/%s/restore", orgID, serviceID, serviceDBID, versionID), nil, &out)
 }
 
-// ── API Endpoints ─────────────────────────────────────────────────────────────
-
 func (c *Client) ListAPIEndpoints(ctx context.Context, orgID, serviceID, apiGroupID string) ([]APIEndpoint, error) {
 	var out struct {
 		Endpoints []APIEndpoint `json:"endpoints"`
@@ -216,147 +342,4 @@ func (c *Client) UpdateAPIEndpoint(ctx context.Context, orgID, serviceID, apiGro
 
 func (c *Client) DeleteAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups/%s/endpoints/%s", orgID, serviceID, apiGroupID, id))
-}
-
-// ── Test Packs ────────────────────────────────────────────────────────────────
-
-func (c *Client) ListTestPacks(ctx context.Context, orgID, serviceID string) ([]TestPack, error) {
-	var out struct {
-		TestPacks []TestPack `json:"testPacks"`
-	}
-	return out.TestPacks, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-packs", orgID, serviceID), &out)
-}
-
-func (c *Client) CreateTestPack(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*TestPack, error) {
-	var out TestPack
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-pack", orgID, serviceID), body, &out)
-}
-
-func (c *Client) UpdateTestPack(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*TestPack, error) {
-	var out TestPack
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-pack/%s", orgID, serviceID, id), body, &out)
-}
-
-func (c *Client) DeleteTestPack(ctx context.Context, orgID, serviceID, id string) error {
-	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-pack/%s", orgID, serviceID, id))
-}
-
-// ── Test Cases ────────────────────────────────────────────────────────────────
-
-func (c *Client) ListTestCases(ctx context.Context, orgID, serviceID string, testPackID *string) ([]TestCase, error) {
-	path := fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-cases", orgID, serviceID)
-	if testPackID != nil && *testPackID != "" {
-		q := url.Values{}
-		q.Set("testPackId", *testPackID)
-		path += "?" + q.Encode()
-	}
-	var out struct {
-		TestCases []TestCase `json:"testCases"`
-	}
-	return out.TestCases, c.get(ctx, path, &out)
-}
-
-func (c *Client) CreateTestCase(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*TestCase, error) {
-	var out TestCase
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-case", orgID, serviceID), body, &out)
-}
-
-func (c *Client) UpdateTestCase(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*TestCase, error) {
-	var out TestCase
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-case/%s", orgID, serviceID, id), body, &out)
-}
-
-func (c *Client) DeleteTestCase(ctx context.Context, orgID, serviceID, id string) error {
-	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-case/%s", orgID, serviceID, id))
-}
-
-// ── Test Runs ────────────────────────────────────────────────────────────────
-
-func (c *Client) GetTestRun(ctx context.Context, orgID, serviceID, id string) (*TestRun, error) {
-	var out TestRun
-	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-run/%s", orgID, serviceID, id), &out)
-}
-
-func (c *Client) ListTestRuns(ctx context.Context, orgID, serviceID string, testPackID *string) ([]TestRun, error) {
-	path := fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-runs", orgID, serviceID)
-	if testPackID != nil && *testPackID != "" {
-		q := url.Values{}
-		q.Set("testPackId", *testPackID)
-		path += "?" + q.Encode()
-	}
-	var out struct {
-		TestRuns []TestRun `json:"testRuns"`
-	}
-	return out.TestRuns, c.get(ctx, path, &out)
-}
-
-func (c *Client) ListTestRunsSummary(
-	ctx context.Context,
-	orgID, serviceID string,
-	testPackID *string,
-	environment *string,
-	status *string,
-	executedBy *string,
-	fromDate *time.Time,
-	toDate *time.Time,
-) ([]TestRunSummary, error) {
-	q := url.Values{}
-	if testPackID != nil && *testPackID != "" {
-		q.Set("testPackId", *testPackID)
-	}
-	if environment != nil && *environment != "" {
-		q.Set("environment", *environment)
-	}
-	if status != nil && *status != "" {
-		q.Set("status", *status)
-	}
-	if executedBy != nil && *executedBy != "" {
-		q.Set("executedBy", *executedBy)
-	}
-	if fromDate != nil {
-		q.Set("fromDate", fromDate.UTC().Format(time.RFC3339))
-	}
-	if toDate != nil {
-		q.Set("toDate", toDate.UTC().Format(time.RFC3339))
-	}
-	path := fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-runs-summary", orgID, serviceID)
-	if len(q) > 0 {
-		path += "?" + q.Encode()
-	}
-	var out struct {
-		TestRunsSummary []TestRunSummary `json:"testRunsSummary"`
-	}
-	return out.TestRunsSummary, c.get(ctx, path, &out)
-}
-
-func (c *Client) CreateTestRun(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*TestRun, error) {
-	var out TestRun
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-run", orgID, serviceID), body, &out)
-}
-
-func (c *Client) UpdateTestRun(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*TestRun, error) {
-	var out TestRun
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-run/%s", orgID, serviceID, id), body, &out)
-}
-
-// ── Test Run Results ─────────────────────────────────────────────────────────
-
-func (c *Client) ListTestRunResults(ctx context.Context, orgID, serviceID, testRunID string) ([]TestRunResult, error) {
-	q := url.Values{}
-	q.Set("testRunId", testRunID)
-	path := fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-run-results?%s", orgID, serviceID, q.Encode())
-	var out struct {
-		TestRunResults []TestRunResult `json:"testRunResults"`
-	}
-	return out.TestRunResults, c.get(ctx, path, &out)
-}
-
-func (c *Client) CreateTestRunResult(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*TestRunResult, error) {
-	var out TestRunResult
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-run-result", orgID, serviceID), body, &out)
-}
-
-func (c *Client) UpdateTestRunResult(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*TestRunResult, error) {
-	var out TestRunResult
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-run-result/%s", orgID, serviceID, id), body, &out)
 }
