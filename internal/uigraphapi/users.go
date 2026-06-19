@@ -1,6 +1,21 @@
 package uigraphapi
 
-import "context"
+import (
+	"context"
+	"time"
+)
+
+type User struct {
+	ID         string     `json:"id"`
+	Email      string     `json:"email"`
+	Name       string     `json:"name"`
+	Login      string     `json:"login"`
+	Disabled   bool       `json:"disabled"`
+	Role       string     `json:"role"`
+	LastSeenAt *time.Time `json:"lastSeenAt,omitempty"`
+	CreatedAt  time.Time  `json:"createdAt"`
+	UpdatedAt  time.Time  `json:"updatedAt"`
+}
 
 // ── Users (server admin) ────────────────────────────────────────────────────
 

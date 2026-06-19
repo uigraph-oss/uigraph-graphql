@@ -3,7 +3,81 @@ package uigraphapi
 import (
 	"context"
 	"fmt"
+	"time"
 )
+
+type Org struct {
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	Slug      string    `json:"slug"`
+	Disabled  bool      `json:"disabled"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
+
+type Member struct {
+	UserID    string    `json:"userId"`
+	OrgID     string    `json:"orgId"`
+	Role      string    `json:"role"`
+	Source    string    `json:"source"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
+
+type Team struct {
+	ID         string    `json:"id"`
+	OrgID      string    `json:"orgId"`
+	Name       string    `json:"name"`
+	Email      string    `json:"email,omitempty"`
+	ExternalID string    `json:"externalId,omitempty"`
+	CreatedAt  time.Time `json:"createdAt"`
+	UpdatedAt  time.Time `json:"updatedAt"`
+}
+
+type TeamMember struct {
+	TeamID     string    `json:"teamId"`
+	UserID     string    `json:"userId"`
+	Permission string    `json:"permission"`
+	CreatedAt  time.Time `json:"createdAt"`
+}
+
+type Invitation struct {
+	ID        string     `json:"id"`
+	OrgID     string     `json:"orgId"`
+	Email     string     `json:"email"`
+	Role      string     `json:"role"`
+	Code      string     `json:"code"`
+	CreatedBy string     `json:"createdBy"`
+	CreatedAt time.Time  `json:"createdAt"`
+	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
+}
+
+type ServiceAccount struct {
+	ID          string    `json:"id"`
+	OrgID       string    `json:"orgId"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Role        string    `json:"role"`
+	Disabled    bool      `json:"disabled"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+}
+
+type ServiceAccountToken struct {
+	ID               string     `json:"id"`
+	ServiceAccountID string     `json:"serviceAccountId"`
+	Name             string     `json:"name"`
+	Prefix           string     `json:"prefix"`
+	ExpiresAt        *time.Time `json:"expiresAt,omitempty"`
+	LastUsedAt       *time.Time `json:"lastUsedAt,omitempty"`
+	Revoked          bool       `json:"revoked"`
+	CreatedAt        time.Time  `json:"createdAt"`
+}
+
+type CreatedToken struct {
+	ServiceAccountToken
+	Token string `json:"token"`
+}
 
 // ── Orgs ──────────────────────────────────────────────────────────────────────
 
