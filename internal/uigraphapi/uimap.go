@@ -4,136 +4,123 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/url"
+	"time"
 )
 
-// ── Folders ───────────────────────────────────────────────────────────────────
-
-func (c *Client) ListFolders(ctx context.Context, orgID, folderType, parentID string) ([]Folder, error) {
-	q := url.Values{}
-	if folderType != "" {
-		q.Set("type", folderType)
-	}
-	if parentID != "" {
-		q.Set("parentId", parentID)
-	}
-	path := "/api/v1/orgs/" + orgID + "/folders"
-	if len(q) > 0 {
-		path += "?" + q.Encode()
-	}
-	var out struct {
-		Folders []Folder `json:"folders"`
-	}
-	return out.Folders, c.get(ctx, path, &out)
+type UIMap struct {
+	ID          string     `json:"id"`
+	OrgID       string     `json:"orgId"`
+	FolderID    *string    `json:"folderId,omitempty"`
+	TeamID      *string    `json:"teamId,omitempty"`
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	Status      string     `json:"status"`
+	CreatedBy   string     `json:"createdBy"`
+	UpdatedBy   *string    `json:"updatedBy,omitempty"`
+	CreatedAt   time.Time  `json:"createdAt"`
+	UpdatedAt   time.Time  `json:"updatedAt"`
+	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
 }
 
-func (c *Client) GetFolder(ctx context.Context, orgID, id string) (*Folder, error) {
-	var out Folder
-	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/folders/%s", orgID, id), &out)
+type Frame struct {
+	ID                    string     `json:"id"`
+	MapID                 string     `json:"mapId"`
+	OrgID                 string     `json:"orgId"`
+	ParentFrameID         *string    `json:"parentFrameId,omitempty"`
+	Name                  string     `json:"name"`
+	Description           string     `json:"description"`
+	TemplateType          string     `json:"templateType"`
+	ScreenshotAssetID     *string    `json:"screenshotAssetId,omitempty"`
+	ScreenshotContentHash *string    `json:"screenshotContentHash,omitempty"`
+	Status                string     `json:"status"`
+	Order                 float64    `json:"order"`
+	Source                *string    `json:"source,omitempty"`
+	CreatedBy             string     `json:"createdBy"`
+	UpdatedBy             *string    `json:"updatedBy,omitempty"`
+	CreatedAt             time.Time  `json:"createdAt"`
+	UpdatedAt             time.Time  `json:"updatedAt"`
+	DeletedAt             *time.Time `json:"deletedAt,omitempty"`
 }
 
-func (c *Client) CreateFolder(ctx context.Context, orgID string, body map[string]interface{}) (*Folder, error) {
-	var out Folder
-	return &out, c.post(ctx, "/api/v1/orgs/"+orgID+"/folders", body, &out)
+type FocalPoint struct {
+	ID         string     `json:"id"`
+	FrameID    string     `json:"frameId"`
+	OrgID      string     `json:"orgId"`
+	Name       string     `json:"name"`
+	LocationX  float64    `json:"locationX"`
+	LocationY  float64    `json:"locationY"`
+	Visibility string     `json:"visibility"`
+	IsActive   bool       `json:"isActive"`
+	CreatedBy  string     `json:"createdBy"`
+	UpdatedBy  *string    `json:"updatedBy,omitempty"`
+	CreatedAt  time.Time  `json:"createdAt"`
+	UpdatedAt  time.Time  `json:"updatedAt"`
+	DeletedAt  *time.Time `json:"deletedAt,omitempty"`
 }
 
-func (c *Client) UpdateFolder(ctx context.Context, orgID, id string, body map[string]interface{}) (*Folder, error) {
-	var out Folder
-	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/folders/%s", orgID, id), body, &out)
+type Canvas struct {
+	MapID          string          `json:"mapId"`
+	OrgID          string          `json:"orgId"`
+	Zoom           float64         `json:"zoom"`
+	NavigationX    float64         `json:"navigationX"`
+	NavigationY    float64         `json:"navigationY"`
+	FramePositions json.RawMessage `json:"framePositions"`
+	UpdatedAt      time.Time       `json:"updatedAt"`
 }
 
-func (c *Client) DeleteFolder(ctx context.Context, orgID, id string) error {
-	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/folders/%s", orgID, id))
+type FrameGroup struct {
+	ID          string     `json:"id"`
+	FrameID     string     `json:"frameId"`
+	OrgID       string     `json:"orgId"`
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	LocationX   float64    `json:"locationX"`
+	LocationY   float64    `json:"locationY"`
+	Width       float64    `json:"width"`
+	Height      float64    `json:"height"`
+	Order       float64    `json:"order"`
+	IsActive    bool       `json:"isActive"`
+	CreatedBy   string     `json:"createdBy"`
+	UpdatedBy   *string    `json:"updatedBy,omitempty"`
+	CreatedAt   time.Time  `json:"createdAt"`
+	UpdatedAt   time.Time  `json:"updatedAt"`
+	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
 }
 
-// ── Diagrams ──────────────────────────────────────────────────────────────────
-
-func (c *Client) ListDiagrams(ctx context.Context, orgID, folderID string) ([]Diagram, error) {
-	path := "/api/v1/orgs/" + orgID + "/diagrams"
-	if folderID != "" {
-		path += "?folderId=" + folderID
-	}
-	var out struct {
-		Diagrams []Diagram `json:"diagrams"`
-	}
-	return out.Diagrams, c.get(ctx, path, &out)
+type FrameLink struct {
+	ID            string     `json:"id"`
+	FrameID       string     `json:"frameId"`
+	OrgID         string     `json:"orgId"`
+	Kind          string     `json:"kind"`
+	TargetFrameID *string    `json:"targetFrameId,omitempty"`
+	TargetMapID   *string    `json:"targetMapId,omitempty"`
+	Label         string     `json:"label"`
+	LocationX     float64    `json:"locationX"`
+	LocationY     float64    `json:"locationY"`
+	IsActive      bool       `json:"isActive"`
+	CreatedBy     string     `json:"createdBy"`
+	UpdatedBy     *string    `json:"updatedBy,omitempty"`
+	CreatedAt     time.Time  `json:"createdAt"`
+	UpdatedAt     time.Time  `json:"updatedAt"`
+	DeletedAt     *time.Time `json:"deletedAt,omitempty"`
 }
 
-func (c *Client) GetDiagram(ctx context.Context, orgID, id string) (*Diagram, error) {
-	var out Diagram
-	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s", orgID, id), &out)
+type FocalPointMeta struct {
+	ID                   string          `json:"id"`
+	FocalPointID         string          `json:"focalPointId"`
+	OrgID                string          `json:"orgId"`
+	FrameID              string          `json:"frameId"`
+	ComponentID          string          `json:"componentId"`
+	ComponentLinkID      *string         `json:"componentLinkId,omitempty"`
+	ComponentImages      json.RawMessage `json:"componentImages"`
+	ComponentFlowDiagram *string         `json:"componentFlowDiagram,omitempty"`
+	ComponentModalFields json.RawMessage `json:"componentModalFields"`
+	CreatedBy            string          `json:"createdBy"`
+	UpdatedBy            *string         `json:"updatedBy,omitempty"`
+	CreatedAt            time.Time       `json:"createdAt"`
+	UpdatedAt            time.Time       `json:"updatedAt"`
+	DeletedAt            *time.Time      `json:"deletedAt,omitempty"`
 }
-
-func (c *Client) GetDiagramContent(ctx context.Context, orgID, id string) (string, error) {
-	var out struct {
-		DiagramID string `json:"diagramId"`
-		Content   string `json:"content"`
-	}
-	return out.Content, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/content", orgID, id), &out)
-}
-
-func (c *Client) CreateDiagram(ctx context.Context, orgID string, body map[string]interface{}) (*Diagram, error) {
-	var out Diagram
-	return &out, c.post(ctx, "/api/v1/orgs/"+orgID+"/diagrams", body, &out)
-}
-
-func (c *Client) UpdateDiagram(ctx context.Context, orgID, id string, body map[string]interface{}) (*Diagram, error) {
-	var out Diagram
-	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s", orgID, id), body, &out)
-}
-
-func (c *Client) DeleteDiagram(ctx context.Context, orgID, id string) error {
-	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s", orgID, id))
-}
-
-func (c *Client) ListFlowDiagramComponents(ctx context.Context, orgID string) (*FlowComponents, error) {
-	var out FlowComponents
-	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/flow-diagram-components", orgID), &out)
-}
-
-func (c *Client) ListComponents(ctx context.Context, orgID string) (*Components, error) {
-	var out Components
-	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/components", orgID), &out)
-}
-
-func (c *Client) ListDiagramImages(ctx context.Context, orgID, diagramID string) ([]DiagramImage, error) {
-	var out struct {
-		Images []DiagramImage `json:"images"`
-	}
-	return out.Images, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/images", orgID, diagramID), &out)
-}
-
-func (c *Client) SyncDiagram(ctx context.Context, orgID string, body map[string]interface{}) (map[string]interface{}, error) {
-	var out map[string]interface{}
-	return out, c.post(ctx, "/api/v1/orgs/"+orgID+"/diagrams/sync", body, &out)
-}
-
-func (c *Client) ListDiagramVersions(ctx context.Context, orgID, diagramID string) ([]DiagramVersion, error) {
-	var out struct {
-		Versions []DiagramVersion `json:"versions"`
-	}
-	return out.Versions, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/versions", orgID, diagramID), &out)
-}
-
-func (c *Client) CreateDiagramVersion(ctx context.Context, orgID, diagramID string, body map[string]interface{}) (*DiagramVersion, error) {
-	var out DiagramVersion
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/versions", orgID, diagramID), body, &out)
-}
-
-func (c *Client) GetDiagramVersionContent(ctx context.Context, orgID, diagramID, versionID string) (string, error) {
-	var out struct {
-		VersionID string `json:"versionId"`
-		Content   string `json:"content"`
-	}
-	return out.Content, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/versions/%s/content", orgID, diagramID, versionID), &out)
-}
-
-func (c *Client) RestoreDiagramVersion(ctx context.Context, orgID, diagramID, versionID string) (*Diagram, error) {
-	var out Diagram
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/versions/%s/restore", orgID, diagramID, versionID), nil, &out)
-}
-
-// ── Maps ──────────────────────────────────────────────────────────────────────
 
 func (c *Client) ListMaps(ctx context.Context, orgID, folderID string) ([]UIMap, error) {
 	path := "/api/v1/orgs/" + orgID + "/maps"
@@ -164,8 +151,6 @@ func (c *Client) UpdateMap(ctx context.Context, orgID, id string, body map[strin
 func (c *Client) DeleteMap(ctx context.Context, orgID, id string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s", orgID, id))
 }
-
-// ── Frames ────────────────────────────────────────────────────────────────────
 
 func (c *Client) ListFrames(ctx context.Context, orgID, mapID string) ([]Frame, error) {
 	var out struct {
@@ -203,8 +188,6 @@ func (c *Client) SyncFrame(ctx context.Context, orgID, mapID string, body map[st
 	return out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/sync", orgID, mapID), body, &out)
 }
 
-// ── Focal Points ──────────────────────────────────────────────────────────────
-
 func (c *Client) ListFocalPoints(ctx context.Context, orgID, mapID, frameID string) ([]FocalPoint, error) {
 	var out struct {
 		FocalPoints []FocalPoint `json:"focalPoints"`
@@ -231,8 +214,6 @@ func (c *Client) DeleteFocalPoint(ctx context.Context, orgID, mapID, frameID, id
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s", orgID, mapID, frameID, id))
 }
 
-// ── Canvas ────────────────────────────────────────────────────────────────────
-
 func (c *Client) GetCanvas(ctx context.Context, orgID, mapID string) (*Canvas, error) {
 	var out Canvas
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/canvas", orgID, mapID), &out)
@@ -242,8 +223,6 @@ func (c *Client) UpsertCanvas(ctx context.Context, orgID, mapID string, body map
 	var out Canvas
 	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/canvas", orgID, mapID), body, &out)
 }
-
-// ── Frame Groups ────────────────────────────────────────────────────────────────
 
 func (c *Client) ListFrameGroups(ctx context.Context, orgID, mapID, frameID string) ([]FrameGroup, error) {
 	var out struct {
@@ -266,8 +245,6 @@ func (c *Client) DeleteFrameGroup(ctx context.Context, orgID, mapID, frameID, id
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/groups/%s", orgID, mapID, frameID, id))
 }
 
-// ── Frame Links ─────────────────────────────────────────────────────────────────
-
 func (c *Client) ListFrameLinks(ctx context.Context, orgID, mapID, frameID string) ([]FrameLink, error) {
 	var out struct {
 		Links []FrameLink `json:"links"`
@@ -289,8 +266,6 @@ func (c *Client) DeleteFrameLink(ctx context.Context, orgID, mapID, frameID, id 
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/links/%s", orgID, mapID, frameID, id))
 }
 
-// ── Focal Point Meta ────────────────────────────────────────────────────────────
-
 func (c *Client) ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string) ([]FocalPointMeta, error) {
 	var out struct {
 		Meta []FocalPointMeta `json:"meta"`
@@ -310,12 +285,4 @@ func (c *Client) UpdateFocalPointMeta(ctx context.Context, orgID, mapID, frameID
 
 func (c *Client) DeleteFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta/%s", orgID, mapID, frameID, fpID, id))
-}
-
-// rawJSON returns the JSON string of a raw message, defaulting to "{}".
-func rawJSON(b json.RawMessage) string {
-	if len(b) == 0 {
-		return "{}"
-	}
-	return string(b)
 }
