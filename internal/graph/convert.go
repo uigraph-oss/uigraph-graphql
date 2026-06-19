@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 
 	"github.com/uigraph/graphql/internal/uigraphapi"
-	"github.com/uigraph/graphql/graph/model"
+	"github.com/uigraph/graphql/internal/graph/model"
 )
 
 // resolveActor resolves a single created_by / updated_by id within an org to

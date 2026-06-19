@@ -8,8 +8,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/uigraph/graphql/graph/generated"
-	"github.com/uigraph/graphql/graph/model"
+	"github.com/uigraph/graphql/internal/graph/generated"
+	"github.com/uigraph/graphql/internal/graph/model"
 )
 
 // CreatedByActor is the resolver for the createdByActor field.

@@ -7,8 +7,8 @@ package graph
 import (
 	"context"
 
+	"github.com/uigraph/graphql/internal/graph/model"
 	"github.com/uigraph/graphql/internal/uigraphapi"
-	"github.com/uigraph/graphql/graph/model"
 )
 
 // CreateUser is the resolver for the createUser field.

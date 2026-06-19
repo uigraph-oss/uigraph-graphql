@@ -7,8 +7,8 @@ package graph
 import (
 	"context"
 
-	"github.com/uigraph/graphql/graph/generated"
-	"github.com/uigraph/graphql/graph/model"
+	"github.com/uigraph/graphql/internal/graph/generated"
+	"github.com/uigraph/graphql/internal/graph/model"
 )
 
 // PreviewImageURL is the resolver for the previewImageUrl field.

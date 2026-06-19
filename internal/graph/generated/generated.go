@@ -14,7 +14,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/uigraph/graphql/graph/model"
+	"github.com/uigraph/graphql/internal/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -8849,7 +8849,7 @@ func (ec *executionContext) field_Mutation_addMember_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNAddMemberInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAddMemberInput(ctx, tmp)
+		return ec.unmarshalNAddMemberInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAddMemberInput(ctx, tmp)
 	}
 
 	var zeroVal model.AddMemberInput
@@ -9043,7 +9043,7 @@ func (ec *executionContext) field_Mutation_createAPIEndpoint_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateAPIEndpointInput(ctx, tmp)
+		return ec.unmarshalNCreateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateAPIEndpointInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateAPIEndpointInput
@@ -9117,7 +9117,7 @@ func (ec *executionContext) field_Mutation_createAPIGroup_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateAPIGroupInput(ctx, tmp)
+		return ec.unmarshalNCreateAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateAPIGroupInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateAPIGroupInput
@@ -9242,7 +9242,7 @@ func (ec *executionContext) field_Mutation_createDiagram_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramInput(ctx, tmp)
+		return ec.unmarshalNCreateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateDiagramInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateDiagramInput
@@ -9362,7 +9362,7 @@ func (ec *executionContext) field_Mutation_createFocalPointMeta_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFocalPointMetaInput(ctx, tmp)
+		return ec.unmarshalNCreateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFocalPointMetaInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateFocalPointMetaInput
@@ -9459,7 +9459,7 @@ func (ec *executionContext) field_Mutation_createFocalPoint_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFocalPointInput(ctx, tmp)
+		return ec.unmarshalNCreateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFocalPointInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateFocalPointInput
@@ -9510,7 +9510,7 @@ func (ec *executionContext) field_Mutation_createFolder_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFolderInput(ctx, tmp)
+		return ec.unmarshalNCreateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFolderInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateFolderInput
@@ -9607,7 +9607,7 @@ func (ec *executionContext) field_Mutation_createFrameGroup_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameGroupInput(ctx, tmp)
+		return ec.unmarshalNCreateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFrameGroupInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateFrameGroupInput
@@ -9704,7 +9704,7 @@ func (ec *executionContext) field_Mutation_createFrameLink_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameLinkInput(ctx, tmp)
+		return ec.unmarshalNCreateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFrameLinkInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateFrameLinkInput
@@ -9778,7 +9778,7 @@ func (ec *executionContext) field_Mutation_createFrame_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameInput(ctx, tmp)
+		return ec.unmarshalNCreateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFrameInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateFrameInput
@@ -9829,7 +9829,7 @@ func (ec *executionContext) field_Mutation_createInvitation_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateInvitationInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateInvitationInput(ctx, tmp)
+		return ec.unmarshalNCreateInvitationInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateInvitationInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateInvitationInput
@@ -9880,7 +9880,7 @@ func (ec *executionContext) field_Mutation_createMap_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateMapInput(ctx, tmp)
+		return ec.unmarshalNCreateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMapInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateMapInput
@@ -9908,7 +9908,7 @@ func (ec *executionContext) field_Mutation_createOrg_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateOrgInput(ctx, tmp)
+		return ec.unmarshalNCreateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateOrgInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateOrgInput
@@ -9936,7 +9936,7 @@ func (ec *executionContext) field_Mutation_createRoleMapping_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateRoleMappingInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateRoleMappingInput(ctx, tmp)
+		return ec.unmarshalNCreateRoleMappingInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateRoleMappingInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateRoleMappingInput
@@ -10010,7 +10010,7 @@ func (ec *executionContext) field_Mutation_createServiceAccountToken_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateTokenInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTokenInput(ctx, tmp)
+		return ec.unmarshalNCreateTokenInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTokenInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateTokenInput
@@ -10061,7 +10061,7 @@ func (ec *executionContext) field_Mutation_createServiceAccount_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateServiceAccountInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceAccountInput(ctx, tmp)
+		return ec.unmarshalNCreateServiceAccountInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceAccountInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateServiceAccountInput
@@ -10158,7 +10158,7 @@ func (ec *executionContext) field_Mutation_createServiceDBVersion_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateServiceDBVersionInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceDBVersionInput(ctx, tmp)
+		return ec.unmarshalNCreateServiceDBVersionInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceDBVersionInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateServiceDBVersionInput
@@ -10232,7 +10232,7 @@ func (ec *executionContext) field_Mutation_createServiceDB_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceDBInput(ctx, tmp)
+		return ec.unmarshalNCreateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceDBInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateServiceDBInput
@@ -10306,7 +10306,7 @@ func (ec *executionContext) field_Mutation_createServiceDiagram_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateServiceDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceDiagramInput(ctx, tmp)
+		return ec.unmarshalNCreateServiceDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceDiagramInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateServiceDiagramInput
@@ -10380,7 +10380,7 @@ func (ec *executionContext) field_Mutation_createServiceDoc_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceDocInput(ctx, tmp)
+		return ec.unmarshalNCreateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceDocInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateServiceDocInput
@@ -10431,7 +10431,7 @@ func (ec *executionContext) field_Mutation_createService_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateServiceInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceInput(ctx, tmp)
+		return ec.unmarshalNCreateServiceInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateServiceInput
@@ -10482,7 +10482,7 @@ func (ec *executionContext) field_Mutation_createTeam_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateTeamInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTeamInput(ctx, tmp)
+		return ec.unmarshalNCreateTeamInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTeamInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateTeamInput
@@ -10556,7 +10556,7 @@ func (ec *executionContext) field_Mutation_createTestCase_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateTestCaseInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTestCaseInput(ctx, tmp)
+		return ec.unmarshalNCreateTestCaseInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTestCaseInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateTestCaseInput
@@ -10630,7 +10630,7 @@ func (ec *executionContext) field_Mutation_createTestPack_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateTestPackInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTestPackInput(ctx, tmp)
+		return ec.unmarshalNCreateTestPackInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTestPackInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateTestPackInput
@@ -10704,7 +10704,7 @@ func (ec *executionContext) field_Mutation_createTestRunResult_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateTestRunResultInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTestRunResultInput(ctx, tmp)
+		return ec.unmarshalNCreateTestRunResultInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTestRunResultInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateTestRunResultInput
@@ -10778,7 +10778,7 @@ func (ec *executionContext) field_Mutation_createTestRun_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateTestRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTestRunInput(ctx, tmp)
+		return ec.unmarshalNCreateTestRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTestRunInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateTestRunInput
@@ -10806,7 +10806,7 @@ func (ec *executionContext) field_Mutation_createUser_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateUserInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateUserInput(ctx, tmp)
+		return ec.unmarshalNCreateUserInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateUserInput(ctx, tmp)
 	}
 
 	var zeroVal model.CreateUserInput
@@ -12773,7 +12773,7 @@ func (ec *executionContext) field_Mutation_syncAPIGroup_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNSyncAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncAPIGroupInput(ctx, tmp)
+		return ec.unmarshalNSyncAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncAPIGroupInput(ctx, tmp)
 	}
 
 	var zeroVal model.SyncAPIGroupInput
@@ -12824,7 +12824,7 @@ func (ec *executionContext) field_Mutation_syncDiagram_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNSyncDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncDiagramInput(ctx, tmp)
+		return ec.unmarshalNSyncDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncDiagramInput(ctx, tmp)
 	}
 
 	var zeroVal model.SyncDiagramInput
@@ -12898,7 +12898,7 @@ func (ec *executionContext) field_Mutation_syncFrame_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNSyncFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncFrameInput(ctx, tmp)
+		return ec.unmarshalNSyncFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncFrameInput(ctx, tmp)
 	}
 
 	var zeroVal model.SyncFrameInput
@@ -13018,7 +13018,7 @@ func (ec *executionContext) field_Mutation_updateAPIEndpoint_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateAPIEndpointInput(ctx, tmp)
+		return ec.unmarshalNUpdateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateAPIEndpointInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateAPIEndpointInput
@@ -13115,7 +13115,7 @@ func (ec *executionContext) field_Mutation_updateAPIGroup_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateAPIGroupInput(ctx, tmp)
+		return ec.unmarshalNUpdateAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateAPIGroupInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateAPIGroupInput
@@ -13189,7 +13189,7 @@ func (ec *executionContext) field_Mutation_updateDiagram_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateDiagramInput(ctx, tmp)
+		return ec.unmarshalNUpdateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateDiagramInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateDiagramInput
@@ -13332,7 +13332,7 @@ func (ec *executionContext) field_Mutation_updateFocalPointMeta_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFocalPointMetaInput(ctx, tmp)
+		return ec.unmarshalNUpdateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFocalPointMetaInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateFocalPointMetaInput
@@ -13452,7 +13452,7 @@ func (ec *executionContext) field_Mutation_updateFocalPoint_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFocalPointInput(ctx, tmp)
+		return ec.unmarshalNUpdateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFocalPointInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateFocalPointInput
@@ -13526,7 +13526,7 @@ func (ec *executionContext) field_Mutation_updateFolder_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFolderInput(ctx, tmp)
+		return ec.unmarshalNUpdateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFolderInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateFolderInput
@@ -13646,7 +13646,7 @@ func (ec *executionContext) field_Mutation_updateFrameGroup_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameGroupInput(ctx, tmp)
+		return ec.unmarshalNUpdateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFrameGroupInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateFrameGroupInput
@@ -13766,7 +13766,7 @@ func (ec *executionContext) field_Mutation_updateFrameLink_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameLinkInput(ctx, tmp)
+		return ec.unmarshalNUpdateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFrameLinkInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateFrameLinkInput
@@ -13863,7 +13863,7 @@ func (ec *executionContext) field_Mutation_updateFrame_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameInput(ctx, tmp)
+		return ec.unmarshalNUpdateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFrameInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateFrameInput
@@ -13937,7 +13937,7 @@ func (ec *executionContext) field_Mutation_updateMap_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateMapInput(ctx, tmp)
+		return ec.unmarshalNUpdateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMapInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateMapInput
@@ -14062,7 +14062,7 @@ func (ec *executionContext) field_Mutation_updateOrg_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateOrgInput(ctx, tmp)
+		return ec.unmarshalNUpdateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateOrgInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateOrgInput
@@ -14136,7 +14136,7 @@ func (ec *executionContext) field_Mutation_updateServiceAccount_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateServiceAccountInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateServiceAccountInput(ctx, tmp)
+		return ec.unmarshalNUpdateServiceAccountInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceAccountInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateServiceAccountInput
@@ -14233,7 +14233,7 @@ func (ec *executionContext) field_Mutation_updateServiceDB_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateServiceDBInput(ctx, tmp)
+		return ec.unmarshalNUpdateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDBInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateServiceDBInput
@@ -14330,7 +14330,7 @@ func (ec *executionContext) field_Mutation_updateServiceDoc_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateServiceDocInput(ctx, tmp)
+		return ec.unmarshalNUpdateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDocInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateServiceDocInput
@@ -14404,7 +14404,7 @@ func (ec *executionContext) field_Mutation_updateService_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateServiceInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateServiceInput(ctx, tmp)
+		return ec.unmarshalNUpdateServiceInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateServiceInput
@@ -14478,7 +14478,7 @@ func (ec *executionContext) field_Mutation_updateTeam_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateTeamInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTeamInput(ctx, tmp)
+		return ec.unmarshalNUpdateTeamInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTeamInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateTeamInput
@@ -14575,7 +14575,7 @@ func (ec *executionContext) field_Mutation_updateTestCase_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateTestCaseInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTestCaseInput(ctx, tmp)
+		return ec.unmarshalNUpdateTestCaseInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTestCaseInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateTestCaseInput
@@ -14672,7 +14672,7 @@ func (ec *executionContext) field_Mutation_updateTestPack_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateTestPackInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTestPackInput(ctx, tmp)
+		return ec.unmarshalNUpdateTestPackInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTestPackInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateTestPackInput
@@ -14769,7 +14769,7 @@ func (ec *executionContext) field_Mutation_updateTestRunResult_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateTestRunResultInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTestRunResultInput(ctx, tmp)
+		return ec.unmarshalNUpdateTestRunResultInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTestRunResultInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateTestRunResultInput
@@ -14866,7 +14866,7 @@ func (ec *executionContext) field_Mutation_updateTestRun_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateTestRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTestRunInput(ctx, tmp)
+		return ec.unmarshalNUpdateTestRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTestRunInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateTestRunInput
@@ -14917,7 +14917,7 @@ func (ec *executionContext) field_Mutation_updateUser_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateUserInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateUserInput(ctx, tmp)
+		return ec.unmarshalNUpdateUserInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateUserInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpdateUserInput
@@ -14991,7 +14991,7 @@ func (ec *executionContext) field_Mutation_upsertCanvas_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpsertCanvasInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpsertCanvasInput(ctx, tmp)
+		return ec.unmarshalNUpsertCanvasInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpsertCanvasInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpsertCanvasInput
@@ -15019,7 +15019,7 @@ func (ec *executionContext) field_Mutation_upsertLDAP_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpsertLDAPInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpsertLDAPInput(ctx, tmp)
+		return ec.unmarshalNUpsertLDAPInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpsertLDAPInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpsertLDAPInput
@@ -15070,7 +15070,7 @@ func (ec *executionContext) field_Mutation_upsertOAuthProvider_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpsertOAuthInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpsertOAuthInput(ctx, tmp)
+		return ec.unmarshalNUpsertOAuthInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpsertOAuthInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpsertOAuthInput
@@ -15098,7 +15098,7 @@ func (ec *executionContext) field_Mutation_upsertSAML_argsInput(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpsertSAMLInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpsertSAMLInput(ctx, tmp)
+		return ec.unmarshalNUpsertSAMLInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpsertSAMLInput(ctx, tmp)
 	}
 
 	var zeroVal model.UpsertSAMLInput
@@ -20007,7 +20007,7 @@ func (ec *executionContext) _APIGroupVersion_createdByActor(ctx context.Context,
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_APIGroupVersion_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20232,7 +20232,7 @@ func (ec *executionContext) _APITestCase_auth(ctx context.Context, field graphql
 	}
 	res := resTmp.(*model.AuthConfig)
 	fc.Result = res
-	return ec.marshalOAuthConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAuthConfig(ctx, field.Selections, res)
+	return ec.marshalOAuthConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAuthConfig(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_APITestCase_auth(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20287,7 +20287,7 @@ func (ec *executionContext) _APITestCase_requestHeaders(ctx context.Context, fie
 	}
 	res := resTmp.([]*model.KeyValue)
 	fc.Result = res
-	return ec.marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueᚄ(ctx, field.Selections, res)
+	return ec.marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_APITestCase_requestHeaders(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20334,7 +20334,7 @@ func (ec *executionContext) _APITestCase_queryParams(ctx context.Context, field 
 	}
 	res := resTmp.([]*model.KeyValue)
 	fc.Result = res
-	return ec.marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueᚄ(ctx, field.Selections, res)
+	return ec.marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_APITestCase_queryParams(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -20545,7 +20545,7 @@ func (ec *executionContext) _APITestCase_assertions(ctx context.Context, field g
 	}
 	res := resTmp.([]*model.Assertion)
 	fc.Result = res
-	return ec.marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionᚄ(ctx, field.Selections, res)
+	return ec.marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_APITestCase_assertions(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -21984,7 +21984,7 @@ func (ec *executionContext) _Component_componentFields(ctx context.Context, fiel
 	}
 	res := resTmp.([]*model.ComponentField)
 	fc.Result = res
-	return ec.marshalNComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponentFieldᚄ(ctx, field.Selections, res)
+	return ec.marshalNComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentFieldᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Component_componentFields(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -22346,7 +22346,7 @@ func (ec *executionContext) _Components_components(ctx context.Context, field gr
 	}
 	res := resTmp.([]*model.Component)
 	fc.Result = res
-	return ec.marshalNComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponentᚄ(ctx, field.Selections, res)
+	return ec.marshalNComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Components_components(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -22414,7 +22414,7 @@ func (ec *executionContext) _Components_customComponents(ctx context.Context, fi
 	}
 	res := resTmp.([]*model.Component)
 	fc.Result = res
-	return ec.marshalNComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponentᚄ(ctx, field.Selections, res)
+	return ec.marshalNComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Components_customComponents(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -22872,7 +22872,7 @@ func (ec *executionContext) _DatabaseTestCase_assertions(ctx context.Context, fi
 	}
 	res := resTmp.([]*model.Assertion)
 	fc.Result = res
-	return ec.marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionᚄ(ctx, field.Selections, res)
+	return ec.marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_DatabaseTestCase_assertions(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -23554,7 +23554,7 @@ func (ec *executionContext) _Diagram_createdByActor(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Diagram_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -23609,7 +23609,7 @@ func (ec *executionContext) _Diagram_updatedByActor(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Diagram_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -24664,7 +24664,7 @@ func (ec *executionContext) _DiagramVersion_createdByActor(ctx context.Context, 
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_DiagramVersion_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -25247,7 +25247,7 @@ func (ec *executionContext) _FlowDiagramComponent_flowDiagramComponentFields(ctx
 	}
 	res := resTmp.([]*model.FlowDiagramComponentField)
 	fc.Result = res
-	return ec.marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentFieldᚄ(ctx, field.Selections, res)
+	return ec.marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponentFieldᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_FlowDiagramComponent_flowDiagramComponentFields(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -25609,7 +25609,7 @@ func (ec *executionContext) _FlowDiagramComponents_components(ctx context.Contex
 	}
 	res := resTmp.([]*model.FlowDiagramComponent)
 	fc.Result = res
-	return ec.marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx, field.Selections, res)
+	return ec.marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_FlowDiagramComponents_components(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -25679,7 +25679,7 @@ func (ec *executionContext) _FlowDiagramComponents_customComponents(ctx context.
 	}
 	res := resTmp.([]*model.FlowDiagramComponent)
 	fc.Result = res
-	return ec.marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx, field.Selections, res)
+	return ec.marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_FlowDiagramComponents_customComponents(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -27910,7 +27910,7 @@ func (ec *executionContext) _Frame_createdByActor(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Frame_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -27965,7 +27965,7 @@ func (ec *executionContext) _Frame_updatedByActor(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Frame_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -29627,7 +29627,7 @@ func (ec *executionContext) _GRPCTestCase_metadata(ctx context.Context, field gr
 	}
 	res := resTmp.([]*model.KeyValue)
 	fc.Result = res
-	return ec.marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueᚄ(ctx, field.Selections, res)
+	return ec.marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_GRPCTestCase_metadata(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -29800,7 +29800,7 @@ func (ec *executionContext) _GRPCTestCase_assertions(ctx context.Context, field 
 	}
 	res := resTmp.([]*model.Assertion)
 	fc.Result = res
-	return ec.marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionᚄ(ctx, field.Selections, res)
+	return ec.marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_GRPCTestCase_assertions(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -30148,7 +30148,7 @@ func (ec *executionContext) _GraphQLTestCase_assertions(ctx context.Context, fie
 	}
 	res := resTmp.([]*model.Assertion)
 	fc.Result = res
-	return ec.marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionᚄ(ctx, field.Selections, res)
+	return ec.marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_GraphQLTestCase_assertions(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -31508,7 +31508,7 @@ func (ec *executionContext) _ManualTestCase_steps(ctx context.Context, field gra
 	}
 	res := resTmp.([]*model.TestCaseStep)
 	fc.Result = res
-	return ec.marshalOTestCaseStep2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseStepᚄ(ctx, field.Selections, res)
+	return ec.marshalOTestCaseStep2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseStepᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ManualTestCase_steps(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -32299,7 +32299,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -32374,7 +32374,7 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -32933,7 +32933,7 @@ func (ec *executionContext) _Mutation_createService(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Service)
 	fc.Result = res
-	return ec.marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐService(ctx, field.Selections, res)
+	return ec.marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐService(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createService(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -33036,7 +33036,7 @@ func (ec *executionContext) _Mutation_updateService(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Service)
 	fc.Result = res
-	return ec.marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐService(ctx, field.Selections, res)
+	return ec.marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐService(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateService(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -33194,7 +33194,7 @@ func (ec *executionContext) _Mutation_createAPIGroup(ctx context.Context, field 
 	}
 	res := resTmp.(*model.APIGroup)
 	fc.Result = res
-	return ec.marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroup(ctx, field.Selections, res)
+	return ec.marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroup(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createAPIGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -33277,7 +33277,7 @@ func (ec *executionContext) _Mutation_updateAPIGroup(ctx context.Context, field 
 	}
 	res := resTmp.(*model.APIGroup)
 	fc.Result = res
-	return ec.marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroup(ctx, field.Selections, res)
+	return ec.marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroup(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateAPIGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -33415,7 +33415,7 @@ func (ec *executionContext) _Mutation_syncAPIGroup(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.SyncAPIGroupResult)
 	fc.Result = res
-	return ec.marshalNSyncAPIGroupResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncAPIGroupResult(ctx, field.Selections, res)
+	return ec.marshalNSyncAPIGroupResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncAPIGroupResult(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_syncAPIGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -33476,7 +33476,7 @@ func (ec *executionContext) _Mutation_createServiceDoc(ctx context.Context, fiel
 	}
 	res := resTmp.(*model.ServiceDoc)
 	fc.Result = res
-	return ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDoc(ctx, field.Selections, res)
+	return ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDoc(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createServiceDoc(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -33557,7 +33557,7 @@ func (ec *executionContext) _Mutation_updateServiceDoc(ctx context.Context, fiel
 	}
 	res := resTmp.(*model.ServiceDoc)
 	fc.Result = res
-	return ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDoc(ctx, field.Selections, res)
+	return ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDoc(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateServiceDoc(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -33693,7 +33693,7 @@ func (ec *executionContext) _Mutation_createServiceDiagram(ctx context.Context, 
 	}
 	res := resTmp.(*model.ServiceDiagram)
 	fc.Result = res
-	return ec.marshalNServiceDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDiagram(ctx, field.Selections, res)
+	return ec.marshalNServiceDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDiagram(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createServiceDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -33821,7 +33821,7 @@ func (ec *executionContext) _Mutation_createServiceDB(ctx context.Context, field
 	}
 	res := resTmp.(*model.ServiceDb)
 	fc.Result = res
-	return ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDb(ctx, field.Selections, res)
+	return ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDb(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createServiceDB(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -33908,7 +33908,7 @@ func (ec *executionContext) _Mutation_updateServiceDB(ctx context.Context, field
 	}
 	res := resTmp.(*model.ServiceDb)
 	fc.Result = res
-	return ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDb(ctx, field.Selections, res)
+	return ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDb(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateServiceDB(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -34050,7 +34050,7 @@ func (ec *executionContext) _Mutation_createServiceDBVersion(ctx context.Context
 	}
 	res := resTmp.(*model.ServiceDBVersion)
 	fc.Result = res
-	return ec.marshalNServiceDBVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDBVersion(ctx, field.Selections, res)
+	return ec.marshalNServiceDBVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDBVersion(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createServiceDBVersion(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -34131,7 +34131,7 @@ func (ec *executionContext) _Mutation_restoreServiceDBVersion(ctx context.Contex
 	}
 	res := resTmp.(*model.ServiceDb)
 	fc.Result = res
-	return ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDb(ctx, field.Selections, res)
+	return ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDb(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_restoreServiceDBVersion(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -34218,7 +34218,7 @@ func (ec *executionContext) _Mutation_createAPIEndpoint(ctx context.Context, fie
 	}
 	res := resTmp.(*model.APIEndpoint)
 	fc.Result = res
-	return ec.marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIEndpoint(ctx, field.Selections, res)
+	return ec.marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIEndpoint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createAPIEndpoint(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -34311,7 +34311,7 @@ func (ec *executionContext) _Mutation_updateAPIEndpoint(ctx context.Context, fie
 	}
 	res := resTmp.(*model.APIEndpoint)
 	fc.Result = res
-	return ec.marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIEndpoint(ctx, field.Selections, res)
+	return ec.marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIEndpoint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateAPIEndpoint(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -34459,7 +34459,7 @@ func (ec *executionContext) _Mutation_createTestPack(ctx context.Context, field 
 	}
 	res := resTmp.(*model.TestPack)
 	fc.Result = res
-	return ec.marshalNTestPack2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestPack(ctx, field.Selections, res)
+	return ec.marshalNTestPack2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestPack(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createTestPack(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -34538,7 +34538,7 @@ func (ec *executionContext) _Mutation_updateTestPack(ctx context.Context, field 
 	}
 	res := resTmp.(*model.TestPack)
 	fc.Result = res
-	return ec.marshalNTestPack2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestPack(ctx, field.Selections, res)
+	return ec.marshalNTestPack2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestPack(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateTestPack(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -34672,7 +34672,7 @@ func (ec *executionContext) _Mutation_createTestCase(ctx context.Context, field 
 	}
 	res := resTmp.(*model.TestCase)
 	fc.Result = res
-	return ec.marshalNTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCase(ctx, field.Selections, res)
+	return ec.marshalNTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCase(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createTestCase(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -34791,7 +34791,7 @@ func (ec *executionContext) _Mutation_updateTestCase(ctx context.Context, field 
 	}
 	res := resTmp.(*model.TestCase)
 	fc.Result = res
-	return ec.marshalNTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCase(ctx, field.Selections, res)
+	return ec.marshalNTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCase(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateTestCase(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -34965,7 +34965,7 @@ func (ec *executionContext) _Mutation_createTestRun(ctx context.Context, field g
 	}
 	res := resTmp.(*model.TestRun)
 	fc.Result = res
-	return ec.marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRun(ctx, field.Selections, res)
+	return ec.marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRun(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createTestRun(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35048,7 +35048,7 @@ func (ec *executionContext) _Mutation_updateTestRun(ctx context.Context, field g
 	}
 	res := resTmp.(*model.TestRun)
 	fc.Result = res
-	return ec.marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRun(ctx, field.Selections, res)
+	return ec.marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRun(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateTestRun(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35131,7 +35131,7 @@ func (ec *executionContext) _Mutation_createTestRunResult(ctx context.Context, f
 	}
 	res := resTmp.(*model.TestRunResult)
 	fc.Result = res
-	return ec.marshalNTestRunResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunResult(ctx, field.Selections, res)
+	return ec.marshalNTestRunResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunResult(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createTestRunResult(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35216,7 +35216,7 @@ func (ec *executionContext) _Mutation_updateTestRunResult(ctx context.Context, f
 	}
 	res := resTmp.(*model.TestRunResult)
 	fc.Result = res
-	return ec.marshalNTestRunResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunResult(ctx, field.Selections, res)
+	return ec.marshalNTestRunResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunResult(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateTestRunResult(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35301,7 +35301,7 @@ func (ec *executionContext) _Mutation_createFolder(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.Folder)
 	fc.Result = res
-	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
+	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35378,7 +35378,7 @@ func (ec *executionContext) _Mutation_updateFolder(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.Folder)
 	fc.Result = res
-	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
+	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35510,7 +35510,7 @@ func (ec *executionContext) _Mutation_createDiagram(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Diagram)
 	fc.Result = res
-	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
+	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35601,7 +35601,7 @@ func (ec *executionContext) _Mutation_updateDiagram(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Diagram)
 	fc.Result = res
-	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
+	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35747,7 +35747,7 @@ func (ec *executionContext) _Mutation_syncDiagram(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.SyncDiagramResult)
 	fc.Result = res
-	return ec.marshalNSyncDiagramResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncDiagramResult(ctx, field.Selections, res)
+	return ec.marshalNSyncDiagramResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncDiagramResult(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_syncDiagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35810,7 +35810,7 @@ func (ec *executionContext) _Mutation_createDiagramVersion(ctx context.Context, 
 	}
 	res := resTmp.(*model.DiagramVersion)
 	fc.Result = res
-	return ec.marshalNDiagramVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramVersion(ctx, field.Selections, res)
+	return ec.marshalNDiagramVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersion(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createDiagramVersion(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35891,7 +35891,7 @@ func (ec *executionContext) _Mutation_restoreDiagramVersion(ctx context.Context,
 	}
 	res := resTmp.(*model.Diagram)
 	fc.Result = res
-	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
+	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -35982,7 +35982,7 @@ func (ec *executionContext) _Mutation_createMap(ctx context.Context, field graph
 	}
 	res := resTmp.(*model.UIMap)
 	fc.Result = res
-	return ec.marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUIMap(ctx, field.Selections, res)
+	return ec.marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMap(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createMap(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -36061,7 +36061,7 @@ func (ec *executionContext) _Mutation_updateMap(ctx context.Context, field graph
 	}
 	res := resTmp.(*model.UIMap)
 	fc.Result = res
-	return ec.marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUIMap(ctx, field.Selections, res)
+	return ec.marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMap(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateMap(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -36195,7 +36195,7 @@ func (ec *executionContext) _Mutation_createFrame(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Frame)
 	fc.Result = res
-	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
+	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createFrame(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -36290,7 +36290,7 @@ func (ec *executionContext) _Mutation_updateFrame(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Frame)
 	fc.Result = res
-	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
+	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateFrame(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -36440,7 +36440,7 @@ func (ec *executionContext) _Mutation_syncFrame(ctx context.Context, field graph
 	}
 	res := resTmp.(*model.SyncFrameResult)
 	fc.Result = res
-	return ec.marshalNSyncFrameResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncFrameResult(ctx, field.Selections, res)
+	return ec.marshalNSyncFrameResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncFrameResult(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_syncFrame(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -36501,7 +36501,7 @@ func (ec *executionContext) _Mutation_createFocalPoint(ctx context.Context, fiel
 	}
 	res := resTmp.(*model.FocalPoint)
 	fc.Result = res
-	return ec.marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPoint(ctx, field.Selections, res)
+	return ec.marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPoint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createFocalPoint(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -36582,7 +36582,7 @@ func (ec *executionContext) _Mutation_updateFocalPoint(ctx context.Context, fiel
 	}
 	res := resTmp.(*model.FocalPoint)
 	fc.Result = res
-	return ec.marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPoint(ctx, field.Selections, res)
+	return ec.marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPoint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateFocalPoint(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -36718,7 +36718,7 @@ func (ec *executionContext) _Mutation_upsertCanvas(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.Canvas)
 	fc.Result = res
-	return ec.marshalNCanvas2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCanvas(ctx, field.Selections, res)
+	return ec.marshalNCanvas2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCanvas(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_upsertCanvas(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -36789,7 +36789,7 @@ func (ec *executionContext) _Mutation_createFrameGroup(ctx context.Context, fiel
 	}
 	res := resTmp.(*model.FrameGroup)
 	fc.Result = res
-	return ec.marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx, field.Selections, res)
+	return ec.marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameGroup(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createFrameGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -36876,7 +36876,7 @@ func (ec *executionContext) _Mutation_updateFrameGroup(ctx context.Context, fiel
 	}
 	res := resTmp.(*model.FrameGroup)
 	fc.Result = res
-	return ec.marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx, field.Selections, res)
+	return ec.marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameGroup(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateFrameGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37018,7 +37018,7 @@ func (ec *executionContext) _Mutation_createFrameLink(ctx context.Context, field
 	}
 	res := resTmp.(*model.FrameLink)
 	fc.Result = res
-	return ec.marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx, field.Selections, res)
+	return ec.marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameLink(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createFrameLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37103,7 +37103,7 @@ func (ec *executionContext) _Mutation_updateFrameLink(ctx context.Context, field
 	}
 	res := resTmp.(*model.FrameLink)
 	fc.Result = res
-	return ec.marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx, field.Selections, res)
+	return ec.marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameLink(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateFrameLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37243,7 +37243,7 @@ func (ec *executionContext) _Mutation_createFocalPointMeta(ctx context.Context, 
 	}
 	res := resTmp.(*model.FocalPointMeta)
 	fc.Result = res
-	return ec.marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx, field.Selections, res)
+	return ec.marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPointMeta(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createFocalPointMeta(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37326,7 +37326,7 @@ func (ec *executionContext) _Mutation_updateFocalPointMeta(ctx context.Context, 
 	}
 	res := resTmp.(*model.FocalPointMeta)
 	fc.Result = res
-	return ec.marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx, field.Selections, res)
+	return ec.marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPointMeta(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateFocalPointMeta(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37464,7 +37464,7 @@ func (ec *executionContext) _Mutation_createOrg(ctx context.Context, field graph
 	}
 	res := resTmp.(*model.Org)
 	fc.Result = res
-	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
+	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37533,7 +37533,7 @@ func (ec *executionContext) _Mutation_updateOrg(ctx context.Context, field graph
 	}
 	res := resTmp.(*model.Org)
 	fc.Result = res
-	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
+	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37657,7 +37657,7 @@ func (ec *executionContext) _Mutation_addMember(ctx context.Context, field graph
 	}
 	res := resTmp.(*model.Member)
 	fc.Result = res
-	return ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
+	return ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_addMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37726,7 +37726,7 @@ func (ec *executionContext) _Mutation_updateMemberRole(ctx context.Context, fiel
 	}
 	res := resTmp.(*model.Member)
 	fc.Result = res
-	return ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
+	return ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateMemberRole(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37850,7 +37850,7 @@ func (ec *executionContext) _Mutation_createTeam(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.Team)
 	fc.Result = res
-	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
+	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createTeam(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -37921,7 +37921,7 @@ func (ec *executionContext) _Mutation_updateTeam(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.Team)
 	fc.Result = res
-	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
+	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateTeam(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -38157,7 +38157,7 @@ func (ec *executionContext) _Mutation_createInvitation(ctx context.Context, fiel
 	}
 	res := resTmp.(*model.Invitation)
 	fc.Result = res
-	return ec.marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐInvitation(ctx, field.Selections, res)
+	return ec.marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createInvitation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -38285,7 +38285,7 @@ func (ec *executionContext) _Mutation_createServiceAccount(ctx context.Context, 
 	}
 	res := resTmp.(*model.ServiceAccount)
 	fc.Result = res
-	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
+	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createServiceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -38358,7 +38358,7 @@ func (ec *executionContext) _Mutation_updateServiceAccount(ctx context.Context, 
 	}
 	res := resTmp.(*model.ServiceAccount)
 	fc.Result = res
-	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
+	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateServiceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -38486,7 +38486,7 @@ func (ec *executionContext) _Mutation_createServiceAccountToken(ctx context.Cont
 	}
 	res := resTmp.(*model.CreatedToken)
 	fc.Result = res
-	return ec.marshalNCreatedToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreatedToken(ctx, field.Selections, res)
+	return ec.marshalNCreatedToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreatedToken(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createServiceAccountToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -39886,7 +39886,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.([]*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_users(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -39950,7 +39950,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.(*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40025,7 +40025,7 @@ func (ec *executionContext) _Query_oauthProviders(ctx context.Context, field gra
 	}
 	res := resTmp.([]*model.OAuthProvider)
 	fc.Result = res
-	return ec.marshalNOAuthProvider2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOAuthProviderᚄ(ctx, field.Selections, res)
+	return ec.marshalNOAuthProvider2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOAuthProviderᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_oauthProviders(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40107,7 +40107,7 @@ func (ec *executionContext) _Query_roleMappings(ctx context.Context, field graph
 	}
 	res := resTmp.([]*model.RoleMapping)
 	fc.Result = res
-	return ec.marshalNRoleMapping2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐRoleMappingᚄ(ctx, field.Selections, res)
+	return ec.marshalNRoleMapping2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐRoleMappingᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_roleMappings(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40166,7 +40166,7 @@ func (ec *executionContext) _Query_ldap(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.(*model.LDAPConfig)
 	fc.Result = res
-	return ec.marshalOLDAPConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐLDAPConfig(ctx, field.Selections, res)
+	return ec.marshalOLDAPConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLDAPConfig(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_ldap(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40243,7 +40243,7 @@ func (ec *executionContext) _Query_saml(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.(*model.SAMLConfig)
 	fc.Result = res
-	return ec.marshalOSAMLConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSAMLConfig(ctx, field.Selections, res)
+	return ec.marshalOSAMLConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSAMLConfig(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_saml(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40325,7 +40325,7 @@ func (ec *executionContext) _Query_me(ctx context.Context, field graphql.Collect
 	}
 	res := resTmp.(*model.Me)
 	fc.Result = res
-	return ec.marshalNMe2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMe(ctx, field.Selections, res)
+	return ec.marshalNMe2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMe(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_me(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40389,7 +40389,7 @@ func (ec *executionContext) _Query_myOrgs(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.([]*model.OrgSummary)
 	fc.Result = res
-	return ec.marshalNOrgSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrgSummaryᚄ(ctx, field.Selections, res)
+	return ec.marshalNOrgSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrgSummaryᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_myOrgs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40445,7 +40445,7 @@ func (ec *executionContext) _Query_services(ctx context.Context, field graphql.C
 	}
 	res := resTmp.([]*model.Service)
 	fc.Result = res
-	return ec.marshalNService2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceᚄ(ctx, field.Selections, res)
+	return ec.marshalNService2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_services(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40548,7 +40548,7 @@ func (ec *executionContext) _Query_service(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(*model.Service)
 	fc.Result = res
-	return ec.marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐService(ctx, field.Selections, res)
+	return ec.marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐService(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_service(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40651,7 +40651,7 @@ func (ec *executionContext) _Query_apiGroups(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*model.APIGroup)
 	fc.Result = res
-	return ec.marshalNAPIGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroupᚄ(ctx, field.Selections, res)
+	return ec.marshalNAPIGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroupᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_apiGroups(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40734,7 +40734,7 @@ func (ec *executionContext) _Query_apiGroup(ctx context.Context, field graphql.C
 	}
 	res := resTmp.(*model.APIGroup)
 	fc.Result = res
-	return ec.marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroup(ctx, field.Selections, res)
+	return ec.marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroup(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_apiGroup(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40817,7 +40817,7 @@ func (ec *executionContext) _Query_apiGroupVersions(ctx context.Context, field g
 	}
 	res := resTmp.([]*model.APIGroupVersion)
 	fc.Result = res
-	return ec.marshalNAPIGroupVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroupVersionᚄ(ctx, field.Selections, res)
+	return ec.marshalNAPIGroupVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroupVersionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_apiGroupVersions(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40896,7 +40896,7 @@ func (ec *executionContext) _Query_serviceDocs(ctx context.Context, field graphq
 	}
 	res := resTmp.([]*model.ServiceDoc)
 	fc.Result = res
-	return ec.marshalNServiceDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDocᚄ(ctx, field.Selections, res)
+	return ec.marshalNServiceDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDocᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceDocs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -40977,7 +40977,7 @@ func (ec *executionContext) _Query_serviceDoc(ctx context.Context, field graphql
 	}
 	res := resTmp.(*model.ServiceDoc)
 	fc.Result = res
-	return ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDoc(ctx, field.Selections, res)
+	return ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDoc(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceDoc(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41058,7 +41058,7 @@ func (ec *executionContext) _Query_serviceDiagrams(ctx context.Context, field gr
 	}
 	res := resTmp.([]*model.ServiceDiagram)
 	fc.Result = res
-	return ec.marshalNServiceDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDiagramᚄ(ctx, field.Selections, res)
+	return ec.marshalNServiceDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDiagramᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceDiagrams(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41131,7 +41131,7 @@ func (ec *executionContext) _Query_serviceDBs(ctx context.Context, field graphql
 	}
 	res := resTmp.([]*model.ServiceDb)
 	fc.Result = res
-	return ec.marshalNServiceDB2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDbᚄ(ctx, field.Selections, res)
+	return ec.marshalNServiceDB2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDbᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceDBs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41218,7 +41218,7 @@ func (ec *executionContext) _Query_serviceDB(ctx context.Context, field graphql.
 	}
 	res := resTmp.(*model.ServiceDb)
 	fc.Result = res
-	return ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDb(ctx, field.Selections, res)
+	return ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDb(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceDB(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41305,7 +41305,7 @@ func (ec *executionContext) _Query_serviceDBVersions(ctx context.Context, field 
 	}
 	res := resTmp.([]*model.ServiceDBVersion)
 	fc.Result = res
-	return ec.marshalNServiceDBVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDBVersionᚄ(ctx, field.Selections, res)
+	return ec.marshalNServiceDBVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDBVersionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceDBVersions(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41386,7 +41386,7 @@ func (ec *executionContext) _Query_apiEndpoints(ctx context.Context, field graph
 	}
 	res := resTmp.([]*model.APIEndpoint)
 	fc.Result = res
-	return ec.marshalNAPIEndpoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIEndpointᚄ(ctx, field.Selections, res)
+	return ec.marshalNAPIEndpoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIEndpointᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_apiEndpoints(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41479,7 +41479,7 @@ func (ec *executionContext) _Query_apiEndpoint(ctx context.Context, field graphq
 	}
 	res := resTmp.(*model.APIEndpoint)
 	fc.Result = res
-	return ec.marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIEndpoint(ctx, field.Selections, res)
+	return ec.marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIEndpoint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_apiEndpoint(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41572,7 +41572,7 @@ func (ec *executionContext) _Query_serviceStats(ctx context.Context, field graph
 	}
 	res := resTmp.([]*model.ServiceStats)
 	fc.Result = res
-	return ec.marshalNServiceStats2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceStatsᚄ(ctx, field.Selections, res)
+	return ec.marshalNServiceStats2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStatsᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceStats(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41641,7 +41641,7 @@ func (ec *executionContext) _Query_testPacks(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*model.TestPack)
 	fc.Result = res
-	return ec.marshalNTestPack2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestPackᚄ(ctx, field.Selections, res)
+	return ec.marshalNTestPack2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestPackᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_testPacks(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41720,7 +41720,7 @@ func (ec *executionContext) _Query_testCases(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*model.TestCase)
 	fc.Result = res
-	return ec.marshalNTestCase2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseᚄ(ctx, field.Selections, res)
+	return ec.marshalNTestCase2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_testCases(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41839,7 +41839,7 @@ func (ec *executionContext) _Query_testRun(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(*model.TestRun)
 	fc.Result = res
-	return ec.marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRun(ctx, field.Selections, res)
+	return ec.marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRun(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_testRun(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -41922,7 +41922,7 @@ func (ec *executionContext) _Query_testRuns(ctx context.Context, field graphql.C
 	}
 	res := resTmp.([]*model.TestRun)
 	fc.Result = res
-	return ec.marshalNTestRun2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunᚄ(ctx, field.Selections, res)
+	return ec.marshalNTestRun2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_testRuns(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42005,7 +42005,7 @@ func (ec *executionContext) _Query_testRunsSummary(ctx context.Context, field gr
 	}
 	res := resTmp.([]*model.TestRunSummary)
 	fc.Result = res
-	return ec.marshalNTestRunSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunSummaryᚄ(ctx, field.Selections, res)
+	return ec.marshalNTestRunSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunSummaryᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_testRunsSummary(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42094,7 +42094,7 @@ func (ec *executionContext) _Query_testRunResults(ctx context.Context, field gra
 	}
 	res := resTmp.([]*model.TestRunResult)
 	fc.Result = res
-	return ec.marshalNTestRunResult2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunResultᚄ(ctx, field.Selections, res)
+	return ec.marshalNTestRunResult2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunResultᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_testRunResults(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42179,7 +42179,7 @@ func (ec *executionContext) _Query_folders(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.([]*model.Folder)
 	fc.Result = res
-	return ec.marshalNFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFolderᚄ(ctx, field.Selections, res)
+	return ec.marshalNFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolderᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_folders(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42256,7 +42256,7 @@ func (ec *executionContext) _Query_folder(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*model.Folder)
 	fc.Result = res
-	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
+	return ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_folder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42333,7 +42333,7 @@ func (ec *executionContext) _Query_diagrams(ctx context.Context, field graphql.C
 	}
 	res := resTmp.([]*model.Diagram)
 	fc.Result = res
-	return ec.marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramᚄ(ctx, field.Selections, res)
+	return ec.marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42424,7 +42424,7 @@ func (ec *executionContext) _Query_diagram(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(*model.Diagram)
 	fc.Result = res
-	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
+	return ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42515,7 +42515,7 @@ func (ec *executionContext) _Query_diagramContent(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.DiagramContent)
 	fc.Result = res
-	return ec.marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramContent(ctx, field.Selections, res)
+	return ec.marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramContent(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_diagramContent(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42576,7 +42576,7 @@ func (ec *executionContext) _Query_diagramVersions(ctx context.Context, field gr
 	}
 	res := resTmp.([]*model.DiagramVersion)
 	fc.Result = res
-	return ec.marshalNDiagramVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramVersionᚄ(ctx, field.Selections, res)
+	return ec.marshalNDiagramVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_diagramVersions(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42657,7 +42657,7 @@ func (ec *executionContext) _Query_diagramVersionContent(ctx context.Context, fi
 	}
 	res := resTmp.(*model.DiagramContent)
 	fc.Result = res
-	return ec.marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramContent(ctx, field.Selections, res)
+	return ec.marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramContent(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_diagramVersionContent(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42718,7 +42718,7 @@ func (ec *executionContext) _Query_flowDiagramComponents(ctx context.Context, fi
 	}
 	res := resTmp.(*model.FlowDiagramComponents)
 	fc.Result = res
-	return ec.marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponents(ctx, field.Selections, res)
+	return ec.marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponents(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_flowDiagramComponents(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42779,7 +42779,7 @@ func (ec *executionContext) _Query_components(ctx context.Context, field graphql
 	}
 	res := resTmp.(*model.Components)
 	fc.Result = res
-	return ec.marshalNComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponents(ctx, field.Selections, res)
+	return ec.marshalNComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponents(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_components(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42840,7 +42840,7 @@ func (ec *executionContext) _Query_diagramImages(ctx context.Context, field grap
 	}
 	res := resTmp.([]*model.DiagramImage)
 	fc.Result = res
-	return ec.marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImageᚄ(ctx, field.Selections, res)
+	return ec.marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramImageᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_diagramImages(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42915,7 +42915,7 @@ func (ec *executionContext) _Query_maps(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.([]*model.UIMap)
 	fc.Result = res
-	return ec.marshalNUIMap2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUIMapᚄ(ctx, field.Selections, res)
+	return ec.marshalNUIMap2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMapᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_maps(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -42994,7 +42994,7 @@ func (ec *executionContext) _Query_map(ctx context.Context, field graphql.Collec
 	}
 	res := resTmp.(*model.UIMap)
 	fc.Result = res
-	return ec.marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUIMap(ctx, field.Selections, res)
+	return ec.marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMap(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_map(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43073,7 +43073,7 @@ func (ec *executionContext) _Query_frames(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.([]*model.Frame)
 	fc.Result = res
-	return ec.marshalNFrame2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameᚄ(ctx, field.Selections, res)
+	return ec.marshalNFrame2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_frames(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43168,7 +43168,7 @@ func (ec *executionContext) _Query_frame(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.(*model.Frame)
 	fc.Result = res
-	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
+	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43263,7 +43263,7 @@ func (ec *executionContext) _Query_frameById(ctx context.Context, field graphql.
 	}
 	res := resTmp.(*model.Frame)
 	fc.Result = res
-	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
+	return ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrame(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_frameById(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43358,7 +43358,7 @@ func (ec *executionContext) _Query_focalPoints(ctx context.Context, field graphq
 	}
 	res := resTmp.([]*model.FocalPoint)
 	fc.Result = res
-	return ec.marshalNFocalPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointᚄ(ctx, field.Selections, res)
+	return ec.marshalNFocalPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPointᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_focalPoints(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43439,7 +43439,7 @@ func (ec *executionContext) _Query_canvas(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*model.Canvas)
 	fc.Result = res
-	return ec.marshalNCanvas2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCanvas(ctx, field.Selections, res)
+	return ec.marshalNCanvas2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCanvas(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_canvas(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43510,7 +43510,7 @@ func (ec *executionContext) _Query_frameGroups(ctx context.Context, field graphq
 	}
 	res := resTmp.([]*model.FrameGroup)
 	fc.Result = res
-	return ec.marshalNFrameGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroupᚄ(ctx, field.Selections, res)
+	return ec.marshalNFrameGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameGroupᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_frameGroups(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43597,7 +43597,7 @@ func (ec *executionContext) _Query_frameLinks(ctx context.Context, field graphql
 	}
 	res := resTmp.([]*model.FrameLink)
 	fc.Result = res
-	return ec.marshalNFrameLink2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLinkᚄ(ctx, field.Selections, res)
+	return ec.marshalNFrameLink2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameLinkᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_frameLinks(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43682,7 +43682,7 @@ func (ec *executionContext) _Query_focalPointMeta(ctx context.Context, field gra
 	}
 	res := resTmp.([]*model.FocalPointMeta)
 	fc.Result = res
-	return ec.marshalNFocalPointMeta2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMetaᚄ(ctx, field.Selections, res)
+	return ec.marshalNFocalPointMeta2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPointMetaᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_focalPointMeta(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43765,7 +43765,7 @@ func (ec *executionContext) _Query_org(ctx context.Context, field graphql.Collec
 	}
 	res := resTmp.(*model.Org)
 	fc.Result = res
-	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
+	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_org(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43834,7 +43834,7 @@ func (ec *executionContext) _Query_orgs(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.([]*model.Org)
 	fc.Result = res
-	return ec.marshalNOrg2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrgᚄ(ctx, field.Selections, res)
+	return ec.marshalNOrg2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrgᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_orgs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43892,7 +43892,7 @@ func (ec *executionContext) _Query_members(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.([]*model.Member)
 	fc.Result = res
-	return ec.marshalNMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMemberᚄ(ctx, field.Selections, res)
+	return ec.marshalNMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMemberᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_members(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -43961,7 +43961,7 @@ func (ec *executionContext) _Query_teams(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.([]*model.Team)
 	fc.Result = res
-	return ec.marshalNTeam2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeamᚄ(ctx, field.Selections, res)
+	return ec.marshalNTeam2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_teams(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -44032,7 +44032,7 @@ func (ec *executionContext) _Query_team(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.(*model.Team)
 	fc.Result = res
-	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
+	return ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_team(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -44103,7 +44103,7 @@ func (ec *executionContext) _Query_teamMembers(ctx context.Context, field graphq
 	}
 	res := resTmp.([]*model.TeamMember)
 	fc.Result = res
-	return ec.marshalNTeamMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeamMemberᚄ(ctx, field.Selections, res)
+	return ec.marshalNTeamMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamMemberᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_teamMembers(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -44168,7 +44168,7 @@ func (ec *executionContext) _Query_invitations(ctx context.Context, field graphq
 	}
 	res := resTmp.([]*model.Invitation)
 	fc.Result = res
-	return ec.marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐInvitationᚄ(ctx, field.Selections, res)
+	return ec.marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitationᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_invitations(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -44241,7 +44241,7 @@ func (ec *executionContext) _Query_serviceAccounts(ctx context.Context, field gr
 	}
 	res := resTmp.([]*model.ServiceAccount)
 	fc.Result = res
-	return ec.marshalNServiceAccount2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccountᚄ(ctx, field.Selections, res)
+	return ec.marshalNServiceAccount2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceAccounts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -44314,7 +44314,7 @@ func (ec *executionContext) _Query_serviceAccount(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.ServiceAccount)
 	fc.Result = res
-	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
+	return ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceAccount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -44387,7 +44387,7 @@ func (ec *executionContext) _Query_serviceAccountTokens(ctx context.Context, fie
 	}
 	res := resTmp.([]*model.ServiceAccountToken)
 	fc.Result = res
-	return ec.marshalNServiceAccountToken2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccountTokenᚄ(ctx, field.Selections, res)
+	return ec.marshalNServiceAccountToken2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountTokenᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceAccountTokens(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -46547,7 +46547,7 @@ func (ec *executionContext) _Service_createdByActor(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Service_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -46602,7 +46602,7 @@ func (ec *executionContext) _Service_updatedByActor(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Service_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -47918,7 +47918,7 @@ func (ec *executionContext) _ServiceDB_createdByActor(ctx context.Context, field
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ServiceDB_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -47973,7 +47973,7 @@ func (ec *executionContext) _ServiceDB_updatedByActor(ctx context.Context, field
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ServiceDB_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -48547,7 +48547,7 @@ func (ec *executionContext) _ServiceDBVersion_createdByActor(ctx context.Context
 	}
 	res := resTmp.(*model.Actor)
 	fc.Result = res
-	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ServiceDBVersion_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -48951,7 +48951,7 @@ func (ec *executionContext) _ServiceDiagram_diagram(ctx context.Context, field g
 	}
 	res := resTmp.(*model.Diagram)
 	fc.Result = res
-	return ec.marshalODiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
+	return ec.marshalODiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ServiceDiagram_diagram(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -51286,7 +51286,7 @@ func (ec *executionContext) _TestCase_manual(ctx context.Context, field graphql.
 	}
 	res := resTmp.(*model.ManualTestCase)
 	fc.Result = res
-	return ec.marshalOManualTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐManualTestCase(ctx, field.Selections, res)
+	return ec.marshalOManualTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐManualTestCase(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_TestCase_manual(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -51339,7 +51339,7 @@ func (ec *executionContext) _TestCase_api(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*model.APITestCase)
 	fc.Result = res
-	return ec.marshalOAPITestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPITestCase(ctx, field.Selections, res)
+	return ec.marshalOAPITestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPITestCase(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_TestCase_api(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -51404,7 +51404,7 @@ func (ec *executionContext) _TestCase_graphql(ctx context.Context, field graphql
 	}
 	res := resTmp.(*model.GraphQLTestCase)
 	fc.Result = res
-	return ec.marshalOGraphQLTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGraphQLTestCase(ctx, field.Selections, res)
+	return ec.marshalOGraphQLTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGraphQLTestCase(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_TestCase_graphql(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -51461,7 +51461,7 @@ func (ec *executionContext) _TestCase_database(ctx context.Context, field graphq
 	}
 	res := resTmp.(*model.DatabaseTestCase)
 	fc.Result = res
-	return ec.marshalODatabaseTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDatabaseTestCase(ctx, field.Selections, res)
+	return ec.marshalODatabaseTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDatabaseTestCase(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_TestCase_database(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -51516,7 +51516,7 @@ func (ec *executionContext) _TestCase_grpc(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(*model.GRPCTestCase)
 	fc.Result = res
-	return ec.marshalOGRPCTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGRPCTestCase(ctx, field.Selections, res)
+	return ec.marshalOGRPCTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGRPCTestCase(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_TestCase_grpc(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -57304,21 +57304,21 @@ func (ec *executionContext) unmarshalInputAPITestCaseInput(ctx context.Context, 
 			it.OperationID = data
 		case "auth":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("auth"))
-			data, err := ec.unmarshalOAuthConfigInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAuthConfigInput(ctx, v)
+			data, err := ec.unmarshalOAuthConfigInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAuthConfigInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Auth = data
 		case "requestHeaders":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requestHeaders"))
-			data, err := ec.unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueInputᚄ(ctx, v)
+			data, err := ec.unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.RequestHeaders = data
 		case "queryParams":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("queryParams"))
-			data, err := ec.unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueInputᚄ(ctx, v)
+			data, err := ec.unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -57353,7 +57353,7 @@ func (ec *executionContext) unmarshalInputAPITestCaseInput(ctx context.Context, 
 			it.ResponseBody = data
 		case "assertions":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("assertions"))
-			data, err := ec.unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionInputᚄ(ctx, v)
+			data, err := ec.unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -58799,35 +58799,35 @@ func (ec *executionContext) unmarshalInputCreateTestCaseInput(ctx context.Contex
 			it.EvidenceRequired = data
 		case "manual":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("manual"))
-			data, err := ec.unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐManualTestCaseInput(ctx, v)
+			data, err := ec.unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐManualTestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Manual = data
 		case "api":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("api"))
-			data, err := ec.unmarshalOAPITestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPITestCaseInput(ctx, v)
+			data, err := ec.unmarshalOAPITestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPITestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.API = data
 		case "graphql":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("graphql"))
-			data, err := ec.unmarshalOGraphQLTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGraphQLTestCaseInput(ctx, v)
+			data, err := ec.unmarshalOGraphQLTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGraphQLTestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Graphql = data
 		case "database":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("database"))
-			data, err := ec.unmarshalODatabaseTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDatabaseTestCaseInput(ctx, v)
+			data, err := ec.unmarshalODatabaseTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDatabaseTestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Database = data
 		case "grpc":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("grpc"))
-			data, err := ec.unmarshalOGRPCTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGRPCTestCaseInput(ctx, v)
+			data, err := ec.unmarshalOGRPCTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGRPCTestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -59178,7 +59178,7 @@ func (ec *executionContext) unmarshalInputDatabaseTestCaseInput(ctx context.Cont
 			it.Query = data
 		case "assertions":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("assertions"))
-			data, err := ec.unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionInputᚄ(ctx, v)
+			data, err := ec.unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -59261,7 +59261,7 @@ func (ec *executionContext) unmarshalInputGRPCTestCaseInput(ctx context.Context,
 			it.RequestMessage = data
 		case "metadata":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("metadata"))
-			data, err := ec.unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueInputᚄ(ctx, v)
+			data, err := ec.unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -59289,7 +59289,7 @@ func (ec *executionContext) unmarshalInputGRPCTestCaseInput(ctx context.Context,
 			it.ResponseBody = data
 		case "assertions":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("assertions"))
-			data, err := ec.unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionInputᚄ(ctx, v)
+			data, err := ec.unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -59365,7 +59365,7 @@ func (ec *executionContext) unmarshalInputGraphQLTestCaseInput(ctx context.Conte
 			it.ResponseBody = data
 		case "assertions":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("assertions"))
-			data, err := ec.unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionInputᚄ(ctx, v)
+			data, err := ec.unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -59447,7 +59447,7 @@ func (ec *executionContext) unmarshalInputManualTestCaseInput(ctx context.Contex
 			it.TestData = data
 		case "steps":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("steps"))
-			data, err := ec.unmarshalOTestCaseStepInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseStepInputᚄ(ctx, v)
+			data, err := ec.unmarshalOTestCaseStepInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseStepInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -60763,35 +60763,35 @@ func (ec *executionContext) unmarshalInputUpdateTestCaseInput(ctx context.Contex
 			it.EvidenceRequired = data
 		case "manual":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("manual"))
-			data, err := ec.unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐManualTestCaseInput(ctx, v)
+			data, err := ec.unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐManualTestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Manual = data
 		case "api":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("api"))
-			data, err := ec.unmarshalOAPITestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPITestCaseInput(ctx, v)
+			data, err := ec.unmarshalOAPITestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPITestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.API = data
 		case "graphql":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("graphql"))
-			data, err := ec.unmarshalOGraphQLTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGraphQLTestCaseInput(ctx, v)
+			data, err := ec.unmarshalOGraphQLTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGraphQLTestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Graphql = data
 		case "database":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("database"))
-			data, err := ec.unmarshalODatabaseTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDatabaseTestCaseInput(ctx, v)
+			data, err := ec.unmarshalODatabaseTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDatabaseTestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Database = data
 		case "grpc":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("grpc"))
-			data, err := ec.unmarshalOGRPCTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGRPCTestCaseInput(ctx, v)
+			data, err := ec.unmarshalOGRPCTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGRPCTestCaseInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -68707,11 +68707,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNAPIEndpoint2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIEndpoint(ctx context.Context, sel ast.SelectionSet, v model.APIEndpoint) graphql.Marshaler {
+func (ec *executionContext) marshalNAPIEndpoint2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIEndpoint(ctx context.Context, sel ast.SelectionSet, v model.APIEndpoint) graphql.Marshaler {
 	return ec._APIEndpoint(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNAPIEndpoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIEndpointᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.APIEndpoint) graphql.Marshaler {
+func (ec *executionContext) marshalNAPIEndpoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIEndpointᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.APIEndpoint) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -68735,7 +68735,7 @@ func (ec *executionContext) marshalNAPIEndpoint2ᚕᚖgithubᚗcomᚋuigraphᚋg
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIEndpoint(ctx, sel, v[i])
+			ret[i] = ec.marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIEndpoint(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -68755,7 +68755,7 @@ func (ec *executionContext) marshalNAPIEndpoint2ᚕᚖgithubᚗcomᚋuigraphᚋg
 	return ret
 }
 
-func (ec *executionContext) marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIEndpoint(ctx context.Context, sel ast.SelectionSet, v *model.APIEndpoint) graphql.Marshaler {
+func (ec *executionContext) marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIEndpoint(ctx context.Context, sel ast.SelectionSet, v *model.APIEndpoint) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -68765,11 +68765,11 @@ func (ec *executionContext) marshalNAPIEndpoint2ᚖgithubᚗcomᚋuigraphᚋgrap
 	return ec._APIEndpoint(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNAPIGroup2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroup(ctx context.Context, sel ast.SelectionSet, v model.APIGroup) graphql.Marshaler {
+func (ec *executionContext) marshalNAPIGroup2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroup(ctx context.Context, sel ast.SelectionSet, v model.APIGroup) graphql.Marshaler {
 	return ec._APIGroup(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNAPIGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.APIGroup) graphql.Marshaler {
+func (ec *executionContext) marshalNAPIGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.APIGroup) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -68793,7 +68793,7 @@ func (ec *executionContext) marshalNAPIGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgrap
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroup(ctx, sel, v[i])
+			ret[i] = ec.marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroup(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -68813,7 +68813,7 @@ func (ec *executionContext) marshalNAPIGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgrap
 	return ret
 }
 
-func (ec *executionContext) marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroup(ctx context.Context, sel ast.SelectionSet, v *model.APIGroup) graphql.Marshaler {
+func (ec *executionContext) marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroup(ctx context.Context, sel ast.SelectionSet, v *model.APIGroup) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -68823,7 +68823,7 @@ func (ec *executionContext) marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphql
 	return ec._APIGroup(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNAPIGroupVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroupVersionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.APIGroupVersion) graphql.Marshaler {
+func (ec *executionContext) marshalNAPIGroupVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroupVersionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.APIGroupVersion) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -68847,7 +68847,7 @@ func (ec *executionContext) marshalNAPIGroupVersion2ᚕᚖgithubᚗcomᚋuigraph
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNAPIGroupVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroupVersion(ctx, sel, v[i])
+			ret[i] = ec.marshalNAPIGroupVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroupVersion(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -68867,7 +68867,7 @@ func (ec *executionContext) marshalNAPIGroupVersion2ᚕᚖgithubᚗcomᚋuigraph
 	return ret
 }
 
-func (ec *executionContext) marshalNAPIGroupVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPIGroupVersion(ctx context.Context, sel ast.SelectionSet, v *model.APIGroupVersion) graphql.Marshaler {
+func (ec *executionContext) marshalNAPIGroupVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroupVersion(ctx context.Context, sel ast.SelectionSet, v *model.APIGroupVersion) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -68877,12 +68877,12 @@ func (ec *executionContext) marshalNAPIGroupVersion2ᚖgithubᚗcomᚋuigraphᚋ
 	return ec._APIGroupVersion(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNAddMemberInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAddMemberInput(ctx context.Context, v any) (model.AddMemberInput, error) {
+func (ec *executionContext) unmarshalNAddMemberInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAddMemberInput(ctx context.Context, v any) (model.AddMemberInput, error) {
 	res, err := ec.unmarshalInputAddMemberInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNAssertion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertion(ctx context.Context, sel ast.SelectionSet, v *model.Assertion) graphql.Marshaler {
+func (ec *executionContext) marshalNAssertion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertion(ctx context.Context, sel ast.SelectionSet, v *model.Assertion) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -68892,7 +68892,7 @@ func (ec *executionContext) marshalNAssertion2ᚖgithubᚗcomᚋuigraphᚋgraphq
 	return ec._Assertion(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNAssertionInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionInput(ctx context.Context, v any) (*model.AssertionInput, error) {
+func (ec *executionContext) unmarshalNAssertionInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionInput(ctx context.Context, v any) (*model.AssertionInput, error) {
 	res, err := ec.unmarshalInputAssertionInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
@@ -68913,11 +68913,11 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNCanvas2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCanvas(ctx context.Context, sel ast.SelectionSet, v model.Canvas) graphql.Marshaler {
+func (ec *executionContext) marshalNCanvas2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCanvas(ctx context.Context, sel ast.SelectionSet, v model.Canvas) graphql.Marshaler {
 	return ec._Canvas(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNCanvas2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCanvas(ctx context.Context, sel ast.SelectionSet, v *model.Canvas) graphql.Marshaler {
+func (ec *executionContext) marshalNCanvas2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCanvas(ctx context.Context, sel ast.SelectionSet, v *model.Canvas) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -68927,7 +68927,7 @@ func (ec *executionContext) marshalNCanvas2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 	return ec._Canvas(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Component) graphql.Marshaler {
+func (ec *executionContext) marshalNComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Component) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -68951,7 +68951,7 @@ func (ec *executionContext) marshalNComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgra
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponent(ctx, sel, v[i])
+			ret[i] = ec.marshalNComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponent(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -68971,7 +68971,7 @@ func (ec *executionContext) marshalNComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgra
 	return ret
 }
 
-func (ec *executionContext) marshalNComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponent(ctx context.Context, sel ast.SelectionSet, v *model.Component) graphql.Marshaler {
+func (ec *executionContext) marshalNComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponent(ctx context.Context, sel ast.SelectionSet, v *model.Component) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -68981,7 +68981,7 @@ func (ec *executionContext) marshalNComponent2ᚖgithubᚗcomᚋuigraphᚋgraphq
 	return ec._Component(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponentFieldᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ComponentField) graphql.Marshaler {
+func (ec *executionContext) marshalNComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentFieldᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ComponentField) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69005,7 +69005,7 @@ func (ec *executionContext) marshalNComponentField2ᚕᚖgithubᚗcomᚋuigraph�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponentField(ctx, sel, v[i])
+			ret[i] = ec.marshalNComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentField(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69025,7 +69025,7 @@ func (ec *executionContext) marshalNComponentField2ᚕᚖgithubᚗcomᚋuigraph�
 	return ret
 }
 
-func (ec *executionContext) marshalNComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponentField(ctx context.Context, sel ast.SelectionSet, v *model.ComponentField) graphql.Marshaler {
+func (ec *executionContext) marshalNComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentField(ctx context.Context, sel ast.SelectionSet, v *model.ComponentField) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69035,11 +69035,11 @@ func (ec *executionContext) marshalNComponentField2ᚖgithubᚗcomᚋuigraphᚋg
 	return ec._ComponentField(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNComponents2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponents(ctx context.Context, sel ast.SelectionSet, v model.Components) graphql.Marshaler {
+func (ec *executionContext) marshalNComponents2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponents(ctx context.Context, sel ast.SelectionSet, v model.Components) graphql.Marshaler {
 	return ec._Components(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐComponents(ctx context.Context, sel ast.SelectionSet, v *model.Components) graphql.Marshaler {
+func (ec *executionContext) marshalNComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponents(ctx context.Context, sel ast.SelectionSet, v *model.Components) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69049,141 +69049,141 @@ func (ec *executionContext) marshalNComponents2ᚖgithubᚗcomᚋuigraphᚋgraph
 	return ec._Components(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNCreateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateAPIEndpointInput(ctx context.Context, v any) (model.CreateAPIEndpointInput, error) {
+func (ec *executionContext) unmarshalNCreateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateAPIEndpointInput(ctx context.Context, v any) (model.CreateAPIEndpointInput, error) {
 	res, err := ec.unmarshalInputCreateAPIEndpointInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateAPIGroupInput(ctx context.Context, v any) (model.CreateAPIGroupInput, error) {
+func (ec *executionContext) unmarshalNCreateAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateAPIGroupInput(ctx context.Context, v any) (model.CreateAPIGroupInput, error) {
 	res, err := ec.unmarshalInputCreateAPIGroupInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateDiagramInput(ctx context.Context, v any) (model.CreateDiagramInput, error) {
+func (ec *executionContext) unmarshalNCreateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateDiagramInput(ctx context.Context, v any) (model.CreateDiagramInput, error) {
 	res, err := ec.unmarshalInputCreateDiagramInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFocalPointInput(ctx context.Context, v any) (model.CreateFocalPointInput, error) {
+func (ec *executionContext) unmarshalNCreateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFocalPointInput(ctx context.Context, v any) (model.CreateFocalPointInput, error) {
 	res, err := ec.unmarshalInputCreateFocalPointInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFocalPointMetaInput(ctx context.Context, v any) (model.CreateFocalPointMetaInput, error) {
+func (ec *executionContext) unmarshalNCreateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFocalPointMetaInput(ctx context.Context, v any) (model.CreateFocalPointMetaInput, error) {
 	res, err := ec.unmarshalInputCreateFocalPointMetaInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFolderInput(ctx context.Context, v any) (model.CreateFolderInput, error) {
+func (ec *executionContext) unmarshalNCreateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFolderInput(ctx context.Context, v any) (model.CreateFolderInput, error) {
 	res, err := ec.unmarshalInputCreateFolderInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameGroupInput(ctx context.Context, v any) (model.CreateFrameGroupInput, error) {
+func (ec *executionContext) unmarshalNCreateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFrameGroupInput(ctx context.Context, v any) (model.CreateFrameGroupInput, error) {
 	res, err := ec.unmarshalInputCreateFrameGroupInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameInput(ctx context.Context, v any) (model.CreateFrameInput, error) {
+func (ec *executionContext) unmarshalNCreateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFrameInput(ctx context.Context, v any) (model.CreateFrameInput, error) {
 	res, err := ec.unmarshalInputCreateFrameInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateFrameLinkInput(ctx context.Context, v any) (model.CreateFrameLinkInput, error) {
+func (ec *executionContext) unmarshalNCreateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFrameLinkInput(ctx context.Context, v any) (model.CreateFrameLinkInput, error) {
 	res, err := ec.unmarshalInputCreateFrameLinkInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateInvitationInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateInvitationInput(ctx context.Context, v any) (model.CreateInvitationInput, error) {
+func (ec *executionContext) unmarshalNCreateInvitationInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateInvitationInput(ctx context.Context, v any) (model.CreateInvitationInput, error) {
 	res, err := ec.unmarshalInputCreateInvitationInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateMapInput(ctx context.Context, v any) (model.CreateMapInput, error) {
+func (ec *executionContext) unmarshalNCreateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMapInput(ctx context.Context, v any) (model.CreateMapInput, error) {
 	res, err := ec.unmarshalInputCreateMapInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateOrgInput(ctx context.Context, v any) (model.CreateOrgInput, error) {
+func (ec *executionContext) unmarshalNCreateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateOrgInput(ctx context.Context, v any) (model.CreateOrgInput, error) {
 	res, err := ec.unmarshalInputCreateOrgInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateRoleMappingInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateRoleMappingInput(ctx context.Context, v any) (model.CreateRoleMappingInput, error) {
+func (ec *executionContext) unmarshalNCreateRoleMappingInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateRoleMappingInput(ctx context.Context, v any) (model.CreateRoleMappingInput, error) {
 	res, err := ec.unmarshalInputCreateRoleMappingInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateServiceAccountInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceAccountInput(ctx context.Context, v any) (model.CreateServiceAccountInput, error) {
+func (ec *executionContext) unmarshalNCreateServiceAccountInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceAccountInput(ctx context.Context, v any) (model.CreateServiceAccountInput, error) {
 	res, err := ec.unmarshalInputCreateServiceAccountInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceDBInput(ctx context.Context, v any) (model.CreateServiceDBInput, error) {
+func (ec *executionContext) unmarshalNCreateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceDBInput(ctx context.Context, v any) (model.CreateServiceDBInput, error) {
 	res, err := ec.unmarshalInputCreateServiceDBInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateServiceDBVersionInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceDBVersionInput(ctx context.Context, v any) (model.CreateServiceDBVersionInput, error) {
+func (ec *executionContext) unmarshalNCreateServiceDBVersionInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceDBVersionInput(ctx context.Context, v any) (model.CreateServiceDBVersionInput, error) {
 	res, err := ec.unmarshalInputCreateServiceDBVersionInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateServiceDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceDiagramInput(ctx context.Context, v any) (model.CreateServiceDiagramInput, error) {
+func (ec *executionContext) unmarshalNCreateServiceDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceDiagramInput(ctx context.Context, v any) (model.CreateServiceDiagramInput, error) {
 	res, err := ec.unmarshalInputCreateServiceDiagramInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceDocInput(ctx context.Context, v any) (model.CreateServiceDocInput, error) {
+func (ec *executionContext) unmarshalNCreateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceDocInput(ctx context.Context, v any) (model.CreateServiceDocInput, error) {
 	res, err := ec.unmarshalInputCreateServiceDocInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateServiceInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateServiceInput(ctx context.Context, v any) (model.CreateServiceInput, error) {
+func (ec *executionContext) unmarshalNCreateServiceInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceInput(ctx context.Context, v any) (model.CreateServiceInput, error) {
 	res, err := ec.unmarshalInputCreateServiceInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateTeamInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTeamInput(ctx context.Context, v any) (model.CreateTeamInput, error) {
+func (ec *executionContext) unmarshalNCreateTeamInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTeamInput(ctx context.Context, v any) (model.CreateTeamInput, error) {
 	res, err := ec.unmarshalInputCreateTeamInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateTestCaseInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTestCaseInput(ctx context.Context, v any) (model.CreateTestCaseInput, error) {
+func (ec *executionContext) unmarshalNCreateTestCaseInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTestCaseInput(ctx context.Context, v any) (model.CreateTestCaseInput, error) {
 	res, err := ec.unmarshalInputCreateTestCaseInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateTestPackInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTestPackInput(ctx context.Context, v any) (model.CreateTestPackInput, error) {
+func (ec *executionContext) unmarshalNCreateTestPackInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTestPackInput(ctx context.Context, v any) (model.CreateTestPackInput, error) {
 	res, err := ec.unmarshalInputCreateTestPackInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateTestRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTestRunInput(ctx context.Context, v any) (model.CreateTestRunInput, error) {
+func (ec *executionContext) unmarshalNCreateTestRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTestRunInput(ctx context.Context, v any) (model.CreateTestRunInput, error) {
 	res, err := ec.unmarshalInputCreateTestRunInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateTestRunResultInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTestRunResultInput(ctx context.Context, v any) (model.CreateTestRunResultInput, error) {
+func (ec *executionContext) unmarshalNCreateTestRunResultInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTestRunResultInput(ctx context.Context, v any) (model.CreateTestRunResultInput, error) {
 	res, err := ec.unmarshalInputCreateTestRunResultInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateTokenInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateTokenInput(ctx context.Context, v any) (model.CreateTokenInput, error) {
+func (ec *executionContext) unmarshalNCreateTokenInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateTokenInput(ctx context.Context, v any) (model.CreateTokenInput, error) {
 	res, err := ec.unmarshalInputCreateTokenInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateUserInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreateUserInput(ctx context.Context, v any) (model.CreateUserInput, error) {
+func (ec *executionContext) unmarshalNCreateUserInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateUserInput(ctx context.Context, v any) (model.CreateUserInput, error) {
 	res, err := ec.unmarshalInputCreateUserInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNCreatedToken2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreatedToken(ctx context.Context, sel ast.SelectionSet, v model.CreatedToken) graphql.Marshaler {
+func (ec *executionContext) marshalNCreatedToken2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreatedToken(ctx context.Context, sel ast.SelectionSet, v model.CreatedToken) graphql.Marshaler {
 	return ec._CreatedToken(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNCreatedToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐCreatedToken(ctx context.Context, sel ast.SelectionSet, v *model.CreatedToken) graphql.Marshaler {
+func (ec *executionContext) marshalNCreatedToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreatedToken(ctx context.Context, sel ast.SelectionSet, v *model.CreatedToken) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69193,11 +69193,11 @@ func (ec *executionContext) marshalNCreatedToken2ᚖgithubᚗcomᚋuigraphᚋgra
 	return ec._CreatedToken(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNDiagram2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagram(ctx context.Context, sel ast.SelectionSet, v model.Diagram) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagram2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx context.Context, sel ast.SelectionSet, v model.Diagram) graphql.Marshaler {
 	return ec._Diagram(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Diagram) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Diagram) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69221,7 +69221,7 @@ func (ec *executionContext) marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraph
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagram(ctx, sel, v[i])
+			ret[i] = ec.marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69241,7 +69241,7 @@ func (ec *executionContext) marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraph
 	return ret
 }
 
-func (ec *executionContext) marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagram(ctx context.Context, sel ast.SelectionSet, v *model.Diagram) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx context.Context, sel ast.SelectionSet, v *model.Diagram) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69251,11 +69251,11 @@ func (ec *executionContext) marshalNDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 	return ec._Diagram(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNDiagramContent2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramContent(ctx context.Context, sel ast.SelectionSet, v model.DiagramContent) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagramContent2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramContent(ctx context.Context, sel ast.SelectionSet, v model.DiagramContent) graphql.Marshaler {
 	return ec._DiagramContent(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramContent(ctx context.Context, sel ast.SelectionSet, v *model.DiagramContent) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramContent(ctx context.Context, sel ast.SelectionSet, v *model.DiagramContent) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69265,7 +69265,7 @@ func (ec *executionContext) marshalNDiagramContent2ᚖgithubᚗcomᚋuigraphᚋg
 	return ec._DiagramContent(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImageᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DiagramImage) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramImageᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DiagramImage) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69289,7 +69289,7 @@ func (ec *executionContext) marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋ
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImage(ctx, sel, v[i])
+			ret[i] = ec.marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramImage(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69309,7 +69309,7 @@ func (ec *executionContext) marshalNDiagramImage2ᚕᚖgithubᚗcomᚋuigraphᚋ
 	return ret
 }
 
-func (ec *executionContext) marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramImage(ctx context.Context, sel ast.SelectionSet, v *model.DiagramImage) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramImage(ctx context.Context, sel ast.SelectionSet, v *model.DiagramImage) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69319,11 +69319,11 @@ func (ec *executionContext) marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgra
 	return ec._DiagramImage(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNDiagramVersion2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramVersion(ctx context.Context, sel ast.SelectionSet, v model.DiagramVersion) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagramVersion2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersion(ctx context.Context, sel ast.SelectionSet, v model.DiagramVersion) graphql.Marshaler {
 	return ec._DiagramVersion(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNDiagramVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramVersionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DiagramVersion) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagramVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DiagramVersion) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69347,7 +69347,7 @@ func (ec *executionContext) marshalNDiagramVersion2ᚕᚖgithubᚗcomᚋuigraph�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNDiagramVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramVersion(ctx, sel, v[i])
+			ret[i] = ec.marshalNDiagramVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersion(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69367,7 +69367,7 @@ func (ec *executionContext) marshalNDiagramVersion2ᚕᚖgithubᚗcomᚋuigraph�
 	return ret
 }
 
-func (ec *executionContext) marshalNDiagramVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagramVersion(ctx context.Context, sel ast.SelectionSet, v *model.DiagramVersion) graphql.Marshaler {
+func (ec *executionContext) marshalNDiagramVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersion(ctx context.Context, sel ast.SelectionSet, v *model.DiagramVersion) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69393,7 +69393,7 @@ func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.S
 	return graphql.WrapContextMarshaler(ctx, res)
 }
 
-func (ec *executionContext) marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FlowDiagramComponent) graphql.Marshaler {
+func (ec *executionContext) marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FlowDiagramComponent) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69417,7 +69417,7 @@ func (ec *executionContext) marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋui
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNFlowDiagramComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponent(ctx, sel, v[i])
+			ret[i] = ec.marshalNFlowDiagramComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponent(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69437,7 +69437,7 @@ func (ec *executionContext) marshalNFlowDiagramComponent2ᚕᚖgithubᚗcomᚋui
 	return ret
 }
 
-func (ec *executionContext) marshalNFlowDiagramComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponent(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponent) graphql.Marshaler {
+func (ec *executionContext) marshalNFlowDiagramComponent2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponent(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponent) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69447,7 +69447,7 @@ func (ec *executionContext) marshalNFlowDiagramComponent2ᚖgithubᚗcomᚋuigra
 	return ec._FlowDiagramComponent(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentFieldᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FlowDiagramComponentField) graphql.Marshaler {
+func (ec *executionContext) marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponentFieldᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FlowDiagramComponentField) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69471,7 +69471,7 @@ func (ec *executionContext) marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcom
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNFlowDiagramComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentField(ctx, sel, v[i])
+			ret[i] = ec.marshalNFlowDiagramComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponentField(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69491,7 +69491,7 @@ func (ec *executionContext) marshalNFlowDiagramComponentField2ᚕᚖgithubᚗcom
 	return ret
 }
 
-func (ec *executionContext) marshalNFlowDiagramComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponentField(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponentField) graphql.Marshaler {
+func (ec *executionContext) marshalNFlowDiagramComponentField2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponentField(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponentField) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69501,11 +69501,11 @@ func (ec *executionContext) marshalNFlowDiagramComponentField2ᚖgithubᚗcomᚋ
 	return ec._FlowDiagramComponentField(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNFlowDiagramComponents2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, v model.FlowDiagramComponents) graphql.Marshaler {
+func (ec *executionContext) marshalNFlowDiagramComponents2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, v model.FlowDiagramComponents) graphql.Marshaler {
 	return ec._FlowDiagramComponents(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponents) graphql.Marshaler {
+func (ec *executionContext) marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFlowDiagramComponents(ctx context.Context, sel ast.SelectionSet, v *model.FlowDiagramComponents) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69515,11 +69515,11 @@ func (ec *executionContext) marshalNFlowDiagramComponents2ᚖgithubᚗcomᚋuigr
 	return ec._FlowDiagramComponents(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNFocalPoint2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPoint(ctx context.Context, sel ast.SelectionSet, v model.FocalPoint) graphql.Marshaler {
+func (ec *executionContext) marshalNFocalPoint2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPoint(ctx context.Context, sel ast.SelectionSet, v model.FocalPoint) graphql.Marshaler {
 	return ec._FocalPoint(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNFocalPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FocalPoint) graphql.Marshaler {
+func (ec *executionContext) marshalNFocalPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPointᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FocalPoint) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69543,7 +69543,7 @@ func (ec *executionContext) marshalNFocalPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPoint(ctx, sel, v[i])
+			ret[i] = ec.marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPoint(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69563,7 +69563,7 @@ func (ec *executionContext) marshalNFocalPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 	return ret
 }
 
-func (ec *executionContext) marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPoint(ctx context.Context, sel ast.SelectionSet, v *model.FocalPoint) graphql.Marshaler {
+func (ec *executionContext) marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPoint(ctx context.Context, sel ast.SelectionSet, v *model.FocalPoint) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69573,11 +69573,11 @@ func (ec *executionContext) marshalNFocalPoint2ᚖgithubᚗcomᚋuigraphᚋgraph
 	return ec._FocalPoint(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNFocalPointMeta2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx context.Context, sel ast.SelectionSet, v model.FocalPointMeta) graphql.Marshaler {
+func (ec *executionContext) marshalNFocalPointMeta2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPointMeta(ctx context.Context, sel ast.SelectionSet, v model.FocalPointMeta) graphql.Marshaler {
 	return ec._FocalPointMeta(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNFocalPointMeta2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMetaᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FocalPointMeta) graphql.Marshaler {
+func (ec *executionContext) marshalNFocalPointMeta2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPointMetaᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FocalPointMeta) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69601,7 +69601,7 @@ func (ec *executionContext) marshalNFocalPointMeta2ᚕᚖgithubᚗcomᚋuigraph�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx, sel, v[i])
+			ret[i] = ec.marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPointMeta(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69621,7 +69621,7 @@ func (ec *executionContext) marshalNFocalPointMeta2ᚕᚖgithubᚗcomᚋuigraph�
 	return ret
 }
 
-func (ec *executionContext) marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFocalPointMeta(ctx context.Context, sel ast.SelectionSet, v *model.FocalPointMeta) graphql.Marshaler {
+func (ec *executionContext) marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFocalPointMeta(ctx context.Context, sel ast.SelectionSet, v *model.FocalPointMeta) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69631,11 +69631,11 @@ func (ec *executionContext) marshalNFocalPointMeta2ᚖgithubᚗcomᚋuigraphᚋg
 	return ec._FocalPointMeta(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNFolder2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFolder(ctx context.Context, sel ast.SelectionSet, v model.Folder) graphql.Marshaler {
+func (ec *executionContext) marshalNFolder2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx context.Context, sel ast.SelectionSet, v model.Folder) graphql.Marshaler {
 	return ec._Folder(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFolderᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Folder) graphql.Marshaler {
+func (ec *executionContext) marshalNFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolderᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Folder) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69659,7 +69659,7 @@ func (ec *executionContext) marshalNFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphq
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFolder(ctx, sel, v[i])
+			ret[i] = ec.marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69679,7 +69679,7 @@ func (ec *executionContext) marshalNFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphq
 	return ret
 }
 
-func (ec *executionContext) marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFolder(ctx context.Context, sel ast.SelectionSet, v *model.Folder) graphql.Marshaler {
+func (ec *executionContext) marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFolder(ctx context.Context, sel ast.SelectionSet, v *model.Folder) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69689,11 +69689,11 @@ func (ec *executionContext) marshalNFolder2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 	return ec._Folder(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNFrame2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrame(ctx context.Context, sel ast.SelectionSet, v model.Frame) graphql.Marshaler {
+func (ec *executionContext) marshalNFrame2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrame(ctx context.Context, sel ast.SelectionSet, v model.Frame) graphql.Marshaler {
 	return ec._Frame(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNFrame2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Frame) graphql.Marshaler {
+func (ec *executionContext) marshalNFrame2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Frame) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69717,7 +69717,7 @@ func (ec *executionContext) marshalNFrame2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrame(ctx, sel, v[i])
+			ret[i] = ec.marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrame(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69737,7 +69737,7 @@ func (ec *executionContext) marshalNFrame2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql
 	return ret
 }
 
-func (ec *executionContext) marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrame(ctx context.Context, sel ast.SelectionSet, v *model.Frame) graphql.Marshaler {
+func (ec *executionContext) marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrame(ctx context.Context, sel ast.SelectionSet, v *model.Frame) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69747,11 +69747,11 @@ func (ec *executionContext) marshalNFrame2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋ
 	return ec._Frame(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNFrameGroup2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx context.Context, sel ast.SelectionSet, v model.FrameGroup) graphql.Marshaler {
+func (ec *executionContext) marshalNFrameGroup2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameGroup(ctx context.Context, sel ast.SelectionSet, v model.FrameGroup) graphql.Marshaler {
 	return ec._FrameGroup(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNFrameGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FrameGroup) graphql.Marshaler {
+func (ec *executionContext) marshalNFrameGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FrameGroup) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69775,7 +69775,7 @@ func (ec *executionContext) marshalNFrameGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx, sel, v[i])
+			ret[i] = ec.marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameGroup(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69795,7 +69795,7 @@ func (ec *executionContext) marshalNFrameGroup2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 	return ret
 }
 
-func (ec *executionContext) marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameGroup(ctx context.Context, sel ast.SelectionSet, v *model.FrameGroup) graphql.Marshaler {
+func (ec *executionContext) marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameGroup(ctx context.Context, sel ast.SelectionSet, v *model.FrameGroup) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69805,11 +69805,11 @@ func (ec *executionContext) marshalNFrameGroup2ᚖgithubᚗcomᚋuigraphᚋgraph
 	return ec._FrameGroup(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNFrameLink2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx context.Context, sel ast.SelectionSet, v model.FrameLink) graphql.Marshaler {
+func (ec *executionContext) marshalNFrameLink2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameLink(ctx context.Context, sel ast.SelectionSet, v model.FrameLink) graphql.Marshaler {
 	return ec._FrameLink(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNFrameLink2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLinkᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FrameLink) graphql.Marshaler {
+func (ec *executionContext) marshalNFrameLink2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameLinkᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FrameLink) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69833,7 +69833,7 @@ func (ec *executionContext) marshalNFrameLink2ᚕᚖgithubᚗcomᚋuigraphᚋgra
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx, sel, v[i])
+			ret[i] = ec.marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameLink(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69853,7 +69853,7 @@ func (ec *executionContext) marshalNFrameLink2ᚕᚖgithubᚗcomᚋuigraphᚋgra
 	return ret
 }
 
-func (ec *executionContext) marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐFrameLink(ctx context.Context, sel ast.SelectionSet, v *model.FrameLink) graphql.Marshaler {
+func (ec *executionContext) marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameLink(ctx context.Context, sel ast.SelectionSet, v *model.FrameLink) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69925,11 +69925,11 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) marshalNInvitation2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐInvitation(ctx context.Context, sel ast.SelectionSet, v model.Invitation) graphql.Marshaler {
+func (ec *executionContext) marshalNInvitation2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx context.Context, sel ast.SelectionSet, v model.Invitation) graphql.Marshaler {
 	return ec._Invitation(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐInvitationᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Invitation) graphql.Marshaler {
+func (ec *executionContext) marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitationᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Invitation) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -69953,7 +69953,7 @@ func (ec *executionContext) marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐInvitation(ctx, sel, v[i])
+			ret[i] = ec.marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -69973,7 +69973,7 @@ func (ec *executionContext) marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 	return ret
 }
 
-func (ec *executionContext) marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐInvitation(ctx context.Context, sel ast.SelectionSet, v *model.Invitation) graphql.Marshaler {
+func (ec *executionContext) marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx context.Context, sel ast.SelectionSet, v *model.Invitation) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69983,7 +69983,7 @@ func (ec *executionContext) marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraph
 	return ec._Invitation(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNKeyValue2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValue(ctx context.Context, sel ast.SelectionSet, v *model.KeyValue) graphql.Marshaler {
+func (ec *executionContext) marshalNKeyValue2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValue(ctx context.Context, sel ast.SelectionSet, v *model.KeyValue) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -69993,16 +69993,16 @@ func (ec *executionContext) marshalNKeyValue2ᚖgithubᚗcomᚋuigraphᚋgraphql
 	return ec._KeyValue(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNKeyValueInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueInput(ctx context.Context, v any) (*model.KeyValueInput, error) {
+func (ec *executionContext) unmarshalNKeyValueInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueInput(ctx context.Context, v any) (*model.KeyValueInput, error) {
 	res, err := ec.unmarshalInputKeyValueInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNMe2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMe(ctx context.Context, sel ast.SelectionSet, v model.Me) graphql.Marshaler {
+func (ec *executionContext) marshalNMe2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMe(ctx context.Context, sel ast.SelectionSet, v model.Me) graphql.Marshaler {
 	return ec._Me(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMe2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMe(ctx context.Context, sel ast.SelectionSet, v *model.Me) graphql.Marshaler {
+func (ec *executionContext) marshalNMe2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMe(ctx context.Context, sel ast.SelectionSet, v *model.Me) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70012,11 +70012,11 @@ func (ec *executionContext) marshalNMe2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgra
 	return ec._Me(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNMember2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v model.Member) graphql.Marshaler {
+func (ec *executionContext) marshalNMember2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v model.Member) graphql.Marshaler {
 	return ec._Member(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMemberᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Member) graphql.Marshaler {
+func (ec *executionContext) marshalNMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMemberᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Member) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70040,7 +70040,7 @@ func (ec *executionContext) marshalNMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphq
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMember(ctx, sel, v[i])
+			ret[i] = ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70060,7 +70060,7 @@ func (ec *executionContext) marshalNMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphq
 	return ret
 }
 
-func (ec *executionContext) marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v *model.Member) graphql.Marshaler {
+func (ec *executionContext) marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v *model.Member) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70070,7 +70070,7 @@ func (ec *executionContext) marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 	return ec._Member(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNOAuthProvider2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOAuthProviderᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OAuthProvider) graphql.Marshaler {
+func (ec *executionContext) marshalNOAuthProvider2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOAuthProviderᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OAuthProvider) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70094,7 +70094,7 @@ func (ec *executionContext) marshalNOAuthProvider2ᚕᚖgithubᚗcomᚋuigraph�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNOAuthProvider2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOAuthProvider(ctx, sel, v[i])
+			ret[i] = ec.marshalNOAuthProvider2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOAuthProvider(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70114,7 +70114,7 @@ func (ec *executionContext) marshalNOAuthProvider2ᚕᚖgithubᚗcomᚋuigraph�
 	return ret
 }
 
-func (ec *executionContext) marshalNOAuthProvider2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOAuthProvider(ctx context.Context, sel ast.SelectionSet, v *model.OAuthProvider) graphql.Marshaler {
+func (ec *executionContext) marshalNOAuthProvider2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOAuthProvider(ctx context.Context, sel ast.SelectionSet, v *model.OAuthProvider) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70124,11 +70124,11 @@ func (ec *executionContext) marshalNOAuthProvider2ᚖgithubᚗcomᚋuigraphᚋgr
 	return ec._OAuthProvider(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNOrg2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrg(ctx context.Context, sel ast.SelectionSet, v model.Org) graphql.Marshaler {
+func (ec *executionContext) marshalNOrg2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx context.Context, sel ast.SelectionSet, v model.Org) graphql.Marshaler {
 	return ec._Org(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNOrg2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrgᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Org) graphql.Marshaler {
+func (ec *executionContext) marshalNOrg2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrgᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Org) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70152,7 +70152,7 @@ func (ec *executionContext) marshalNOrg2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrg(ctx, sel, v[i])
+			ret[i] = ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70172,7 +70172,7 @@ func (ec *executionContext) marshalNOrg2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql�
 	return ret
 }
 
-func (ec *executionContext) marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrg(ctx context.Context, sel ast.SelectionSet, v *model.Org) graphql.Marshaler {
+func (ec *executionContext) marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx context.Context, sel ast.SelectionSet, v *model.Org) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70182,7 +70182,7 @@ func (ec *executionContext) marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgr
 	return ec._Org(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNOrgSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrgSummaryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OrgSummary) graphql.Marshaler {
+func (ec *executionContext) marshalNOrgSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrgSummaryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OrgSummary) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70206,7 +70206,7 @@ func (ec *executionContext) marshalNOrgSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNOrgSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrgSummary(ctx, sel, v[i])
+			ret[i] = ec.marshalNOrgSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrgSummary(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70226,7 +70226,7 @@ func (ec *executionContext) marshalNOrgSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 	return ret
 }
 
-func (ec *executionContext) marshalNOrgSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐOrgSummary(ctx context.Context, sel ast.SelectionSet, v *model.OrgSummary) graphql.Marshaler {
+func (ec *executionContext) marshalNOrgSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrgSummary(ctx context.Context, sel ast.SelectionSet, v *model.OrgSummary) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70236,7 +70236,7 @@ func (ec *executionContext) marshalNOrgSummary2ᚖgithubᚗcomᚋuigraphᚋgraph
 	return ec._OrgSummary(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNRoleMapping2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐRoleMappingᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.RoleMapping) graphql.Marshaler {
+func (ec *executionContext) marshalNRoleMapping2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐRoleMappingᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.RoleMapping) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70260,7 +70260,7 @@ func (ec *executionContext) marshalNRoleMapping2ᚕᚖgithubᚗcomᚋuigraphᚋg
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNRoleMapping2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐRoleMapping(ctx, sel, v[i])
+			ret[i] = ec.marshalNRoleMapping2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐRoleMapping(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70280,7 +70280,7 @@ func (ec *executionContext) marshalNRoleMapping2ᚕᚖgithubᚗcomᚋuigraphᚋg
 	return ret
 }
 
-func (ec *executionContext) marshalNRoleMapping2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐRoleMapping(ctx context.Context, sel ast.SelectionSet, v *model.RoleMapping) graphql.Marshaler {
+func (ec *executionContext) marshalNRoleMapping2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐRoleMapping(ctx context.Context, sel ast.SelectionSet, v *model.RoleMapping) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70290,11 +70290,11 @@ func (ec *executionContext) marshalNRoleMapping2ᚖgithubᚗcomᚋuigraphᚋgrap
 	return ec._RoleMapping(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNService2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐService(ctx context.Context, sel ast.SelectionSet, v model.Service) graphql.Marshaler {
+func (ec *executionContext) marshalNService2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐService(ctx context.Context, sel ast.SelectionSet, v model.Service) graphql.Marshaler {
 	return ec._Service(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNService2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Service) graphql.Marshaler {
+func (ec *executionContext) marshalNService2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Service) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70318,7 +70318,7 @@ func (ec *executionContext) marshalNService2ᚕᚖgithubᚗcomᚋuigraphᚋgraph
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐService(ctx, sel, v[i])
+			ret[i] = ec.marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐService(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70338,7 +70338,7 @@ func (ec *executionContext) marshalNService2ᚕᚖgithubᚗcomᚋuigraphᚋgraph
 	return ret
 }
 
-func (ec *executionContext) marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐService(ctx context.Context, sel ast.SelectionSet, v *model.Service) graphql.Marshaler {
+func (ec *executionContext) marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐService(ctx context.Context, sel ast.SelectionSet, v *model.Service) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70348,11 +70348,11 @@ func (ec *executionContext) marshalNService2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 	return ec._Service(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNServiceAccount2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccount(ctx context.Context, sel ast.SelectionSet, v model.ServiceAccount) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceAccount2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx context.Context, sel ast.SelectionSet, v model.ServiceAccount) graphql.Marshaler {
 	return ec._ServiceAccount(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNServiceAccount2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccountᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceAccount) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceAccount2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceAccount) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70376,7 +70376,7 @@ func (ec *executionContext) marshalNServiceAccount2ᚕᚖgithubᚗcomᚋuigraph�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccount(ctx, sel, v[i])
+			ret[i] = ec.marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70396,7 +70396,7 @@ func (ec *executionContext) marshalNServiceAccount2ᚕᚖgithubᚗcomᚋuigraph�
 	return ret
 }
 
-func (ec *executionContext) marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccount(ctx context.Context, sel ast.SelectionSet, v *model.ServiceAccount) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccount(ctx context.Context, sel ast.SelectionSet, v *model.ServiceAccount) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70406,7 +70406,7 @@ func (ec *executionContext) marshalNServiceAccount2ᚖgithubᚗcomᚋuigraphᚋg
 	return ec._ServiceAccount(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNServiceAccountToken2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccountTokenᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceAccountToken) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceAccountToken2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountTokenᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceAccountToken) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70430,7 +70430,7 @@ func (ec *executionContext) marshalNServiceAccountToken2ᚕᚖgithubᚗcomᚋuig
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNServiceAccountToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccountToken(ctx, sel, v[i])
+			ret[i] = ec.marshalNServiceAccountToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountToken(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70450,7 +70450,7 @@ func (ec *executionContext) marshalNServiceAccountToken2ᚕᚖgithubᚗcomᚋuig
 	return ret
 }
 
-func (ec *executionContext) marshalNServiceAccountToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceAccountToken(ctx context.Context, sel ast.SelectionSet, v *model.ServiceAccountToken) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceAccountToken2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceAccountToken(ctx context.Context, sel ast.SelectionSet, v *model.ServiceAccountToken) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70460,11 +70460,11 @@ func (ec *executionContext) marshalNServiceAccountToken2ᚖgithubᚗcomᚋuigrap
 	return ec._ServiceAccountToken(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNServiceDB2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDb(ctx context.Context, sel ast.SelectionSet, v model.ServiceDb) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDB2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDb(ctx context.Context, sel ast.SelectionSet, v model.ServiceDb) graphql.Marshaler {
 	return ec._ServiceDB(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNServiceDB2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDbᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceDb) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDB2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDbᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceDb) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70488,7 +70488,7 @@ func (ec *executionContext) marshalNServiceDB2ᚕᚖgithubᚗcomᚋuigraphᚋgra
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDb(ctx, sel, v[i])
+			ret[i] = ec.marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDb(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70508,7 +70508,7 @@ func (ec *executionContext) marshalNServiceDB2ᚕᚖgithubᚗcomᚋuigraphᚋgra
 	return ret
 }
 
-func (ec *executionContext) marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDb(ctx context.Context, sel ast.SelectionSet, v *model.ServiceDb) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDb(ctx context.Context, sel ast.SelectionSet, v *model.ServiceDb) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70518,11 +70518,11 @@ func (ec *executionContext) marshalNServiceDB2ᚖgithubᚗcomᚋuigraphᚋgraphq
 	return ec._ServiceDB(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNServiceDBVersion2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDBVersion(ctx context.Context, sel ast.SelectionSet, v model.ServiceDBVersion) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDBVersion2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDBVersion(ctx context.Context, sel ast.SelectionSet, v model.ServiceDBVersion) graphql.Marshaler {
 	return ec._ServiceDBVersion(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNServiceDBVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDBVersionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceDBVersion) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDBVersion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDBVersionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceDBVersion) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70546,7 +70546,7 @@ func (ec *executionContext) marshalNServiceDBVersion2ᚕᚖgithubᚗcomᚋuigrap
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNServiceDBVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDBVersion(ctx, sel, v[i])
+			ret[i] = ec.marshalNServiceDBVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDBVersion(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70566,7 +70566,7 @@ func (ec *executionContext) marshalNServiceDBVersion2ᚕᚖgithubᚗcomᚋuigrap
 	return ret
 }
 
-func (ec *executionContext) marshalNServiceDBVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDBVersion(ctx context.Context, sel ast.SelectionSet, v *model.ServiceDBVersion) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDBVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDBVersion(ctx context.Context, sel ast.SelectionSet, v *model.ServiceDBVersion) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70576,11 +70576,11 @@ func (ec *executionContext) marshalNServiceDBVersion2ᚖgithubᚗcomᚋuigraph�
 	return ec._ServiceDBVersion(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNServiceDiagram2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDiagram(ctx context.Context, sel ast.SelectionSet, v model.ServiceDiagram) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDiagram2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDiagram(ctx context.Context, sel ast.SelectionSet, v model.ServiceDiagram) graphql.Marshaler {
 	return ec._ServiceDiagram(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNServiceDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDiagramᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceDiagram) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDiagramᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceDiagram) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70604,7 +70604,7 @@ func (ec *executionContext) marshalNServiceDiagram2ᚕᚖgithubᚗcomᚋuigraph�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNServiceDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDiagram(ctx, sel, v[i])
+			ret[i] = ec.marshalNServiceDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDiagram(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70624,7 +70624,7 @@ func (ec *executionContext) marshalNServiceDiagram2ᚕᚖgithubᚗcomᚋuigraph�
 	return ret
 }
 
-func (ec *executionContext) marshalNServiceDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDiagram(ctx context.Context, sel ast.SelectionSet, v *model.ServiceDiagram) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDiagram(ctx context.Context, sel ast.SelectionSet, v *model.ServiceDiagram) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70634,11 +70634,11 @@ func (ec *executionContext) marshalNServiceDiagram2ᚖgithubᚗcomᚋuigraphᚋg
 	return ec._ServiceDiagram(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNServiceDoc2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDoc(ctx context.Context, sel ast.SelectionSet, v model.ServiceDoc) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDoc2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDoc(ctx context.Context, sel ast.SelectionSet, v model.ServiceDoc) graphql.Marshaler {
 	return ec._ServiceDoc(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNServiceDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDocᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceDoc) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDocᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceDoc) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70662,7 +70662,7 @@ func (ec *executionContext) marshalNServiceDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDoc(ctx, sel, v[i])
+			ret[i] = ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDoc(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70682,7 +70682,7 @@ func (ec *executionContext) marshalNServiceDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 	return ret
 }
 
-func (ec *executionContext) marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceDoc(ctx context.Context, sel ast.SelectionSet, v *model.ServiceDoc) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDoc(ctx context.Context, sel ast.SelectionSet, v *model.ServiceDoc) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70692,7 +70692,7 @@ func (ec *executionContext) marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraph
 	return ec._ServiceDoc(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNServiceStats2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceStatsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceStats) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceStats2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStatsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceStats) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70716,7 +70716,7 @@ func (ec *executionContext) marshalNServiceStats2ᚕᚖgithubᚗcomᚋuigraphᚋ
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNServiceStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceStats(ctx, sel, v[i])
+			ret[i] = ec.marshalNServiceStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStats(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70736,7 +70736,7 @@ func (ec *executionContext) marshalNServiceStats2ᚕᚖgithubᚗcomᚋuigraphᚋ
 	return ret
 }
 
-func (ec *executionContext) marshalNServiceStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐServiceStats(ctx context.Context, sel ast.SelectionSet, v *model.ServiceStats) graphql.Marshaler {
+func (ec *executionContext) marshalNServiceStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStats(ctx context.Context, sel ast.SelectionSet, v *model.ServiceStats) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70792,16 +70792,16 @@ func (ec *executionContext) marshalNString2ᚕstringᚄ(ctx context.Context, sel
 	return ret
 }
 
-func (ec *executionContext) unmarshalNSyncAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncAPIGroupInput(ctx context.Context, v any) (model.SyncAPIGroupInput, error) {
+func (ec *executionContext) unmarshalNSyncAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncAPIGroupInput(ctx context.Context, v any) (model.SyncAPIGroupInput, error) {
 	res, err := ec.unmarshalInputSyncAPIGroupInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNSyncAPIGroupResult2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncAPIGroupResult(ctx context.Context, sel ast.SelectionSet, v model.SyncAPIGroupResult) graphql.Marshaler {
+func (ec *executionContext) marshalNSyncAPIGroupResult2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncAPIGroupResult(ctx context.Context, sel ast.SelectionSet, v model.SyncAPIGroupResult) graphql.Marshaler {
 	return ec._SyncAPIGroupResult(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNSyncAPIGroupResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncAPIGroupResult(ctx context.Context, sel ast.SelectionSet, v *model.SyncAPIGroupResult) graphql.Marshaler {
+func (ec *executionContext) marshalNSyncAPIGroupResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncAPIGroupResult(ctx context.Context, sel ast.SelectionSet, v *model.SyncAPIGroupResult) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70811,16 +70811,16 @@ func (ec *executionContext) marshalNSyncAPIGroupResult2ᚖgithubᚗcomᚋuigraph
 	return ec._SyncAPIGroupResult(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNSyncDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncDiagramInput(ctx context.Context, v any) (model.SyncDiagramInput, error) {
+func (ec *executionContext) unmarshalNSyncDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncDiagramInput(ctx context.Context, v any) (model.SyncDiagramInput, error) {
 	res, err := ec.unmarshalInputSyncDiagramInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNSyncDiagramResult2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncDiagramResult(ctx context.Context, sel ast.SelectionSet, v model.SyncDiagramResult) graphql.Marshaler {
+func (ec *executionContext) marshalNSyncDiagramResult2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncDiagramResult(ctx context.Context, sel ast.SelectionSet, v model.SyncDiagramResult) graphql.Marshaler {
 	return ec._SyncDiagramResult(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNSyncDiagramResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncDiagramResult(ctx context.Context, sel ast.SelectionSet, v *model.SyncDiagramResult) graphql.Marshaler {
+func (ec *executionContext) marshalNSyncDiagramResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncDiagramResult(ctx context.Context, sel ast.SelectionSet, v *model.SyncDiagramResult) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70830,16 +70830,16 @@ func (ec *executionContext) marshalNSyncDiagramResult2ᚖgithubᚗcomᚋuigraph�
 	return ec._SyncDiagramResult(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNSyncFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncFrameInput(ctx context.Context, v any) (model.SyncFrameInput, error) {
+func (ec *executionContext) unmarshalNSyncFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncFrameInput(ctx context.Context, v any) (model.SyncFrameInput, error) {
 	res, err := ec.unmarshalInputSyncFrameInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNSyncFrameResult2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncFrameResult(ctx context.Context, sel ast.SelectionSet, v model.SyncFrameResult) graphql.Marshaler {
+func (ec *executionContext) marshalNSyncFrameResult2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncFrameResult(ctx context.Context, sel ast.SelectionSet, v model.SyncFrameResult) graphql.Marshaler {
 	return ec._SyncFrameResult(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNSyncFrameResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSyncFrameResult(ctx context.Context, sel ast.SelectionSet, v *model.SyncFrameResult) graphql.Marshaler {
+func (ec *executionContext) marshalNSyncFrameResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSyncFrameResult(ctx context.Context, sel ast.SelectionSet, v *model.SyncFrameResult) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70849,11 +70849,11 @@ func (ec *executionContext) marshalNSyncFrameResult2ᚖgithubᚗcomᚋuigraphᚋ
 	return ec._SyncFrameResult(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTeam2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeam(ctx context.Context, sel ast.SelectionSet, v model.Team) graphql.Marshaler {
+func (ec *executionContext) marshalNTeam2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx context.Context, sel ast.SelectionSet, v model.Team) graphql.Marshaler {
 	return ec._Team(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTeam2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeamᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Team) graphql.Marshaler {
+func (ec *executionContext) marshalNTeam2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Team) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70877,7 +70877,7 @@ func (ec *executionContext) marshalNTeam2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeam(ctx, sel, v[i])
+			ret[i] = ec.marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70897,7 +70897,7 @@ func (ec *executionContext) marshalNTeam2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql�
 	return ret
 }
 
-func (ec *executionContext) marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeam(ctx context.Context, sel ast.SelectionSet, v *model.Team) graphql.Marshaler {
+func (ec *executionContext) marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeam(ctx context.Context, sel ast.SelectionSet, v *model.Team) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70907,7 +70907,7 @@ func (ec *executionContext) marshalNTeam2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋg
 	return ec._Team(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTeamMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeamMemberᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TeamMember) graphql.Marshaler {
+func (ec *executionContext) marshalNTeamMember2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamMemberᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TeamMember) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70931,7 +70931,7 @@ func (ec *executionContext) marshalNTeamMember2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTeamMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeamMember(ctx, sel, v[i])
+			ret[i] = ec.marshalNTeamMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamMember(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -70951,7 +70951,7 @@ func (ec *executionContext) marshalNTeamMember2ᚕᚖgithubᚗcomᚋuigraphᚋgr
 	return ret
 }
 
-func (ec *executionContext) marshalNTeamMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTeamMember(ctx context.Context, sel ast.SelectionSet, v *model.TeamMember) graphql.Marshaler {
+func (ec *executionContext) marshalNTeamMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTeamMember(ctx context.Context, sel ast.SelectionSet, v *model.TeamMember) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -70961,11 +70961,11 @@ func (ec *executionContext) marshalNTeamMember2ᚖgithubᚗcomᚋuigraphᚋgraph
 	return ec._TeamMember(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTestCase2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCase(ctx context.Context, sel ast.SelectionSet, v model.TestCase) graphql.Marshaler {
+func (ec *executionContext) marshalNTestCase2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCase(ctx context.Context, sel ast.SelectionSet, v model.TestCase) graphql.Marshaler {
 	return ec._TestCase(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTestCase2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestCase) graphql.Marshaler {
+func (ec *executionContext) marshalNTestCase2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestCase) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -70989,7 +70989,7 @@ func (ec *executionContext) marshalNTestCase2ᚕᚖgithubᚗcomᚋuigraphᚋgrap
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCase(ctx, sel, v[i])
+			ret[i] = ec.marshalNTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCase(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -71009,7 +71009,7 @@ func (ec *executionContext) marshalNTestCase2ᚕᚖgithubᚗcomᚋuigraphᚋgrap
 	return ret
 }
 
-func (ec *executionContext) marshalNTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCase(ctx context.Context, sel ast.SelectionSet, v *model.TestCase) graphql.Marshaler {
+func (ec *executionContext) marshalNTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCase(ctx context.Context, sel ast.SelectionSet, v *model.TestCase) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -71019,7 +71019,7 @@ func (ec *executionContext) marshalNTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphql
 	return ec._TestCase(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTestCaseStep2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseStep(ctx context.Context, sel ast.SelectionSet, v *model.TestCaseStep) graphql.Marshaler {
+func (ec *executionContext) marshalNTestCaseStep2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseStep(ctx context.Context, sel ast.SelectionSet, v *model.TestCaseStep) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -71029,16 +71029,16 @@ func (ec *executionContext) marshalNTestCaseStep2ᚖgithubᚗcomᚋuigraphᚋgra
 	return ec._TestCaseStep(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNTestCaseStepInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseStepInput(ctx context.Context, v any) (*model.TestCaseStepInput, error) {
+func (ec *executionContext) unmarshalNTestCaseStepInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseStepInput(ctx context.Context, v any) (*model.TestCaseStepInput, error) {
 	res, err := ec.unmarshalInputTestCaseStepInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNTestPack2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestPack(ctx context.Context, sel ast.SelectionSet, v model.TestPack) graphql.Marshaler {
+func (ec *executionContext) marshalNTestPack2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestPack(ctx context.Context, sel ast.SelectionSet, v model.TestPack) graphql.Marshaler {
 	return ec._TestPack(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTestPack2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestPackᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestPack) graphql.Marshaler {
+func (ec *executionContext) marshalNTestPack2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestPackᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestPack) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -71062,7 +71062,7 @@ func (ec *executionContext) marshalNTestPack2ᚕᚖgithubᚗcomᚋuigraphᚋgrap
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTestPack2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestPack(ctx, sel, v[i])
+			ret[i] = ec.marshalNTestPack2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestPack(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -71082,7 +71082,7 @@ func (ec *executionContext) marshalNTestPack2ᚕᚖgithubᚗcomᚋuigraphᚋgrap
 	return ret
 }
 
-func (ec *executionContext) marshalNTestPack2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestPack(ctx context.Context, sel ast.SelectionSet, v *model.TestPack) graphql.Marshaler {
+func (ec *executionContext) marshalNTestPack2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestPack(ctx context.Context, sel ast.SelectionSet, v *model.TestPack) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -71092,11 +71092,11 @@ func (ec *executionContext) marshalNTestPack2ᚖgithubᚗcomᚋuigraphᚋgraphql
 	return ec._TestPack(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTestRun2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRun(ctx context.Context, sel ast.SelectionSet, v model.TestRun) graphql.Marshaler {
+func (ec *executionContext) marshalNTestRun2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRun(ctx context.Context, sel ast.SelectionSet, v model.TestRun) graphql.Marshaler {
 	return ec._TestRun(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTestRun2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestRun) graphql.Marshaler {
+func (ec *executionContext) marshalNTestRun2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestRun) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -71120,7 +71120,7 @@ func (ec *executionContext) marshalNTestRun2ᚕᚖgithubᚗcomᚋuigraphᚋgraph
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRun(ctx, sel, v[i])
+			ret[i] = ec.marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRun(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -71140,7 +71140,7 @@ func (ec *executionContext) marshalNTestRun2ᚕᚖgithubᚗcomᚋuigraphᚋgraph
 	return ret
 }
 
-func (ec *executionContext) marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRun(ctx context.Context, sel ast.SelectionSet, v *model.TestRun) graphql.Marshaler {
+func (ec *executionContext) marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRun(ctx context.Context, sel ast.SelectionSet, v *model.TestRun) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -71150,11 +71150,11 @@ func (ec *executionContext) marshalNTestRun2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 	return ec._TestRun(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTestRunResult2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunResult(ctx context.Context, sel ast.SelectionSet, v model.TestRunResult) graphql.Marshaler {
+func (ec *executionContext) marshalNTestRunResult2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunResult(ctx context.Context, sel ast.SelectionSet, v model.TestRunResult) graphql.Marshaler {
 	return ec._TestRunResult(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTestRunResult2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunResultᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestRunResult) graphql.Marshaler {
+func (ec *executionContext) marshalNTestRunResult2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunResultᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestRunResult) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -71178,7 +71178,7 @@ func (ec *executionContext) marshalNTestRunResult2ᚕᚖgithubᚗcomᚋuigraph�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTestRunResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunResult(ctx, sel, v[i])
+			ret[i] = ec.marshalNTestRunResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunResult(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -71198,7 +71198,7 @@ func (ec *executionContext) marshalNTestRunResult2ᚕᚖgithubᚗcomᚋuigraph�
 	return ret
 }
 
-func (ec *executionContext) marshalNTestRunResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunResult(ctx context.Context, sel ast.SelectionSet, v *model.TestRunResult) graphql.Marshaler {
+func (ec *executionContext) marshalNTestRunResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunResult(ctx context.Context, sel ast.SelectionSet, v *model.TestRunResult) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -71208,7 +71208,7 @@ func (ec *executionContext) marshalNTestRunResult2ᚖgithubᚗcomᚋuigraphᚋgr
 	return ec._TestRunResult(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTestRunSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunSummaryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestRunSummary) graphql.Marshaler {
+func (ec *executionContext) marshalNTestRunSummary2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunSummaryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestRunSummary) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -71232,7 +71232,7 @@ func (ec *executionContext) marshalNTestRunSummary2ᚕᚖgithubᚗcomᚋuigraph�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTestRunSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunSummary(ctx, sel, v[i])
+			ret[i] = ec.marshalNTestRunSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunSummary(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -71252,7 +71252,7 @@ func (ec *executionContext) marshalNTestRunSummary2ᚕᚖgithubᚗcomᚋuigraph�
 	return ret
 }
 
-func (ec *executionContext) marshalNTestRunSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestRunSummary(ctx context.Context, sel ast.SelectionSet, v *model.TestRunSummary) graphql.Marshaler {
+func (ec *executionContext) marshalNTestRunSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestRunSummary(ctx context.Context, sel ast.SelectionSet, v *model.TestRunSummary) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -71278,11 +71278,11 @@ func (ec *executionContext) marshalNTime2timeᚐTime(ctx context.Context, sel as
 	return res
 }
 
-func (ec *executionContext) marshalNUIMap2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUIMap(ctx context.Context, sel ast.SelectionSet, v model.UIMap) graphql.Marshaler {
+func (ec *executionContext) marshalNUIMap2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMap(ctx context.Context, sel ast.SelectionSet, v model.UIMap) graphql.Marshaler {
 	return ec._UIMap(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUIMap2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUIMapᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.UIMap) graphql.Marshaler {
+func (ec *executionContext) marshalNUIMap2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMapᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.UIMap) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -71306,7 +71306,7 @@ func (ec *executionContext) marshalNUIMap2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUIMap(ctx, sel, v[i])
+			ret[i] = ec.marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMap(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -71326,7 +71326,7 @@ func (ec *executionContext) marshalNUIMap2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql
 	return ret
 }
 
-func (ec *executionContext) marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUIMap(ctx context.Context, sel ast.SelectionSet, v *model.UIMap) graphql.Marshaler {
+func (ec *executionContext) marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMap(ctx context.Context, sel ast.SelectionSet, v *model.UIMap) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -71336,136 +71336,136 @@ func (ec *executionContext) marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋ
 	return ec._UIMap(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNUpdateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateAPIEndpointInput(ctx context.Context, v any) (model.UpdateAPIEndpointInput, error) {
+func (ec *executionContext) unmarshalNUpdateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateAPIEndpointInput(ctx context.Context, v any) (model.UpdateAPIEndpointInput, error) {
 	res, err := ec.unmarshalInputUpdateAPIEndpointInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateAPIGroupInput(ctx context.Context, v any) (model.UpdateAPIGroupInput, error) {
+func (ec *executionContext) unmarshalNUpdateAPIGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateAPIGroupInput(ctx context.Context, v any) (model.UpdateAPIGroupInput, error) {
 	res, err := ec.unmarshalInputUpdateAPIGroupInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateDiagramInput(ctx context.Context, v any) (model.UpdateDiagramInput, error) {
+func (ec *executionContext) unmarshalNUpdateDiagramInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateDiagramInput(ctx context.Context, v any) (model.UpdateDiagramInput, error) {
 	res, err := ec.unmarshalInputUpdateDiagramInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFocalPointInput(ctx context.Context, v any) (model.UpdateFocalPointInput, error) {
+func (ec *executionContext) unmarshalNUpdateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFocalPointInput(ctx context.Context, v any) (model.UpdateFocalPointInput, error) {
 	res, err := ec.unmarshalInputUpdateFocalPointInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFocalPointMetaInput(ctx context.Context, v any) (model.UpdateFocalPointMetaInput, error) {
+func (ec *executionContext) unmarshalNUpdateFocalPointMetaInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFocalPointMetaInput(ctx context.Context, v any) (model.UpdateFocalPointMetaInput, error) {
 	res, err := ec.unmarshalInputUpdateFocalPointMetaInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFolderInput(ctx context.Context, v any) (model.UpdateFolderInput, error) {
+func (ec *executionContext) unmarshalNUpdateFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFolderInput(ctx context.Context, v any) (model.UpdateFolderInput, error) {
 	res, err := ec.unmarshalInputUpdateFolderInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameGroupInput(ctx context.Context, v any) (model.UpdateFrameGroupInput, error) {
+func (ec *executionContext) unmarshalNUpdateFrameGroupInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFrameGroupInput(ctx context.Context, v any) (model.UpdateFrameGroupInput, error) {
 	res, err := ec.unmarshalInputUpdateFrameGroupInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameInput(ctx context.Context, v any) (model.UpdateFrameInput, error) {
+func (ec *executionContext) unmarshalNUpdateFrameInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFrameInput(ctx context.Context, v any) (model.UpdateFrameInput, error) {
 	res, err := ec.unmarshalInputUpdateFrameInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateFrameLinkInput(ctx context.Context, v any) (model.UpdateFrameLinkInput, error) {
+func (ec *executionContext) unmarshalNUpdateFrameLinkInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFrameLinkInput(ctx context.Context, v any) (model.UpdateFrameLinkInput, error) {
 	res, err := ec.unmarshalInputUpdateFrameLinkInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateMapInput(ctx context.Context, v any) (model.UpdateMapInput, error) {
+func (ec *executionContext) unmarshalNUpdateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMapInput(ctx context.Context, v any) (model.UpdateMapInput, error) {
 	res, err := ec.unmarshalInputUpdateMapInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateOrgInput(ctx context.Context, v any) (model.UpdateOrgInput, error) {
+func (ec *executionContext) unmarshalNUpdateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateOrgInput(ctx context.Context, v any) (model.UpdateOrgInput, error) {
 	res, err := ec.unmarshalInputUpdateOrgInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateServiceAccountInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateServiceAccountInput(ctx context.Context, v any) (model.UpdateServiceAccountInput, error) {
+func (ec *executionContext) unmarshalNUpdateServiceAccountInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceAccountInput(ctx context.Context, v any) (model.UpdateServiceAccountInput, error) {
 	res, err := ec.unmarshalInputUpdateServiceAccountInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateServiceDBInput(ctx context.Context, v any) (model.UpdateServiceDBInput, error) {
+func (ec *executionContext) unmarshalNUpdateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDBInput(ctx context.Context, v any) (model.UpdateServiceDBInput, error) {
 	res, err := ec.unmarshalInputUpdateServiceDBInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateServiceDocInput(ctx context.Context, v any) (model.UpdateServiceDocInput, error) {
+func (ec *executionContext) unmarshalNUpdateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDocInput(ctx context.Context, v any) (model.UpdateServiceDocInput, error) {
 	res, err := ec.unmarshalInputUpdateServiceDocInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateServiceInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateServiceInput(ctx context.Context, v any) (model.UpdateServiceInput, error) {
+func (ec *executionContext) unmarshalNUpdateServiceInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceInput(ctx context.Context, v any) (model.UpdateServiceInput, error) {
 	res, err := ec.unmarshalInputUpdateServiceInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateTeamInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTeamInput(ctx context.Context, v any) (model.UpdateTeamInput, error) {
+func (ec *executionContext) unmarshalNUpdateTeamInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTeamInput(ctx context.Context, v any) (model.UpdateTeamInput, error) {
 	res, err := ec.unmarshalInputUpdateTeamInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateTestCaseInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTestCaseInput(ctx context.Context, v any) (model.UpdateTestCaseInput, error) {
+func (ec *executionContext) unmarshalNUpdateTestCaseInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTestCaseInput(ctx context.Context, v any) (model.UpdateTestCaseInput, error) {
 	res, err := ec.unmarshalInputUpdateTestCaseInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateTestPackInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTestPackInput(ctx context.Context, v any) (model.UpdateTestPackInput, error) {
+func (ec *executionContext) unmarshalNUpdateTestPackInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTestPackInput(ctx context.Context, v any) (model.UpdateTestPackInput, error) {
 	res, err := ec.unmarshalInputUpdateTestPackInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateTestRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTestRunInput(ctx context.Context, v any) (model.UpdateTestRunInput, error) {
+func (ec *executionContext) unmarshalNUpdateTestRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTestRunInput(ctx context.Context, v any) (model.UpdateTestRunInput, error) {
 	res, err := ec.unmarshalInputUpdateTestRunInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateTestRunResultInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateTestRunResultInput(ctx context.Context, v any) (model.UpdateTestRunResultInput, error) {
+func (ec *executionContext) unmarshalNUpdateTestRunResultInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateTestRunResultInput(ctx context.Context, v any) (model.UpdateTestRunResultInput, error) {
 	res, err := ec.unmarshalInputUpdateTestRunResultInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpdateUserInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpdateUserInput(ctx context.Context, v any) (model.UpdateUserInput, error) {
+func (ec *executionContext) unmarshalNUpdateUserInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateUserInput(ctx context.Context, v any) (model.UpdateUserInput, error) {
 	res, err := ec.unmarshalInputUpdateUserInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpsertCanvasInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpsertCanvasInput(ctx context.Context, v any) (model.UpsertCanvasInput, error) {
+func (ec *executionContext) unmarshalNUpsertCanvasInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpsertCanvasInput(ctx context.Context, v any) (model.UpsertCanvasInput, error) {
 	res, err := ec.unmarshalInputUpsertCanvasInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpsertLDAPInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpsertLDAPInput(ctx context.Context, v any) (model.UpsertLDAPInput, error) {
+func (ec *executionContext) unmarshalNUpsertLDAPInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpsertLDAPInput(ctx context.Context, v any) (model.UpsertLDAPInput, error) {
 	res, err := ec.unmarshalInputUpsertLDAPInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpsertOAuthInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpsertOAuthInput(ctx context.Context, v any) (model.UpsertOAuthInput, error) {
+func (ec *executionContext) unmarshalNUpsertOAuthInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpsertOAuthInput(ctx context.Context, v any) (model.UpsertOAuthInput, error) {
 	res, err := ec.unmarshalInputUpsertOAuthInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNUpsertSAMLInput2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUpsertSAMLInput(ctx context.Context, v any) (model.UpsertSAMLInput, error) {
+func (ec *executionContext) unmarshalNUpsertSAMLInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpsertSAMLInput(ctx context.Context, v any) (model.UpsertSAMLInput, error) {
 	res, err := ec.unmarshalInputUpsertSAMLInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNUser2githubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -71489,7 +71489,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUser(ctx, sel, v[i])
+			ret[i] = ec.marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUser(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -71509,7 +71509,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋuigraphᚋgraphql�
 	return ret
 }
 
-func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -71772,14 +71772,14 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
-func (ec *executionContext) marshalOAPITestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPITestCase(ctx context.Context, sel ast.SelectionSet, v *model.APITestCase) graphql.Marshaler {
+func (ec *executionContext) marshalOAPITestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPITestCase(ctx context.Context, sel ast.SelectionSet, v *model.APITestCase) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._APITestCase(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOAPITestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAPITestCaseInput(ctx context.Context, v any) (*model.APITestCaseInput, error) {
+func (ec *executionContext) unmarshalOAPITestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPITestCaseInput(ctx context.Context, v any) (*model.APITestCaseInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -71787,14 +71787,14 @@ func (ec *executionContext) unmarshalOAPITestCaseInput2ᚖgithubᚗcomᚋuigraph
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐActor(ctx context.Context, sel ast.SelectionSet, v *model.Actor) graphql.Marshaler {
+func (ec *executionContext) marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx context.Context, sel ast.SelectionSet, v *model.Actor) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._Actor(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Assertion) graphql.Marshaler {
+func (ec *executionContext) marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Assertion) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -71821,7 +71821,7 @@ func (ec *executionContext) marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgra
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNAssertion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertion(ctx, sel, v[i])
+			ret[i] = ec.marshalNAssertion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertion(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -71841,7 +71841,7 @@ func (ec *executionContext) marshalOAssertion2ᚕᚖgithubᚗcomᚋuigraphᚋgra
 	return ret
 }
 
-func (ec *executionContext) unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionInputᚄ(ctx context.Context, v any) ([]*model.AssertionInput, error) {
+func (ec *executionContext) unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionInputᚄ(ctx context.Context, v any) ([]*model.AssertionInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -71851,7 +71851,7 @@ func (ec *executionContext) unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigrap
 	res := make([]*model.AssertionInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNAssertionInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAssertionInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalNAssertionInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -71859,14 +71859,14 @@ func (ec *executionContext) unmarshalOAssertionInput2ᚕᚖgithubᚗcomᚋuigrap
 	return res, nil
 }
 
-func (ec *executionContext) marshalOAuthConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAuthConfig(ctx context.Context, sel ast.SelectionSet, v *model.AuthConfig) graphql.Marshaler {
+func (ec *executionContext) marshalOAuthConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAuthConfig(ctx context.Context, sel ast.SelectionSet, v *model.AuthConfig) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._AuthConfig(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOAuthConfigInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐAuthConfigInput(ctx context.Context, v any) (*model.AuthConfigInput, error) {
+func (ec *executionContext) unmarshalOAuthConfigInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAuthConfigInput(ctx context.Context, v any) (*model.AuthConfigInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -71904,14 +71904,14 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalODatabaseTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDatabaseTestCase(ctx context.Context, sel ast.SelectionSet, v *model.DatabaseTestCase) graphql.Marshaler {
+func (ec *executionContext) marshalODatabaseTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDatabaseTestCase(ctx context.Context, sel ast.SelectionSet, v *model.DatabaseTestCase) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._DatabaseTestCase(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalODatabaseTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDatabaseTestCaseInput(ctx context.Context, v any) (*model.DatabaseTestCaseInput, error) {
+func (ec *executionContext) unmarshalODatabaseTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDatabaseTestCaseInput(ctx context.Context, v any) (*model.DatabaseTestCaseInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -71919,7 +71919,7 @@ func (ec *executionContext) unmarshalODatabaseTestCaseInput2ᚖgithubᚗcomᚋui
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalODiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐDiagram(ctx context.Context, sel ast.SelectionSet, v *model.Diagram) graphql.Marshaler {
+func (ec *executionContext) marshalODiagram2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagram(ctx context.Context, sel ast.SelectionSet, v *model.Diagram) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -71943,14 +71943,14 @@ func (ec *executionContext) marshalOFloat2ᚖfloat64(ctx context.Context, sel as
 	return graphql.WrapContextMarshaler(ctx, res)
 }
 
-func (ec *executionContext) marshalOGRPCTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGRPCTestCase(ctx context.Context, sel ast.SelectionSet, v *model.GRPCTestCase) graphql.Marshaler {
+func (ec *executionContext) marshalOGRPCTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGRPCTestCase(ctx context.Context, sel ast.SelectionSet, v *model.GRPCTestCase) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._GRPCTestCase(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOGRPCTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGRPCTestCaseInput(ctx context.Context, v any) (*model.GRPCTestCaseInput, error) {
+func (ec *executionContext) unmarshalOGRPCTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGRPCTestCaseInput(ctx context.Context, v any) (*model.GRPCTestCaseInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -71958,14 +71958,14 @@ func (ec *executionContext) unmarshalOGRPCTestCaseInput2ᚖgithubᚗcomᚋuigrap
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOGraphQLTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGraphQLTestCase(ctx context.Context, sel ast.SelectionSet, v *model.GraphQLTestCase) graphql.Marshaler {
+func (ec *executionContext) marshalOGraphQLTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGraphQLTestCase(ctx context.Context, sel ast.SelectionSet, v *model.GraphQLTestCase) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._GraphQLTestCase(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOGraphQLTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐGraphQLTestCaseInput(ctx context.Context, v any) (*model.GraphQLTestCaseInput, error) {
+func (ec *executionContext) unmarshalOGraphQLTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐGraphQLTestCaseInput(ctx context.Context, v any) (*model.GraphQLTestCaseInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -72045,7 +72045,7 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	return res
 }
 
-func (ec *executionContext) marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.KeyValue) graphql.Marshaler {
+func (ec *executionContext) marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.KeyValue) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -72072,7 +72072,7 @@ func (ec *executionContext) marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgrap
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNKeyValue2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValue(ctx, sel, v[i])
+			ret[i] = ec.marshalNKeyValue2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValue(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -72092,7 +72092,7 @@ func (ec *executionContext) marshalOKeyValue2ᚕᚖgithubᚗcomᚋuigraphᚋgrap
 	return ret
 }
 
-func (ec *executionContext) unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueInputᚄ(ctx context.Context, v any) ([]*model.KeyValueInput, error) {
+func (ec *executionContext) unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueInputᚄ(ctx context.Context, v any) ([]*model.KeyValueInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -72102,7 +72102,7 @@ func (ec *executionContext) unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraph
 	res := make([]*model.KeyValueInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNKeyValueInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐKeyValueInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalNKeyValueInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
@@ -72110,21 +72110,21 @@ func (ec *executionContext) unmarshalOKeyValueInput2ᚕᚖgithubᚗcomᚋuigraph
 	return res, nil
 }
 
-func (ec *executionContext) marshalOLDAPConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐLDAPConfig(ctx context.Context, sel ast.SelectionSet, v *model.LDAPConfig) graphql.Marshaler {
+func (ec *executionContext) marshalOLDAPConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLDAPConfig(ctx context.Context, sel ast.SelectionSet, v *model.LDAPConfig) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._LDAPConfig(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOManualTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐManualTestCase(ctx context.Context, sel ast.SelectionSet, v *model.ManualTestCase) graphql.Marshaler {
+func (ec *executionContext) marshalOManualTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐManualTestCase(ctx context.Context, sel ast.SelectionSet, v *model.ManualTestCase) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._ManualTestCase(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐManualTestCaseInput(ctx context.Context, v any) (*model.ManualTestCaseInput, error) {
+func (ec *executionContext) unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐManualTestCaseInput(ctx context.Context, v any) (*model.ManualTestCaseInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -72132,7 +72132,7 @@ func (ec *executionContext) unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigr
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOSAMLConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐSAMLConfig(ctx context.Context, sel ast.SelectionSet, v *model.SAMLConfig) graphql.Marshaler {
+func (ec *executionContext) marshalOSAMLConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSAMLConfig(ctx context.Context, sel ast.SelectionSet, v *model.SAMLConfig) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -72193,7 +72193,7 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	return res
 }
 
-func (ec *executionContext) marshalOTestCaseStep2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseStepᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestCaseStep) graphql.Marshaler {
+func (ec *executionContext) marshalOTestCaseStep2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseStepᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TestCaseStep) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -72220,7 +72220,7 @@ func (ec *executionContext) marshalOTestCaseStep2ᚕᚖgithubᚗcomᚋuigraphᚋ
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTestCaseStep2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseStep(ctx, sel, v[i])
+			ret[i] = ec.marshalNTestCaseStep2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseStep(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -72240,7 +72240,7 @@ func (ec *executionContext) marshalOTestCaseStep2ᚕᚖgithubᚗcomᚋuigraphᚋ
 	return ret
 }
 
-func (ec *executionContext) unmarshalOTestCaseStepInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseStepInputᚄ(ctx context.Context, v any) ([]*model.TestCaseStepInput, error) {
+func (ec *executionContext) unmarshalOTestCaseStepInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseStepInputᚄ(ctx context.Context, v any) ([]*model.TestCaseStepInput, error) {
 	if v == nil {
 		return nil, nil
 	}
@@ -72250,7 +72250,7 @@ func (ec *executionContext) unmarshalOTestCaseStepInput2ᚕᚖgithubᚗcomᚋuig
 	res := make([]*model.TestCaseStepInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNTestCaseStepInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋgraphᚋmodelᚐTestCaseStepInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalNTestCaseStepInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseStepInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}

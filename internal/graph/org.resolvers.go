@@ -7,7 +7,7 @@ package graph
 import (
 	"context"
 
-	"github.com/uigraph/graphql/graph/model"
+	"github.com/uigraph/graphql/internal/graph/model"
 )
 
 // CreateOrg is the resolver for the createOrg field.

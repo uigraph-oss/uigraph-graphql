@@ -11,8 +11,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 
 	"github.com/uigraph/graphql/internal/uigraphapi"
-	"github.com/uigraph/graphql/graph"
-	"github.com/uigraph/graphql/graph/generated"
+	"github.com/uigraph/graphql/internal/graph"
+	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/config"
 	"github.com/uigraph/graphql/internal/middleware"
 )
