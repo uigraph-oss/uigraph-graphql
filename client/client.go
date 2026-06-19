@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/uigraph/graphql/middleware"
+	"github.com/uigraph/graphql/internal/middleware"
 )
 
 // Client calls the uigraph-api REST backend.
