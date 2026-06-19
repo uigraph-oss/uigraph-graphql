@@ -1,18 +1,34 @@
-run:
-  timeout: 5m
-
+version: "2"
 linters:
-  disable-all: true
+  default: none
   enable:
     - errcheck
     - govet
-    - staticcheck
     - ineffassign
+    - revive
+    - staticcheck
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - internal/graph/generated
+      - internal/graph/model
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
     - gofmt
     - goimports
-    - revive
-
-issues:
-  exclude-dirs:
-    - internal/graph/generated
-    - internal/graph/model
+  exclusions:
+    generated: lax
+    paths:
+      - internal/graph/generated
+      - internal/graph/model
+      - third_party$
+      - builtin$
+      - examples$
