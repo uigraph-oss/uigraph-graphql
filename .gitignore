@@ -1,3 +1,4 @@
 .claude/worktrees/
 test-server
 bin/
+server

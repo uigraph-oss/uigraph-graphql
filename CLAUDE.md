@@ -7,34 +7,38 @@ Go module: `github.com/uigraph/graphql` · Go 1.25 · gqlgen v0.17 · open-sourc
 ## Project layout
 
 ```
-main.go                entry point (HTTP server, middleware wiring)
-config/                env config + validation
-middleware/            auth passthrough, request logging, CORS
-client/                typed REST client for uigraph-api, one file per domain
-graph/
-  schema/              GraphQL SDL, one file per domain
-  generated/, model/   gqlgen output — never hand-edit
-  convert.go           pure REST-DTO -> GraphQL-model mapping, unit-tested
-  *.resolvers.go       resolver implementations, one file per schema file
+cmd/server/main.go         entry point — loads config, calls server.Run
+internal/
+  config/                  env config + boot-time URL validation
+  middleware/              auth passthrough, request logging, CORS
+  uigraphapi/              typed REST client for uigraph-api, one file per domain
+  server/                  HTTP server assembly, graceful shutdown, /healthz + /readyz
+  graph/
+    schema/                GraphQL SDL, one file per domain
+    generated/, model/     gqlgen output — never hand-edit
+    convert/               pure REST-DTO → GraphQL-model mapping, unit-tested
+    refs.go                resolveActor / resolveAssetURL (need Resolver, not pure)
+    *.resolvers.go         resolver implementations, one file per schema file
+    errors.go              GraphQL ErrorPresenter — logs + sanitizes upstream errors
 ```
 
 ---
 
 ## The schema-driven file-split rule
 
-gqlgen's `follow-schema` resolver layout ties each `<name>.resolvers.go` file to its source `<name>.graphqls` file. **Never** try to manually split a `*.resolvers.go` file — the next `go generate` undoes it. To split resolvers, split the schema file instead, then run `go generate ./graph/...`.
+gqlgen's `follow-schema` resolver layout ties each `<name>.resolvers.go` file to its source `<name>.graphqls` file. **Never** try to manually split a `*.resolvers.go` file — the next `go generate` undoes it. To split resolvers, split the schema file instead, then run `go generate ./internal/graph/...`.
 
 ---
 
 ## Narrow interface pattern
 
-`graph/resolver.go` holds a single `*client.Client` field. When refactoring toward narrow interfaces, declare one interface per domain (e.g., `authClient`, `orgClient`, `catalogClient`, …), each listing only the `*client.Client` methods that domain's resolvers actually call. `Resolver` will hold these interfaces instead of the concrete client — this is what lets tests inject a 2-3 method fake instead of mocking the whole REST client.
+`internal/graph/resolver.go` declares one unexported interface per domain (`authClient`, `orgClient`, `adminClient`, …). The `Resolver` struct holds these interfaces (not the concrete `*uigraphapi.Client`). All interfaces are satisfied by the same `*uigraphapi.Client` wired in `cmd/server/main.go`. This lets tests inject a 2-3 method fake instead of mocking the whole REST client.
 
 ---
 
-## Conversion functions live in `graph/convert.go`
+## Conversion functions live in `internal/graph/convert/`
 
-Every `*ToModel` function maps a `client` DTO onto a `graph/model` GraphQL model. These are pure — no I/O, no context — specifically so they can be unit-tested without a running server. Add new ones there, not inline in resolver methods.
+Every `*ToModel` function maps a `uigraphapi` DTO onto a `graph/model` GraphQL model. These are pure — no I/O, no context — specifically so they can be unit-tested without a running server. Add new ones in the matching domain file (e.g., `catalog.go`), not inline in resolver methods.
 
 ---
 
@@ -46,12 +50,12 @@ Default: **no comments.** Well-named identifiers are self-documenting. Add a com
 
 ## Forbidden patterns
 
-- Storing a fat `*client.Client` directly on `Resolver` without narrow interfaces (eventual target; see Narrow interface pattern above).
-- Hand-editing `graph/generated/generated.go` or `graph/model/models_gen.go` — these are gqlgen output.
+- Storing a fat `*uigraphapi.Client` directly on `Resolver` — use narrow interfaces (see above).
+- Hand-editing `internal/graph/generated/generated.go` or `internal/graph/model/models_gen.go` — these are gqlgen output.
 - Manually splitting a `*.resolvers.go` file without first splitting its source `.graphqls` file.
 - Using `log.Printf` for structured logging — use `slog` from the standard library.
 - Forwarding a raw upstream error message straight to the GraphQL client without classification or sanitization.
-- Using `transport.MultipartForm{}` in the GraphQL server setup without explicit validation.
+- Using `transport.MultipartForm{}` in the GraphQL server setup — it is removed; no schema field uses file upload.
 - Skipping `go build ./...` before committing.
 
 ---
@@ -60,7 +64,7 @@ Default: **no comments.** Well-named identifiers are self-documenting. Add a com
 
 ```bash
 # Generate gqlgen resolvers from schema changes
-go generate ./graph/...
+go generate ./internal/graph/...
 
 # Run tests with race detection
 go test ./... -race
@@ -68,8 +72,6 @@ go test ./... -race
 # Build the binary
 go build ./...
 
-# Run the server (requires UIGRAPH_API_BASE_URL env var)
-./graphql
+# Run the server (requires API_BASE_URL env var, defaults to http://localhost:8080)
+go run ./cmd/server
 ```
-
----
