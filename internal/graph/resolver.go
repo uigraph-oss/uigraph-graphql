@@ -193,14 +193,14 @@ type actorClient interface {
 // *uigraphapi.Client — so tests can inject a narrow fake instead of mocking
 // every REST method.
 type Resolver struct {
-	Auth      authClient
-	OrgAPI    orgClient
-	Admin     adminClient
-	FolderAPI folderClient
+	Auth       authClient
+	OrgAPI     orgClient
+	Admin      adminClient
+	FolderAPI  folderClient
 	DiagramAPI diagramClient
-	Component componentClient
-	UIMap     uimapClient
-	Catalog   catalogClient
-	TestPack  testPackClient
-	Actor     actorClient
+	Component  componentClient
+	UIMap      uimapClient
+	Catalog    catalogClient
+	TestPack   testPackClient
+	Actor      actorClient
 }

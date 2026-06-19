@@ -10,11 +10,11 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 
-	"github.com/uigraph/graphql/internal/uigraphapi"
+	"github.com/uigraph/graphql/internal/config"
 	"github.com/uigraph/graphql/internal/graph"
 	"github.com/uigraph/graphql/internal/graph/generated"
-	"github.com/uigraph/graphql/internal/config"
 	"github.com/uigraph/graphql/internal/middleware"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 func main() {
@@ -23,16 +23,16 @@ func main() {
 	c := uigraphapi.New(cfg.APIBaseURL)
 
 	resolver := &graph.Resolver{
-		Auth:      c,
-		OrgAPI:    c,
-		Admin:     c,
-		FolderAPI: c,
+		Auth:       c,
+		OrgAPI:     c,
+		Admin:      c,
+		FolderAPI:  c,
 		DiagramAPI: c,
-		Component: c,
-		UIMap:     c,
-		Catalog:   c,
-		TestPack:  c,
-		Actor:     c,
+		Component:  c,
+		UIMap:      c,
+		Catalog:    c,
+		TestPack:   c,
+		Actor:      c,
 	}
 	schema := generated.NewExecutableSchema(generated.Config{Resolvers: resolver})
 	srv := newServer(schema, cfg.Env)
