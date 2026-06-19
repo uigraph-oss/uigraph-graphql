@@ -67,7 +67,7 @@ func Run(cfg *config.Config) error {
 
 	httpSrv := &http.Server{
 		Addr:              ":" + cfg.Port,
-		Handler:           middleware.Logging(mux),
+		Handler:           middleware.Logging(middleware.CORS(cfg.AllowedOrigins, mux)),
 		ReadHeaderTimeout: readHeaderTimeout,
 		ReadTimeout:       readTimeout,
 		WriteTimeout:      writeTimeout,
