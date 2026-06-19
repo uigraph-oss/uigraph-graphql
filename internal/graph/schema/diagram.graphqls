@@ -1,0 +1,100 @@
+extend type Query {
+    diagrams(orgId: ID!, folderId: ID):                       [Diagram!]!
+    diagram(orgId: ID!, id: ID!):                             Diagram!
+    diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
+    diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
+    diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
+    diagramImages(orgId: ID!, diagramId: ID!):               [DiagramImage!]!
+}
+
+extend type Mutation {
+    createDiagram(orgId: ID!, input: CreateDiagramInput!):            Diagram!
+    updateDiagram(orgId: ID!, id: ID!, input: UpdateDiagramInput!):   Diagram!
+    deleteDiagram(orgId: ID!, id: ID!):                               Boolean!
+    syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
+    createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
+    restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
+}
+
+type Diagram {
+    id:                 ID!
+    orgId:              ID!
+    folderId:           ID
+    teamId:             ID
+    name:               String!
+    contentKey:         String!
+    contentHash:        String!
+    previewAssetId:     String
+    previewImageUrl:    String @goField(forceResolver: true)
+    previewContentHash: String
+    source:             String
+    createdBy:          ID!
+    updatedBy:          ID
+    createdByActor:     Actor @goField(forceResolver: true)
+    updatedByActor:     Actor @goField(forceResolver: true)
+    createdAt:          Time!
+    updatedAt:          Time!
+}
+
+type DiagramImage {
+    diagramImageId: String!
+    diagramId:      String!
+    orgId:          ID!
+    assetId:        String!
+    imageUrl:       String @goField(forceResolver: true)
+    fileName:       String
+    order:          Int!
+    createdBy:      ID!
+    createdAt:      Time!
+}
+
+type DiagramContent {
+    diagramId: ID!
+    content:   String!
+}
+
+type DiagramVersion {
+    id:            ID!
+    orgId:         ID!
+    diagramId:     ID!
+    versionNumber: Int!
+    label:         String
+    contentKey:    String!
+    contentHash:   String!
+    isAutoVersion: Boolean!
+    source:        String
+    createdBy:     ID!
+    createdByActor: Actor @goField(forceResolver: true)
+    createdAt:     Time!
+}
+
+type SyncDiagramResult {
+    diagramId:      ID!
+    versionCreated: Boolean!
+    versionId:      ID
+}
+
+input CreateDiagramInput {
+    name:     String!
+    content:  String!
+    folderId: ID
+    teamId:   ID
+    source:   String
+}
+
+input UpdateDiagramInput {
+    name:     String
+    content:  String
+    folderId: ID
+    teamId:   ID
+    source:   String
+}
+
+input SyncDiagramInput {
+    diagramId: ID
+    name:      String!
+    content:   String!
+    folderId:  ID
+    teamId:    ID
+    source:    String
+}

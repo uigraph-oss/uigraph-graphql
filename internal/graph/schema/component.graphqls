@@ -1,0 +1,63 @@
+extend type Query {
+    flowDiagramComponents(orgId: ID!):                        FlowDiagramComponents!
+    components(orgId: ID!):                                   Components!
+}
+
+type FlowDiagramComponentField {
+    flowDiagramComponentFieldId: String!
+    label:                       String!
+    type:                        String!
+    required:                    Boolean!
+    readonly:                    Boolean
+    options:                     [String!]
+    order:                       Int!
+}
+
+type FlowDiagramComponent {
+    componentId:                String!
+    type:                       String!
+    name:                       String!
+    description:                String!
+    category:                   String!
+    tags:                       [String!]!
+    slug:                       String!
+    previewImageJpg:            String!
+    isActive:                   Boolean!
+    order:                      Int!
+    organizationId:             String
+    flowDiagramComponentFields: [FlowDiagramComponentField!]!
+}
+
+type FlowDiagramComponents {
+    components:       [FlowDiagramComponent!]!
+    customComponents: [FlowDiagramComponent!]!
+}
+
+type ComponentField {
+    componentFieldId: String!
+    label:            String!
+    type:             String!
+    required:         Boolean!
+    readonly:         Boolean
+    options:          [String!]
+    order:            Int!
+}
+
+type Component {
+    componentId:     String!
+    type:            String!
+    name:            String!
+    description:     String!
+    category:        String!
+    tags:            [String!]!
+    slug:            String!
+    previewImageJpg: String!
+    isActive:        Boolean!
+    order:           Int!
+    componentFields: [ComponentField!]!
+}
+
+type Components {
+    components:       [Component!]!
+    customComponents: [Component!]!
+}
