@@ -470,6 +470,11 @@ type DiagramImage struct {
 	CreatedAt      time.Time `json:"createdAt"`
 }
 
+type DiagramThumbnailUpload struct {
+	UploadURL string `json:"uploadUrl"`
+	AssetID   string `json:"assetId"`
+}
+
 type DiagramVersion struct {
 	ID             string    `json:"id"`
 	OrgID          string    `json:"orgId"`
