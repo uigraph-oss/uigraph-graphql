@@ -44,3 +44,14 @@ func (c *Client) UpdateUser(ctx context.Context, id string, body map[string]inte
 func (c *Client) DisableUser(ctx context.Context, id string) error {
 	return c.del(ctx, "/api/v1/users/"+id)
 }
+
+type ServerOverview struct {
+	TotalUsers  int `json:"totalUsers"`
+	ActiveUsers int `json:"activeUsers"`
+	TotalOrgs   int `json:"totalOrgs"`
+}
+
+func (c *Client) GetServerOverview(ctx context.Context) (*ServerOverview, error) {
+	var out ServerOverview
+	return &out, c.get(ctx, "/api/v1/server/overview", &out)
+}

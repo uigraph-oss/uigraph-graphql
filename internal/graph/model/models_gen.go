@@ -927,6 +927,12 @@ type SAMLConfig struct {
 	UpdatedAt       time.Time `json:"updatedAt"`
 }
 
+type ServerOverview struct {
+	TotalUsers  int `json:"totalUsers"`
+	ActiveUsers int `json:"activeUsers"`
+	TotalOrgs   int `json:"totalOrgs"`
+}
+
 type Service struct {
 	ID              string    `json:"id"`
 	OrgID           string    `json:"orgId"`

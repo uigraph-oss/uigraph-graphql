@@ -47,6 +47,7 @@ type orgClient interface {
 }
 
 type adminClient interface {
+	GetServerOverview(ctx context.Context) (*uigraphapi.ServerOverview, error)
 	ListUsers(ctx context.Context) ([]uigraphapi.User, error)
 	GetUser(ctx context.Context, id string) (*uigraphapi.User, error)
 	CreateUser(ctx context.Context, body map[string]interface{}) (*uigraphapi.User, error)

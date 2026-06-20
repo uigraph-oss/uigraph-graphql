@@ -724,6 +724,7 @@ type ComplexityRoot struct {
 		Orgs                          func(childComplexity int) int
 		RoleMappings                  func(childComplexity int) int
 		Saml                          func(childComplexity int) int
+		ServerOverview                func(childComplexity int) int
 		Service                       func(childComplexity int, orgID string, id string) int
 		ServiceAccount                func(childComplexity int, orgID string, id string) int
 		ServiceAccountTokens          func(childComplexity int, orgID string, saID string) int
@@ -779,6 +780,12 @@ type ComplexityRoot struct {
 		SpEntityID      func(childComplexity int) int
 		SpKey           func(childComplexity int) int
 		UpdatedAt       func(childComplexity int) int
+	}
+
+	ServerOverview struct {
+		ActiveUsers func(childComplexity int) int
+		TotalOrgs   func(childComplexity int) int
+		TotalUsers  func(childComplexity int) int
 	}
 
 	Service struct {
@@ -1197,6 +1204,7 @@ type MutationResolver interface {
 }
 type QueryResolver interface {
 	Actor(ctx context.Context, orgID string, id string) (*model.Actor, error)
+	ServerOverview(ctx context.Context) (*model.ServerOverview, error)
 	Users(ctx context.Context) ([]*model.User, error)
 	User(ctx context.Context, id string) (*model.User, error)
 	OauthProviders(ctx context.Context) ([]*model.OAuthProvider, error)
@@ -5633,6 +5641,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.Saml(childComplexity), true
 
+	case "Query.serverOverview":
+		if e.complexity.Query.ServerOverview == nil {
+			break
+		}
+
+		return e.complexity.Query.ServerOverview(childComplexity), true
+
 	case "Query.service":
 		if e.complexity.Query.Service == nil {
 			break
@@ -6085,6 +6100,27 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.SAMLConfig.UpdatedAt(childComplexity), true
+
+	case "ServerOverview.activeUsers":
+		if e.complexity.ServerOverview.ActiveUsers == nil {
+			break
+		}
+
+		return e.complexity.ServerOverview.ActiveUsers(childComplexity), true
+
+	case "ServerOverview.totalOrgs":
+		if e.complexity.ServerOverview.TotalOrgs == nil {
+			break
+		}
+
+		return e.complexity.ServerOverview.TotalOrgs(childComplexity), true
+
+	case "ServerOverview.totalUsers":
+		if e.complexity.ServerOverview.TotalUsers == nil {
+			break
+		}
+
+		return e.complexity.ServerOverview.TotalUsers(childComplexity), true
 
 	case "Service.category":
 		if e.complexity.Service.Category == nil {
@@ -7865,6 +7901,8 @@ type Actor {
 }
 `, BuiltIn: false},
 	{Name: "../schema/admin.graphqls", Input: `extend type Query {
+    serverOverview:      ServerOverview!
+
     users:               [User!]!
     user(id: ID!):       User!
 
@@ -7892,6 +7930,12 @@ extend type Mutation {
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────
+
+type ServerOverview {
+    totalUsers:  Int!
+    activeUsers: Int!
+    totalOrgs:   Int!
+}
 
 type User {
     id:         ID!
@@ -44163,6 +44207,58 @@ func (ec *executionContext) fieldContext_Query_actor(ctx context.Context, field 
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_serverOverview(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serverOverview(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServerOverview(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ServerOverview)
+	fc.Result = res
+	return ec.marshalNServerOverview2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServerOverview(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serverOverview(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "totalUsers":
+				return ec.fieldContext_ServerOverview_totalUsers(ctx, field)
+			case "activeUsers":
+				return ec.fieldContext_ServerOverview_activeUsers(ctx, field)
+			case "totalOrgs":
+				return ec.fieldContext_ServerOverview_totalOrgs(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServerOverview", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_users(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_users(ctx, field)
 	if err != nil {
@@ -50266,6 +50362,138 @@ func (ec *executionContext) fieldContext_SAMLConfig_updatedAt(_ context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServerOverview_totalUsers(ctx context.Context, field graphql.CollectedField, obj *model.ServerOverview) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServerOverview_totalUsers(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalUsers, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServerOverview_totalUsers(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServerOverview",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServerOverview_activeUsers(ctx context.Context, field graphql.CollectedField, obj *model.ServerOverview) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServerOverview_activeUsers(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ActiveUsers, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServerOverview_activeUsers(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServerOverview",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServerOverview_totalOrgs(ctx context.Context, field graphql.CollectedField, obj *model.ServerOverview) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServerOverview_totalOrgs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalOrgs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServerOverview_totalOrgs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServerOverview",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -70854,6 +71082,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "serverOverview":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_serverOverview(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "users":
 			field := field
 
@@ -72393,6 +72643,55 @@ func (ec *executionContext) _SAMLConfig(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedAt":
 			out.Values[i] = ec._SAMLConfig_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var serverOverviewImplementors = []string{"ServerOverview"}
+
+func (ec *executionContext) _ServerOverview(ctx context.Context, sel ast.SelectionSet, obj *model.ServerOverview) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, serverOverviewImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ServerOverview")
+		case "totalUsers":
+			out.Values[i] = ec._ServerOverview_totalUsers(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "activeUsers":
+			out.Values[i] = ec._ServerOverview_activeUsers(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalOrgs":
+			out.Values[i] = ec._ServerOverview_totalOrgs(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -76390,6 +76689,20 @@ func (ec *executionContext) marshalNRoleMapping2ᚖgithubᚗcomᚋuigraphᚋgrap
 		return graphql.Null
 	}
 	return ec._RoleMapping(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNServerOverview2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServerOverview(ctx context.Context, sel ast.SelectionSet, v model.ServerOverview) graphql.Marshaler {
+	return ec._ServerOverview(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNServerOverview2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServerOverview(ctx context.Context, sel ast.SelectionSet, v *model.ServerOverview) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ServerOverview(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNService2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐService(ctx context.Context, sel ast.SelectionSet, v model.Service) graphql.Marshaler {

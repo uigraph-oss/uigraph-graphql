@@ -70,6 +70,15 @@ func (r *mutationResolver) UpsertSaml(ctx context.Context, input model.UpsertSAM
 	return true, r.Admin.UpsertSAML(ctx, convert.ToMap(input))
 }
 
+// ServerOverview is the resolver for the serverOverview field.
+func (r *queryResolver) ServerOverview(ctx context.Context) (*model.ServerOverview, error) {
+	o, err := r.Admin.GetServerOverview(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return convert.OverviewToModel(o), nil
+}
+
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	users, err := r.Admin.ListUsers(ctx)
