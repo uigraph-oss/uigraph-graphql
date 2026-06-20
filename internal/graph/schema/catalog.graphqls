@@ -12,7 +12,14 @@ extend type Query {
     serviceDBVersions(orgId: ID!, serviceId: ID!, serviceDbId: ID!): [ServiceDBVersion!]!
     apiEndpoints(orgId: ID!, serviceId: ID!, apiGroupId: ID!):       [APIEndpoint!]!
     apiEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!): APIEndpoint!
+    apiGroupSpec(orgId: ID!, serviceId: ID!, apiGroupId: ID!, versionId: ID): FileDownload!
     serviceStats(orgId: ID!, serviceId: ID):                         [ServiceStats!]!
+}
+
+type FileDownload {
+    apiGroupId: ID!
+    fileName:   String!
+    content:    String!
 }
 
 extend type Mutation {
@@ -131,22 +138,50 @@ type ServiceDiagram {
     diagram: Diagram
 }
 
+type DbColumn {
+    name:          String
+    type:          String
+    nullable:      Boolean
+    isPrimaryKey:  Boolean
+    unique:        Boolean
+    autoIncrement: Boolean
+    defaultValue:  String
+    foreignKey:    String
+    description:   String
+}
+
+type DbIndex {
+    name:   String
+    type:   String
+    fields: [String!]
+}
+
+type DbTable {
+    name:    String
+    columns: [DbColumn!]
+    indexes: [DbIndex!]
+}
+
 type ServiceDB {
-    id:         ID!
-    serviceId:  ID!
-    orgId:      ID!
-    dbName:     String!
-    dbType:     String!
-    dialect:    String!
-    schemaJson: String!
-    source:     String
-    sourceTs:   Time
-    createdBy:  ID!
-    updatedBy:  ID
+    id:           ID!
+    serviceId:    ID!
+    orgId:        ID!
+    dbName:       String!
+    dbType:       String!
+    dialect:      String!
+    schemaJson:   String!
+    tables:       [DbTable!]!
+    noSQLSchema:  JSON
+    dbDiagramId:  String
+    pgDumpFileId: String
+    source:       String
+    sourceTs:     Time
+    createdBy:    ID!
+    updatedBy:    ID
     createdByActor: Actor @goField(forceResolver: true)
     updatedByActor: Actor @goField(forceResolver: true)
-    createdAt:  Time!
-    updatedAt:  Time!
+    createdAt:    Time!
+    updatedAt:    Time!
 }
 
 type ServiceDBVersion {
@@ -156,6 +191,10 @@ type ServiceDBVersion {
     versionNumber: Int!
     label:         String
     schemaJson:    String!
+    tables:        [DbTable!]!
+    noSQLSchema:   JSON
+    dbDiagramId:   String
+    pgDumpFileId:  String
     source:        String
     sourceTs:      Time
     isAutoVersion: Boolean!

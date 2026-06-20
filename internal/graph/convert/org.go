@@ -6,11 +6,19 @@ import (
 )
 
 func OrgToModel(o *uigraphapi.Org) *model.Org {
-	return &model.Org{ID: o.ID, Name: o.Name, Slug: o.Slug, Disabled: o.Disabled, CreatedAt: o.CreatedAt, UpdatedAt: o.UpdatedAt}
+	m := &model.Org{ID: o.ID, Name: o.Name, Disabled: o.Disabled, CreatedAt: o.CreatedAt, UpdatedAt: o.UpdatedAt}
+	if o.LogoURL != "" {
+		m.LogoURL = &o.LogoURL
+	}
+	return m
 }
 
 func MemberToModel(m uigraphapi.Member) *model.Member {
-	return &model.Member{UserID: m.UserID, OrgID: m.OrgID, Role: m.Role, Source: m.Source, CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt}
+	return &model.Member{
+		UserID: m.UserID, OrgID: m.OrgID, Role: m.Role, Source: m.Source,
+		Email: m.Email, Name: m.Name, TeamID: m.TeamID,
+		CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
+	}
 }
 
 func TeamToModel(t *uigraphapi.Team) *model.Team {
@@ -26,13 +34,6 @@ func TeamToModel(t *uigraphapi.Team) *model.Team {
 
 func TeamMemberToModel(m uigraphapi.TeamMember) *model.TeamMember {
 	return &model.TeamMember{TeamID: m.TeamID, UserID: m.UserID, Permission: m.Permission, CreatedAt: m.CreatedAt}
-}
-
-func InvitationToModel(i uigraphapi.Invitation) *model.Invitation {
-	return &model.Invitation{
-		ID: i.ID, OrgID: i.OrgID, Email: i.Email, Role: i.Role,
-		Code: i.Code, CreatedBy: i.CreatedBy, CreatedAt: i.CreatedAt, ExpiresAt: i.ExpiresAt,
-	}
 }
 
 func ServiceAccountToModel(sa uigraphapi.ServiceAccount) *model.ServiceAccount {
@@ -84,14 +85,6 @@ func TeamMembersToModel(members []uigraphapi.TeamMember) []*model.TeamMember {
 	out := make([]*model.TeamMember, len(members))
 	for i, m := range members {
 		out[i] = TeamMemberToModel(m)
-	}
-	return out
-}
-
-func InvitationsToModel(invs []uigraphapi.Invitation) []*model.Invitation {
-	out := make([]*model.Invitation, len(invs))
-	for i, inv := range invs {
-		out[i] = InvitationToModel(inv)
 	}
 	return out
 }

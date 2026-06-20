@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -271,6 +272,13 @@ func (c *Client) ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, 
 		Meta []FocalPointMeta `json:"meta"`
 	}
 	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta", orgID, mapID, frameID, fpID), &out)
+}
+
+func (c *Client) ListFocalPointMetaByComponentLink(ctx context.Context, orgID, componentLinkID string) ([]FocalPointMeta, error) {
+	var out struct {
+		Meta []FocalPointMeta `json:"meta"`
+	}
+	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/focal-point-meta?componentLinkId=%s", orgID, url.QueryEscape(componentLinkID)), &out)
 }
 
 func (c *Client) CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*FocalPointMeta, error) {

@@ -43,9 +43,9 @@ func (r *mutationResolver) AddMember(ctx context.Context, orgID string, input mo
 	return convert.MemberToModel(*m), nil
 }
 
-// UpdateMemberRole is the resolver for the updateMemberRole field.
-func (r *mutationResolver) UpdateMemberRole(ctx context.Context, orgID string, userID string, role string) (*model.Member, error) {
-	m, err := r.OrgAPI.UpdateMemberRole(ctx, orgID, userID, map[string]interface{}{"role": role})
+// UpdateMember is the resolver for the updateMember field.
+func (r *mutationResolver) UpdateMember(ctx context.Context, orgID string, userID string, input model.UpdateMemberInput) (*model.Member, error) {
+	m, err := r.OrgAPI.UpdateMember(ctx, orgID, userID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -92,20 +92,6 @@ func (r *mutationResolver) AddTeamMember(ctx context.Context, orgID string, team
 // RemoveTeamMember is the resolver for the removeTeamMember field.
 func (r *mutationResolver) RemoveTeamMember(ctx context.Context, orgID string, teamID string, userID string) (bool, error) {
 	return true, r.OrgAPI.RemoveTeamMember(ctx, orgID, teamID, userID)
-}
-
-// CreateInvitation is the resolver for the createInvitation field.
-func (r *mutationResolver) CreateInvitation(ctx context.Context, orgID string, input model.CreateInvitationInput) (*model.Invitation, error) {
-	inv, err := r.OrgAPI.CreateInvitation(ctx, orgID, convert.ToMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return convert.InvitationToModel(*inv), nil
-}
-
-// RevokeInvitation is the resolver for the revokeInvitation field.
-func (r *mutationResolver) RevokeInvitation(ctx context.Context, orgID string, invitationID string) (bool, error) {
-	return true, r.OrgAPI.RevokeInvitation(ctx, orgID, invitationID)
 }
 
 // CreateServiceAccount is the resolver for the createServiceAccount field.
@@ -197,15 +183,6 @@ func (r *queryResolver) TeamMembers(ctx context.Context, orgID string, teamID st
 		return nil, err
 	}
 	return convert.TeamMembersToModel(members), nil
-}
-
-// Invitations is the resolver for the invitations field.
-func (r *queryResolver) Invitations(ctx context.Context, orgID string) ([]*model.Invitation, error) {
-	invs, err := r.OrgAPI.ListInvitations(ctx, orgID)
-	if err != nil {
-		return nil, err
-	}
-	return convert.InvitationsToModel(invs), nil
 }
 
 // ServiceAccounts is the resolver for the serviceAccounts field.

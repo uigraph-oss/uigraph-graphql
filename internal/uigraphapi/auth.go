@@ -15,11 +15,11 @@ type MeResponse struct {
 }
 
 type OrgSummary struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Slug   string `json:"slug"`
-	Role   string `json:"role"`
-	Active bool   `json:"active"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	LogoURL string `json:"logoUrl,omitempty"`
+	Role    string `json:"role"`
+	Active  bool   `json:"active"`
 }
 
 func (c *Client) Me(ctx context.Context) (*MeResponse, error) {

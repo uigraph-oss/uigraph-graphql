@@ -9,7 +9,7 @@ import (
 type Org struct {
 	ID        string    `json:"id"`
 	Name      string    `json:"name"`
-	Slug      string    `json:"slug"`
+	LogoURL   string    `json:"logoUrl,omitempty"`
 	Disabled  bool      `json:"disabled"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
@@ -20,6 +20,9 @@ type Member struct {
 	OrgID     string    `json:"orgId"`
 	Role      string    `json:"role"`
 	Source    string    `json:"source"`
+	Email     string    `json:"email"`
+	Name      string    `json:"name"`
+	TeamID    *string   `json:"teamId,omitempty"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
@@ -39,17 +42,6 @@ type TeamMember struct {
 	UserID     string    `json:"userId"`
 	Permission string    `json:"permission"`
 	CreatedAt  time.Time `json:"createdAt"`
-}
-
-type Invitation struct {
-	ID        string     `json:"id"`
-	OrgID     string     `json:"orgId"`
-	Email     string     `json:"email"`
-	Role      string     `json:"role"`
-	Code      string     `json:"code"`
-	CreatedBy string     `json:"createdBy"`
-	CreatedAt time.Time  `json:"createdAt"`
-	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
 }
 
 type ServiceAccount struct {
@@ -121,7 +113,7 @@ func (c *Client) AddMember(ctx context.Context, orgID string, body map[string]in
 	return &out, c.post(ctx, "/api/v1/orgs/"+orgID+"/members", body, &out)
 }
 
-func (c *Client) UpdateMemberRole(ctx context.Context, orgID, userID string, body map[string]interface{}) (*Member, error) {
+func (c *Client) UpdateMember(ctx context.Context, orgID, userID string, body map[string]interface{}) (*Member, error) {
 	var out Member
 	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/members/%s", orgID, userID), body, &out)
 }
@@ -171,24 +163,6 @@ func (c *Client) AddTeamMember(ctx context.Context, orgID, teamID string, body m
 
 func (c *Client) RemoveTeamMember(ctx context.Context, orgID, teamID, userID string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/teams/%s/members/%s", orgID, teamID, userID))
-}
-
-// ── Invitations ───────────────────────────────────────────────────────────────
-
-func (c *Client) ListInvitations(ctx context.Context, orgID string) ([]Invitation, error) {
-	var out struct {
-		Invitations []Invitation `json:"invitations"`
-	}
-	return out.Invitations, c.get(ctx, "/api/v1/orgs/"+orgID+"/invitations", &out)
-}
-
-func (c *Client) CreateInvitation(ctx context.Context, orgID string, body map[string]interface{}) (*Invitation, error) {
-	var out Invitation
-	return &out, c.post(ctx, "/api/v1/orgs/"+orgID+"/invitations", body, &out)
-}
-
-func (c *Client) RevokeInvitation(ctx context.Context, orgID, invitationID string) error {
-	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/invitations/%s", orgID, invitationID))
 }
 
 // ── Service Accounts ──────────────────────────────────────────────────────────

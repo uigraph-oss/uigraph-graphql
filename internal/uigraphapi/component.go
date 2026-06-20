@@ -3,6 +3,7 @@ package uigraphapi
 import (
 	"context"
 	"fmt"
+	"time"
 )
 
 type FlowDiagramComponentField struct {
@@ -57,6 +58,8 @@ type Component struct {
 	IsActive        bool             `json:"isActive"`
 	Order           int              `json:"order"`
 	ComponentFields []ComponentField `json:"componentFields"`
+	CreatedAt       time.Time        `json:"createdAt"`
+	UpdatedAt       time.Time        `json:"updatedAt"`
 }
 
 type Components struct {
@@ -72,4 +75,18 @@ func (c *Client) ListFlowDiagramComponents(ctx context.Context, orgID string) (*
 func (c *Client) ListComponents(ctx context.Context, orgID string) (*Components, error) {
 	var out Components
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/components", orgID), &out)
+}
+
+func (c *Client) CreateCustomComponent(ctx context.Context, orgID string, body map[string]interface{}) (*Component, error) {
+	var out Component
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/components", orgID), body, &out)
+}
+
+func (c *Client) UpdateCustomComponent(ctx context.Context, orgID, id string, body map[string]interface{}) (*Component, error) {
+	var out Component
+	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/components/%s", orgID, id), body, &out)
+}
+
+func (c *Client) DeleteCustomComponent(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/components/%s", orgID, id))
 }

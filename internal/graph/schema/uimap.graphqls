@@ -9,6 +9,7 @@ extend type Query {
     frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
     frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
     focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
+    focalPointMetaByComponentLink(orgId: ID!, componentLinkId: ID!): [FocalPointMeta!]!
 }
 
 extend type Mutation {
@@ -148,13 +149,35 @@ type FocalPointMeta {
     frameId:              ID!
     componentId:          String!
     componentLinkId:      String
-    componentImages:      String!
+    componentImages:      [String!]!
     componentFlowDiagram: String
-    componentModalFields: String!
+    componentModalFields: [ComponentModalField!]!
     createdBy:            ID!
     updatedBy:            ID
     createdAt:            Time!
     updatedAt:            Time!
+}
+
+type ComponentModalField {
+    componentFieldId: String
+    label:            String
+    type:             String
+    required:         Boolean
+    isReadonly:       Boolean
+    data:             [JSON]
+    options:          [String]
+    order:            Int
+}
+
+input ComponentModalFieldInput {
+    componentFieldId: String
+    label:            String
+    type:             String
+    required:         Boolean
+    isReadonly:       Boolean
+    data:             [JSON]
+    options:          [String]
+    order:            Int
 }
 
 input CreateMapInput {
@@ -267,15 +290,15 @@ input UpdateFrameLinkInput {
 input CreateFocalPointMetaInput {
     componentId:          String!
     componentLinkId:      String
-    componentImages:      String
+    componentImages:      [String!]
     componentFlowDiagram: String
-    componentModalFields: String
+    componentModalFields: [ComponentModalFieldInput!]
 }
 
 input UpdateFocalPointMetaInput {
     componentId:          String
     componentLinkId:      String
-    componentImages:      String
+    componentImages:      [String!]
     componentFlowDiagram: String
-    componentModalFields: String
+    componentModalFields: [ComponentModalFieldInput!]
 }

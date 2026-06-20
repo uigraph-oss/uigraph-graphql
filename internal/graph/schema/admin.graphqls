@@ -1,4 +1,6 @@
 extend type Query {
+    serverOverview:      ServerOverview!
+
     users:               [User!]!
     user(id: ID!):       User!
 
@@ -26,6 +28,12 @@ extend type Mutation {
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────
+
+type ServerOverview {
+    totalUsers:  Int!
+    activeUsers: Int!
+    totalOrgs:   Int!
+}
 
 type User {
     id:         ID!

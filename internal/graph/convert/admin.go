@@ -5,6 +5,12 @@ import (
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
+func OverviewToModel(o *uigraphapi.ServerOverview) *model.ServerOverview {
+	return &model.ServerOverview{
+		TotalUsers: o.TotalUsers, ActiveUsers: o.ActiveUsers, TotalOrgs: o.TotalOrgs,
+	}
+}
+
 func UserToModel(u *uigraphapi.User) *model.User {
 	return &model.User{
 		ID: u.ID, Email: u.Email, Name: u.Name, Login: u.Login,

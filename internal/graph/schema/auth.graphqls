@@ -13,16 +13,16 @@ type Me {
     email:        String!
     name:         String!
     login:        String!
-    kind:         String!
-    role:         String!
-    authProvider: String!
+    kind:          String!
+    isServerAdmin: Boolean!
+    authProvider:  String!
     avatarUrl:    String
 }
 
 type OrgSummary {
-    id:     ID!
-    name:   String!
-    slug:   String!
-    role:   String!
-    active: Boolean!
+    id:      ID!
+    name:    String!
+    logoUrl: String
+    role:    String!
+    active:  Boolean!
 }

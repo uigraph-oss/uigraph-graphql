@@ -46,6 +46,7 @@ func Run(cfg *config.Config) error {
 		Catalog:    c,
 		TestPack:   c,
 		Actor:      c,
+		CommentAPI: c,
 	}
 	schema := generated.NewExecutableSchema(generated.Config{Resolvers: resolver})
 	gqlSrv := newGraphQLServer(schema, cfg.Env)

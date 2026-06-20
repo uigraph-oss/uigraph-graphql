@@ -10,7 +10,7 @@ func TestMeToModel(t *testing.T) {
 	t.Run("maps all fields with avatar", func(t *testing.T) {
 		withAvatar := MeToModel(&uigraphapi.MeResponse{
 			UserID: "u1", OrgID: "o1", Email: "a@b.com", Name: "Ann", Login: "ann",
-			Kind: "user", Role: "admin", AuthProvider: "local", AvatarURL: "https://x/a.png",
+			Kind: "user", Role: "server_admin", AuthProvider: "local", AvatarURL: "https://x/a.png",
 		})
 		if withAvatar.AvatarURL == nil || *withAvatar.AvatarURL != "https://x/a.png" {
 			t.Fatalf("AvatarURL = %v, want pointer to https://x/a.png", withAvatar.AvatarURL)
@@ -33,8 +33,8 @@ func TestMeToModel(t *testing.T) {
 		if withAvatar.Kind != "user" {
 			t.Errorf("Kind = %q, want user", withAvatar.Kind)
 		}
-		if withAvatar.Role != "admin" {
-			t.Errorf("Role = %q, want admin", withAvatar.Role)
+		if !withAvatar.IsServerAdmin {
+			t.Errorf("IsServerAdmin = %v, want true", withAvatar.IsServerAdmin)
 		}
 		if withAvatar.AuthProvider != "local" {
 			t.Errorf("AuthProvider = %q, want local", withAvatar.AuthProvider)
@@ -52,14 +52,14 @@ func TestMeToModel(t *testing.T) {
 func TestOrgSummariesToModel(t *testing.T) {
 	t.Run("maps slice of two summaries", func(t *testing.T) {
 		in := []uigraphapi.OrgSummary{
-			{ID: "1", Name: "A", Slug: "a", Role: "admin", Active: true},
-			{ID: "2", Name: "B", Slug: "b", Role: "member", Active: false},
+			{ID: "1", Name: "A", Role: "admin", Active: true},
+			{ID: "2", Name: "B", Role: "member", Active: false},
 		}
 		out := OrgSummariesToModel(in)
 		if len(out) != 2 {
 			t.Fatalf("len = %d, want 2", len(out))
 		}
-		if out[0].ID != "1" || out[0].Name != "A" || out[0].Slug != "a" || out[0].Role != "admin" || !out[0].Active {
+		if out[0].ID != "1" || out[0].Name != "A" || out[0].Role != "admin" || !out[0].Active {
 			t.Errorf("out[0] = %+v, unexpected", out[0])
 		}
 		if out[1].ID != "2" || out[1].Active != false {

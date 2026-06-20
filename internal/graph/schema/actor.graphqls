@@ -1,3 +1,7 @@
+extend type Query {
+    actor(orgId: ID!, id: ID!): Actor
+}
+
 # Actor is the resolved public identity behind a createdBy / updatedBy / deletedBy
 # id. The id may belong to a human user or a service account.
 type Actor {

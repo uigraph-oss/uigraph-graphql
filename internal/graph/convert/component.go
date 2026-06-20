@@ -61,6 +61,7 @@ func ComponentToModel(c uigraphapi.Component) *model.Component {
 		Description: c.Description, Category: c.Category, Tags: c.Tags,
 		Slug: c.Slug, PreviewImageJpg: c.PreviewImageJpg, IsActive: c.IsActive,
 		Order: c.Order, ComponentFields: fields,
+		CreatedAt: c.CreatedAt, UpdatedAt: c.UpdatedAt,
 	}
 }
 

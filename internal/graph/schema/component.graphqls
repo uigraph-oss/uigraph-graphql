@@ -3,6 +3,30 @@ extend type Query {
     components(orgId: ID!):                                   Components!
 }
 
+extend type Mutation {
+    createCustomComponent(orgId: ID!, input: CustomComponentInput!):           Component!
+    updateCustomComponent(orgId: ID!, id: ID!, input: CustomComponentInput!):  Component!
+    deleteCustomComponent(orgId: ID!, id: ID!):                                Boolean!
+}
+
+input CustomComponentInput {
+    name:            String!
+    category:        String
+    description:     String
+    isActive:        Boolean
+    componentFields: [CustomComponentFieldInput!]
+}
+
+input CustomComponentFieldInput {
+    componentFieldId: String
+    label:            String!
+    type:             String!
+    required:         Boolean!
+    readonly:         Boolean
+    options:          [String!]
+    order:            Int!
+}
+
 type FlowDiagramComponentField {
     flowDiagramComponentFieldId: String!
     label:                       String!
@@ -55,6 +79,8 @@ type Component {
     isActive:        Boolean!
     order:           Int!
     componentFields: [ComponentField!]!
+    createdAt:       Time!
+    updatedAt:       Time!
 }
 
 type Components {

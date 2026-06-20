@@ -207,6 +207,21 @@ func (c *Client) GetAPIGroup(ctx context.Context, orgID, serviceID, id string) (
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups/%s", orgID, serviceID, id), &out)
 }
 
+type APIGroupSpec struct {
+	APIGroupID string `json:"apiGroupId"`
+	FileName   string `json:"fileName"`
+	Content    string `json:"content"`
+}
+
+func (c *Client) GetAPIGroupSpec(ctx context.Context, orgID, serviceID, apiGroupID, versionID string) (*APIGroupSpec, error) {
+	path := fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups/%s/spec", orgID, serviceID, apiGroupID)
+	if versionID != "" {
+		path += "?versionId=" + url.QueryEscape(versionID)
+	}
+	var out APIGroupSpec
+	return &out, c.get(ctx, path, &out)
+}
+
 func (c *Client) CreateAPIGroup(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*APIGroup, error) {
 	var out APIGroup
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups", orgID, serviceID), body, &out)

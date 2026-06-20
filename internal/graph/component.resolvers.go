@@ -11,6 +11,29 @@ import (
 	"github.com/uigraph/graphql/internal/graph/model"
 )
 
+// CreateCustomComponent is the resolver for the createCustomComponent field.
+func (r *mutationResolver) CreateCustomComponent(ctx context.Context, orgID string, input model.CustomComponentInput) (*model.Component, error) {
+	c, err := r.Component.CreateCustomComponent(ctx, orgID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.ComponentToModel(*c), nil
+}
+
+// UpdateCustomComponent is the resolver for the updateCustomComponent field.
+func (r *mutationResolver) UpdateCustomComponent(ctx context.Context, orgID string, id string, input model.CustomComponentInput) (*model.Component, error) {
+	c, err := r.Component.UpdateCustomComponent(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.ComponentToModel(*c), nil
+}
+
+// DeleteCustomComponent is the resolver for the deleteCustomComponent field.
+func (r *mutationResolver) DeleteCustomComponent(ctx context.Context, orgID string, id string) (bool, error) {
+	return true, r.Component.DeleteCustomComponent(ctx, orgID, id)
+}
+
 // FlowDiagramComponents is the resolver for the flowDiagramComponents field.
 func (r *queryResolver) FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error) {
 	res, err := r.Component.ListFlowDiagramComponents(ctx, orgID)

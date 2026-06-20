@@ -23,7 +23,7 @@ type orgClient interface {
 	DeleteOrg(ctx context.Context, id string) error
 	ListMembers(ctx context.Context, orgID string) ([]uigraphapi.Member, error)
 	AddMember(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Member, error)
-	UpdateMemberRole(ctx context.Context, orgID, userID string, body map[string]interface{}) (*uigraphapi.Member, error)
+	UpdateMember(ctx context.Context, orgID, userID string, body map[string]interface{}) (*uigraphapi.Member, error)
 	RemoveMember(ctx context.Context, orgID, userID string) error
 	ListTeams(ctx context.Context, orgID string) ([]uigraphapi.Team, error)
 	GetTeam(ctx context.Context, orgID, teamID string) (*uigraphapi.Team, error)
@@ -33,9 +33,6 @@ type orgClient interface {
 	ListTeamMembers(ctx context.Context, orgID, teamID string) ([]uigraphapi.TeamMember, error)
 	AddTeamMember(ctx context.Context, orgID, teamID string, body map[string]interface{}) error
 	RemoveTeamMember(ctx context.Context, orgID, teamID, userID string) error
-	ListInvitations(ctx context.Context, orgID string) ([]uigraphapi.Invitation, error)
-	CreateInvitation(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Invitation, error)
-	RevokeInvitation(ctx context.Context, orgID, invitationID string) error
 	ListServiceAccounts(ctx context.Context, orgID string) ([]uigraphapi.ServiceAccount, error)
 	GetServiceAccount(ctx context.Context, orgID, id string) (*uigraphapi.ServiceAccount, error)
 	CreateServiceAccount(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.ServiceAccount, error)
@@ -47,6 +44,7 @@ type orgClient interface {
 }
 
 type adminClient interface {
+	GetServerOverview(ctx context.Context) (*uigraphapi.ServerOverview, error)
 	ListUsers(ctx context.Context) ([]uigraphapi.User, error)
 	GetUser(ctx context.Context, id string) (*uigraphapi.User, error)
 	CreateUser(ctx context.Context, body map[string]interface{}) (*uigraphapi.User, error)
@@ -93,6 +91,9 @@ type diagramClient interface {
 type componentClient interface {
 	ListFlowDiagramComponents(ctx context.Context, orgID string) (*uigraphapi.FlowComponents, error)
 	ListComponents(ctx context.Context, orgID string) (*uigraphapi.Components, error)
+	CreateCustomComponent(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Component, error)
+	UpdateCustomComponent(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.Component, error)
+	DeleteCustomComponent(ctx context.Context, orgID, id string) error
 }
 
 type uimapClient interface {
@@ -124,6 +125,7 @@ type uimapClient interface {
 	UpdateFrameLink(ctx context.Context, orgID, mapID, frameID, id string, body map[string]interface{}) (*uigraphapi.FrameLink, error)
 	DeleteFrameLink(ctx context.Context, orgID, mapID, frameID, id string) error
 	ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string) ([]uigraphapi.FocalPointMeta, error)
+	ListFocalPointMetaByComponentLink(ctx context.Context, orgID, componentLinkID string) ([]uigraphapi.FocalPointMeta, error)
 	CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	UpdateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	DeleteFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string) error
@@ -138,6 +140,7 @@ type catalogClient interface {
 	ListServiceStats(ctx context.Context, orgID string, serviceID *string) ([]uigraphapi.ServiceStats, error)
 	ListAPIGroups(ctx context.Context, orgID, serviceID string) ([]uigraphapi.APIGroup, error)
 	GetAPIGroup(ctx context.Context, orgID, serviceID, id string) (*uigraphapi.APIGroup, error)
+	GetAPIGroupSpec(ctx context.Context, orgID, serviceID, apiGroupID, versionID string) (*uigraphapi.APIGroupSpec, error)
 	CreateAPIGroup(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.APIGroup, error)
 	UpdateAPIGroup(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*uigraphapi.APIGroup, error)
 	DeleteAPIGroup(ctx context.Context, orgID, serviceID, id string) error
@@ -188,6 +191,14 @@ type testPackClient interface {
 type actorClient interface {
 	ResolveActors(ctx context.Context, orgID string, ids []string) (map[string]*uigraphapi.Actor, error)
 	ResolveAssetURLs(ctx context.Context, orgID string, ids []string) (map[string]string, error)
+	CreateAssetUpload(ctx context.Context, orgID string) (*uigraphapi.AssetUpload, error)
+}
+
+type commentClient interface {
+	ListComments(ctx context.Context, orgID, resourceID string) ([]uigraphapi.Comment, error)
+	CreateComment(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Comment, error)
+	UpdateComment(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.Comment, error)
+	DeleteComment(ctx context.Context, orgID, id string) error
 }
 
 // Resolver is the root dependency-injection struct for all resolvers. Each
@@ -205,4 +216,5 @@ type Resolver struct {
 	Catalog    catalogClient
 	TestPack   testPackClient
 	Actor      actorClient
+	CommentAPI commentClient
 }

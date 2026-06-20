@@ -9,7 +9,7 @@ func MeToModel(m *uigraphapi.MeResponse) *model.Me {
 	me := &model.Me{
 		UserID: m.UserID, OrgID: m.OrgID,
 		Email: m.Email, Name: m.Name, Login: m.Login,
-		Kind: m.Kind, Role: m.Role, AuthProvider: m.AuthProvider,
+		Kind: m.Kind, IsServerAdmin: m.Role == "server_admin", AuthProvider: m.AuthProvider,
 	}
 	if m.AvatarURL != "" {
 		me.AvatarURL = &m.AvatarURL
@@ -18,7 +18,11 @@ func MeToModel(m *uigraphapi.MeResponse) *model.Me {
 }
 
 func OrgSummaryToModel(o uigraphapi.OrgSummary) *model.OrgSummary {
-	return &model.OrgSummary{ID: o.ID, Name: o.Name, Slug: o.Slug, Role: o.Role, Active: o.Active}
+	m := &model.OrgSummary{ID: o.ID, Name: o.Name, Role: o.Role, Active: o.Active}
+	if o.LogoURL != "" {
+		m.LogoURL = &o.LogoURL
+	}
+	return m
 }
 
 func OrgSummariesToModel(orgs []uigraphapi.OrgSummary) []*model.OrgSummary {
