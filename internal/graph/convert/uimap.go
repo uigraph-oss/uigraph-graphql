@@ -1,6 +1,8 @@
 package convert
 
 import (
+	"encoding/json"
+
 	"github.com/uigraph/graphql/internal/graph/model"
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
@@ -82,14 +84,36 @@ func FocalPointMetaToModel(m *uigraphapi.FocalPointMeta) *model.FocalPointMeta {
 	return &model.FocalPointMeta{
 		ID: m.ID, FocalPointID: m.FocalPointID, OrgID: m.OrgID, FrameID: m.FrameID,
 		ComponentID: m.ComponentID, ComponentLinkID: m.ComponentLinkID,
-		ComponentImages:      RawArrStr(m.ComponentImages),
+		ComponentImages:      JSONStringSlice(m.ComponentImages),
 		ComponentFlowDiagram: m.ComponentFlowDiagram,
-		ComponentModalFields: RawArrStr(m.ComponentModalFields),
+		ComponentModalFields: ComponentModalFieldsFromRaw(m.ComponentModalFields),
 		CreatedBy:            m.CreatedBy,
 		UpdatedBy:            m.UpdatedBy,
 		CreatedAt:            m.CreatedAt,
 		UpdatedAt:            m.UpdatedAt,
 	}
+}
+
+func JSONStringSlice(b json.RawMessage) []string {
+	if len(b) == 0 {
+		return []string{}
+	}
+	var out []string
+	if err := json.Unmarshal(b, &out); err != nil {
+		return []string{}
+	}
+	return out
+}
+
+func ComponentModalFieldsFromRaw(b json.RawMessage) []*model.ComponentModalField {
+	if len(b) == 0 {
+		return []*model.ComponentModalField{}
+	}
+	var out []*model.ComponentModalField
+	if err := json.Unmarshal(b, &out); err != nil {
+		return []*model.ComponentModalField{}
+	}
+	return out
 }
 
 func FocalPointMetasToModel(ms []uigraphapi.FocalPointMeta) []*model.FocalPointMeta {

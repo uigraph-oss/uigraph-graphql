@@ -169,6 +169,8 @@ type Component struct {
 	IsActive        bool              `json:"isActive"`
 	Order           int               `json:"order"`
 	ComponentFields []*ComponentField `json:"componentFields"`
+	CreatedAt       time.Time         `json:"createdAt"`
+	UpdatedAt       time.Time         `json:"updatedAt"`
 }
 
 type ComponentField struct {
@@ -179,6 +181,28 @@ type ComponentField struct {
 	Readonly         *bool    `json:"readonly,omitempty"`
 	Options          []string `json:"options,omitempty"`
 	Order            int      `json:"order"`
+}
+
+type ComponentModalField struct {
+	ComponentFieldID *string   `json:"componentFieldId,omitempty"`
+	Label            *string   `json:"label,omitempty"`
+	Type             *string   `json:"type,omitempty"`
+	Required         *bool     `json:"required,omitempty"`
+	IsReadonly       *bool     `json:"isReadonly,omitempty"`
+	Data             []any     `json:"data,omitempty"`
+	Options          []*string `json:"options,omitempty"`
+	Order            *int      `json:"order,omitempty"`
+}
+
+type ComponentModalFieldInput struct {
+	ComponentFieldID *string   `json:"componentFieldId,omitempty"`
+	Label            *string   `json:"label,omitempty"`
+	Type             *string   `json:"type,omitempty"`
+	Required         *bool     `json:"required,omitempty"`
+	IsReadonly       *bool     `json:"isReadonly,omitempty"`
+	Data             []any     `json:"data,omitempty"`
+	Options          []*string `json:"options,omitempty"`
+	Order            *int      `json:"order,omitempty"`
 }
 
 type Components struct {
@@ -230,11 +254,11 @@ type CreateFocalPointInput struct {
 }
 
 type CreateFocalPointMetaInput struct {
-	ComponentID          string  `json:"componentId"`
-	ComponentLinkID      *string `json:"componentLinkId,omitempty"`
-	ComponentImages      *string `json:"componentImages,omitempty"`
-	ComponentFlowDiagram *string `json:"componentFlowDiagram,omitempty"`
-	ComponentModalFields *string `json:"componentModalFields,omitempty"`
+	ComponentID          string                      `json:"componentId"`
+	ComponentLinkID      *string                     `json:"componentLinkId,omitempty"`
+	ComponentImages      []string                    `json:"componentImages,omitempty"`
+	ComponentFlowDiagram *string                     `json:"componentFlowDiagram,omitempty"`
+	ComponentModalFields []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
 }
 
 type CreateFolderInput struct {
@@ -439,6 +463,24 @@ type CreatedToken struct {
 	CreatedAt        time.Time `json:"createdAt"`
 }
 
+type CustomComponentFieldInput struct {
+	ComponentFieldID *string  `json:"componentFieldId,omitempty"`
+	Label            string   `json:"label"`
+	Type             string   `json:"type"`
+	Required         bool     `json:"required"`
+	Readonly         *bool    `json:"readonly,omitempty"`
+	Options          []string `json:"options,omitempty"`
+	Order            int      `json:"order"`
+}
+
+type CustomComponentInput struct {
+	Name            string                       `json:"name"`
+	Category        *string                      `json:"category,omitempty"`
+	Description     *string                      `json:"description,omitempty"`
+	IsActive        *bool                        `json:"isActive,omitempty"`
+	ComponentFields []*CustomComponentFieldInput `json:"componentFields,omitempty"`
+}
+
 type DatabaseTestCase struct {
 	Dialect       string       `json:"dialect"`
 	SchemaID      *string      `json:"schemaId,omitempty"`
@@ -455,6 +497,30 @@ type DatabaseTestCaseInput struct {
 	Assertions    []*AssertionInput `json:"assertions,omitempty"`
 	SetupQuery    *string           `json:"setupQuery,omitempty"`
 	TeardownQuery *string           `json:"teardownQuery,omitempty"`
+}
+
+type DbColumn struct {
+	Name          *string `json:"name,omitempty"`
+	Type          *string `json:"type,omitempty"`
+	Nullable      *bool   `json:"nullable,omitempty"`
+	IsPrimaryKey  *bool   `json:"isPrimaryKey,omitempty"`
+	Unique        *bool   `json:"unique,omitempty"`
+	AutoIncrement *bool   `json:"autoIncrement,omitempty"`
+	DefaultValue  *string `json:"defaultValue,omitempty"`
+	ForeignKey    *string `json:"foreignKey,omitempty"`
+	Description   *string `json:"description,omitempty"`
+}
+
+type DbIndex struct {
+	Name   *string  `json:"name,omitempty"`
+	Type   *string  `json:"type,omitempty"`
+	Fields []string `json:"fields,omitempty"`
+}
+
+type DbTable struct {
+	Name    *string     `json:"name,omitempty"`
+	Columns []*DbColumn `json:"columns,omitempty"`
+	Indexes []*DbIndex  `json:"indexes,omitempty"`
 }
 
 type Diagram struct {
@@ -514,6 +580,12 @@ type DiagramVersion struct {
 	CreatedAt      time.Time `json:"createdAt"`
 }
 
+type FileDownload struct {
+	APIGroupID string `json:"apiGroupId"`
+	FileName   string `json:"fileName"`
+	Content    string `json:"content"`
+}
+
 type FlowDiagramComponent struct {
 	ComponentID                string                       `json:"componentId"`
 	Type                       string                       `json:"type"`
@@ -560,19 +632,19 @@ type FocalPoint struct {
 }
 
 type FocalPointMeta struct {
-	ID                   string    `json:"id"`
-	FocalPointID         string    `json:"focalPointId"`
-	OrgID                string    `json:"orgId"`
-	FrameID              string    `json:"frameId"`
-	ComponentID          string    `json:"componentId"`
-	ComponentLinkID      *string   `json:"componentLinkId,omitempty"`
-	ComponentImages      string    `json:"componentImages"`
-	ComponentFlowDiagram *string   `json:"componentFlowDiagram,omitempty"`
-	ComponentModalFields string    `json:"componentModalFields"`
-	CreatedBy            string    `json:"createdBy"`
-	UpdatedBy            *string   `json:"updatedBy,omitempty"`
-	CreatedAt            time.Time `json:"createdAt"`
-	UpdatedAt            time.Time `json:"updatedAt"`
+	ID                   string                 `json:"id"`
+	FocalPointID         string                 `json:"focalPointId"`
+	OrgID                string                 `json:"orgId"`
+	FrameID              string                 `json:"frameId"`
+	ComponentID          string                 `json:"componentId"`
+	ComponentLinkID      *string                `json:"componentLinkId,omitempty"`
+	ComponentImages      []string               `json:"componentImages"`
+	ComponentFlowDiagram *string                `json:"componentFlowDiagram,omitempty"`
+	ComponentModalFields []*ComponentModalField `json:"componentModalFields"`
+	CreatedBy            string                 `json:"createdBy"`
+	UpdatedBy            *string                `json:"updatedBy,omitempty"`
+	CreatedAt            time.Time              `json:"createdAt"`
+	UpdatedAt            time.Time              `json:"updatedAt"`
 }
 
 type Folder struct {
@@ -911,6 +983,10 @@ type ServiceDb struct {
 	DbType         string     `json:"dbType"`
 	Dialect        string     `json:"dialect"`
 	SchemaJSON     string     `json:"schemaJson"`
+	Tables         []*DbTable `json:"tables"`
+	NoSQLSchema    any        `json:"noSQLSchema,omitempty"`
+	DbDiagramID    *string    `json:"dbDiagramId,omitempty"`
+	PgDumpFileID   *string    `json:"pgDumpFileId,omitempty"`
 	Source         *string    `json:"source,omitempty"`
 	SourceTs       *time.Time `json:"sourceTs,omitempty"`
 	CreatedBy      string     `json:"createdBy"`
@@ -928,6 +1004,10 @@ type ServiceDBVersion struct {
 	VersionNumber  int        `json:"versionNumber"`
 	Label          *string    `json:"label,omitempty"`
 	SchemaJSON     string     `json:"schemaJson"`
+	Tables         []*DbTable `json:"tables"`
+	NoSQLSchema    any        `json:"noSQLSchema,omitempty"`
+	DbDiagramID    *string    `json:"dbDiagramId,omitempty"`
+	PgDumpFileID   *string    `json:"pgDumpFileId,omitempty"`
 	Source         *string    `json:"source,omitempty"`
 	SourceTs       *time.Time `json:"sourceTs,omitempty"`
 	IsAutoVersion  bool       `json:"isAutoVersion"`
@@ -1199,11 +1279,11 @@ type UpdateFocalPointInput struct {
 }
 
 type UpdateFocalPointMetaInput struct {
-	ComponentID          *string `json:"componentId,omitempty"`
-	ComponentLinkID      *string `json:"componentLinkId,omitempty"`
-	ComponentImages      *string `json:"componentImages,omitempty"`
-	ComponentFlowDiagram *string `json:"componentFlowDiagram,omitempty"`
-	ComponentModalFields *string `json:"componentModalFields,omitempty"`
+	ComponentID          *string                     `json:"componentId,omitempty"`
+	ComponentLinkID      *string                     `json:"componentLinkId,omitempty"`
+	ComponentImages      []string                    `json:"componentImages,omitempty"`
+	ComponentFlowDiagram *string                     `json:"componentFlowDiagram,omitempty"`
+	ComponentModalFields []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
 }
 
 type UpdateFolderInput struct {

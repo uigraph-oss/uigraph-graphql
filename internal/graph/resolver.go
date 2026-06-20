@@ -93,6 +93,9 @@ type diagramClient interface {
 type componentClient interface {
 	ListFlowDiagramComponents(ctx context.Context, orgID string) (*uigraphapi.FlowComponents, error)
 	ListComponents(ctx context.Context, orgID string) (*uigraphapi.Components, error)
+	CreateCustomComponent(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Component, error)
+	UpdateCustomComponent(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.Component, error)
+	DeleteCustomComponent(ctx context.Context, orgID, id string) error
 }
 
 type uimapClient interface {
@@ -139,6 +142,7 @@ type catalogClient interface {
 	ListServiceStats(ctx context.Context, orgID string, serviceID *string) ([]uigraphapi.ServiceStats, error)
 	ListAPIGroups(ctx context.Context, orgID, serviceID string) ([]uigraphapi.APIGroup, error)
 	GetAPIGroup(ctx context.Context, orgID, serviceID, id string) (*uigraphapi.APIGroup, error)
+	GetAPIGroupSpec(ctx context.Context, orgID, serviceID, apiGroupID, versionID string) (*uigraphapi.APIGroupSpec, error)
 	CreateAPIGroup(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.APIGroup, error)
 	UpdateAPIGroup(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*uigraphapi.APIGroup, error)
 	DeleteAPIGroup(ctx context.Context, orgID, serviceID, id string) error

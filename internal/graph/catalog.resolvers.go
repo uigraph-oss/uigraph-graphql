@@ -301,6 +301,23 @@ func (r *queryResolver) APIEndpoint(ctx context.Context, orgID string, serviceID
 	return convert.APIEndpointToModel(e), nil
 }
 
+// APIGroupSpec is the resolver for the apiGroupSpec field.
+func (r *queryResolver) APIGroupSpec(ctx context.Context, orgID string, serviceID string, apiGroupID string, versionID *string) (*model.FileDownload, error) {
+	vid := ""
+	if versionID != nil {
+		vid = *versionID
+	}
+	spec, err := r.Catalog.GetAPIGroupSpec(ctx, orgID, serviceID, apiGroupID, vid)
+	if err != nil {
+		return nil, err
+	}
+	return &model.FileDownload{
+		APIGroupID: spec.APIGroupID,
+		FileName:   spec.FileName,
+		Content:    spec.Content,
+	}, nil
+}
+
 // ServiceStats is the resolver for the serviceStats field.
 func (r *queryResolver) ServiceStats(ctx context.Context, orgID string, serviceID *string) ([]*model.ServiceStats, error) {
 	stats, err := r.Catalog.ListServiceStats(ctx, orgID, serviceID)

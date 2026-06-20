@@ -7,6 +7,32 @@ import (
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
+func TestParseServiceDBSchema(t *testing.T) {
+	t.Run("parses tables from schema json object", func(t *testing.T) {
+		p := parseServiceDBSchema(json.RawMessage(`{"tables":[{"name":"users"}],"dbDiagramId":"d1"}`))
+		if len(p.Tables) != 1 || p.Tables[0].Name == nil || *p.Tables[0].Name != "users" {
+			t.Errorf("Tables = %#v, want one table named users", p.Tables)
+		}
+		if p.DbDiagramID == nil || *p.DbDiagramID != "d1" {
+			t.Errorf("DbDiagramID = %v, want d1", p.DbDiagramID)
+		}
+	})
+
+	t.Run("handles double-encoded json string", func(t *testing.T) {
+		p := parseServiceDBSchema(json.RawMessage(`"{\"tables\":[{\"name\":\"orders\"}]}"`))
+		if len(p.Tables) != 1 || p.Tables[0].Name == nil || *p.Tables[0].Name != "orders" {
+			t.Errorf("Tables = %#v, want one table named orders", p.Tables)
+		}
+	})
+
+	t.Run("empty raw yields empty tables slice", func(t *testing.T) {
+		p := parseServiceDBSchema(nil)
+		if p.Tables == nil || len(p.Tables) != 0 {
+			t.Errorf("Tables = %#v, want empty slice", p.Tables)
+		}
+	})
+}
+
 func TestCanvasToModel(t *testing.T) {
 	t.Run("empty FramePositions defaults to empty object string", func(t *testing.T) {
 		out := CanvasToModel(&uigraphapi.Canvas{MapID: "m1", OrgID: "o1"})
@@ -43,39 +69,43 @@ func TestCanvasToModel(t *testing.T) {
 }
 
 func TestFocalPointMetaToModel(t *testing.T) {
-	t.Run("populated ComponentImages passes through as string", func(t *testing.T) {
+	t.Run("populated ComponentImages parsed into string slice", func(t *testing.T) {
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{
 			ID: "fpm1", ComponentImages: json.RawMessage(`["a.png"]`),
 		})
 		if out.ID != "fpm1" {
 			t.Errorf("ID = %q, want fpm1", out.ID)
 		}
-		if out.ComponentImages != `["a.png"]` {
-			t.Errorf("ComponentImages = %q, want passthrough", out.ComponentImages)
+		if len(out.ComponentImages) != 1 || out.ComponentImages[0] != "a.png" {
+			t.Errorf("ComponentImages = %#v, want [a.png]", out.ComponentImages)
 		}
 	})
 
-	t.Run("empty ComponentImages defaults to empty array string", func(t *testing.T) {
+	t.Run("empty ComponentImages defaults to empty slice", func(t *testing.T) {
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{ID: "fpm2"})
-		if out.ComponentImages != "[]" {
-			t.Errorf("ComponentImages = %q, want %q for empty RawMessage", out.ComponentImages, "[]")
+		if out.ComponentImages == nil || len(out.ComponentImages) != 0 {
+			t.Errorf("ComponentImages = %#v, want empty slice", out.ComponentImages)
 		}
 	})
 
-	t.Run("populated ComponentModalFields passes through as string", func(t *testing.T) {
+	t.Run("populated ComponentModalFields parsed into structured fields", func(t *testing.T) {
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{
 			ID:                   "fpm3",
-			ComponentModalFields: json.RawMessage(`[{"key":"foo"}]`),
+			ComponentModalFields: json.RawMessage(`[{"componentFieldId":"foo","label":"Foo","order":2}]`),
 		})
-		if out.ComponentModalFields != `[{"key":"foo"}]` {
-			t.Errorf("ComponentModalFields = %q, want passthrough", out.ComponentModalFields)
+		if len(out.ComponentModalFields) != 1 {
+			t.Fatalf("ComponentModalFields = %#v, want one element", out.ComponentModalFields)
+		}
+		f := out.ComponentModalFields[0]
+		if f.ComponentFieldID == nil || *f.ComponentFieldID != "foo" || f.Order == nil || *f.Order != 2 {
+			t.Errorf("ComponentModalFields[0] = %#v, want {foo, order 2}", f)
 		}
 	})
 
-	t.Run("empty ComponentModalFields defaults to empty array string", func(t *testing.T) {
+	t.Run("empty ComponentModalFields defaults to empty slice", func(t *testing.T) {
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{ID: "fpm4"})
-		if out.ComponentModalFields != "[]" {
-			t.Errorf("ComponentModalFields = %q, want %q for empty RawMessage", out.ComponentModalFields, "[]")
+		if out.ComponentModalFields == nil || len(out.ComponentModalFields) != 0 {
+			t.Errorf("ComponentModalFields = %#v, want empty slice", out.ComponentModalFields)
 		}
 	})
 
