@@ -43,9 +43,9 @@ func (r *mutationResolver) AddMember(ctx context.Context, orgID string, input mo
 	return convert.MemberToModel(*m), nil
 }
 
-// UpdateMemberRole is the resolver for the updateMemberRole field.
-func (r *mutationResolver) UpdateMemberRole(ctx context.Context, orgID string, userID string, role string) (*model.Member, error) {
-	m, err := r.OrgAPI.UpdateMemberRole(ctx, orgID, userID, map[string]interface{}{"role": role})
+// UpdateMember is the resolver for the updateMember field.
+func (r *mutationResolver) UpdateMember(ctx context.Context, orgID string, userID string, input model.UpdateMemberInput) (*model.Member, error) {
+	m, err := r.OrgAPI.UpdateMember(ctx, orgID, userID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}

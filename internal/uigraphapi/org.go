@@ -20,6 +20,9 @@ type Member struct {
 	OrgID     string    `json:"orgId"`
 	Role      string    `json:"role"`
 	Source    string    `json:"source"`
+	Email     string    `json:"email"`
+	Name      string    `json:"name"`
+	TeamID    *string   `json:"teamId,omitempty"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
@@ -110,7 +113,7 @@ func (c *Client) AddMember(ctx context.Context, orgID string, body map[string]in
 	return &out, c.post(ctx, "/api/v1/orgs/"+orgID+"/members", body, &out)
 }
 
-func (c *Client) UpdateMemberRole(ctx context.Context, orgID, userID string, body map[string]interface{}) (*Member, error) {
+func (c *Client) UpdateMember(ctx context.Context, orgID, userID string, body map[string]interface{}) (*Member, error) {
 	var out Member
 	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/members/%s", orgID, userID), body, &out)
 }

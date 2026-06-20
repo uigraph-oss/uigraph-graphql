@@ -832,7 +832,6 @@ type Member struct {
 	Email     string    `json:"email"`
 	Name      string    `json:"name"`
 	TeamID    *string   `json:"teamId,omitempty"`
-	TeamName  *string   `json:"teamName,omitempty"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
@@ -1321,6 +1320,13 @@ type UpdateMapInput struct {
 	Status      *string `json:"status,omitempty"`
 	FolderID    *string `json:"folderId,omitempty"`
 	TeamID      *string `json:"teamId,omitempty"`
+}
+
+type UpdateMemberInput struct {
+	Name   string  `json:"name"`
+	Email  string  `json:"email"`
+	Role   string  `json:"role"`
+	TeamID *string `json:"teamId,omitempty"`
 }
 
 type UpdateOrgInput struct {

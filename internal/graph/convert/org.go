@@ -10,7 +10,11 @@ func OrgToModel(o *uigraphapi.Org) *model.Org {
 }
 
 func MemberToModel(m uigraphapi.Member) *model.Member {
-	return &model.Member{UserID: m.UserID, OrgID: m.OrgID, Role: m.Role, Source: m.Source, CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt}
+	return &model.Member{
+		UserID: m.UserID, OrgID: m.OrgID, Role: m.Role, Source: m.Source,
+		Email: m.Email, Name: m.Name, TeamID: m.TeamID,
+		CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
+	}
 }
 
 func TeamToModel(t *uigraphapi.Team) *model.Team {

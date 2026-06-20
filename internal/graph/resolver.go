@@ -23,7 +23,7 @@ type orgClient interface {
 	DeleteOrg(ctx context.Context, id string) error
 	ListMembers(ctx context.Context, orgID string) ([]uigraphapi.Member, error)
 	AddMember(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Member, error)
-	UpdateMemberRole(ctx context.Context, orgID, userID string, body map[string]interface{}) (*uigraphapi.Member, error)
+	UpdateMember(ctx context.Context, orgID, userID string, body map[string]interface{}) (*uigraphapi.Member, error)
 	RemoveMember(ctx context.Context, orgID, userID string) error
 	ListTeams(ctx context.Context, orgID string) ([]uigraphapi.Team, error)
 	GetTeam(ctx context.Context, orgID, teamID string) (*uigraphapi.Team, error)

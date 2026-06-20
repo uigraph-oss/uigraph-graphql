@@ -530,7 +530,6 @@ type ComplexityRoot struct {
 		Role      func(childComplexity int) int
 		Source    func(childComplexity int) int
 		TeamID    func(childComplexity int) int
-		TeamName  func(childComplexity int) int
 		UpdatedAt func(childComplexity int) int
 		UserID    func(childComplexity int) int
 	}
@@ -615,7 +614,7 @@ type ComplexityRoot struct {
 		UpdateFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) int
 		UpdateFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
 		UpdateMap                     func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
-		UpdateMemberRole              func(childComplexity int, orgID string, userID string, role string) int
+		UpdateMember                  func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
 		UpdateOrg                     func(childComplexity int, id string, input model.UpdateOrgInput) int
 		UpdateService                 func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
 		UpdateServiceAccount          func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
@@ -1143,7 +1142,7 @@ type MutationResolver interface {
 	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
 	DeleteOrg(ctx context.Context, id string) (bool, error)
 	AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error)
-	UpdateMemberRole(ctx context.Context, orgID string, userID string, role string) (*model.Member, error)
+	UpdateMember(ctx context.Context, orgID string, userID string, input model.UpdateMemberInput) (*model.Member, error)
 	RemoveMember(ctx context.Context, orgID string, userID string) (bool, error)
 	CreateTeam(ctx context.Context, orgID string, input model.CreateTeamInput) (*model.Team, error)
 	UpdateTeam(ctx context.Context, orgID string, teamID string, input model.UpdateTeamInput) (*model.Team, error)
@@ -3752,13 +3751,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Member.TeamID(childComplexity), true
 
-	case "Member.teamName":
-		if e.complexity.Member.TeamName == nil {
-			break
-		}
-
-		return e.complexity.Member.TeamName(childComplexity), true
-
 	case "Member.updatedAt":
 		if e.complexity.Member.UpdatedAt == nil {
 			break
@@ -4716,17 +4708,17 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.UpdateMap(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateMapInput)), true
 
-	case "Mutation.updateMemberRole":
-		if e.complexity.Mutation.UpdateMemberRole == nil {
+	case "Mutation.updateMember":
+		if e.complexity.Mutation.UpdateMember == nil {
 			break
 		}
 
-		args, err := ec.field_Mutation_updateMemberRole_args(ctx, rawArgs)
+		args, err := ec.field_Mutation_updateMember_args(ctx, rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateMemberRole(childComplexity, args["orgId"].(string), args["userId"].(string), args["role"].(string)), true
+		return e.complexity.Mutation.UpdateMember(childComplexity, args["orgId"].(string), args["userId"].(string), args["input"].(model.UpdateMemberInput)), true
 
 	case "Mutation.updateOrg":
 		if e.complexity.Mutation.UpdateOrg == nil {
@@ -7663,6 +7655,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateFrameInput,
 		ec.unmarshalInputUpdateFrameLinkInput,
 		ec.unmarshalInputUpdateMapInput,
+		ec.unmarshalInputUpdateMemberInput,
 		ec.unmarshalInputUpdateOrgInput,
 		ec.unmarshalInputUpdateServiceAccountInput,
 		ec.unmarshalInputUpdateServiceDBInput,
@@ -8689,7 +8682,7 @@ extend type Mutation {
     deleteOrg(id: ID!):                               Boolean!
 
     addMember(orgId: ID!, input: AddMemberInput!):                       Member!
-    updateMemberRole(orgId: ID!, userId: ID!, role: String!):            Member!
+    updateMember(orgId: ID!, userId: ID!, input: UpdateMemberInput!):    Member!
     removeMember(orgId: ID!, userId: ID!):                               Boolean!
 
     createTeam(orgId: ID!, input: CreateTeamInput!):                     Team!
@@ -8724,7 +8717,6 @@ type Member {
     email:     String!
     name:      String!
     teamId:    ID
-    teamName:  String
     createdAt: Time!
     updatedAt: Time!
 }
@@ -8795,6 +8787,13 @@ input AddMemberInput {
     email:    String!
     password: String!
     role:     String!
+}
+
+input UpdateMemberInput {
+    name:   String!
+    email:  String!
+    role:   String!
+    teamId: ID
 }
 
 input CreateTeamInput {
@@ -15080,27 +15079,27 @@ func (ec *executionContext) field_Mutation_updateMap_argsInput(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_updateMemberRole_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+func (ec *executionContext) field_Mutation_updateMember_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateMemberRole_argsOrgID(ctx, rawArgs)
+	arg0, err := ec.field_Mutation_updateMember_argsOrgID(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
 	args["orgId"] = arg0
-	arg1, err := ec.field_Mutation_updateMemberRole_argsUserID(ctx, rawArgs)
+	arg1, err := ec.field_Mutation_updateMember_argsUserID(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
 	args["userId"] = arg1
-	arg2, err := ec.field_Mutation_updateMemberRole_argsRole(ctx, rawArgs)
+	arg2, err := ec.field_Mutation_updateMember_argsInput(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["role"] = arg2
+	args["input"] = arg2
 	return args, nil
 }
-func (ec *executionContext) field_Mutation_updateMemberRole_argsOrgID(
+func (ec *executionContext) field_Mutation_updateMember_argsOrgID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
@@ -15118,7 +15117,7 @@ func (ec *executionContext) field_Mutation_updateMemberRole_argsOrgID(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_updateMemberRole_argsUserID(
+func (ec *executionContext) field_Mutation_updateMember_argsUserID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
@@ -15136,21 +15135,21 @@ func (ec *executionContext) field_Mutation_updateMemberRole_argsUserID(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_updateMemberRole_argsRole(
+func (ec *executionContext) field_Mutation_updateMember_argsInput(
 	ctx context.Context,
 	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["role"]; !ok {
-		var zeroVal string
+) (model.UpdateMemberInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateMemberInput
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("role"))
-	if tmp, ok := rawArgs["role"]; ok {
-		return ec.unmarshalNString2string(ctx, tmp)
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateMemberInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMemberInput(ctx, tmp)
 	}
 
-	var zeroVal string
+	var zeroVal model.UpdateMemberInput
 	return zeroVal, nil
 }
 
@@ -35159,47 +35158,6 @@ func (ec *executionContext) fieldContext_Member_teamId(_ context.Context, field 
 	return fc, nil
 }
 
-func (ec *executionContext) _Member_teamName(ctx context.Context, field graphql.CollectedField, obj *model.Member) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Member_teamName(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TeamName, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Member_teamName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Member",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Member_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Member) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Member_createdAt(ctx, field)
 	if err != nil {
@@ -39014,8 +38972,6 @@ func (ec *executionContext) fieldContext_Mutation_addMember(ctx context.Context,
 				return ec.fieldContext_Member_name(ctx, field)
 			case "teamId":
 				return ec.fieldContext_Member_teamId(ctx, field)
-			case "teamName":
-				return ec.fieldContext_Member_teamName(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Member_createdAt(ctx, field)
 			case "updatedAt":
@@ -39038,8 +38994,8 @@ func (ec *executionContext) fieldContext_Mutation_addMember(ctx context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_updateMemberRole(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateMemberRole(ctx, field)
+func (ec *executionContext) _Mutation_updateMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateMember(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -39052,7 +39008,7 @@ func (ec *executionContext) _Mutation_updateMemberRole(ctx context.Context, fiel
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateMemberRole(rctx, fc.Args["orgId"].(string), fc.Args["userId"].(string), fc.Args["role"].(string))
+		return ec.resolvers.Mutation().UpdateMember(rctx, fc.Args["orgId"].(string), fc.Args["userId"].(string), fc.Args["input"].(model.UpdateMemberInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -39069,7 +39025,7 @@ func (ec *executionContext) _Mutation_updateMemberRole(ctx context.Context, fiel
 	return ec.marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Mutation_updateMemberRole(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_updateMember(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -39091,8 +39047,6 @@ func (ec *executionContext) fieldContext_Mutation_updateMemberRole(ctx context.C
 				return ec.fieldContext_Member_name(ctx, field)
 			case "teamId":
 				return ec.fieldContext_Member_teamId(ctx, field)
-			case "teamName":
-				return ec.fieldContext_Member_teamName(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Member_createdAt(ctx, field)
 			case "updatedAt":
@@ -39108,7 +39062,7 @@ func (ec *executionContext) fieldContext_Mutation_updateMemberRole(ctx context.C
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateMemberRole_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_updateMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -46359,8 +46313,6 @@ func (ec *executionContext) fieldContext_Query_members(ctx context.Context, fiel
 				return ec.fieldContext_Member_name(ctx, field)
 			case "teamId":
 				return ec.fieldContext_Member_teamId(ctx, field)
-			case "teamName":
-				return ec.fieldContext_Member_teamName(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Member_createdAt(ctx, field)
 			case "updatedAt":
@@ -64938,6 +64890,54 @@ func (ec *executionContext) unmarshalInputUpdateMapInput(ctx context.Context, ob
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateMemberInput(ctx context.Context, obj any) (model.UpdateMemberInput, error) {
+	var it model.UpdateMemberInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "email", "role", "teamId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "email":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Email = data
+		case "role":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("role"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Role = data
+		case "teamId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TeamID = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateOrgInput(ctx context.Context, obj any) (model.UpdateOrgInput, error) {
 	var it model.UpdateOrgInput
 	asMap := map[string]any{}
@@ -69142,8 +69142,6 @@ func (ec *executionContext) _Member(ctx context.Context, sel ast.SelectionSet, o
 			}
 		case "teamId":
 			out.Values[i] = ec._Member_teamId(ctx, field, obj)
-		case "teamName":
-			out.Values[i] = ec._Member_teamName(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._Member_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -69567,9 +69565,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "updateMemberRole":
+		case "updateMember":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateMemberRole(ctx, field)
+				return ec._Mutation_updateMember(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -76805,6 +76803,11 @@ func (ec *executionContext) unmarshalNUpdateFrameLinkInput2githubᚗcomᚋuigrap
 
 func (ec *executionContext) unmarshalNUpdateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMapInput(ctx context.Context, v any) (model.UpdateMapInput, error) {
 	res, err := ec.unmarshalInputUpdateMapInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateMemberInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMemberInput(ctx context.Context, v any) (model.UpdateMemberInput, error) {
+	res, err := ec.unmarshalInputUpdateMemberInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

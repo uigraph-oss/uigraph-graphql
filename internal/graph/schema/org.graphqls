@@ -16,7 +16,7 @@ extend type Mutation {
     deleteOrg(id: ID!):                               Boolean!
 
     addMember(orgId: ID!, input: AddMemberInput!):                       Member!
-    updateMemberRole(orgId: ID!, userId: ID!, role: String!):            Member!
+    updateMember(orgId: ID!, userId: ID!, input: UpdateMemberInput!):    Member!
     removeMember(orgId: ID!, userId: ID!):                               Boolean!
 
     createTeam(orgId: ID!, input: CreateTeamInput!):                     Team!
@@ -51,7 +51,6 @@ type Member {
     email:     String!
     name:      String!
     teamId:    ID
-    teamName:  String
     createdAt: Time!
     updatedAt: Time!
 }
@@ -122,6 +121,13 @@ input AddMemberInput {
     email:    String!
     password: String!
     role:     String!
+}
+
+input UpdateMemberInput {
+    name:   String!
+    email:  String!
+    role:   String!
+    teamId: ID
 }
 
 input CreateTeamInput {
