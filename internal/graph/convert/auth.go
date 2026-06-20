@@ -9,7 +9,7 @@ func MeToModel(m *uigraphapi.MeResponse) *model.Me {
 	me := &model.Me{
 		UserID: m.UserID, OrgID: m.OrgID,
 		Email: m.Email, Name: m.Name, Login: m.Login,
-		Kind: m.Kind, Role: m.Role, AuthProvider: m.AuthProvider,
+		Kind: m.Kind, IsServerAdmin: m.Role == "server_admin", AuthProvider: m.AuthProvider,
 	}
 	if m.AvatarURL != "" {
 		me.AvatarURL = &m.AvatarURL

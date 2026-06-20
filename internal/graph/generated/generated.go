@@ -522,15 +522,15 @@ type ComplexityRoot struct {
 	}
 
 	Me struct {
-		AuthProvider func(childComplexity int) int
-		AvatarURL    func(childComplexity int) int
-		Email        func(childComplexity int) int
-		Kind         func(childComplexity int) int
-		Login        func(childComplexity int) int
-		Name         func(childComplexity int) int
-		OrgID        func(childComplexity int) int
-		Role         func(childComplexity int) int
-		UserID       func(childComplexity int) int
+		AuthProvider  func(childComplexity int) int
+		AvatarURL     func(childComplexity int) int
+		Email         func(childComplexity int) int
+		IsServerAdmin func(childComplexity int) int
+		Kind          func(childComplexity int) int
+		Login         func(childComplexity int) int
+		Name          func(childComplexity int) int
+		OrgID         func(childComplexity int) int
+		UserID        func(childComplexity int) int
 	}
 
 	Member struct {
@@ -3726,6 +3726,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Me.Email(childComplexity), true
 
+	case "Me.isServerAdmin":
+		if e.complexity.Me.IsServerAdmin == nil {
+			break
+		}
+
+		return e.complexity.Me.IsServerAdmin(childComplexity), true
+
 	case "Me.kind":
 		if e.complexity.Me.Kind == nil {
 			break
@@ -3753,13 +3760,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Me.OrgID(childComplexity), true
-
-	case "Me.role":
-		if e.complexity.Me.Role == nil {
-			break
-		}
-
-		return e.complexity.Me.Role(childComplexity), true
 
 	case "Me.userId":
 		if e.complexity.Me.UserID == nil {
@@ -8075,9 +8075,9 @@ type Me {
     email:        String!
     name:         String!
     login:        String!
-    kind:         String!
-    role:         String!
-    authProvider: String!
+    kind:          String!
+    isServerAdmin: Boolean!
+    authProvider:  String!
     avatarUrl:    String
 }
 
@@ -35288,8 +35288,8 @@ func (ec *executionContext) fieldContext_Me_kind(_ context.Context, field graphq
 	return fc, nil
 }
 
-func (ec *executionContext) _Me_role(ctx context.Context, field graphql.CollectedField, obj *model.Me) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Me_role(ctx, field)
+func (ec *executionContext) _Me_isServerAdmin(ctx context.Context, field graphql.CollectedField, obj *model.Me) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Me_isServerAdmin(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -35302,7 +35302,7 @@ func (ec *executionContext) _Me_role(ctx context.Context, field graphql.Collecte
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Role, nil
+		return obj.IsServerAdmin, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -35314,19 +35314,19 @@ func (ec *executionContext) _Me_role(ctx context.Context, field graphql.Collecte
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(bool)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Me_role(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Me_isServerAdmin(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Me",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
+			return nil, errors.New("field of type Boolean does not have child fields")
 		},
 	}
 	return fc, nil
@@ -44653,8 +44653,8 @@ func (ec *executionContext) fieldContext_Query_me(_ context.Context, field graph
 				return ec.fieldContext_Me_login(ctx, field)
 			case "kind":
 				return ec.fieldContext_Me_kind(ctx, field)
-			case "role":
-				return ec.fieldContext_Me_role(ctx, field)
+			case "isServerAdmin":
+				return ec.fieldContext_Me_isServerAdmin(ctx, field)
 			case "authProvider":
 				return ec.fieldContext_Me_authProvider(ctx, field)
 			case "avatarUrl":
@@ -69735,8 +69735,8 @@ func (ec *executionContext) _Me(ctx context.Context, sel ast.SelectionSet, obj *
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "role":
-			out.Values[i] = ec._Me_role(ctx, field, obj)
+		case "isServerAdmin":
+			out.Values[i] = ec._Me_isServerAdmin(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
