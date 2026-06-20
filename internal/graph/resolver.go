@@ -33,9 +33,6 @@ type orgClient interface {
 	ListTeamMembers(ctx context.Context, orgID, teamID string) ([]uigraphapi.TeamMember, error)
 	AddTeamMember(ctx context.Context, orgID, teamID string, body map[string]interface{}) error
 	RemoveTeamMember(ctx context.Context, orgID, teamID, userID string) error
-	ListInvitations(ctx context.Context, orgID string) ([]uigraphapi.Invitation, error)
-	CreateInvitation(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Invitation, error)
-	RevokeInvitation(ctx context.Context, orgID, invitationID string) error
 	ListServiceAccounts(ctx context.Context, orgID string) ([]uigraphapi.ServiceAccount, error)
 	GetServiceAccount(ctx context.Context, orgID, id string) (*uigraphapi.ServiceAccount, error)
 	CreateServiceAccount(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.ServiceAccount, error)

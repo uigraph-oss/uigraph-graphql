@@ -477,17 +477,6 @@ type ComplexityRoot struct {
 		Variables     func(childComplexity int) int
 	}
 
-	Invitation struct {
-		Code      func(childComplexity int) int
-		CreatedAt func(childComplexity int) int
-		CreatedBy func(childComplexity int) int
-		Email     func(childComplexity int) int
-		ExpiresAt func(childComplexity int) int
-		ID        func(childComplexity int) int
-		OrgID     func(childComplexity int) int
-		Role      func(childComplexity int) int
-	}
-
 	KeyValue struct {
 		Key   func(childComplexity int) int
 		Value func(childComplexity int) int
@@ -563,7 +552,6 @@ type ComplexityRoot struct {
 		CreateFrame                   func(childComplexity int, orgID string, mapID string, input model.CreateFrameInput) int
 		CreateFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
 		CreateFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
-		CreateInvitation              func(childComplexity int, orgID string, input model.CreateInvitationInput) int
 		CreateMap                     func(childComplexity int, orgID string, input model.CreateMapInput) int
 		CreateOrg                     func(childComplexity int, input model.CreateOrgInput) int
 		CreateRoleMapping             func(childComplexity int, input model.CreateRoleMappingInput) int
@@ -610,7 +598,6 @@ type ComplexityRoot struct {
 		RemoveTeamMember              func(childComplexity int, orgID string, teamID string, userID string) int
 		RestoreDiagramVersion         func(childComplexity int, orgID string, diagramID string, versionID string) int
 		RestoreServiceDBVersion       func(childComplexity int, orgID string, serviceID string, serviceDbID string, versionID string) int
-		RevokeInvitation              func(childComplexity int, orgID string, invitationID string) int
 		RevokeServiceAccountToken     func(childComplexity int, orgID string, saID string, tokenID string) int
 		SwitchOrg                     func(childComplexity int, orgID string) int
 		SyncAPIGroup                  func(childComplexity int, orgID string, serviceID string, input model.SyncAPIGroupInput) int
@@ -712,7 +699,6 @@ type ComplexityRoot struct {
 		FrameGroups                   func(childComplexity int, orgID string, mapID string, frameID string) int
 		FrameLinks                    func(childComplexity int, orgID string, mapID string, frameID string) int
 		Frames                        func(childComplexity int, orgID string, mapID string) int
-		Invitations                   func(childComplexity int, orgID string) int
 		Ldap                          func(childComplexity int) int
 		Map                           func(childComplexity int, orgID string, id string) int
 		Maps                          func(childComplexity int, orgID string, folderID *string) int
@@ -1164,8 +1150,6 @@ type MutationResolver interface {
 	DeleteTeam(ctx context.Context, orgID string, teamID string) (bool, error)
 	AddTeamMember(ctx context.Context, orgID string, teamID string, userID string, permission *string) (bool, error)
 	RemoveTeamMember(ctx context.Context, orgID string, teamID string, userID string) (bool, error)
-	CreateInvitation(ctx context.Context, orgID string, input model.CreateInvitationInput) (*model.Invitation, error)
-	RevokeInvitation(ctx context.Context, orgID string, invitationID string) (bool, error)
 	CreateServiceAccount(ctx context.Context, orgID string, input model.CreateServiceAccountInput) (*model.ServiceAccount, error)
 	UpdateServiceAccount(ctx context.Context, orgID string, id string, input model.UpdateServiceAccountInput) (*model.ServiceAccount, error)
 	DeleteServiceAccount(ctx context.Context, orgID string, id string) (bool, error)
@@ -1245,7 +1229,6 @@ type QueryResolver interface {
 	Teams(ctx context.Context, orgID string) ([]*model.Team, error)
 	Team(ctx context.Context, orgID string, teamID string) (*model.Team, error)
 	TeamMembers(ctx context.Context, orgID string, teamID string) ([]*model.TeamMember, error)
-	Invitations(ctx context.Context, orgID string) ([]*model.Invitation, error)
 	ServiceAccounts(ctx context.Context, orgID string) ([]*model.ServiceAccount, error)
 	ServiceAccount(ctx context.Context, orgID string, id string) (*model.ServiceAccount, error)
 	ServiceAccountTokens(ctx context.Context, orgID string, saID string) ([]*model.ServiceAccountToken, error)
@@ -3489,62 +3472,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.GraphQLTestCase.Variables(childComplexity), true
 
-	case "Invitation.code":
-		if e.complexity.Invitation.Code == nil {
-			break
-		}
-
-		return e.complexity.Invitation.Code(childComplexity), true
-
-	case "Invitation.createdAt":
-		if e.complexity.Invitation.CreatedAt == nil {
-			break
-		}
-
-		return e.complexity.Invitation.CreatedAt(childComplexity), true
-
-	case "Invitation.createdBy":
-		if e.complexity.Invitation.CreatedBy == nil {
-			break
-		}
-
-		return e.complexity.Invitation.CreatedBy(childComplexity), true
-
-	case "Invitation.email":
-		if e.complexity.Invitation.Email == nil {
-			break
-		}
-
-		return e.complexity.Invitation.Email(childComplexity), true
-
-	case "Invitation.expiresAt":
-		if e.complexity.Invitation.ExpiresAt == nil {
-			break
-		}
-
-		return e.complexity.Invitation.ExpiresAt(childComplexity), true
-
-	case "Invitation.id":
-		if e.complexity.Invitation.ID == nil {
-			break
-		}
-
-		return e.complexity.Invitation.ID(childComplexity), true
-
-	case "Invitation.orgId":
-		if e.complexity.Invitation.OrgID == nil {
-			break
-		}
-
-		return e.complexity.Invitation.OrgID(childComplexity), true
-
-	case "Invitation.role":
-		if e.complexity.Invitation.Role == nil {
-			break
-		}
-
-		return e.complexity.Invitation.Role(childComplexity), true
-
 	case "KeyValue.key":
 		if e.complexity.KeyValue.Key == nil {
 			break
@@ -4037,18 +3964,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateFrameLink(childComplexity, args["orgId"].(string), args["mapId"].(string), args["frameId"].(string), args["input"].(model.CreateFrameLinkInput)), true
-
-	case "Mutation.createInvitation":
-		if e.complexity.Mutation.CreateInvitation == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createInvitation_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateInvitation(childComplexity, args["orgId"].(string), args["input"].(model.CreateInvitationInput)), true
 
 	case "Mutation.createMap":
 		if e.complexity.Mutation.CreateMap == nil {
@@ -4596,18 +4511,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.RestoreServiceDBVersion(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["serviceDbId"].(string), args["versionId"].(string)), true
-
-	case "Mutation.revokeInvitation":
-		if e.complexity.Mutation.RevokeInvitation == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_revokeInvitation_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.RevokeInvitation(childComplexity, args["orgId"].(string), args["invitationId"].(string)), true
 
 	case "Mutation.revokeServiceAccountToken":
 		if e.complexity.Mutation.RevokeServiceAccountToken == nil {
@@ -5531,18 +5434,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Frames(childComplexity, args["orgId"].(string), args["mapId"].(string)), true
-
-	case "Query.invitations":
-		if e.complexity.Query.Invitations == nil {
-			break
-		}
-
-		args, err := ec.field_Query_invitations_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.Invitations(childComplexity, args["orgId"].(string)), true
 
 	case "Query.ldap":
 		if e.complexity.Query.Ldap == nil {
@@ -7734,7 +7625,6 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateFrameGroupInput,
 		ec.unmarshalInputCreateFrameInput,
 		ec.unmarshalInputCreateFrameLinkInput,
-		ec.unmarshalInputCreateInvitationInput,
 		ec.unmarshalInputCreateMapInput,
 		ec.unmarshalInputCreateOrgInput,
 		ec.unmarshalInputCreateRoleMappingInput,
@@ -8788,7 +8678,6 @@ input UpdateFolderInput {
     teams(orgId: ID!):                                [Team!]!
     team(orgId: ID!, teamId: ID!):                    Team!
     teamMembers(orgId: ID!, teamId: ID!):             [TeamMember!]!
-    invitations(orgId: ID!):                          [Invitation!]!
     serviceAccounts(orgId: ID!):                      [ServiceAccount!]!
     serviceAccount(orgId: ID!, id: ID!):              ServiceAccount!
     serviceAccountTokens(orgId: ID!, saId: ID!):      [ServiceAccountToken!]!
@@ -8808,9 +8697,6 @@ extend type Mutation {
     deleteTeam(orgId: ID!, teamId: ID!):                                 Boolean!
     addTeamMember(orgId: ID!, teamId: ID!, userId: ID!, permission: String): Boolean!
     removeTeamMember(orgId: ID!, teamId: ID!, userId: ID!):              Boolean!
-
-    createInvitation(orgId: ID!, input: CreateInvitationInput!):         Invitation!
-    revokeInvitation(orgId: ID!, invitationId: ID!):                     Boolean!
 
     createServiceAccount(orgId: ID!, input: CreateServiceAccountInput!):         ServiceAccount!
     updateServiceAccount(orgId: ID!, id: ID!, input: UpdateServiceAccountInput!): ServiceAccount!
@@ -8861,17 +8747,6 @@ type TeamMember {
     createdAt:  Time!
 }
 
-type Invitation {
-    id:        ID!
-    orgId:     ID!
-    email:     String!
-    role:      String!
-    code:      String!
-    createdBy: ID!
-    createdAt: Time!
-    expiresAt: Time
-}
-
 type ServiceAccount {
     id:          ID!
     orgId:       ID!
@@ -8916,8 +8791,10 @@ input UpdateOrgInput {
 }
 
 input AddMemberInput {
-    userId: ID!
-    role:   String!
+    name:     String!
+    email:    String!
+    password: String!
+    role:     String!
 }
 
 input CreateTeamInput {
@@ -8928,11 +8805,6 @@ input CreateTeamInput {
 input UpdateTeamInput {
     name:  String
     email: String
-}
-
-input CreateInvitationInput {
-    email: String!
-    role:  String!
 }
 
 input CreateServiceAccountInput {
@@ -10847,57 +10719,6 @@ func (ec *executionContext) field_Mutation_createFrame_argsInput(
 	}
 
 	var zeroVal model.CreateFrameInput
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_createInvitation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_createInvitation_argsOrgID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["orgId"] = arg0
-	arg1, err := ec.field_Mutation_createInvitation_argsInput(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg1
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_createInvitation_argsOrgID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["orgId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
-	if tmp, ok := rawArgs["orgId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_createInvitation_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.CreateInvitationInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.CreateInvitationInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNCreateInvitationInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateInvitationInput(ctx, tmp)
-	}
-
-	var zeroVal model.CreateInvitationInput
 	return zeroVal, nil
 }
 
@@ -13764,57 +13585,6 @@ func (ec *executionContext) field_Mutation_restoreServiceDBVersion_argsVersionID
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
 	if tmp, ok := rawArgs["versionId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_revokeInvitation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_revokeInvitation_argsOrgID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["orgId"] = arg0
-	arg1, err := ec.field_Mutation_revokeInvitation_argsInvitationID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["invitationId"] = arg1
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_revokeInvitation_argsOrgID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["orgId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
-	if tmp, ok := rawArgs["orgId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_revokeInvitation_argsInvitationID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["invitationId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("invitationId"))
-	if tmp, ok := rawArgs["invitationId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -18168,34 +17938,6 @@ func (ec *executionContext) field_Query_frames_argsMapID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("mapId"))
 	if tmp, ok := rawArgs["mapId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Query_invitations_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Query_invitations_argsOrgID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["orgId"] = arg0
-	return args, nil
-}
-func (ec *executionContext) field_Query_invitations_argsOrgID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["orgId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
-	if tmp, ok := rawArgs["orgId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -33670,355 +33412,6 @@ func (ec *executionContext) fieldContext_GraphQLTestCase_expectError(_ context.C
 	return fc, nil
 }
 
-func (ec *executionContext) _Invitation_id(ctx context.Context, field graphql.CollectedField, obj *model.Invitation) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Invitation_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Invitation_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Invitation",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Invitation_orgId(ctx context.Context, field graphql.CollectedField, obj *model.Invitation) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Invitation_orgId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OrgID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Invitation_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Invitation",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Invitation_email(ctx context.Context, field graphql.CollectedField, obj *model.Invitation) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Invitation_email(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Email, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Invitation_email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Invitation",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Invitation_role(ctx context.Context, field graphql.CollectedField, obj *model.Invitation) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Invitation_role(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Role, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Invitation_role(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Invitation",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Invitation_code(ctx context.Context, field graphql.CollectedField, obj *model.Invitation) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Invitation_code(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Code, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Invitation_code(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Invitation",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Invitation_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.Invitation) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Invitation_createdBy(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedBy, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Invitation_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Invitation",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Invitation_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Invitation) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Invitation_createdAt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Invitation_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Invitation",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Invitation_expiresAt(ctx context.Context, field graphql.CollectedField, obj *model.Invitation) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Invitation_expiresAt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ExpiresAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*time.Time)
-	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Invitation_expiresAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Invitation",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _KeyValue_key(ctx context.Context, field graphql.CollectedField, obj *model.KeyValue) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_KeyValue_key(ctx, field)
 	if err != nil {
@@ -40082,134 +39475,6 @@ func (ec *executionContext) fieldContext_Mutation_removeTeamMember(ctx context.C
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_removeTeamMember_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_createInvitation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createInvitation(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateInvitation(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateInvitationInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.Invitation)
-	fc.Result = res
-	return ec.marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_createInvitation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Invitation_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Invitation_orgId(ctx, field)
-			case "email":
-				return ec.fieldContext_Invitation_email(ctx, field)
-			case "role":
-				return ec.fieldContext_Invitation_role(ctx, field)
-			case "code":
-				return ec.fieldContext_Invitation_code(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Invitation_createdBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Invitation_createdAt(ctx, field)
-			case "expiresAt":
-				return ec.fieldContext_Invitation_expiresAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Invitation", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createInvitation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_revokeInvitation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_revokeInvitation(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RevokeInvitation(rctx, fc.Args["orgId"].(string), fc.Args["invitationId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_revokeInvitation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_revokeInvitation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -47323,79 +46588,6 @@ func (ec *executionContext) fieldContext_Query_teamMembers(ctx context.Context, 
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_teamMembers_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_invitations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_invitations(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Invitations(rctx, fc.Args["orgId"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Invitation)
-	fc.Result = res
-	return ec.marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitationᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_invitations(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Invitation_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Invitation_orgId(ctx, field)
-			case "email":
-				return ec.fieldContext_Invitation_email(ctx, field)
-			case "role":
-				return ec.fieldContext_Invitation_role(ctx, field)
-			case "code":
-				return ec.fieldContext_Invitation_code(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Invitation_createdBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Invitation_createdAt(ctx, field)
-			case "expiresAt":
-				return ec.fieldContext_Invitation_expiresAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Invitation", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_invitations_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -62557,20 +61749,34 @@ func (ec *executionContext) unmarshalInputAddMemberInput(ctx context.Context, ob
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"userId", "role"}
+	fieldsInOrder := [...]string{"name", "email", "password", "role"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "userId":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			data, err := ec.unmarshalNID2string(ctx, v)
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.UserID = data
+			it.Name = data
+		case "email":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Email = data
+		case "password":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Password = data
 		case "role":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("role"))
 			data, err := ec.unmarshalNString2string(ctx, v)
@@ -63370,40 +62576,6 @@ func (ec *executionContext) unmarshalInputCreateFrameLinkInput(ctx context.Conte
 				return it, err
 			}
 			it.IsActive = data
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputCreateInvitationInput(ctx context.Context, obj any) (model.CreateInvitationInput, error) {
-	var it model.CreateInvitationInput
-	asMap := map[string]any{}
-	for k, v := range obj.(map[string]any) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"email", "role"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "email":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Email = data
-		case "role":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("role"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Role = data
 		}
 	}
 
@@ -69644,77 +68816,6 @@ func (ec *executionContext) _GraphQLTestCase(ctx context.Context, sel ast.Select
 	return out
 }
 
-var invitationImplementors = []string{"Invitation"}
-
-func (ec *executionContext) _Invitation(ctx context.Context, sel ast.SelectionSet, obj *model.Invitation) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, invitationImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("Invitation")
-		case "id":
-			out.Values[i] = ec._Invitation_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "orgId":
-			out.Values[i] = ec._Invitation_orgId(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "email":
-			out.Values[i] = ec._Invitation_email(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "role":
-			out.Values[i] = ec._Invitation_role(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "code":
-			out.Values[i] = ec._Invitation_code(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createdBy":
-			out.Values[i] = ec._Invitation_createdBy(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createdAt":
-			out.Values[i] = ec._Invitation_createdAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "expiresAt":
-			out.Values[i] = ec._Invitation_expiresAt(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
 var keyValueImplementors = []string{"KeyValue"}
 
 func (ec *executionContext) _KeyValue(ctx context.Context, sel ast.SelectionSet, obj *model.KeyValue) graphql.Marshaler {
@@ -70511,20 +69612,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "removeTeamMember":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_removeTeamMember(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createInvitation":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createInvitation(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "revokeInvitation":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_revokeInvitation(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -71966,28 +71053,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_teamMembers(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "invitations":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_invitations(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -75383,11 +74448,6 @@ func (ec *executionContext) unmarshalNCreateFrameLinkInput2githubᚗcomᚋuigrap
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateInvitationInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateInvitationInput(ctx context.Context, v any) (model.CreateInvitationInput, error) {
-	res, err := ec.unmarshalInputCreateInvitationInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) unmarshalNCreateMapInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMapInput(ctx context.Context, v any) (model.CreateMapInput, error) {
 	res, err := ec.unmarshalInputCreateMapInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -76324,64 +75384,6 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 		}
 	}
 	return res
-}
-
-func (ec *executionContext) marshalNInvitation2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx context.Context, sel ast.SelectionSet, v model.Invitation) graphql.Marshaler {
-	return ec._Invitation(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNInvitation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitationᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Invitation) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalNInvitation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInvitation(ctx context.Context, sel ast.SelectionSet, v *model.Invitation) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._Invitation(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNKeyValue2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValue(ctx context.Context, sel ast.SelectionSet, v *model.KeyValue) graphql.Marshaler {

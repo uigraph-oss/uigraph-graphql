@@ -5,7 +5,6 @@ extend type Query {
     teams(orgId: ID!):                                [Team!]!
     team(orgId: ID!, teamId: ID!):                    Team!
     teamMembers(orgId: ID!, teamId: ID!):             [TeamMember!]!
-    invitations(orgId: ID!):                          [Invitation!]!
     serviceAccounts(orgId: ID!):                      [ServiceAccount!]!
     serviceAccount(orgId: ID!, id: ID!):              ServiceAccount!
     serviceAccountTokens(orgId: ID!, saId: ID!):      [ServiceAccountToken!]!
@@ -25,9 +24,6 @@ extend type Mutation {
     deleteTeam(orgId: ID!, teamId: ID!):                                 Boolean!
     addTeamMember(orgId: ID!, teamId: ID!, userId: ID!, permission: String): Boolean!
     removeTeamMember(orgId: ID!, teamId: ID!, userId: ID!):              Boolean!
-
-    createInvitation(orgId: ID!, input: CreateInvitationInput!):         Invitation!
-    revokeInvitation(orgId: ID!, invitationId: ID!):                     Boolean!
 
     createServiceAccount(orgId: ID!, input: CreateServiceAccountInput!):         ServiceAccount!
     updateServiceAccount(orgId: ID!, id: ID!, input: UpdateServiceAccountInput!): ServiceAccount!
@@ -78,17 +74,6 @@ type TeamMember {
     createdAt:  Time!
 }
 
-type Invitation {
-    id:        ID!
-    orgId:     ID!
-    email:     String!
-    role:      String!
-    code:      String!
-    createdBy: ID!
-    createdAt: Time!
-    expiresAt: Time
-}
-
 type ServiceAccount {
     id:          ID!
     orgId:       ID!
@@ -133,8 +118,10 @@ input UpdateOrgInput {
 }
 
 input AddMemberInput {
-    userId: ID!
-    role:   String!
+    name:     String!
+    email:    String!
+    password: String!
+    role:     String!
 }
 
 input CreateTeamInput {
@@ -145,11 +132,6 @@ input CreateTeamInput {
 input UpdateTeamInput {
     name:  String
     email: String
-}
-
-input CreateInvitationInput {
-    email: String!
-    role:  String!
 }
 
 input CreateServiceAccountInput {

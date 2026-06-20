@@ -95,8 +95,10 @@ type Actor struct {
 }
 
 type AddMemberInput struct {
-	UserID string `json:"userId"`
-	Role   string `json:"role"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Role     string `json:"role"`
 }
 
 type Assertion struct {
@@ -297,11 +299,6 @@ type CreateFrameLinkInput struct {
 	LocationX     *float64 `json:"locationX,omitempty"`
 	LocationY     *float64 `json:"locationY,omitempty"`
 	IsActive      *bool    `json:"isActive,omitempty"`
-}
-
-type CreateInvitationInput struct {
-	Email string `json:"email"`
-	Role  string `json:"role"`
 }
 
 type CreateMapInput struct {
@@ -767,17 +764,6 @@ type GraphQLTestCaseInput struct {
 	ResponseBody  *string           `json:"responseBody,omitempty"`
 	Assertions    []*AssertionInput `json:"assertions,omitempty"`
 	ExpectError   bool              `json:"expectError"`
-}
-
-type Invitation struct {
-	ID        string     `json:"id"`
-	OrgID     string     `json:"orgId"`
-	Email     string     `json:"email"`
-	Role      string     `json:"role"`
-	Code      string     `json:"code"`
-	CreatedBy string     `json:"createdBy"`
-	CreatedAt time.Time  `json:"createdAt"`
-	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
 }
 
 type KeyValue struct {

@@ -28,13 +28,6 @@ func TeamMemberToModel(m uigraphapi.TeamMember) *model.TeamMember {
 	return &model.TeamMember{TeamID: m.TeamID, UserID: m.UserID, Permission: m.Permission, CreatedAt: m.CreatedAt}
 }
 
-func InvitationToModel(i uigraphapi.Invitation) *model.Invitation {
-	return &model.Invitation{
-		ID: i.ID, OrgID: i.OrgID, Email: i.Email, Role: i.Role,
-		Code: i.Code, CreatedBy: i.CreatedBy, CreatedAt: i.CreatedAt, ExpiresAt: i.ExpiresAt,
-	}
-}
-
 func ServiceAccountToModel(sa uigraphapi.ServiceAccount) *model.ServiceAccount {
 	return &model.ServiceAccount{
 		ID: sa.ID, OrgID: sa.OrgID, Name: sa.Name, Description: sa.Description,
@@ -84,14 +77,6 @@ func TeamMembersToModel(members []uigraphapi.TeamMember) []*model.TeamMember {
 	out := make([]*model.TeamMember, len(members))
 	for i, m := range members {
 		out[i] = TeamMemberToModel(m)
-	}
-	return out
-}
-
-func InvitationsToModel(invs []uigraphapi.Invitation) []*model.Invitation {
-	out := make([]*model.Invitation, len(invs))
-	for i, inv := range invs {
-		out[i] = InvitationToModel(inv)
 	}
 	return out
 }
