@@ -104,6 +104,20 @@ func (r *mutationResolver) RestoreDiagramVersion(ctx context.Context, orgID stri
 	return convert.DiagramToModel(d), nil
 }
 
+// PrepareDiagramThumbnailUpload is the resolver for the prepareDiagramThumbnailUpload field.
+func (r *mutationResolver) PrepareDiagramThumbnailUpload(ctx context.Context, orgID string, diagramID string) (*model.DiagramThumbnailUpload, error) {
+	out, err := r.DiagramAPI.PrepareDiagramThumbnailUpload(ctx, orgID, diagramID)
+	if err != nil {
+		return nil, err
+	}
+	return &model.DiagramThumbnailUpload{UploadURL: out.UploadURL, AssetID: out.AssetID}, nil
+}
+
+// ConfirmDiagramThumbnailUpload is the resolver for the confirmDiagramThumbnailUpload field.
+func (r *mutationResolver) ConfirmDiagramThumbnailUpload(ctx context.Context, orgID string, diagramID string, contentHash string) (bool, error) {
+	return true, r.DiagramAPI.ConfirmDiagramThumbnailUpload(ctx, orgID, diagramID, contentHash)
+}
+
 // Diagrams is the resolver for the diagrams field.
 func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *string) ([]*model.Diagram, error) {
 	fid := ""

@@ -86,6 +86,8 @@ type diagramClient interface {
 	CreateDiagramVersion(ctx context.Context, orgID, diagramID string, body map[string]interface{}) (*uigraphapi.DiagramVersion, error)
 	GetDiagramVersionContent(ctx context.Context, orgID, diagramID, versionID string) (string, error)
 	RestoreDiagramVersion(ctx context.Context, orgID, diagramID, versionID string) (*uigraphapi.Diagram, error)
+	PrepareDiagramThumbnailUpload(ctx context.Context, orgID, diagramID string) (*uigraphapi.DiagramThumbnailUpload, error)
+	ConfirmDiagramThumbnailUpload(ctx context.Context, orgID, diagramID, contentHash string) error
 }
 
 type componentClient interface {

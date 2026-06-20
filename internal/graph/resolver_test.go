@@ -7,6 +7,7 @@ import (
 	"errors"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/99designs/gqlgen/graphql/handler"
@@ -182,5 +183,120 @@ func TestCreateFolderMutation(t *testing.T) {
 	}
 	if folders.created.OrgID != "org-1" {
 		t.Errorf("fakeFolderClient.created.OrgID: got %q, want %q", folders.created.OrgID, "org-1")
+	}
+}
+
+type fakeDiagramClient struct {
+	prepareThumbnailFn func(ctx context.Context, orgID, diagramID string) (*uigraphapi.DiagramThumbnailUpload, error)
+	confirmThumbnailFn func(ctx context.Context, orgID, diagramID, hash string) error
+}
+
+func (f *fakeDiagramClient) ListDiagrams(_ context.Context, _, _ string) ([]uigraphapi.Diagram, error) {
+	return nil, nil
+}
+func (f *fakeDiagramClient) GetDiagram(_ context.Context, _, _ string) (*uigraphapi.Diagram, error) {
+	return nil, nil
+}
+func (f *fakeDiagramClient) GetDiagramContent(_ context.Context, _, _ string) (string, error) {
+	return "", nil
+}
+func (f *fakeDiagramClient) CreateDiagram(_ context.Context, _ string, _ map[string]interface{}) (*uigraphapi.Diagram, error) {
+	return nil, nil
+}
+func (f *fakeDiagramClient) UpdateDiagram(_ context.Context, _, _ string, _ map[string]interface{}) (*uigraphapi.Diagram, error) {
+	return nil, nil
+}
+func (f *fakeDiagramClient) DeleteDiagram(_ context.Context, _, _ string) error { return nil }
+func (f *fakeDiagramClient) ListDiagramImages(_ context.Context, _, _ string) ([]uigraphapi.DiagramImage, error) {
+	return nil, nil
+}
+func (f *fakeDiagramClient) SyncDiagram(_ context.Context, _ string, _ map[string]interface{}) (map[string]interface{}, error) {
+	return nil, nil
+}
+func (f *fakeDiagramClient) ListDiagramVersions(_ context.Context, _, _ string) ([]uigraphapi.DiagramVersion, error) {
+	return nil, nil
+}
+func (f *fakeDiagramClient) CreateDiagramVersion(_ context.Context, _, _ string, _ map[string]interface{}) (*uigraphapi.DiagramVersion, error) {
+	return nil, nil
+}
+func (f *fakeDiagramClient) GetDiagramVersionContent(_ context.Context, _, _, _ string) (string, error) {
+	return "", nil
+}
+func (f *fakeDiagramClient) RestoreDiagramVersion(_ context.Context, _, _, _ string) (*uigraphapi.Diagram, error) {
+	return nil, nil
+}
+func (f *fakeDiagramClient) PrepareDiagramThumbnailUpload(ctx context.Context, orgID, diagramID string) (*uigraphapi.DiagramThumbnailUpload, error) {
+	if f.prepareThumbnailFn != nil {
+		return f.prepareThumbnailFn(ctx, orgID, diagramID)
+	}
+	return &uigraphapi.DiagramThumbnailUpload{UploadURL: "https://storage.example.com/put", AssetID: "diagram_" + diagramID}, nil
+}
+func (f *fakeDiagramClient) ConfirmDiagramThumbnailUpload(ctx context.Context, orgID, diagramID, hash string) error {
+	if f.confirmThumbnailFn != nil {
+		return f.confirmThumbnailFn(ctx, orgID, diagramID, hash)
+	}
+	return nil
+}
+
+func TestPrepareDiagramThumbnailUpload_returnsUploadURL(t *testing.T) {
+	dc := &fakeDiagramClient{}
+	r := &graph.Resolver{DiagramAPI: dc}
+	srv := newTestServer(r)
+	defer srv.Close()
+
+	body := `{"query":"mutation { prepareDiagramThumbnailUpload(orgId:\"org-1\", diagramId:\"d1\") { uploadUrl assetId } }"}`
+	resp, err := http.Post(srv.URL+"/query", "application/json", strings.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	var result struct {
+		Data struct {
+			PrepareDiagramThumbnailUpload struct {
+				UploadURL string `json:"uploadUrl"`
+				AssetID   string `json:"assetId"`
+			} `json:"prepareDiagramThumbnailUpload"`
+		} `json:"data"`
+		Errors []struct{ Message string } `json:"errors"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		t.Fatal(err)
+	}
+	if len(result.Errors) > 0 {
+		t.Fatalf("graphql errors: %v", result.Errors)
+	}
+	if result.Data.PrepareDiagramThumbnailUpload.UploadURL == "" {
+		t.Fatal("expected uploadUrl")
+	}
+}
+
+func TestConfirmDiagramThumbnailUpload_returnsTrue(t *testing.T) {
+	dc := &fakeDiagramClient{}
+	r := &graph.Resolver{DiagramAPI: dc}
+	srv := newTestServer(r)
+	defer srv.Close()
+
+	body := `{"query":"mutation { confirmDiagramThumbnailUpload(orgId:\"org-1\", diagramId:\"d1\", contentHash:\"abc\") }"}`
+	resp, err := http.Post(srv.URL+"/query", "application/json", strings.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	var result struct {
+		Data struct {
+			ConfirmDiagramThumbnailUpload bool `json:"confirmDiagramThumbnailUpload"`
+		} `json:"data"`
+		Errors []struct{ Message string } `json:"errors"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		t.Fatal(err)
+	}
+	if len(result.Errors) > 0 {
+		t.Fatalf("graphql errors: %v", result.Errors)
+	}
+	if !result.Data.ConfirmDiagramThumbnailUpload {
+		t.Fatal("expected true")
 	}
 }

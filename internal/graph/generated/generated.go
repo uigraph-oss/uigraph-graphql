@@ -238,6 +238,11 @@ type ComplexityRoot struct {
 		OrgID          func(childComplexity int) int
 	}
 
+	DiagramThumbnailUpload struct {
+		AssetID   func(childComplexity int) int
+		UploadURL func(childComplexity int) int
+	}
+
 	DiagramVersion struct {
 		ContentHash    func(childComplexity int) int
 		ContentKey     func(childComplexity int) int
@@ -476,94 +481,96 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		AddMember                 func(childComplexity int, orgID string, input model.AddMemberInput) int
-		AddTeamMember             func(childComplexity int, orgID string, teamID string, userID string, permission *string) int
-		CreateAPIEndpoint         func(childComplexity int, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) int
-		CreateAPIGroup            func(childComplexity int, orgID string, serviceID string, input model.CreateAPIGroupInput) int
-		CreateDiagram             func(childComplexity int, orgID string, input model.CreateDiagramInput) int
-		CreateDiagramVersion      func(childComplexity int, orgID string, diagramID string, label *string) int
-		CreateFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
-		CreateFocalPointMeta      func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) int
-		CreateFolder              func(childComplexity int, orgID string, input model.CreateFolderInput) int
-		CreateFrame               func(childComplexity int, orgID string, mapID string, input model.CreateFrameInput) int
-		CreateFrameGroup          func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
-		CreateFrameLink           func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
-		CreateInvitation          func(childComplexity int, orgID string, input model.CreateInvitationInput) int
-		CreateMap                 func(childComplexity int, orgID string, input model.CreateMapInput) int
-		CreateOrg                 func(childComplexity int, input model.CreateOrgInput) int
-		CreateRoleMapping         func(childComplexity int, input model.CreateRoleMappingInput) int
-		CreateService             func(childComplexity int, orgID string, input model.CreateServiceInput) int
-		CreateServiceAccount      func(childComplexity int, orgID string, input model.CreateServiceAccountInput) int
-		CreateServiceAccountToken func(childComplexity int, orgID string, saID string, input model.CreateTokenInput) int
-		CreateServiceDBVersion    func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateServiceDBVersionInput) int
-		CreateServiceDb           func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDBInput) int
-		CreateServiceDiagram      func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDiagramInput) int
-		CreateServiceDoc          func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDocInput) int
-		CreateTeam                func(childComplexity int, orgID string, input model.CreateTeamInput) int
-		CreateTestCase            func(childComplexity int, orgID string, serviceID string, input model.CreateTestCaseInput) int
-		CreateTestPack            func(childComplexity int, orgID string, serviceID string, input model.CreateTestPackInput) int
-		CreateTestRun             func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunInput) int
-		CreateTestRunResult       func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunResultInput) int
-		CreateUser                func(childComplexity int, input model.CreateUserInput) int
-		DeleteAPIEndpoint         func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
-		DeleteAPIGroup            func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteDiagram             func(childComplexity int, orgID string, id string) int
-		DeleteFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, id string) int
-		DeleteFocalPointMeta      func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string) int
-		DeleteFolder              func(childComplexity int, orgID string, id string) int
-		DeleteFrame               func(childComplexity int, orgID string, mapID string, id string) int
-		DeleteFrameGroup          func(childComplexity int, orgID string, mapID string, frameID string, id string) int
-		DeleteFrameLink           func(childComplexity int, orgID string, mapID string, frameID string, id string) int
-		DeleteLdap                func(childComplexity int) int
-		DeleteMap                 func(childComplexity int, orgID string, id string) int
-		DeleteOAuthProvider       func(childComplexity int, provider string) int
-		DeleteOrg                 func(childComplexity int, id string) int
-		DeleteRoleMapping         func(childComplexity int, id string) int
-		DeleteService             func(childComplexity int, orgID string, id string) int
-		DeleteServiceAccount      func(childComplexity int, orgID string, id string) int
-		DeleteServiceDb           func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteServiceDiagram      func(childComplexity int, orgID string, serviceID string, diagramID string) int
-		DeleteServiceDoc          func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteTeam                func(childComplexity int, orgID string, teamID string) int
-		DeleteTestCase            func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteTestPack            func(childComplexity int, orgID string, serviceID string, id string) int
-		DisableUser               func(childComplexity int, id string) int
-		RemoveMember              func(childComplexity int, orgID string, userID string) int
-		RemoveTeamMember          func(childComplexity int, orgID string, teamID string, userID string) int
-		RestoreDiagramVersion     func(childComplexity int, orgID string, diagramID string, versionID string) int
-		RestoreServiceDBVersion   func(childComplexity int, orgID string, serviceID string, serviceDbID string, versionID string) int
-		RevokeInvitation          func(childComplexity int, orgID string, invitationID string) int
-		RevokeServiceAccountToken func(childComplexity int, orgID string, saID string, tokenID string) int
-		SwitchOrg                 func(childComplexity int, orgID string) int
-		SyncAPIGroup              func(childComplexity int, orgID string, serviceID string, input model.SyncAPIGroupInput) int
-		SyncDiagram               func(childComplexity int, orgID string, input model.SyncDiagramInput) int
-		SyncFrame                 func(childComplexity int, orgID string, mapID string, input model.SyncFrameInput) int
-		UpdateAPIEndpoint         func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) int
-		UpdateAPIGroup            func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
-		UpdateDiagram             func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
-		UpdateFocalPoint          func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
-		UpdateFocalPointMeta      func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) int
-		UpdateFolder              func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
-		UpdateFrame               func(childComplexity int, orgID string, mapID string, id string, input model.UpdateFrameInput) int
-		UpdateFrameGroup          func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) int
-		UpdateFrameLink           func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
-		UpdateMap                 func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
-		UpdateMemberRole          func(childComplexity int, orgID string, userID string, role string) int
-		UpdateOrg                 func(childComplexity int, id string, input model.UpdateOrgInput) int
-		UpdateService             func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
-		UpdateServiceAccount      func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
-		UpdateServiceDb           func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) int
-		UpdateServiceDoc          func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDocInput) int
-		UpdateTeam                func(childComplexity int, orgID string, teamID string, input model.UpdateTeamInput) int
-		UpdateTestCase            func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) int
-		UpdateTestPack            func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestPackInput) int
-		UpdateTestRun             func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunInput) int
-		UpdateTestRunResult       func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunResultInput) int
-		UpdateUser                func(childComplexity int, id string, input model.UpdateUserInput) int
-		UpsertCanvas              func(childComplexity int, orgID string, mapID string, input model.UpsertCanvasInput) int
-		UpsertLdap                func(childComplexity int, input model.UpsertLDAPInput) int
-		UpsertOAuthProvider       func(childComplexity int, provider string, input model.UpsertOAuthInput) int
-		UpsertSaml                func(childComplexity int, input model.UpsertSAMLInput) int
+		AddMember                     func(childComplexity int, orgID string, input model.AddMemberInput) int
+		AddTeamMember                 func(childComplexity int, orgID string, teamID string, userID string, permission *string) int
+		ConfirmDiagramThumbnailUpload func(childComplexity int, orgID string, diagramID string, contentHash string) int
+		CreateAPIEndpoint             func(childComplexity int, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) int
+		CreateAPIGroup                func(childComplexity int, orgID string, serviceID string, input model.CreateAPIGroupInput) int
+		CreateDiagram                 func(childComplexity int, orgID string, input model.CreateDiagramInput) int
+		CreateDiagramVersion          func(childComplexity int, orgID string, diagramID string, label *string) int
+		CreateFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
+		CreateFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) int
+		CreateFolder                  func(childComplexity int, orgID string, input model.CreateFolderInput) int
+		CreateFrame                   func(childComplexity int, orgID string, mapID string, input model.CreateFrameInput) int
+		CreateFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
+		CreateFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
+		CreateInvitation              func(childComplexity int, orgID string, input model.CreateInvitationInput) int
+		CreateMap                     func(childComplexity int, orgID string, input model.CreateMapInput) int
+		CreateOrg                     func(childComplexity int, input model.CreateOrgInput) int
+		CreateRoleMapping             func(childComplexity int, input model.CreateRoleMappingInput) int
+		CreateService                 func(childComplexity int, orgID string, input model.CreateServiceInput) int
+		CreateServiceAccount          func(childComplexity int, orgID string, input model.CreateServiceAccountInput) int
+		CreateServiceAccountToken     func(childComplexity int, orgID string, saID string, input model.CreateTokenInput) int
+		CreateServiceDBVersion        func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateServiceDBVersionInput) int
+		CreateServiceDb               func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDBInput) int
+		CreateServiceDiagram          func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDiagramInput) int
+		CreateServiceDoc              func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDocInput) int
+		CreateTeam                    func(childComplexity int, orgID string, input model.CreateTeamInput) int
+		CreateTestCase                func(childComplexity int, orgID string, serviceID string, input model.CreateTestCaseInput) int
+		CreateTestPack                func(childComplexity int, orgID string, serviceID string, input model.CreateTestPackInput) int
+		CreateTestRun                 func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunInput) int
+		CreateTestRunResult           func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunResultInput) int
+		CreateUser                    func(childComplexity int, input model.CreateUserInput) int
+		DeleteAPIEndpoint             func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
+		DeleteAPIGroup                func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteDiagram                 func(childComplexity int, orgID string, id string) int
+		DeleteFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string) int
+		DeleteFolder                  func(childComplexity int, orgID string, id string) int
+		DeleteFrame                   func(childComplexity int, orgID string, mapID string, id string) int
+		DeleteFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteLdap                    func(childComplexity int) int
+		DeleteMap                     func(childComplexity int, orgID string, id string) int
+		DeleteOAuthProvider           func(childComplexity int, provider string) int
+		DeleteOrg                     func(childComplexity int, id string) int
+		DeleteRoleMapping             func(childComplexity int, id string) int
+		DeleteService                 func(childComplexity int, orgID string, id string) int
+		DeleteServiceAccount          func(childComplexity int, orgID string, id string) int
+		DeleteServiceDb               func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteServiceDiagram          func(childComplexity int, orgID string, serviceID string, diagramID string) int
+		DeleteServiceDoc              func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteTeam                    func(childComplexity int, orgID string, teamID string) int
+		DeleteTestCase                func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteTestPack                func(childComplexity int, orgID string, serviceID string, id string) int
+		DisableUser                   func(childComplexity int, id string) int
+		PrepareDiagramThumbnailUpload func(childComplexity int, orgID string, diagramID string) int
+		RemoveMember                  func(childComplexity int, orgID string, userID string) int
+		RemoveTeamMember              func(childComplexity int, orgID string, teamID string, userID string) int
+		RestoreDiagramVersion         func(childComplexity int, orgID string, diagramID string, versionID string) int
+		RestoreServiceDBVersion       func(childComplexity int, orgID string, serviceID string, serviceDbID string, versionID string) int
+		RevokeInvitation              func(childComplexity int, orgID string, invitationID string) int
+		RevokeServiceAccountToken     func(childComplexity int, orgID string, saID string, tokenID string) int
+		SwitchOrg                     func(childComplexity int, orgID string) int
+		SyncAPIGroup                  func(childComplexity int, orgID string, serviceID string, input model.SyncAPIGroupInput) int
+		SyncDiagram                   func(childComplexity int, orgID string, input model.SyncDiagramInput) int
+		SyncFrame                     func(childComplexity int, orgID string, mapID string, input model.SyncFrameInput) int
+		UpdateAPIEndpoint             func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) int
+		UpdateAPIGroup                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
+		UpdateDiagram                 func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
+		UpdateFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
+		UpdateFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) int
+		UpdateFolder                  func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
+		UpdateFrame                   func(childComplexity int, orgID string, mapID string, id string, input model.UpdateFrameInput) int
+		UpdateFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) int
+		UpdateFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
+		UpdateMap                     func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
+		UpdateMemberRole              func(childComplexity int, orgID string, userID string, role string) int
+		UpdateOrg                     func(childComplexity int, id string, input model.UpdateOrgInput) int
+		UpdateService                 func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
+		UpdateServiceAccount          func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
+		UpdateServiceDb               func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) int
+		UpdateServiceDoc              func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDocInput) int
+		UpdateTeam                    func(childComplexity int, orgID string, teamID string, input model.UpdateTeamInput) int
+		UpdateTestCase                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) int
+		UpdateTestPack                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestPackInput) int
+		UpdateTestRun                 func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunInput) int
+		UpdateTestRunResult           func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunResultInput) int
+		UpdateUser                    func(childComplexity int, id string, input model.UpdateUserInput) int
+		UpsertCanvas                  func(childComplexity int, orgID string, mapID string, input model.UpsertCanvasInput) int
+		UpsertLdap                    func(childComplexity int, input model.UpsertLDAPInput) int
+		UpsertOAuthProvider           func(childComplexity int, provider string, input model.UpsertOAuthInput) int
+		UpsertSaml                    func(childComplexity int, input model.UpsertSAMLInput) int
 	}
 
 	OAuthProvider struct {
@@ -1038,6 +1045,8 @@ type MutationResolver interface {
 	SyncDiagram(ctx context.Context, orgID string, input model.SyncDiagramInput) (*model.SyncDiagramResult, error)
 	CreateDiagramVersion(ctx context.Context, orgID string, diagramID string, label *string) (*model.DiagramVersion, error)
 	RestoreDiagramVersion(ctx context.Context, orgID string, diagramID string, versionID string) (*model.Diagram, error)
+	PrepareDiagramThumbnailUpload(ctx context.Context, orgID string, diagramID string) (*model.DiagramThumbnailUpload, error)
+	ConfirmDiagramThumbnailUpload(ctx context.Context, orgID string, diagramID string, contentHash string) (bool, error)
 	CreateFolder(ctx context.Context, orgID string, input model.CreateFolderInput) (*model.Folder, error)
 	UpdateFolder(ctx context.Context, orgID string, id string, input model.UpdateFolderInput) (*model.Folder, error)
 	DeleteFolder(ctx context.Context, orgID string, id string) (bool, error)
@@ -2125,6 +2134,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DiagramImage.OrgID(childComplexity), true
+
+	case "DiagramThumbnailUpload.assetId":
+		if e.complexity.DiagramThumbnailUpload.AssetID == nil {
+			break
+		}
+
+		return e.complexity.DiagramThumbnailUpload.AssetID(childComplexity), true
+
+	case "DiagramThumbnailUpload.uploadUrl":
+		if e.complexity.DiagramThumbnailUpload.UploadURL == nil {
+			break
+		}
+
+		return e.complexity.DiagramThumbnailUpload.UploadURL(childComplexity), true
 
 	case "DiagramVersion.contentHash":
 		if e.complexity.DiagramVersion.ContentHash == nil {
@@ -3431,6 +3454,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.AddTeamMember(childComplexity, args["orgId"].(string), args["teamId"].(string), args["userId"].(string), args["permission"].(*string)), true
 
+	case "Mutation.confirmDiagramThumbnailUpload":
+		if e.complexity.Mutation.ConfirmDiagramThumbnailUpload == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_confirmDiagramThumbnailUpload_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.ConfirmDiagramThumbnailUpload(childComplexity, args["orgId"].(string), args["diagramId"].(string), args["contentHash"].(string)), true
+
 	case "Mutation.createAPIEndpoint":
 		if e.complexity.Mutation.CreateAPIEndpoint == nil {
 			break
@@ -4025,6 +4060,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DisableUser(childComplexity, args["id"].(string)), true
+
+	case "Mutation.prepareDiagramThumbnailUpload":
+		if e.complexity.Mutation.PrepareDiagramThumbnailUpload == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_prepareDiagramThumbnailUpload_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.PrepareDiagramThumbnailUpload(childComplexity, args["orgId"].(string), args["diagramId"].(string)), true
 
 	case "Mutation.removeMember":
 		if e.complexity.Mutation.RemoveMember == nil {
@@ -7812,7 +7859,12 @@ type Components {
     customComponents: [Component!]!
 }
 `, BuiltIn: false},
-	{Name: "../schema/diagram.graphqls", Input: `extend type Query {
+	{Name: "../schema/diagram.graphqls", Input: `type DiagramThumbnailUpload {
+    uploadUrl: String!
+    assetId:   String!
+}
+
+extend type Query {
     diagrams(orgId: ID!, folderId: ID):                       [Diagram!]!
     diagram(orgId: ID!, id: ID!):                             Diagram!
     diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
@@ -7828,6 +7880,8 @@ extend type Mutation {
     syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
     createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
     restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
+    prepareDiagramThumbnailUpload(orgId: ID!, diagramId: ID!): DiagramThumbnailUpload!
+    confirmDiagramThumbnailUpload(orgId: ID!, diagramId: ID!, contentHash: String!): Boolean!
 }
 
 type Diagram {
@@ -8961,6 +9015,80 @@ func (ec *executionContext) field_Mutation_addTeamMember_argsPermission(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_confirmDiagramThumbnailUpload_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_confirmDiagramThumbnailUpload_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_confirmDiagramThumbnailUpload_argsDiagramID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["diagramId"] = arg1
+	arg2, err := ec.field_Mutation_confirmDiagramThumbnailUpload_argsContentHash(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["contentHash"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_confirmDiagramThumbnailUpload_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_confirmDiagramThumbnailUpload_argsDiagramID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["diagramId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("diagramId"))
+	if tmp, ok := rawArgs["diagramId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_confirmDiagramThumbnailUpload_argsContentHash(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["contentHash"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("contentHash"))
+	if tmp, ok := rawArgs["contentHash"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -12261,6 +12389,57 @@ func (ec *executionContext) field_Mutation_disableUser_argsID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_prepareDiagramThumbnailUpload_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_prepareDiagramThumbnailUpload_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_prepareDiagramThumbnailUpload_argsDiagramID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["diagramId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_prepareDiagramThumbnailUpload_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_prepareDiagramThumbnailUpload_argsDiagramID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["diagramId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("diagramId"))
+	if tmp, ok := rawArgs["diagramId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -24216,6 +24395,94 @@ func (ec *executionContext) fieldContext_DiagramImage_createdAt(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _DiagramThumbnailUpload_uploadUrl(ctx context.Context, field graphql.CollectedField, obj *model.DiagramThumbnailUpload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramThumbnailUpload_uploadUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UploadURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramThumbnailUpload_uploadUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramThumbnailUpload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramThumbnailUpload_assetId(ctx context.Context, field graphql.CollectedField, obj *model.DiagramThumbnailUpload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramThumbnailUpload_assetId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AssetID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramThumbnailUpload_assetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramThumbnailUpload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _DiagramVersion_id(ctx context.Context, field graphql.CollectedField, obj *model.DiagramVersion) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DiagramVersion_id(ctx, field)
 	if err != nil {
@@ -34908,6 +35175,122 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_restoreDiagramVersion_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_prepareDiagramThumbnailUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_prepareDiagramThumbnailUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().PrepareDiagramThumbnailUpload(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.DiagramThumbnailUpload)
+	fc.Result = res
+	return ec.marshalNDiagramThumbnailUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramThumbnailUpload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_prepareDiagramThumbnailUpload(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "uploadUrl":
+				return ec.fieldContext_DiagramThumbnailUpload_uploadUrl(ctx, field)
+			case "assetId":
+				return ec.fieldContext_DiagramThumbnailUpload_assetId(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DiagramThumbnailUpload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_prepareDiagramThumbnailUpload_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_confirmDiagramThumbnailUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_confirmDiagramThumbnailUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().ConfirmDiagramThumbnailUpload(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string), fc.Args["contentHash"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_confirmDiagramThumbnailUpload(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_confirmDiagramThumbnailUpload_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -62659,6 +63042,50 @@ func (ec *executionContext) _DiagramImage(ctx context.Context, sel ast.Selection
 	return out
 }
 
+var diagramThumbnailUploadImplementors = []string{"DiagramThumbnailUpload"}
+
+func (ec *executionContext) _DiagramThumbnailUpload(ctx context.Context, sel ast.SelectionSet, obj *model.DiagramThumbnailUpload) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, diagramThumbnailUploadImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("DiagramThumbnailUpload")
+		case "uploadUrl":
+			out.Values[i] = ec._DiagramThumbnailUpload_uploadUrl(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "assetId":
+			out.Values[i] = ec._DiagramThumbnailUpload_assetId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var diagramVersionImplementors = []string{"DiagramVersion"}
 
 func (ec *executionContext) _DiagramVersion(ctx context.Context, sel ast.SelectionSet, obj *model.DiagramVersion) graphql.Marshaler {
@@ -64458,6 +64885,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "restoreDiagramVersion":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_restoreDiagramVersion(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "prepareDiagramThumbnailUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_prepareDiagramThumbnailUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "confirmDiagramThumbnailUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_confirmDiagramThumbnailUpload(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -69328,6 +69769,20 @@ func (ec *executionContext) marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgra
 		return graphql.Null
 	}
 	return ec._DiagramImage(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNDiagramThumbnailUpload2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramThumbnailUpload(ctx context.Context, sel ast.SelectionSet, v model.DiagramThumbnailUpload) graphql.Marshaler {
+	return ec._DiagramThumbnailUpload(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNDiagramThumbnailUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramThumbnailUpload(ctx context.Context, sel ast.SelectionSet, v *model.DiagramThumbnailUpload) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._DiagramThumbnailUpload(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNDiagramVersion2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramVersion(ctx context.Context, sel ast.SelectionSet, v model.DiagramVersion) graphql.Marshaler {

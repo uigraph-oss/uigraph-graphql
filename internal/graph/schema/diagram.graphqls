@@ -1,3 +1,8 @@
+type DiagramThumbnailUpload {
+    uploadUrl: String!
+    assetId:   String!
+}
+
 extend type Query {
     diagrams(orgId: ID!, folderId: ID):                       [Diagram!]!
     diagram(orgId: ID!, id: ID!):                             Diagram!
@@ -14,6 +19,8 @@ extend type Mutation {
     syncDiagram(orgId: ID!, input: SyncDiagramInput!):                SyncDiagramResult!
     createDiagramVersion(orgId: ID!, diagramId: ID!, label: String):  DiagramVersion!
     restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
+    prepareDiagramThumbnailUpload(orgId: ID!, diagramId: ID!): DiagramThumbnailUpload!
+    confirmDiagramThumbnailUpload(orgId: ID!, diagramId: ID!, contentHash: String!): Boolean!
 }
 
 type Diagram {
