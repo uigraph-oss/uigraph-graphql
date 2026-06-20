@@ -52,14 +52,14 @@ func TestMeToModel(t *testing.T) {
 func TestOrgSummariesToModel(t *testing.T) {
 	t.Run("maps slice of two summaries", func(t *testing.T) {
 		in := []uigraphapi.OrgSummary{
-			{ID: "1", Name: "A", Slug: "a", Role: "admin", Active: true},
-			{ID: "2", Name: "B", Slug: "b", Role: "member", Active: false},
+			{ID: "1", Name: "A", Role: "admin", Active: true},
+			{ID: "2", Name: "B", Role: "member", Active: false},
 		}
 		out := OrgSummariesToModel(in)
 		if len(out) != 2 {
 			t.Fatalf("len = %d, want 2", len(out))
 		}
-		if out[0].ID != "1" || out[0].Name != "A" || out[0].Slug != "a" || out[0].Role != "admin" || !out[0].Active {
+		if out[0].ID != "1" || out[0].Name != "A" || out[0].Role != "admin" || !out[0].Active {
 			t.Errorf("out[0] = %+v, unexpected", out[0])
 		}
 		if out[1].ID != "2" || out[1].Active != false {

@@ -309,8 +309,7 @@ type CreateMapInput struct {
 }
 
 type CreateOrgInput struct {
-	Name string  `json:"name"`
-	Slug *string `json:"slug,omitempty"`
+	Name string `json:"name"`
 }
 
 type CreateRoleMappingInput struct {
@@ -863,18 +862,18 @@ type OAuthProvider struct {
 type Org struct {
 	ID        string    `json:"id"`
 	Name      string    `json:"name"`
-	Slug      string    `json:"slug"`
+	LogoURL   *string   `json:"logoUrl,omitempty"`
 	Disabled  bool      `json:"disabled"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 type OrgSummary struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Slug   string `json:"slug"`
-	Role   string `json:"role"`
-	Active bool   `json:"active"`
+	ID      string  `json:"id"`
+	Name    string  `json:"name"`
+	LogoURL *string `json:"logoUrl,omitempty"`
+	Role    string  `json:"role"`
+	Active  bool    `json:"active"`
 }
 
 type Query struct {

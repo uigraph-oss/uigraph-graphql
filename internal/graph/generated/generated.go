@@ -657,17 +657,17 @@ type ComplexityRoot struct {
 		CreatedAt func(childComplexity int) int
 		Disabled  func(childComplexity int) int
 		ID        func(childComplexity int) int
+		LogoURL   func(childComplexity int) int
 		Name      func(childComplexity int) int
-		Slug      func(childComplexity int) int
 		UpdatedAt func(childComplexity int) int
 	}
 
 	OrgSummary struct {
-		Active func(childComplexity int) int
-		ID     func(childComplexity int) int
-		Name   func(childComplexity int) int
-		Role   func(childComplexity int) int
-		Slug   func(childComplexity int) int
+		Active  func(childComplexity int) int
+		ID      func(childComplexity int) int
+		LogoURL func(childComplexity int) int
+		Name    func(childComplexity int) int
+		Role    func(childComplexity int) int
 	}
 
 	Query struct {
@@ -5047,19 +5047,19 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Org.ID(childComplexity), true
 
+	case "Org.logoUrl":
+		if e.complexity.Org.LogoURL == nil {
+			break
+		}
+
+		return e.complexity.Org.LogoURL(childComplexity), true
+
 	case "Org.name":
 		if e.complexity.Org.Name == nil {
 			break
 		}
 
 		return e.complexity.Org.Name(childComplexity), true
-
-	case "Org.slug":
-		if e.complexity.Org.Slug == nil {
-			break
-		}
-
-		return e.complexity.Org.Slug(childComplexity), true
 
 	case "Org.updatedAt":
 		if e.complexity.Org.UpdatedAt == nil {
@@ -5082,6 +5082,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.OrgSummary.ID(childComplexity), true
 
+	case "OrgSummary.logoUrl":
+		if e.complexity.OrgSummary.LogoURL == nil {
+			break
+		}
+
+		return e.complexity.OrgSummary.LogoURL(childComplexity), true
+
 	case "OrgSummary.name":
 		if e.complexity.OrgSummary.Name == nil {
 			break
@@ -5095,13 +5102,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.OrgSummary.Role(childComplexity), true
-
-	case "OrgSummary.slug":
-		if e.complexity.OrgSummary.Slug == nil {
-			break
-		}
-
-		return e.complexity.OrgSummary.Slug(childComplexity), true
 
 	case "Query.apiEndpoint":
 		if e.complexity.Query.APIEndpoint == nil {
@@ -8009,11 +8009,11 @@ type Me {
 }
 
 type OrgSummary {
-    id:     ID!
-    name:   String!
-    slug:   String!
-    role:   String!
-    active: Boolean!
+    id:      ID!
+    name:    String!
+    logoUrl: String
+    role:    String!
+    active:  Boolean!
 }
 `, BuiltIn: false},
 	{Name: "../schema/catalog.graphqls", Input: `extend type Query {
@@ -8703,7 +8703,7 @@ extend type Mutation {
 type Org {
     id:        ID!
     name:      String!
-    slug:      String!
+    logoUrl:   String
     disabled:  Boolean!
     createdAt: Time!
     updatedAt: Time!
@@ -8774,7 +8774,6 @@ type CreatedToken {
 
 input CreateOrgInput {
     name: String!
-    slug: String
 }
 
 input UpdateOrgInput {
@@ -38769,8 +38768,8 @@ func (ec *executionContext) fieldContext_Mutation_createOrg(ctx context.Context,
 				return ec.fieldContext_Org_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Org_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_Org_slug(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Org_logoUrl(ctx, field)
 			case "disabled":
 				return ec.fieldContext_Org_disabled(ctx, field)
 			case "createdAt":
@@ -38838,8 +38837,8 @@ func (ec *executionContext) fieldContext_Mutation_updateOrg(ctx context.Context,
 				return ec.fieldContext_Org_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Org_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_Org_slug(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Org_logoUrl(ctx, field)
 			case "disabled":
 				return ec.fieldContext_Org_disabled(ctx, field)
 			case "createdAt":
@@ -42964,8 +42963,8 @@ func (ec *executionContext) fieldContext_Org_name(_ context.Context, field graph
 	return fc, nil
 }
 
-func (ec *executionContext) _Org_slug(ctx context.Context, field graphql.CollectedField, obj *model.Org) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Org_slug(ctx, field)
+func (ec *executionContext) _Org_logoUrl(ctx context.Context, field graphql.CollectedField, obj *model.Org) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Org_logoUrl(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -42978,24 +42977,21 @@ func (ec *executionContext) _Org_slug(ctx context.Context, field graphql.Collect
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Slug, nil
+		return obj.LogoURL, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Org_slug(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Org_logoUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Org",
 		Field:      field,
@@ -43228,8 +43224,8 @@ func (ec *executionContext) fieldContext_OrgSummary_name(_ context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _OrgSummary_slug(ctx context.Context, field graphql.CollectedField, obj *model.OrgSummary) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_OrgSummary_slug(ctx, field)
+func (ec *executionContext) _OrgSummary_logoUrl(ctx context.Context, field graphql.CollectedField, obj *model.OrgSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OrgSummary_logoUrl(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -43242,24 +43238,21 @@ func (ec *executionContext) _OrgSummary_slug(ctx context.Context, field graphql.
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Slug, nil
+		return obj.LogoURL, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_OrgSummary_slug(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OrgSummary_logoUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "OrgSummary",
 		Field:      field,
@@ -44024,8 +44017,8 @@ func (ec *executionContext) fieldContext_Query_myOrgs(_ context.Context, field g
 				return ec.fieldContext_OrgSummary_id(ctx, field)
 			case "name":
 				return ec.fieldContext_OrgSummary_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_OrgSummary_slug(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_OrgSummary_logoUrl(ctx, field)
 			case "role":
 				return ec.fieldContext_OrgSummary_role(ctx, field)
 			case "active":
@@ -46176,8 +46169,8 @@ func (ec *executionContext) fieldContext_Query_org(ctx context.Context, field gr
 				return ec.fieldContext_Org_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Org_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_Org_slug(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Org_logoUrl(ctx, field)
 			case "disabled":
 				return ec.fieldContext_Org_disabled(ctx, field)
 			case "createdAt":
@@ -46245,8 +46238,8 @@ func (ec *executionContext) fieldContext_Query_orgs(_ context.Context, field gra
 				return ec.fieldContext_Org_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Org_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_Org_slug(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Org_logoUrl(ctx, field)
 			case "disabled":
 				return ec.fieldContext_Org_disabled(ctx, field)
 			case "createdAt":
@@ -62589,7 +62582,7 @@ func (ec *executionContext) unmarshalInputCreateOrgInput(ctx context.Context, ob
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "slug"}
+	fieldsInOrder := [...]string{"name"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -62603,13 +62596,6 @@ func (ec *executionContext) unmarshalInputCreateOrgInput(ctx context.Context, ob
 				return it, err
 			}
 			it.Name = data
-		case "slug":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("slug"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Slug = data
 		}
 	}
 
@@ -70027,11 +70013,8 @@ func (ec *executionContext) _Org(ctx context.Context, sel ast.SelectionSet, obj 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "slug":
-			out.Values[i] = ec._Org_slug(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
+		case "logoUrl":
+			out.Values[i] = ec._Org_logoUrl(ctx, field, obj)
 		case "disabled":
 			out.Values[i] = ec._Org_disabled(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -70091,11 +70074,8 @@ func (ec *executionContext) _OrgSummary(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "slug":
-			out.Values[i] = ec._OrgSummary_slug(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
+		case "logoUrl":
+			out.Values[i] = ec._OrgSummary_logoUrl(ctx, field, obj)
 		case "role":
 			out.Values[i] = ec._OrgSummary_role(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

@@ -37,7 +37,7 @@ extend type Mutation {
 type Org {
     id:        ID!
     name:      String!
-    slug:      String!
+    logoUrl:   String
     disabled:  Boolean!
     createdAt: Time!
     updatedAt: Time!
@@ -108,7 +108,6 @@ type CreatedToken {
 
 input CreateOrgInput {
     name: String!
-    slug: String
 }
 
 input UpdateOrgInput {

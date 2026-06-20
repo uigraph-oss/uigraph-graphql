@@ -18,7 +18,11 @@ func MeToModel(m *uigraphapi.MeResponse) *model.Me {
 }
 
 func OrgSummaryToModel(o uigraphapi.OrgSummary) *model.OrgSummary {
-	return &model.OrgSummary{ID: o.ID, Name: o.Name, Slug: o.Slug, Role: o.Role, Active: o.Active}
+	m := &model.OrgSummary{ID: o.ID, Name: o.Name, Role: o.Role, Active: o.Active}
+	if o.LogoURL != "" {
+		m.LogoURL = &o.LogoURL
+	}
+	return m
 }
 
 func OrgSummariesToModel(orgs []uigraphapi.OrgSummary) []*model.OrgSummary {

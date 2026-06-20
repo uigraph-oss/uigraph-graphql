@@ -9,7 +9,7 @@ import (
 type Org struct {
 	ID        string    `json:"id"`
 	Name      string    `json:"name"`
-	Slug      string    `json:"slug"`
+	LogoURL   string    `json:"logoUrl,omitempty"`
 	Disabled  bool      `json:"disabled"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`

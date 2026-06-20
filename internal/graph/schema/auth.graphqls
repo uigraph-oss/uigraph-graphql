@@ -20,9 +20,9 @@ type Me {
 }
 
 type OrgSummary {
-    id:     ID!
-    name:   String!
-    slug:   String!
-    role:   String!
-    active: Boolean!
+    id:      ID!
+    name:    String!
+    logoUrl: String
+    role:    String!
+    active:  Boolean!
 }

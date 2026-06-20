@@ -6,7 +6,11 @@ import (
 )
 
 func OrgToModel(o *uigraphapi.Org) *model.Org {
-	return &model.Org{ID: o.ID, Name: o.Name, Slug: o.Slug, Disabled: o.Disabled, CreatedAt: o.CreatedAt, UpdatedAt: o.UpdatedAt}
+	m := &model.Org{ID: o.ID, Name: o.Name, Disabled: o.Disabled, CreatedAt: o.CreatedAt, UpdatedAt: o.UpdatedAt}
+	if o.LogoURL != "" {
+		m.LogoURL = &o.LogoURL
+	}
+	return m
 }
 
 func MemberToModel(m uigraphapi.Member) *model.Member {
