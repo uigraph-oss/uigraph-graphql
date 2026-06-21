@@ -321,6 +321,11 @@ type CreateRoleMappingInput struct {
 	ResourceID   *string `json:"resourceId,omitempty"`
 }
 
+type CreateServerOrgInput struct {
+	Name     string `json:"name"`
+	AutoJoin *bool  `json:"autoJoin,omitempty"`
+}
+
 type CreateServiceAccountInput struct {
 	Name        string  `json:"name"`
 	Description *string `json:"description,omitempty"`
@@ -864,6 +869,7 @@ type Org struct {
 	Name      string    `json:"name"`
 	LogoURL   *string   `json:"logoUrl,omitempty"`
 	Disabled  bool      `json:"disabled"`
+	AutoJoin  bool      `json:"autoJoin"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
@@ -1331,6 +1337,12 @@ type UpdateMemberInput struct {
 type UpdateOrgInput struct {
 	Name     *string `json:"name,omitempty"`
 	Disabled *bool   `json:"disabled,omitempty"`
+}
+
+type UpdateServerOrgInput struct {
+	Name     *string `json:"name,omitempty"`
+	Disabled *bool   `json:"disabled,omitempty"`
+	AutoJoin *bool   `json:"autoJoin,omitempty"`
 }
 
 type UpdateServiceAccountInput struct {

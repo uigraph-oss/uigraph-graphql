@@ -11,6 +11,7 @@ type Org struct {
 	Name      string    `json:"name"`
 	LogoURL   string    `json:"logoUrl,omitempty"`
 	Disabled  bool      `json:"disabled"`
+	AutoJoin  bool      `json:"autoJoin"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
@@ -97,6 +98,29 @@ func (c *Client) UpdateOrg(ctx context.Context, id string, body map[string]inter
 
 func (c *Client) DeleteOrg(ctx context.Context, id string) error {
 	return c.del(ctx, "/api/v1/orgs/"+id)
+}
+
+// ── Server-admin org management ─────────────────────────────────────────────────
+
+func (c *Client) ServerListOrgs(ctx context.Context) ([]Org, error) {
+	var out struct {
+		Orgs []Org `json:"orgs"`
+	}
+	return out.Orgs, c.get(ctx, "/api/v1/server/orgs", &out)
+}
+
+func (c *Client) ServerCreateOrg(ctx context.Context, body map[string]interface{}) (*Org, error) {
+	var out Org
+	return &out, c.post(ctx, "/api/v1/server/orgs", body, &out)
+}
+
+func (c *Client) ServerUpdateOrg(ctx context.Context, id string, body map[string]interface{}) (*Org, error) {
+	var out Org
+	return &out, c.put(ctx, "/api/v1/server/orgs/"+id, body, &out)
+}
+
+func (c *Client) ServerDeleteOrg(ctx context.Context, id string) error {
+	return c.del(ctx, "/api/v1/server/orgs/"+id)
 }
 
 // ── Members ───────────────────────────────────────────────────────────────────

@@ -12,6 +12,29 @@ import (
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
+// CreateServerOrg is the resolver for the createServerOrg field.
+func (r *mutationResolver) CreateServerOrg(ctx context.Context, input model.CreateServerOrgInput) (*model.Org, error) {
+	o, err := r.Admin.ServerCreateOrg(ctx, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.OrgToModel(o), nil
+}
+
+// UpdateServerOrg is the resolver for the updateServerOrg field.
+func (r *mutationResolver) UpdateServerOrg(ctx context.Context, id string, input model.UpdateServerOrgInput) (*model.Org, error) {
+	o, err := r.Admin.ServerUpdateOrg(ctx, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.OrgToModel(o), nil
+}
+
+// DeleteServerOrg is the resolver for the deleteServerOrg field.
+func (r *mutationResolver) DeleteServerOrg(ctx context.Context, id string) (bool, error) {
+	return true, r.Admin.ServerDeleteOrg(ctx, id)
+}
+
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
 	u, err := r.Admin.CreateUser(ctx, convert.ToMap(input))
@@ -77,6 +100,19 @@ func (r *queryResolver) ServerOverview(ctx context.Context) (*model.ServerOvervi
 		return nil, err
 	}
 	return convert.OverviewToModel(o), nil
+}
+
+// ServerOrgs is the resolver for the serverOrgs field.
+func (r *queryResolver) ServerOrgs(ctx context.Context) ([]*model.Org, error) {
+	orgs, err := r.Admin.ServerListOrgs(ctx)
+	if err != nil {
+		return nil, err
+	}
+	out := make([]*model.Org, len(orgs))
+	for i := range orgs {
+		out[i] = convert.OrgToModel(&orgs[i])
+	}
+	return out, nil
 }
 
 // Users is the resolver for the users field.

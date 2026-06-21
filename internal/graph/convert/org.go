@@ -6,7 +6,7 @@ import (
 )
 
 func OrgToModel(o *uigraphapi.Org) *model.Org {
-	m := &model.Org{ID: o.ID, Name: o.Name, Disabled: o.Disabled, CreatedAt: o.CreatedAt, UpdatedAt: o.UpdatedAt}
+	m := &model.Org{ID: o.ID, Name: o.Name, Disabled: o.Disabled, AutoJoin: o.AutoJoin, CreatedAt: o.CreatedAt, UpdatedAt: o.UpdatedAt}
 	if o.LogoURL != "" {
 		m.LogoURL = &o.LogoURL
 	}
