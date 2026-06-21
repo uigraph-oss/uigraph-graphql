@@ -554,6 +554,7 @@ type ComplexityRoot struct {
 		CreateMap                     func(childComplexity int, orgID string, input model.CreateMapInput) int
 		CreateOrg                     func(childComplexity int, input model.CreateOrgInput) int
 		CreateRoleMapping             func(childComplexity int, input model.CreateRoleMappingInput) int
+		CreateServerOrg               func(childComplexity int, input model.CreateServerOrgInput) int
 		CreateService                 func(childComplexity int, orgID string, input model.CreateServiceInput) int
 		CreateServiceAccount          func(childComplexity int, orgID string, input model.CreateServiceAccountInput) int
 		CreateServiceAccountToken     func(childComplexity int, orgID string, saID string, input model.CreateTokenInput) int
@@ -583,6 +584,7 @@ type ComplexityRoot struct {
 		DeleteOAuthProvider           func(childComplexity int, provider string) int
 		DeleteOrg                     func(childComplexity int, id string) int
 		DeleteRoleMapping             func(childComplexity int, id string) int
+		DeleteServerOrg               func(childComplexity int, id string) int
 		DeleteService                 func(childComplexity int, orgID string, id string) int
 		DeleteServiceAccount          func(childComplexity int, orgID string, id string) int
 		DeleteServiceDb               func(childComplexity int, orgID string, serviceID string, id string) int
@@ -616,6 +618,7 @@ type ComplexityRoot struct {
 		UpdateMap                     func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
 		UpdateMember                  func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
 		UpdateOrg                     func(childComplexity int, id string, input model.UpdateOrgInput) int
+		UpdateServerOrg               func(childComplexity int, id string, input model.UpdateServerOrgInput) int
 		UpdateService                 func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
 		UpdateServiceAccount          func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
 		UpdateServiceDb               func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) int
@@ -654,6 +657,7 @@ type ComplexityRoot struct {
 	}
 
 	Org struct {
+		AutoJoin  func(childComplexity int) int
 		CreatedAt func(childComplexity int) int
 		Disabled  func(childComplexity int) int
 		ID        func(childComplexity int) int
@@ -709,6 +713,7 @@ type ComplexityRoot struct {
 		Orgs                          func(childComplexity int) int
 		RoleMappings                  func(childComplexity int) int
 		Saml                          func(childComplexity int) int
+		ServerOrgs                    func(childComplexity int) int
 		ServerOverview                func(childComplexity int) int
 		Service                       func(childComplexity int, orgID string, id string) int
 		ServiceAccount                func(childComplexity int, orgID string, id string) int
@@ -1089,6 +1094,9 @@ type FrameResolver interface {
 	UpdatedByActor(ctx context.Context, obj *model.Frame) (*model.Actor, error)
 }
 type MutationResolver interface {
+	CreateServerOrg(ctx context.Context, input model.CreateServerOrgInput) (*model.Org, error)
+	UpdateServerOrg(ctx context.Context, id string, input model.UpdateServerOrgInput) (*model.Org, error)
+	DeleteServerOrg(ctx context.Context, id string) (bool, error)
 	CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error)
 	UpdateUser(ctx context.Context, id string, input model.UpdateUserInput) (*model.User, error)
 	DisableUser(ctx context.Context, id string) (bool, error)
@@ -1188,6 +1196,7 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Actor(ctx context.Context, orgID string, id string) (*model.Actor, error)
 	ServerOverview(ctx context.Context) (*model.ServerOverview, error)
+	ServerOrgs(ctx context.Context) ([]*model.Org, error)
 	Users(ctx context.Context) ([]*model.User, error)
 	User(ctx context.Context, id string) (*model.User, error)
 	OauthProviders(ctx context.Context) ([]*model.OAuthProvider, error)
@@ -3993,6 +4002,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateRoleMapping(childComplexity, args["input"].(model.CreateRoleMappingInput)), true
 
+	case "Mutation.createServerOrg":
+		if e.complexity.Mutation.CreateServerOrg == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createServerOrg_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateServerOrg(childComplexity, args["input"].(model.CreateServerOrgInput)), true
+
 	case "Mutation.createService":
 		if e.complexity.Mutation.CreateService == nil {
 			break
@@ -4335,6 +4356,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteRoleMapping(childComplexity, args["id"].(string)), true
+
+	case "Mutation.deleteServerOrg":
+		if e.complexity.Mutation.DeleteServerOrg == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteServerOrg_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteServerOrg(childComplexity, args["id"].(string)), true
 
 	case "Mutation.deleteService":
 		if e.complexity.Mutation.DeleteService == nil {
@@ -4732,6 +4765,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.UpdateOrg(childComplexity, args["id"].(string), args["input"].(model.UpdateOrgInput)), true
 
+	case "Mutation.updateServerOrg":
+		if e.complexity.Mutation.UpdateServerOrg == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateServerOrg_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateServerOrg(childComplexity, args["id"].(string), args["input"].(model.UpdateServerOrgInput)), true
+
 	case "Mutation.updateService":
 		if e.complexity.Mutation.UpdateService == nil {
 			break
@@ -5025,6 +5070,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.OAuthProvider.UserinfoURL(childComplexity), true
+
+	case "Org.autoJoin":
+		if e.complexity.Org.AutoJoin == nil {
+			break
+		}
+
+		return e.complexity.Org.AutoJoin(childComplexity), true
 
 	case "Org.createdAt":
 		if e.complexity.Org.CreatedAt == nil {
@@ -5523,6 +5575,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Saml(childComplexity), true
+
+	case "Query.serverOrgs":
+		if e.complexity.Query.ServerOrgs == nil {
+			break
+		}
+
+		return e.complexity.Query.ServerOrgs(childComplexity), true
 
 	case "Query.serverOverview":
 		if e.complexity.Query.ServerOverview == nil {
@@ -7620,6 +7679,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateMapInput,
 		ec.unmarshalInputCreateOrgInput,
 		ec.unmarshalInputCreateRoleMappingInput,
+		ec.unmarshalInputCreateServerOrgInput,
 		ec.unmarshalInputCreateServiceAccountInput,
 		ec.unmarshalInputCreateServiceDBInput,
 		ec.unmarshalInputCreateServiceDBVersionInput,
@@ -7657,6 +7717,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateMapInput,
 		ec.unmarshalInputUpdateMemberInput,
 		ec.unmarshalInputUpdateOrgInput,
+		ec.unmarshalInputUpdateServerOrgInput,
 		ec.unmarshalInputUpdateServiceAccountInput,
 		ec.unmarshalInputUpdateServiceDBInput,
 		ec.unmarshalInputUpdateServiceDocInput,
@@ -7786,6 +7847,8 @@ type Actor {
 	{Name: "../schema/admin.graphqls", Input: `extend type Query {
     serverOverview:      ServerOverview!
 
+    serverOrgs:          [Org!]!
+
     users:               [User!]!
     user(id: ID!):       User!
 
@@ -7796,6 +7859,10 @@ type Actor {
 }
 
 extend type Mutation {
+    createServerOrg(input: CreateServerOrgInput!):           Org!
+    updateServerOrg(id: ID!, input: UpdateServerOrgInput!):  Org!
+    deleteServerOrg(id: ID!):                                Boolean!
+
     createUser(input: CreateUserInput!):              User!
     updateUser(id: ID!, input: UpdateUserInput!):     User!
     disableUser(id: ID!):                             Boolean!
@@ -7906,6 +7973,17 @@ type SAMLConfig {
 }
 
 # ── Inputs ────────────────────────────────────────────────────────────────────
+
+input CreateServerOrgInput {
+    name:     String!
+    autoJoin: Boolean
+}
+
+input UpdateServerOrgInput {
+    name:     String
+    disabled: Boolean
+    autoJoin: Boolean
+}
 
 input CreateUserInput {
     email:    String!
@@ -8705,6 +8783,7 @@ type Org {
     name:      String!
     logoUrl:   String
     disabled:  Boolean!
+    autoJoin:  Boolean!
     createdAt: Time!
     updatedAt: Time!
 }
@@ -10827,6 +10906,34 @@ func (ec *executionContext) field_Mutation_createRoleMapping_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_createServerOrg_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createServerOrg_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createServerOrg_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateServerOrgInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateServerOrgInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateServerOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServerOrgInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateServerOrgInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_createServiceAccountToken_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -12675,6 +12782,34 @@ func (ec *executionContext) field_Mutation_deleteRoleMapping_args(ctx context.Co
 	return args, nil
 }
 func (ec *executionContext) field_Mutation_deleteRoleMapping_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteServerOrg_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteServerOrg_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteServerOrg_argsID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
@@ -15200,6 +15335,57 @@ func (ec *executionContext) field_Mutation_updateOrg_argsInput(
 	}
 
 	var zeroVal model.UpdateOrgInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateServerOrg_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateServerOrg_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg0
+	arg1, err := ec.field_Mutation_updateServerOrg_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateServerOrg_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateServerOrg_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateServerOrgInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateServerOrgInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateServerOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServerOrgInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateServerOrgInput
 	return zeroVal, nil
 }
 
@@ -35245,6 +35431,203 @@ func (ec *executionContext) fieldContext_Member_updatedAt(_ context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createServerOrg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createServerOrg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateServerOrg(rctx, fc.Args["input"].(model.CreateServerOrgInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Org)
+	fc.Result = res
+	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createServerOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Org_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Org_name(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Org_logoUrl(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Org_disabled(ctx, field)
+			case "autoJoin":
+				return ec.fieldContext_Org_autoJoin(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Org_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Org_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createServerOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateServerOrg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateServerOrg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateServerOrg(rctx, fc.Args["id"].(string), fc.Args["input"].(model.UpdateServerOrgInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Org)
+	fc.Result = res
+	return ec.marshalNOrg2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrg(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateServerOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Org_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Org_name(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Org_logoUrl(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Org_disabled(ctx, field)
+			case "autoJoin":
+				return ec.fieldContext_Org_autoJoin(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Org_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Org_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateServerOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteServerOrg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteServerOrg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteServerOrg(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteServerOrg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteServerOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createUser(ctx, field)
 	if err != nil {
@@ -38772,6 +39155,8 @@ func (ec *executionContext) fieldContext_Mutation_createOrg(ctx context.Context,
 				return ec.fieldContext_Org_logoUrl(ctx, field)
 			case "disabled":
 				return ec.fieldContext_Org_disabled(ctx, field)
+			case "autoJoin":
+				return ec.fieldContext_Org_autoJoin(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Org_createdAt(ctx, field)
 			case "updatedAt":
@@ -38841,6 +39226,8 @@ func (ec *executionContext) fieldContext_Mutation_updateOrg(ctx context.Context,
 				return ec.fieldContext_Org_logoUrl(ctx, field)
 			case "disabled":
 				return ec.fieldContext_Org_disabled(ctx, field)
+			case "autoJoin":
+				return ec.fieldContext_Org_autoJoin(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Org_createdAt(ctx, field)
 			case "updatedAt":
@@ -43048,6 +43435,50 @@ func (ec *executionContext) fieldContext_Org_disabled(_ context.Context, field g
 	return fc, nil
 }
 
+func (ec *executionContext) _Org_autoJoin(ctx context.Context, field graphql.CollectedField, obj *model.Org) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Org_autoJoin(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AutoJoin, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Org_autoJoin(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Org",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Org_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Org) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Org_createdAt(ctx, field)
 	if err != nil {
@@ -43466,6 +43897,66 @@ func (ec *executionContext) fieldContext_Query_serverOverview(_ context.Context,
 				return ec.fieldContext_ServerOverview_totalOrgs(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type ServerOverview", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_serverOrgs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serverOrgs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServerOrgs(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Org)
+	fc.Result = res
+	return ec.marshalNOrg2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐOrgᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serverOrgs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Org_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Org_name(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Org_logoUrl(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Org_disabled(ctx, field)
+			case "autoJoin":
+				return ec.fieldContext_Org_autoJoin(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Org_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Org_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Org", field.Name)
 		},
 	}
 	return fc, nil
@@ -46173,6 +46664,8 @@ func (ec *executionContext) fieldContext_Query_org(ctx context.Context, field gr
 				return ec.fieldContext_Org_logoUrl(ctx, field)
 			case "disabled":
 				return ec.fieldContext_Org_disabled(ctx, field)
+			case "autoJoin":
+				return ec.fieldContext_Org_autoJoin(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Org_createdAt(ctx, field)
 			case "updatedAt":
@@ -46242,6 +46735,8 @@ func (ec *executionContext) fieldContext_Query_orgs(_ context.Context, field gra
 				return ec.fieldContext_Org_logoUrl(ctx, field)
 			case "disabled":
 				return ec.fieldContext_Org_disabled(ctx, field)
+			case "autoJoin":
+				return ec.fieldContext_Org_autoJoin(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Org_createdAt(ctx, field)
 			case "updatedAt":
@@ -62664,6 +63159,40 @@ func (ec *executionContext) unmarshalInputCreateRoleMappingInput(ctx context.Con
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateServerOrgInput(ctx context.Context, obj any) (model.CreateServerOrgInput, error) {
+	var it model.CreateServerOrgInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "autoJoin"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "autoJoin":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("autoJoin"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AutoJoin = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateServiceAccountInput(ctx context.Context, obj any) (model.CreateServiceAccountInput, error) {
 	var it model.CreateServiceAccountInput
 	asMap := map[string]any{}
@@ -64952,6 +65481,47 @@ func (ec *executionContext) unmarshalInputUpdateOrgInput(ctx context.Context, ob
 				return it, err
 			}
 			it.Disabled = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdateServerOrgInput(ctx context.Context, obj any) (model.UpdateServerOrgInput, error) {
+	var it model.UpdateServerOrgInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "disabled", "autoJoin"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "disabled":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("disabled"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Disabled = data
+		case "autoJoin":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("autoJoin"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AutoJoin = data
 		}
 	}
 
@@ -69180,6 +69750,27 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
+		case "createServerOrg":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createServerOrg(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateServerOrg":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateServerOrg(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteServerOrg":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteServerOrg(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createUser":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createUser(ctx, field)
@@ -70020,6 +70611,11 @@ func (ec *executionContext) _Org(ctx context.Context, sel ast.SelectionSet, obj 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "autoJoin":
+			out.Values[i] = ec._Org_autoJoin(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createdAt":
 			out.Values[i] = ec._Org_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -70157,6 +70753,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_serverOverview(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "serverOrgs":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_serverOrgs(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -74441,6 +75059,11 @@ func (ec *executionContext) unmarshalNCreateRoleMappingInput2githubᚗcomᚋuigr
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateServerOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServerOrgInput(ctx context.Context, v any) (model.CreateServerOrgInput, error) {
+	res, err := ec.unmarshalInputCreateServerOrgInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateServiceAccountInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServiceAccountInput(ctx context.Context, v any) (model.CreateServiceAccountInput, error) {
 	res, err := ec.unmarshalInputCreateServiceAccountInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -76793,6 +77416,11 @@ func (ec *executionContext) unmarshalNUpdateMemberInput2githubᚗcomᚋuigraph�
 
 func (ec *executionContext) unmarshalNUpdateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateOrgInput(ctx context.Context, v any) (model.UpdateOrgInput, error) {
 	res, err := ec.unmarshalInputUpdateOrgInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateServerOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServerOrgInput(ctx context.Context, v any) (model.UpdateServerOrgInput, error) {
+	res, err := ec.unmarshalInputUpdateServerOrgInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

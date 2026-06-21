@@ -1,6 +1,8 @@
 extend type Query {
     serverOverview:      ServerOverview!
 
+    serverOrgs:          [Org!]!
+
     users:               [User!]!
     user(id: ID!):       User!
 
@@ -11,6 +13,10 @@ extend type Query {
 }
 
 extend type Mutation {
+    createServerOrg(input: CreateServerOrgInput!):           Org!
+    updateServerOrg(id: ID!, input: UpdateServerOrgInput!):  Org!
+    deleteServerOrg(id: ID!):                                Boolean!
+
     createUser(input: CreateUserInput!):              User!
     updateUser(id: ID!, input: UpdateUserInput!):     User!
     disableUser(id: ID!):                             Boolean!
@@ -121,6 +127,17 @@ type SAMLConfig {
 }
 
 # ── Inputs ────────────────────────────────────────────────────────────────────
+
+input CreateServerOrgInput {
+    name:     String!
+    autoJoin: Boolean
+}
+
+input UpdateServerOrgInput {
+    name:     String
+    disabled: Boolean
+    autoJoin: Boolean
+}
 
 input CreateUserInput {
     email:    String!

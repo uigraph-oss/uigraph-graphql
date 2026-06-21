@@ -39,6 +39,7 @@ type Org {
     name:      String!
     logoUrl:   String
     disabled:  Boolean!
+    autoJoin:  Boolean!
     createdAt: Time!
     updatedAt: Time!
 }
