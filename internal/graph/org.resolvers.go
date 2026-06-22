@@ -211,3 +211,8 @@ func (r *queryResolver) ServiceAccountTokens(ctx context.Context, orgID string, 
 	}
 	return convert.SATokensToModel(tokens), nil
 }
+
+// ServiceAccountScopes is the resolver for the serviceAccountScopes field.
+func (r *queryResolver) ServiceAccountScopes(ctx context.Context, orgID string) ([]string, error) {
+	return r.OrgAPI.ListServiceAccountScopes(ctx, orgID)
+}

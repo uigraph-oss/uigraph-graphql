@@ -41,6 +41,7 @@ type orgClient interface {
 	ListServiceAccountTokens(ctx context.Context, orgID, saID string) ([]uigraphapi.ServiceAccountToken, error)
 	CreateServiceAccountToken(ctx context.Context, orgID, saID string, body map[string]interface{}) (*uigraphapi.CreatedToken, error)
 	RevokeServiceAccountToken(ctx context.Context, orgID, saID, tokenID string) error
+	ListServiceAccountScopes(ctx context.Context, orgID string) ([]string, error)
 }
 
 type adminClient interface {
