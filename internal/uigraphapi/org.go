@@ -50,8 +50,9 @@ type ServiceAccount struct {
 	OrgID       string    `json:"orgId"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
-	Role        string    `json:"role"`
+	Scopes      []string  `json:"scopes"`
 	Disabled    bool      `json:"disabled"`
+	IsInternal  bool      `json:"isInternal"`
 	CreatedAt   time.Time `json:"createdAt"`
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
@@ -209,8 +210,17 @@ func (c *Client) CreateServiceAccount(ctx context.Context, orgID string, body ma
 }
 
 func (c *Client) UpdateServiceAccount(ctx context.Context, orgID, id string, body map[string]interface{}) (*ServiceAccount, error) {
-	var out ServiceAccount
-	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/service-accounts/%s", orgID, id), body, &out)
+	if err := c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/service-accounts/%s", orgID, id), body, nil); err != nil {
+		return nil, err
+	}
+	return c.GetServiceAccount(ctx, orgID, id)
+}
+
+func (c *Client) ListServiceAccountScopes(ctx context.Context, orgID string) ([]string, error) {
+	var out struct {
+		Scopes []string `json:"scopes"`
+	}
+	return out.Scopes, c.get(ctx, "/api/v1/orgs/"+orgID+"/scopes", &out)
 }
 
 func (c *Client) DeleteServiceAccount(ctx context.Context, orgID, id string) error {

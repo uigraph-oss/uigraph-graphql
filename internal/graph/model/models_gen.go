@@ -333,9 +333,9 @@ type CreateServerOrgInput struct {
 }
 
 type CreateServiceAccountInput struct {
-	Name        string  `json:"name"`
-	Description *string `json:"description,omitempty"`
-	Role        string  `json:"role"`
+	Name        string   `json:"name"`
+	Description *string  `json:"description,omitempty"`
+	Scopes      []string `json:"scopes"`
 }
 
 type CreateServiceDBInput struct {
@@ -854,6 +854,7 @@ type OAuthProvider struct {
 	ProviderName   string    `json:"providerName"`
 	Type           string    `json:"type"`
 	DisplayName    string    `json:"displayName"`
+	IconURL        string    `json:"iconUrl"`
 	ClientID       string    `json:"clientId"`
 	ClientSecret   string    `json:"clientSecret"`
 	AuthURL        string    `json:"authUrl"`
@@ -923,6 +924,10 @@ type SAMLConfig struct {
 	UpdatedAt       time.Time `json:"updatedAt"`
 }
 
+type SCIMConfig struct {
+	ID string `json:"id"`
+}
+
 type ServerOverview struct {
 	TotalUsers  int `json:"totalUsers"`
 	ActiveUsers int `json:"activeUsers"`
@@ -960,8 +965,9 @@ type ServiceAccount struct {
 	OrgID       string    `json:"orgId"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
-	Role        string    `json:"role"`
+	Scopes      []string  `json:"scopes"`
 	Disabled    bool      `json:"disabled"`
+	IsInternal  bool      `json:"isInternal"`
 	CreatedAt   time.Time `json:"createdAt"`
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
@@ -1353,9 +1359,10 @@ type UpdateServerOrgInput struct {
 }
 
 type UpdateServiceAccountInput struct {
-	Name        *string `json:"name,omitempty"`
-	Description *string `json:"description,omitempty"`
-	Disabled    *bool   `json:"disabled,omitempty"`
+	Name        *string  `json:"name,omitempty"`
+	Description *string  `json:"description,omitempty"`
+	Scopes      []string `json:"scopes,omitempty"`
+	Disabled    *bool    `json:"disabled,omitempty"`
 }
 
 type UpdateServiceDBInput struct {
@@ -1476,6 +1483,7 @@ type UpsertLDAPInput struct {
 type UpsertOAuthInput struct {
 	Type           string  `json:"type"`
 	DisplayName    string  `json:"displayName"`
+	IconURL        *string `json:"iconUrl,omitempty"`
 	ClientID       string  `json:"clientId"`
 	ClientSecret   *string `json:"clientSecret,omitempty"`
 	AuthURL        *string `json:"authUrl,omitempty"`

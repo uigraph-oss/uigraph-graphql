@@ -39,7 +39,8 @@ func TeamMemberToModel(m uigraphapi.TeamMember) *model.TeamMember {
 func ServiceAccountToModel(sa uigraphapi.ServiceAccount) *model.ServiceAccount {
 	return &model.ServiceAccount{
 		ID: sa.ID, OrgID: sa.OrgID, Name: sa.Name, Description: sa.Description,
-		Role: sa.Role, Disabled: sa.Disabled, CreatedAt: sa.CreatedAt, UpdatedAt: sa.UpdatedAt,
+		Scopes: sa.Scopes, Disabled: sa.Disabled, IsInternal: sa.IsInternal,
+		CreatedAt: sa.CreatedAt, UpdatedAt: sa.UpdatedAt,
 	}
 }
 

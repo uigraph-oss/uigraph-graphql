@@ -10,6 +10,7 @@ extend type Query {
     roleMappings:        [RoleMapping!]!
     ldap:                LDAPConfig
     saml:                SAMLConfig
+    scim:                SCIMConfig
 }
 
 extend type Mutation {
@@ -58,6 +59,7 @@ type OAuthProvider {
     providerName:   String!
     type:           String!
     displayName:    String!
+    iconUrl:        String!
     clientId:       String!
     clientSecret:   String!
     authUrl:        String!
@@ -126,6 +128,10 @@ type SAMLConfig {
     updatedAt:       Time!
 }
 
+type SCIMConfig {
+    id: ID!
+}
+
 # ── Inputs ────────────────────────────────────────────────────────────────────
 
 input CreateServerOrgInput {
@@ -155,6 +161,7 @@ input UpdateUserInput {
 input UpsertOAuthInput {
     type:           String!
     displayName:    String!
+    iconUrl:        String
     clientId:       String!
     clientSecret:   String
     authUrl:        String

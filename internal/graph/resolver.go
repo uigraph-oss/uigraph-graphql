@@ -41,6 +41,7 @@ type orgClient interface {
 	ListServiceAccountTokens(ctx context.Context, orgID, saID string) ([]uigraphapi.ServiceAccountToken, error)
 	CreateServiceAccountToken(ctx context.Context, orgID, saID string, body map[string]interface{}) (*uigraphapi.CreatedToken, error)
 	RevokeServiceAccountToken(ctx context.Context, orgID, saID, tokenID string) error
+	ListServiceAccountScopes(ctx context.Context, orgID string) ([]string, error)
 }
 
 type adminClient interface {
@@ -65,6 +66,7 @@ type adminClient interface {
 	DeleteLDAP(ctx context.Context) error
 	GetSAML(ctx context.Context) (*uigraphapi.SAMLConfig, error)
 	UpsertSAML(ctx context.Context, body map[string]interface{}) error
+	GetSCIM(ctx context.Context) (*uigraphapi.SCIMConfig, error)
 }
 
 type folderClient interface {

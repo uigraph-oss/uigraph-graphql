@@ -30,6 +30,7 @@ func UsersToModel(users []uigraphapi.User) []*model.User {
 func OAuthProviderToModel(p uigraphapi.OAuthProvider) *model.OAuthProvider {
 	return &model.OAuthProvider{
 		ID: p.ID, ProviderName: p.ProviderName, Type: p.Type, DisplayName: p.DisplayName,
+		IconURL:  p.IconURL,
 		ClientID: p.ClientID, ClientSecret: p.ClientSecret,
 		AuthURL: p.AuthURL, TokenURL: p.TokenURL, UserinfoURL: p.UserinfoURL, APIURL: p.APIURL,
 		Scopes: p.Scopes, AllowedDomains: p.AllowedDomains, AllowSignUp: p.AllowSignUp,
@@ -44,6 +45,10 @@ func OAuthProvidersToModel(providers []uigraphapi.OAuthProvider) []*model.OAuthP
 		out[i] = OAuthProviderToModel(providers[i])
 	}
 	return out
+}
+
+func SCIMToModel(s *uigraphapi.SCIMConfig) *model.SCIMConfig {
+	return &model.SCIMConfig{ID: s.ID}
 }
 
 func RoleMappingToModel(m uigraphapi.RoleMapping) *model.RoleMapping {

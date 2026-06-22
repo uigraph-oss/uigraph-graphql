@@ -8,6 +8,7 @@ extend type Query {
     serviceAccounts(orgId: ID!):                      [ServiceAccount!]!
     serviceAccount(orgId: ID!, id: ID!):              ServiceAccount!
     serviceAccountTokens(orgId: ID!, saId: ID!):      [ServiceAccountToken!]!
+    serviceAccountScopes(orgId: ID!):                 [String!]!
 }
 
 extend type Mutation {
@@ -79,8 +80,9 @@ type ServiceAccount {
     orgId:       ID!
     name:        String!
     description: String!
-    role:        String!
+    scopes:      [String!]!
     disabled:    Boolean!
+    isInternal:  Boolean!
     createdAt:   Time!
     updatedAt:   Time!
 }
@@ -143,12 +145,13 @@ input UpdateTeamInput {
 input CreateServiceAccountInput {
     name:        String!
     description: String
-    role:        String!
+    scopes:      [String!]!
 }
 
 input UpdateServiceAccountInput {
     name:        String
     description: String
+    scopes:      [String!]
     disabled:    Boolean
 }
 
