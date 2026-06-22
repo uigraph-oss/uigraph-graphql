@@ -83,6 +83,7 @@ type diagramClient interface {
 	UpdateDiagram(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.Diagram, error)
 	DeleteDiagram(ctx context.Context, orgID, id string) error
 	ListDiagramImages(ctx context.Context, orgID, diagramID string) ([]uigraphapi.DiagramImage, error)
+	CreateDiagramImage(ctx context.Context, orgID, diagramID string, body map[string]interface{}) (*uigraphapi.DiagramImage, error)
 	SyncDiagram(ctx context.Context, orgID string, body map[string]interface{}) (map[string]interface{}, error)
 	ListDiagramVersions(ctx context.Context, orgID, diagramID string) ([]uigraphapi.DiagramVersion, error)
 	CreateDiagramVersion(ctx context.Context, orgID, diagramID string, body map[string]interface{}) (*uigraphapi.DiagramVersion, error)
@@ -216,7 +217,7 @@ type Resolver struct {
 	FolderAPI  folderClient
 	DiagramAPI diagramClient
 	Component  componentClient
-	UIMap      uimapClient
+	UIMapAPI   uimapClient
 	Catalog    catalogClient
 	TestPack   testPackClient
 	Actor      actorClient
