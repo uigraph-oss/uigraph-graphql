@@ -239,6 +239,12 @@ type CreateCommentInput struct {
 	ParentCommentID *string `json:"parentCommentId,omitempty"`
 }
 
+type CreateDiagramImageInput struct {
+	AssetID  string  `json:"assetId"`
+	FileName *string `json:"fileName,omitempty"`
+	Order    *int    `json:"order,omitempty"`
+}
+
 type CreateDiagramInput struct {
 	Name     string  `json:"name"`
 	Content  string  `json:"content"`
@@ -848,6 +854,7 @@ type OAuthProvider struct {
 	ProviderName   string    `json:"providerName"`
 	Type           string    `json:"type"`
 	DisplayName    string    `json:"displayName"`
+	IconURL        string    `json:"iconUrl"`
 	ClientID       string    `json:"clientId"`
 	ClientSecret   string    `json:"clientSecret"`
 	AuthURL        string    `json:"authUrl"`
@@ -915,6 +922,10 @@ type SAMLConfig struct {
 	AllowSignUp     bool      `json:"allowSignUp"`
 	CreatedAt       time.Time `json:"createdAt"`
 	UpdatedAt       time.Time `json:"updatedAt"`
+}
+
+type SCIMConfig struct {
+	ID string `json:"id"`
 }
 
 type ServerOverview struct {
@@ -1221,17 +1232,18 @@ type TestRunSummary struct {
 }
 
 type UIMap struct {
-	ID          string    `json:"id"`
-	OrgID       string    `json:"orgId"`
-	FolderID    *string   `json:"folderId,omitempty"`
-	TeamID      *string   `json:"teamId,omitempty"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Status      string    `json:"status"`
-	CreatedBy   string    `json:"createdBy"`
-	UpdatedBy   *string   `json:"updatedBy,omitempty"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	ID             string    `json:"id"`
+	OrgID          string    `json:"orgId"`
+	FolderID       *string   `json:"folderId,omitempty"`
+	TeamID         *string   `json:"teamId,omitempty"`
+	Name           string    `json:"name"`
+	Description    string    `json:"description"`
+	Status         string    `json:"status"`
+	CreatedBy      string    `json:"createdBy"`
+	UpdatedBy      *string   `json:"updatedBy,omitempty"`
+	CreatedAt      time.Time `json:"createdAt"`
+	UpdatedAt      time.Time `json:"updatedAt"`
+	PreviewImgUrls []string  `json:"previewImgUrls"`
 }
 
 type UpdateAPIEndpointInput struct {
@@ -1471,6 +1483,7 @@ type UpsertLDAPInput struct {
 type UpsertOAuthInput struct {
 	Type           string  `json:"type"`
 	DisplayName    string  `json:"displayName"`
+	IconURL        *string `json:"iconUrl,omitempty"`
 	ClientID       string  `json:"clientId"`
 	ClientSecret   *string `json:"clientSecret,omitempty"`
 	AuthURL        *string `json:"authUrl,omitempty"`

@@ -6,6 +6,7 @@ package graph
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
@@ -116,6 +117,11 @@ func (r *mutationResolver) PrepareDiagramThumbnailUpload(ctx context.Context, or
 // ConfirmDiagramThumbnailUpload is the resolver for the confirmDiagramThumbnailUpload field.
 func (r *mutationResolver) ConfirmDiagramThumbnailUpload(ctx context.Context, orgID string, diagramID string, contentHash string) (bool, error) {
 	return true, r.DiagramAPI.ConfirmDiagramThumbnailUpload(ctx, orgID, diagramID, contentHash)
+}
+
+// CreateDiagramImage is the resolver for the createDiagramImage field.
+func (r *mutationResolver) CreateDiagramImage(ctx context.Context, orgID string, diagramID string, input model.CreateDiagramImageInput) (*model.DiagramImage, error) {
+	panic(fmt.Errorf("not implemented: CreateDiagramImage - createDiagramImage"))
 }
 
 // Diagrams is the resolver for the diagrams field.
