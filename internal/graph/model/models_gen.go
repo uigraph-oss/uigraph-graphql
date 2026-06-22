@@ -327,9 +327,9 @@ type CreateServerOrgInput struct {
 }
 
 type CreateServiceAccountInput struct {
-	Name        string  `json:"name"`
-	Description *string `json:"description,omitempty"`
-	Role        string  `json:"role"`
+	Name        string   `json:"name"`
+	Description *string  `json:"description,omitempty"`
+	Scopes      []string `json:"scopes"`
 }
 
 type CreateServiceDBInput struct {
@@ -954,8 +954,9 @@ type ServiceAccount struct {
 	OrgID       string    `json:"orgId"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
-	Role        string    `json:"role"`
+	Scopes      []string  `json:"scopes"`
 	Disabled    bool      `json:"disabled"`
+	IsInternal  bool      `json:"isInternal"`
 	CreatedAt   time.Time `json:"createdAt"`
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
@@ -1346,9 +1347,10 @@ type UpdateServerOrgInput struct {
 }
 
 type UpdateServiceAccountInput struct {
-	Name        *string `json:"name,omitempty"`
-	Description *string `json:"description,omitempty"`
-	Disabled    *bool   `json:"disabled,omitempty"`
+	Name        *string  `json:"name,omitempty"`
+	Description *string  `json:"description,omitempty"`
+	Scopes      []string `json:"scopes,omitempty"`
+	Disabled    *bool    `json:"disabled,omitempty"`
 }
 
 type UpdateServiceDBInput struct {
