@@ -218,7 +218,7 @@ type Resolver struct {
 	FolderAPI  folderClient
 	DiagramAPI diagramClient
 	Component  componentClient
-	UIMap      uimapClient
+	UIMapAPI   uimapClient
 	Catalog    catalogClient
 	TestPack   testPackClient
 	Actor      actorClient

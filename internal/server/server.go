@@ -42,7 +42,7 @@ func Run(cfg *config.Config) error {
 		FolderAPI:  c,
 		DiagramAPI: c,
 		Component:  c,
-		UIMap:      c,
+		UIMapAPI:   c,
 		Catalog:    c,
 		TestPack:   c,
 		Actor:      c,

@@ -239,6 +239,12 @@ type CreateCommentInput struct {
 	ParentCommentID *string `json:"parentCommentId,omitempty"`
 }
 
+type CreateDiagramImageInput struct {
+	AssetID  string  `json:"assetId"`
+	FileName *string `json:"fileName,omitempty"`
+	Order    *int    `json:"order,omitempty"`
+}
+
 type CreateDiagramInput struct {
 	Name     string  `json:"name"`
 	Content  string  `json:"content"`
@@ -1226,17 +1232,18 @@ type TestRunSummary struct {
 }
 
 type UIMap struct {
-	ID          string    `json:"id"`
-	OrgID       string    `json:"orgId"`
-	FolderID    *string   `json:"folderId,omitempty"`
-	TeamID      *string   `json:"teamId,omitempty"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Status      string    `json:"status"`
-	CreatedBy   string    `json:"createdBy"`
-	UpdatedBy   *string   `json:"updatedBy,omitempty"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	ID             string    `json:"id"`
+	OrgID          string    `json:"orgId"`
+	FolderID       *string   `json:"folderId,omitempty"`
+	TeamID         *string   `json:"teamId,omitempty"`
+	Name           string    `json:"name"`
+	Description    string    `json:"description"`
+	Status         string    `json:"status"`
+	CreatedBy      string    `json:"createdBy"`
+	UpdatedBy      *string   `json:"updatedBy,omitempty"`
+	CreatedAt      time.Time `json:"createdAt"`
+	UpdatedAt      time.Time `json:"updatedAt"`
+	PreviewImgUrls []string  `json:"previewImgUrls"`
 }
 
 type UpdateAPIEndpointInput struct {
