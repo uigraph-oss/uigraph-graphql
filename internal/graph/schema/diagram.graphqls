@@ -21,6 +21,7 @@ extend type Mutation {
     restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
     prepareDiagramThumbnailUpload(orgId: ID!, diagramId: ID!): DiagramThumbnailUpload!
     confirmDiagramThumbnailUpload(orgId: ID!, diagramId: ID!, contentHash: String!): Boolean!
+    createDiagramImage(orgId: ID!, diagramId: ID!, input: CreateDiagramImageInput!): DiagramImage!
 }
 
 type Diagram {
@@ -104,4 +105,10 @@ input SyncDiagramInput {
     folderId:  ID
     teamId:    ID
     source:    String
+}
+
+input CreateDiagramImageInput {
+    assetId:  String!
+    fileName: String
+    order:    Int
 }

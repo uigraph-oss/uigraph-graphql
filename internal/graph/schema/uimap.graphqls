@@ -53,6 +53,7 @@ type UIMap {
     updatedBy:   ID
     createdAt:   Time!
     updatedAt:   Time!
+    previewImgUrls: [String!]! @goField(forceResolver: true)
 }
 
 type Frame {
