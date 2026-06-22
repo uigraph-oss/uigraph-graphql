@@ -6,7 +6,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
