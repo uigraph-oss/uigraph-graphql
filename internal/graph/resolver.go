@@ -66,6 +66,7 @@ type adminClient interface {
 	DeleteLDAP(ctx context.Context) error
 	GetSAML(ctx context.Context) (*uigraphapi.SAMLConfig, error)
 	UpsertSAML(ctx context.Context, body map[string]interface{}) error
+	GetSCIM(ctx context.Context) (*uigraphapi.SCIMConfig, error)
 }
 
 type folderClient interface {

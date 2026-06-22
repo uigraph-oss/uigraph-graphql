@@ -10,6 +10,7 @@ type OAuthProvider struct {
 	ProviderName   string    `json:"providerName"`
 	Type           string    `json:"type"`
 	DisplayName    string    `json:"displayName"`
+	IconURL        string    `json:"iconUrl"`
 	ClientID       string    `json:"clientId"`
 	ClientSecret   string    `json:"clientSecret"`
 	AuthURL        string    `json:"authUrl"`
@@ -136,4 +137,15 @@ func (c *Client) GetSAML(ctx context.Context) (*SAMLConfig, error) {
 
 func (c *Client) UpsertSAML(ctx context.Context, body map[string]interface{}) error {
 	return c.put(ctx, "/api/v1/sso/saml", body, nil)
+}
+
+// ── SCIM ──────────────────────────────────────────────────────────────────────
+
+type SCIMConfig struct {
+	ID string `json:"id"`
+}
+
+func (c *Client) GetSCIM(ctx context.Context) (*SCIMConfig, error) {
+	var out SCIMConfig
+	return &out, c.get(ctx, "/api/v1/sso/scim", &out)
 }

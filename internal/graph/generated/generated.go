@@ -646,6 +646,7 @@ type ComplexityRoot struct {
 		DisplayName    func(childComplexity int) int
 		EmailClaim     func(childComplexity int) int
 		ID             func(childComplexity int) int
+		IconURL        func(childComplexity int) int
 		NameClaim      func(childComplexity int) int
 		ProviderName   func(childComplexity int) int
 		Scopes         func(childComplexity int) int
@@ -713,6 +714,7 @@ type ComplexityRoot struct {
 		Orgs                          func(childComplexity int) int
 		RoleMappings                  func(childComplexity int) int
 		Saml                          func(childComplexity int) int
+		Scim                          func(childComplexity int) int
 		ServerOrgs                    func(childComplexity int) int
 		ServerOverview                func(childComplexity int) int
 		Service                       func(childComplexity int, orgID string, id string) int
@@ -771,6 +773,10 @@ type ComplexityRoot struct {
 		SpEntityID      func(childComplexity int) int
 		SpKey           func(childComplexity int) int
 		UpdatedAt       func(childComplexity int) int
+	}
+
+	SCIMConfig struct {
+		ID func(childComplexity int) int
 	}
 
 	ServerOverview struct {
@@ -1205,6 +1211,7 @@ type QueryResolver interface {
 	RoleMappings(ctx context.Context) ([]*model.RoleMapping, error)
 	Ldap(ctx context.Context) (*model.LDAPConfig, error)
 	Saml(ctx context.Context) (*model.SAMLConfig, error)
+	Scim(ctx context.Context) (*model.SCIMConfig, error)
 	Me(ctx context.Context) (*model.Me, error)
 	MyOrgs(ctx context.Context) ([]*model.OrgSummary, error)
 	Services(ctx context.Context, orgID string, folderID *string, teamID *string) ([]*model.Service, error)
@@ -5004,6 +5011,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.OAuthProvider.DisplayName(childComplexity), true
 
+	case "OAuthProvider.iconUrl":
+		if e.complexity.OAuthProvider.IconURL == nil {
+			break
+		}
+
+		return e.complexity.OAuthProvider.IconURL(childComplexity), true
+
 	case "OAuthProvider.emailClaim":
 		if e.complexity.OAuthProvider.EmailClaim == nil {
 			break
@@ -5579,6 +5593,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.Saml(childComplexity), true
 
+	case "Query.scim":
+		if e.complexity.Query.Scim == nil {
+			break
+		}
+
+		return e.complexity.Query.Scim(childComplexity), true
+
 	case "Query.serverOrgs":
 		if e.complexity.Query.ServerOrgs == nil {
 			break
@@ -6057,6 +6078,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.SAMLConfig.UpdatedAt(childComplexity), true
+
+	case "SCIMConfig.id":
+		if e.complexity.SCIMConfig.ID == nil {
+			break
+		}
+
+		return e.complexity.SCIMConfig.ID(childComplexity), true
 
 	case "ServerOverview.activeUsers":
 		if e.complexity.ServerOverview.ActiveUsers == nil {
@@ -7878,6 +7906,7 @@ type Actor {
     roleMappings:        [RoleMapping!]!
     ldap:                LDAPConfig
     saml:                SAMLConfig
+    scim:                SCIMConfig
 }
 
 extend type Mutation {
@@ -7926,6 +7955,7 @@ type OAuthProvider {
     providerName:   String!
     type:           String!
     displayName:    String!
+    iconUrl:        String!
     clientId:       String!
     clientSecret:   String!
     authUrl:        String!
@@ -7994,6 +8024,10 @@ type SAMLConfig {
     updatedAt:       Time!
 }
 
+type SCIMConfig {
+    id: ID!
+}
+
 # ── Inputs ────────────────────────────────────────────────────────────────────
 
 input CreateServerOrgInput {
@@ -8023,6 +8057,7 @@ input UpdateUserInput {
 input UpsertOAuthInput {
     type:           String!
     displayName:    String!
+    iconUrl:        String
     clientId:       String!
     clientSecret:   String
     authUrl:        String
@@ -42703,6 +42738,50 @@ func (ec *executionContext) fieldContext_OAuthProvider_displayName(_ context.Con
 	return fc, nil
 }
 
+func (ec *executionContext) _OAuthProvider_iconUrl(ctx context.Context, field graphql.CollectedField, obj *model.OAuthProvider) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OAuthProvider_iconUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IconURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OAuthProvider_iconUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OAuthProvider",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _OAuthProvider_clientId(ctx context.Context, field graphql.CollectedField, obj *model.OAuthProvider) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_OAuthProvider_clientId(ctx, field)
 	if err != nil {
@@ -44205,6 +44284,8 @@ func (ec *executionContext) fieldContext_Query_oauthProviders(_ context.Context,
 				return ec.fieldContext_OAuthProvider_type(ctx, field)
 			case "displayName":
 				return ec.fieldContext_OAuthProvider_displayName(ctx, field)
+			case "iconUrl":
+				return ec.fieldContext_OAuthProvider_iconUrl(ctx, field)
 			case "clientId":
 				return ec.fieldContext_OAuthProvider_clientId(ctx, field)
 			case "clientSecret":
@@ -44453,6 +44534,51 @@ func (ec *executionContext) fieldContext_Query_saml(_ context.Context, field gra
 				return ec.fieldContext_SAMLConfig_updatedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type SAMLConfig", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_scim(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_scim(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Scim(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SCIMConfig)
+	fc.Result = res
+	return ec.marshalOSCIMConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSCIMConfig(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_scim(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SCIMConfig_id(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SCIMConfig", field.Name)
 		},
 	}
 	return fc, nil
@@ -49357,6 +49483,50 @@ func (ec *executionContext) _SAMLConfig_id(ctx context.Context, field graphql.Co
 func (ec *executionContext) fieldContext_SAMLConfig_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "SAMLConfig",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SCIMConfig_id(ctx context.Context, field graphql.CollectedField, obj *model.SCIMConfig) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SCIMConfig_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SCIMConfig_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SCIMConfig",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -66537,7 +66707,7 @@ func (ec *executionContext) unmarshalInputUpsertOAuthInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"type", "displayName", "clientId", "clientSecret", "authUrl", "tokenUrl", "userinfoUrl", "apiUrl", "scopes", "allowedDomains", "allowSignUp", "emailClaim", "nameClaim", "subClaim"}
+	fieldsInOrder := [...]string{"type", "displayName", "iconUrl", "clientId", "clientSecret", "authUrl", "tokenUrl", "userinfoUrl", "apiUrl", "scopes", "allowedDomains", "allowSignUp", "emailClaim", "nameClaim", "subClaim"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -66558,6 +66728,13 @@ func (ec *executionContext) unmarshalInputUpsertOAuthInput(ctx context.Context, 
 				return it, err
 			}
 			it.DisplayName = data
+		case "iconUrl":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("iconUrl"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IconURL = data
 		case "clientId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("clientId"))
 			data, err := ec.unmarshalNString2string(ctx, v)
@@ -70657,6 +70834,11 @@ func (ec *executionContext) _OAuthProvider(ctx context.Context, sel ast.Selectio
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "iconUrl":
+			out.Values[i] = ec._OAuthProvider_iconUrl(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "clientId":
 			out.Values[i] = ec._OAuthProvider_clientId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -71071,6 +71253,25 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_saml(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "scim":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_scim(ctx, field)
 				return res
 			}
 
@@ -72493,6 +72694,45 @@ func (ec *executionContext) _SAMLConfig(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedAt":
 			out.Values[i] = ec._SAMLConfig_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var sCIMConfigImplementors = []string{"SCIMConfig"}
+
+func (ec *executionContext) _SCIMConfig(ctx context.Context, sel ast.SelectionSet, obj *model.SCIMConfig) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, sCIMConfigImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("SCIMConfig")
+		case "id":
+			out.Values[i] = ec._SCIMConfig_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -78542,6 +78782,13 @@ func (ec *executionContext) marshalOSAMLConfig2ᚖgithubᚗcomᚋuigraphᚋgraph
 		return graphql.Null
 	}
 	return ec._SAMLConfig(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOSCIMConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSCIMConfig(ctx context.Context, sel ast.SelectionSet, v *model.SCIMConfig) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._SCIMConfig(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOString2ᚕstringᚄ(ctx context.Context, v any) ([]string, error) {

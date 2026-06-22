@@ -848,6 +848,7 @@ type OAuthProvider struct {
 	ProviderName   string    `json:"providerName"`
 	Type           string    `json:"type"`
 	DisplayName    string    `json:"displayName"`
+	IconURL        string    `json:"iconUrl"`
 	ClientID       string    `json:"clientId"`
 	ClientSecret   string    `json:"clientSecret"`
 	AuthURL        string    `json:"authUrl"`
@@ -915,6 +916,10 @@ type SAMLConfig struct {
 	AllowSignUp     bool      `json:"allowSignUp"`
 	CreatedAt       time.Time `json:"createdAt"`
 	UpdatedAt       time.Time `json:"updatedAt"`
+}
+
+type SCIMConfig struct {
+	ID string `json:"id"`
 }
 
 type ServerOverview struct {
@@ -1471,6 +1476,7 @@ type UpsertLDAPInput struct {
 type UpsertOAuthInput struct {
 	Type           string  `json:"type"`
 	DisplayName    string  `json:"displayName"`
+	IconURL        *string `json:"iconUrl,omitempty"`
 	ClientID       string  `json:"clientId"`
 	ClientSecret   *string `json:"clientSecret,omitempty"`
 	AuthURL        *string `json:"authUrl,omitempty"`

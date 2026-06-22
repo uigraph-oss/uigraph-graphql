@@ -176,3 +176,16 @@ func (r *queryResolver) Saml(ctx context.Context) (*model.SAMLConfig, error) {
 	}
 	return convert.SAMLToModel(s), nil
 }
+
+// Scim is the resolver for the scim field.
+// Single-config GET returns 404 when not yet configured; treat as null.
+func (r *queryResolver) Scim(ctx context.Context) (*model.SCIMConfig, error) {
+	s, err := r.Admin.GetSCIM(ctx)
+	if err != nil {
+		if uigraphapi.IsNotFound(err) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return convert.SCIMToModel(s), nil
+}
