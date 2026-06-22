@@ -123,7 +123,7 @@ func ServiceDBVersionToModel(orgID string, v uigraphapi.ServiceDBVersion) *model
 		NoSQLSchema:  p.NoSQLSchema,
 		DbDiagramID:  p.DbDiagramID,
 		PgDumpFileID: p.PgDumpFileID,
-		Source: v.Source, SourceTs: v.SourceTS,
+		Source:       v.Source, SourceTs: v.SourceTS,
 		IsAutoVersion: v.IsAutoVersion, CreatedBy: v.CreatedBy, CreatedAt: v.CreatedAt,
 	}
 }

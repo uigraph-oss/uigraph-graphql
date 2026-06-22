@@ -210,6 +210,9 @@ func (f *fakeDiagramClient) DeleteDiagram(_ context.Context, _, _ string) error 
 func (f *fakeDiagramClient) ListDiagramImages(_ context.Context, _, _ string) ([]uigraphapi.DiagramImage, error) {
 	return nil, nil
 }
+func (f *fakeDiagramClient) CreateDiagramImage(_ context.Context, _, _ string, _ map[string]interface{}) (*uigraphapi.DiagramImage, error) {
+	return nil, nil
+}
 func (f *fakeDiagramClient) SyncDiagram(_ context.Context, _ string, _ map[string]interface{}) (map[string]interface{}, error) {
 	return nil, nil
 }

@@ -41,4 +41,3 @@ func TestTeamToModel(t *testing.T) {
 		}
 	})
 }
-

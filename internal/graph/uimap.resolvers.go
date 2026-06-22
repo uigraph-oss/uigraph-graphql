@@ -309,7 +309,7 @@ func (r *uIMapResolver) PreviewImgUrls(ctx context.Context, obj *model.UIMap) ([
 		return nil, err
 	}
 
-	var assetIDs []string
+	assetIDs := make([]string, 0, len(frames))
 	for _, f := range frames {
 		if f.ScreenshotAssetID != nil && *f.ScreenshotAssetID != "" {
 			assetIDs = append(assetIDs, *f.ScreenshotAssetID)
@@ -319,18 +319,18 @@ func (r *uIMapResolver) PreviewImgUrls(ctx context.Context, obj *model.UIMap) ([
 		return []string{}, nil
 	}
 
-	urls, err := r.Actor.ResolveAssetURLs(ctx, obj.OrgID, assetIDs)
+	urlsByID, err := r.Actor.ResolveAssetURLs(ctx, obj.OrgID, assetIDs)
 	if err != nil {
 		return nil, err
 	}
 
-	out := make([]string, 0, len(assetIDs))
+	urls := make([]string, 0, len(assetIDs))
 	for _, id := range assetIDs {
-		if u, ok := urls[id]; ok && u != "" {
-			out = append(out, u)
+		if u, ok := urlsByID[id]; ok && u != "" {
+			urls = append(urls, u)
 		}
 	}
-	return out, nil
+	return urls, nil
 }
 
 // Frame returns generated.FrameResolver implementation.
