@@ -44,13 +44,13 @@ type ResolverRoot interface {
 	Diagram() DiagramResolver
 	DiagramImage() DiagramImageResolver
 	DiagramVersion() DiagramVersionResolver
+	Doc() DocResolver
 	Frame() FrameResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 	Service() ServiceResolver
 	ServiceDB() ServiceDBResolver
 	ServiceDBVersion() ServiceDBVersionResolver
-	ServiceDoc() ServiceDocResolver
 	UIMap() UIMapResolver
 }
 
@@ -316,6 +316,25 @@ type ComplexityRoot struct {
 		VersionNumber  func(childComplexity int) int
 	}
 
+	Doc struct {
+		ContentHash    func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		CreatedByActor func(childComplexity int) int
+		Description    func(childComplexity int) int
+		FileAssetID    func(childComplexity int) int
+		FileName       func(childComplexity int) int
+		FileType       func(childComplexity int) int
+		FileURL        func(childComplexity int) int
+		FolderID       func(childComplexity int) int
+		ID             func(childComplexity int) int
+		OrgID          func(childComplexity int) int
+		TeamID         func(childComplexity int) int
+		UpdatedAt      func(childComplexity int) int
+		UpdatedBy      func(childComplexity int) int
+		UpdatedByActor func(childComplexity int) int
+	}
+
 	FileDownload struct {
 		APIGroupID func(childComplexity int) int
 		Content    func(childComplexity int) int
@@ -549,6 +568,7 @@ type ComplexityRoot struct {
 		CreateDiagram                 func(childComplexity int, orgID string, input model.CreateDiagramInput) int
 		CreateDiagramImage            func(childComplexity int, orgID string, diagramID string, input model.CreateDiagramImageInput) int
 		CreateDiagramVersion          func(childComplexity int, orgID string, diagramID string, label *string) int
+		CreateDoc                     func(childComplexity int, orgID string, input model.CreateDocInput) int
 		CreateFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
 		CreateFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) int
 		CreateFolder                  func(childComplexity int, orgID string, input model.CreateFolderInput) int
@@ -577,6 +597,7 @@ type ComplexityRoot struct {
 		DeleteComment                 func(childComplexity int, orgID string, id string) int
 		DeleteCustomComponent         func(childComplexity int, orgID string, id string) int
 		DeleteDiagram                 func(childComplexity int, orgID string, id string) int
+		DeleteDoc                     func(childComplexity int, orgID string, id string) int
 		DeleteFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, id string) int
 		DeleteFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string) int
 		DeleteFolder                  func(childComplexity int, orgID string, id string) int
@@ -593,7 +614,7 @@ type ComplexityRoot struct {
 		DeleteServiceAccount          func(childComplexity int, orgID string, id string) int
 		DeleteServiceDb               func(childComplexity int, orgID string, serviceID string, id string) int
 		DeleteServiceDiagram          func(childComplexity int, orgID string, serviceID string, diagramID string) int
-		DeleteServiceDoc              func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteServiceDoc              func(childComplexity int, orgID string, serviceID string, docID string) int
 		DeleteTeam                    func(childComplexity int, orgID string, teamID string) int
 		DeleteTestCase                func(childComplexity int, orgID string, serviceID string, id string) int
 		DeleteTestPack                func(childComplexity int, orgID string, serviceID string, id string) int
@@ -613,6 +634,7 @@ type ComplexityRoot struct {
 		UpdateComment                 func(childComplexity int, orgID string, id string, input model.UpdateCommentInput) int
 		UpdateCustomComponent         func(childComplexity int, orgID string, id string, input model.CustomComponentInput) int
 		UpdateDiagram                 func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
+		UpdateDoc                     func(childComplexity int, orgID string, id string, input model.UpdateDocInput) int
 		UpdateFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
 		UpdateFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) int
 		UpdateFolder                  func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
@@ -626,7 +648,6 @@ type ComplexityRoot struct {
 		UpdateService                 func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
 		UpdateServiceAccount          func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
 		UpdateServiceDb               func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) int
-		UpdateServiceDoc              func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDocInput) int
 		UpdateTeam                    func(childComplexity int, orgID string, teamID string, input model.UpdateTeamInput) int
 		UpdateTestCase                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) int
 		UpdateTestPack                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestPackInput) int
@@ -696,6 +717,8 @@ type ComplexityRoot struct {
 		DiagramVersionContent         func(childComplexity int, orgID string, diagramID string, versionID string) int
 		DiagramVersions               func(childComplexity int, orgID string, diagramID string) int
 		Diagrams                      func(childComplexity int, orgID string, folderID *string) int
+		Doc                           func(childComplexity int, orgID string, id string) int
+		Docs                          func(childComplexity int, orgID string, folderID *string) int
 		FlowDiagramComponents         func(childComplexity int, orgID string) int
 		FocalPointMeta                func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string) int
 		FocalPointMetaByComponentLink func(childComplexity int, orgID string, componentLinkID string) int
@@ -731,7 +754,6 @@ type ComplexityRoot struct {
 		ServiceDBs                    func(childComplexity int, orgID string, serviceID string) int
 		ServiceDb                     func(childComplexity int, orgID string, serviceID string, id string) int
 		ServiceDiagrams               func(childComplexity int, orgID string, serviceID string) int
-		ServiceDoc                    func(childComplexity int, orgID string, serviceID string, id string) int
 		ServiceDocs                   func(childComplexity int, orgID string, serviceID string) int
 		ServiceStats                  func(childComplexity int, orgID string, serviceID *string) int
 		Services                      func(childComplexity int, orgID string, folderID *string, teamID *string) int
@@ -901,19 +923,14 @@ type ComplexityRoot struct {
 	}
 
 	ServiceDoc struct {
-		ContentHash func(childComplexity int) int
-		CreatedAt   func(childComplexity int) int
-		CreatedBy   func(childComplexity int) int
-		Description func(childComplexity int) int
-		FileAssetID func(childComplexity int) int
-		FileName    func(childComplexity int) int
-		FileType    func(childComplexity int) int
-		FileURL     func(childComplexity int) int
-		ID          func(childComplexity int) int
-		OrgID       func(childComplexity int) int
-		ServiceID   func(childComplexity int) int
-		UpdatedAt   func(childComplexity int) int
-		UpdatedBy   func(childComplexity int) int
+		CreatedAt func(childComplexity int) int
+		CreatedBy func(childComplexity int) int
+		Doc       func(childComplexity int) int
+		DocID     func(childComplexity int) int
+		OrgID     func(childComplexity int) int
+		ServiceID func(childComplexity int) int
+		UpdatedAt func(childComplexity int) int
+		UpdatedBy func(childComplexity int) int
 	}
 
 	ServiceStats struct {
@@ -1111,6 +1128,12 @@ type DiagramImageResolver interface {
 type DiagramVersionResolver interface {
 	CreatedByActor(ctx context.Context, obj *model.DiagramVersion) (*model.Actor, error)
 }
+type DocResolver interface {
+	FileURL(ctx context.Context, obj *model.Doc) (*string, error)
+
+	CreatedByActor(ctx context.Context, obj *model.Doc) (*model.Actor, error)
+	UpdatedByActor(ctx context.Context, obj *model.Doc) (*model.Actor, error)
+}
 type FrameResolver interface {
 	ScreenshotImageURL(ctx context.Context, obj *model.Frame) (*string, error)
 
@@ -1141,8 +1164,7 @@ type MutationResolver interface {
 	DeleteAPIGroup(ctx context.Context, orgID string, serviceID string, id string) (bool, error)
 	SyncAPIGroup(ctx context.Context, orgID string, serviceID string, input model.SyncAPIGroupInput) (*model.SyncAPIGroupResult, error)
 	CreateServiceDoc(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDocInput) (*model.ServiceDoc, error)
-	UpdateServiceDoc(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateServiceDocInput) (*model.ServiceDoc, error)
-	DeleteServiceDoc(ctx context.Context, orgID string, serviceID string, id string) (bool, error)
+	DeleteServiceDoc(ctx context.Context, orgID string, serviceID string, docID string) (bool, error)
 	CreateServiceDiagram(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDiagramInput) (*model.ServiceDiagram, error)
 	DeleteServiceDiagram(ctx context.Context, orgID string, serviceID string, diagramID string) (bool, error)
 	CreateServiceDb(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDBInput) (*model.ServiceDb, error)
@@ -1168,6 +1190,9 @@ type MutationResolver interface {
 	PrepareDiagramThumbnailUpload(ctx context.Context, orgID string, diagramID string) (*model.DiagramThumbnailUpload, error)
 	ConfirmDiagramThumbnailUpload(ctx context.Context, orgID string, diagramID string, contentHash string) (bool, error)
 	CreateDiagramImage(ctx context.Context, orgID string, diagramID string, input model.CreateDiagramImageInput) (*model.DiagramImage, error)
+	CreateDoc(ctx context.Context, orgID string, input model.CreateDocInput) (*model.Doc, error)
+	UpdateDoc(ctx context.Context, orgID string, id string, input model.UpdateDocInput) (*model.Doc, error)
+	DeleteDoc(ctx context.Context, orgID string, id string) (bool, error)
 	CreateFolder(ctx context.Context, orgID string, input model.CreateFolderInput) (*model.Folder, error)
 	UpdateFolder(ctx context.Context, orgID string, id string, input model.UpdateFolderInput) (*model.Folder, error)
 	DeleteFolder(ctx context.Context, orgID string, id string) (bool, error)
@@ -1238,7 +1263,6 @@ type QueryResolver interface {
 	APIGroup(ctx context.Context, orgID string, serviceID string, id string) (*model.APIGroup, error)
 	APIGroupVersions(ctx context.Context, orgID string, serviceID string, apiGroupID string) ([]*model.APIGroupVersion, error)
 	ServiceDocs(ctx context.Context, orgID string, serviceID string) ([]*model.ServiceDoc, error)
-	ServiceDoc(ctx context.Context, orgID string, serviceID string, id string) (*model.ServiceDoc, error)
 	ServiceDiagrams(ctx context.Context, orgID string, serviceID string) ([]*model.ServiceDiagram, error)
 	ServiceDBs(ctx context.Context, orgID string, serviceID string) ([]*model.ServiceDb, error)
 	ServiceDb(ctx context.Context, orgID string, serviceID string, id string) (*model.ServiceDb, error)
@@ -1256,6 +1280,8 @@ type QueryResolver interface {
 	DiagramVersions(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramVersion, error)
 	DiagramVersionContent(ctx context.Context, orgID string, diagramID string, versionID string) (*model.DiagramContent, error)
 	DiagramImages(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramImage, error)
+	Docs(ctx context.Context, orgID string, folderID *string) ([]*model.Doc, error)
+	Doc(ctx context.Context, orgID string, id string) (*model.Doc, error)
 	Folders(ctx context.Context, orgID string, typeArg *string, parentID *string) ([]*model.Folder, error)
 	Folder(ctx context.Context, orgID string, id string) (*model.Folder, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
@@ -1296,9 +1322,6 @@ type ServiceDBResolver interface {
 }
 type ServiceDBVersionResolver interface {
 	CreatedByActor(ctx context.Context, obj *model.ServiceDBVersion) (*model.Actor, error)
-}
-type ServiceDocResolver interface {
-	FileURL(ctx context.Context, obj *model.ServiceDoc) (*string, error)
 }
 type UIMapResolver interface {
 	PreviewImgUrls(ctx context.Context, obj *model.UIMap) ([]string, error)
@@ -2625,6 +2648,118 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DiagramVersion.VersionNumber(childComplexity), true
 
+	case "Doc.contentHash":
+		if e.complexity.Doc.ContentHash == nil {
+			break
+		}
+
+		return e.complexity.Doc.ContentHash(childComplexity), true
+
+	case "Doc.createdAt":
+		if e.complexity.Doc.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.Doc.CreatedAt(childComplexity), true
+
+	case "Doc.createdBy":
+		if e.complexity.Doc.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.Doc.CreatedBy(childComplexity), true
+
+	case "Doc.createdByActor":
+		if e.complexity.Doc.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.Doc.CreatedByActor(childComplexity), true
+
+	case "Doc.description":
+		if e.complexity.Doc.Description == nil {
+			break
+		}
+
+		return e.complexity.Doc.Description(childComplexity), true
+
+	case "Doc.fileAssetId":
+		if e.complexity.Doc.FileAssetID == nil {
+			break
+		}
+
+		return e.complexity.Doc.FileAssetID(childComplexity), true
+
+	case "Doc.fileName":
+		if e.complexity.Doc.FileName == nil {
+			break
+		}
+
+		return e.complexity.Doc.FileName(childComplexity), true
+
+	case "Doc.fileType":
+		if e.complexity.Doc.FileType == nil {
+			break
+		}
+
+		return e.complexity.Doc.FileType(childComplexity), true
+
+	case "Doc.fileUrl":
+		if e.complexity.Doc.FileURL == nil {
+			break
+		}
+
+		return e.complexity.Doc.FileURL(childComplexity), true
+
+	case "Doc.folderId":
+		if e.complexity.Doc.FolderID == nil {
+			break
+		}
+
+		return e.complexity.Doc.FolderID(childComplexity), true
+
+	case "Doc.id":
+		if e.complexity.Doc.ID == nil {
+			break
+		}
+
+		return e.complexity.Doc.ID(childComplexity), true
+
+	case "Doc.orgId":
+		if e.complexity.Doc.OrgID == nil {
+			break
+		}
+
+		return e.complexity.Doc.OrgID(childComplexity), true
+
+	case "Doc.teamId":
+		if e.complexity.Doc.TeamID == nil {
+			break
+		}
+
+		return e.complexity.Doc.TeamID(childComplexity), true
+
+	case "Doc.updatedAt":
+		if e.complexity.Doc.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.Doc.UpdatedAt(childComplexity), true
+
+	case "Doc.updatedBy":
+		if e.complexity.Doc.UpdatedBy == nil {
+			break
+		}
+
+		return e.complexity.Doc.UpdatedBy(childComplexity), true
+
+	case "Doc.updatedByActor":
+		if e.complexity.Doc.UpdatedByActor == nil {
+			break
+		}
+
+		return e.complexity.Doc.UpdatedByActor(childComplexity), true
+
 	case "FileDownload.apiGroupId":
 		if e.complexity.FileDownload.APIGroupID == nil {
 			break
@@ -3947,6 +4082,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateDiagramVersion(childComplexity, args["orgId"].(string), args["diagramId"].(string), args["label"].(*string)), true
 
+	case "Mutation.createDoc":
+		if e.complexity.Mutation.CreateDoc == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createDoc_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateDoc(childComplexity, args["orgId"].(string), args["input"].(model.CreateDocInput)), true
+
 	case "Mutation.createFocalPoint":
 		if e.complexity.Mutation.CreateFocalPoint == nil {
 			break
@@ -4283,6 +4430,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.DeleteDiagram(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
+	case "Mutation.deleteDoc":
+		if e.complexity.Mutation.DeleteDoc == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteDoc_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteDoc(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
 	case "Mutation.deleteFocalPoint":
 		if e.complexity.Mutation.DeleteFocalPoint == nil {
 			break
@@ -4480,7 +4639,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteServiceDoc(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["id"].(string)), true
+		return e.complexity.Mutation.DeleteServiceDoc(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["docId"].(string)), true
 
 	case "Mutation.deleteTeam":
 		if e.complexity.Mutation.DeleteTeam == nil {
@@ -4710,6 +4869,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.UpdateDiagram(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateDiagramInput)), true
 
+	case "Mutation.updateDoc":
+		if e.complexity.Mutation.UpdateDoc == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateDoc_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateDoc(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateDocInput)), true
+
 	case "Mutation.updateFocalPoint":
 		if e.complexity.Mutation.UpdateFocalPoint == nil {
 			break
@@ -4865,18 +5036,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateServiceDb(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["id"].(string), args["input"].(model.UpdateServiceDBInput)), true
-
-	case "Mutation.updateServiceDoc":
-		if e.complexity.Mutation.UpdateServiceDoc == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateServiceDoc_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateServiceDoc(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["id"].(string), args["input"].(model.UpdateServiceDocInput)), true
 
 	case "Mutation.updateTeam":
 		if e.complexity.Mutation.UpdateTeam == nil {
@@ -5407,6 +5566,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.Diagrams(childComplexity, args["orgId"].(string), args["folderId"].(*string)), true
 
+	case "Query.doc":
+		if e.complexity.Query.Doc == nil {
+			break
+		}
+
+		args, err := ec.field_Query_doc_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Doc(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
+	case "Query.docs":
+		if e.complexity.Query.Docs == nil {
+			break
+		}
+
+		args, err := ec.field_Query_docs_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Docs(childComplexity, args["orgId"].(string), args["folderId"].(*string)), true
+
 	case "Query.flowDiagramComponents":
 		if e.complexity.Query.FlowDiagramComponents == nil {
 			break
@@ -5771,18 +5954,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.ServiceDiagrams(childComplexity, args["orgId"].(string), args["serviceId"].(string)), true
-
-	case "Query.serviceDoc":
-		if e.complexity.Query.ServiceDoc == nil {
-			break
-		}
-
-		args, err := ec.field_Query_serviceDoc_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.ServiceDoc(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["id"].(string)), true
 
 	case "Query.serviceDocs":
 		if e.complexity.Query.ServiceDocs == nil {
@@ -6780,13 +6951,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDiagram.UpdatedBy(childComplexity), true
 
-	case "ServiceDoc.contentHash":
-		if e.complexity.ServiceDoc.ContentHash == nil {
-			break
-		}
-
-		return e.complexity.ServiceDoc.ContentHash(childComplexity), true
-
 	case "ServiceDoc.createdAt":
 		if e.complexity.ServiceDoc.CreatedAt == nil {
 			break
@@ -6801,47 +6965,19 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDoc.CreatedBy(childComplexity), true
 
-	case "ServiceDoc.description":
-		if e.complexity.ServiceDoc.Description == nil {
+	case "ServiceDoc.doc":
+		if e.complexity.ServiceDoc.Doc == nil {
 			break
 		}
 
-		return e.complexity.ServiceDoc.Description(childComplexity), true
+		return e.complexity.ServiceDoc.Doc(childComplexity), true
 
-	case "ServiceDoc.fileAssetId":
-		if e.complexity.ServiceDoc.FileAssetID == nil {
+	case "ServiceDoc.docId":
+		if e.complexity.ServiceDoc.DocID == nil {
 			break
 		}
 
-		return e.complexity.ServiceDoc.FileAssetID(childComplexity), true
-
-	case "ServiceDoc.fileName":
-		if e.complexity.ServiceDoc.FileName == nil {
-			break
-		}
-
-		return e.complexity.ServiceDoc.FileName(childComplexity), true
-
-	case "ServiceDoc.fileType":
-		if e.complexity.ServiceDoc.FileType == nil {
-			break
-		}
-
-		return e.complexity.ServiceDoc.FileType(childComplexity), true
-
-	case "ServiceDoc.fileUrl":
-		if e.complexity.ServiceDoc.FileURL == nil {
-			break
-		}
-
-		return e.complexity.ServiceDoc.FileURL(childComplexity), true
-
-	case "ServiceDoc.id":
-		if e.complexity.ServiceDoc.ID == nil {
-			break
-		}
-
-		return e.complexity.ServiceDoc.ID(childComplexity), true
+		return e.complexity.ServiceDoc.DocID(childComplexity), true
 
 	case "ServiceDoc.orgId":
 		if e.complexity.ServiceDoc.OrgID == nil {
@@ -7827,6 +7963,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateCommentInput,
 		ec.unmarshalInputCreateDiagramImageInput,
 		ec.unmarshalInputCreateDiagramInput,
+		ec.unmarshalInputCreateDocInput,
 		ec.unmarshalInputCreateFocalPointInput,
 		ec.unmarshalInputCreateFocalPointMetaInput,
 		ec.unmarshalInputCreateFolderInput,
@@ -7865,6 +8002,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateAPIGroupInput,
 		ec.unmarshalInputUpdateCommentInput,
 		ec.unmarshalInputUpdateDiagramInput,
+		ec.unmarshalInputUpdateDocInput,
 		ec.unmarshalInputUpdateFocalPointInput,
 		ec.unmarshalInputUpdateFocalPointMetaInput,
 		ec.unmarshalInputUpdateFolderInput,
@@ -7877,7 +8015,6 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateServerOrgInput,
 		ec.unmarshalInputUpdateServiceAccountInput,
 		ec.unmarshalInputUpdateServiceDBInput,
-		ec.unmarshalInputUpdateServiceDocInput,
 		ec.unmarshalInputUpdateServiceInput,
 		ec.unmarshalInputUpdateTeamInput,
 		ec.unmarshalInputUpdateTestCaseInput,
@@ -8275,7 +8412,6 @@ type OrgSummary {
     apiGroup(orgId: ID!, serviceId: ID!, id: ID!):                   APIGroup!
     apiGroupVersions(orgId: ID!, serviceId: ID!, apiGroupId: ID!):   [APIGroupVersion!]!
     serviceDocs(orgId: ID!, serviceId: ID!):                         [ServiceDoc!]!
-    serviceDoc(orgId: ID!, serviceId: ID!, id: ID!):                 ServiceDoc!
     serviceDiagrams(orgId: ID!, serviceId: ID!):                     [ServiceDiagram!]!
     serviceDBs(orgId: ID!, serviceId: ID!):                          [ServiceDB!]!
     serviceDB(orgId: ID!, serviceId: ID!, id: ID!):                  ServiceDB!
@@ -8302,8 +8438,7 @@ extend type Mutation {
     deleteAPIGroup(orgId: ID!, serviceId: ID!, id: ID!):                                            Boolean!
     syncAPIGroup(orgId: ID!, serviceId: ID!, input: SyncAPIGroupInput!):                            SyncAPIGroupResult!
     createServiceDoc(orgId: ID!, serviceId: ID!, input: CreateServiceDocInput!):                    ServiceDoc!
-    updateServiceDoc(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateServiceDocInput!):           ServiceDoc!
-    deleteServiceDoc(orgId: ID!, serviceId: ID!, id: ID!):                                          Boolean!
+    deleteServiceDoc(orgId: ID!, serviceId: ID!, docId: ID!):                                       Boolean!
     createServiceDiagram(orgId: ID!, serviceId: ID!, input: CreateServiceDiagramInput!):            ServiceDiagram!
     deleteServiceDiagram(orgId: ID!, serviceId: ID!, diagramId: ID!):                               Boolean!
     createServiceDB(orgId: ID!, serviceId: ID!, input: CreateServiceDBInput!):                      ServiceDB!
@@ -8383,19 +8518,14 @@ type APIGroupVersion {
 }
 
 type ServiceDoc {
-    id:          ID!
-    serviceId:   ID!
-    orgId:       ID!
-    fileAssetId: String!
-    fileUrl:     String @goField(forceResolver: true)
-    fileName:    String!
-    fileType:    String!
-    description: String!
-    contentHash: String!
-    createdBy:   ID!
-    updatedBy:   ID
-    createdAt:   Time!
-    updatedAt:   Time!
+    serviceId: ID!
+    docId:     ID!
+    orgId:     ID!
+    createdBy: ID!
+    updatedBy: ID
+    createdAt: Time!
+    updatedAt: Time!
+    doc:       Doc
 }
 
 type ServiceDiagram {
@@ -8563,17 +8693,13 @@ input SyncAPIGroupInput {
 }
 
 input CreateServiceDocInput {
-    fileName:      String!
-    fileType:      String
-    description:   String
-    contentBase64: String!
-}
-
-input UpdateServiceDocInput {
+    docId:         ID
     fileName:      String
     fileType:      String
     description:   String
     contentBase64: String
+    folderId:      ID
+    teamId:        ID
 }
 
 input CreateServiceDiagramInput {
@@ -8887,6 +9013,54 @@ directive @goField(
     name: String
     omittable: Boolean
 ) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+`, BuiltIn: false},
+	{Name: "../schema/docs.graphqls", Input: `extend type Query {
+    docs(orgId: ID!, folderId: ID): [Doc!]!
+    doc(orgId: ID!, id: ID!):       Doc!
+}
+
+extend type Mutation {
+    createDoc(orgId: ID!, input: CreateDocInput!):          Doc!
+    updateDoc(orgId: ID!, id: ID!, input: UpdateDocInput!): Doc!
+    deleteDoc(orgId: ID!, id: ID!):                         Boolean!
+}
+
+type Doc {
+    id:             ID!
+    orgId:          ID!
+    folderId:       ID
+    teamId:         ID
+    fileAssetId:    String!
+    fileUrl:        String @goField(forceResolver: true)
+    fileName:       String!
+    fileType:       String!
+    description:    String!
+    contentHash:    String!
+    createdBy:      ID!
+    updatedBy:      ID
+    createdByActor: Actor @goField(forceResolver: true)
+    updatedByActor: Actor @goField(forceResolver: true)
+    createdAt:      Time!
+    updatedAt:      Time!
+}
+
+input CreateDocInput {
+    fileName:      String!
+    fileType:      String
+    description:   String
+    contentBase64: String!
+    folderId:      ID
+    teamId:        ID
+}
+
+input UpdateDocInput {
+    fileName:      String
+    fileType:      String
+    description:   String
+    contentBase64: String
+    folderId:      ID
+    teamId:        ID
+}
 `, BuiltIn: false},
 	{Name: "../schema/folder.graphqls", Input: `extend type Query {
     folders(orgId: ID!, type: String, parentId: ID):          [Folder!]!
@@ -10524,6 +10698,57 @@ func (ec *executionContext) field_Mutation_createDiagram_argsInput(
 	}
 
 	var zeroVal model.CreateDiagramInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createDoc_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createDoc_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createDoc_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createDoc_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createDoc_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateDocInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateDocInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateDocInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateDocInput
 	return zeroVal, nil
 }
 
@@ -12392,6 +12617,57 @@ func (ec *executionContext) field_Mutation_deleteDiagram_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_deleteDoc_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteDoc_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteDoc_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteDoc_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteDoc_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_deleteFocalPointMeta_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -13303,11 +13579,11 @@ func (ec *executionContext) field_Mutation_deleteServiceDoc_args(ctx context.Con
 		return nil, err
 	}
 	args["serviceId"] = arg1
-	arg2, err := ec.field_Mutation_deleteServiceDoc_argsID(ctx, rawArgs)
+	arg2, err := ec.field_Mutation_deleteServiceDoc_argsDocID(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["id"] = arg2
+	args["docId"] = arg2
 	return args, nil
 }
 func (ec *executionContext) field_Mutation_deleteServiceDoc_argsOrgID(
@@ -13346,17 +13622,17 @@ func (ec *executionContext) field_Mutation_deleteServiceDoc_argsServiceID(
 	return zeroVal, nil
 }
 
-func (ec *executionContext) field_Mutation_deleteServiceDoc_argsID(
+func (ec *executionContext) field_Mutation_deleteServiceDoc_argsDocID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
-	if _, ok := rawArgs["id"]; !ok {
+	if _, ok := rawArgs["docId"]; !ok {
 		var zeroVal string
 		return zeroVal, nil
 	}
 
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("docId"))
+	if tmp, ok := rawArgs["docId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -14729,6 +15005,80 @@ func (ec *executionContext) field_Mutation_updateDiagram_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_updateDoc_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateDoc_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateDoc_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	arg2, err := ec.field_Mutation_updateDoc_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateDoc_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateDoc_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateDoc_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateDocInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateDocInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateDocInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateDocInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_updateFocalPointMeta_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -15821,103 +16171,6 @@ func (ec *executionContext) field_Mutation_updateServiceDB_argsInput(
 	}
 
 	var zeroVal model.UpdateServiceDBInput
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateServiceDoc_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_updateServiceDoc_argsOrgID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["orgId"] = arg0
-	arg1, err := ec.field_Mutation_updateServiceDoc_argsServiceID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["serviceId"] = arg1
-	arg2, err := ec.field_Mutation_updateServiceDoc_argsID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["id"] = arg2
-	arg3, err := ec.field_Mutation_updateServiceDoc_argsInput(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["input"] = arg3
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_updateServiceDoc_argsOrgID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["orgId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
-	if tmp, ok := rawArgs["orgId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateServiceDoc_argsServiceID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["serviceId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
-	if tmp, ok := rawArgs["serviceId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateServiceDoc_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateServiceDoc_argsInput(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (model.UpdateServiceDocInput, error) {
-	if _, ok := rawArgs["input"]; !ok {
-		var zeroVal model.UpdateServiceDocInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-	if tmp, ok := rawArgs["input"]; ok {
-		return ec.unmarshalNUpdateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDocInput(ctx, tmp)
-	}
-
-	var zeroVal model.UpdateServiceDocInput
 	return zeroVal, nil
 }
 
@@ -17694,6 +17947,108 @@ func (ec *executionContext) field_Query_diagrams_argsFolderID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_doc_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_doc_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_doc_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_doc_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_doc_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_docs_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_docs_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_docs_argsFolderID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["folderId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_docs_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_docs_argsFolderID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["folderId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
+	if tmp, ok := rawArgs["folderId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_flowDiagramComponents_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -18952,80 +19307,6 @@ func (ec *executionContext) field_Query_serviceDiagrams_argsServiceID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
 	if tmp, ok := rawArgs["serviceId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Query_serviceDoc_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Query_serviceDoc_argsOrgID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["orgId"] = arg0
-	arg1, err := ec.field_Query_serviceDoc_argsServiceID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["serviceId"] = arg1
-	arg2, err := ec.field_Query_serviceDoc_argsID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["id"] = arg2
-	return args, nil
-}
-func (ec *executionContext) field_Query_serviceDoc_argsOrgID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["orgId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
-	if tmp, ok := rawArgs["orgId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Query_serviceDoc_argsServiceID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["serviceId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
-	if tmp, ok := rawArgs["serviceId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Query_serviceDoc_argsID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["id"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-	if tmp, ok := rawArgs["id"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -28260,6 +28541,720 @@ func (ec *executionContext) fieldContext_DiagramVersion_createdAt(_ context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _Doc_id(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_orgId(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_folderId(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_folderId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FolderID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_folderId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_teamId(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_teamId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TeamID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_teamId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_fileAssetId(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_fileAssetId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileAssetID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_fileAssetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_fileUrl(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_fileUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Doc().FileURL(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_fileUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_fileName(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_fileName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_fileName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_fileType(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_fileType(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FileType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_fileType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_description(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_contentHash(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_contentHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ContentHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_contentHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_updatedBy(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_updatedBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_updatedBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Doc().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_updatedByActor(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_updatedByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Doc().UpdatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Doc_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Doc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Doc_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Doc_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Doc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _FileDownload_apiGroupId(ctx context.Context, field graphql.CollectedField, obj *model.FileDownload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_FileDownload_apiGroupId(ctx, field)
 	if err != nil {
@@ -37241,24 +38236,12 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDoc(ctx context.C
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_ServiceDoc_id(ctx, field)
 			case "serviceId":
 				return ec.fieldContext_ServiceDoc_serviceId(ctx, field)
+			case "docId":
+				return ec.fieldContext_ServiceDoc_docId(ctx, field)
 			case "orgId":
 				return ec.fieldContext_ServiceDoc_orgId(ctx, field)
-			case "fileAssetId":
-				return ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
-			case "fileUrl":
-				return ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
-			case "fileName":
-				return ec.fieldContext_ServiceDoc_fileName(ctx, field)
-			case "fileType":
-				return ec.fieldContext_ServiceDoc_fileType(ctx, field)
-			case "description":
-				return ec.fieldContext_ServiceDoc_description(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_ServiceDoc_contentHash(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
 			case "updatedBy":
@@ -37267,6 +38250,8 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDoc(ctx context.C
 				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_ServiceDoc_updatedAt(ctx, field)
+			case "doc":
+				return ec.fieldContext_ServiceDoc_doc(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type ServiceDoc", field.Name)
 		},
@@ -37279,89 +38264,6 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDoc(ctx context.C
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createServiceDoc_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_updateServiceDoc(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateServiceDoc(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateServiceDoc(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateServiceDocInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.ServiceDoc)
-	fc.Result = res
-	return ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDoc(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_updateServiceDoc(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_ServiceDoc_id(ctx, field)
-			case "serviceId":
-				return ec.fieldContext_ServiceDoc_serviceId(ctx, field)
-			case "orgId":
-				return ec.fieldContext_ServiceDoc_orgId(ctx, field)
-			case "fileAssetId":
-				return ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
-			case "fileUrl":
-				return ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
-			case "fileName":
-				return ec.fieldContext_ServiceDoc_fileName(ctx, field)
-			case "fileType":
-				return ec.fieldContext_ServiceDoc_fileType(ctx, field)
-			case "description":
-				return ec.fieldContext_ServiceDoc_description(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_ServiceDoc_contentHash(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_ServiceDoc_updatedBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_ServiceDoc_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type ServiceDoc", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateServiceDoc_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -37382,7 +38284,7 @@ func (ec *executionContext) _Mutation_deleteServiceDoc(ctx context.Context, fiel
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteServiceDoc(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["id"].(string))
+		return ec.resolvers.Mutation().DeleteServiceDoc(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["docId"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -39308,6 +40210,239 @@ func (ec *executionContext) fieldContext_Mutation_createDiagramImage(ctx context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createDiagramImage_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createDoc(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createDoc(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateDoc(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateDocInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Doc)
+	fc.Result = res
+	return ec.marshalNDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDoc(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createDoc(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Doc_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Doc_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Doc_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Doc_teamId(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_Doc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_Doc_fileUrl(ctx, field)
+			case "fileName":
+				return ec.fieldContext_Doc_fileName(ctx, field)
+			case "fileType":
+				return ec.fieldContext_Doc_fileType(ctx, field)
+			case "description":
+				return ec.fieldContext_Doc_description(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Doc_contentHash(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Doc_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Doc_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Doc_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Doc_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Doc_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Doc_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Doc", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createDoc_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateDoc(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateDoc(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateDoc(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateDocInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Doc)
+	fc.Result = res
+	return ec.marshalNDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDoc(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateDoc(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Doc_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Doc_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Doc_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Doc_teamId(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_Doc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_Doc_fileUrl(ctx, field)
+			case "fileName":
+				return ec.fieldContext_Doc_fileName(ctx, field)
+			case "fileType":
+				return ec.fieldContext_Doc_fileType(ctx, field)
+			case "description":
+				return ec.fieldContext_Doc_description(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Doc_contentHash(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Doc_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Doc_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Doc_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Doc_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Doc_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Doc_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Doc", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateDoc_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteDoc(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteDoc(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteDoc(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteDoc(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteDoc_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -45587,24 +46722,12 @@ func (ec *executionContext) fieldContext_Query_serviceDocs(ctx context.Context, 
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_ServiceDoc_id(ctx, field)
 			case "serviceId":
 				return ec.fieldContext_ServiceDoc_serviceId(ctx, field)
+			case "docId":
+				return ec.fieldContext_ServiceDoc_docId(ctx, field)
 			case "orgId":
 				return ec.fieldContext_ServiceDoc_orgId(ctx, field)
-			case "fileAssetId":
-				return ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
-			case "fileUrl":
-				return ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
-			case "fileName":
-				return ec.fieldContext_ServiceDoc_fileName(ctx, field)
-			case "fileType":
-				return ec.fieldContext_ServiceDoc_fileType(ctx, field)
-			case "description":
-				return ec.fieldContext_ServiceDoc_description(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_ServiceDoc_contentHash(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
 			case "updatedBy":
@@ -45613,6 +46736,8 @@ func (ec *executionContext) fieldContext_Query_serviceDocs(ctx context.Context, 
 				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_ServiceDoc_updatedAt(ctx, field)
+			case "doc":
+				return ec.fieldContext_ServiceDoc_doc(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type ServiceDoc", field.Name)
 		},
@@ -45625,89 +46750,6 @@ func (ec *executionContext) fieldContext_Query_serviceDocs(ctx context.Context, 
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_serviceDocs_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_serviceDoc(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_serviceDoc(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().ServiceDoc(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["id"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.ServiceDoc)
-	fc.Result = res
-	return ec.marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDoc(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_serviceDoc(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_ServiceDoc_id(ctx, field)
-			case "serviceId":
-				return ec.fieldContext_ServiceDoc_serviceId(ctx, field)
-			case "orgId":
-				return ec.fieldContext_ServiceDoc_orgId(ctx, field)
-			case "fileAssetId":
-				return ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
-			case "fileUrl":
-				return ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
-			case "fileName":
-				return ec.fieldContext_ServiceDoc_fileName(ctx, field)
-			case "fileType":
-				return ec.fieldContext_ServiceDoc_fileType(ctx, field)
-			case "description":
-				return ec.fieldContext_ServiceDoc_description(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_ServiceDoc_contentHash(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_ServiceDoc_updatedBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_ServiceDoc_updatedAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type ServiceDoc", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_serviceDoc_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -47037,6 +48079,184 @@ func (ec *executionContext) fieldContext_Query_diagramImages(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_diagramImages_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_docs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_docs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Docs(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Doc)
+	fc.Result = res
+	return ec.marshalNDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_docs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Doc_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Doc_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Doc_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Doc_teamId(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_Doc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_Doc_fileUrl(ctx, field)
+			case "fileName":
+				return ec.fieldContext_Doc_fileName(ctx, field)
+			case "fileType":
+				return ec.fieldContext_Doc_fileType(ctx, field)
+			case "description":
+				return ec.fieldContext_Doc_description(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Doc_contentHash(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Doc_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Doc_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Doc_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Doc_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Doc_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Doc_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Doc", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_docs_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_doc(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_doc(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Doc(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Doc)
+	fc.Result = res
+	return ec.marshalNDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDoc(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_doc(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Doc_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Doc_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Doc_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Doc_teamId(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_Doc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_Doc_fileUrl(ctx, field)
+			case "fileName":
+				return ec.fieldContext_Doc_fileName(ctx, field)
+			case "fileType":
+				return ec.fieldContext_Doc_fileType(ctx, field)
+			case "description":
+				return ec.fieldContext_Doc_description(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Doc_contentHash(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Doc_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Doc_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Doc_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Doc_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Doc_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Doc_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Doc", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_doc_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -54778,50 +55998,6 @@ func (ec *executionContext) fieldContext_ServiceDiagram_diagram(_ context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _ServiceDoc_id(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ServiceDoc_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ServiceDoc_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ServiceDoc",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _ServiceDoc_serviceId(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceDoc_serviceId(ctx, field)
 	if err != nil {
@@ -54854,6 +56030,50 @@ func (ec *executionContext) _ServiceDoc_serviceId(ctx context.Context, field gra
 }
 
 func (ec *executionContext) fieldContext_ServiceDoc_serviceId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDoc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDoc_docId(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDoc_docId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DocID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDoc_docId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "ServiceDoc",
 		Field:      field,
@@ -54905,267 +56125,6 @@ func (ec *executionContext) fieldContext_ServiceDoc_orgId(_ context.Context, fie
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ServiceDoc_fileAssetId(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FileAssetID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ServiceDoc_fileAssetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ServiceDoc",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ServiceDoc_fileUrl(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.ServiceDoc().FileURL(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ServiceDoc_fileUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ServiceDoc",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ServiceDoc_fileName(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ServiceDoc_fileName(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FileName, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ServiceDoc_fileName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ServiceDoc",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ServiceDoc_fileType(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ServiceDoc_fileType(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.FileType, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ServiceDoc_fileType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ServiceDoc",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ServiceDoc_description(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ServiceDoc_description(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ServiceDoc_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ServiceDoc",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ServiceDoc_contentHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ServiceDoc_contentHash(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ContentHash, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ServiceDoc_contentHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ServiceDoc",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -55339,6 +56298,81 @@ func (ec *executionContext) fieldContext_ServiceDoc_updatedAt(_ context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDoc_doc(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDoc_doc(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Doc, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Doc)
+	fc.Result = res
+	return ec.marshalODoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDoc(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDoc_doc(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDoc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Doc_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Doc_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Doc_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Doc_teamId(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_Doc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_Doc_fileUrl(ctx, field)
+			case "fileName":
+				return ec.fieldContext_Doc_fileName(ctx, field)
+			case "fileType":
+				return ec.fieldContext_Doc_fileType(ctx, field)
+			case "description":
+				return ec.fieldContext_Doc_description(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Doc_contentHash(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Doc_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Doc_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Doc_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Doc_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Doc_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Doc_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Doc", field.Name)
 		},
 	}
 	return fc, nil
@@ -63784,6 +64818,68 @@ func (ec *executionContext) unmarshalInputCreateDiagramInput(ctx context.Context
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateDocInput(ctx context.Context, obj any) (model.CreateDocInput, error) {
+	var it model.CreateDocInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "folderId", "teamId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "fileName":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileName"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileName = data
+		case "fileType":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileType"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileType = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "contentBase64":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contentBase64"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ContentBase64 = data
+		case "folderId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FolderID = data
+		case "teamId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TeamID = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateFocalPointInput(ctx context.Context, obj any) (model.CreateFocalPointInput, error) {
 	var it model.CreateFocalPointInput
 	asMap := map[string]any{}
@@ -64575,16 +65671,23 @@ func (ec *executionContext) unmarshalInputCreateServiceDocInput(ctx context.Cont
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64"}
+	fieldsInOrder := [...]string{"docId", "fileName", "fileType", "description", "contentBase64", "folderId", "teamId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "docId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("docId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DocID = data
 		case "fileName":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileName"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -64605,11 +65708,25 @@ func (ec *executionContext) unmarshalInputCreateServiceDocInput(ctx context.Cont
 			it.Description = data
 		case "contentBase64":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contentBase64"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.ContentBase64 = data
+		case "folderId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FolderID = data
+		case "teamId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TeamID = data
 		}
 	}
 
@@ -66133,6 +67250,68 @@ func (ec *executionContext) unmarshalInputUpdateDiagramInput(ctx context.Context
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateDocInput(ctx context.Context, obj any) (model.UpdateDocInput, error) {
+	var it model.UpdateDocInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "folderId", "teamId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "fileName":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileName"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileName = data
+		case "fileType":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileType"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileType = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "contentBase64":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contentBase64"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ContentBase64 = data
+		case "folderId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FolderID = data
+		case "teamId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TeamID = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateFocalPointInput(ctx context.Context, obj any) (model.UpdateFocalPointInput, error) {
 	var it model.UpdateFocalPointInput
 	asMap := map[string]any{}
@@ -66780,54 +67959,6 @@ func (ec *executionContext) unmarshalInputUpdateServiceDBInput(ctx context.Conte
 				return it, err
 			}
 			it.SourceTs = data
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputUpdateServiceDocInput(ctx context.Context, obj any) (model.UpdateServiceDocInput, error) {
-	var it model.UpdateServiceDocInput
-	asMap := map[string]any{}
-	for k, v := range obj.(map[string]any) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "fileName":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileName"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.FileName = data
-		case "fileType":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileType"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.FileType = data
-		case "description":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Description = data
-		case "contentBase64":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contentBase64"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ContentBase64 = data
 		}
 	}
 
@@ -69494,6 +70625,195 @@ func (ec *executionContext) _DiagramVersion(ctx context.Context, sel ast.Selecti
 	return out
 }
 
+var docImplementors = []string{"Doc"}
+
+func (ec *executionContext) _Doc(ctx context.Context, sel ast.SelectionSet, obj *model.Doc) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, docImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Doc")
+		case "id":
+			out.Values[i] = ec._Doc_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._Doc_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "folderId":
+			out.Values[i] = ec._Doc_folderId(ctx, field, obj)
+		case "teamId":
+			out.Values[i] = ec._Doc_teamId(ctx, field, obj)
+		case "fileAssetId":
+			out.Values[i] = ec._Doc_fileAssetId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "fileUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Doc_fileUrl(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "fileName":
+			out.Values[i] = ec._Doc_fileName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "fileType":
+			out.Values[i] = ec._Doc_fileType(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "description":
+			out.Values[i] = ec._Doc_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "contentHash":
+			out.Values[i] = ec._Doc_contentHash(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "createdBy":
+			out.Values[i] = ec._Doc_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "updatedBy":
+			out.Values[i] = ec._Doc_updatedBy(ctx, field, obj)
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Doc_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "updatedByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Doc_updatedByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "createdAt":
+			out.Values[i] = ec._Doc_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "updatedAt":
+			out.Values[i] = ec._Doc_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var fileDownloadImplementors = []string{"FileDownload"}
 
 func (ec *executionContext) _FileDownload(ctx context.Context, sel ast.SelectionSet, obj *model.FileDownload) graphql.Marshaler {
@@ -71078,13 +72398,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "updateServiceDoc":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateServiceDoc(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "deleteServiceDoc":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteServiceDoc(ctx, field)
@@ -71263,6 +72576,27 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "createDiagramImage":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createDiagramImage(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createDoc":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createDoc(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateDoc":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateDoc(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteDoc":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteDoc(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -72309,28 +73643,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "serviceDoc":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_serviceDoc(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "serviceDiagrams":
 			field := field
 
@@ -72693,6 +74005,50 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_diagramImages(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "docs":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_docs(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "doc":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_doc(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -74425,96 +75781,40 @@ func (ec *executionContext) _ServiceDoc(ctx context.Context, sel ast.SelectionSe
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("ServiceDoc")
-		case "id":
-			out.Values[i] = ec._ServiceDoc_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
 		case "serviceId":
 			out.Values[i] = ec._ServiceDoc_serviceId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
+			}
+		case "docId":
+			out.Values[i] = ec._ServiceDoc_docId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
 			}
 		case "orgId":
 			out.Values[i] = ec._ServiceDoc_orgId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
-		case "fileAssetId":
-			out.Values[i] = ec._ServiceDoc_fileAssetId(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
-		case "fileUrl":
-			field := field
-
-			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._ServiceDoc_fileUrl(ctx, field, obj)
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-		case "fileName":
-			out.Values[i] = ec._ServiceDoc_fileName(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
-		case "fileType":
-			out.Values[i] = ec._ServiceDoc_fileType(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
-		case "description":
-			out.Values[i] = ec._ServiceDoc_description(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
-		case "contentHash":
-			out.Values[i] = ec._ServiceDoc_contentHash(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "createdBy":
 			out.Values[i] = ec._ServiceDoc_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "updatedBy":
 			out.Values[i] = ec._ServiceDoc_updatedBy(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._ServiceDoc_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "updatedAt":
 			out.Values[i] = ec._ServiceDoc_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
+		case "doc":
+			out.Values[i] = ec._ServiceDoc_doc(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -76438,6 +77738,11 @@ func (ec *executionContext) unmarshalNCreateDiagramInput2githubᚗcomᚋuigraph�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateDocInput(ctx context.Context, v any) (model.CreateDocInput, error) {
+	res, err := ec.unmarshalInputCreateDocInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateFocalPointInput(ctx context.Context, v any) (model.CreateFocalPointInput, error) {
 	res, err := ec.unmarshalInputCreateFocalPointInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -76851,6 +78156,64 @@ func (ec *executionContext) marshalNDiagramVersion2ᚖgithubᚗcomᚋuigraphᚋg
 		return graphql.Null
 	}
 	return ec._DiagramVersion(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNDoc2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDoc(ctx context.Context, sel ast.SelectionSet, v model.Doc) graphql.Marshaler {
+	return ec._Doc(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Doc) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDoc(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDoc(ctx context.Context, sel ast.SelectionSet, v *model.Doc) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Doc(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNFileDownload2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFileDownload(ctx context.Context, sel ast.SelectionSet, v model.FileDownload) graphql.Marshaler {
@@ -78816,6 +80179,11 @@ func (ec *executionContext) unmarshalNUpdateDiagramInput2githubᚗcomᚋuigraph�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNUpdateDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateDocInput(ctx context.Context, v any) (model.UpdateDocInput, error) {
+	res, err := ec.unmarshalInputUpdateDocInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNUpdateFocalPointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateFocalPointInput(ctx context.Context, v any) (model.UpdateFocalPointInput, error) {
 	res, err := ec.unmarshalInputUpdateFocalPointInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -78873,11 +80241,6 @@ func (ec *executionContext) unmarshalNUpdateServiceAccountInput2githubᚗcomᚋu
 
 func (ec *executionContext) unmarshalNUpdateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDBInput(ctx context.Context, v any) (model.UpdateServiceDBInput, error) {
 	res, err := ec.unmarshalInputUpdateServiceDBInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalNUpdateServiceDocInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDocInput(ctx context.Context, v any) (model.UpdateServiceDocInput, error) {
-	res, err := ec.unmarshalInputUpdateServiceDocInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -79529,6 +80892,13 @@ func (ec *executionContext) marshalODiagram2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 		return graphql.Null
 	}
 	return ec._Diagram(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalODoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDoc(ctx context.Context, sel ast.SelectionSet, v *model.Doc) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Doc(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOFloat2ᚖfloat64(ctx context.Context, v any) (*float64, error) {

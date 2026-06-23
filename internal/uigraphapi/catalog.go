@@ -70,18 +70,14 @@ type APIGroupVersion struct {
 }
 
 type ServiceDoc struct {
-	ID          string    `json:"id"`
-	ServiceID   string    `json:"serviceId"`
-	OrgID       string    `json:"orgId"`
-	FileAssetID string    `json:"fileAssetId"`
-	FileName    string    `json:"fileName"`
-	FileType    string    `json:"fileType"`
-	Description string    `json:"description"`
-	ContentHash string    `json:"contentHash"`
-	CreatedBy   string    `json:"createdBy"`
-	UpdatedBy   *string   `json:"updatedBy,omitempty"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	ServiceID string    `json:"serviceId"`
+	DocID     string    `json:"docId"`
+	OrgID     string    `json:"orgId"`
+	CreatedBy string    `json:"createdBy"`
+	UpdatedBy *string   `json:"updatedBy,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	Doc       *Doc      `json:"doc,omitempty"`
 }
 
 type ServiceDiagram struct {
@@ -255,23 +251,13 @@ func (c *Client) ListServiceDocs(ctx context.Context, orgID, serviceID string) (
 	return out.Docs, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/docs", orgID, serviceID), &out)
 }
 
-func (c *Client) GetServiceDoc(ctx context.Context, orgID, serviceID, id string) (*ServiceDoc, error) {
-	var out ServiceDoc
-	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/docs/%s", orgID, serviceID, id), &out)
-}
-
 func (c *Client) CreateServiceDoc(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*ServiceDoc, error) {
 	var out ServiceDoc
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/docs", orgID, serviceID), body, &out)
 }
 
-func (c *Client) UpdateServiceDoc(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*ServiceDoc, error) {
-	var out ServiceDoc
-	return &out, c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/docs/%s", orgID, serviceID, id), body, &out)
-}
-
-func (c *Client) DeleteServiceDoc(ctx context.Context, orgID, serviceID, id string) error {
-	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/docs/%s", orgID, serviceID, id))
+func (c *Client) DeleteServiceDoc(ctx context.Context, orgID, serviceID, docID string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/docs/%s", orgID, serviceID, docID))
 }
 
 func (c *Client) ListServiceDiagrams(ctx context.Context, orgID, serviceID string) ([]ServiceDiagram, error) {

@@ -41,6 +41,7 @@ func Run(cfg *config.Config) error {
 		Admin:      c,
 		FolderAPI:  c,
 		DiagramAPI: c,
+		DocAPI:     c,
 		Component:  c,
 		UIMapAPI:   c,
 		Catalog:    c,

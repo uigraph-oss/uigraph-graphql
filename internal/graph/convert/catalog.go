@@ -75,12 +75,19 @@ func APIGroupVersionToModel(orgID string, v uigraphapi.APIGroupVersion) *model.A
 }
 
 func ServiceDocToModel(d *uigraphapi.ServiceDoc) *model.ServiceDoc {
-	return &model.ServiceDoc{
-		ID: d.ID, ServiceID: d.ServiceID, OrgID: d.OrgID,
-		FileAssetID: d.FileAssetID, FileName: d.FileName, FileType: d.FileType,
-		Description: d.Description, ContentHash: d.ContentHash,
-		CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy, CreatedAt: d.CreatedAt, UpdatedAt: d.UpdatedAt,
+	out := &model.ServiceDoc{
+		ServiceID: d.ServiceID,
+		DocID:     d.DocID,
+		OrgID:     d.OrgID,
+		CreatedBy: d.CreatedBy,
+		UpdatedBy: d.UpdatedBy,
+		CreatedAt: d.CreatedAt,
+		UpdatedAt: d.UpdatedAt,
 	}
+	if d.Doc != nil {
+		out.Doc = DocToModel(d.Doc)
+	}
+	return out
 }
 
 func ServiceDiagramToModel(d *uigraphapi.ServiceDiagram) *model.ServiceDiagram {

@@ -96,6 +96,14 @@ type diagramClient interface {
 	ConfirmDiagramThumbnailUpload(ctx context.Context, orgID, diagramID, contentHash string) error
 }
 
+type docsClient interface {
+	ListDocs(ctx context.Context, orgID, folderID string) ([]uigraphapi.Doc, error)
+	GetDoc(ctx context.Context, orgID, id string) (*uigraphapi.Doc, error)
+	CreateDoc(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Doc, error)
+	UpdateDoc(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.Doc, error)
+	DeleteDoc(ctx context.Context, orgID, id string) error
+}
+
 type componentClient interface {
 	ListFlowDiagramComponents(ctx context.Context, orgID string) (*uigraphapi.FlowComponents, error)
 	ListComponents(ctx context.Context, orgID string) (*uigraphapi.Components, error)
@@ -155,10 +163,8 @@ type catalogClient interface {
 	SyncAPIGroup(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (map[string]interface{}, error)
 	ListAPIGroupVersions(ctx context.Context, orgID, serviceID, apiGroupID string) ([]uigraphapi.APIGroupVersion, error)
 	ListServiceDocs(ctx context.Context, orgID, serviceID string) ([]uigraphapi.ServiceDoc, error)
-	GetServiceDoc(ctx context.Context, orgID, serviceID, id string) (*uigraphapi.ServiceDoc, error)
 	CreateServiceDoc(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.ServiceDoc, error)
-	UpdateServiceDoc(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*uigraphapi.ServiceDoc, error)
-	DeleteServiceDoc(ctx context.Context, orgID, serviceID, id string) error
+	DeleteServiceDoc(ctx context.Context, orgID, serviceID, docID string) error
 	ListServiceDiagrams(ctx context.Context, orgID, serviceID string) ([]uigraphapi.ServiceDiagram, error)
 	CreateServiceDiagram(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.ServiceDiagram, error)
 	DeleteServiceDiagram(ctx context.Context, orgID, serviceID, diagramID string) error
@@ -219,6 +225,7 @@ type Resolver struct {
 	Admin      adminClient
 	FolderAPI  folderClient
 	DiagramAPI diagramClient
+	DocAPI     docsClient
 	Component  componentClient
 	UIMapAPI   uimapClient
 	Catalog    catalogClient

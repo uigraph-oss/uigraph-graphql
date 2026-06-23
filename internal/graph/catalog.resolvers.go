@@ -84,18 +84,9 @@ func (r *mutationResolver) CreateServiceDoc(ctx context.Context, orgID string, s
 	return convert.ServiceDocToModel(d), nil
 }
 
-// UpdateServiceDoc is the resolver for the updateServiceDoc field.
-func (r *mutationResolver) UpdateServiceDoc(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateServiceDocInput) (*model.ServiceDoc, error) {
-	d, err := r.Catalog.UpdateServiceDoc(ctx, orgID, serviceID, id, convert.ToMap(input))
-	if err != nil {
-		return nil, err
-	}
-	return convert.ServiceDocToModel(d), nil
-}
-
 // DeleteServiceDoc is the resolver for the deleteServiceDoc field.
-func (r *mutationResolver) DeleteServiceDoc(ctx context.Context, orgID string, serviceID string, id string) (bool, error) {
-	return true, r.Catalog.DeleteServiceDoc(ctx, orgID, serviceID, id)
+func (r *mutationResolver) DeleteServiceDoc(ctx context.Context, orgID string, serviceID string, docID string) (bool, error) {
+	return true, r.Catalog.DeleteServiceDoc(ctx, orgID, serviceID, docID)
 }
 
 // CreateServiceDiagram is the resolver for the createServiceDiagram field.
@@ -238,15 +229,6 @@ func (r *queryResolver) ServiceDocs(ctx context.Context, orgID string, serviceID
 	return convert.ServiceDocsToModel(docs), nil
 }
 
-// ServiceDoc is the resolver for the serviceDoc field.
-func (r *queryResolver) ServiceDoc(ctx context.Context, orgID string, serviceID string, id string) (*model.ServiceDoc, error) {
-	d, err := r.Catalog.GetServiceDoc(ctx, orgID, serviceID, id)
-	if err != nil {
-		return nil, err
-	}
-	return convert.ServiceDocToModel(d), nil
-}
-
 // ServiceDiagrams is the resolver for the serviceDiagrams field.
 func (r *queryResolver) ServiceDiagrams(ctx context.Context, orgID string, serviceID string) ([]*model.ServiceDiagram, error) {
 	diagrams, err := r.Catalog.ListServiceDiagrams(ctx, orgID, serviceID)
@@ -358,11 +340,6 @@ func (r *serviceDBVersionResolver) CreatedByActor(ctx context.Context, obj *mode
 	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
 }
 
-// FileURL is the resolver for the fileUrl field.
-func (r *serviceDocResolver) FileURL(ctx context.Context, obj *model.ServiceDoc) (*string, error) {
-	return r.resolveAssetURL(ctx, obj.OrgID, obj.FileAssetID)
-}
-
 // APIGroupVersion returns generated.APIGroupVersionResolver implementation.
 func (r *Resolver) APIGroupVersion() generated.APIGroupVersionResolver {
 	return &aPIGroupVersionResolver{r}
@@ -379,11 +356,7 @@ func (r *Resolver) ServiceDBVersion() generated.ServiceDBVersionResolver {
 	return &serviceDBVersionResolver{r}
 }
 
-// ServiceDoc returns generated.ServiceDocResolver implementation.
-func (r *Resolver) ServiceDoc() generated.ServiceDocResolver { return &serviceDocResolver{r} }
-
 type aPIGroupVersionResolver struct{ *Resolver }
 type serviceResolver struct{ *Resolver }
 type serviceDBResolver struct{ *Resolver }
 type serviceDBVersionResolver struct{ *Resolver }
-type serviceDocResolver struct{ *Resolver }
