@@ -358,6 +358,11 @@ func (r *serviceDBVersionResolver) CreatedByActor(ctx context.Context, obj *mode
 	return r.resolveActor(ctx, obj.OrgID, obj.CreatedBy)
 }
 
+// FileURL is the resolver for the fileUrl field.
+func (r *serviceDocResolver) FileURL(ctx context.Context, obj *model.ServiceDoc) (*string, error) {
+	return r.resolveAssetURL(ctx, obj.OrgID, obj.FileAssetID)
+}
+
 // APIGroupVersion returns generated.APIGroupVersionResolver implementation.
 func (r *Resolver) APIGroupVersion() generated.APIGroupVersionResolver {
 	return &aPIGroupVersionResolver{r}
@@ -374,7 +379,11 @@ func (r *Resolver) ServiceDBVersion() generated.ServiceDBVersionResolver {
 	return &serviceDBVersionResolver{r}
 }
 
+// ServiceDoc returns generated.ServiceDocResolver implementation.
+func (r *Resolver) ServiceDoc() generated.ServiceDocResolver { return &serviceDocResolver{r} }
+
 type aPIGroupVersionResolver struct{ *Resolver }
 type serviceResolver struct{ *Resolver }
 type serviceDBResolver struct{ *Resolver }
 type serviceDBVersionResolver struct{ *Resolver }
+type serviceDocResolver struct{ *Resolver }

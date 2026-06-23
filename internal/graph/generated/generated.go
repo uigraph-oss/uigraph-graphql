@@ -50,6 +50,7 @@ type ResolverRoot interface {
 	Service() ServiceResolver
 	ServiceDB() ServiceDBResolver
 	ServiceDBVersion() ServiceDBVersionResolver
+	ServiceDoc() ServiceDocResolver
 	UIMap() UIMapResolver
 }
 
@@ -903,9 +904,10 @@ type ComplexityRoot struct {
 		CreatedAt   func(childComplexity int) int
 		CreatedBy   func(childComplexity int) int
 		Description func(childComplexity int) int
-		FileKey     func(childComplexity int) int
+		FileAssetID func(childComplexity int) int
 		FileName    func(childComplexity int) int
 		FileType    func(childComplexity int) int
+		FileURL     func(childComplexity int) int
 		ID          func(childComplexity int) int
 		OrgID       func(childComplexity int) int
 		ServiceID   func(childComplexity int) int
@@ -1293,6 +1295,9 @@ type ServiceDBResolver interface {
 }
 type ServiceDBVersionResolver interface {
 	CreatedByActor(ctx context.Context, obj *model.ServiceDBVersion) (*model.Actor, error)
+}
+type ServiceDocResolver interface {
+	FileURL(ctx context.Context, obj *model.ServiceDoc) (*string, error)
 }
 type UIMapResolver interface {
 	PreviewImgUrls(ctx context.Context, obj *model.UIMap) ([]string, error)
@@ -6795,12 +6800,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDoc.Description(childComplexity), true
 
-	case "ServiceDoc.fileKey":
-		if e.complexity.ServiceDoc.FileKey == nil {
+	case "ServiceDoc.fileAssetId":
+		if e.complexity.ServiceDoc.FileAssetID == nil {
 			break
 		}
 
-		return e.complexity.ServiceDoc.FileKey(childComplexity), true
+		return e.complexity.ServiceDoc.FileAssetID(childComplexity), true
 
 	case "ServiceDoc.fileName":
 		if e.complexity.ServiceDoc.FileName == nil {
@@ -6815,6 +6820,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ServiceDoc.FileType(childComplexity), true
+
+	case "ServiceDoc.fileUrl":
+		if e.complexity.ServiceDoc.FileURL == nil {
+			break
+		}
+
+		return e.complexity.ServiceDoc.FileURL(childComplexity), true
 
 	case "ServiceDoc.id":
 		if e.complexity.ServiceDoc.ID == nil {
@@ -8366,7 +8378,8 @@ type ServiceDoc {
     id:          ID!
     serviceId:   ID!
     orgId:       ID!
-    fileKey:     String!
+    fileAssetId: String!
+    fileUrl:     String @goField(forceResolver: true)
     fileName:    String!
     fileType:    String!
     description: String!
@@ -37181,8 +37194,10 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDoc(ctx context.C
 				return ec.fieldContext_ServiceDoc_serviceId(ctx, field)
 			case "orgId":
 				return ec.fieldContext_ServiceDoc_orgId(ctx, field)
-			case "fileKey":
-				return ec.fieldContext_ServiceDoc_fileKey(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
 			case "fileName":
 				return ec.fieldContext_ServiceDoc_fileName(ctx, field)
 			case "fileType":
@@ -37262,8 +37277,10 @@ func (ec *executionContext) fieldContext_Mutation_updateServiceDoc(ctx context.C
 				return ec.fieldContext_ServiceDoc_serviceId(ctx, field)
 			case "orgId":
 				return ec.fieldContext_ServiceDoc_orgId(ctx, field)
-			case "fileKey":
-				return ec.fieldContext_ServiceDoc_fileKey(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
 			case "fileName":
 				return ec.fieldContext_ServiceDoc_fileName(ctx, field)
 			case "fileType":
@@ -45519,8 +45536,10 @@ func (ec *executionContext) fieldContext_Query_serviceDocs(ctx context.Context, 
 				return ec.fieldContext_ServiceDoc_serviceId(ctx, field)
 			case "orgId":
 				return ec.fieldContext_ServiceDoc_orgId(ctx, field)
-			case "fileKey":
-				return ec.fieldContext_ServiceDoc_fileKey(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
 			case "fileName":
 				return ec.fieldContext_ServiceDoc_fileName(ctx, field)
 			case "fileType":
@@ -45600,8 +45619,10 @@ func (ec *executionContext) fieldContext_Query_serviceDoc(ctx context.Context, f
 				return ec.fieldContext_ServiceDoc_serviceId(ctx, field)
 			case "orgId":
 				return ec.fieldContext_ServiceDoc_orgId(ctx, field)
-			case "fileKey":
-				return ec.fieldContext_ServiceDoc_fileKey(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
 			case "fileName":
 				return ec.fieldContext_ServiceDoc_fileName(ctx, field)
 			case "fileType":
@@ -54826,8 +54847,8 @@ func (ec *executionContext) fieldContext_ServiceDoc_orgId(_ context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _ServiceDoc_fileKey(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ServiceDoc_fileKey(ctx, field)
+func (ec *executionContext) _ServiceDoc_fileAssetId(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDoc_fileAssetId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -54840,7 +54861,7 @@ func (ec *executionContext) _ServiceDoc_fileKey(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.FileKey, nil
+		return obj.FileAssetID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -54857,12 +54878,53 @@ func (ec *executionContext) _ServiceDoc_fileKey(ctx context.Context, field graph
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_ServiceDoc_fileKey(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_ServiceDoc_fileAssetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "ServiceDoc",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDoc_fileUrl(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDoc_fileUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.ServiceDoc().FileURL(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDoc_fileUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDoc",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
@@ -74298,59 +74360,92 @@ func (ec *executionContext) _ServiceDoc(ctx context.Context, sel ast.SelectionSe
 		case "id":
 			out.Values[i] = ec._ServiceDoc_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "serviceId":
 			out.Values[i] = ec._ServiceDoc_serviceId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "orgId":
 			out.Values[i] = ec._ServiceDoc_orgId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
-		case "fileKey":
-			out.Values[i] = ec._ServiceDoc_fileKey(ctx, field, obj)
+		case "fileAssetId":
+			out.Values[i] = ec._ServiceDoc_fileAssetId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "fileUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._ServiceDoc_fileUrl(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "fileName":
 			out.Values[i] = ec._ServiceDoc_fileName(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "fileType":
 			out.Values[i] = ec._ServiceDoc_fileType(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "description":
 			out.Values[i] = ec._ServiceDoc_description(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "contentHash":
 			out.Values[i] = ec._ServiceDoc_contentHash(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "createdBy":
 			out.Values[i] = ec._ServiceDoc_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedBy":
 			out.Values[i] = ec._ServiceDoc_updatedBy(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._ServiceDoc_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedAt":
 			out.Values[i] = ec._ServiceDoc_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
