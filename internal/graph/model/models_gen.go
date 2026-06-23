@@ -254,6 +254,15 @@ type CreateDiagramInput struct {
 	Source   *string `json:"source,omitempty"`
 }
 
+type CreateDocInput struct {
+	FileName      string  `json:"fileName"`
+	FileType      *string `json:"fileType,omitempty"`
+	Description   *string `json:"description,omitempty"`
+	ContentBase64 string  `json:"contentBase64"`
+	FolderID      *string `json:"folderId,omitempty"`
+	TeamID        *string `json:"teamId,omitempty"`
+}
+
 type CreateFocalPointInput struct {
 	Name       string  `json:"name"`
 	LocationX  float64 `json:"locationX"`
@@ -369,10 +378,13 @@ type CreateServiceDiagramInput struct {
 }
 
 type CreateServiceDocInput struct {
-	FileName      string  `json:"fileName"`
+	DocID         *string `json:"docId,omitempty"`
+	FileName      *string `json:"fileName,omitempty"`
 	FileType      *string `json:"fileType,omitempty"`
 	Description   *string `json:"description,omitempty"`
-	ContentBase64 string  `json:"contentBase64"`
+	ContentBase64 *string `json:"contentBase64,omitempty"`
+	FolderID      *string `json:"folderId,omitempty"`
+	TeamID        *string `json:"teamId,omitempty"`
 }
 
 type CreateServiceInput struct {
@@ -586,6 +598,25 @@ type DiagramVersion struct {
 	CreatedBy      string    `json:"createdBy"`
 	CreatedByActor *Actor    `json:"createdByActor,omitempty"`
 	CreatedAt      time.Time `json:"createdAt"`
+}
+
+type Doc struct {
+	ID             string    `json:"id"`
+	OrgID          string    `json:"orgId"`
+	FolderID       *string   `json:"folderId,omitempty"`
+	TeamID         *string   `json:"teamId,omitempty"`
+	FileAssetID    string    `json:"fileAssetId"`
+	FileURL        *string   `json:"fileUrl,omitempty"`
+	FileName       string    `json:"fileName"`
+	FileType       string    `json:"fileType"`
+	Description    string    `json:"description"`
+	ContentHash    string    `json:"contentHash"`
+	CreatedBy      string    `json:"createdBy"`
+	UpdatedBy      *string   `json:"updatedBy,omitempty"`
+	CreatedByActor *Actor    `json:"createdByActor,omitempty"`
+	UpdatedByActor *Actor    `json:"updatedByActor,omitempty"`
+	CreatedAt      time.Time `json:"createdAt"`
+	UpdatedAt      time.Time `json:"updatedAt"`
 }
 
 type FileDownload struct {
@@ -1047,19 +1078,14 @@ type ServiceDiagram struct {
 }
 
 type ServiceDoc struct {
-	ID          string    `json:"id"`
-	ServiceID   string    `json:"serviceId"`
-	OrgID       string    `json:"orgId"`
-	FileAssetID string    `json:"fileAssetId"`
-	FileURL     *string   `json:"fileUrl,omitempty"`
-	FileName    string    `json:"fileName"`
-	FileType    string    `json:"fileType"`
-	Description string    `json:"description"`
-	ContentHash string    `json:"contentHash"`
-	CreatedBy   string    `json:"createdBy"`
-	UpdatedBy   *string   `json:"updatedBy,omitempty"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	ServiceID string    `json:"serviceId"`
+	DocID     string    `json:"docId"`
+	OrgID     string    `json:"orgId"`
+	CreatedBy string    `json:"createdBy"`
+	UpdatedBy *string   `json:"updatedBy,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	Doc       *Doc      `json:"doc,omitempty"`
 }
 
 type ServiceStats struct {
@@ -1293,6 +1319,15 @@ type UpdateDiagramInput struct {
 	Source   *string `json:"source,omitempty"`
 }
 
+type UpdateDocInput struct {
+	FileName      *string `json:"fileName,omitempty"`
+	FileType      *string `json:"fileType,omitempty"`
+	Description   *string `json:"description,omitempty"`
+	ContentBase64 *string `json:"contentBase64,omitempty"`
+	FolderID      *string `json:"folderId,omitempty"`
+	TeamID        *string `json:"teamId,omitempty"`
+}
+
 type UpdateFocalPointInput struct {
 	Name       *string  `json:"name,omitempty"`
 	LocationX  *float64 `json:"locationX,omitempty"`
@@ -1386,13 +1421,6 @@ type UpdateServiceDBInput struct {
 	SchemaJSON *string    `json:"schemaJson,omitempty"`
 	Source     *string    `json:"source,omitempty"`
 	SourceTs   *time.Time `json:"sourceTs,omitempty"`
-}
-
-type UpdateServiceDocInput struct {
-	FileName      *string `json:"fileName,omitempty"`
-	FileType      *string `json:"fileType,omitempty"`
-	Description   *string `json:"description,omitempty"`
-	ContentBase64 *string `json:"contentBase64,omitempty"`
 }
 
 type UpdateServiceInput struct {

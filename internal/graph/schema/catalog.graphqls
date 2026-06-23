@@ -5,7 +5,6 @@ extend type Query {
     apiGroup(orgId: ID!, serviceId: ID!, id: ID!):                   APIGroup!
     apiGroupVersions(orgId: ID!, serviceId: ID!, apiGroupId: ID!):   [APIGroupVersion!]!
     serviceDocs(orgId: ID!, serviceId: ID!):                         [ServiceDoc!]!
-    serviceDoc(orgId: ID!, serviceId: ID!, id: ID!):                 ServiceDoc!
     serviceDiagrams(orgId: ID!, serviceId: ID!):                     [ServiceDiagram!]!
     serviceDBs(orgId: ID!, serviceId: ID!):                          [ServiceDB!]!
     serviceDB(orgId: ID!, serviceId: ID!, id: ID!):                  ServiceDB!
@@ -32,8 +31,7 @@ extend type Mutation {
     deleteAPIGroup(orgId: ID!, serviceId: ID!, id: ID!):                                            Boolean!
     syncAPIGroup(orgId: ID!, serviceId: ID!, input: SyncAPIGroupInput!):                            SyncAPIGroupResult!
     createServiceDoc(orgId: ID!, serviceId: ID!, input: CreateServiceDocInput!):                    ServiceDoc!
-    updateServiceDoc(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateServiceDocInput!):           ServiceDoc!
-    deleteServiceDoc(orgId: ID!, serviceId: ID!, id: ID!):                                          Boolean!
+    deleteServiceDoc(orgId: ID!, serviceId: ID!, docId: ID!):                                       Boolean!
     createServiceDiagram(orgId: ID!, serviceId: ID!, input: CreateServiceDiagramInput!):            ServiceDiagram!
     deleteServiceDiagram(orgId: ID!, serviceId: ID!, diagramId: ID!):                               Boolean!
     createServiceDB(orgId: ID!, serviceId: ID!, input: CreateServiceDBInput!):                      ServiceDB!
@@ -113,19 +111,14 @@ type APIGroupVersion {
 }
 
 type ServiceDoc {
-    id:          ID!
-    serviceId:   ID!
-    orgId:       ID!
-    fileAssetId: String!
-    fileUrl:     String @goField(forceResolver: true)
-    fileName:    String!
-    fileType:    String!
-    description: String!
-    contentHash: String!
-    createdBy:   ID!
-    updatedBy:   ID
-    createdAt:   Time!
-    updatedAt:   Time!
+    serviceId: ID!
+    docId:     ID!
+    orgId:     ID!
+    createdBy: ID!
+    updatedBy: ID
+    createdAt: Time!
+    updatedAt: Time!
+    doc:       Doc
 }
 
 type ServiceDiagram {
@@ -293,17 +286,13 @@ input SyncAPIGroupInput {
 }
 
 input CreateServiceDocInput {
-    fileName:      String!
-    fileType:      String
-    description:   String
-    contentBase64: String!
-}
-
-input UpdateServiceDocInput {
+    docId:         ID
     fileName:      String
     fileType:      String
     description:   String
     contentBase64: String
+    folderId:      ID
+    teamId:        ID
 }
 
 input CreateServiceDiagramInput {
