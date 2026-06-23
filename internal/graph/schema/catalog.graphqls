@@ -265,27 +265,30 @@ input UpdateServiceInput {
 }
 
 input CreateAPIGroupInput {
-    name:     String!
-    version:  String
-    label:    String
-    protocol: String
-    spec:     String
+    name:        String!
+    version:     String
+    label:       String
+    protocol:    String
+    spec:        String
+    specAssetId: String
 }
 
 input UpdateAPIGroupInput {
-    name:     String
-    version:  String
-    label:    String
-    protocol: String
-    spec:     String
+    name:        String
+    version:     String
+    label:       String
+    protocol:    String
+    spec:        String
+    specAssetId: String
 }
 
 input SyncAPIGroupInput {
-    apiGroupId: ID
-    name:       String!
-    version:    String
-    protocol:   String
-    spec:       String!
+    apiGroupId:  ID
+    name:        String!
+    version:     String
+    protocol:    String
+    spec:        String
+    specAssetId: String
 }
 
 input CreateServiceDocInput {

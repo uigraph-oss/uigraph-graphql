@@ -8445,27 +8445,30 @@ input UpdateServiceInput {
 }
 
 input CreateAPIGroupInput {
-    name:     String!
-    version:  String
-    label:    String
-    protocol: String
-    spec:     String
+    name:        String!
+    version:     String
+    label:       String
+    protocol:    String
+    spec:        String
+    specAssetId: String
 }
 
 input UpdateAPIGroupInput {
-    name:     String
-    version:  String
-    label:    String
-    protocol: String
-    spec:     String
+    name:        String
+    version:     String
+    label:       String
+    protocol:    String
+    spec:        String
+    specAssetId: String
 }
 
 input SyncAPIGroupInput {
-    apiGroupId: ID
-    name:       String!
-    version:    String
-    protocol:   String
-    spec:       String!
+    apiGroupId:  ID
+    name:        String!
+    version:     String
+    protocol:    String
+    spec:        String
+    specAssetId: String
 }
 
 input CreateServiceDocInput {
@@ -63072,7 +63075,7 @@ func (ec *executionContext) unmarshalInputCreateAPIGroupInput(ctx context.Contex
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "version", "label", "protocol", "spec"}
+	fieldsInOrder := [...]string{"name", "version", "label", "protocol", "spec", "specAssetId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -63114,6 +63117,13 @@ func (ec *executionContext) unmarshalInputCreateAPIGroupInput(ctx context.Contex
 				return it, err
 			}
 			it.Spec = data
+		case "specAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("specAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SpecAssetID = data
 		}
 	}
 
@@ -65152,7 +65162,7 @@ func (ec *executionContext) unmarshalInputSyncAPIGroupInput(ctx context.Context,
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"apiGroupId", "name", "version", "protocol", "spec"}
+	fieldsInOrder := [...]string{"apiGroupId", "name", "version", "protocol", "spec", "specAssetId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -65189,11 +65199,18 @@ func (ec *executionContext) unmarshalInputSyncAPIGroupInput(ctx context.Context,
 			it.Protocol = data
 		case "spec":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("spec"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Spec = data
+		case "specAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("specAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SpecAssetID = data
 		}
 	}
 
@@ -65462,7 +65479,7 @@ func (ec *executionContext) unmarshalInputUpdateAPIGroupInput(ctx context.Contex
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "version", "label", "protocol", "spec"}
+	fieldsInOrder := [...]string{"name", "version", "label", "protocol", "spec", "specAssetId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -65504,6 +65521,13 @@ func (ec *executionContext) unmarshalInputUpdateAPIGroupInput(ctx context.Contex
 				return it, err
 			}
 			it.Spec = data
+		case "specAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("specAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SpecAssetID = data
 		}
 	}
 

@@ -226,11 +226,12 @@ type CreateAPIEndpointInput struct {
 }
 
 type CreateAPIGroupInput struct {
-	Name     string  `json:"name"`
-	Version  *string `json:"version,omitempty"`
-	Label    *string `json:"label,omitempty"`
-	Protocol *string `json:"protocol,omitempty"`
-	Spec     *string `json:"spec,omitempty"`
+	Name        string  `json:"name"`
+	Version     *string `json:"version,omitempty"`
+	Label       *string `json:"label,omitempty"`
+	Protocol    *string `json:"protocol,omitempty"`
+	Spec        *string `json:"spec,omitempty"`
+	SpecAssetID *string `json:"specAssetId,omitempty"`
 }
 
 type CreateCommentInput struct {
@@ -1060,11 +1061,12 @@ type ServiceStats struct {
 }
 
 type SyncAPIGroupInput struct {
-	APIGroupID *string `json:"apiGroupId,omitempty"`
-	Name       string  `json:"name"`
-	Version    *string `json:"version,omitempty"`
-	Protocol   *string `json:"protocol,omitempty"`
-	Spec       string  `json:"spec"`
+	APIGroupID  *string `json:"apiGroupId,omitempty"`
+	Name        string  `json:"name"`
+	Version     *string `json:"version,omitempty"`
+	Protocol    *string `json:"protocol,omitempty"`
+	Spec        *string `json:"spec,omitempty"`
+	SpecAssetID *string `json:"specAssetId,omitempty"`
 }
 
 type SyncAPIGroupResult struct {
@@ -1260,11 +1262,12 @@ type UpdateAPIEndpointInput struct {
 }
 
 type UpdateAPIGroupInput struct {
-	Name     *string `json:"name,omitempty"`
-	Version  *string `json:"version,omitempty"`
-	Label    *string `json:"label,omitempty"`
-	Protocol *string `json:"protocol,omitempty"`
-	Spec     *string `json:"spec,omitempty"`
+	Name        *string `json:"name,omitempty"`
+	Version     *string `json:"version,omitempty"`
+	Label       *string `json:"label,omitempty"`
+	Protocol    *string `json:"protocol,omitempty"`
+	Spec        *string `json:"spec,omitempty"`
+	SpecAssetID *string `json:"specAssetId,omitempty"`
 }
 
 type UpdateCommentInput struct {
