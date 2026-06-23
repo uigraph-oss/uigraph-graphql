@@ -116,7 +116,8 @@ type ServiceDoc {
     id:          ID!
     serviceId:   ID!
     orgId:       ID!
-    fileKey:     String!
+    fileAssetId: String!
+    fileUrl:     String @goField(forceResolver: true)
     fileName:    String!
     fileType:    String!
     description: String!

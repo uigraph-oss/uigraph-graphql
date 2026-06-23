@@ -41,6 +41,7 @@ type Frame struct {
 	CreatedAt             time.Time  `json:"createdAt"`
 	UpdatedAt             time.Time  `json:"updatedAt"`
 	DeletedAt             *time.Time `json:"deletedAt,omitempty"`
+	FocalPointCount       int        `json:"focalPointCount"`
 }
 
 type FocalPoint struct {

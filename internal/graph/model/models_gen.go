@@ -682,6 +682,7 @@ type Frame struct {
 	Status                string    `json:"status"`
 	Order                 float64   `json:"order"`
 	Source                *string   `json:"source,omitempty"`
+	FocalPointCount       int       `json:"focalPointCount"`
 	CreatedBy             string    `json:"createdBy"`
 	UpdatedBy             *string   `json:"updatedBy,omitempty"`
 	CreatedByActor        *Actor    `json:"createdByActor,omitempty"`
@@ -1049,7 +1050,8 @@ type ServiceDoc struct {
 	ID          string    `json:"id"`
 	ServiceID   string    `json:"serviceId"`
 	OrgID       string    `json:"orgId"`
-	FileKey     string    `json:"fileKey"`
+	FileAssetID string    `json:"fileAssetId"`
+	FileURL     *string   `json:"fileUrl,omitempty"`
 	FileName    string    `json:"fileName"`
 	FileType    string    `json:"fileType"`
 	Description string    `json:"description"`

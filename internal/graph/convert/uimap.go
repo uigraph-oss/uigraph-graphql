@@ -21,6 +21,7 @@ func FrameToModel(f *uigraphapi.Frame) *model.Frame {
 		Name: f.Name, Description: f.Description, TemplateType: f.TemplateType,
 		ScreenshotAssetID: f.ScreenshotAssetID, ScreenshotContentHash: f.ScreenshotContentHash,
 		Status: f.Status, Order: f.Order, Source: f.Source,
+		FocalPointCount: f.FocalPointCount,
 		CreatedBy: f.CreatedBy, UpdatedBy: f.UpdatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
 	}
 }
