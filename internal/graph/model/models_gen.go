@@ -682,6 +682,7 @@ type Frame struct {
 	Status                string    `json:"status"`
 	Order                 float64   `json:"order"`
 	Source                *string   `json:"source,omitempty"`
+	FocalPointCount       int       `json:"focalPointCount"`
 	CreatedBy             string    `json:"createdBy"`
 	UpdatedBy             *string   `json:"updatedBy,omitempty"`
 	CreatedByActor        *Actor    `json:"createdByActor,omitempty"`

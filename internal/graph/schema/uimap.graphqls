@@ -70,6 +70,7 @@ type Frame {
     status:               String!
     order:                Float!
     source:               String
+    focalPointCount:      Int!
     createdBy:            ID!
     updatedBy:            ID
     createdByActor:       Actor @goField(forceResolver: true)
