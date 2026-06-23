@@ -11,6 +11,14 @@ func OverviewToModel(o *uigraphapi.ServerOverview) *model.ServerOverview {
 	}
 }
 
+func ServerConfigToModel(c *uigraphapi.ServerConfig) *model.ServerConfig {
+	return &model.ServerConfig{
+		StorageBackend: c.StorageBackend, StorageBucket: c.StorageBucket,
+		StorageEndpoint: c.StorageEndpoint, VectorBackend: c.VectorBackend,
+		EmbeddingBackend: c.EmbeddingBackend, EmbeddingModel: c.EmbeddingModel,
+	}
+}
+
 func UserToModel(u *uigraphapi.User) *model.User {
 	return &model.User{
 		ID: u.ID, Email: u.Email, Name: u.Name, Login: u.Login,

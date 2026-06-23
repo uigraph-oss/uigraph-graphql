@@ -1,5 +1,6 @@
 extend type Query {
     serverOverview:      ServerOverview!
+    serverConfig:        ServerConfig!
 
     serverOrgs:          [Org!]!
 
@@ -40,6 +41,15 @@ type ServerOverview {
     totalUsers:  Int!
     activeUsers: Int!
     totalOrgs:   Int!
+}
+
+type ServerConfig {
+    storageBackend:   String!
+    storageBucket:    String!
+    storageEndpoint:  String!
+    vectorBackend:    String!
+    embeddingBackend: String!
+    embeddingModel:   String!
 }
 
 type User {

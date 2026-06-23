@@ -55,3 +55,17 @@ func (c *Client) GetServerOverview(ctx context.Context) (*ServerOverview, error)
 	var out ServerOverview
 	return &out, c.get(ctx, "/api/v1/server/overview", &out)
 }
+
+type ServerConfig struct {
+	StorageBackend   string `json:"storageBackend"`
+	StorageBucket    string `json:"storageBucket"`
+	StorageEndpoint  string `json:"storageEndpoint"`
+	VectorBackend    string `json:"vectorBackend"`
+	EmbeddingBackend string `json:"embeddingBackend"`
+	EmbeddingModel   string `json:"embeddingModel"`
+}
+
+func (c *Client) GetServerConfig(ctx context.Context) (*ServerConfig, error) {
+	var out ServerConfig
+	return &out, c.get(ctx, "/api/v1/server/config", &out)
+}

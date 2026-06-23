@@ -717,6 +717,7 @@ type ComplexityRoot struct {
 		RoleMappings                  func(childComplexity int) int
 		Saml                          func(childComplexity int) int
 		Scim                          func(childComplexity int) int
+		ServerConfig                  func(childComplexity int) int
 		ServerOrgs                    func(childComplexity int) int
 		ServerOverview                func(childComplexity int) int
 		Service                       func(childComplexity int, orgID string, id string) int
@@ -779,6 +780,15 @@ type ComplexityRoot struct {
 
 	SCIMConfig struct {
 		ID func(childComplexity int) int
+	}
+
+	ServerConfig struct {
+		EmbeddingBackend func(childComplexity int) int
+		EmbeddingModel   func(childComplexity int) int
+		StorageBackend   func(childComplexity int) int
+		StorageBucket    func(childComplexity int) int
+		StorageEndpoint  func(childComplexity int) int
+		VectorBackend    func(childComplexity int) int
 	}
 
 	ServerOverview struct {
@@ -1208,6 +1218,7 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Actor(ctx context.Context, orgID string, id string) (*model.Actor, error)
 	ServerOverview(ctx context.Context) (*model.ServerOverview, error)
+	ServerConfig(ctx context.Context) (*model.ServerConfig, error)
 	ServerOrgs(ctx context.Context) ([]*model.Org, error)
 	Users(ctx context.Context) ([]*model.User, error)
 	User(ctx context.Context, id string) (*model.User, error)
@@ -5619,6 +5630,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.Scim(childComplexity), true
 
+	case "Query.serverConfig":
+		if e.complexity.Query.ServerConfig == nil {
+			break
+		}
+
+		return e.complexity.Query.ServerConfig(childComplexity), true
+
 	case "Query.serverOrgs":
 		if e.complexity.Query.ServerOrgs == nil {
 			break
@@ -6104,6 +6122,48 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.SCIMConfig.ID(childComplexity), true
+
+	case "ServerConfig.embeddingBackend":
+		if e.complexity.ServerConfig.EmbeddingBackend == nil {
+			break
+		}
+
+		return e.complexity.ServerConfig.EmbeddingBackend(childComplexity), true
+
+	case "ServerConfig.embeddingModel":
+		if e.complexity.ServerConfig.EmbeddingModel == nil {
+			break
+		}
+
+		return e.complexity.ServerConfig.EmbeddingModel(childComplexity), true
+
+	case "ServerConfig.storageBackend":
+		if e.complexity.ServerConfig.StorageBackend == nil {
+			break
+		}
+
+		return e.complexity.ServerConfig.StorageBackend(childComplexity), true
+
+	case "ServerConfig.storageBucket":
+		if e.complexity.ServerConfig.StorageBucket == nil {
+			break
+		}
+
+		return e.complexity.ServerConfig.StorageBucket(childComplexity), true
+
+	case "ServerConfig.storageEndpoint":
+		if e.complexity.ServerConfig.StorageEndpoint == nil {
+			break
+		}
+
+		return e.complexity.ServerConfig.StorageEndpoint(childComplexity), true
+
+	case "ServerConfig.vectorBackend":
+		if e.complexity.ServerConfig.VectorBackend == nil {
+			break
+		}
+
+		return e.complexity.ServerConfig.VectorBackend(childComplexity), true
 
 	case "ServerOverview.activeUsers":
 		if e.complexity.ServerOverview.ActiveUsers == nil {
@@ -7923,6 +7983,7 @@ type Actor {
 `, BuiltIn: false},
 	{Name: "../schema/admin.graphqls", Input: `extend type Query {
     serverOverview:      ServerOverview!
+    serverConfig:        ServerConfig!
 
     serverOrgs:          [Org!]!
 
@@ -7963,6 +8024,15 @@ type ServerOverview {
     totalUsers:  Int!
     activeUsers: Int!
     totalOrgs:   Int!
+}
+
+type ServerConfig {
+    storageBackend:   String!
+    storageBucket:    String!
+    storageEndpoint:  String!
+    vectorBackend:    String!
+    embeddingBackend: String!
+    embeddingModel:   String!
 }
 
 type User {
@@ -44229,6 +44299,64 @@ func (ec *executionContext) fieldContext_Query_serverOverview(_ context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_serverConfig(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serverConfig(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServerConfig(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ServerConfig)
+	fc.Result = res
+	return ec.marshalNServerConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServerConfig(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serverConfig(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "storageBackend":
+				return ec.fieldContext_ServerConfig_storageBackend(ctx, field)
+			case "storageBucket":
+				return ec.fieldContext_ServerConfig_storageBucket(ctx, field)
+			case "storageEndpoint":
+				return ec.fieldContext_ServerConfig_storageEndpoint(ctx, field)
+			case "vectorBackend":
+				return ec.fieldContext_ServerConfig_vectorBackend(ctx, field)
+			case "embeddingBackend":
+				return ec.fieldContext_ServerConfig_embeddingBackend(ctx, field)
+			case "embeddingModel":
+				return ec.fieldContext_ServerConfig_embeddingModel(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServerConfig", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_serverOrgs(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_serverOrgs(ctx, field)
 	if err != nil {
@@ -50475,6 +50603,270 @@ func (ec *executionContext) fieldContext_SCIMConfig_id(_ context.Context, field 
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServerConfig_storageBackend(ctx context.Context, field graphql.CollectedField, obj *model.ServerConfig) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServerConfig_storageBackend(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.StorageBackend, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServerConfig_storageBackend(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServerConfig",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServerConfig_storageBucket(ctx context.Context, field graphql.CollectedField, obj *model.ServerConfig) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServerConfig_storageBucket(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.StorageBucket, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServerConfig_storageBucket(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServerConfig",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServerConfig_storageEndpoint(ctx context.Context, field graphql.CollectedField, obj *model.ServerConfig) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServerConfig_storageEndpoint(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.StorageEndpoint, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServerConfig_storageEndpoint(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServerConfig",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServerConfig_vectorBackend(ctx context.Context, field graphql.CollectedField, obj *model.ServerConfig) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServerConfig_vectorBackend(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.VectorBackend, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServerConfig_vectorBackend(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServerConfig",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServerConfig_embeddingBackend(ctx context.Context, field graphql.CollectedField, obj *model.ServerConfig) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServerConfig_embeddingBackend(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EmbeddingBackend, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServerConfig_embeddingBackend(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServerConfig",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServerConfig_embeddingModel(ctx context.Context, field graphql.CollectedField, obj *model.ServerConfig) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServerConfig_embeddingModel(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EmbeddingModel, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServerConfig_embeddingModel(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServerConfig",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -71422,6 +71814,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "serverConfig":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_serverConfig(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "serverOrgs":
 			field := field
 
@@ -73041,6 +73455,70 @@ func (ec *executionContext) _SCIMConfig(ctx context.Context, sel ast.SelectionSe
 			out.Values[i] = graphql.MarshalString("SCIMConfig")
 		case "id":
 			out.Values[i] = ec._SCIMConfig_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var serverConfigImplementors = []string{"ServerConfig"}
+
+func (ec *executionContext) _ServerConfig(ctx context.Context, sel ast.SelectionSet, obj *model.ServerConfig) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, serverConfigImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ServerConfig")
+		case "storageBackend":
+			out.Values[i] = ec._ServerConfig_storageBackend(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "storageBucket":
+			out.Values[i] = ec._ServerConfig_storageBucket(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "storageEndpoint":
+			out.Values[i] = ec._ServerConfig_storageEndpoint(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "vectorBackend":
+			out.Values[i] = ec._ServerConfig_vectorBackend(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "embeddingBackend":
+			out.Values[i] = ec._ServerConfig_embeddingBackend(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "embeddingModel":
+			out.Values[i] = ec._ServerConfig_embeddingModel(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -77079,6 +77557,20 @@ func (ec *executionContext) marshalNRoleMapping2ᚖgithubᚗcomᚋuigraphᚋgrap
 		return graphql.Null
 	}
 	return ec._RoleMapping(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNServerConfig2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServerConfig(ctx context.Context, sel ast.SelectionSet, v model.ServerConfig) graphql.Marshaler {
+	return ec._ServerConfig(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNServerConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServerConfig(ctx context.Context, sel ast.SelectionSet, v *model.ServerConfig) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ServerConfig(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNServerOverview2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServerOverview(ctx context.Context, sel ast.SelectionSet, v model.ServerOverview) graphql.Marshaler {

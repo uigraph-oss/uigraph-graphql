@@ -102,6 +102,15 @@ func (r *queryResolver) ServerOverview(ctx context.Context) (*model.ServerOvervi
 	return convert.OverviewToModel(o), nil
 }
 
+// ServerConfig is the resolver for the serverConfig field.
+func (r *queryResolver) ServerConfig(ctx context.Context) (*model.ServerConfig, error) {
+	c, err := r.Admin.GetServerConfig(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return convert.ServerConfigToModel(c), nil
+}
+
 // ServerOrgs is the resolver for the serverOrgs field.
 func (r *queryResolver) ServerOrgs(ctx context.Context) ([]*model.Org, error) {
 	orgs, err := r.Admin.ServerListOrgs(ctx)

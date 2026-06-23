@@ -929,6 +929,15 @@ type SCIMConfig struct {
 	ID string `json:"id"`
 }
 
+type ServerConfig struct {
+	StorageBackend   string `json:"storageBackend"`
+	StorageBucket    string `json:"storageBucket"`
+	StorageEndpoint  string `json:"storageEndpoint"`
+	VectorBackend    string `json:"vectorBackend"`
+	EmbeddingBackend string `json:"embeddingBackend"`
+	EmbeddingModel   string `json:"embeddingModel"`
+}
+
 type ServerOverview struct {
 	TotalUsers  int `json:"totalUsers"`
 	ActiveUsers int `json:"activeUsers"`

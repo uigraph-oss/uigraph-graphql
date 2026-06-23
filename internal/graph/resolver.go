@@ -46,6 +46,7 @@ type orgClient interface {
 
 type adminClient interface {
 	GetServerOverview(ctx context.Context) (*uigraphapi.ServerOverview, error)
+	GetServerConfig(ctx context.Context) (*uigraphapi.ServerConfig, error)
 	ServerListOrgs(ctx context.Context) ([]uigraphapi.Org, error)
 	ServerCreateOrg(ctx context.Context, body map[string]interface{}) (*uigraphapi.Org, error)
 	ServerUpdateOrg(ctx context.Context, id string, body map[string]interface{}) (*uigraphapi.Org, error)
