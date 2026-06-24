@@ -6,32 +6,71 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
+	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 // CostSavingsSummary is the resolver for the costSavingsSummary field.
 func (r *queryResolver) CostSavingsSummary(ctx context.Context, orgID string, period *string, modelID *string) (*model.SavingsSummary, error) {
-	panic(fmt.Errorf("not implemented: CostSavingsSummary - costSavingsSummary"))
+	s, err := r.CostSavings.GetSavingsSummary(ctx, orgID, period, modelID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.SavingsSummaryToModel(s), nil
 }
 
 // CostSavingsTimeseries is the resolver for the costSavingsTimeseries field.
 func (r *queryResolver) CostSavingsTimeseries(ctx context.Context, orgID string, period *string, modelID *string) ([]*model.DailySavings, error) {
-	panic(fmt.Errorf("not implemented: CostSavingsTimeseries - costSavingsTimeseries"))
+	rows, err := r.CostSavings.GetSavingsTimeseries(ctx, orgID, period, modelID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.DailySavingsListToModel(rows), nil
 }
 
 // CostSavingsByTool is the resolver for the costSavingsByTool field.
 func (r *queryResolver) CostSavingsByTool(ctx context.Context, orgID string, period *string, modelID *string) ([]*model.ToolSavings, error) {
-	panic(fmt.Errorf("not implemented: CostSavingsByTool - costSavingsByTool"))
+	rows, err := r.CostSavings.GetSavingsByTool(ctx, orgID, period, modelID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.ToolSavingsListToModel(rows), nil
 }
 
 // CostSavingsByModel is the resolver for the costSavingsByModel field.
 func (r *queryResolver) CostSavingsByModel(ctx context.Context, orgID string, period *string) ([]*model.ModelSavings, error) {
-	panic(fmt.Errorf("not implemented: CostSavingsByModel - costSavingsByModel"))
+	rows, err := r.CostSavings.GetSavingsByModel(ctx, orgID, period)
+	if err != nil {
+		return nil, err
+	}
+	return convert.ModelSavingsListToModel(rows), nil
 }
 
 // CostSavingsByUser is the resolver for the costSavingsByUser field.
 func (r *queryResolver) CostSavingsByUser(ctx context.Context, orgID string, period *string, modelID *string) ([]*model.UserSavings, error) {
-	panic(fmt.Errorf("not implemented: CostSavingsByUser - costSavingsByUser"))
+	rows, err := r.CostSavings.GetSavingsByUser(ctx, orgID, period, modelID)
+	if err != nil {
+		return nil, err
+	}
+
+	ids := make([]string, 0, len(rows))
+	for _, row := range rows {
+		if row.UserID != nil {
+			ids = append(ids, *row.UserID)
+		} else if row.ServiceAccountID != nil {
+			ids = append(ids, *row.ServiceAccountID)
+		}
+	}
+
+	actors := map[string]*uigraphapi.Actor{}
+	if len(ids) > 0 {
+		var actorErr error
+		actors, actorErr = r.Resolver.Actor.ResolveActors(ctx, orgID, ids)
+		if actorErr != nil {
+			return nil, actorErr
+		}
+	}
+	return convert.UserSavingsListToModel(rows, actors), nil
 }
