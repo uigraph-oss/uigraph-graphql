@@ -225,21 +225,30 @@ type commentClient interface {
 	DeleteComment(ctx context.Context, orgID, id string) error
 }
 
+type costSavingsClient interface {
+	GetSavingsSummary(ctx context.Context, orgID string, period, modelID *string) (*uigraphapi.SavingsSummary, error)
+	GetSavingsTimeseries(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.DailySavings, error)
+	GetSavingsByTool(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.ToolSavings, error)
+	GetSavingsByModel(ctx context.Context, orgID string, period *string) ([]uigraphapi.ModelSavings, error)
+	GetSavingsByUser(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.UserSavings, error)
+}
+
 // Resolver is the root dependency-injection struct for all resolvers. Each
 // field is the minimal interface its domain's resolvers need — not the full
 // *uigraphapi.Client — so tests can inject a narrow fake instead of mocking
 // every REST method.
 type Resolver struct {
-	Auth       authClient
-	OrgAPI     orgClient
-	Admin      adminClient
-	FolderAPI  folderClient
-	DiagramAPI diagramClient
-	DocAPI     docsClient
-	Component  componentClient
-	UIMapAPI   uimapClient
-	Catalog    catalogClient
-	TestPack   testPackClient
-	Actor      actorClient
-	CommentAPI commentClient
+	Auth        authClient
+	OrgAPI      orgClient
+	Admin       adminClient
+	FolderAPI   folderClient
+	DiagramAPI  diagramClient
+	DocAPI      docsClient
+	Component   componentClient
+	UIMapAPI    uimapClient
+	Catalog     catalogClient
+	TestPack    testPackClient
+	Actor       actorClient
+	CommentAPI  commentClient
+	CostSavings costSavingsClient
 }

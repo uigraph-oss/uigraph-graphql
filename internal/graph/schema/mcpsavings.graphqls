@@ -1,0 +1,55 @@
+extend type Query {
+    costSavingsSummary(orgId: ID!, period: String, modelId: String): SavingsSummary!
+    costSavingsTimeseries(orgId: ID!, period: String, modelId: String): [DailySavings!]!
+    costSavingsByTool(orgId: ID!, period: String, modelId: String): [ToolSavings!]!
+    costSavingsByModel(orgId: ID!, period: String): [ModelSavings!]!
+    costSavingsByUser(orgId: ID!, period: String, modelId: String): [UserSavings!]!
+}
+
+type SavingsSummary {
+    orgId:             ID!
+    period:            String!
+    modelId:           String
+    totalCalls:        Int!
+    totalTokensServed: Int!
+    totalTokensSaved:  Int!
+    costServedUsd:     Float!
+    costRawUsd:        Float!
+    costSavedUsd:      Float!
+    uniqueUsersCount:  Int!
+}
+
+type DailySavings {
+    date:              Time!
+    totalCalls:        Int!
+    totalTokensServed: Int!
+    totalTokensSaved:  Int!
+    costServedUsd:     Float!
+    costRawUsd:        Float!
+    costSavedUsd:      Float!
+}
+
+type ToolSavings {
+    toolName:     String!
+    totalCalls:   Int!
+    tokensSaved:  Int!
+    costSavedUsd: Float!
+}
+
+type ModelSavings {
+    modelId:      String!
+    displayName:  String!
+    provider:     String!
+    totalCalls:   Int!
+    tokensSaved:  Int!
+    costSavedUsd: Float!
+}
+
+type UserSavings {
+    userId:           ID
+    serviceAccountId: ID
+    displayName:      String!
+    totalCalls:       Int!
+    tokensSaved:      Int!
+    costSavedUsd:     Float!
+}
