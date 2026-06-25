@@ -141,7 +141,7 @@ type uimapClient interface {
 	UpdateFrameLink(ctx context.Context, orgID, mapID, frameID, id string, body map[string]interface{}) (*uigraphapi.FrameLink, error)
 	DeleteFrameLink(ctx context.Context, orgID, mapID, frameID, id string) error
 	ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string) ([]uigraphapi.FocalPointMeta, error)
-	ListFocalPointMetaByComponentLink(ctx context.Context, orgID, componentLinkID string) ([]uigraphapi.FocalPointMeta, error)
+	ListFocalPointMetaByLink(ctx context.Context, orgID, linkKey, linkValue string) ([]uigraphapi.FocalPointMeta, error)
 	CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	UpdateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	DeleteFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string) error

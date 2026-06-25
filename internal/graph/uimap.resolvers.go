@@ -293,9 +293,9 @@ func (r *queryResolver) FocalPointMeta(ctx context.Context, orgID string, mapID 
 	return convert.FocalPointMetasToModel(metas), nil
 }
 
-// FocalPointMetaByComponentLink is the resolver for the focalPointMetaByComponentLink field.
-func (r *queryResolver) FocalPointMetaByComponentLink(ctx context.Context, orgID string, componentLinkID string) ([]*model.FocalPointMeta, error) {
-	metas, err := r.UIMapAPI.ListFocalPointMetaByComponentLink(ctx, orgID, componentLinkID)
+// FocalPointMetaByLink is the resolver for the focalPointMetaByLink field.
+func (r *queryResolver) FocalPointMetaByLink(ctx context.Context, orgID string, linkKey string, linkValue string) ([]*model.FocalPointMeta, error) {
+	metas, err := r.UIMapAPI.ListFocalPointMetaByLink(ctx, orgID, linkKey, linkValue)
 	if err != nil {
 		return nil, err
 	}

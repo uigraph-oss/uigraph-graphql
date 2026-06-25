@@ -9,7 +9,7 @@ extend type Query {
     frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
     frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
     focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
-    focalPointMetaByComponentLink(orgId: ID!, componentLinkId: ID!): [FocalPointMeta!]!
+    focalPointMetaByLink(orgId: ID!, linkKey: String!, linkValue: String!): [FocalPointMeta!]!
 }
 
 extend type Mutation {
@@ -150,9 +150,7 @@ type FocalPointMeta {
     orgId:                ID!
     frameId:              ID!
     componentId:          String!
-    componentLinkId:      String
-    componentImages:      [String!]!
-    componentFlowDiagram: String
+    componentLink:        JSON
     componentModalFields: [ComponentModalField!]!
     createdBy:            ID!
     updatedBy:            ID
@@ -291,16 +289,12 @@ input UpdateFrameLinkInput {
 
 input CreateFocalPointMetaInput {
     componentId:          String!
-    componentLinkId:      String
-    componentImages:      [String!]
-    componentFlowDiagram: String
+    componentLink:        JSON
     componentModalFields: [ComponentModalFieldInput!]
 }
 
 input UpdateFocalPointMetaInput {
     componentId:          String
-    componentLinkId:      String
-    componentImages:      [String!]
-    componentFlowDiagram: String
+    componentLink:        JSON
     componentModalFields: [ComponentModalFieldInput!]
 }

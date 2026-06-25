@@ -113,9 +113,7 @@ type FocalPointMeta struct {
 	OrgID                string          `json:"orgId"`
 	FrameID              string          `json:"frameId"`
 	ComponentID          string          `json:"componentId"`
-	ComponentLinkID      *string         `json:"componentLinkId,omitempty"`
-	ComponentImages      json.RawMessage `json:"componentImages"`
-	ComponentFlowDiagram *string         `json:"componentFlowDiagram,omitempty"`
+	ComponentLink        json.RawMessage `json:"componentLink,omitempty"`
 	ComponentModalFields json.RawMessage `json:"componentModalFields"`
 	CreatedBy            string          `json:"createdBy"`
 	UpdatedBy            *string         `json:"updatedBy,omitempty"`
@@ -275,11 +273,11 @@ func (c *Client) ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, 
 	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta", orgID, mapID, frameID, fpID), &out)
 }
 
-func (c *Client) ListFocalPointMetaByComponentLink(ctx context.Context, orgID, componentLinkID string) ([]FocalPointMeta, error) {
+func (c *Client) ListFocalPointMetaByLink(ctx context.Context, orgID, linkKey, linkValue string) ([]FocalPointMeta, error) {
 	var out struct {
 		Meta []FocalPointMeta `json:"meta"`
 	}
-	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/focal-point-meta?componentLinkId=%s", orgID, url.QueryEscape(componentLinkID)), &out)
+	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/focal-point-meta?linkKey=%s&linkValue=%s", orgID, url.QueryEscape(linkKey), url.QueryEscape(linkValue)), &out)
 }
 
 func (c *Client) CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*FocalPointMeta, error) {

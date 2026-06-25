@@ -84,9 +84,8 @@ func FrameLinksToModel(ls []uigraphapi.FrameLink) []*model.FrameLink {
 func FocalPointMetaToModel(m *uigraphapi.FocalPointMeta) *model.FocalPointMeta {
 	return &model.FocalPointMeta{
 		ID: m.ID, FocalPointID: m.FocalPointID, OrgID: m.OrgID, FrameID: m.FrameID,
-		ComponentID: m.ComponentID, ComponentLinkID: m.ComponentLinkID,
-		ComponentImages:      JSONStringSlice(m.ComponentImages),
-		ComponentFlowDiagram: m.ComponentFlowDiagram,
+		ComponentID:          m.ComponentID,
+		ComponentLink:        RawToAny(m.ComponentLink),
 		ComponentModalFields: ComponentModalFieldsFromRaw(m.ComponentModalFields),
 		CreatedBy:            m.CreatedBy,
 		UpdatedBy:            m.UpdatedBy,
@@ -95,13 +94,13 @@ func FocalPointMetaToModel(m *uigraphapi.FocalPointMeta) *model.FocalPointMeta {
 	}
 }
 
-func JSONStringSlice(b json.RawMessage) []string {
+func RawToAny(b json.RawMessage) interface{} {
 	if len(b) == 0 {
-		return []string{}
+		return nil
 	}
-	var out []string
+	var out interface{}
 	if err := json.Unmarshal(b, &out); err != nil {
-		return []string{}
+		return nil
 	}
 	return out
 }
@@ -126,7 +125,7 @@ func FocalPointMetasToModel(ms []uigraphapi.FocalPointMeta) []*model.FocalPointM
 }
 
 func FocalPointMetaBody(body map[string]interface{}) map[string]interface{} {
-	for _, key := range []string{"componentImages", "componentModalFields"} {
+	for _, key := range []string{"componentModalFields"} {
 		if s, ok := body[key].(string); ok {
 			var raw interface{}
 			if err := UnmarshalJSONString(s, &raw); err == nil {
