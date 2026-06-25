@@ -272,9 +272,12 @@ type CreateFocalPointInput struct {
 }
 
 type CreateFocalPointMetaInput struct {
-	ComponentID          string                      `json:"componentId"`
-	ComponentLink        any                         `json:"componentLink,omitempty"`
-	ComponentModalFields []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
+	ComponentID                string                      `json:"componentId"`
+	ComponentLinkDiagramID     *string                     `json:"componentLinkDiagramId,omitempty"`
+	ComponentLinkAPIEndpointID *string                     `json:"componentLinkApiEndpointId,omitempty"`
+	ComponentLinkTestPackID    *string                     `json:"componentLinkTestPackId,omitempty"`
+	ComponentLinkServiceDocID  *string                     `json:"componentLinkServiceDocId,omitempty"`
+	ComponentModalFields       []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
 }
 
 type CreateFolderInput struct {
@@ -669,17 +672,20 @@ type FocalPoint struct {
 }
 
 type FocalPointMeta struct {
-	ID                   string                 `json:"id"`
-	FocalPointID         string                 `json:"focalPointId"`
-	OrgID                string                 `json:"orgId"`
-	FrameID              string                 `json:"frameId"`
-	ComponentID          string                 `json:"componentId"`
-	ComponentLink        any                    `json:"componentLink,omitempty"`
-	ComponentModalFields []*ComponentModalField `json:"componentModalFields"`
-	CreatedBy            string                 `json:"createdBy"`
-	UpdatedBy            *string                `json:"updatedBy,omitempty"`
-	CreatedAt            time.Time              `json:"createdAt"`
-	UpdatedAt            time.Time              `json:"updatedAt"`
+	ID                         string                 `json:"id"`
+	FocalPointID               string                 `json:"focalPointId"`
+	OrgID                      string                 `json:"orgId"`
+	FrameID                    string                 `json:"frameId"`
+	ComponentID                string                 `json:"componentId"`
+	ComponentLinkDiagramID     *string                `json:"componentLinkDiagramId,omitempty"`
+	ComponentLinkAPIEndpointID *string                `json:"componentLinkApiEndpointId,omitempty"`
+	ComponentLinkTestPackID    *string                `json:"componentLinkTestPackId,omitempty"`
+	ComponentLinkServiceDocID  *string                `json:"componentLinkServiceDocId,omitempty"`
+	ComponentModalFields       []*ComponentModalField `json:"componentModalFields"`
+	CreatedBy                  string                 `json:"createdBy"`
+	UpdatedBy                  *string                `json:"updatedBy,omitempty"`
+	CreatedAt                  time.Time              `json:"createdAt"`
+	UpdatedAt                  time.Time              `json:"updatedAt"`
 }
 
 type Folder struct {
@@ -1333,9 +1339,12 @@ type UpdateFocalPointInput struct {
 }
 
 type UpdateFocalPointMetaInput struct {
-	ComponentID          *string                     `json:"componentId,omitempty"`
-	ComponentLink        any                         `json:"componentLink,omitempty"`
-	ComponentModalFields []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
+	ComponentID                *string                     `json:"componentId,omitempty"`
+	ComponentLinkDiagramID     *string                     `json:"componentLinkDiagramId,omitempty"`
+	ComponentLinkAPIEndpointID *string                     `json:"componentLinkApiEndpointId,omitempty"`
+	ComponentLinkTestPackID    *string                     `json:"componentLinkTestPackId,omitempty"`
+	ComponentLinkServiceDocID  *string                     `json:"componentLinkServiceDocId,omitempty"`
+	ComponentModalFields       []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
 }
 
 type UpdateFolderInput struct {

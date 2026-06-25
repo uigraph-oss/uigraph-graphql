@@ -103,6 +103,15 @@ func (r *queryResolver) TestPacks(ctx context.Context, orgID string, serviceID s
 	return convert.TestPacksToModel(packs), nil
 }
 
+// TestPackByID is the resolver for the testPackById field.
+func (r *queryResolver) TestPackByID(ctx context.Context, orgID string, id string) (*model.TestPack, error) {
+	p, err := r.TestPack.GetTestPackByID(ctx, orgID, id)
+	if err != nil {
+		return nil, err
+	}
+	return convert.TestPackToModel(p), nil
+}
+
 // TestCases is the resolver for the testCases field.
 func (r *queryResolver) TestCases(ctx context.Context, orgID string, serviceID string, testPackID *string) ([]*model.TestCase, error) {
 	cases, err := r.TestPack.ListTestCases(ctx, orgID, serviceID, testPackID)

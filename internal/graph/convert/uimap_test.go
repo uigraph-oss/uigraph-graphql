@@ -69,23 +69,24 @@ func TestCanvasToModel(t *testing.T) {
 }
 
 func TestFocalPointMetaToModel(t *testing.T) {
-	t.Run("populated ComponentLink parsed into object", func(t *testing.T) {
+	t.Run("populated typed link id passes through", func(t *testing.T) {
+		endpointID := "ep1"
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{
-			ID: "fpm1", ComponentLink: json.RawMessage(`{"serviceId":"s1"}`),
+			ID: "fpm1", ComponentLinkAPIEndpointID: &endpointID,
 		})
 		if out.ID != "fpm1" {
 			t.Errorf("ID = %q, want fpm1", out.ID)
 		}
-		link, ok := out.ComponentLink.(map[string]interface{})
-		if !ok || link["serviceId"] != "s1" {
-			t.Errorf("ComponentLink = %#v, want {serviceId: s1}", out.ComponentLink)
+		if out.ComponentLinkAPIEndpointID == nil || *out.ComponentLinkAPIEndpointID != "ep1" {
+			t.Errorf("ComponentLinkAPIEndpointID = %v, want pointer to ep1", out.ComponentLinkAPIEndpointID)
 		}
 	})
 
-	t.Run("empty ComponentLink is nil", func(t *testing.T) {
+	t.Run("empty link ids are nil", func(t *testing.T) {
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{ID: "fpm2"})
-		if out.ComponentLink != nil {
-			t.Errorf("ComponentLink = %#v, want nil", out.ComponentLink)
+		if out.ComponentLinkDiagramID != nil || out.ComponentLinkAPIEndpointID != nil ||
+			out.ComponentLinkTestPackID != nil || out.ComponentLinkServiceDocID != nil {
+			t.Errorf("expected all link ids nil, got %#v", out)
 		}
 	})
 
@@ -112,8 +113,8 @@ func TestFocalPointMetaToModel(t *testing.T) {
 
 	t.Run("optional fields nil when source has none", func(t *testing.T) {
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{ID: "fpm5", OrgID: "o1"})
-		if out.ComponentLink != nil {
-			t.Errorf("ComponentLink = %v, want nil", out.ComponentLink)
+		if out.ComponentLinkDiagramID != nil {
+			t.Errorf("ComponentLinkDiagramID = %v, want nil", out.ComponentLinkDiagramID)
 		}
 	})
 }

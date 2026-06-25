@@ -108,18 +108,21 @@ type FrameLink struct {
 }
 
 type FocalPointMeta struct {
-	ID                   string          `json:"id"`
-	FocalPointID         string          `json:"focalPointId"`
-	OrgID                string          `json:"orgId"`
-	FrameID              string          `json:"frameId"`
-	ComponentID          string          `json:"componentId"`
-	ComponentLink        json.RawMessage `json:"componentLink,omitempty"`
-	ComponentModalFields json.RawMessage `json:"componentModalFields"`
-	CreatedBy            string          `json:"createdBy"`
-	UpdatedBy            *string         `json:"updatedBy,omitempty"`
-	CreatedAt            time.Time       `json:"createdAt"`
-	UpdatedAt            time.Time       `json:"updatedAt"`
-	DeletedAt            *time.Time      `json:"deletedAt,omitempty"`
+	ID                         string          `json:"id"`
+	FocalPointID               string          `json:"focalPointId"`
+	OrgID                      string          `json:"orgId"`
+	FrameID                    string          `json:"frameId"`
+	ComponentID                string          `json:"componentId"`
+	ComponentLinkDiagramID     *string         `json:"componentLinkDiagramId,omitempty"`
+	ComponentLinkAPIEndpointID *string         `json:"componentLinkApiEndpointId,omitempty"`
+	ComponentLinkTestPackID    *string         `json:"componentLinkTestPackId,omitempty"`
+	ComponentLinkServiceDocID  *string         `json:"componentLinkServiceDocId,omitempty"`
+	ComponentModalFields       json.RawMessage `json:"componentModalFields"`
+	CreatedBy                  string          `json:"createdBy"`
+	UpdatedBy                  *string         `json:"updatedBy,omitempty"`
+	CreatedAt                  time.Time       `json:"createdAt"`
+	UpdatedAt                  time.Time       `json:"updatedAt"`
+	DeletedAt                  *time.Time      `json:"deletedAt,omitempty"`
 }
 
 func (c *Client) ListMaps(ctx context.Context, orgID, folderID string) ([]UIMap, error) {
@@ -273,11 +276,11 @@ func (c *Client) ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, 
 	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames/%s/focal-points/%s/meta", orgID, mapID, frameID, fpID), &out)
 }
 
-func (c *Client) ListFocalPointMetaByLink(ctx context.Context, orgID, linkKey, linkValue string) ([]FocalPointMeta, error) {
+func (c *Client) ListFocalPointMetaByLink(ctx context.Context, orgID, linkID string) ([]FocalPointMeta, error) {
 	var out struct {
 		Meta []FocalPointMeta `json:"meta"`
 	}
-	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/focal-point-meta?linkKey=%s&linkValue=%s", orgID, url.QueryEscape(linkKey), url.QueryEscape(linkValue)), &out)
+	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/focal-point-meta?linkId=%s", orgID, url.QueryEscape(linkID)), &out)
 }
 
 func (c *Client) CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*FocalPointMeta, error) {

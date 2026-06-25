@@ -1,5 +1,6 @@
 extend type Query {
     testPacks(orgId: ID!, serviceId: ID!):                           [TestPack!]!
+    testPackById(orgId: ID!, id: ID!):                               TestPack!
     testCases(orgId: ID!, serviceId: ID!, testPackId: ID):           [TestCase!]!
     testRun(orgId: ID!, serviceId: ID!, id: ID!):                    TestRun!
     testRuns(orgId: ID!, serviceId: ID!, testPackId: ID):            [TestRun!]!

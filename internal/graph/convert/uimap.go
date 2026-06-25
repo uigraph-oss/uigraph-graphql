@@ -22,7 +22,7 @@ func FrameToModel(f *uigraphapi.Frame) *model.Frame {
 		ScreenshotAssetID: f.ScreenshotAssetID, ScreenshotContentHash: f.ScreenshotContentHash,
 		Status: f.Status, Order: f.Order, Source: f.Source,
 		FocalPointCount: f.FocalPointCount,
-		CreatedBy: f.CreatedBy, UpdatedBy: f.UpdatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
+		CreatedBy:       f.CreatedBy, UpdatedBy: f.UpdatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
 	}
 }
 
@@ -84,25 +84,17 @@ func FrameLinksToModel(ls []uigraphapi.FrameLink) []*model.FrameLink {
 func FocalPointMetaToModel(m *uigraphapi.FocalPointMeta) *model.FocalPointMeta {
 	return &model.FocalPointMeta{
 		ID: m.ID, FocalPointID: m.FocalPointID, OrgID: m.OrgID, FrameID: m.FrameID,
-		ComponentID:          m.ComponentID,
-		ComponentLink:        RawToAny(m.ComponentLink),
-		ComponentModalFields: ComponentModalFieldsFromRaw(m.ComponentModalFields),
-		CreatedBy:            m.CreatedBy,
-		UpdatedBy:            m.UpdatedBy,
-		CreatedAt:            m.CreatedAt,
-		UpdatedAt:            m.UpdatedAt,
+		ComponentID:                m.ComponentID,
+		ComponentLinkDiagramID:     m.ComponentLinkDiagramID,
+		ComponentLinkAPIEndpointID: m.ComponentLinkAPIEndpointID,
+		ComponentLinkTestPackID:    m.ComponentLinkTestPackID,
+		ComponentLinkServiceDocID:  m.ComponentLinkServiceDocID,
+		ComponentModalFields:       ComponentModalFieldsFromRaw(m.ComponentModalFields),
+		CreatedBy:                  m.CreatedBy,
+		UpdatedBy:                  m.UpdatedBy,
+		CreatedAt:                  m.CreatedAt,
+		UpdatedAt:                  m.UpdatedAt,
 	}
-}
-
-func RawToAny(b json.RawMessage) interface{} {
-	if len(b) == 0 {
-		return nil
-	}
-	var out interface{}
-	if err := json.Unmarshal(b, &out); err != nil {
-		return nil
-	}
-	return out
 }
 
 func ComponentModalFieldsFromRaw(b json.RawMessage) []*model.ComponentModalField {

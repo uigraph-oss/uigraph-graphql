@@ -331,6 +331,16 @@ func (c *Client) GetAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupI
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups/%s/endpoints/%s", orgID, serviceID, apiGroupID, id), &out)
 }
 
+func (c *Client) GetAPIEndpointByID(ctx context.Context, orgID, id string) (*APIEndpoint, error) {
+	var out APIEndpoint
+	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/endpoints/%s", orgID, id), &out)
+}
+
+func (c *Client) GetServiceDocByID(ctx context.Context, orgID, id string) (*ServiceDoc, error) {
+	var out ServiceDoc
+	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/service-docs/%s", orgID, id), &out)
+}
+
 func (c *Client) CreateAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID string, body map[string]interface{}) (*APIEndpoint, error) {
 	var out APIEndpoint
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups/%s/endpoints", orgID, serviceID, apiGroupID), body, &out)

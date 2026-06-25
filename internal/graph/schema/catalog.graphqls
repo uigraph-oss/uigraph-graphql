@@ -11,6 +11,8 @@ extend type Query {
     serviceDBVersions(orgId: ID!, serviceId: ID!, serviceDbId: ID!): [ServiceDBVersion!]!
     apiEndpoints(orgId: ID!, serviceId: ID!, apiGroupId: ID!):       [APIEndpoint!]!
     apiEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!): APIEndpoint!
+    apiEndpointById(orgId: ID!, id: ID!):                            APIEndpoint!
+    serviceDocById(orgId: ID!, id: ID!):                             ServiceDoc!
     apiGroupSpec(orgId: ID!, serviceId: ID!, apiGroupId: ID!, versionId: ID): FileDownload!
     serviceStats(orgId: ID!, serviceId: ID):                         [ServiceStats!]!
 }

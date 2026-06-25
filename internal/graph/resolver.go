@@ -141,7 +141,7 @@ type uimapClient interface {
 	UpdateFrameLink(ctx context.Context, orgID, mapID, frameID, id string, body map[string]interface{}) (*uigraphapi.FrameLink, error)
 	DeleteFrameLink(ctx context.Context, orgID, mapID, frameID, id string) error
 	ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string) ([]uigraphapi.FocalPointMeta, error)
-	ListFocalPointMetaByLink(ctx context.Context, orgID, linkKey, linkValue string) ([]uigraphapi.FocalPointMeta, error)
+	ListFocalPointMetaByLink(ctx context.Context, orgID, linkID string) ([]uigraphapi.FocalPointMeta, error)
 	CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	UpdateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	DeleteFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string) error
@@ -178,6 +178,8 @@ type catalogClient interface {
 	RestoreServiceDBVersion(ctx context.Context, orgID, serviceID, serviceDBID, versionID string) (*uigraphapi.ServiceDB, error)
 	ListAPIEndpoints(ctx context.Context, orgID, serviceID, apiGroupID string) ([]uigraphapi.APIEndpoint, error)
 	GetAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string) (*uigraphapi.APIEndpoint, error)
+	GetAPIEndpointByID(ctx context.Context, orgID, id string) (*uigraphapi.APIEndpoint, error)
+	GetServiceDocByID(ctx context.Context, orgID, id string) (*uigraphapi.ServiceDoc, error)
 	CreateAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID string, body map[string]interface{}) (*uigraphapi.APIEndpoint, error)
 	UpdateAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string, body map[string]interface{}) (*uigraphapi.APIEndpoint, error)
 	DeleteAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string) error
@@ -185,6 +187,7 @@ type catalogClient interface {
 
 type testPackClient interface {
 	ListTestPacks(ctx context.Context, orgID, serviceID string) ([]uigraphapi.TestPack, error)
+	GetTestPackByID(ctx context.Context, orgID, id string) (*uigraphapi.TestPack, error)
 	CreateTestPack(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.TestPack, error)
 	UpdateTestPack(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*uigraphapi.TestPack, error)
 	DeleteTestPack(ctx context.Context, orgID, serviceID, id string) error
