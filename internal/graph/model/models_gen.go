@@ -501,6 +501,16 @@ type CustomComponentInput struct {
 	ComponentFields []*CustomComponentFieldInput `json:"componentFields,omitempty"`
 }
 
+type DailySavings struct {
+	Date              time.Time `json:"date"`
+	TotalCalls        int       `json:"totalCalls"`
+	TotalTokensServed int       `json:"totalTokensServed"`
+	TotalTokensSaved  int       `json:"totalTokensSaved"`
+	CostServedUsd     float64   `json:"costServedUsd"`
+	CostRawUsd        float64   `json:"costRawUsd"`
+	CostSavedUsd      float64   `json:"costSavedUsd"`
+}
+
 type DatabaseTestCase struct {
 	Dialect       string       `json:"dialect"`
 	SchemaID      *string      `json:"schemaId,omitempty"`
@@ -879,6 +889,15 @@ type Member struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
+type ModelSavings struct {
+	ModelID      string  `json:"modelId"`
+	DisplayName  string  `json:"displayName"`
+	Provider     string  `json:"provider"`
+	TotalCalls   int     `json:"totalCalls"`
+	TokensSaved  int     `json:"tokensSaved"`
+	CostSavedUsd float64 `json:"costSavedUsd"`
+}
+
 type Mutation struct {
 }
 
@@ -959,6 +978,19 @@ type SAMLConfig struct {
 
 type SCIMConfig struct {
 	ID string `json:"id"`
+}
+
+type SavingsSummary struct {
+	OrgID             string  `json:"orgId"`
+	Period            string  `json:"period"`
+	ModelID           *string `json:"modelId,omitempty"`
+	TotalCalls        int     `json:"totalCalls"`
+	TotalTokensServed int     `json:"totalTokensServed"`
+	TotalTokensSaved  int     `json:"totalTokensSaved"`
+	CostServedUsd     float64 `json:"costServedUsd"`
+	CostRawUsd        float64 `json:"costRawUsd"`
+	CostSavedUsd      float64 `json:"costSavedUsd"`
+	UniqueUsersCount  int     `json:"uniqueUsersCount"`
 }
 
 type ServerConfig struct {
@@ -1270,6 +1302,13 @@ type TestRunSummary struct {
 	BlockedCount  int        `json:"blockedCount"`
 }
 
+type ToolSavings struct {
+	ToolName     string  `json:"toolName"`
+	TotalCalls   int     `json:"totalCalls"`
+	TokensSaved  int     `json:"tokensSaved"`
+	CostSavedUsd float64 `json:"costSavedUsd"`
+}
+
 type UIMap struct {
 	ID             string    `json:"id"`
 	OrgID          string    `json:"orgId"`
@@ -1563,4 +1602,13 @@ type User struct {
 	LastSeenAt *time.Time `json:"lastSeenAt,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt"`
 	UpdatedAt  time.Time  `json:"updatedAt"`
+}
+
+type UserSavings struct {
+	UserID           *string `json:"userId,omitempty"`
+	ServiceAccountID *string `json:"serviceAccountId,omitempty"`
+	DisplayName      string  `json:"displayName"`
+	TotalCalls       int     `json:"totalCalls"`
+	TokensSaved      int     `json:"tokensSaved"`
+	CostSavedUsd     float64 `json:"costSavedUsd"`
 }

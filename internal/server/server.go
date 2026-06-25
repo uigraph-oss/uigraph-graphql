@@ -36,18 +36,19 @@ func Run(cfg *config.Config) error {
 	c := uigraphapi.New(cfg.APIBaseURL)
 
 	resolver := &graph.Resolver{
-		Auth:       c,
-		OrgAPI:     c,
-		Admin:      c,
-		FolderAPI:  c,
-		DiagramAPI: c,
-		DocAPI:     c,
-		Component:  c,
-		UIMapAPI:   c,
-		Catalog:    c,
-		TestPack:   c,
-		Actor:      c,
-		CommentAPI: c,
+		Auth:        c,
+		OrgAPI:      c,
+		Admin:       c,
+		FolderAPI:   c,
+		DiagramAPI:  c,
+		DocAPI:      c,
+		Component:   c,
+		UIMapAPI:    c,
+		Catalog:     c,
+		TestPack:    c,
+		Actor:       c,
+		CommentAPI:  c,
+		CostSavings: c,
 	}
 	schema := generated.NewExecutableSchema(generated.Config{Resolvers: resolver})
 	gqlSrv := newGraphQLServer(schema, cfg.Env)
