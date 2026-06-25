@@ -10,6 +10,7 @@ import (
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 // PreviewImageURL is the resolver for the previewImageUrl field.
@@ -128,16 +129,21 @@ func (r *mutationResolver) CreateDiagramImage(ctx context.Context, orgID string,
 }
 
 // Diagrams is the resolver for the diagrams field.
-func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *string) ([]*model.Diagram, error) {
-	fid := ""
-	if folderID != nil {
-		fid = *folderID
+func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DiagramPage, error) {
+	p := uigraphapi.ListParams{
+		FolderID: derefStr(folderID),
+		TeamID:   derefStr(teamID),
+		Search:   derefStr(search),
+		SortBy:   derefStr(sortBy),
+		SortDir:  derefStr(sortDir),
+		Limit:    limit,
+		Offset:   offset,
 	}
-	diagrams, err := r.DiagramAPI.ListDiagrams(ctx, orgID, fid)
+	diagrams, total, err := r.DiagramAPI.ListDiagrams(ctx, orgID, p)
 	if err != nil {
 		return nil, err
 	}
-	return convert.DiagramsToModel(diagrams), nil
+	return &model.DiagramPage{Items: convert.DiagramsToModel(diagrams), TotalCount: total}, nil
 }
 
 // Diagram is the resolver for the diagram field.

@@ -581,6 +581,11 @@ type DiagramImage struct {
 	CreatedAt      time.Time `json:"createdAt"`
 }
 
+type DiagramPage struct {
+	Items      []*Diagram `json:"items"`
+	TotalCount int        `json:"totalCount"`
+}
+
 type DiagramThumbnailUpload struct {
 	UploadURL string `json:"uploadUrl"`
 	AssetID   string `json:"assetId"`
@@ -618,6 +623,11 @@ type Doc struct {
 	UpdatedByActor *Actor    `json:"updatedByActor,omitempty"`
 	CreatedAt      time.Time `json:"createdAt"`
 	UpdatedAt      time.Time `json:"updatedAt"`
+}
+
+type DocPage struct {
+	Items      []*Doc `json:"items"`
+	TotalCount int    `json:"totalCount"`
 }
 
 type FileDownload struct {
@@ -757,6 +767,11 @@ type FrameLink struct {
 	UpdatedBy     *string   `json:"updatedBy,omitempty"`
 	CreatedAt     time.Time `json:"createdAt"`
 	UpdatedAt     time.Time `json:"updatedAt"`
+}
+
+type FramePage struct {
+	Items      []*Frame `json:"items"`
+	TotalCount int      `json:"totalCount"`
 }
 
 type GRPCTestCase struct {
@@ -1090,6 +1105,11 @@ type ServiceDoc struct {
 	Doc       *Doc      `json:"doc,omitempty"`
 }
 
+type ServicePage struct {
+	Items      []*Service `json:"items"`
+	TotalCount int        `json:"totalCount"`
+}
+
 type ServiceStats struct {
 	ServiceID     string `json:"serviceId"`
 	EndpointCount int    `json:"endpointCount"`
@@ -1285,6 +1305,11 @@ type UIMap struct {
 	CreatedAt      time.Time `json:"createdAt"`
 	UpdatedAt      time.Time `json:"updatedAt"`
 	PreviewImgUrls []string  `json:"previewImgUrls"`
+}
+
+type UIMapPage struct {
+	Items      []*UIMap `json:"items"`
+	TotalCount int      `json:"totalCount"`
 }
 
 type UpdateAPIEndpointInput struct {

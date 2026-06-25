@@ -141,22 +141,13 @@ type APIEndpoint struct {
 	UpdatedAt   time.Time       `json:"updatedAt"`
 }
 
-func (c *Client) ListServices(ctx context.Context, orgID, folderID, teamID string) ([]Service, error) {
-	path := "/api/v1/orgs/" + orgID + "/services"
-	q := url.Values{}
-	if folderID != "" {
-		q.Set("folderId", folderID)
-	}
-	if teamID != "" {
-		q.Set("teamId", teamID)
-	}
-	if enc := q.Encode(); enc != "" {
-		path += "?" + enc
-	}
+func (c *Client) ListServices(ctx context.Context, orgID string, p ListParams) ([]Service, int, error) {
+	path := "/api/v1/orgs/" + orgID + "/services" + listQuery(p)
 	var out struct {
 		Services []Service `json:"services"`
+		Total    int       `json:"total"`
 	}
-	return out.Services, c.get(ctx, path, &out)
+	return out.Services, out.Total, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetService(ctx context.Context, orgID, id string) (*Service, error) {

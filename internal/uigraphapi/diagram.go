@@ -48,15 +48,23 @@ type DiagramVersion struct {
 	CreatedAt     time.Time `json:"createdAt"`
 }
 
-func (c *Client) ListDiagrams(ctx context.Context, orgID, folderID string) ([]Diagram, error) {
-	path := "/api/v1/orgs/" + orgID + "/diagrams"
-	if folderID != "" {
-		path += "?folderId=" + folderID
-	}
+type ListParams struct {
+	FolderID string
+	TeamID   string
+	Search   string
+	SortBy   string
+	SortDir  string
+	Limit    *int
+	Offset   *int
+}
+
+func (c *Client) ListDiagrams(ctx context.Context, orgID string, p ListParams) ([]Diagram, int, error) {
+	path := "/api/v1/orgs/" + orgID + "/diagrams" + listQuery(p)
 	var out struct {
 		Diagrams []Diagram `json:"diagrams"`
+		Total    int       `json:"total"`
 	}
-	return out.Diagrams, c.get(ctx, path, &out)
+	return out.Diagrams, out.Total, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetDiagram(ctx context.Context, orgID, id string) (*Diagram, error) {

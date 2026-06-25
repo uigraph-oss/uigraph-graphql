@@ -296,6 +296,11 @@ type ComplexityRoot struct {
 		OrgID          func(childComplexity int) int
 	}
 
+	DiagramPage struct {
+		Items      func(childComplexity int) int
+		TotalCount func(childComplexity int) int
+	}
+
 	DiagramThumbnailUpload struct {
 		AssetID   func(childComplexity int) int
 		UploadURL func(childComplexity int) int
@@ -333,6 +338,11 @@ type ComplexityRoot struct {
 		UpdatedAt      func(childComplexity int) int
 		UpdatedBy      func(childComplexity int) int
 		UpdatedByActor func(childComplexity int) int
+	}
+
+	DocPage struct {
+		Items      func(childComplexity int) int
+		TotalCount func(childComplexity int) int
 	}
 
 	FileDownload struct {
@@ -472,6 +482,11 @@ type ComplexityRoot struct {
 		TargetMapID   func(childComplexity int) int
 		UpdatedAt     func(childComplexity int) int
 		UpdatedBy     func(childComplexity int) int
+	}
+
+	FramePage struct {
+		Items      func(childComplexity int) int
+		TotalCount func(childComplexity int) int
 	}
 
 	GRPCTestCase struct {
@@ -718,9 +733,9 @@ type ComplexityRoot struct {
 		DiagramImages         func(childComplexity int, orgID string, diagramID string) int
 		DiagramVersionContent func(childComplexity int, orgID string, diagramID string, versionID string) int
 		DiagramVersions       func(childComplexity int, orgID string, diagramID string) int
-		Diagrams              func(childComplexity int, orgID string, folderID *string) int
+		Diagrams              func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		Doc                   func(childComplexity int, orgID string, id string) int
-		Docs                  func(childComplexity int, orgID string, folderID *string) int
+		Docs                  func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		FlowDiagramComponents func(childComplexity int, orgID string) int
 		FocalPointMeta        func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string) int
 		FocalPointMetaByLink  func(childComplexity int, orgID string, linkID string) int
@@ -731,10 +746,10 @@ type ComplexityRoot struct {
 		FrameByID             func(childComplexity int, orgID string, id string) int
 		FrameGroups           func(childComplexity int, orgID string, mapID string, frameID string) int
 		FrameLinks            func(childComplexity int, orgID string, mapID string, frameID string) int
-		Frames                func(childComplexity int, orgID string, mapID string) int
+		Frames                func(childComplexity int, orgID string, mapID string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		Ldap                  func(childComplexity int) int
 		Map                   func(childComplexity int, orgID string, id string) int
-		Maps                  func(childComplexity int, orgID string, folderID *string) int
+		Maps                  func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		Me                    func(childComplexity int) int
 		Members               func(childComplexity int, orgID string) int
 		MyOrgs                func(childComplexity int) int
@@ -759,7 +774,7 @@ type ComplexityRoot struct {
 		ServiceDocByID        func(childComplexity int, orgID string, id string) int
 		ServiceDocs           func(childComplexity int, orgID string, serviceID string) int
 		ServiceStats          func(childComplexity int, orgID string, serviceID *string) int
-		Services              func(childComplexity int, orgID string, folderID *string, teamID *string) int
+		Services              func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		Team                  func(childComplexity int, orgID string, teamID string) int
 		TeamMembers           func(childComplexity int, orgID string, teamID string) int
 		Teams                 func(childComplexity int, orgID string) int
@@ -937,6 +952,11 @@ type ComplexityRoot struct {
 		UpdatedBy func(childComplexity int) int
 	}
 
+	ServicePage struct {
+		Items      func(childComplexity int) int
+		TotalCount func(childComplexity int) int
+	}
+
 	ServiceStats struct {
 		DbTableCount  func(childComplexity int) int
 		DiagramCount  func(childComplexity int) int
@@ -1101,6 +1121,11 @@ type ComplexityRoot struct {
 		UpdatedBy      func(childComplexity int) int
 	}
 
+	UIMapPage struct {
+		Items      func(childComplexity int) int
+		TotalCount func(childComplexity int) int
+	}
+
 	User struct {
 		CreatedAt  func(childComplexity int) int
 		Disabled   func(childComplexity int) int
@@ -1261,7 +1286,7 @@ type QueryResolver interface {
 	Scim(ctx context.Context) (*model.SCIMConfig, error)
 	Me(ctx context.Context) (*model.Me, error)
 	MyOrgs(ctx context.Context) ([]*model.OrgSummary, error)
-	Services(ctx context.Context, orgID string, folderID *string, teamID *string) ([]*model.Service, error)
+	Services(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.ServicePage, error)
 	Service(ctx context.Context, orgID string, id string) (*model.Service, error)
 	APIGroups(ctx context.Context, orgID string, serviceID string) ([]*model.APIGroup, error)
 	APIGroup(ctx context.Context, orgID string, serviceID string, id string) (*model.APIGroup, error)
@@ -1280,13 +1305,13 @@ type QueryResolver interface {
 	Comments(ctx context.Context, orgID string, resourceID string) ([]*model.Comment, error)
 	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
 	Components(ctx context.Context, orgID string) (*model.Components, error)
-	Diagrams(ctx context.Context, orgID string, folderID *string) ([]*model.Diagram, error)
+	Diagrams(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DiagramPage, error)
 	Diagram(ctx context.Context, orgID string, id string) (*model.Diagram, error)
 	DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error)
 	DiagramVersions(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramVersion, error)
 	DiagramVersionContent(ctx context.Context, orgID string, diagramID string, versionID string) (*model.DiagramContent, error)
 	DiagramImages(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramImage, error)
-	Docs(ctx context.Context, orgID string, folderID *string) ([]*model.Doc, error)
+	Docs(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DocPage, error)
 	Doc(ctx context.Context, orgID string, id string) (*model.Doc, error)
 	Folders(ctx context.Context, orgID string, typeArg *string, parentID *string) ([]*model.Folder, error)
 	Folder(ctx context.Context, orgID string, id string) (*model.Folder, error)
@@ -1307,9 +1332,9 @@ type QueryResolver interface {
 	TestRuns(ctx context.Context, orgID string, serviceID string, testPackID *string) ([]*model.TestRun, error)
 	TestRunsSummary(ctx context.Context, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) ([]*model.TestRunSummary, error)
 	TestRunResults(ctx context.Context, orgID string, serviceID string, testRunID string) ([]*model.TestRunResult, error)
-	Maps(ctx context.Context, orgID string, folderID *string) ([]*model.UIMap, error)
+	Maps(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.UIMapPage, error)
 	Map(ctx context.Context, orgID string, id string) (*model.UIMap, error)
-	Frames(ctx context.Context, orgID string, mapID string) ([]*model.Frame, error)
+	Frames(ctx context.Context, orgID string, mapID string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.FramePage, error)
 	Frame(ctx context.Context, orgID string, mapID string, id string) (*model.Frame, error)
 	FrameByID(ctx context.Context, orgID string, id string) (*model.Frame, error)
 	FocalPoints(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FocalPoint, error)
@@ -2557,6 +2582,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DiagramImage.OrgID(childComplexity), true
 
+	case "DiagramPage.items":
+		if e.complexity.DiagramPage.Items == nil {
+			break
+		}
+
+		return e.complexity.DiagramPage.Items(childComplexity), true
+
+	case "DiagramPage.totalCount":
+		if e.complexity.DiagramPage.TotalCount == nil {
+			break
+		}
+
+		return e.complexity.DiagramPage.TotalCount(childComplexity), true
+
 	case "DiagramThumbnailUpload.assetId":
 		if e.complexity.DiagramThumbnailUpload.AssetID == nil {
 			break
@@ -2766,6 +2805,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Doc.UpdatedByActor(childComplexity), true
+
+	case "DocPage.items":
+		if e.complexity.DocPage.Items == nil {
+			break
+		}
+
+		return e.complexity.DocPage.Items(childComplexity), true
+
+	case "DocPage.totalCount":
+		if e.complexity.DocPage.TotalCount == nil {
+			break
+		}
+
+		return e.complexity.DocPage.TotalCount(childComplexity), true
 
 	case "FileDownload.apiGroupId":
 		if e.complexity.FileDownload.APIGroupID == nil {
@@ -3529,6 +3582,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.FrameLink.UpdatedBy(childComplexity), true
+
+	case "FramePage.items":
+		if e.complexity.FramePage.Items == nil {
+			break
+		}
+
+		return e.complexity.FramePage.Items(childComplexity), true
+
+	case "FramePage.totalCount":
+		if e.complexity.FramePage.TotalCount == nil {
+			break
+		}
+
+		return e.complexity.FramePage.TotalCount(childComplexity), true
 
 	case "GRPCTestCase.assertions":
 		if e.complexity.GRPCTestCase.Assertions == nil {
@@ -5590,7 +5657,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Diagrams(childComplexity, args["orgId"].(string), args["folderId"].(*string)), true
+		return e.complexity.Query.Diagrams(childComplexity, args["orgId"].(string), args["folderId"].(*string), args["teamId"].(*string), args["search"].(*string), args["sortBy"].(*string), args["sortDir"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.doc":
 		if e.complexity.Query.Doc == nil {
@@ -5614,7 +5681,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Docs(childComplexity, args["orgId"].(string), args["folderId"].(*string)), true
+		return e.complexity.Query.Docs(childComplexity, args["orgId"].(string), args["folderId"].(*string), args["teamId"].(*string), args["search"].(*string), args["sortBy"].(*string), args["sortDir"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.flowDiagramComponents":
 		if e.complexity.Query.FlowDiagramComponents == nil {
@@ -5746,7 +5813,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Frames(childComplexity, args["orgId"].(string), args["mapId"].(string)), true
+		return e.complexity.Query.Frames(childComplexity, args["orgId"].(string), args["mapId"].(string), args["search"].(*string), args["sortBy"].(*string), args["sortDir"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.ldap":
 		if e.complexity.Query.Ldap == nil {
@@ -5777,7 +5844,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Maps(childComplexity, args["orgId"].(string), args["folderId"].(*string)), true
+		return e.complexity.Query.Maps(childComplexity, args["orgId"].(string), args["folderId"].(*string), args["teamId"].(*string), args["search"].(*string), args["sortBy"].(*string), args["sortDir"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.me":
 		if e.complexity.Query.Me == nil {
@@ -6027,7 +6094,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Services(childComplexity, args["orgId"].(string), args["folderId"].(*string), args["teamId"].(*string)), true
+		return e.complexity.Query.Services(childComplexity, args["orgId"].(string), args["folderId"].(*string), args["teamId"].(*string), args["search"].(*string), args["sortBy"].(*string), args["sortDir"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.team":
 		if e.complexity.Query.Team == nil {
@@ -7057,6 +7124,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDoc.UpdatedBy(childComplexity), true
 
+	case "ServicePage.items":
+		if e.complexity.ServicePage.Items == nil {
+			break
+		}
+
+		return e.complexity.ServicePage.Items(childComplexity), true
+
+	case "ServicePage.totalCount":
+		if e.complexity.ServicePage.TotalCount == nil {
+			break
+		}
+
+		return e.complexity.ServicePage.TotalCount(childComplexity), true
+
 	case "ServiceStats.dbTableCount":
 		if e.complexity.ServiceStats.DbTableCount == nil {
 			break
@@ -7932,6 +8013,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.UIMap.UpdatedBy(childComplexity), true
 
+	case "UIMapPage.items":
+		if e.complexity.UIMapPage.Items == nil {
+			break
+		}
+
+		return e.complexity.UIMapPage.Items(childComplexity), true
+
+	case "UIMapPage.totalCount":
+		if e.complexity.UIMapPage.TotalCount == nil {
+			break
+		}
+
+		return e.complexity.UIMapPage.TotalCount(childComplexity), true
+
 	case "User.createdAt":
 		if e.complexity.User.CreatedAt == nil {
 			break
@@ -8456,7 +8551,7 @@ type OrgSummary {
 }
 `, BuiltIn: false},
 	{Name: "../schema/catalog.graphqls", Input: `extend type Query {
-    services(orgId: ID!, folderId: ID, teamId: ID):                              [Service!]!
+    services(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): ServicePage!
     service(orgId: ID!, id: ID!):                                    Service!
     apiGroups(orgId: ID!, serviceId: ID!):                           [APIGroup!]!
     apiGroup(orgId: ID!, serviceId: ID!, id: ID!):                   APIGroup!
@@ -8502,6 +8597,11 @@ extend type Mutation {
     createAPIEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, input: CreateAPIEndpointInput!):             APIEndpoint!
     updateAPIEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!, input: UpdateAPIEndpointInput!):    APIEndpoint!
     deleteAPIEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!):                                    Boolean!
+}
+
+type ServicePage {
+    items:      [Service!]!
+    totalCount: Int!
 }
 
 type Service {
@@ -8949,7 +9049,7 @@ type Components {
 }
 
 extend type Query {
-    diagrams(orgId: ID!, folderId: ID):                       [Diagram!]!
+    diagrams(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DiagramPage!
     diagram(orgId: ID!, id: ID!):                             Diagram!
     diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
@@ -9004,6 +9104,11 @@ type DiagramImage {
 type DiagramContent {
     diagramId: ID!
     content:   String!
+}
+
+type DiagramPage {
+    items:      [Diagram!]!
+    totalCount: Int!
 }
 
 type DiagramVersion {
@@ -9067,8 +9172,13 @@ directive @goField(
 ) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 `, BuiltIn: false},
 	{Name: "../schema/docs.graphqls", Input: `extend type Query {
-    docs(orgId: ID!, folderId: ID): [Doc!]!
+    docs(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DocPage!
     doc(orgId: ID!, id: ID!):       Doc!
+}
+
+type DocPage {
+    items:      [Doc!]!
+    totalCount: Int!
 }
 
 extend type Mutation {
@@ -9719,9 +9829,9 @@ input UpdateTestRunResultInput {
 }
 `, BuiltIn: false},
 	{Name: "../schema/uimap.graphqls", Input: `extend type Query {
-    maps(orgId: ID!, folderId: ID):                           [UIMap!]!
+    maps(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): UIMapPage!
     map(orgId: ID!, id: ID!):                                 UIMap!
-    frames(orgId: ID!, mapId: ID!):                           [Frame!]!
+    frames(orgId: ID!, mapId: ID!, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): FramePage!
     frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
     frameById(orgId: ID!, id: ID!):                           Frame!
     focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
@@ -9761,6 +9871,11 @@ extend type Mutation {
     deleteFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!): Boolean!
 }
 
+type UIMapPage {
+    items:      [UIMap!]!
+    totalCount: Int!
+}
+
 type UIMap {
     id:          ID!
     orgId:       ID!
@@ -9774,6 +9889,11 @@ type UIMap {
     createdAt:   Time!
     updatedAt:   Time!
     previewImgUrls: [String!]! @goField(forceResolver: true)
+}
+
+type FramePage {
+    items:      [Frame!]!
+    totalCount: Int!
 }
 
 type Frame {
@@ -18016,6 +18136,36 @@ func (ec *executionContext) field_Query_diagrams_args(ctx context.Context, rawAr
 		return nil, err
 	}
 	args["folderId"] = arg1
+	arg2, err := ec.field_Query_diagrams_argsTeamID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["teamId"] = arg2
+	arg3, err := ec.field_Query_diagrams_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg3
+	arg4, err := ec.field_Query_diagrams_argsSortBy(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortBy"] = arg4
+	arg5, err := ec.field_Query_diagrams_argsSortDir(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortDir"] = arg5
+	arg6, err := ec.field_Query_diagrams_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg6
+	arg7, err := ec.field_Query_diagrams_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg7
 	return args, nil
 }
 func (ec *executionContext) field_Query_diagrams_argsOrgID(
@@ -18051,6 +18201,114 @@ func (ec *executionContext) field_Query_diagrams_argsFolderID(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagrams_argsTeamID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["teamId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
+	if tmp, ok := rawArgs["teamId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagrams_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagrams_argsSortBy(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortBy"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortBy"))
+	if tmp, ok := rawArgs["sortBy"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagrams_argsSortDir(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortDir"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortDir"))
+	if tmp, ok := rawArgs["sortDir"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagrams_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagrams_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -18118,6 +18376,36 @@ func (ec *executionContext) field_Query_docs_args(ctx context.Context, rawArgs m
 		return nil, err
 	}
 	args["folderId"] = arg1
+	arg2, err := ec.field_Query_docs_argsTeamID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["teamId"] = arg2
+	arg3, err := ec.field_Query_docs_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg3
+	arg4, err := ec.field_Query_docs_argsSortBy(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortBy"] = arg4
+	arg5, err := ec.field_Query_docs_argsSortDir(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortDir"] = arg5
+	arg6, err := ec.field_Query_docs_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg6
+	arg7, err := ec.field_Query_docs_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg7
 	return args, nil
 }
 func (ec *executionContext) field_Query_docs_argsOrgID(
@@ -18153,6 +18441,114 @@ func (ec *executionContext) field_Query_docs_argsFolderID(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_docs_argsTeamID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["teamId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
+	if tmp, ok := rawArgs["teamId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_docs_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_docs_argsSortBy(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortBy"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortBy"))
+	if tmp, ok := rawArgs["sortBy"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_docs_argsSortDir(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortDir"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortDir"))
+	if tmp, ok := rawArgs["sortDir"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_docs_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_docs_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -18817,6 +19213,31 @@ func (ec *executionContext) field_Query_frames_args(ctx context.Context, rawArgs
 		return nil, err
 	}
 	args["mapId"] = arg1
+	arg2, err := ec.field_Query_frames_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg2
+	arg3, err := ec.field_Query_frames_argsSortBy(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortBy"] = arg3
+	arg4, err := ec.field_Query_frames_argsSortDir(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortDir"] = arg4
+	arg5, err := ec.field_Query_frames_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg5
+	arg6, err := ec.field_Query_frames_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg6
 	return args, nil
 }
 func (ec *executionContext) field_Query_frames_argsOrgID(
@@ -18852,6 +19273,96 @@ func (ec *executionContext) field_Query_frames_argsMapID(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frames_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frames_argsSortBy(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortBy"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortBy"))
+	if tmp, ok := rawArgs["sortBy"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frames_argsSortDir(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortDir"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortDir"))
+	if tmp, ok := rawArgs["sortDir"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frames_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_frames_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -18919,6 +19430,36 @@ func (ec *executionContext) field_Query_maps_args(ctx context.Context, rawArgs m
 		return nil, err
 	}
 	args["folderId"] = arg1
+	arg2, err := ec.field_Query_maps_argsTeamID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["teamId"] = arg2
+	arg3, err := ec.field_Query_maps_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg3
+	arg4, err := ec.field_Query_maps_argsSortBy(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortBy"] = arg4
+	arg5, err := ec.field_Query_maps_argsSortDir(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortDir"] = arg5
+	arg6, err := ec.field_Query_maps_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg6
+	arg7, err := ec.field_Query_maps_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg7
 	return args, nil
 }
 func (ec *executionContext) field_Query_maps_argsOrgID(
@@ -18954,6 +19495,114 @@ func (ec *executionContext) field_Query_maps_argsFolderID(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_maps_argsTeamID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["teamId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
+	if tmp, ok := rawArgs["teamId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_maps_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_maps_argsSortBy(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortBy"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortBy"))
+	if tmp, ok := rawArgs["sortBy"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_maps_argsSortDir(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortDir"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortDir"))
+	if tmp, ok := rawArgs["sortDir"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_maps_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_maps_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -19643,6 +20292,31 @@ func (ec *executionContext) field_Query_services_args(ctx context.Context, rawAr
 		return nil, err
 	}
 	args["teamId"] = arg2
+	arg3, err := ec.field_Query_services_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg3
+	arg4, err := ec.field_Query_services_argsSortBy(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortBy"] = arg4
+	arg5, err := ec.field_Query_services_argsSortDir(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["sortDir"] = arg5
+	arg6, err := ec.field_Query_services_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg6
+	arg7, err := ec.field_Query_services_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg7
 	return args, nil
 }
 func (ec *executionContext) field_Query_services_argsOrgID(
@@ -19696,6 +20370,96 @@ func (ec *executionContext) field_Query_services_argsTeamID(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_services_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_services_argsSortBy(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortBy"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortBy"))
+	if tmp, ok := rawArgs["sortBy"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_services_argsSortDir(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["sortDir"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("sortDir"))
+	if tmp, ok := rawArgs["sortDir"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_services_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_services_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -28129,6 +28893,130 @@ func (ec *executionContext) fieldContext_DiagramImage_createdAt(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _DiagramPage_items(ctx context.Context, field graphql.CollectedField, obj *model.DiagramPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramPage_items(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Items, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Diagram)
+	fc.Result = res
+	return ec.marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramPage_items(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Diagram_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Diagram_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Diagram_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Diagram_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_Diagram_name(ctx, field)
+			case "contentKey":
+				return ec.fieldContext_Diagram_contentKey(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Diagram_contentHash(ctx, field)
+			case "previewAssetId":
+				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
+			case "previewImageUrl":
+				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
+			case "previewContentHash":
+				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "source":
+				return ec.fieldContext_Diagram_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Diagram_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Diagram_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Diagram_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Diagram_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DiagramPage_totalCount(ctx context.Context, field graphql.CollectedField, obj *model.DiagramPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DiagramPage_totalCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DiagramPage_totalCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DiagramPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _DiagramThumbnailUpload_uploadUrl(ctx context.Context, field graphql.CollectedField, obj *model.DiagramThumbnailUpload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DiagramThumbnailUpload_uploadUrl(ctx, field)
 	if err != nil {
@@ -29459,6 +30347,128 @@ func (ec *executionContext) fieldContext_Doc_updatedAt(_ context.Context, field 
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DocPage_items(ctx context.Context, field graphql.CollectedField, obj *model.DocPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DocPage_items(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Items, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Doc)
+	fc.Result = res
+	return ec.marshalNDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DocPage_items(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DocPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Doc_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Doc_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Doc_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Doc_teamId(ctx, field)
+			case "fileAssetId":
+				return ec.fieldContext_Doc_fileAssetId(ctx, field)
+			case "fileUrl":
+				return ec.fieldContext_Doc_fileUrl(ctx, field)
+			case "fileName":
+				return ec.fieldContext_Doc_fileName(ctx, field)
+			case "fileType":
+				return ec.fieldContext_Doc_fileType(ctx, field)
+			case "description":
+				return ec.fieldContext_Doc_description(ctx, field)
+			case "contentHash":
+				return ec.fieldContext_Doc_contentHash(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Doc_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Doc_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Doc_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Doc_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Doc_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Doc_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Doc", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DocPage_totalCount(ctx context.Context, field graphql.CollectedField, obj *model.DocPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DocPage_totalCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DocPage_totalCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DocPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -34300,6 +35310,136 @@ func (ec *executionContext) fieldContext_FrameLink_updatedAt(_ context.Context, 
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FramePage_items(ctx context.Context, field graphql.CollectedField, obj *model.FramePage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FramePage_items(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Items, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Frame)
+	fc.Result = res
+	return ec.marshalNFrame2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FramePage_items(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FramePage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Frame_id(ctx, field)
+			case "mapId":
+				return ec.fieldContext_Frame_mapId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Frame_orgId(ctx, field)
+			case "parentFrameId":
+				return ec.fieldContext_Frame_parentFrameId(ctx, field)
+			case "name":
+				return ec.fieldContext_Frame_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Frame_description(ctx, field)
+			case "templateType":
+				return ec.fieldContext_Frame_templateType(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
+			case "screenshotContentHash":
+				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
+			case "status":
+				return ec.fieldContext_Frame_status(ctx, field)
+			case "order":
+				return ec.fieldContext_Frame_order(ctx, field)
+			case "source":
+				return ec.fieldContext_Frame_source(ctx, field)
+			case "focalPointCount":
+				return ec.fieldContext_Frame_focalPointCount(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Frame_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Frame_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Frame_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Frame_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Frame_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Frame", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FramePage_totalCount(ctx context.Context, field graphql.CollectedField, obj *model.FramePage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FramePage_totalCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FramePage_totalCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FramePage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -46497,7 +47637,7 @@ func (ec *executionContext) _Query_services(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Services(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string), fc.Args["teamId"].(*string))
+		return ec.resolvers.Query().Services(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string), fc.Args["teamId"].(*string), fc.Args["search"].(*string), fc.Args["sortBy"].(*string), fc.Args["sortDir"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -46509,9 +47649,9 @@ func (ec *executionContext) _Query_services(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Service)
+	res := resTmp.(*model.ServicePage)
 	fc.Result = res
-	return ec.marshalNService2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceᚄ(ctx, field.Selections, res)
+	return ec.marshalNServicePage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServicePage(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_services(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -46522,54 +47662,12 @@ func (ec *executionContext) fieldContext_Query_services(ctx context.Context, fie
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Service_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Service_orgId(ctx, field)
-			case "folderId":
-				return ec.fieldContext_Service_folderId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Service_teamId(ctx, field)
-			case "name":
-				return ec.fieldContext_Service_name(ctx, field)
-			case "slug":
-				return ec.fieldContext_Service_slug(ctx, field)
-			case "description":
-				return ec.fieldContext_Service_description(ctx, field)
-			case "status":
-				return ec.fieldContext_Service_status(ctx, field)
-			case "tier":
-				return ec.fieldContext_Service_tier(ctx, field)
-			case "category":
-				return ec.fieldContext_Service_category(ctx, field)
-			case "language":
-				return ec.fieldContext_Service_language(ctx, field)
-			case "gitRepoUrl":
-				return ec.fieldContext_Service_gitRepoUrl(ctx, field)
-			case "jiraProjectUrl":
-				return ec.fieldContext_Service_jiraProjectUrl(ctx, field)
-			case "slackChannelUrl":
-				return ec.fieldContext_Service_slackChannelUrl(ctx, field)
-			case "lastCommitSha":
-				return ec.fieldContext_Service_lastCommitSha(ctx, field)
-			case "labels":
-				return ec.fieldContext_Service_labels(ctx, field)
-			case "metadata":
-				return ec.fieldContext_Service_metadata(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Service_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_Service_updatedBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_Service_createdByActor(ctx, field)
-			case "updatedByActor":
-				return ec.fieldContext_Service_updatedByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Service_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Service_updatedAt(ctx, field)
+			case "items":
+				return ec.fieldContext_ServicePage_items(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_ServicePage_totalCount(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Service", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type ServicePage", field.Name)
 		},
 	}
 	defer func() {
@@ -48056,7 +49154,7 @@ func (ec *executionContext) _Query_diagrams(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Diagrams(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string))
+		return ec.resolvers.Query().Diagrams(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string), fc.Args["teamId"].(*string), fc.Args["search"].(*string), fc.Args["sortBy"].(*string), fc.Args["sortDir"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -48068,9 +49166,9 @@ func (ec *executionContext) _Query_diagrams(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Diagram)
+	res := resTmp.(*model.DiagramPage)
 	fc.Result = res
-	return ec.marshalNDiagram2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramᚄ(ctx, field.Selections, res)
+	return ec.marshalNDiagramPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramPage(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -48081,42 +49179,12 @@ func (ec *executionContext) fieldContext_Query_diagrams(ctx context.Context, fie
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Diagram_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Diagram_orgId(ctx, field)
-			case "folderId":
-				return ec.fieldContext_Diagram_folderId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Diagram_teamId(ctx, field)
-			case "name":
-				return ec.fieldContext_Diagram_name(ctx, field)
-			case "contentKey":
-				return ec.fieldContext_Diagram_contentKey(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_Diagram_contentHash(ctx, field)
-			case "previewAssetId":
-				return ec.fieldContext_Diagram_previewAssetId(ctx, field)
-			case "previewImageUrl":
-				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
-			case "previewContentHash":
-				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
-			case "source":
-				return ec.fieldContext_Diagram_source(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Diagram_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_Diagram_updatedBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_Diagram_createdByActor(ctx, field)
-			case "updatedByActor":
-				return ec.fieldContext_Diagram_updatedByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Diagram_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Diagram_updatedAt(ctx, field)
+			case "items":
+				return ec.fieldContext_DiagramPage_items(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_DiagramPage_totalCount(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Diagram", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type DiagramPage", field.Name)
 		},
 	}
 	defer func() {
@@ -48516,7 +49584,7 @@ func (ec *executionContext) _Query_docs(ctx context.Context, field graphql.Colle
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Docs(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string))
+		return ec.resolvers.Query().Docs(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string), fc.Args["teamId"].(*string), fc.Args["search"].(*string), fc.Args["sortBy"].(*string), fc.Args["sortDir"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -48528,9 +49596,9 @@ func (ec *executionContext) _Query_docs(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Doc)
+	res := resTmp.(*model.DocPage)
 	fc.Result = res
-	return ec.marshalNDoc2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocᚄ(ctx, field.Selections, res)
+	return ec.marshalNDocPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocPage(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_docs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -48541,40 +49609,12 @@ func (ec *executionContext) fieldContext_Query_docs(ctx context.Context, field g
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Doc_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Doc_orgId(ctx, field)
-			case "folderId":
-				return ec.fieldContext_Doc_folderId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_Doc_teamId(ctx, field)
-			case "fileAssetId":
-				return ec.fieldContext_Doc_fileAssetId(ctx, field)
-			case "fileUrl":
-				return ec.fieldContext_Doc_fileUrl(ctx, field)
-			case "fileName":
-				return ec.fieldContext_Doc_fileName(ctx, field)
-			case "fileType":
-				return ec.fieldContext_Doc_fileType(ctx, field)
-			case "description":
-				return ec.fieldContext_Doc_description(ctx, field)
-			case "contentHash":
-				return ec.fieldContext_Doc_contentHash(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Doc_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_Doc_updatedBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_Doc_createdByActor(ctx, field)
-			case "updatedByActor":
-				return ec.fieldContext_Doc_updatedByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Doc_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Doc_updatedAt(ctx, field)
+			case "items":
+				return ec.fieldContext_DocPage_items(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_DocPage_totalCount(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Doc", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type DocPage", field.Name)
 		},
 	}
 	defer func() {
@@ -50160,7 +51200,7 @@ func (ec *executionContext) _Query_maps(ctx context.Context, field graphql.Colle
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Maps(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string))
+		return ec.resolvers.Query().Maps(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string), fc.Args["teamId"].(*string), fc.Args["search"].(*string), fc.Args["sortBy"].(*string), fc.Args["sortDir"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -50172,9 +51212,9 @@ func (ec *executionContext) _Query_maps(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.UIMap)
+	res := resTmp.(*model.UIMapPage)
 	fc.Result = res
-	return ec.marshalNUIMap2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMapᚄ(ctx, field.Selections, res)
+	return ec.marshalNUIMapPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMapPage(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_maps(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -50185,32 +51225,12 @@ func (ec *executionContext) fieldContext_Query_maps(ctx context.Context, field g
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_UIMap_id(ctx, field)
-			case "orgId":
-				return ec.fieldContext_UIMap_orgId(ctx, field)
-			case "folderId":
-				return ec.fieldContext_UIMap_folderId(ctx, field)
-			case "teamId":
-				return ec.fieldContext_UIMap_teamId(ctx, field)
-			case "name":
-				return ec.fieldContext_UIMap_name(ctx, field)
-			case "description":
-				return ec.fieldContext_UIMap_description(ctx, field)
-			case "status":
-				return ec.fieldContext_UIMap_status(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_UIMap_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_UIMap_updatedBy(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_UIMap_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_UIMap_updatedAt(ctx, field)
-			case "previewImgUrls":
-				return ec.fieldContext_UIMap_previewImgUrls(ctx, field)
+			case "items":
+				return ec.fieldContext_UIMapPage_items(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_UIMapPage_totalCount(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type UIMap", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type UIMapPage", field.Name)
 		},
 	}
 	defer func() {
@@ -50322,7 +51342,7 @@ func (ec *executionContext) _Query_frames(ctx context.Context, field graphql.Col
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Frames(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string))
+		return ec.resolvers.Query().Frames(rctx, fc.Args["orgId"].(string), fc.Args["mapId"].(string), fc.Args["search"].(*string), fc.Args["sortBy"].(*string), fc.Args["sortDir"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -50334,9 +51354,9 @@ func (ec *executionContext) _Query_frames(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Frame)
+	res := resTmp.(*model.FramePage)
 	fc.Result = res
-	return ec.marshalNFrame2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFrameᚄ(ctx, field.Selections, res)
+	return ec.marshalNFramePage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFramePage(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_frames(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -50347,48 +51367,12 @@ func (ec *executionContext) fieldContext_Query_frames(ctx context.Context, field
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Frame_id(ctx, field)
-			case "mapId":
-				return ec.fieldContext_Frame_mapId(ctx, field)
-			case "orgId":
-				return ec.fieldContext_Frame_orgId(ctx, field)
-			case "parentFrameId":
-				return ec.fieldContext_Frame_parentFrameId(ctx, field)
-			case "name":
-				return ec.fieldContext_Frame_name(ctx, field)
-			case "description":
-				return ec.fieldContext_Frame_description(ctx, field)
-			case "templateType":
-				return ec.fieldContext_Frame_templateType(ctx, field)
-			case "screenshotAssetId":
-				return ec.fieldContext_Frame_screenshotAssetId(ctx, field)
-			case "screenshotImageUrl":
-				return ec.fieldContext_Frame_screenshotImageUrl(ctx, field)
-			case "screenshotContentHash":
-				return ec.fieldContext_Frame_screenshotContentHash(ctx, field)
-			case "status":
-				return ec.fieldContext_Frame_status(ctx, field)
-			case "order":
-				return ec.fieldContext_Frame_order(ctx, field)
-			case "source":
-				return ec.fieldContext_Frame_source(ctx, field)
-			case "focalPointCount":
-				return ec.fieldContext_Frame_focalPointCount(ctx, field)
-			case "createdBy":
-				return ec.fieldContext_Frame_createdBy(ctx, field)
-			case "updatedBy":
-				return ec.fieldContext_Frame_updatedBy(ctx, field)
-			case "createdByActor":
-				return ec.fieldContext_Frame_createdByActor(ctx, field)
-			case "updatedByActor":
-				return ec.fieldContext_Frame_updatedByActor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Frame_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Frame_updatedAt(ctx, field)
+			case "items":
+				return ec.fieldContext_FramePage_items(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_FramePage_totalCount(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Frame", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type FramePage", field.Name)
 		},
 	}
 	defer func() {
@@ -56878,6 +57862,142 @@ func (ec *executionContext) fieldContext_ServiceDoc_doc(_ context.Context, field
 	return fc, nil
 }
 
+func (ec *executionContext) _ServicePage_items(ctx context.Context, field graphql.CollectedField, obj *model.ServicePage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServicePage_items(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Items, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Service)
+	fc.Result = res
+	return ec.marshalNService2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServicePage_items(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServicePage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Service_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_Service_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_Service_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_Service_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_Service_name(ctx, field)
+			case "slug":
+				return ec.fieldContext_Service_slug(ctx, field)
+			case "description":
+				return ec.fieldContext_Service_description(ctx, field)
+			case "status":
+				return ec.fieldContext_Service_status(ctx, field)
+			case "tier":
+				return ec.fieldContext_Service_tier(ctx, field)
+			case "category":
+				return ec.fieldContext_Service_category(ctx, field)
+			case "language":
+				return ec.fieldContext_Service_language(ctx, field)
+			case "gitRepoUrl":
+				return ec.fieldContext_Service_gitRepoUrl(ctx, field)
+			case "jiraProjectUrl":
+				return ec.fieldContext_Service_jiraProjectUrl(ctx, field)
+			case "slackChannelUrl":
+				return ec.fieldContext_Service_slackChannelUrl(ctx, field)
+			case "lastCommitSha":
+				return ec.fieldContext_Service_lastCommitSha(ctx, field)
+			case "labels":
+				return ec.fieldContext_Service_labels(ctx, field)
+			case "metadata":
+				return ec.fieldContext_Service_metadata(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_Service_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_Service_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_Service_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Service_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Service_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Service", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServicePage_totalCount(ctx context.Context, field graphql.CollectedField, obj *model.ServicePage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServicePage_totalCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServicePage_totalCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServicePage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ServiceStats_serviceId(ctx context.Context, field graphql.CollectedField, obj *model.ServiceStats) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceStats_serviceId(ctx, field)
 	if err != nil {
@@ -62356,6 +63476,120 @@ func (ec *executionContext) fieldContext_UIMap_previewImgUrls(_ context.Context,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UIMapPage_items(ctx context.Context, field graphql.CollectedField, obj *model.UIMapPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UIMapPage_items(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Items, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.UIMap)
+	fc.Result = res
+	return ec.marshalNUIMap2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMapᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UIMapPage_items(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UIMapPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_UIMap_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_UIMap_orgId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_UIMap_folderId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_UIMap_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_UIMap_name(ctx, field)
+			case "description":
+				return ec.fieldContext_UIMap_description(ctx, field)
+			case "status":
+				return ec.fieldContext_UIMap_status(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_UIMap_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_UIMap_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_UIMap_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_UIMap_updatedAt(ctx, field)
+			case "previewImgUrls":
+				return ec.fieldContext_UIMap_previewImgUrls(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type UIMap", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UIMapPage_totalCount(ctx context.Context, field graphql.CollectedField, obj *model.UIMapPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UIMapPage_totalCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UIMapPage_totalCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UIMapPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -70979,6 +72213,50 @@ func (ec *executionContext) _DiagramImage(ctx context.Context, sel ast.Selection
 	return out
 }
 
+var diagramPageImplementors = []string{"DiagramPage"}
+
+func (ec *executionContext) _DiagramPage(ctx context.Context, sel ast.SelectionSet, obj *model.DiagramPage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, diagramPageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("DiagramPage")
+		case "items":
+			out.Values[i] = ec._DiagramPage_items(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalCount":
+			out.Values[i] = ec._DiagramPage_totalCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var diagramThumbnailUploadImplementors = []string{"DiagramThumbnailUpload"}
 
 func (ec *executionContext) _DiagramThumbnailUpload(ctx context.Context, sel ast.SelectionSet, obj *model.DiagramThumbnailUpload) graphql.Marshaler {
@@ -71304,6 +72582,50 @@ func (ec *executionContext) _Doc(ctx context.Context, sel ast.SelectionSet, obj 
 			out.Values[i] = ec._Doc_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var docPageImplementors = []string{"DocPage"}
+
+func (ec *executionContext) _DocPage(ctx context.Context, sel ast.SelectionSet, obj *model.DocPage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, docPageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("DocPage")
+		case "items":
+			out.Values[i] = ec._DocPage_items(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalCount":
+			out.Values[i] = ec._DocPage_totalCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -72211,6 +73533,50 @@ func (ec *executionContext) _FrameLink(ctx context.Context, sel ast.SelectionSet
 			}
 		case "updatedAt":
 			out.Values[i] = ec._FrameLink_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var framePageImplementors = []string{"FramePage"}
+
+func (ec *executionContext) _FramePage(ctx context.Context, sel ast.SelectionSet, obj *model.FramePage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, framePageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FramePage")
+		case "items":
+			out.Values[i] = ec._FramePage_items(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalCount":
+			out.Values[i] = ec._FramePage_totalCount(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -76417,6 +77783,50 @@ func (ec *executionContext) _ServiceDoc(ctx context.Context, sel ast.SelectionSe
 	return out
 }
 
+var servicePageImplementors = []string{"ServicePage"}
+
+func (ec *executionContext) _ServicePage(ctx context.Context, sel ast.SelectionSet, obj *model.ServicePage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, servicePageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ServicePage")
+		case "items":
+			out.Values[i] = ec._ServicePage_items(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalCount":
+			out.Values[i] = ec._ServicePage_totalCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var serviceStatsImplementors = []string{"ServiceStats"}
 
 func (ec *executionContext) _ServiceStats(ctx context.Context, sel ast.SelectionSet, obj *model.ServiceStats) graphql.Marshaler {
@@ -77381,6 +78791,50 @@ func (ec *executionContext) _UIMap(ctx context.Context, sel ast.SelectionSet, ob
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var uIMapPageImplementors = []string{"UIMapPage"}
+
+func (ec *executionContext) _UIMapPage(ctx context.Context, sel ast.SelectionSet, obj *model.UIMapPage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, uIMapPageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("UIMapPage")
+		case "items":
+			out.Values[i] = ec._UIMapPage_items(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalCount":
+			out.Values[i] = ec._UIMapPage_totalCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -78665,6 +80119,20 @@ func (ec *executionContext) marshalNDiagramImage2ᚖgithubᚗcomᚋuigraphᚋgra
 	return ec._DiagramImage(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNDiagramPage2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramPage(ctx context.Context, sel ast.SelectionSet, v model.DiagramPage) graphql.Marshaler {
+	return ec._DiagramPage(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNDiagramPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramPage(ctx context.Context, sel ast.SelectionSet, v *model.DiagramPage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._DiagramPage(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNDiagramThumbnailUpload2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDiagramThumbnailUpload(ctx context.Context, sel ast.SelectionSet, v model.DiagramThumbnailUpload) graphql.Marshaler {
 	return ec._DiagramThumbnailUpload(ctx, sel, &v)
 }
@@ -78793,6 +80261,20 @@ func (ec *executionContext) marshalNDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋin
 		return graphql.Null
 	}
 	return ec._Doc(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNDocPage2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocPage(ctx context.Context, sel ast.SelectionSet, v model.DocPage) graphql.Marshaler {
+	return ec._DocPage(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNDocPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocPage(ctx context.Context, sel ast.SelectionSet, v *model.DocPage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._DocPage(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNFileDownload2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFileDownload(ctx context.Context, sel ast.SelectionSet, v model.FileDownload) graphql.Marshaler {
@@ -79293,6 +80775,20 @@ func (ec *executionContext) marshalNFrameLink2ᚖgithubᚗcomᚋuigraphᚋgraphq
 		return graphql.Null
 	}
 	return ec._FrameLink(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNFramePage2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFramePage(ctx context.Context, sel ast.SelectionSet, v model.FramePage) graphql.Marshaler {
+	return ec._FramePage(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNFramePage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐFramePage(ctx context.Context, sel ast.SelectionSet, v *model.FramePage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FramePage(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNID2string(ctx context.Context, v any) (string, error) {
@@ -80094,6 +81590,20 @@ func (ec *executionContext) marshalNServiceDoc2ᚖgithubᚗcomᚋuigraphᚋgraph
 	return ec._ServiceDoc(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNServicePage2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServicePage(ctx context.Context, sel ast.SelectionSet, v model.ServicePage) graphql.Marshaler {
+	return ec._ServicePage(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNServicePage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServicePage(ctx context.Context, sel ast.SelectionSet, v *model.ServicePage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ServicePage(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNServiceStats2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStatsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceStats) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -80736,6 +82246,20 @@ func (ec *executionContext) marshalNUIMap2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋ
 		return graphql.Null
 	}
 	return ec._UIMap(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNUIMapPage2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMapPage(ctx context.Context, sel ast.SelectionSet, v model.UIMapPage) graphql.Marshaler {
+	return ec._UIMapPage(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNUIMapPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUIMapPage(ctx context.Context, sel ast.SelectionSet, v *model.UIMapPage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._UIMapPage(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNUpdateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateAPIEndpointInput(ctx context.Context, v any) (model.UpdateAPIEndpointInput, error) {

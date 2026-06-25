@@ -1,7 +1,7 @@
 extend type Query {
-    maps(orgId: ID!, folderId: ID):                           [UIMap!]!
+    maps(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): UIMapPage!
     map(orgId: ID!, id: ID!):                                 UIMap!
-    frames(orgId: ID!, mapId: ID!):                           [Frame!]!
+    frames(orgId: ID!, mapId: ID!, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): FramePage!
     frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
     frameById(orgId: ID!, id: ID!):                           Frame!
     focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
@@ -41,6 +41,11 @@ extend type Mutation {
     deleteFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!): Boolean!
 }
 
+type UIMapPage {
+    items:      [UIMap!]!
+    totalCount: Int!
+}
+
 type UIMap {
     id:          ID!
     orgId:       ID!
@@ -54,6 +59,11 @@ type UIMap {
     createdAt:   Time!
     updatedAt:   Time!
     previewImgUrls: [String!]! @goField(forceResolver: true)
+}
+
+type FramePage {
+    items:      [Frame!]!
+    totalCount: Int!
 }
 
 type Frame {

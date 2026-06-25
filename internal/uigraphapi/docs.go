@@ -22,15 +22,13 @@ type Doc struct {
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
-func (c *Client) ListDocs(ctx context.Context, orgID, folderID string) ([]Doc, error) {
-	path := "/api/v1/orgs/" + orgID + "/docs"
-	if folderID != "" {
-		path += "?folderId=" + folderID
-	}
+func (c *Client) ListDocs(ctx context.Context, orgID string, p ListParams) ([]Doc, int, error) {
+	path := "/api/v1/orgs/" + orgID + "/docs" + listQuery(p)
 	var out struct {
-		Docs []Doc `json:"docs"`
+		Docs  []Doc `json:"docs"`
+		Total int   `json:"total"`
 	}
-	return out.Docs, c.get(ctx, path, &out)
+	return out.Docs, out.Total, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetDoc(ctx context.Context, orgID, id string) (*Doc, error) {

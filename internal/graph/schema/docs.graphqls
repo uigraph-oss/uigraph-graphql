@@ -1,6 +1,11 @@
 extend type Query {
-    docs(orgId: ID!, folderId: ID): [Doc!]!
+    docs(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DocPage!
     doc(orgId: ID!, id: ID!):       Doc!
+}
+
+type DocPage {
+    items:      [Doc!]!
+    totalCount: Int!
 }
 
 extend type Mutation {

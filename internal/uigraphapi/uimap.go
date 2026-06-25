@@ -125,15 +125,13 @@ type FocalPointMeta struct {
 	DeletedAt                  *time.Time      `json:"deletedAt,omitempty"`
 }
 
-func (c *Client) ListMaps(ctx context.Context, orgID, folderID string) ([]UIMap, error) {
-	path := "/api/v1/orgs/" + orgID + "/maps"
-	if folderID != "" {
-		path += "?folderId=" + folderID
-	}
+func (c *Client) ListMaps(ctx context.Context, orgID string, p ListParams) ([]UIMap, int, error) {
+	path := "/api/v1/orgs/" + orgID + "/maps" + listQuery(p)
 	var out struct {
-		Maps []UIMap `json:"maps"`
+		Maps  []UIMap `json:"maps"`
+		Total int     `json:"total"`
 	}
-	return out.Maps, c.get(ctx, path, &out)
+	return out.Maps, out.Total, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetMap(ctx context.Context, orgID, id string) (*UIMap, error) {
@@ -155,11 +153,13 @@ func (c *Client) DeleteMap(ctx context.Context, orgID, id string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s", orgID, id))
 }
 
-func (c *Client) ListFrames(ctx context.Context, orgID, mapID string) ([]Frame, error) {
+func (c *Client) ListFrames(ctx context.Context, orgID, mapID string, p ListParams) ([]Frame, int, error) {
+	path := fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames", orgID, mapID) + listQuery(p)
 	var out struct {
 		Frames []Frame `json:"frames"`
+		Total  int     `json:"total"`
 	}
-	return out.Frames, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/maps/%s/frames", orgID, mapID), &out)
+	return out.Frames, out.Total, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetFrame(ctx context.Context, orgID, mapID, id string) (*Frame, error) {
