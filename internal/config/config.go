@@ -4,14 +4,12 @@ import (
 	"fmt"
 	"net/url"
 	"os"
-	"strings"
 )
 
 type Config struct {
-	APIBaseURL     string   // uigraph-api base URL, e.g. http://uigraph-api:8080
-	Port           string   // HTTP listen port for this server
-	Env            string   // local | dev | prod
-	AllowedOrigins []string // CORS allow-list; empty disables CORS handling entirely
+	APIBaseURL string // uigraph-api base URL, e.g. http://uigraph-api:8080
+	Port       string // HTTP listen port for this server
+	Env        string // local | dev | prod
 }
 
 func Load() (*Config, error) {
@@ -19,9 +17,6 @@ func Load() (*Config, error) {
 		APIBaseURL: getenv("API_BASE_URL", "http://localhost:8080"),
 		Port:       getenv("PORT", "8090"),
 		Env:        getenv("ENV", "local"),
-	}
-	if v := getenv("ALLOWED_ORIGINS", ""); v != "" {
-		cfg.AllowedOrigins = strings.Split(v, ",")
 	}
 
 	u, err := url.Parse(cfg.APIBaseURL)
