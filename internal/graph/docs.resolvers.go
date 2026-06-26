@@ -10,6 +10,7 @@ import (
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 // FileURL is the resolver for the fileUrl field.
@@ -54,16 +55,21 @@ func (r *mutationResolver) DeleteDoc(ctx context.Context, orgID string, id strin
 }
 
 // Docs is the resolver for the docs field.
-func (r *queryResolver) Docs(ctx context.Context, orgID string, folderID *string) ([]*model.Doc, error) {
-	fid := ""
-	if folderID != nil {
-		fid = *folderID
+func (r *queryResolver) Docs(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DocPage, error) {
+	p := uigraphapi.ListParams{
+		FolderID: derefStr(folderID),
+		TeamID:   derefStr(teamID),
+		Search:   derefStr(search),
+		SortBy:   derefStr(sortBy),
+		SortDir:  derefStr(sortDir),
+		Limit:    limit,
+		Offset:   offset,
 	}
-	docs, err := r.DocAPI.ListDocs(ctx, orgID, fid)
+	docs, total, err := r.DocAPI.ListDocs(ctx, orgID, p)
 	if err != nil {
 		return nil, err
 	}
-	return convert.DocsToModel(docs), nil
+	return &model.DocPage{Items: convert.DocsToModel(docs), TotalCount: total}, nil
 }
 
 // Doc is the resolver for the doc field.

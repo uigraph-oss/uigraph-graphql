@@ -69,22 +69,24 @@ func TestCanvasToModel(t *testing.T) {
 }
 
 func TestFocalPointMetaToModel(t *testing.T) {
-	t.Run("populated ComponentImages parsed into string slice", func(t *testing.T) {
+	t.Run("populated typed link id passes through", func(t *testing.T) {
+		endpointID := "ep1"
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{
-			ID: "fpm1", ComponentImages: json.RawMessage(`["a.png"]`),
+			ID: "fpm1", ComponentLinkAPIEndpointID: &endpointID,
 		})
 		if out.ID != "fpm1" {
 			t.Errorf("ID = %q, want fpm1", out.ID)
 		}
-		if len(out.ComponentImages) != 1 || out.ComponentImages[0] != "a.png" {
-			t.Errorf("ComponentImages = %#v, want [a.png]", out.ComponentImages)
+		if out.ComponentLinkAPIEndpointID == nil || *out.ComponentLinkAPIEndpointID != "ep1" {
+			t.Errorf("ComponentLinkAPIEndpointID = %v, want pointer to ep1", out.ComponentLinkAPIEndpointID)
 		}
 	})
 
-	t.Run("empty ComponentImages defaults to empty slice", func(t *testing.T) {
+	t.Run("empty link ids are nil", func(t *testing.T) {
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{ID: "fpm2"})
-		if out.ComponentImages == nil || len(out.ComponentImages) != 0 {
-			t.Errorf("ComponentImages = %#v, want empty slice", out.ComponentImages)
+		if out.ComponentLinkDiagramID != nil || out.ComponentLinkAPIEndpointID != nil ||
+			out.ComponentLinkTestPackID != nil || out.ComponentLinkServiceDocID != nil {
+			t.Errorf("expected all link ids nil, got %#v", out)
 		}
 	})
 
@@ -109,13 +111,10 @@ func TestFocalPointMetaToModel(t *testing.T) {
 		}
 	})
 
-	t.Run("optional pointer fields nil when source has none", func(t *testing.T) {
+	t.Run("optional fields nil when source has none", func(t *testing.T) {
 		out := FocalPointMetaToModel(&uigraphapi.FocalPointMeta{ID: "fpm5", OrgID: "o1"})
-		if out.ComponentLinkID != nil {
-			t.Errorf("ComponentLinkID = %v, want nil", out.ComponentLinkID)
-		}
-		if out.ComponentFlowDiagram != nil {
-			t.Errorf("ComponentFlowDiagram = %v, want nil", out.ComponentFlowDiagram)
+		if out.ComponentLinkDiagramID != nil {
+			t.Errorf("ComponentLinkDiagramID = %v, want nil", out.ComponentLinkDiagramID)
 		}
 	})
 }
@@ -123,15 +122,14 @@ func TestFocalPointMetaToModel(t *testing.T) {
 func TestFocalPointMetaBody(t *testing.T) {
 	t.Run("decodes JSON string fields into slices", func(t *testing.T) {
 		body := map[string]interface{}{
-			"componentImages":      `["a.png","b.png"]`,
-			"componentModalFields": `{"foo":"bar"}`,
+			"componentModalFields": `[{"foo":"bar"}]`,
 			"componentId":          "c1",
 		}
 		out := FocalPointMetaBody(body)
 
-		images, ok := out["componentImages"].([]interface{})
-		if !ok || len(images) != 2 {
-			t.Errorf("componentImages = %#v, want a 2-element slice decoded from JSON", out["componentImages"])
+		fields, ok := out["componentModalFields"].([]interface{})
+		if !ok || len(fields) != 1 {
+			t.Errorf("componentModalFields = %#v, want a 1-element slice decoded from JSON", out["componentModalFields"])
 		}
 		if out["componentId"] != "c1" {
 			t.Errorf("componentId = %v, want unchanged passthrough", out["componentId"])
@@ -140,12 +138,12 @@ func TestFocalPointMetaBody(t *testing.T) {
 
 	t.Run("non-string values are left unchanged", func(t *testing.T) {
 		body := map[string]interface{}{
-			"componentImages": 42,
-			"otherKey":        "value",
+			"componentModalFields": 42,
+			"otherKey":             "value",
 		}
 		out := FocalPointMetaBody(body)
-		if out["componentImages"] != 42 {
-			t.Errorf("componentImages = %v, want 42 (unchanged non-string)", out["componentImages"])
+		if out["componentModalFields"] != 42 {
+			t.Errorf("componentModalFields = %v, want 42 (unchanged non-string)", out["componentModalFields"])
 		}
 		if out["otherKey"] != "value" {
 			t.Errorf("otherKey = %v, want value", out["otherKey"])

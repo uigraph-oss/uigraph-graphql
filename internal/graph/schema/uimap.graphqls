@@ -1,7 +1,7 @@
 extend type Query {
-    maps(orgId: ID!, folderId: ID):                           [UIMap!]!
+    maps(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): UIMapPage!
     map(orgId: ID!, id: ID!):                                 UIMap!
-    frames(orgId: ID!, mapId: ID!):                           [Frame!]!
+    frames(orgId: ID!, mapId: ID!, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): FramePage!
     frame(orgId: ID!, mapId: ID!, id: ID!):                   Frame!
     frameById(orgId: ID!, id: ID!):                           Frame!
     focalPoints(orgId: ID!, mapId: ID!, frameId: ID!):        [FocalPoint!]!
@@ -9,7 +9,7 @@ extend type Query {
     frameGroups(orgId: ID!, mapId: ID!, frameId: ID!):        [FrameGroup!]!
     frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
     focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
-    focalPointMetaByComponentLink(orgId: ID!, componentLinkId: ID!): [FocalPointMeta!]!
+    focalPointMetaByLink(orgId: ID!, linkId: ID!): [FocalPointMeta!]!
 }
 
 extend type Mutation {
@@ -41,6 +41,11 @@ extend type Mutation {
     deleteFocalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!, id: ID!): Boolean!
 }
 
+type UIMapPage {
+    items:      [UIMap!]!
+    totalCount: Int!
+}
+
 type UIMap {
     id:          ID!
     orgId:       ID!
@@ -54,6 +59,11 @@ type UIMap {
     createdAt:   Time!
     updatedAt:   Time!
     previewImgUrls: [String!]! @goField(forceResolver: true)
+}
+
+type FramePage {
+    items:      [Frame!]!
+    totalCount: Int!
 }
 
 type Frame {
@@ -150,9 +160,10 @@ type FocalPointMeta {
     orgId:                ID!
     frameId:              ID!
     componentId:          String!
-    componentLinkId:      String
-    componentImages:      [String!]!
-    componentFlowDiagram: String
+    componentLinkDiagramId:     ID
+    componentLinkApiEndpointId: ID
+    componentLinkTestPackId:    ID
+    componentLinkServiceDocId:  ID
     componentModalFields: [ComponentModalField!]!
     createdBy:            ID!
     updatedBy:            ID
@@ -291,16 +302,18 @@ input UpdateFrameLinkInput {
 
 input CreateFocalPointMetaInput {
     componentId:          String!
-    componentLinkId:      String
-    componentImages:      [String!]
-    componentFlowDiagram: String
+    componentLinkDiagramId:     ID
+    componentLinkApiEndpointId: ID
+    componentLinkTestPackId:    ID
+    componentLinkServiceDocId:  ID
     componentModalFields: [ComponentModalFieldInput!]
 }
 
 input UpdateFocalPointMetaInput {
     componentId:          String
-    componentLinkId:      String
-    componentImages:      [String!]
-    componentFlowDiagram: String
+    componentLinkDiagramId:     ID
+    componentLinkApiEndpointId: ID
+    componentLinkTestPackId:    ID
+    componentLinkServiceDocId:  ID
     componentModalFields: [ComponentModalFieldInput!]
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 // CreatedByActor is the resolver for the createdByActor field.
@@ -168,20 +169,21 @@ func (r *mutationResolver) DeleteAPIEndpoint(ctx context.Context, orgID string, 
 }
 
 // Services is the resolver for the services field.
-func (r *queryResolver) Services(ctx context.Context, orgID string, folderID *string, teamID *string) ([]*model.Service, error) {
-	fid := ""
-	if folderID != nil {
-		fid = *folderID
+func (r *queryResolver) Services(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.ServicePage, error) {
+	p := uigraphapi.ListParams{
+		FolderID: derefStr(folderID),
+		TeamID:   derefStr(teamID),
+		Search:   derefStr(search),
+		SortBy:   derefStr(sortBy),
+		SortDir:  derefStr(sortDir),
+		Limit:    limit,
+		Offset:   offset,
 	}
-	tid := ""
-	if teamID != nil {
-		tid = *teamID
-	}
-	services, err := r.Catalog.ListServices(ctx, orgID, fid, tid)
+	services, total, err := r.Catalog.ListServices(ctx, orgID, p)
 	if err != nil {
 		return nil, err
 	}
-	return convert.ServicesToModel(services), nil
+	return &model.ServicePage{Items: convert.ServicesToModel(services), TotalCount: total}, nil
 }
 
 // Service is the resolver for the service field.
@@ -281,6 +283,24 @@ func (r *queryResolver) APIEndpoint(ctx context.Context, orgID string, serviceID
 		return nil, err
 	}
 	return convert.APIEndpointToModel(e), nil
+}
+
+// APIEndpointByID is the resolver for the apiEndpointById field.
+func (r *queryResolver) APIEndpointByID(ctx context.Context, orgID string, id string) (*model.APIEndpoint, error) {
+	e, err := r.Catalog.GetAPIEndpointByID(ctx, orgID, id)
+	if err != nil {
+		return nil, err
+	}
+	return convert.APIEndpointToModel(e), nil
+}
+
+// ServiceDocByID is the resolver for the serviceDocById field.
+func (r *queryResolver) ServiceDocByID(ctx context.Context, orgID string, id string) (*model.ServiceDoc, error) {
+	d, err := r.Catalog.GetServiceDocByID(ctx, orgID, id)
+	if err != nil {
+		return nil, err
+	}
+	return convert.ServiceDocToModel(d), nil
 }
 
 // APIGroupSpec is the resolver for the apiGroupSpec field.

@@ -10,6 +10,7 @@ import (
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 // ScreenshotImageURL is the resolver for the screenshotImageUrl field.
@@ -200,16 +201,21 @@ func (r *mutationResolver) DeleteFocalPointMeta(ctx context.Context, orgID strin
 }
 
 // Maps is the resolver for the maps field.
-func (r *queryResolver) Maps(ctx context.Context, orgID string, folderID *string) ([]*model.UIMap, error) {
-	fid := ""
-	if folderID != nil {
-		fid = *folderID
+func (r *queryResolver) Maps(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.UIMapPage, error) {
+	p := uigraphapi.ListParams{
+		FolderID: derefStr(folderID),
+		TeamID:   derefStr(teamID),
+		Search:   derefStr(search),
+		SortBy:   derefStr(sortBy),
+		SortDir:  derefStr(sortDir),
+		Limit:    limit,
+		Offset:   offset,
 	}
-	maps, err := r.UIMapAPI.ListMaps(ctx, orgID, fid)
+	maps, total, err := r.UIMapAPI.ListMaps(ctx, orgID, p)
 	if err != nil {
 		return nil, err
 	}
-	return convert.UIMapsToModel(maps), nil
+	return &model.UIMapPage{Items: convert.UIMapsToModel(maps), TotalCount: total}, nil
 }
 
 // Map is the resolver for the map field.
@@ -222,12 +228,19 @@ func (r *queryResolver) Map(ctx context.Context, orgID string, id string) (*mode
 }
 
 // Frames is the resolver for the frames field.
-func (r *queryResolver) Frames(ctx context.Context, orgID string, mapID string) ([]*model.Frame, error) {
-	frames, err := r.UIMapAPI.ListFrames(ctx, orgID, mapID)
+func (r *queryResolver) Frames(ctx context.Context, orgID string, mapID string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.FramePage, error) {
+	p := uigraphapi.ListParams{
+		Search:  derefStr(search),
+		SortBy:  derefStr(sortBy),
+		SortDir: derefStr(sortDir),
+		Limit:   limit,
+		Offset:  offset,
+	}
+	frames, total, err := r.UIMapAPI.ListFrames(ctx, orgID, mapID, p)
 	if err != nil {
 		return nil, err
 	}
-	return convert.FramesToModel(frames), nil
+	return &model.FramePage{Items: convert.FramesToModel(frames), TotalCount: total}, nil
 }
 
 // Frame is the resolver for the frame field.
@@ -293,9 +306,9 @@ func (r *queryResolver) FocalPointMeta(ctx context.Context, orgID string, mapID 
 	return convert.FocalPointMetasToModel(metas), nil
 }
 
-// FocalPointMetaByComponentLink is the resolver for the focalPointMetaByComponentLink field.
-func (r *queryResolver) FocalPointMetaByComponentLink(ctx context.Context, orgID string, componentLinkID string) ([]*model.FocalPointMeta, error) {
-	metas, err := r.UIMapAPI.ListFocalPointMetaByComponentLink(ctx, orgID, componentLinkID)
+// FocalPointMetaByLink is the resolver for the focalPointMetaByLink field.
+func (r *queryResolver) FocalPointMetaByLink(ctx context.Context, orgID string, linkID string) ([]*model.FocalPointMeta, error) {
+	metas, err := r.UIMapAPI.ListFocalPointMetaByLink(ctx, orgID, linkID)
 	if err != nil {
 		return nil, err
 	}
@@ -304,7 +317,7 @@ func (r *queryResolver) FocalPointMetaByComponentLink(ctx context.Context, orgID
 
 // PreviewImgUrls is the resolver for the previewImgUrls field.
 func (r *uIMapResolver) PreviewImgUrls(ctx context.Context, obj *model.UIMap) ([]string, error) {
-	frames, err := r.UIMapAPI.ListFrames(ctx, obj.OrgID, obj.ID)
+	frames, _, err := r.UIMapAPI.ListFrames(ctx, obj.OrgID, obj.ID, uigraphapi.ListParams{})
 	if err != nil {
 		return nil, err
 	}

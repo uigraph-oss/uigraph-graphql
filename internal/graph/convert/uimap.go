@@ -22,7 +22,7 @@ func FrameToModel(f *uigraphapi.Frame) *model.Frame {
 		ScreenshotAssetID: f.ScreenshotAssetID, ScreenshotContentHash: f.ScreenshotContentHash,
 		Status: f.Status, Order: f.Order, Source: f.Source,
 		FocalPointCount: f.FocalPointCount,
-		CreatedBy: f.CreatedBy, UpdatedBy: f.UpdatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
+		CreatedBy:       f.CreatedBy, UpdatedBy: f.UpdatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
 	}
 }
 
@@ -84,26 +84,17 @@ func FrameLinksToModel(ls []uigraphapi.FrameLink) []*model.FrameLink {
 func FocalPointMetaToModel(m *uigraphapi.FocalPointMeta) *model.FocalPointMeta {
 	return &model.FocalPointMeta{
 		ID: m.ID, FocalPointID: m.FocalPointID, OrgID: m.OrgID, FrameID: m.FrameID,
-		ComponentID: m.ComponentID, ComponentLinkID: m.ComponentLinkID,
-		ComponentImages:      JSONStringSlice(m.ComponentImages),
-		ComponentFlowDiagram: m.ComponentFlowDiagram,
-		ComponentModalFields: ComponentModalFieldsFromRaw(m.ComponentModalFields),
-		CreatedBy:            m.CreatedBy,
-		UpdatedBy:            m.UpdatedBy,
-		CreatedAt:            m.CreatedAt,
-		UpdatedAt:            m.UpdatedAt,
+		ComponentID:                m.ComponentID,
+		ComponentLinkDiagramID:     m.ComponentLinkDiagramID,
+		ComponentLinkAPIEndpointID: m.ComponentLinkAPIEndpointID,
+		ComponentLinkTestPackID:    m.ComponentLinkTestPackID,
+		ComponentLinkServiceDocID:  m.ComponentLinkServiceDocID,
+		ComponentModalFields:       ComponentModalFieldsFromRaw(m.ComponentModalFields),
+		CreatedBy:                  m.CreatedBy,
+		UpdatedBy:                  m.UpdatedBy,
+		CreatedAt:                  m.CreatedAt,
+		UpdatedAt:                  m.UpdatedAt,
 	}
-}
-
-func JSONStringSlice(b json.RawMessage) []string {
-	if len(b) == 0 {
-		return []string{}
-	}
-	var out []string
-	if err := json.Unmarshal(b, &out); err != nil {
-		return []string{}
-	}
-	return out
 }
 
 func ComponentModalFieldsFromRaw(b json.RawMessage) []*model.ComponentModalField {
@@ -126,7 +117,7 @@ func FocalPointMetasToModel(ms []uigraphapi.FocalPointMeta) []*model.FocalPointM
 }
 
 func FocalPointMetaBody(body map[string]interface{}) map[string]interface{} {
-	for _, key := range []string{"componentImages", "componentModalFields"} {
+	for _, key := range []string{"componentModalFields"} {
 		if s, ok := body[key].(string); ok {
 			var raw interface{}
 			if err := UnmarshalJSONString(s, &raw); err == nil {

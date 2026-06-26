@@ -272,11 +272,12 @@ type CreateFocalPointInput struct {
 }
 
 type CreateFocalPointMetaInput struct {
-	ComponentID          string                      `json:"componentId"`
-	ComponentLinkID      *string                     `json:"componentLinkId,omitempty"`
-	ComponentImages      []string                    `json:"componentImages,omitempty"`
-	ComponentFlowDiagram *string                     `json:"componentFlowDiagram,omitempty"`
-	ComponentModalFields []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
+	ComponentID                string                      `json:"componentId"`
+	ComponentLinkDiagramID     *string                     `json:"componentLinkDiagramId,omitempty"`
+	ComponentLinkAPIEndpointID *string                     `json:"componentLinkApiEndpointId,omitempty"`
+	ComponentLinkTestPackID    *string                     `json:"componentLinkTestPackId,omitempty"`
+	ComponentLinkServiceDocID  *string                     `json:"componentLinkServiceDocId,omitempty"`
+	ComponentModalFields       []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
 }
 
 type CreateFolderInput struct {
@@ -590,6 +591,11 @@ type DiagramImage struct {
 	CreatedAt      time.Time `json:"createdAt"`
 }
 
+type DiagramPage struct {
+	Items      []*Diagram `json:"items"`
+	TotalCount int        `json:"totalCount"`
+}
+
 type DiagramThumbnailUpload struct {
 	UploadURL string `json:"uploadUrl"`
 	AssetID   string `json:"assetId"`
@@ -627,6 +633,11 @@ type Doc struct {
 	UpdatedByActor *Actor    `json:"updatedByActor,omitempty"`
 	CreatedAt      time.Time `json:"createdAt"`
 	UpdatedAt      time.Time `json:"updatedAt"`
+}
+
+type DocPage struct {
+	Items      []*Doc `json:"items"`
+	TotalCount int    `json:"totalCount"`
 }
 
 type FileDownload struct {
@@ -681,19 +692,20 @@ type FocalPoint struct {
 }
 
 type FocalPointMeta struct {
-	ID                   string                 `json:"id"`
-	FocalPointID         string                 `json:"focalPointId"`
-	OrgID                string                 `json:"orgId"`
-	FrameID              string                 `json:"frameId"`
-	ComponentID          string                 `json:"componentId"`
-	ComponentLinkID      *string                `json:"componentLinkId,omitempty"`
-	ComponentImages      []string               `json:"componentImages"`
-	ComponentFlowDiagram *string                `json:"componentFlowDiagram,omitempty"`
-	ComponentModalFields []*ComponentModalField `json:"componentModalFields"`
-	CreatedBy            string                 `json:"createdBy"`
-	UpdatedBy            *string                `json:"updatedBy,omitempty"`
-	CreatedAt            time.Time              `json:"createdAt"`
-	UpdatedAt            time.Time              `json:"updatedAt"`
+	ID                         string                 `json:"id"`
+	FocalPointID               string                 `json:"focalPointId"`
+	OrgID                      string                 `json:"orgId"`
+	FrameID                    string                 `json:"frameId"`
+	ComponentID                string                 `json:"componentId"`
+	ComponentLinkDiagramID     *string                `json:"componentLinkDiagramId,omitempty"`
+	ComponentLinkAPIEndpointID *string                `json:"componentLinkApiEndpointId,omitempty"`
+	ComponentLinkTestPackID    *string                `json:"componentLinkTestPackId,omitempty"`
+	ComponentLinkServiceDocID  *string                `json:"componentLinkServiceDocId,omitempty"`
+	ComponentModalFields       []*ComponentModalField `json:"componentModalFields"`
+	CreatedBy                  string                 `json:"createdBy"`
+	UpdatedBy                  *string                `json:"updatedBy,omitempty"`
+	CreatedAt                  time.Time              `json:"createdAt"`
+	UpdatedAt                  time.Time              `json:"updatedAt"`
 }
 
 type Folder struct {
@@ -765,6 +777,11 @@ type FrameLink struct {
 	UpdatedBy     *string   `json:"updatedBy,omitempty"`
 	CreatedAt     time.Time `json:"createdAt"`
 	UpdatedAt     time.Time `json:"updatedAt"`
+}
+
+type FramePage struct {
+	Items      []*Frame `json:"items"`
+	TotalCount int      `json:"totalCount"`
 }
 
 type GRPCTestCase struct {
@@ -1120,6 +1137,11 @@ type ServiceDoc struct {
 	Doc       *Doc      `json:"doc,omitempty"`
 }
 
+type ServicePage struct {
+	Items      []*Service `json:"items"`
+	TotalCount int        `json:"totalCount"`
+}
+
 type ServiceStats struct {
 	ServiceID     string `json:"serviceId"`
 	EndpointCount int    `json:"endpointCount"`
@@ -1324,6 +1346,11 @@ type UIMap struct {
 	PreviewImgUrls []string  `json:"previewImgUrls"`
 }
 
+type UIMapPage struct {
+	Items      []*UIMap `json:"items"`
+	TotalCount int      `json:"totalCount"`
+}
+
 type UpdateAPIEndpointInput struct {
 	OperationID *string  `json:"operationId,omitempty"`
 	Method      *string  `json:"method,omitempty"`
@@ -1376,11 +1403,12 @@ type UpdateFocalPointInput struct {
 }
 
 type UpdateFocalPointMetaInput struct {
-	ComponentID          *string                     `json:"componentId,omitempty"`
-	ComponentLinkID      *string                     `json:"componentLinkId,omitempty"`
-	ComponentImages      []string                    `json:"componentImages,omitempty"`
-	ComponentFlowDiagram *string                     `json:"componentFlowDiagram,omitempty"`
-	ComponentModalFields []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
+	ComponentID                *string                     `json:"componentId,omitempty"`
+	ComponentLinkDiagramID     *string                     `json:"componentLinkDiagramId,omitempty"`
+	ComponentLinkAPIEndpointID *string                     `json:"componentLinkApiEndpointId,omitempty"`
+	ComponentLinkTestPackID    *string                     `json:"componentLinkTestPackId,omitempty"`
+	ComponentLinkServiceDocID  *string                     `json:"componentLinkServiceDocId,omitempty"`
+	ComponentModalFields       []*ComponentModalFieldInput `json:"componentModalFields,omitempty"`
 }
 
 type UpdateFolderInput struct {

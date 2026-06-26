@@ -191,8 +191,8 @@ type fakeDiagramClient struct {
 	confirmThumbnailFn func(ctx context.Context, orgID, diagramID, hash string) error
 }
 
-func (f *fakeDiagramClient) ListDiagrams(_ context.Context, _, _ string) ([]uigraphapi.Diagram, error) {
-	return nil, nil
+func (f *fakeDiagramClient) ListDiagrams(_ context.Context, _ string, _ uigraphapi.ListParams) ([]uigraphapi.Diagram, int, error) {
+	return nil, 0, nil
 }
 func (f *fakeDiagramClient) GetDiagram(_ context.Context, _, _ string) (*uigraphapi.Diagram, error) {
 	return nil, nil

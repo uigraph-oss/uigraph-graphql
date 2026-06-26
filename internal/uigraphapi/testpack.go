@@ -197,6 +197,11 @@ func (c *Client) ListTestPacks(ctx context.Context, orgID, serviceID string) ([]
 	return out.TestPacks, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-packs", orgID, serviceID), &out)
 }
 
+func (c *Client) GetTestPackByID(ctx context.Context, orgID, id string) (*TestPack, error) {
+	var out TestPack
+	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/test-packs/%s", orgID, id), &out)
+}
+
 func (c *Client) CreateTestPack(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*TestPack, error) {
 	var out TestPack
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/test-pack", orgID, serviceID), body, &out)

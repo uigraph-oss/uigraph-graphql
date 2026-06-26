@@ -9,6 +9,13 @@ import (
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
+func derefStr(s *string) string {
+	if s == nil {
+		return ""
+	}
+	return *s
+}
+
 type authClient interface {
 	Me(ctx context.Context) (*uigraphapi.MeResponse, error)
 	MyOrgs(ctx context.Context) ([]uigraphapi.OrgSummary, error)
@@ -79,7 +86,7 @@ type folderClient interface {
 }
 
 type diagramClient interface {
-	ListDiagrams(ctx context.Context, orgID, folderID string) ([]uigraphapi.Diagram, error)
+	ListDiagrams(ctx context.Context, orgID string, p uigraphapi.ListParams) ([]uigraphapi.Diagram, int, error)
 	GetDiagram(ctx context.Context, orgID, id string) (*uigraphapi.Diagram, error)
 	GetDiagramContent(ctx context.Context, orgID, id string) (string, error)
 	CreateDiagram(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Diagram, error)
@@ -97,7 +104,7 @@ type diagramClient interface {
 }
 
 type docsClient interface {
-	ListDocs(ctx context.Context, orgID, folderID string) ([]uigraphapi.Doc, error)
+	ListDocs(ctx context.Context, orgID string, p uigraphapi.ListParams) ([]uigraphapi.Doc, int, error)
 	GetDoc(ctx context.Context, orgID, id string) (*uigraphapi.Doc, error)
 	CreateDoc(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Doc, error)
 	UpdateDoc(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.Doc, error)
@@ -113,12 +120,12 @@ type componentClient interface {
 }
 
 type uimapClient interface {
-	ListMaps(ctx context.Context, orgID, folderID string) ([]uigraphapi.UIMap, error)
+	ListMaps(ctx context.Context, orgID string, p uigraphapi.ListParams) ([]uigraphapi.UIMap, int, error)
 	GetMap(ctx context.Context, orgID, id string) (*uigraphapi.UIMap, error)
 	CreateMap(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.UIMap, error)
 	UpdateMap(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.UIMap, error)
 	DeleteMap(ctx context.Context, orgID, id string) error
-	ListFrames(ctx context.Context, orgID, mapID string) ([]uigraphapi.Frame, error)
+	ListFrames(ctx context.Context, orgID, mapID string, p uigraphapi.ListParams) ([]uigraphapi.Frame, int, error)
 	GetFrame(ctx context.Context, orgID, mapID, id string) (*uigraphapi.Frame, error)
 	GetFrameByID(ctx context.Context, orgID, id string) (*uigraphapi.Frame, error)
 	CreateFrame(ctx context.Context, orgID, mapID string, body map[string]interface{}) (*uigraphapi.Frame, error)
@@ -141,14 +148,14 @@ type uimapClient interface {
 	UpdateFrameLink(ctx context.Context, orgID, mapID, frameID, id string, body map[string]interface{}) (*uigraphapi.FrameLink, error)
 	DeleteFrameLink(ctx context.Context, orgID, mapID, frameID, id string) error
 	ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string) ([]uigraphapi.FocalPointMeta, error)
-	ListFocalPointMetaByComponentLink(ctx context.Context, orgID, componentLinkID string) ([]uigraphapi.FocalPointMeta, error)
+	ListFocalPointMetaByLink(ctx context.Context, orgID, linkID string) ([]uigraphapi.FocalPointMeta, error)
 	CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	UpdateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	DeleteFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string) error
 }
 
 type catalogClient interface {
-	ListServices(ctx context.Context, orgID, folderID, teamID string) ([]uigraphapi.Service, error)
+	ListServices(ctx context.Context, orgID string, p uigraphapi.ListParams) ([]uigraphapi.Service, int, error)
 	GetService(ctx context.Context, orgID, id string) (*uigraphapi.Service, error)
 	CreateService(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Service, error)
 	UpdateService(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.Service, error)
@@ -178,6 +185,8 @@ type catalogClient interface {
 	RestoreServiceDBVersion(ctx context.Context, orgID, serviceID, serviceDBID, versionID string) (*uigraphapi.ServiceDB, error)
 	ListAPIEndpoints(ctx context.Context, orgID, serviceID, apiGroupID string) ([]uigraphapi.APIEndpoint, error)
 	GetAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string) (*uigraphapi.APIEndpoint, error)
+	GetAPIEndpointByID(ctx context.Context, orgID, id string) (*uigraphapi.APIEndpoint, error)
+	GetServiceDocByID(ctx context.Context, orgID, id string) (*uigraphapi.ServiceDoc, error)
 	CreateAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID string, body map[string]interface{}) (*uigraphapi.APIEndpoint, error)
 	UpdateAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string, body map[string]interface{}) (*uigraphapi.APIEndpoint, error)
 	DeleteAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string) error
@@ -185,6 +194,7 @@ type catalogClient interface {
 
 type testPackClient interface {
 	ListTestPacks(ctx context.Context, orgID, serviceID string) ([]uigraphapi.TestPack, error)
+	GetTestPackByID(ctx context.Context, orgID, id string) (*uigraphapi.TestPack, error)
 	CreateTestPack(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.TestPack, error)
 	UpdateTestPack(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*uigraphapi.TestPack, error)
 	DeleteTestPack(ctx context.Context, orgID, serviceID, id string) error
