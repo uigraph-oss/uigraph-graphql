@@ -657,6 +657,7 @@ type ComplexityRoot struct {
 		PrepareDiagramThumbnailUpload func(childComplexity int, orgID string, diagramID string) int
 		RemoveMember                  func(childComplexity int, orgID string, userID string) int
 		RemoveTeamMember              func(childComplexity int, orgID string, teamID string, userID string) int
+		RestoreAPIGroupVersion        func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID string) int
 		RestoreDiagramVersion         func(childComplexity int, orgID string, diagramID string, versionID string) int
 		RestoreServiceDBVersion       func(childComplexity int, orgID string, serviceID string, serviceDbID string, versionID string) int
 		RevokeServiceAccountToken     func(childComplexity int, orgID string, saID string, tokenID string) int
@@ -738,7 +739,7 @@ type ComplexityRoot struct {
 	Query struct {
 		APIEndpoint           func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
 		APIEndpointByID       func(childComplexity int, orgID string, id string) int
-		APIEndpoints          func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
+		APIEndpoints          func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
 		APIGroup              func(childComplexity int, orgID string, serviceID string, id string) int
 		APIGroupSpec          func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
 		APIGroupVersions      func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
@@ -1245,6 +1246,7 @@ type MutationResolver interface {
 	UpdateAPIGroup(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) (*model.APIGroup, error)
 	DeleteAPIGroup(ctx context.Context, orgID string, serviceID string, id string) (bool, error)
 	SyncAPIGroup(ctx context.Context, orgID string, serviceID string, input model.SyncAPIGroupInput) (*model.SyncAPIGroupResult, error)
+	RestoreAPIGroupVersion(ctx context.Context, orgID string, serviceID string, apiGroupID string, versionID string) (*model.APIGroup, error)
 	CreateServiceDoc(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDocInput) (*model.ServiceDoc, error)
 	DeleteServiceDoc(ctx context.Context, orgID string, serviceID string, docID string) (bool, error)
 	CreateServiceDiagram(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDiagramInput) (*model.ServiceDiagram, error)
@@ -1349,7 +1351,7 @@ type QueryResolver interface {
 	ServiceDBs(ctx context.Context, orgID string, serviceID string) ([]*model.ServiceDb, error)
 	ServiceDb(ctx context.Context, orgID string, serviceID string, id string) (*model.ServiceDb, error)
 	ServiceDBVersions(ctx context.Context, orgID string, serviceID string, serviceDbID string) ([]*model.ServiceDBVersion, error)
-	APIEndpoints(ctx context.Context, orgID string, serviceID string, apiGroupID string) ([]*model.APIEndpoint, error)
+	APIEndpoints(ctx context.Context, orgID string, serviceID string, apiGroupID string, versionID *string) ([]*model.APIEndpoint, error)
 	APIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, id string) (*model.APIEndpoint, error)
 	APIEndpointByID(ctx context.Context, orgID string, id string) (*model.APIEndpoint, error)
 	ServiceDocByID(ctx context.Context, orgID string, id string) (*model.ServiceDoc, error)
@@ -4955,6 +4957,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.RemoveTeamMember(childComplexity, args["orgId"].(string), args["teamId"].(string), args["userId"].(string)), true
 
+	case "Mutation.restoreAPIGroupVersion":
+		if e.complexity.Mutation.RestoreAPIGroupVersion == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_restoreAPIGroupVersion_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RestoreAPIGroupVersion(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["apiGroupId"].(string), args["versionId"].(string)), true
+
 	case "Mutation.restoreDiagramVersion":
 		if e.complexity.Mutation.RestoreDiagramVersion == nil {
 			break
@@ -5638,7 +5652,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.APIEndpoints(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["apiGroupId"].(string)), true
+		return e.complexity.Query.APIEndpoints(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["apiGroupId"].(string), args["versionId"].(*string)), true
 
 	case "Query.apiGroup":
 		if e.complexity.Query.APIGroup == nil {
@@ -8910,7 +8924,7 @@ type OrgSummary {
     serviceDBs(orgId: ID!, serviceId: ID!):                          [ServiceDB!]!
     serviceDB(orgId: ID!, serviceId: ID!, id: ID!):                  ServiceDB!
     serviceDBVersions(orgId: ID!, serviceId: ID!, serviceDbId: ID!): [ServiceDBVersion!]!
-    apiEndpoints(orgId: ID!, serviceId: ID!, apiGroupId: ID!):       [APIEndpoint!]!
+    apiEndpoints(orgId: ID!, serviceId: ID!, apiGroupId: ID!, versionId: ID): [APIEndpoint!]!
     apiEndpoint(orgId: ID!, serviceId: ID!, apiGroupId: ID!, id: ID!): APIEndpoint!
     apiEndpointById(orgId: ID!, id: ID!):                            APIEndpoint!
     serviceDocById(orgId: ID!, id: ID!):                             ServiceDoc!
@@ -8933,6 +8947,7 @@ extend type Mutation {
     updateAPIGroup(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateAPIGroupInput!):               APIGroup!
     deleteAPIGroup(orgId: ID!, serviceId: ID!, id: ID!):                                            Boolean!
     syncAPIGroup(orgId: ID!, serviceId: ID!, input: SyncAPIGroupInput!):                            SyncAPIGroupResult!
+    restoreAPIGroupVersion(orgId: ID!, serviceId: ID!, apiGroupId: ID!, versionId: ID!):            APIGroup!
     createServiceDoc(orgId: ID!, serviceId: ID!, input: CreateServiceDocInput!):                    ServiceDoc!
     deleteServiceDoc(orgId: ID!, serviceId: ID!, docId: ID!):                                       Boolean!
     createServiceDiagram(orgId: ID!, serviceId: ID!, input: CreateServiceDiagramInput!):            ServiceDiagram!
@@ -14675,6 +14690,103 @@ func (ec *executionContext) field_Mutation_removeTeamMember_argsUserID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_restoreAPIGroupVersion_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_restoreAPIGroupVersion_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_restoreAPIGroupVersion_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Mutation_restoreAPIGroupVersion_argsAPIGroupID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["apiGroupId"] = arg2
+	arg3, err := ec.field_Mutation_restoreAPIGroupVersion_argsVersionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["versionId"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_restoreAPIGroupVersion_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_restoreAPIGroupVersion_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_restoreAPIGroupVersion_argsAPIGroupID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["apiGroupId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("apiGroupId"))
+	if tmp, ok := rawArgs["apiGroupId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_restoreAPIGroupVersion_argsVersionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["versionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
+	if tmp, ok := rawArgs["versionId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_restoreDiagramVersion_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -17768,6 +17880,11 @@ func (ec *executionContext) field_Query_apiEndpoints_args(ctx context.Context, r
 		return nil, err
 	}
 	args["apiGroupId"] = arg2
+	arg3, err := ec.field_Query_apiEndpoints_argsVersionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["versionId"] = arg3
 	return args, nil
 }
 func (ec *executionContext) field_Query_apiEndpoints_argsOrgID(
@@ -17821,6 +17938,24 @@ func (ec *executionContext) field_Query_apiEndpoints_argsAPIGroupID(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_apiEndpoints_argsVersionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["versionId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
+	if tmp, ok := rawArgs["versionId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
 	return zeroVal, nil
 }
 
@@ -40908,6 +41043,89 @@ func (ec *executionContext) fieldContext_Mutation_syncAPIGroup(ctx context.Conte
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_restoreAPIGroupVersion(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_restoreAPIGroupVersion(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RestoreAPIGroupVersion(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["apiGroupId"].(string), fc.Args["versionId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.APIGroup)
+	fc.Result = res
+	return ec.marshalNAPIGroup2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAPIGroup(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_restoreAPIGroupVersion(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_APIGroup_id(ctx, field)
+			case "serviceId":
+				return ec.fieldContext_APIGroup_serviceId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_APIGroup_orgId(ctx, field)
+			case "name":
+				return ec.fieldContext_APIGroup_name(ctx, field)
+			case "version":
+				return ec.fieldContext_APIGroup_version(ctx, field)
+			case "label":
+				return ec.fieldContext_APIGroup_label(ctx, field)
+			case "protocol":
+				return ec.fieldContext_APIGroup_protocol(ctx, field)
+			case "specKey":
+				return ec.fieldContext_APIGroup_specKey(ctx, field)
+			case "specHash":
+				return ec.fieldContext_APIGroup_specHash(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_APIGroup_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_APIGroup_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_APIGroup_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type APIGroup", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_restoreAPIGroupVersion_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createServiceDoc(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createServiceDoc(ctx, field)
 	if err != nil {
@@ -49795,7 +50013,7 @@ func (ec *executionContext) _Query_apiEndpoints(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().APIEndpoints(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["apiGroupId"].(string))
+		return ec.resolvers.Query().APIEndpoints(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["apiGroupId"].(string), fc.Args["versionId"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -76945,6 +77163,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "syncAPIGroup":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_syncAPIGroup(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "restoreAPIGroupVersion":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_restoreAPIGroupVersion(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++

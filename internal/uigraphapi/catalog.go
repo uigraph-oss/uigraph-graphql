@@ -310,11 +310,20 @@ func (c *Client) RestoreServiceDBVersion(ctx context.Context, orgID, serviceID, 
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/dbs/%s/versions/%s/restore", orgID, serviceID, serviceDBID, versionID), nil, &out)
 }
 
-func (c *Client) ListAPIEndpoints(ctx context.Context, orgID, serviceID, apiGroupID string) ([]APIEndpoint, error) {
+func (c *Client) ListAPIEndpoints(ctx context.Context, orgID, serviceID, apiGroupID, versionID string) ([]APIEndpoint, error) {
 	var out struct {
 		Endpoints []APIEndpoint `json:"endpoints"`
 	}
-	return out.Endpoints, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups/%s/endpoints", orgID, serviceID, apiGroupID), &out)
+	path := fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups/%s/endpoints", orgID, serviceID, apiGroupID)
+	if versionID != "" {
+		path += "?versionId=" + url.QueryEscape(versionID)
+	}
+	return out.Endpoints, c.get(ctx, path, &out)
+}
+
+func (c *Client) RestoreAPIGroupVersion(ctx context.Context, orgID, serviceID, apiGroupID, versionID string) (*APIGroup, error) {
+	var out APIGroup
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/api-groups/%s/versions/%s/restore", orgID, serviceID, apiGroupID, versionID), nil, &out)
 }
 
 func (c *Client) GetAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string) (*APIEndpoint, error) {
