@@ -185,6 +185,22 @@ type ComponentField struct {
 	Order            int      `json:"order"`
 }
 
+type ComponentLinkUsage struct {
+	MetaID             string  `json:"metaId"`
+	OrgID              string  `json:"orgId"`
+	ComponentID        string  `json:"componentId"`
+	MapID              string  `json:"mapId"`
+	MapName            string  `json:"mapName"`
+	FrameID            string  `json:"frameId"`
+	FrameName          string  `json:"frameName"`
+	ScreenshotAssetID  *string `json:"screenshotAssetId,omitempty"`
+	ScreenshotImageURL *string `json:"screenshotImageUrl,omitempty"`
+	FocalPointID       string  `json:"focalPointId"`
+	FocalPointName     string  `json:"focalPointName"`
+	LocationX          float64 `json:"locationX"`
+	LocationY          float64 `json:"locationY"`
+}
+
 type ComponentModalField struct {
 	ComponentFieldID *string   `json:"componentFieldId,omitempty"`
 	Label            *string   `json:"label,omitempty"`

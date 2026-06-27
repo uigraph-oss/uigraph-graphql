@@ -41,6 +41,7 @@ type Config struct {
 type ResolverRoot interface {
 	APIGroupVersion() APIGroupVersionResolver
 	Comment() CommentResolver
+	ComponentLinkUsage() ComponentLinkUsageResolver
 	Diagram() DiagramResolver
 	DiagramImage() DiagramImageResolver
 	DiagramVersion() DiagramVersionResolver
@@ -199,6 +200,22 @@ type ComplexityRoot struct {
 		Readonly         func(childComplexity int) int
 		Required         func(childComplexity int) int
 		Type             func(childComplexity int) int
+	}
+
+	ComponentLinkUsage struct {
+		ComponentID        func(childComplexity int) int
+		FocalPointID       func(childComplexity int) int
+		FocalPointName     func(childComplexity int) int
+		FrameID            func(childComplexity int) int
+		FrameName          func(childComplexity int) int
+		LocationX          func(childComplexity int) int
+		LocationY          func(childComplexity int) int
+		MapID              func(childComplexity int) int
+		MapName            func(childComplexity int) int
+		MetaID             func(childComplexity int) int
+		OrgID              func(childComplexity int) int
+		ScreenshotAssetID  func(childComplexity int) int
+		ScreenshotImageURL func(childComplexity int) int
 	}
 
 	ComponentModalField struct {
@@ -747,6 +764,7 @@ type ComplexityRoot struct {
 		Actor                 func(childComplexity int, orgID string, id string) int
 		Canvas                func(childComplexity int, orgID string, mapID string) int
 		Comments              func(childComplexity int, orgID string, resourceID string) int
+		ComponentLinkUsages   func(childComplexity int, orgID string, linkID string) int
 		Components            func(childComplexity int, orgID string) int
 		CostSavingsByModel    func(childComplexity int, orgID string, period *string) int
 		CostSavingsByTool     func(childComplexity int, orgID string, period *string, modelID *string) int
@@ -1199,6 +1217,9 @@ type APIGroupVersionResolver interface {
 type CommentResolver interface {
 	CreatedByActor(ctx context.Context, obj *model.Comment) (*model.Actor, error)
 }
+type ComponentLinkUsageResolver interface {
+	ScreenshotImageURL(ctx context.Context, obj *model.ComponentLinkUsage) (*string, error)
+}
 type DiagramResolver interface {
 	PreviewImageURL(ctx context.Context, obj *model.Diagram) (*string, error)
 
@@ -1403,6 +1424,7 @@ type QueryResolver interface {
 	FrameLinks(ctx context.Context, orgID string, mapID string, frameID string) ([]*model.FrameLink, error)
 	FocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string) ([]*model.FocalPointMeta, error)
 	FocalPointMetaByLink(ctx context.Context, orgID string, linkID string) ([]*model.FocalPointMeta, error)
+	ComponentLinkUsages(ctx context.Context, orgID string, linkID string) ([]*model.ComponentLinkUsage, error)
 }
 type ServiceResolver interface {
 	CreatedByActor(ctx context.Context, obj *model.Service) (*model.Actor, error)
@@ -2186,6 +2208,97 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ComponentField.Type(childComplexity), true
+
+	case "ComponentLinkUsage.componentId":
+		if e.complexity.ComponentLinkUsage.ComponentID == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.ComponentID(childComplexity), true
+
+	case "ComponentLinkUsage.focalPointId":
+		if e.complexity.ComponentLinkUsage.FocalPointID == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.FocalPointID(childComplexity), true
+
+	case "ComponentLinkUsage.focalPointName":
+		if e.complexity.ComponentLinkUsage.FocalPointName == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.FocalPointName(childComplexity), true
+
+	case "ComponentLinkUsage.frameId":
+		if e.complexity.ComponentLinkUsage.FrameID == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.FrameID(childComplexity), true
+
+	case "ComponentLinkUsage.frameName":
+		if e.complexity.ComponentLinkUsage.FrameName == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.FrameName(childComplexity), true
+
+	case "ComponentLinkUsage.locationX":
+		if e.complexity.ComponentLinkUsage.LocationX == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.LocationX(childComplexity), true
+
+	case "ComponentLinkUsage.locationY":
+		if e.complexity.ComponentLinkUsage.LocationY == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.LocationY(childComplexity), true
+
+	case "ComponentLinkUsage.mapId":
+		if e.complexity.ComponentLinkUsage.MapID == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.MapID(childComplexity), true
+
+	case "ComponentLinkUsage.mapName":
+		if e.complexity.ComponentLinkUsage.MapName == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.MapName(childComplexity), true
+
+	case "ComponentLinkUsage.metaId":
+		if e.complexity.ComponentLinkUsage.MetaID == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.MetaID(childComplexity), true
+
+	case "ComponentLinkUsage.orgId":
+		if e.complexity.ComponentLinkUsage.OrgID == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.OrgID(childComplexity), true
+
+	case "ComponentLinkUsage.screenshotAssetId":
+		if e.complexity.ComponentLinkUsage.ScreenshotAssetID == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.ScreenshotAssetID(childComplexity), true
+
+	case "ComponentLinkUsage.screenshotImageUrl":
+		if e.complexity.ComponentLinkUsage.ScreenshotImageURL == nil {
+			break
+		}
+
+		return e.complexity.ComponentLinkUsage.ScreenshotImageURL(childComplexity), true
 
 	case "ComponentModalField.componentFieldId":
 		if e.complexity.ComponentModalField.ComponentFieldID == nil {
@@ -5737,6 +5850,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Comments(childComplexity, args["orgId"].(string), args["resourceId"].(string)), true
+
+	case "Query.componentLinkUsages":
+		if e.complexity.Query.ComponentLinkUsages == nil {
+			break
+		}
+
+		args, err := ec.field_Query_componentLinkUsages_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.ComponentLinkUsages(childComplexity, args["orgId"].(string), args["linkId"].(string)), true
 
 	case "Query.components":
 		if e.complexity.Query.Components == nil {
@@ -10260,6 +10385,7 @@ input UpdateTestRunResultInput {
     frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
     focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
     focalPointMetaByLink(orgId: ID!, linkId: ID!): [FocalPointMeta!]!
+    componentLinkUsages(orgId: ID!, linkId: ID!): [ComponentLinkUsage!]!
 }
 
 extend type Mutation {
@@ -10419,6 +10545,24 @@ type FocalPointMeta {
     updatedBy:            ID
     createdAt:            Time!
     updatedAt:            Time!
+}
+
+# Aggregated view of where a component link (e.g. an API endpoint) is used:
+# the map, screen (frame), and focal point that reference it.
+type ComponentLinkUsage {
+    metaId:             ID!
+    orgId:              ID!
+    componentId:        String!
+    mapId:              ID!
+    mapName:            String!
+    frameId:            ID!
+    frameName:          String!
+    screenshotAssetId:  String
+    screenshotImageUrl: String @goField(forceResolver: true)
+    focalPointId:       ID!
+    focalPointName:     String!
+    locationX:          Float!
+    locationY:          Float!
 }
 
 type ComponentModalField {
@@ -18350,6 +18494,57 @@ func (ec *executionContext) field_Query_comments_argsResourceID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("resourceId"))
 	if tmp, ok := rawArgs["resourceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_componentLinkUsages_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_componentLinkUsages_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_componentLinkUsages_argsLinkID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["linkId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_componentLinkUsages_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_componentLinkUsages_argsLinkID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["linkId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("linkId"))
+	if tmp, ok := rawArgs["linkId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -26909,6 +27104,572 @@ func (ec *executionContext) fieldContext_ComponentField_order(_ context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_metaId(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_metaId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MetaID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_metaId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_orgId(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_componentId(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_componentId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ComponentID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_componentId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_mapId(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_mapId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MapID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_mapId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_mapName(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_mapName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MapName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_mapName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_frameId(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_frameId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FrameID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_frameId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_frameName(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_frameName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FrameName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_frameName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_screenshotAssetId(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_screenshotAssetId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ScreenshotAssetID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_screenshotAssetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_screenshotImageUrl(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_screenshotImageUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.ComponentLinkUsage().ScreenshotImageURL(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_screenshotImageUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_focalPointId(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_focalPointId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FocalPointID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_focalPointId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_focalPointName(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_focalPointName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FocalPointName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_focalPointName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_locationX(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_locationX(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LocationX, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_locationX(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ComponentLinkUsage_locationY(ctx context.Context, field graphql.CollectedField, obj *model.ComponentLinkUsage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ComponentLinkUsage_locationY(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LocationY, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ComponentLinkUsage_locationY(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ComponentLinkUsage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
 		},
 	}
 	return fc, nil
@@ -53970,6 +54731,89 @@ func (ec *executionContext) fieldContext_Query_focalPointMetaByLink(ctx context.
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_componentLinkUsages(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_componentLinkUsages(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ComponentLinkUsages(rctx, fc.Args["orgId"].(string), fc.Args["linkId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.ComponentLinkUsage)
+	fc.Result = res
+	return ec.marshalNComponentLinkUsage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentLinkUsageᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_componentLinkUsages(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "metaId":
+				return ec.fieldContext_ComponentLinkUsage_metaId(ctx, field)
+			case "orgId":
+				return ec.fieldContext_ComponentLinkUsage_orgId(ctx, field)
+			case "componentId":
+				return ec.fieldContext_ComponentLinkUsage_componentId(ctx, field)
+			case "mapId":
+				return ec.fieldContext_ComponentLinkUsage_mapId(ctx, field)
+			case "mapName":
+				return ec.fieldContext_ComponentLinkUsage_mapName(ctx, field)
+			case "frameId":
+				return ec.fieldContext_ComponentLinkUsage_frameId(ctx, field)
+			case "frameName":
+				return ec.fieldContext_ComponentLinkUsage_frameName(ctx, field)
+			case "screenshotAssetId":
+				return ec.fieldContext_ComponentLinkUsage_screenshotAssetId(ctx, field)
+			case "screenshotImageUrl":
+				return ec.fieldContext_ComponentLinkUsage_screenshotImageUrl(ctx, field)
+			case "focalPointId":
+				return ec.fieldContext_ComponentLinkUsage_focalPointId(ctx, field)
+			case "focalPointName":
+				return ec.fieldContext_ComponentLinkUsage_focalPointName(ctx, field)
+			case "locationX":
+				return ec.fieldContext_ComponentLinkUsage_locationX(ctx, field)
+			case "locationY":
+				return ec.fieldContext_ComponentLinkUsage_locationY(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ComponentLinkUsage", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_componentLinkUsages_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query___type(ctx, field)
 	if err != nil {
@@ -74302,6 +75146,130 @@ func (ec *executionContext) _ComponentField(ctx context.Context, sel ast.Selecti
 	return out
 }
 
+var componentLinkUsageImplementors = []string{"ComponentLinkUsage"}
+
+func (ec *executionContext) _ComponentLinkUsage(ctx context.Context, sel ast.SelectionSet, obj *model.ComponentLinkUsage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, componentLinkUsageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ComponentLinkUsage")
+		case "metaId":
+			out.Values[i] = ec._ComponentLinkUsage_metaId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._ComponentLinkUsage_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "componentId":
+			out.Values[i] = ec._ComponentLinkUsage_componentId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "mapId":
+			out.Values[i] = ec._ComponentLinkUsage_mapId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "mapName":
+			out.Values[i] = ec._ComponentLinkUsage_mapName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "frameId":
+			out.Values[i] = ec._ComponentLinkUsage_frameId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "frameName":
+			out.Values[i] = ec._ComponentLinkUsage_frameName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "screenshotAssetId":
+			out.Values[i] = ec._ComponentLinkUsage_screenshotAssetId(ctx, field, obj)
+		case "screenshotImageUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._ComponentLinkUsage_screenshotImageUrl(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "focalPointId":
+			out.Values[i] = ec._ComponentLinkUsage_focalPointId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "focalPointName":
+			out.Values[i] = ec._ComponentLinkUsage_focalPointName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "locationX":
+			out.Values[i] = ec._ComponentLinkUsage_locationX(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "locationY":
+			out.Values[i] = ec._ComponentLinkUsage_locationY(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var componentModalFieldImplementors = []string{"ComponentModalField"}
 
 func (ec *executionContext) _ComponentModalField(ctx context.Context, sel ast.SelectionSet, obj *model.ComponentModalField) graphql.Marshaler {
@@ -79658,6 +80626,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "componentLinkUsages":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_componentLinkUsages(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "__type":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___type(ctx, field)
@@ -82878,6 +83868,60 @@ func (ec *executionContext) marshalNComponentField2ᚖgithubᚗcomᚋuigraphᚋg
 		return graphql.Null
 	}
 	return ec._ComponentField(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNComponentLinkUsage2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentLinkUsageᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ComponentLinkUsage) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNComponentLinkUsage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentLinkUsage(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNComponentLinkUsage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentLinkUsage(ctx context.Context, sel ast.SelectionSet, v *model.ComponentLinkUsage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ComponentLinkUsage(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNComponentModalField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComponentModalFieldᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ComponentModalField) graphql.Marshaler {

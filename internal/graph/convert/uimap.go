@@ -35,6 +35,24 @@ func FocalPointToModel(fp *uigraphapi.FocalPoint) *model.FocalPoint {
 	}
 }
 
+func ComponentLinkUsageToModel(u uigraphapi.ComponentLinkUsage) *model.ComponentLinkUsage {
+	return &model.ComponentLinkUsage{
+		MetaID: u.MetaID, OrgID: u.OrgID, ComponentID: u.ComponentID,
+		MapID: u.MapID, MapName: u.MapName,
+		FrameID: u.FrameID, FrameName: u.FrameName, ScreenshotAssetID: u.ScreenshotAssetID,
+		FocalPointID: u.FocalPointID, FocalPointName: u.FocalPointName,
+		LocationX: u.LocationX, LocationY: u.LocationY,
+	}
+}
+
+func ComponentLinkUsagesToModel(us []uigraphapi.ComponentLinkUsage) []*model.ComponentLinkUsage {
+	out := make([]*model.ComponentLinkUsage, 0, len(us))
+	for _, u := range us {
+		out = append(out, ComponentLinkUsageToModel(u))
+	}
+	return out
+}
+
 func CanvasToModel(c *uigraphapi.Canvas) *model.Canvas {
 	return &model.Canvas{
 		MapID: c.MapID, OrgID: c.OrgID,

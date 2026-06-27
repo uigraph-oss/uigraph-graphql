@@ -10,6 +10,7 @@ extend type Query {
     frameLinks(orgId: ID!, mapId: ID!, frameId: ID!):         [FrameLink!]!
     focalPointMeta(orgId: ID!, mapId: ID!, frameId: ID!, focalPointId: ID!): [FocalPointMeta!]!
     focalPointMetaByLink(orgId: ID!, linkId: ID!): [FocalPointMeta!]!
+    componentLinkUsages(orgId: ID!, linkId: ID!): [ComponentLinkUsage!]!
 }
 
 extend type Mutation {
@@ -169,6 +170,24 @@ type FocalPointMeta {
     updatedBy:            ID
     createdAt:            Time!
     updatedAt:            Time!
+}
+
+# Aggregated view of where a component link (e.g. an API endpoint) is used:
+# the map, screen (frame), and focal point that reference it.
+type ComponentLinkUsage {
+    metaId:             ID!
+    orgId:              ID!
+    componentId:        String!
+    mapId:              ID!
+    mapName:            String!
+    frameId:            ID!
+    frameName:          String!
+    screenshotAssetId:  String
+    screenshotImageUrl: String @goField(forceResolver: true)
+    focalPointId:       ID!
+    focalPointName:     String!
+    locationX:          Float!
+    locationY:          Float!
 }
 
 type ComponentModalField {
