@@ -149,6 +149,7 @@ type uimapClient interface {
 	DeleteFrameLink(ctx context.Context, orgID, mapID, frameID, id string) error
 	ListFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string) ([]uigraphapi.FocalPointMeta, error)
 	ListFocalPointMetaByLink(ctx context.Context, orgID, linkID string) ([]uigraphapi.FocalPointMeta, error)
+	ListComponentLinkUsages(ctx context.Context, orgID, linkID string) ([]uigraphapi.ComponentLinkUsage, error)
 	CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	UpdateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string, body map[string]interface{}) (*uigraphapi.FocalPointMeta, error)
 	DeleteFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID, id string) error
@@ -183,7 +184,8 @@ type catalogClient interface {
 	ListServiceDBVersions(ctx context.Context, orgID, serviceID, serviceDBID string) ([]uigraphapi.ServiceDBVersion, error)
 	CreateServiceDBVersion(ctx context.Context, orgID, serviceID, serviceDBID string, body map[string]interface{}) (*uigraphapi.ServiceDBVersion, error)
 	RestoreServiceDBVersion(ctx context.Context, orgID, serviceID, serviceDBID, versionID string) (*uigraphapi.ServiceDB, error)
-	ListAPIEndpoints(ctx context.Context, orgID, serviceID, apiGroupID string) ([]uigraphapi.APIEndpoint, error)
+	RestoreAPIGroupVersion(ctx context.Context, orgID, serviceID, apiGroupID, versionID string) (*uigraphapi.APIGroup, error)
+	ListAPIEndpoints(ctx context.Context, orgID, serviceID, apiGroupID, versionID string) ([]uigraphapi.APIEndpoint, error)
 	GetAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string) (*uigraphapi.APIEndpoint, error)
 	GetAPIEndpointByID(ctx context.Context, orgID, id string) (*uigraphapi.APIEndpoint, error)
 	GetServiceDocByID(ctx context.Context, orgID, id string) (*uigraphapi.ServiceDoc, error)

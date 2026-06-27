@@ -14,6 +14,14 @@ import (
 )
 
 // ScreenshotImageURL is the resolver for the screenshotImageUrl field.
+func (r *componentLinkUsageResolver) ScreenshotImageURL(ctx context.Context, obj *model.ComponentLinkUsage) (*string, error) {
+	if obj.ScreenshotAssetID == nil {
+		return nil, nil
+	}
+	return r.resolveAssetURL(ctx, obj.OrgID, *obj.ScreenshotAssetID)
+}
+
+// ScreenshotImageURL is the resolver for the screenshotImageUrl field.
 func (r *frameResolver) ScreenshotImageURL(ctx context.Context, obj *model.Frame) (*string, error) {
 	if obj.ScreenshotAssetID == nil {
 		return nil, nil
@@ -315,6 +323,15 @@ func (r *queryResolver) FocalPointMetaByLink(ctx context.Context, orgID string, 
 	return convert.FocalPointMetasToModel(metas), nil
 }
 
+// ComponentLinkUsages is the resolver for the componentLinkUsages field.
+func (r *queryResolver) ComponentLinkUsages(ctx context.Context, orgID string, linkID string) ([]*model.ComponentLinkUsage, error) {
+	usages, err := r.UIMapAPI.ListComponentLinkUsages(ctx, orgID, linkID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.ComponentLinkUsagesToModel(usages), nil
+}
+
 // PreviewImgUrls is the resolver for the previewImgUrls field.
 func (r *uIMapResolver) PreviewImgUrls(ctx context.Context, obj *model.UIMap) ([]string, error) {
 	frames, _, err := r.UIMapAPI.ListFrames(ctx, obj.OrgID, obj.ID, uigraphapi.ListParams{})
@@ -346,11 +363,17 @@ func (r *uIMapResolver) PreviewImgUrls(ctx context.Context, obj *model.UIMap) ([
 	return urls, nil
 }
 
+// ComponentLinkUsage returns generated.ComponentLinkUsageResolver implementation.
+func (r *Resolver) ComponentLinkUsage() generated.ComponentLinkUsageResolver {
+	return &componentLinkUsageResolver{r}
+}
+
 // Frame returns generated.FrameResolver implementation.
 func (r *Resolver) Frame() generated.FrameResolver { return &frameResolver{r} }
 
 // UIMap returns generated.UIMapResolver implementation.
 func (r *Resolver) UIMap() generated.UIMapResolver { return &uIMapResolver{r} }
 
+type componentLinkUsageResolver struct{ *Resolver }
 type frameResolver struct{ *Resolver }
 type uIMapResolver struct{ *Resolver }

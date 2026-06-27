@@ -125,6 +125,21 @@ type FocalPointMeta struct {
 	DeletedAt                  *time.Time      `json:"deletedAt,omitempty"`
 }
 
+type ComponentLinkUsage struct {
+	MetaID            string  `json:"metaId"`
+	OrgID             string  `json:"orgId"`
+	ComponentID       string  `json:"componentId"`
+	MapID             string  `json:"mapId"`
+	MapName           string  `json:"mapName"`
+	FrameID           string  `json:"frameId"`
+	FrameName         string  `json:"frameName"`
+	ScreenshotAssetID *string `json:"screenshotAssetId,omitempty"`
+	FocalPointID      string  `json:"focalPointId"`
+	FocalPointName    string  `json:"focalPointName"`
+	LocationX         float64 `json:"locationX"`
+	LocationY         float64 `json:"locationY"`
+}
+
 func (c *Client) ListMaps(ctx context.Context, orgID string, p ListParams) ([]UIMap, int, error) {
 	path := "/api/v1/orgs/" + orgID + "/maps" + listQuery(p)
 	var out struct {
@@ -281,6 +296,13 @@ func (c *Client) ListFocalPointMetaByLink(ctx context.Context, orgID, linkID str
 		Meta []FocalPointMeta `json:"meta"`
 	}
 	return out.Meta, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/focal-point-meta?linkId=%s", orgID, url.QueryEscape(linkID)), &out)
+}
+
+func (c *Client) ListComponentLinkUsages(ctx context.Context, orgID, linkID string) ([]ComponentLinkUsage, error) {
+	var out struct {
+		Usages []ComponentLinkUsage `json:"usages"`
+	}
+	return out.Usages, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/component-link-usages?linkId=%s", orgID, url.QueryEscape(linkID)), &out)
 }
 
 func (c *Client) CreateFocalPointMeta(ctx context.Context, orgID, mapID, frameID, fpID string, body map[string]interface{}) (*FocalPointMeta, error) {

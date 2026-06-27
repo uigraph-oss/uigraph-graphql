@@ -76,6 +76,15 @@ func (r *mutationResolver) SyncAPIGroup(ctx context.Context, orgID string, servi
 	}, nil
 }
 
+// RestoreAPIGroupVersion is the resolver for the restoreAPIGroupVersion field.
+func (r *mutationResolver) RestoreAPIGroupVersion(ctx context.Context, orgID string, serviceID string, apiGroupID string, versionID string) (*model.APIGroup, error) {
+	g, err := r.Catalog.RestoreAPIGroupVersion(ctx, orgID, serviceID, apiGroupID, versionID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.APIGroupToModel(g), nil
+}
+
 // CreateServiceDoc is the resolver for the createServiceDoc field.
 func (r *mutationResolver) CreateServiceDoc(ctx context.Context, orgID string, serviceID string, input model.CreateServiceDocInput) (*model.ServiceDoc, error) {
 	d, err := r.Catalog.CreateServiceDoc(ctx, orgID, serviceID, convert.ToMap(input))
@@ -268,8 +277,12 @@ func (r *queryResolver) ServiceDBVersions(ctx context.Context, orgID string, ser
 }
 
 // APIEndpoints is the resolver for the apiEndpoints field.
-func (r *queryResolver) APIEndpoints(ctx context.Context, orgID string, serviceID string, apiGroupID string) ([]*model.APIEndpoint, error) {
-	endpoints, err := r.Catalog.ListAPIEndpoints(ctx, orgID, serviceID, apiGroupID)
+func (r *queryResolver) APIEndpoints(ctx context.Context, orgID string, serviceID string, apiGroupID string, versionID *string) ([]*model.APIEndpoint, error) {
+	vid := ""
+	if versionID != nil {
+		vid = *versionID
+	}
+	endpoints, err := r.Catalog.ListAPIEndpoints(ctx, orgID, serviceID, apiGroupID, vid)
 	if err != nil {
 		return nil, err
 	}
