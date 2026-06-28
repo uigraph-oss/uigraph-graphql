@@ -18,3 +18,24 @@ func (r *mutationResolver) CreateAssetUpload(ctx context.Context, orgID string) 
 	}
 	return &model.AssetUpload{AssetID: u.AssetID, UploadURL: u.UploadURL}, nil
 }
+
+// AssetURL is the resolver for the assetUrl field.
+func (r *queryResolver) AssetURL(ctx context.Context, orgID string, assetID string) (*string, error) {
+	return r.resolveAssetURL(ctx, orgID, assetID)
+}
+
+// AssetUrls is the resolver for the assetUrls field.
+func (r *queryResolver) AssetUrls(ctx context.Context, orgID string, assetIds []string) ([]*model.AssetURL, error) {
+	urlsByID, err := r.Resolver.Actor.ResolveAssetURLs(ctx, orgID, assetIds)
+	if err != nil {
+		return nil, err
+	}
+
+	out := make([]*model.AssetURL, 0, len(assetIds))
+	for _, id := range assetIds {
+		if u, ok := urlsByID[id]; ok && u != "" {
+			out = append(out, &model.AssetURL{AssetID: id, URL: u})
+		}
+	}
+	return out, nil
+}

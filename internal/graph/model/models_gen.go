@@ -113,6 +113,11 @@ type AssertionInput struct {
 	Value string `json:"value"`
 }
 
+type AssetURL struct {
+	AssetID string `json:"assetId"`
+	URL     string `json:"url"`
+}
+
 type AssetUpload struct {
 	AssetID   string `json:"assetId"`
 	UploadURL string `json:"uploadUrl"`
