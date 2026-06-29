@@ -139,6 +139,11 @@ type ComplexityRoot struct {
 		Value func(childComplexity int) int
 	}
 
+	AssetURL struct {
+		AssetID func(childComplexity int) int
+		URL     func(childComplexity int) int
+	}
+
 	AssetUpload struct {
 		AssetID   func(childComplexity int) int
 		UploadURL func(childComplexity int) int
@@ -762,6 +767,8 @@ type ComplexityRoot struct {
 		APIGroupVersions      func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
 		APIGroups             func(childComplexity int, orgID string, serviceID string) int
 		Actor                 func(childComplexity int, orgID string, id string) int
+		AssetURL              func(childComplexity int, orgID string, assetID string) int
+		AssetUrls             func(childComplexity int, orgID string, assetIds []string) int
 		Canvas                func(childComplexity int, orgID string, mapID string) int
 		Comments              func(childComplexity int, orgID string, resourceID string) int
 		ComponentLinkUsages   func(childComplexity int, orgID string, linkID string) int
@@ -1360,6 +1367,8 @@ type QueryResolver interface {
 	Ldap(ctx context.Context) (*model.LDAPConfig, error)
 	Saml(ctx context.Context) (*model.SAMLConfig, error)
 	Scim(ctx context.Context) (*model.SCIMConfig, error)
+	AssetURL(ctx context.Context, orgID string, assetID string) (*string, error)
+	AssetUrls(ctx context.Context, orgID string, assetIds []string) ([]*model.AssetURL, error)
 	Me(ctx context.Context) (*model.Me, error)
 	MyOrgs(ctx context.Context) ([]*model.OrgSummary, error)
 	Services(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.ServicePage, error)
@@ -1893,6 +1902,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Assertion.Value(childComplexity), true
+
+	case "AssetURL.assetId":
+		if e.complexity.AssetURL.AssetID == nil {
+			break
+		}
+
+		return e.complexity.AssetURL.AssetID(childComplexity), true
+
+	case "AssetURL.url":
+		if e.complexity.AssetURL.URL == nil {
+			break
+		}
+
+		return e.complexity.AssetURL.URL(childComplexity), true
 
 	case "AssetUpload.assetId":
 		if e.complexity.AssetUpload.AssetID == nil {
@@ -5827,6 +5850,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.Actor(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
+	case "Query.assetUrl":
+		if e.complexity.Query.AssetURL == nil {
+			break
+		}
+
+		args, err := ec.field_Query_assetUrl_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.AssetURL(childComplexity, args["orgId"].(string), args["assetId"].(string)), true
+
+	case "Query.assetUrls":
+		if e.complexity.Query.AssetUrls == nil {
+			break
+		}
+
+		args, err := ec.field_Query_assetUrls_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.AssetUrls(childComplexity, args["orgId"].(string), args["assetIds"].([]string)), true
+
 	case "Query.canvas":
 		if e.complexity.Query.Canvas == nil {
 			break
@@ -9004,9 +9051,22 @@ input UpsertSAMLInput {
     createAssetUpload(orgId: ID!): AssetUpload!
 }
 
+extend type Query {
+    # assetUrl resolves a single asset id to a short-lived presigned GET URL,
+    # returning null when the id is empty or no url is produced.
+    assetUrl(orgId: ID!, assetId: ID!): String
+    # assetUrls resolves many asset ids to their short-lived presigned GET URLs.
+    assetUrls(orgId: ID!, assetIds: [ID!]!): [AssetURL!]!
+}
+
 type AssetUpload {
     assetId:   ID!
     uploadUrl: String!
+}
+
+type AssetURL {
+    assetId: ID!
+    url:     String!
 }
 `, BuiltIn: false},
 	{Name: "../schema/auth.graphqls", Input: `extend type Query {
@@ -18399,6 +18459,108 @@ func (ec *executionContext) field_Query_apiGroups_argsServiceID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_assetUrl_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_assetUrl_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_assetUrl_argsAssetID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["assetId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_assetUrl_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_assetUrl_argsAssetID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["assetId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("assetId"))
+	if tmp, ok := rawArgs["assetId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_assetUrls_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_assetUrls_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_assetUrls_argsAssetIds(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["assetIds"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_assetUrls_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_assetUrls_argsAssetIds(
+	ctx context.Context,
+	rawArgs map[string]any,
+) ([]string, error) {
+	if _, ok := rawArgs["assetIds"]; !ok {
+		var zeroVal []string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("assetIds"))
+	if tmp, ok := rawArgs["assetIds"]; ok {
+		return ec.unmarshalNID2ᚕstringᚄ(ctx, tmp)
+	}
+
+	var zeroVal []string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_canvas_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -25119,6 +25281,94 @@ func (ec *executionContext) _Assertion_value(ctx context.Context, field graphql.
 func (ec *executionContext) fieldContext_Assertion_value(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Assertion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AssetURL_assetId(ctx context.Context, field graphql.CollectedField, obj *model.AssetURL) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AssetURL_assetId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AssetID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AssetURL_assetId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AssetURL",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AssetURL_url(ctx context.Context, field graphql.CollectedField, obj *model.AssetURL) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AssetURL_url(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.URL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AssetURL_url(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AssetURL",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -49802,6 +50052,119 @@ func (ec *executionContext) fieldContext_Query_scim(_ context.Context, field gra
 			}
 			return nil, fmt.Errorf("no field named %q was found under type SCIMConfig", field.Name)
 		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_assetUrl(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_assetUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().AssetURL(rctx, fc.Args["orgId"].(string), fc.Args["assetId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_assetUrl(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_assetUrl_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_assetUrls(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_assetUrls(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().AssetUrls(rctx, fc.Args["orgId"].(string), fc.Args["assetIds"].([]string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.AssetURL)
+	fc.Result = res
+	return ec.marshalNAssetURL2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetURLᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_assetUrls(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "assetId":
+				return ec.fieldContext_AssetURL_assetId(ctx, field)
+			case "url":
+				return ec.fieldContext_AssetURL_url(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AssetURL", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_assetUrls_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -74716,6 +75079,50 @@ func (ec *executionContext) _Assertion(ctx context.Context, sel ast.SelectionSet
 	return out
 }
 
+var assetURLImplementors = []string{"AssetURL"}
+
+func (ec *executionContext) _AssetURL(ctx context.Context, sel ast.SelectionSet, obj *model.AssetURL) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, assetURLImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("AssetURL")
+		case "assetId":
+			out.Values[i] = ec._AssetURL_assetId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "url":
+			out.Values[i] = ec._AssetURL_url(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var assetUploadImplementors = []string{"AssetUpload"}
 
 func (ec *executionContext) _AssetUpload(ctx context.Context, sel ast.SelectionSet, obj *model.AssetUpload) graphql.Marshaler {
@@ -79218,6 +79625,47 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "assetUrl":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_assetUrl(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "assetUrls":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_assetUrls(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "me":
 			field := field
 
@@ -83654,6 +84102,60 @@ func (ec *executionContext) marshalNAssertion2ᚖgithubᚗcomᚋuigraphᚋgraphq
 func (ec *executionContext) unmarshalNAssertionInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssertionInput(ctx context.Context, v any) (*model.AssertionInput, error) {
 	res, err := ec.unmarshalInputAssertionInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNAssetURL2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetURLᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.AssetURL) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNAssetURL2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetURL(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNAssetURL2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetURL(ctx context.Context, sel ast.SelectionSet, v *model.AssetURL) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._AssetURL(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNAssetUpload2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetUpload(ctx context.Context, sel ast.SelectionSet, v model.AssetUpload) graphql.Marshaler {

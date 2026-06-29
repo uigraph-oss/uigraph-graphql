@@ -4,7 +4,20 @@ extend type Mutation {
     createAssetUpload(orgId: ID!): AssetUpload!
 }
 
+extend type Query {
+    # assetUrl resolves a single asset id to a short-lived presigned GET URL,
+    # returning null when the id is empty or no url is produced.
+    assetUrl(orgId: ID!, assetId: ID!): String
+    # assetUrls resolves many asset ids to their short-lived presigned GET URLs.
+    assetUrls(orgId: ID!, assetIds: [ID!]!): [AssetURL!]!
+}
+
 type AssetUpload {
     assetId:   ID!
     uploadUrl: String!
+}
+
+type AssetURL {
+    assetId: ID!
+    url:     String!
 }
