@@ -306,6 +306,7 @@ type ComplexityRoot struct {
 		PreviewAssetID     func(childComplexity int) int
 		PreviewContentHash func(childComplexity int) int
 		PreviewImageURL    func(childComplexity int) int
+		PreviewStatus      func(childComplexity int) int
 		Source             func(childComplexity int) int
 		TeamID             func(childComplexity int) int
 		UpdatedAt          func(childComplexity int) int
@@ -2730,6 +2731,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Diagram.PreviewImageURL(childComplexity), true
+
+	case "Diagram.previewStatus":
+		if e.complexity.Diagram.PreviewStatus == nil {
+			break
+		}
+
+		return e.complexity.Diagram.PreviewStatus(childComplexity), true
 
 	case "Diagram.source":
 		if e.complexity.Diagram.Source == nil {
@@ -9651,6 +9659,7 @@ type Diagram {
     previewAssetId:     String
     previewImageUrl:    String @goField(forceResolver: true)
     previewContentHash: String
+    previewStatus:      String!
     source:             String
     createdBy:          ID!
     updatedBy:          ID
@@ -30407,6 +30416,50 @@ func (ec *executionContext) fieldContext_Diagram_previewContentHash(_ context.Co
 	return fc, nil
 }
 
+func (ec *executionContext) _Diagram_previewStatus(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_previewStatus(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PreviewStatus, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_previewStatus(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Diagram_source(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Diagram_source(ctx, field)
 	if err != nil {
@@ -31268,6 +31321,8 @@ func (ec *executionContext) fieldContext_DiagramPage_items(_ context.Context, fi
 				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "previewStatus":
+				return ec.fieldContext_Diagram_previewStatus(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -43670,6 +43725,8 @@ func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "previewStatus":
+				return ec.fieldContext_Diagram_previewStatus(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -43761,6 +43818,8 @@ func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "previewStatus":
+				return ec.fieldContext_Diagram_previewStatus(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -44051,6 +44110,8 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "previewStatus":
+				return ec.fieldContext_Diagram_previewStatus(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -52056,6 +52117,8 @@ func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, fiel
 				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "previewStatus":
+				return ec.fieldContext_Diagram_previewStatus(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -61128,6 +61191,8 @@ func (ec *executionContext) fieldContext_ServiceDiagram_diagram(_ context.Contex
 				return ec.fieldContext_Diagram_previewImageUrl(ctx, field)
 			case "previewContentHash":
 				return ec.fieldContext_Diagram_previewContentHash(ctx, field)
+			case "previewStatus":
+				return ec.fieldContext_Diagram_previewStatus(ctx, field)
 			case "source":
 				return ec.fieldContext_Diagram_source(ctx, field)
 			case "createdBy":
@@ -76333,6 +76398,11 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "previewContentHash":
 			out.Values[i] = ec._Diagram_previewContentHash(ctx, field, obj)
+		case "previewStatus":
+			out.Values[i] = ec._Diagram_previewStatus(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		case "source":
 			out.Values[i] = ec._Diagram_source(ctx, field, obj)
 		case "createdBy":

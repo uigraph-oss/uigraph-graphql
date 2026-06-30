@@ -16,6 +16,7 @@ type Diagram struct {
 	ContentHash        string     `json:"contentHash"`
 	PreviewAssetID     *string    `json:"previewAssetId,omitempty"`
 	PreviewContentHash *string    `json:"previewContentHash,omitempty"`
+	PreviewStatus      string     `json:"previewStatus"`
 	Source             *string    `json:"source,omitempty"`
 	CreatedBy          string     `json:"createdBy"`
 	UpdatedBy          *string    `json:"updatedBy,omitempty"`
