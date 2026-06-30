@@ -35,6 +35,7 @@ type Diagram {
     previewAssetId:     String
     previewImageUrl:    String @goField(forceResolver: true)
     previewContentHash: String
+    previewStatus:      String!
     source:             String
     createdBy:          ID!
     updatedBy:          ID

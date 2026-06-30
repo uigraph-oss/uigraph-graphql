@@ -590,6 +590,7 @@ type Diagram struct {
 	PreviewAssetID     *string   `json:"previewAssetId,omitempty"`
 	PreviewImageURL    *string   `json:"previewImageUrl,omitempty"`
 	PreviewContentHash *string   `json:"previewContentHash,omitempty"`
+	PreviewStatus      string    `json:"previewStatus"`
 	Source             *string   `json:"source,omitempty"`
 	CreatedBy          string    `json:"createdBy"`
 	UpdatedBy          *string   `json:"updatedBy,omitempty"`
