@@ -140,10 +140,12 @@ func APIEndpointToModel(e *uigraphapi.APIEndpoint) *model.APIEndpoint {
 		ID: e.ID, APIGroupID: e.APIGroupID, ServiceID: e.ServiceID, OrgID: e.OrgID,
 		OperationID: e.OperationID, Method: e.Method, Path: e.Path,
 		Summary: e.Summary, Description: e.Description, Tags: e.Tags,
-		Parameters:  RawArrStr(e.Parameters),
-		RequestBody: RawStr(e.RequestBody),
-		Responses:   RawStr(e.Responses),
-		Order:       e.Order,
+		Parameters:       RawArrStr(e.Parameters),
+		RequestBody:      RawStr(e.RequestBody),
+		Responses:        RawStr(e.Responses),
+		ExampleRequests:  RawArrStr(e.ExampleRequests),
+		ExampleResponses: RawArrStr(e.ExampleResponses),
+		Order:            e.Order,
 		CreatedBy:   e.CreatedBy, UpdatedBy: e.UpdatedBy, CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt,
 	}
 }
