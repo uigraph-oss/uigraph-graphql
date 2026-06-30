@@ -7,24 +7,26 @@ import (
 )
 
 type APIEndpoint struct {
-	ID          string    `json:"id"`
-	APIGroupID  string    `json:"apiGroupId"`
-	ServiceID   string    `json:"serviceId"`
-	OrgID       string    `json:"orgId"`
-	OperationID string    `json:"operationId"`
-	Method      string    `json:"method"`
-	Path        string    `json:"path"`
-	Summary     string    `json:"summary"`
-	Description string    `json:"description"`
-	Tags        []string  `json:"tags"`
-	Parameters  string    `json:"parameters"`
-	RequestBody string    `json:"requestBody"`
-	Responses   string    `json:"responses"`
-	Order       float64   `json:"order"`
-	CreatedBy   string    `json:"createdBy"`
-	UpdatedBy   *string   `json:"updatedBy,omitempty"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	ID               string    `json:"id"`
+	APIGroupID       string    `json:"apiGroupId"`
+	ServiceID        string    `json:"serviceId"`
+	OrgID            string    `json:"orgId"`
+	OperationID      string    `json:"operationId"`
+	Method           string    `json:"method"`
+	Path             string    `json:"path"`
+	Summary          string    `json:"summary"`
+	Description      string    `json:"description"`
+	Tags             []string  `json:"tags"`
+	Parameters       string    `json:"parameters"`
+	RequestBody      string    `json:"requestBody"`
+	Responses        string    `json:"responses"`
+	ExampleRequests  string    `json:"exampleRequests"`
+	ExampleResponses string    `json:"exampleResponses"`
+	Order            float64   `json:"order"`
+	CreatedBy        string    `json:"createdBy"`
+	UpdatedBy        *string   `json:"updatedBy,omitempty"`
+	CreatedAt        time.Time `json:"createdAt"`
+	UpdatedAt        time.Time `json:"updatedAt"`
 }
 
 type APIGroup struct {
@@ -234,16 +236,18 @@ type Components struct {
 }
 
 type CreateAPIEndpointInput struct {
-	OperationID *string  `json:"operationId,omitempty"`
-	Method      string   `json:"method"`
-	Path        string   `json:"path"`
-	Summary     *string  `json:"summary,omitempty"`
-	Description *string  `json:"description,omitempty"`
-	Tags        []string `json:"tags,omitempty"`
-	Parameters  *string  `json:"parameters,omitempty"`
-	RequestBody *string  `json:"requestBody,omitempty"`
-	Responses   *string  `json:"responses,omitempty"`
-	Order       *float64 `json:"order,omitempty"`
+	OperationID      *string  `json:"operationId,omitempty"`
+	Method           string   `json:"method"`
+	Path             string   `json:"path"`
+	Summary          *string  `json:"summary,omitempty"`
+	Description      *string  `json:"description,omitempty"`
+	Tags             []string `json:"tags,omitempty"`
+	Parameters       *string  `json:"parameters,omitempty"`
+	RequestBody      *string  `json:"requestBody,omitempty"`
+	Responses        *string  `json:"responses,omitempty"`
+	ExampleRequests  *string  `json:"exampleRequests,omitempty"`
+	ExampleResponses *string  `json:"exampleResponses,omitempty"`
+	Order            *float64 `json:"order,omitempty"`
 }
 
 type CreateAPIGroupInput struct {
@@ -1373,16 +1377,18 @@ type UIMapPage struct {
 }
 
 type UpdateAPIEndpointInput struct {
-	OperationID *string  `json:"operationId,omitempty"`
-	Method      *string  `json:"method,omitempty"`
-	Path        *string  `json:"path,omitempty"`
-	Summary     *string  `json:"summary,omitempty"`
-	Description *string  `json:"description,omitempty"`
-	Tags        []string `json:"tags,omitempty"`
-	Parameters  *string  `json:"parameters,omitempty"`
-	RequestBody *string  `json:"requestBody,omitempty"`
-	Responses   *string  `json:"responses,omitempty"`
-	Order       *float64 `json:"order,omitempty"`
+	OperationID      *string  `json:"operationId,omitempty"`
+	Method           *string  `json:"method,omitempty"`
+	Path             *string  `json:"path,omitempty"`
+	Summary          *string  `json:"summary,omitempty"`
+	Description      *string  `json:"description,omitempty"`
+	Tags             []string `json:"tags,omitempty"`
+	Parameters       *string  `json:"parameters,omitempty"`
+	RequestBody      *string  `json:"requestBody,omitempty"`
+	Responses        *string  `json:"responses,omitempty"`
+	ExampleRequests  *string  `json:"exampleRequests,omitempty"`
+	ExampleResponses *string  `json:"exampleResponses,omitempty"`
+	Order            *float64 `json:"order,omitempty"`
 }
 
 type UpdateAPIGroupInput struct {
