@@ -156,7 +156,7 @@ func (r *mutationResolver) RestoreServiceDBVersion(ctx context.Context, orgID st
 
 // CreateAPIEndpoint is the resolver for the createAPIEndpoint field.
 func (r *mutationResolver) CreateAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) (*model.APIEndpoint, error) {
-	e, err := r.Catalog.CreateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, convert.ToMap(input))
+	e, err := r.Catalog.CreateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, convert.APIEndpointInputMap(input))
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func (r *mutationResolver) CreateAPIEndpoint(ctx context.Context, orgID string, 
 
 // UpdateAPIEndpoint is the resolver for the updateAPIEndpoint field.
 func (r *mutationResolver) UpdateAPIEndpoint(ctx context.Context, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) (*model.APIEndpoint, error) {
-	e, err := r.Catalog.UpdateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id, convert.ToMap(input))
+	e, err := r.Catalog.UpdateAPIEndpoint(ctx, orgID, serviceID, apiGroupID, id, convert.APIEndpointInputMap(input))
 	if err != nil {
 		return nil, err
 	}

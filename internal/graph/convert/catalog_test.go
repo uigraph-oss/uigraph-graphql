@@ -165,3 +165,28 @@ func TestServicesToModel(t *testing.T) {
 		}
 	})
 }
+
+func TestAPIEndpointInputMap_embedsJSONAsRawMessage(t *testing.T) {
+	t.Run("requestBody stored as JSON object not string", func(t *testing.T) {
+		body := `{"address_id":"hello"}`
+		m := APIEndpointInputMap(map[string]interface{}{
+			"requestBody": body,
+			"order":       1.0,
+		})
+		raw, ok := m["requestBody"].(json.RawMessage)
+		if !ok {
+			t.Fatalf("requestBody type = %T, want json.RawMessage", m["requestBody"])
+		}
+		if string(raw) != body {
+			t.Errorf("requestBody = %q, want %q", raw, body)
+		}
+
+		encoded, err := json.Marshal(m)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if string(encoded) != `{"order":1,"requestBody":{"address_id":"hello"}}` {
+			t.Errorf("HTTP body = %s, want embedded JSON object", encoded)
+		}
+	})
+}

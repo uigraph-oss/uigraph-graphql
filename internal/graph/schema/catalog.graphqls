@@ -219,6 +219,8 @@ type APIEndpoint {
     parameters:  String!
     requestBody: String!
     responses:   String!
+    exampleRequests:  String!
+    exampleResponses: String!
     order:       Float!
     createdBy:   ID!
     updatedBy:   ID
@@ -351,6 +353,8 @@ input CreateAPIEndpointInput {
     parameters:  String
     requestBody: String
     responses:   String
+    exampleRequests:  String
+    exampleResponses: String
     order:       Float
 }
 
@@ -364,5 +368,7 @@ input UpdateAPIEndpointInput {
     parameters:  String
     requestBody: String
     responses:   String
+    exampleRequests:  String
+    exampleResponses: String
     order:       Float
 }

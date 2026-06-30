@@ -30,6 +30,25 @@ func UnmarshalJSONString(s string, out interface{}) error {
 	return json.Unmarshal([]byte(s), out)
 }
 
+// APIEndpointInputMap converts endpoint create/update input to a REST body map.
+// JSON string fields (requestBody, responses, parameters) are embedded as raw JSON
+// so the REST API stores objects/arrays in JSONB instead of double-encoded strings.
+func APIEndpointInputMap(input interface{}) map[string]interface{} {
+	m := ToMap(input)
+	for _, key := range []string{
+		"requestBody", "responses", "parameters", "exampleRequests", "exampleResponses",
+	} {
+		s, ok := m[key].(string)
+		if !ok || s == "" {
+			continue
+		}
+		if json.Valid([]byte(s)) {
+			m[key] = json.RawMessage(s)
+		}
+	}
+	return m
+}
+
 // ToMap JSON-round-trips a struct into map[string]interface{}.
 // This correctly handles optional fields: nil pointer fields are omitted
 // from the resulting map (because of omitempty in the input struct tags).

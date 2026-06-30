@@ -60,24 +60,26 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	APIEndpoint struct {
-		APIGroupID  func(childComplexity int) int
-		CreatedAt   func(childComplexity int) int
-		CreatedBy   func(childComplexity int) int
-		Description func(childComplexity int) int
-		ID          func(childComplexity int) int
-		Method      func(childComplexity int) int
-		OperationID func(childComplexity int) int
-		Order       func(childComplexity int) int
-		OrgID       func(childComplexity int) int
-		Parameters  func(childComplexity int) int
-		Path        func(childComplexity int) int
-		RequestBody func(childComplexity int) int
-		Responses   func(childComplexity int) int
-		ServiceID   func(childComplexity int) int
-		Summary     func(childComplexity int) int
-		Tags        func(childComplexity int) int
-		UpdatedAt   func(childComplexity int) int
-		UpdatedBy   func(childComplexity int) int
+		APIGroupID       func(childComplexity int) int
+		CreatedAt        func(childComplexity int) int
+		CreatedBy        func(childComplexity int) int
+		Description      func(childComplexity int) int
+		ExampleRequests  func(childComplexity int) int
+		ExampleResponses func(childComplexity int) int
+		ID               func(childComplexity int) int
+		Method           func(childComplexity int) int
+		OperationID      func(childComplexity int) int
+		Order            func(childComplexity int) int
+		OrgID            func(childComplexity int) int
+		Parameters       func(childComplexity int) int
+		Path             func(childComplexity int) int
+		RequestBody      func(childComplexity int) int
+		Responses        func(childComplexity int) int
+		ServiceID        func(childComplexity int) int
+		Summary          func(childComplexity int) int
+		Tags             func(childComplexity int) int
+		UpdatedAt        func(childComplexity int) int
+		UpdatedBy        func(childComplexity int) int
 	}
 
 	APIGroup struct {
@@ -1487,6 +1489,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.APIEndpoint.Description(childComplexity), true
+
+	case "APIEndpoint.exampleRequests":
+		if e.complexity.APIEndpoint.ExampleRequests == nil {
+			break
+		}
+
+		return e.complexity.APIEndpoint.ExampleRequests(childComplexity), true
+
+	case "APIEndpoint.exampleResponses":
+		if e.complexity.APIEndpoint.ExampleResponses == nil {
+			break
+		}
+
+		return e.complexity.APIEndpoint.ExampleResponses(childComplexity), true
 
 	case "APIEndpoint.id":
 		if e.complexity.APIEndpoint.ID == nil {
@@ -9259,6 +9275,8 @@ type APIEndpoint {
     parameters:  String!
     requestBody: String!
     responses:   String!
+    exampleRequests:  String!
+    exampleResponses: String!
     order:       Float!
     createdBy:   ID!
     updatedBy:   ID
@@ -9391,6 +9409,8 @@ input CreateAPIEndpointInput {
     parameters:  String
     requestBody: String
     responses:   String
+    exampleRequests:  String
+    exampleResponses: String
     order:       Float
 }
 
@@ -9404,6 +9424,8 @@ input UpdateAPIEndpointInput {
     parameters:  String
     requestBody: String
     responses:   String
+    exampleRequests:  String
+    exampleResponses: String
     order:       Float
 }
 `, BuiltIn: false},
@@ -22970,6 +22992,94 @@ func (ec *executionContext) _APIEndpoint_responses(ctx context.Context, field gr
 }
 
 func (ec *executionContext) fieldContext_APIEndpoint_responses(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIEndpoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _APIEndpoint_exampleRequests(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIEndpoint_exampleRequests(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExampleRequests, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIEndpoint_exampleRequests(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIEndpoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _APIEndpoint_exampleResponses(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExampleResponses, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIEndpoint_exampleResponses(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "APIEndpoint",
 		Field:      field,
@@ -42637,6 +42747,10 @@ func (ec *executionContext) fieldContext_Mutation_createAPIEndpoint(ctx context.
 				return ec.fieldContext_APIEndpoint_requestBody(ctx, field)
 			case "responses":
 				return ec.fieldContext_APIEndpoint_responses(ctx, field)
+			case "exampleRequests":
+				return ec.fieldContext_APIEndpoint_exampleRequests(ctx, field)
+			case "exampleResponses":
+				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
 			case "createdBy":
@@ -42730,6 +42844,10 @@ func (ec *executionContext) fieldContext_Mutation_updateAPIEndpoint(ctx context.
 				return ec.fieldContext_APIEndpoint_requestBody(ctx, field)
 			case "responses":
 				return ec.fieldContext_APIEndpoint_responses(ctx, field)
+			case "exampleRequests":
+				return ec.fieldContext_APIEndpoint_exampleRequests(ctx, field)
+			case "exampleResponses":
+				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
 			case "createdBy":
@@ -50825,6 +50943,10 @@ func (ec *executionContext) fieldContext_Query_apiEndpoints(ctx context.Context,
 				return ec.fieldContext_APIEndpoint_requestBody(ctx, field)
 			case "responses":
 				return ec.fieldContext_APIEndpoint_responses(ctx, field)
+			case "exampleRequests":
+				return ec.fieldContext_APIEndpoint_exampleRequests(ctx, field)
+			case "exampleResponses":
+				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
 			case "createdBy":
@@ -50918,6 +51040,10 @@ func (ec *executionContext) fieldContext_Query_apiEndpoint(ctx context.Context, 
 				return ec.fieldContext_APIEndpoint_requestBody(ctx, field)
 			case "responses":
 				return ec.fieldContext_APIEndpoint_responses(ctx, field)
+			case "exampleRequests":
+				return ec.fieldContext_APIEndpoint_exampleRequests(ctx, field)
+			case "exampleResponses":
+				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
 			case "createdBy":
@@ -51011,6 +51137,10 @@ func (ec *executionContext) fieldContext_Query_apiEndpointById(ctx context.Conte
 				return ec.fieldContext_APIEndpoint_requestBody(ctx, field)
 			case "responses":
 				return ec.fieldContext_APIEndpoint_responses(ctx, field)
+			case "exampleRequests":
+				return ec.fieldContext_APIEndpoint_exampleRequests(ctx, field)
+			case "exampleResponses":
+				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
 			case "createdBy":
@@ -69878,7 +70008,7 @@ func (ec *executionContext) unmarshalInputCreateAPIEndpointInput(ctx context.Con
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"operationId", "method", "path", "summary", "description", "tags", "parameters", "requestBody", "responses", "order"}
+	fieldsInOrder := [...]string{"operationId", "method", "path", "summary", "description", "tags", "parameters", "requestBody", "responses", "exampleRequests", "exampleResponses", "order"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -69948,6 +70078,20 @@ func (ec *executionContext) unmarshalInputCreateAPIEndpointInput(ctx context.Con
 				return it, err
 			}
 			it.Responses = data
+		case "exampleRequests":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("exampleRequests"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ExampleRequests = data
+		case "exampleResponses":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("exampleResponses"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ExampleResponses = data
 		case "order":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
 			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
@@ -72372,7 +72516,7 @@ func (ec *executionContext) unmarshalInputUpdateAPIEndpointInput(ctx context.Con
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"operationId", "method", "path", "summary", "description", "tags", "parameters", "requestBody", "responses", "order"}
+	fieldsInOrder := [...]string{"operationId", "method", "path", "summary", "description", "tags", "parameters", "requestBody", "responses", "exampleRequests", "exampleResponses", "order"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -72442,6 +72586,20 @@ func (ec *executionContext) unmarshalInputUpdateAPIEndpointInput(ctx context.Con
 				return it, err
 			}
 			it.Responses = data
+		case "exampleRequests":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("exampleRequests"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ExampleRequests = data
+		case "exampleResponses":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("exampleResponses"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ExampleResponses = data
 		case "order":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
 			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
@@ -74301,6 +74459,16 @@ func (ec *executionContext) _APIEndpoint(ctx context.Context, sel ast.SelectionS
 			}
 		case "responses":
 			out.Values[i] = ec._APIEndpoint_responses(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "exampleRequests":
+			out.Values[i] = ec._APIEndpoint_exampleRequests(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "exampleResponses":
+			out.Values[i] = ec._APIEndpoint_exampleResponses(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}

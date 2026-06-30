@@ -131,10 +131,12 @@ type APIEndpoint struct {
 	Summary     string          `json:"summary"`
 	Description string          `json:"description"`
 	Tags        []string        `json:"tags"`
-	Parameters  json.RawMessage `json:"parameters"`
-	RequestBody json.RawMessage `json:"requestBody"`
-	Responses   json.RawMessage `json:"responses"`
-	Order       float64         `json:"order"`
+	Parameters       json.RawMessage `json:"parameters"`
+	RequestBody      json.RawMessage `json:"requestBody"`
+	Responses        json.RawMessage `json:"responses"`
+	ExampleRequests  json.RawMessage `json:"exampleRequests"`
+	ExampleResponses json.RawMessage `json:"exampleResponses"`
+	Order            float64         `json:"order"`
 	CreatedBy   string          `json:"createdBy"`
 	UpdatedBy   *string         `json:"updatedBy,omitempty"`
 	CreatedAt   time.Time       `json:"createdAt"`
