@@ -49,6 +49,7 @@ type ResolverRoot interface {
 	Frame() FrameResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
+	SavedQuery() SavedQueryResolver
 	Service() ServiceResolver
 	ServiceDB() ServiceDBResolver
 	ServiceDBVersion() ServiceDBVersionResolver
@@ -638,6 +639,8 @@ type ComplexityRoot struct {
 		CreateMap                     func(childComplexity int, orgID string, input model.CreateMapInput) int
 		CreateOrg                     func(childComplexity int, input model.CreateOrgInput) int
 		CreateRoleMapping             func(childComplexity int, input model.CreateRoleMappingInput) int
+		CreateSavedQuery              func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryInput) int
+		CreateSavedQueryFolder        func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryFolderInput) int
 		CreateServerOrg               func(childComplexity int, input model.CreateServerOrgInput) int
 		CreateService                 func(childComplexity int, orgID string, input model.CreateServiceInput) int
 		CreateServiceAccount          func(childComplexity int, orgID string, input model.CreateServiceAccountInput) int
@@ -669,6 +672,8 @@ type ComplexityRoot struct {
 		DeleteOAuthProvider           func(childComplexity int, provider string) int
 		DeleteOrg                     func(childComplexity int, id string) int
 		DeleteRoleMapping             func(childComplexity int, id string) int
+		DeleteSavedQuery              func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
+		DeleteSavedQueryFolder        func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
 		DeleteServerOrg               func(childComplexity int, id string) int
 		DeleteService                 func(childComplexity int, orgID string, id string) int
 		DeleteServiceAccount          func(childComplexity int, orgID string, id string) int
@@ -705,6 +710,7 @@ type ComplexityRoot struct {
 		UpdateMap                     func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
 		UpdateMember                  func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
 		UpdateOrg                     func(childComplexity int, id string, input model.UpdateOrgInput) int
+		UpdateSavedQuery              func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string, input model.UpdateSavedQueryInput) int
 		UpdateServerOrg               func(childComplexity int, id string, input model.UpdateServerOrgInput) int
 		UpdateService                 func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
 		UpdateServiceAccount          func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
@@ -811,6 +817,8 @@ type ComplexityRoot struct {
 		Orgs                  func(childComplexity int) int
 		RoleMappings          func(childComplexity int) int
 		Saml                  func(childComplexity int) int
+		SavedQueries          func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
+		SavedQueryFolders     func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
 		Scim                  func(childComplexity int) int
 		ServerConfig          func(childComplexity int) int
 		ServerOrgs            func(childComplexity int) int
@@ -876,6 +884,40 @@ type ComplexityRoot struct {
 
 	SCIMConfig struct {
 		ID func(childComplexity int) int
+	}
+
+	SavedQuery struct {
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		CreatedByActor func(childComplexity int) int
+		Description    func(childComplexity int) int
+		FolderID       func(childComplexity int) int
+		ID             func(childComplexity int) int
+		OrgID          func(childComplexity int) int
+		OwnerUserID    func(childComplexity int) int
+		QueryText      func(childComplexity int) int
+		Scope          func(childComplexity int) int
+		ServiceDbID    func(childComplexity int) int
+		Source         func(childComplexity int) int
+		Tags           func(childComplexity int) int
+		TeamID         func(childComplexity int) int
+		Title          func(childComplexity int) int
+		UpdatedAt      func(childComplexity int) int
+		UpdatedBy      func(childComplexity int) int
+		UpdatedByActor func(childComplexity int) int
+	}
+
+	SavedQueryFolder struct {
+		CreatedAt   func(childComplexity int) int
+		CreatedBy   func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Name        func(childComplexity int) int
+		OrgID       func(childComplexity int) int
+		OwnerUserID func(childComplexity int) int
+		Scope       func(childComplexity int) int
+		ServiceDbID func(childComplexity int) int
+		TeamID      func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
 	}
 
 	SavingsSummary struct {
@@ -1327,6 +1369,11 @@ type MutationResolver interface {
 	DeleteServiceAccount(ctx context.Context, orgID string, id string) (bool, error)
 	CreateServiceAccountToken(ctx context.Context, orgID string, saID string, input model.CreateTokenInput) (*model.CreatedToken, error)
 	RevokeServiceAccountToken(ctx context.Context, orgID string, saID string, tokenID string) (bool, error)
+	CreateSavedQueryFolder(ctx context.Context, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryFolderInput) (*model.SavedQueryFolder, error)
+	DeleteSavedQueryFolder(ctx context.Context, orgID string, serviceID string, serviceDbID string, id string) (bool, error)
+	CreateSavedQuery(ctx context.Context, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryInput) (*model.SavedQuery, error)
+	UpdateSavedQuery(ctx context.Context, orgID string, serviceID string, serviceDbID string, id string, input model.UpdateSavedQueryInput) (*model.SavedQuery, error)
+	DeleteSavedQuery(ctx context.Context, orgID string, serviceID string, serviceDbID string, id string) (bool, error)
 	CreateTestPack(ctx context.Context, orgID string, serviceID string, input model.CreateTestPackInput) (*model.TestPack, error)
 	UpdateTestPack(ctx context.Context, orgID string, serviceID string, id string, input model.UpdateTestPackInput) (*model.TestPack, error)
 	DeleteTestPack(ctx context.Context, orgID string, serviceID string, id string) (bool, error)
@@ -1418,6 +1465,8 @@ type QueryResolver interface {
 	ServiceAccount(ctx context.Context, orgID string, id string) (*model.ServiceAccount, error)
 	ServiceAccountTokens(ctx context.Context, orgID string, saID string) ([]*model.ServiceAccountToken, error)
 	ServiceAccountScopes(ctx context.Context, orgID string) ([]string, error)
+	SavedQueryFolders(ctx context.Context, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) ([]*model.SavedQueryFolder, error)
+	SavedQueries(ctx context.Context, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) ([]*model.SavedQuery, error)
 	TestPacks(ctx context.Context, orgID string, serviceID string) ([]*model.TestPack, error)
 	TestPackByID(ctx context.Context, orgID string, id string) (*model.TestPack, error)
 	TestCases(ctx context.Context, orgID string, serviceID string, testPackID *string) ([]*model.TestCase, error)
@@ -1437,6 +1486,10 @@ type QueryResolver interface {
 	FocalPointMeta(ctx context.Context, orgID string, mapID string, frameID string, focalPointID string) ([]*model.FocalPointMeta, error)
 	FocalPointMetaByLink(ctx context.Context, orgID string, linkID string) ([]*model.FocalPointMeta, error)
 	ComponentLinkUsages(ctx context.Context, orgID string, linkID string) ([]*model.ComponentLinkUsage, error)
+}
+type SavedQueryResolver interface {
+	CreatedByActor(ctx context.Context, obj *model.SavedQuery) (*model.Actor, error)
+	UpdatedByActor(ctx context.Context, obj *model.SavedQuery) (*model.Actor, error)
 }
 type ServiceResolver interface {
 	CreatedByActor(ctx context.Context, obj *model.Service) (*model.Actor, error)
@@ -4594,6 +4647,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateRoleMapping(childComplexity, args["input"].(model.CreateRoleMappingInput)), true
 
+	case "Mutation.createSavedQuery":
+		if e.complexity.Mutation.CreateSavedQuery == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createSavedQuery_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateSavedQuery(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["serviceDbId"].(string), args["input"].(model.CreateSavedQueryInput)), true
+
+	case "Mutation.createSavedQueryFolder":
+		if e.complexity.Mutation.CreateSavedQueryFolder == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createSavedQueryFolder_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateSavedQueryFolder(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["serviceDbId"].(string), args["input"].(model.CreateSavedQueryFolderInput)), true
+
 	case "Mutation.createServerOrg":
 		if e.complexity.Mutation.CreateServerOrg == nil {
 			break
@@ -4960,6 +5037,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteRoleMapping(childComplexity, args["id"].(string)), true
+
+	case "Mutation.deleteSavedQuery":
+		if e.complexity.Mutation.DeleteSavedQuery == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteSavedQuery_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteSavedQuery(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["serviceDbId"].(string), args["id"].(string)), true
+
+	case "Mutation.deleteSavedQueryFolder":
+		if e.complexity.Mutation.DeleteSavedQueryFolder == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteSavedQueryFolder_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteSavedQueryFolder(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["serviceDbId"].(string), args["id"].(string)), true
 
 	case "Mutation.deleteServerOrg":
 		if e.complexity.Mutation.DeleteServerOrg == nil {
@@ -5392,6 +5493,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateOrg(childComplexity, args["id"].(string), args["input"].(model.UpdateOrgInput)), true
+
+	case "Mutation.updateSavedQuery":
+		if e.complexity.Mutation.UpdateSavedQuery == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateSavedQuery_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateSavedQuery(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["serviceDbId"].(string), args["id"].(string), args["input"].(model.UpdateSavedQueryInput)), true
 
 	case "Mutation.updateServerOrg":
 		if e.complexity.Mutation.UpdateServerOrg == nil {
@@ -6331,6 +6444,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.Saml(childComplexity), true
 
+	case "Query.savedQueries":
+		if e.complexity.Query.SavedQueries == nil {
+			break
+		}
+
+		args, err := ec.field_Query_savedQueries_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.SavedQueries(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["serviceDbId"].(string), args["scope"].(model.SavedQueryScope)), true
+
+	case "Query.savedQueryFolders":
+		if e.complexity.Query.SavedQueryFolders == nil {
+			break
+		}
+
+		args, err := ec.field_Query_savedQueryFolders_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.SavedQueryFolders(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["serviceDbId"].(string), args["scope"].(model.SavedQueryScope)), true
+
 	case "Query.scim":
 		if e.complexity.Query.Scim == nil {
 			break
@@ -6842,6 +6979,202 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.SCIMConfig.ID(childComplexity), true
+
+	case "SavedQuery.createdAt":
+		if e.complexity.SavedQuery.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.CreatedAt(childComplexity), true
+
+	case "SavedQuery.createdBy":
+		if e.complexity.SavedQuery.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.CreatedBy(childComplexity), true
+
+	case "SavedQuery.createdByActor":
+		if e.complexity.SavedQuery.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.CreatedByActor(childComplexity), true
+
+	case "SavedQuery.description":
+		if e.complexity.SavedQuery.Description == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.Description(childComplexity), true
+
+	case "SavedQuery.folderId":
+		if e.complexity.SavedQuery.FolderID == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.FolderID(childComplexity), true
+
+	case "SavedQuery.id":
+		if e.complexity.SavedQuery.ID == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.ID(childComplexity), true
+
+	case "SavedQuery.orgId":
+		if e.complexity.SavedQuery.OrgID == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.OrgID(childComplexity), true
+
+	case "SavedQuery.ownerUserId":
+		if e.complexity.SavedQuery.OwnerUserID == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.OwnerUserID(childComplexity), true
+
+	case "SavedQuery.queryText":
+		if e.complexity.SavedQuery.QueryText == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.QueryText(childComplexity), true
+
+	case "SavedQuery.scope":
+		if e.complexity.SavedQuery.Scope == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.Scope(childComplexity), true
+
+	case "SavedQuery.serviceDbId":
+		if e.complexity.SavedQuery.ServiceDbID == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.ServiceDbID(childComplexity), true
+
+	case "SavedQuery.source":
+		if e.complexity.SavedQuery.Source == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.Source(childComplexity), true
+
+	case "SavedQuery.tags":
+		if e.complexity.SavedQuery.Tags == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.Tags(childComplexity), true
+
+	case "SavedQuery.teamId":
+		if e.complexity.SavedQuery.TeamID == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.TeamID(childComplexity), true
+
+	case "SavedQuery.title":
+		if e.complexity.SavedQuery.Title == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.Title(childComplexity), true
+
+	case "SavedQuery.updatedAt":
+		if e.complexity.SavedQuery.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.UpdatedAt(childComplexity), true
+
+	case "SavedQuery.updatedBy":
+		if e.complexity.SavedQuery.UpdatedBy == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.UpdatedBy(childComplexity), true
+
+	case "SavedQuery.updatedByActor":
+		if e.complexity.SavedQuery.UpdatedByActor == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.UpdatedByActor(childComplexity), true
+
+	case "SavedQueryFolder.createdAt":
+		if e.complexity.SavedQueryFolder.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.CreatedAt(childComplexity), true
+
+	case "SavedQueryFolder.createdBy":
+		if e.complexity.SavedQueryFolder.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.CreatedBy(childComplexity), true
+
+	case "SavedQueryFolder.id":
+		if e.complexity.SavedQueryFolder.ID == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.ID(childComplexity), true
+
+	case "SavedQueryFolder.name":
+		if e.complexity.SavedQueryFolder.Name == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.Name(childComplexity), true
+
+	case "SavedQueryFolder.orgId":
+		if e.complexity.SavedQueryFolder.OrgID == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.OrgID(childComplexity), true
+
+	case "SavedQueryFolder.ownerUserId":
+		if e.complexity.SavedQueryFolder.OwnerUserID == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.OwnerUserID(childComplexity), true
+
+	case "SavedQueryFolder.scope":
+		if e.complexity.SavedQueryFolder.Scope == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.Scope(childComplexity), true
+
+	case "SavedQueryFolder.serviceDbId":
+		if e.complexity.SavedQueryFolder.ServiceDbID == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.ServiceDbID(childComplexity), true
+
+	case "SavedQueryFolder.teamId":
+		if e.complexity.SavedQueryFolder.TeamID == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.TeamID(childComplexity), true
+
+	case "SavedQueryFolder.updatedAt":
+		if e.complexity.SavedQueryFolder.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.SavedQueryFolder.UpdatedAt(childComplexity), true
 
 	case "SavingsSummary.costRawUsd":
 		if e.complexity.SavingsSummary.CostRawUsd == nil {
@@ -8677,6 +9010,8 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateMapInput,
 		ec.unmarshalInputCreateOrgInput,
 		ec.unmarshalInputCreateRoleMappingInput,
+		ec.unmarshalInputCreateSavedQueryFolderInput,
+		ec.unmarshalInputCreateSavedQueryInput,
 		ec.unmarshalInputCreateServerOrgInput,
 		ec.unmarshalInputCreateServiceAccountInput,
 		ec.unmarshalInputCreateServiceDBInput,
@@ -8716,6 +9051,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateMapInput,
 		ec.unmarshalInputUpdateMemberInput,
 		ec.unmarshalInputUpdateOrgInput,
+		ec.unmarshalInputUpdateSavedQueryInput,
 		ec.unmarshalInputUpdateServerOrgInput,
 		ec.unmarshalInputUpdateServiceAccountInput,
 		ec.unmarshalInputUpdateServiceDBInput,
@@ -10059,6 +10395,81 @@ input UpdateServiceAccountInput {
 input CreateTokenInput {
     name:      String!
     expiresAt: String
+}
+`, BuiltIn: false},
+	{Name: "../schema/saved_query.graphqls", Input: `extend type Query {
+    savedQueryFolders(orgId: ID!, serviceId: ID!, serviceDbId: ID!, scope: SavedQueryScope!): [SavedQueryFolder!]!
+    savedQueries(orgId: ID!, serviceId: ID!, serviceDbId: ID!, scope: SavedQueryScope!):       [SavedQuery!]!
+}
+
+extend type Mutation {
+    createSavedQueryFolder(orgId: ID!, serviceId: ID!, serviceDbId: ID!, input: CreateSavedQueryFolderInput!): SavedQueryFolder!
+    deleteSavedQueryFolder(orgId: ID!, serviceId: ID!, serviceDbId: ID!, id: ID!):                              Boolean!
+
+    createSavedQuery(orgId: ID!, serviceId: ID!, serviceDbId: ID!, input: CreateSavedQueryInput!):        SavedQuery!
+    updateSavedQuery(orgId: ID!, serviceId: ID!, serviceDbId: ID!, id: ID!, input: UpdateSavedQueryInput!): SavedQuery!
+    deleteSavedQuery(orgId: ID!, serviceId: ID!, serviceDbId: ID!, id: ID!):                                Boolean!
+}
+
+enum SavedQueryScope {
+    PERSONAL
+    TEAM
+}
+
+type SavedQueryFolder {
+    id:          ID!
+    orgId:       ID!
+    serviceDbId: ID!
+    scope:       SavedQueryScope!
+    ownerUserId: ID
+    teamId:      ID
+    name:        String!
+    createdBy:   ID!
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type SavedQuery {
+    id:          ID!
+    orgId:       ID!
+    serviceDbId: ID!
+    folderId:    ID
+    scope:       SavedQueryScope!
+    ownerUserId: ID
+    teamId:      ID
+    title:       String!
+    description: String!
+    queryText:   String!
+    tags:        [String!]!
+    source:      String
+    createdBy:   ID!
+    updatedBy:   ID
+    createdByActor: Actor @goField(forceResolver: true)
+    updatedByActor: Actor @goField(forceResolver: true)
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+input CreateSavedQueryFolderInput {
+    name:  String!
+    scope: SavedQueryScope!
+}
+
+input CreateSavedQueryInput {
+    title:       String!
+    description: String
+    queryText:   String!
+    tags:        [String!]
+    folderId:    ID
+    scope:       SavedQueryScope!
+}
+
+input UpdateSavedQueryInput {
+    title:       String
+    description: String
+    queryText:   String
+    tags:        [String!]
+    folderId:    ID
 }
 `, BuiltIn: false},
 	{Name: "../schema/schema.graphqls", Input: `scalar Time
@@ -12226,6 +12637,200 @@ func (ec *executionContext) field_Mutation_createRoleMapping_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_createSavedQueryFolder_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createSavedQueryFolder_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createSavedQueryFolder_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Mutation_createSavedQueryFolder_argsServiceDbID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceDbId"] = arg2
+	arg3, err := ec.field_Mutation_createSavedQueryFolder_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createSavedQueryFolder_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createSavedQueryFolder_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createSavedQueryFolder_argsServiceDbID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceDbId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceDbId"))
+	if tmp, ok := rawArgs["serviceDbId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createSavedQueryFolder_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateSavedQueryFolderInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateSavedQueryFolderInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateSavedQueryFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateSavedQueryFolderInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateSavedQueryFolderInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createSavedQuery_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createSavedQuery_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createSavedQuery_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Mutation_createSavedQuery_argsServiceDbID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceDbId"] = arg2
+	arg3, err := ec.field_Mutation_createSavedQuery_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createSavedQuery_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createSavedQuery_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createSavedQuery_argsServiceDbID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceDbId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceDbId"))
+	if tmp, ok := rawArgs["serviceDbId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createSavedQuery_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateSavedQueryInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateSavedQueryInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateSavedQueryInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateSavedQueryInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateSavedQueryInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_createServerOrg_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -14153,6 +14758,200 @@ func (ec *executionContext) field_Mutation_deleteRoleMapping_args(ctx context.Co
 	return args, nil
 }
 func (ec *executionContext) field_Mutation_deleteRoleMapping_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteSavedQueryFolder_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteSavedQueryFolder_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteSavedQueryFolder_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Mutation_deleteSavedQueryFolder_argsServiceDbID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceDbId"] = arg2
+	arg3, err := ec.field_Mutation_deleteSavedQueryFolder_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteSavedQueryFolder_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteSavedQueryFolder_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteSavedQueryFolder_argsServiceDbID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceDbId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceDbId"))
+	if tmp, ok := rawArgs["serviceDbId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteSavedQueryFolder_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteSavedQuery_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteSavedQuery_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteSavedQuery_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Mutation_deleteSavedQuery_argsServiceDbID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceDbId"] = arg2
+	arg3, err := ec.field_Mutation_deleteSavedQuery_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteSavedQuery_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteSavedQuery_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteSavedQuery_argsServiceDbID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceDbId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceDbId"))
+	if tmp, ok := rawArgs["serviceDbId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteSavedQuery_argsID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
@@ -16877,6 +17676,126 @@ func (ec *executionContext) field_Mutation_updateOrg_argsInput(
 	}
 
 	var zeroVal model.UpdateOrgInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateSavedQuery_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateSavedQuery_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateSavedQuery_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Mutation_updateSavedQuery_argsServiceDbID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceDbId"] = arg2
+	arg3, err := ec.field_Mutation_updateSavedQuery_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg3
+	arg4, err := ec.field_Mutation_updateSavedQuery_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg4
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateSavedQuery_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateSavedQuery_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateSavedQuery_argsServiceDbID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceDbId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceDbId"))
+	if tmp, ok := rawArgs["serviceDbId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateSavedQuery_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateSavedQuery_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateSavedQueryInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateSavedQueryInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateSavedQueryInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateSavedQueryInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateSavedQueryInput
 	return zeroVal, nil
 }
 
@@ -20934,6 +21853,200 @@ func (ec *executionContext) field_Query_org_argsID(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_savedQueries_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_savedQueries_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_savedQueries_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Query_savedQueries_argsServiceDbID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceDbId"] = arg2
+	arg3, err := ec.field_Query_savedQueries_argsScope(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["scope"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Query_savedQueries_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_savedQueries_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_savedQueries_argsServiceDbID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceDbId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceDbId"))
+	if tmp, ok := rawArgs["serviceDbId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_savedQueries_argsScope(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.SavedQueryScope, error) {
+	if _, ok := rawArgs["scope"]; !ok {
+		var zeroVal model.SavedQueryScope
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("scope"))
+	if tmp, ok := rawArgs["scope"]; ok {
+		return ec.unmarshalNSavedQueryScope2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryScope(ctx, tmp)
+	}
+
+	var zeroVal model.SavedQueryScope
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_savedQueryFolders_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_savedQueryFolders_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_savedQueryFolders_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Query_savedQueryFolders_argsServiceDbID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceDbId"] = arg2
+	arg3, err := ec.field_Query_savedQueryFolders_argsScope(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["scope"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Query_savedQueryFolders_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_savedQueryFolders_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_savedQueryFolders_argsServiceDbID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceDbId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceDbId"))
+	if tmp, ok := rawArgs["serviceDbId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_savedQueryFolders_argsScope(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.SavedQueryScope, error) {
+	if _, ok := rawArgs["scope"]; !ok {
+		var zeroVal model.SavedQueryScope
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("scope"))
+	if tmp, ok := rawArgs["scope"]; ok {
+		return ec.unmarshalNSavedQueryScope2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryScope(ctx, tmp)
+	}
+
+	var zeroVal model.SavedQueryScope
 	return zeroVal, nil
 }
 
@@ -45819,6 +46932,379 @@ func (ec *executionContext) fieldContext_Mutation_revokeServiceAccountToken(ctx 
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createSavedQueryFolder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createSavedQueryFolder(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateSavedQueryFolder(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["serviceDbId"].(string), fc.Args["input"].(model.CreateSavedQueryFolderInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.SavedQueryFolder)
+	fc.Result = res
+	return ec.marshalNSavedQueryFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryFolder(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createSavedQueryFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SavedQueryFolder_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_SavedQueryFolder_orgId(ctx, field)
+			case "serviceDbId":
+				return ec.fieldContext_SavedQueryFolder_serviceDbId(ctx, field)
+			case "scope":
+				return ec.fieldContext_SavedQueryFolder_scope(ctx, field)
+			case "ownerUserId":
+				return ec.fieldContext_SavedQueryFolder_ownerUserId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_SavedQueryFolder_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_SavedQueryFolder_name(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_SavedQueryFolder_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_SavedQueryFolder_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_SavedQueryFolder_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SavedQueryFolder", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createSavedQueryFolder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteSavedQueryFolder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteSavedQueryFolder(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteSavedQueryFolder(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["serviceDbId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteSavedQueryFolder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteSavedQueryFolder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createSavedQuery(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createSavedQuery(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateSavedQuery(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["serviceDbId"].(string), fc.Args["input"].(model.CreateSavedQueryInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.SavedQuery)
+	fc.Result = res
+	return ec.marshalNSavedQuery2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQuery(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createSavedQuery(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SavedQuery_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_SavedQuery_orgId(ctx, field)
+			case "serviceDbId":
+				return ec.fieldContext_SavedQuery_serviceDbId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_SavedQuery_folderId(ctx, field)
+			case "scope":
+				return ec.fieldContext_SavedQuery_scope(ctx, field)
+			case "ownerUserId":
+				return ec.fieldContext_SavedQuery_ownerUserId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_SavedQuery_teamId(ctx, field)
+			case "title":
+				return ec.fieldContext_SavedQuery_title(ctx, field)
+			case "description":
+				return ec.fieldContext_SavedQuery_description(ctx, field)
+			case "queryText":
+				return ec.fieldContext_SavedQuery_queryText(ctx, field)
+			case "tags":
+				return ec.fieldContext_SavedQuery_tags(ctx, field)
+			case "source":
+				return ec.fieldContext_SavedQuery_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_SavedQuery_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_SavedQuery_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_SavedQuery_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_SavedQuery_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_SavedQuery_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SavedQuery", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createSavedQuery_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateSavedQuery(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateSavedQuery(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateSavedQuery(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["serviceDbId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateSavedQueryInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.SavedQuery)
+	fc.Result = res
+	return ec.marshalNSavedQuery2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQuery(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateSavedQuery(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SavedQuery_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_SavedQuery_orgId(ctx, field)
+			case "serviceDbId":
+				return ec.fieldContext_SavedQuery_serviceDbId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_SavedQuery_folderId(ctx, field)
+			case "scope":
+				return ec.fieldContext_SavedQuery_scope(ctx, field)
+			case "ownerUserId":
+				return ec.fieldContext_SavedQuery_ownerUserId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_SavedQuery_teamId(ctx, field)
+			case "title":
+				return ec.fieldContext_SavedQuery_title(ctx, field)
+			case "description":
+				return ec.fieldContext_SavedQuery_description(ctx, field)
+			case "queryText":
+				return ec.fieldContext_SavedQuery_queryText(ctx, field)
+			case "tags":
+				return ec.fieldContext_SavedQuery_tags(ctx, field)
+			case "source":
+				return ec.fieldContext_SavedQuery_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_SavedQuery_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_SavedQuery_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_SavedQuery_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_SavedQuery_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_SavedQuery_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SavedQuery", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateSavedQuery_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteSavedQuery(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteSavedQuery(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteSavedQuery(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["serviceDbId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteSavedQuery(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteSavedQuery_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createTestPack(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createTestPack(ctx, field)
 	if err != nil {
@@ -53779,6 +55265,176 @@ func (ec *executionContext) fieldContext_Query_serviceAccountScopes(ctx context.
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_savedQueryFolders(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_savedQueryFolders(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().SavedQueryFolders(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["serviceDbId"].(string), fc.Args["scope"].(model.SavedQueryScope))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.SavedQueryFolder)
+	fc.Result = res
+	return ec.marshalNSavedQueryFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryFolderᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_savedQueryFolders(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SavedQueryFolder_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_SavedQueryFolder_orgId(ctx, field)
+			case "serviceDbId":
+				return ec.fieldContext_SavedQueryFolder_serviceDbId(ctx, field)
+			case "scope":
+				return ec.fieldContext_SavedQueryFolder_scope(ctx, field)
+			case "ownerUserId":
+				return ec.fieldContext_SavedQueryFolder_ownerUserId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_SavedQueryFolder_teamId(ctx, field)
+			case "name":
+				return ec.fieldContext_SavedQueryFolder_name(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_SavedQueryFolder_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_SavedQueryFolder_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_SavedQueryFolder_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SavedQueryFolder", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_savedQueryFolders_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_savedQueries(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_savedQueries(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().SavedQueries(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["serviceDbId"].(string), fc.Args["scope"].(model.SavedQueryScope))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.SavedQuery)
+	fc.Result = res
+	return ec.marshalNSavedQuery2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_savedQueries(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SavedQuery_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_SavedQuery_orgId(ctx, field)
+			case "serviceDbId":
+				return ec.fieldContext_SavedQuery_serviceDbId(ctx, field)
+			case "folderId":
+				return ec.fieldContext_SavedQuery_folderId(ctx, field)
+			case "scope":
+				return ec.fieldContext_SavedQuery_scope(ctx, field)
+			case "ownerUserId":
+				return ec.fieldContext_SavedQuery_ownerUserId(ctx, field)
+			case "teamId":
+				return ec.fieldContext_SavedQuery_teamId(ctx, field)
+			case "title":
+				return ec.fieldContext_SavedQuery_title(ctx, field)
+			case "description":
+				return ec.fieldContext_SavedQuery_description(ctx, field)
+			case "queryText":
+				return ec.fieldContext_SavedQuery_queryText(ctx, field)
+			case "tags":
+				return ec.fieldContext_SavedQuery_tags(ctx, field)
+			case "source":
+				return ec.fieldContext_SavedQuery_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_SavedQuery_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_SavedQuery_createdByActor(ctx, field)
+			case "updatedByActor":
+				return ec.fieldContext_SavedQuery_updatedByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_SavedQuery_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_SavedQuery_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SavedQuery", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_savedQueries_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_testPacks(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_testPacks(ctx, field)
 	if err != nil {
@@ -56684,6 +58340,1239 @@ func (ec *executionContext) fieldContext_SCIMConfig_id(_ context.Context, field 
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_id(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_orgId(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_serviceDbId(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_serviceDbId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ServiceDbID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_serviceDbId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_folderId(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_folderId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FolderID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_folderId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_scope(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_scope(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Scope, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.SavedQueryScope)
+	fc.Result = res
+	return ec.marshalNSavedQueryScope2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryScope(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_scope(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type SavedQueryScope does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_ownerUserId(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_ownerUserId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerUserID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_ownerUserId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_teamId(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_teamId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TeamID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_teamId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_title(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_title(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Title, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_title(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_description(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_queryText(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_queryText(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.QueryText, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_queryText(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_tags(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_tags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Tags, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_tags(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_source(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_source(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Source, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_source(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_updatedBy(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_updatedBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.SavedQuery().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_updatedByActor(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_updatedByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.SavedQuery().UpdatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_updatedByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_id(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_orgId(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_serviceDbId(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_serviceDbId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ServiceDbID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_serviceDbId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_scope(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_scope(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Scope, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.SavedQueryScope)
+	fc.Result = res
+	return ec.marshalNSavedQueryScope2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryScope(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_scope(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type SavedQueryScope does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_ownerUserId(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_ownerUserId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnerUserID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_ownerUserId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_teamId(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_teamId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TeamID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_teamId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_name(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQueryFolder_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.SavedQueryFolder) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQueryFolder_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQueryFolder_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQueryFolder",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -71310,6 +74199,102 @@ func (ec *executionContext) unmarshalInputCreateRoleMappingInput(ctx context.Con
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateSavedQueryFolderInput(ctx context.Context, obj any) (model.CreateSavedQueryFolderInput, error) {
+	var it model.CreateSavedQueryFolderInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "scope"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "scope":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("scope"))
+			data, err := ec.unmarshalNSavedQueryScope2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryScope(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Scope = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputCreateSavedQueryInput(ctx context.Context, obj any) (model.CreateSavedQueryInput, error) {
+	var it model.CreateSavedQueryInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"title", "description", "queryText", "tags", "folderId", "scope"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "title":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Title = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "queryText":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("queryText"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.QueryText = data
+		case "tags":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tags = data
+		case "folderId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FolderID = data
+		case "scope":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("scope"))
+			data, err := ec.unmarshalNSavedQueryScope2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryScope(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Scope = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateServerOrgInput(ctx context.Context, obj any) (model.CreateServerOrgInput, error) {
 	var it model.CreateServerOrgInput
 	asMap := map[string]any{}
@@ -73750,6 +76735,61 @@ func (ec *executionContext) unmarshalInputUpdateOrgInput(ctx context.Context, ob
 				return it, err
 			}
 			it.Disabled = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdateSavedQueryInput(ctx context.Context, obj any) (model.UpdateSavedQueryInput, error) {
+	var it model.UpdateSavedQueryInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"title", "description", "queryText", "tags", "folderId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "title":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Title = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "queryText":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("queryText"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.QueryText = data
+		case "tags":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tags = data
+		case "folderId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FolderID = data
 		}
 	}
 
@@ -79130,6 +82170,41 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "createSavedQueryFolder":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createSavedQueryFolder(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteSavedQueryFolder":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteSavedQueryFolder(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createSavedQuery":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createSavedQuery(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateSavedQuery":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateSavedQuery(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteSavedQuery":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteSavedQuery(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createTestPack":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createTestPack(ctx, field)
@@ -80916,6 +83991,50 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "savedQueryFolders":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_savedQueryFolders(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "savedQueries":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_savedQueries(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "testPacks":
 			field := field
 
@@ -81576,6 +84695,249 @@ func (ec *executionContext) _SCIMConfig(ctx context.Context, sel ast.SelectionSe
 			out.Values[i] = graphql.MarshalString("SCIMConfig")
 		case "id":
 			out.Values[i] = ec._SCIMConfig_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var savedQueryImplementors = []string{"SavedQuery"}
+
+func (ec *executionContext) _SavedQuery(ctx context.Context, sel ast.SelectionSet, obj *model.SavedQuery) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, savedQueryImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("SavedQuery")
+		case "id":
+			out.Values[i] = ec._SavedQuery_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._SavedQuery_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "serviceDbId":
+			out.Values[i] = ec._SavedQuery_serviceDbId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "folderId":
+			out.Values[i] = ec._SavedQuery_folderId(ctx, field, obj)
+		case "scope":
+			out.Values[i] = ec._SavedQuery_scope(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "ownerUserId":
+			out.Values[i] = ec._SavedQuery_ownerUserId(ctx, field, obj)
+		case "teamId":
+			out.Values[i] = ec._SavedQuery_teamId(ctx, field, obj)
+		case "title":
+			out.Values[i] = ec._SavedQuery_title(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "description":
+			out.Values[i] = ec._SavedQuery_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "queryText":
+			out.Values[i] = ec._SavedQuery_queryText(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "tags":
+			out.Values[i] = ec._SavedQuery_tags(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "source":
+			out.Values[i] = ec._SavedQuery_source(ctx, field, obj)
+		case "createdBy":
+			out.Values[i] = ec._SavedQuery_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "updatedBy":
+			out.Values[i] = ec._SavedQuery_updatedBy(ctx, field, obj)
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._SavedQuery_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "updatedByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._SavedQuery_updatedByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "createdAt":
+			out.Values[i] = ec._SavedQuery_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "updatedAt":
+			out.Values[i] = ec._SavedQuery_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var savedQueryFolderImplementors = []string{"SavedQueryFolder"}
+
+func (ec *executionContext) _SavedQueryFolder(ctx context.Context, sel ast.SelectionSet, obj *model.SavedQueryFolder) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, savedQueryFolderImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("SavedQueryFolder")
+		case "id":
+			out.Values[i] = ec._SavedQueryFolder_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "orgId":
+			out.Values[i] = ec._SavedQueryFolder_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "serviceDbId":
+			out.Values[i] = ec._SavedQueryFolder_serviceDbId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "scope":
+			out.Values[i] = ec._SavedQueryFolder_scope(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "ownerUserId":
+			out.Values[i] = ec._SavedQueryFolder_ownerUserId(ctx, field, obj)
+		case "teamId":
+			out.Values[i] = ec._SavedQueryFolder_teamId(ctx, field, obj)
+		case "name":
+			out.Values[i] = ec._SavedQueryFolder_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdBy":
+			out.Values[i] = ec._SavedQueryFolder_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._SavedQueryFolder_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._SavedQueryFolder_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -84812,6 +88174,16 @@ func (ec *executionContext) unmarshalNCreateRoleMappingInput2githubᚗcomᚋuigr
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateSavedQueryFolderInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateSavedQueryFolderInput(ctx context.Context, v any) (model.CreateSavedQueryFolderInput, error) {
+	res, err := ec.unmarshalInputCreateSavedQueryFolderInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCreateSavedQueryInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateSavedQueryInput(ctx context.Context, v any) (model.CreateSavedQueryInput, error) {
+	res, err := ec.unmarshalInputCreateSavedQueryInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateServerOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateServerOrgInput(ctx context.Context, v any) (model.CreateServerOrgInput, error) {
 	res, err := ec.unmarshalInputCreateServerOrgInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -86259,6 +89631,132 @@ func (ec *executionContext) marshalNRoleMapping2ᚖgithubᚗcomᚋuigraphᚋgrap
 	return ec._RoleMapping(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNSavedQuery2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQuery(ctx context.Context, sel ast.SelectionSet, v model.SavedQuery) graphql.Marshaler {
+	return ec._SavedQuery(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNSavedQuery2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.SavedQuery) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNSavedQuery2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQuery(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNSavedQuery2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQuery(ctx context.Context, sel ast.SelectionSet, v *model.SavedQuery) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._SavedQuery(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNSavedQueryFolder2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryFolder(ctx context.Context, sel ast.SelectionSet, v model.SavedQueryFolder) graphql.Marshaler {
+	return ec._SavedQueryFolder(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNSavedQueryFolder2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryFolderᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.SavedQueryFolder) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNSavedQueryFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryFolder(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNSavedQueryFolder2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryFolder(ctx context.Context, sel ast.SelectionSet, v *model.SavedQueryFolder) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._SavedQueryFolder(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNSavedQueryScope2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryScope(ctx context.Context, v any) (model.SavedQueryScope, error) {
+	var res model.SavedQueryScope
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNSavedQueryScope2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavedQueryScope(ctx context.Context, sel ast.SelectionSet, v model.SavedQueryScope) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) marshalNSavingsSummary2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSavingsSummary(ctx context.Context, sel ast.SelectionSet, v model.SavingsSummary) graphql.Marshaler {
 	return ec._SavingsSummary(ctx, sel, &v)
 }
@@ -87496,6 +90994,11 @@ func (ec *executionContext) unmarshalNUpdateMemberInput2githubᚗcomᚋuigraph�
 
 func (ec *executionContext) unmarshalNUpdateOrgInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateOrgInput(ctx context.Context, v any) (model.UpdateOrgInput, error) {
 	res, err := ec.unmarshalInputUpdateOrgInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateSavedQueryInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateSavedQueryInput(ctx context.Context, v any) (model.UpdateSavedQueryInput, error) {
+	res, err := ec.unmarshalInputUpdateSavedQueryInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

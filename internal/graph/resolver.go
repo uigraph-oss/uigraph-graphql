@@ -185,6 +185,13 @@ type catalogClient interface {
 	CreateServiceDBVersion(ctx context.Context, orgID, serviceID, serviceDBID string, body map[string]interface{}) (*uigraphapi.ServiceDBVersion, error)
 	RestoreServiceDBVersion(ctx context.Context, orgID, serviceID, serviceDBID, versionID string) (*uigraphapi.ServiceDB, error)
 	RestoreAPIGroupVersion(ctx context.Context, orgID, serviceID, apiGroupID, versionID string) (*uigraphapi.APIGroup, error)
+	ListSavedQueryFolders(ctx context.Context, orgID, serviceID, dbID, scope string) ([]uigraphapi.SavedQueryFolder, error)
+	CreateSavedQueryFolder(ctx context.Context, orgID, serviceID, dbID string, body map[string]interface{}) (*uigraphapi.SavedQueryFolder, error)
+	DeleteSavedQueryFolder(ctx context.Context, orgID, serviceID, dbID, id string) error
+	ListSavedQueries(ctx context.Context, orgID, serviceID, dbID, scope string) ([]uigraphapi.SavedQuery, error)
+	CreateSavedQuery(ctx context.Context, orgID, serviceID, dbID string, body map[string]interface{}) (*uigraphapi.SavedQuery, error)
+	UpdateSavedQuery(ctx context.Context, orgID, serviceID, dbID, id string, body map[string]interface{}) (*uigraphapi.SavedQuery, error)
+	DeleteSavedQuery(ctx context.Context, orgID, serviceID, dbID, id string) error
 	ListAPIEndpoints(ctx context.Context, orgID, serviceID, apiGroupID, versionID string) ([]uigraphapi.APIEndpoint, error)
 	GetAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string) (*uigraphapi.APIEndpoint, error)
 	GetAPIEndpointByID(ctx context.Context, orgID, id string) (*uigraphapi.APIEndpoint, error)
