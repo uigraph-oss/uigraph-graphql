@@ -14,7 +14,6 @@ type Service struct {
 	FolderID        *string         `json:"folderId,omitempty"`
 	TeamID          *string         `json:"teamId,omitempty"`
 	Name            string          `json:"name"`
-	Slug            string          `json:"slug"`
 	Description     string          `json:"description"`
 	Status          string          `json:"status"`
 	Tier            string          `json:"tier"`

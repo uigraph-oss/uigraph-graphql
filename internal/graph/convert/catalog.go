@@ -36,7 +36,7 @@ func parseServiceDBSchema(b json.RawMessage) parsedServiceDBSchema {
 func ServiceToModel(s *uigraphapi.Service) *model.Service {
 	return &model.Service{
 		ID: s.ID, OrgID: s.OrgID, FolderID: s.FolderID, TeamID: s.TeamID,
-		Name: s.Name, Slug: s.Slug, Description: s.Description,
+		Name: s.Name, Description: s.Description,
 		Status: s.Status, Tier: s.Tier, Category: s.Category, Language: s.Language,
 		GitRepoURL: s.GitRepoURL, JiraProjectURL: s.JiraProjectURL,
 		SlackChannelURL: s.SlackChannelURL, LastCommitSha: s.LastCommitSha,

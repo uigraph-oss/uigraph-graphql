@@ -433,7 +433,6 @@ type CreateServiceDocInput struct {
 
 type CreateServiceInput struct {
 	Name            string   `json:"name"`
-	Slug            *string  `json:"slug,omitempty"`
 	Description     *string  `json:"description,omitempty"`
 	Status          *string  `json:"status,omitempty"`
 	Tier            *string  `json:"tier,omitempty"`
@@ -1109,7 +1108,6 @@ type Service struct {
 	FolderID        *string   `json:"folderId,omitempty"`
 	TeamID          *string   `json:"teamId,omitempty"`
 	Name            string    `json:"name"`
-	Slug            string    `json:"slug"`
 	Description     string    `json:"description"`
 	Status          string    `json:"status"`
 	Tier            string    `json:"tier"`
@@ -1580,7 +1578,6 @@ type UpdateServiceDBInput struct {
 
 type UpdateServiceInput struct {
 	Name            *string  `json:"name,omitempty"`
-	Slug            *string  `json:"slug,omitempty"`
 	Description     *string  `json:"description,omitempty"`
 	Status          *string  `json:"status,omitempty"`
 	Tier            *string  `json:"tier,omitempty"`

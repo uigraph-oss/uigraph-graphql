@@ -40,13 +40,10 @@ func TestServiceToModel(t *testing.T) {
 		gitURL := "https://github.com/org/repo"
 		out := ServiceToModel(&uigraphapi.Service{
 			ID: "s3", OrgID: "o1", FolderID: &folderID, TeamID: &teamID,
-			Name: "API", Slug: "api", Description: "core api",
+			Name: "API", Description: "core api",
 			Status: "active", Tier: "tier-1", Category: "backend",
 			Language: "go", GitRepoURL: &gitURL,
 		})
-		if out.Slug != "api" {
-			t.Errorf("Slug = %q, want api", out.Slug)
-		}
 		if out.Description != "core api" {
 			t.Errorf("Description = %q, want core api", out.Description)
 		}

@@ -59,7 +59,6 @@ type Service {
     folderId:         ID
     teamId:           ID
     name:             String!
-    slug:             String!
     description:      String!
     status:           String!
     tier:             String!
@@ -235,7 +234,6 @@ type SyncAPIGroupResult {
 
 input CreateServiceInput {
     name:             String!
-    slug:             String
     description:      String
     status:           String
     tier:             String
@@ -252,7 +250,6 @@ input CreateServiceInput {
 
 input UpdateServiceInput {
     name:             String
-    slug:             String
     description:      String
     status:           String
     tier:             String
