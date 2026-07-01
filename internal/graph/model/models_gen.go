@@ -3,6 +3,10 @@
 package model
 
 import (
+	"bytes"
+	"fmt"
+	"io"
+	"strconv"
 	"time"
 )
 
@@ -361,6 +365,20 @@ type CreateRoleMappingInput struct {
 	Scope        string  `json:"scope"`
 	ResourceType *string `json:"resourceType,omitempty"`
 	ResourceID   *string `json:"resourceId,omitempty"`
+}
+
+type CreateSavedQueryFolderInput struct {
+	Name  string          `json:"name"`
+	Scope SavedQueryScope `json:"scope"`
+}
+
+type CreateSavedQueryInput struct {
+	Title       string          `json:"title"`
+	Description *string         `json:"description,omitempty"`
+	QueryText   string          `json:"queryText"`
+	Tags        []string        `json:"tags,omitempty"`
+	FolderID    *string         `json:"folderId,omitempty"`
+	Scope       SavedQueryScope `json:"scope"`
 }
 
 type CreateServerOrgInput struct {
@@ -1023,6 +1041,40 @@ type SCIMConfig struct {
 	ID string `json:"id"`
 }
 
+type SavedQuery struct {
+	ID             string          `json:"id"`
+	OrgID          string          `json:"orgId"`
+	ServiceDbID    string          `json:"serviceDbId"`
+	FolderID       *string         `json:"folderId,omitempty"`
+	Scope          SavedQueryScope `json:"scope"`
+	OwnerUserID    *string         `json:"ownerUserId,omitempty"`
+	TeamID         *string         `json:"teamId,omitempty"`
+	Title          string          `json:"title"`
+	Description    string          `json:"description"`
+	QueryText      string          `json:"queryText"`
+	Tags           []string        `json:"tags"`
+	Source         *string         `json:"source,omitempty"`
+	CreatedBy      string          `json:"createdBy"`
+	UpdatedBy      *string         `json:"updatedBy,omitempty"`
+	CreatedByActor *Actor          `json:"createdByActor,omitempty"`
+	UpdatedByActor *Actor          `json:"updatedByActor,omitempty"`
+	CreatedAt      time.Time       `json:"createdAt"`
+	UpdatedAt      time.Time       `json:"updatedAt"`
+}
+
+type SavedQueryFolder struct {
+	ID          string          `json:"id"`
+	OrgID       string          `json:"orgId"`
+	ServiceDbID string          `json:"serviceDbId"`
+	Scope       SavedQueryScope `json:"scope"`
+	OwnerUserID *string         `json:"ownerUserId,omitempty"`
+	TeamID      *string         `json:"teamId,omitempty"`
+	Name        string          `json:"name"`
+	CreatedBy   string          `json:"createdBy"`
+	CreatedAt   time.Time       `json:"createdAt"`
+	UpdatedAt   time.Time       `json:"updatedAt"`
+}
+
 type SavingsSummary struct {
 	OrgID             string  `json:"orgId"`
 	Period            string  `json:"period"`
@@ -1496,6 +1548,14 @@ type UpdateOrgInput struct {
 	Disabled *bool   `json:"disabled,omitempty"`
 }
 
+type UpdateSavedQueryInput struct {
+	Title       *string  `json:"title,omitempty"`
+	Description *string  `json:"description,omitempty"`
+	QueryText   *string  `json:"queryText,omitempty"`
+	Tags        []string `json:"tags,omitempty"`
+	FolderID    *string  `json:"folderId,omitempty"`
+}
+
 type UpdateServerOrgInput struct {
 	Name     *string `json:"name,omitempty"`
 	Disabled *bool   `json:"disabled,omitempty"`
@@ -1667,4 +1727,59 @@ type UserSavings struct {
 	TotalCalls       int     `json:"totalCalls"`
 	TokensSaved      int     `json:"tokensSaved"`
 	CostSavedUsd     float64 `json:"costSavedUsd"`
+}
+
+type SavedQueryScope string
+
+const (
+	SavedQueryScopePersonal SavedQueryScope = "PERSONAL"
+	SavedQueryScopeTeam     SavedQueryScope = "TEAM"
+)
+
+var AllSavedQueryScope = []SavedQueryScope{
+	SavedQueryScopePersonal,
+	SavedQueryScopeTeam,
+}
+
+func (e SavedQueryScope) IsValid() bool {
+	switch e {
+	case SavedQueryScopePersonal, SavedQueryScopeTeam:
+		return true
+	}
+	return false
+}
+
+func (e SavedQueryScope) String() string {
+	return string(e)
+}
+
+func (e *SavedQueryScope) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SavedQueryScope(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SavedQueryScope", str)
+	}
+	return nil
+}
+
+func (e SavedQueryScope) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SavedQueryScope) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SavedQueryScope) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
