@@ -2,5 +2,5 @@
 .claude/worktrees/
 test-server
 bin/
-server
+/server
 docs/superpowers/*
