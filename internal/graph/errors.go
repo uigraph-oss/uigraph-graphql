@@ -2,6 +2,7 @@ package graph
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"log/slog"
 	"net/http"
@@ -22,6 +23,20 @@ func ErrorPresenter(ctx context.Context, err error) *gqlerror.Error {
 	// Upstream REST API errors: sanitize based on HTTP status.
 	var apiErr *uigraphapi.APIError
 	if errors.As(err, &apiErr) {
+		if apiErr.Status == http.StatusBadRequest ||
+			apiErr.Status == http.StatusConflict ||
+			apiErr.Status == http.StatusUnprocessableEntity {
+			var parsed struct {
+				Code    string `json:"code"`
+				Message string `json:"message"`
+			}
+			if json.Unmarshal([]byte(apiErr.Body), &parsed) == nil && parsed.Message != "" {
+				return &gqlerror.Error{
+					Message:    parsed.Message,
+					Extensions: map[string]interface{}{"code": parsed.Code},
+				}
+			}
+		}
 		return &gqlerror.Error{Message: sanitize(apiErr.Status)}
 	}
 
