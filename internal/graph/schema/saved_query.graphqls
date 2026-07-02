@@ -1,0 +1,74 @@
+extend type Query {
+    savedQueryFolders(orgId: ID!, serviceId: ID!, serviceDbId: ID!, scope: SavedQueryScope!): [SavedQueryFolder!]!
+    savedQueries(orgId: ID!, serviceId: ID!, serviceDbId: ID!, scope: SavedQueryScope!):       [SavedQuery!]!
+}
+
+extend type Mutation {
+    createSavedQueryFolder(orgId: ID!, serviceId: ID!, serviceDbId: ID!, input: CreateSavedQueryFolderInput!): SavedQueryFolder!
+    deleteSavedQueryFolder(orgId: ID!, serviceId: ID!, serviceDbId: ID!, id: ID!):                              Boolean!
+
+    createSavedQuery(orgId: ID!, serviceId: ID!, serviceDbId: ID!, input: CreateSavedQueryInput!):        SavedQuery!
+    updateSavedQuery(orgId: ID!, serviceId: ID!, serviceDbId: ID!, id: ID!, input: UpdateSavedQueryInput!): SavedQuery!
+    deleteSavedQuery(orgId: ID!, serviceId: ID!, serviceDbId: ID!, id: ID!):                                Boolean!
+}
+
+enum SavedQueryScope {
+    PERSONAL
+    TEAM
+}
+
+type SavedQueryFolder {
+    id:          ID!
+    orgId:       ID!
+    serviceDbId: ID!
+    scope:       SavedQueryScope!
+    ownerUserId: ID
+    teamId:      ID
+    name:        String!
+    createdBy:   ID!
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type SavedQuery {
+    id:          ID!
+    orgId:       ID!
+    serviceDbId: ID!
+    folderId:    ID
+    scope:       SavedQueryScope!
+    ownerUserId: ID
+    teamId:      ID
+    title:       String!
+    description: String!
+    queryText:   String!
+    tags:        [String!]!
+    source:      String
+    createdBy:   ID!
+    updatedBy:   ID
+    createdByActor: Actor @goField(forceResolver: true)
+    updatedByActor: Actor @goField(forceResolver: true)
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+input CreateSavedQueryFolderInput {
+    name:  String!
+    scope: SavedQueryScope!
+}
+
+input CreateSavedQueryInput {
+    title:       String!
+    description: String
+    queryText:   String!
+    tags:        [String!]
+    folderId:    ID
+    scope:       SavedQueryScope!
+}
+
+input UpdateSavedQueryInput {
+    title:       String
+    description: String
+    queryText:   String
+    tags:        [String!]
+    folderId:    ID
+}

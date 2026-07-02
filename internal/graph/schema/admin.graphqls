@@ -1,0 +1,226 @@
+extend type Query {
+    serverOverview:      ServerOverview!
+    serverConfig:        ServerConfig!
+
+    serverOrgs:          [Org!]!
+
+    users:               [User!]!
+    user(id: ID!):       User!
+
+    oauthProviders:      [OAuthProvider!]!
+    roleMappings:        [RoleMapping!]!
+    ldap:                LDAPConfig
+    saml:                SAMLConfig
+    scim:                SCIMConfig
+}
+
+extend type Mutation {
+    createServerOrg(input: CreateServerOrgInput!):           Org!
+    updateServerOrg(id: ID!, input: UpdateServerOrgInput!):  Org!
+    deleteServerOrg(id: ID!):                                Boolean!
+
+    createUser(input: CreateUserInput!):              User!
+    updateUser(id: ID!, input: UpdateUserInput!):     User!
+    disableUser(id: ID!):                             Boolean!
+
+    upsertOAuthProvider(provider: String!, input: UpsertOAuthInput!): Boolean!
+    deleteOAuthProvider(provider: String!):                          Boolean!
+
+    createRoleMapping(input: CreateRoleMappingInput!): Boolean!
+    deleteRoleMapping(id: ID!):                        Boolean!
+
+    upsertLDAP(input: UpsertLDAPInput!): Boolean!
+    deleteLDAP:                          Boolean!
+
+    upsertSAML(input: UpsertSAMLInput!): Boolean!
+}
+
+# ── Types ─────────────────────────────────────────────────────────────────────
+
+type ServerOverview {
+    totalUsers:  Int!
+    activeUsers: Int!
+    totalOrgs:   Int!
+}
+
+type ServerConfig {
+    storageBackend:   String!
+    storageBucket:    String!
+    storageEndpoint:  String!
+    vectorBackend:    String!
+    embeddingBackend: String!
+    embeddingModel:   String!
+}
+
+type User {
+    id:         ID!
+    email:      String!
+    name:       String!
+    login:      String!
+    disabled:   Boolean!
+    role:       String!
+    lastSeenAt: Time
+    createdAt:  Time!
+    updatedAt:  Time!
+}
+
+type OAuthProvider {
+    id:             ID!
+    providerName:   String!
+    type:           String!
+    displayName:    String!
+    iconUrl:        String!
+    clientId:       String!
+    clientSecret:   String!
+    authUrl:        String!
+    tokenUrl:       String!
+    userinfoUrl:    String!
+    apiUrl:         String!
+    scopes:         String!
+    allowedDomains: String!
+    allowSignUp:    Boolean!
+    emailClaim:     String!
+    nameClaim:      String!
+    subClaim:       String!
+    createdAt:      Time!
+    updatedAt:      Time!
+}
+
+type RoleMapping {
+    id:             ID!
+    organizationId: ID!
+    claimKey:       String!
+    claimValue:     String!
+    role:           String!
+    scope:          String!
+    resourceType:   String!
+    resourceId:     String!
+}
+
+type LDAPConfig {
+    id:                ID!
+    host:              String!
+    port:              Int!
+    useSsl:            Boolean!
+    startTls:          Boolean!
+    skipTlsVerify:     Boolean!
+    bindDn:            String!
+    bindPassword:      String!
+    searchBaseDn:      String!
+    searchFilter:      String!
+    emailAttribute:    String!
+    nameAttribute:     String!
+    usernameAttribute: String!
+    memberOfAttribute: String!
+    allowSignUp:       Boolean!
+    createdAt:         Time!
+    updatedAt:         Time!
+}
+
+type SAMLConfig {
+    id:              ID!
+    idpMetadataUrl:  String!
+    idpMetadataXml:  String!
+    idpEntityId:     String!
+    idpSsoUrl:       String!
+    idpCert:         String!
+    spEntityId:      String!
+    spCert:          String!
+    spKey:           String!
+    signRequests:    Boolean!
+    nameIdFormat:    String!
+    emailAttribute:  String!
+    nameAttribute:   String!
+    loginAttribute:  String!
+    groupsAttribute: String!
+    allowSignUp:     Boolean!
+    createdAt:       Time!
+    updatedAt:       Time!
+}
+
+type SCIMConfig {
+    id: ID!
+}
+
+# ── Inputs ────────────────────────────────────────────────────────────────────
+
+input CreateServerOrgInput {
+    name:     String!
+    autoJoin: Boolean
+}
+
+input UpdateServerOrgInput {
+    name:     String
+    disabled: Boolean
+    autoJoin: Boolean
+}
+
+input CreateUserInput {
+    email:    String!
+    name:     String!
+    password: String!
+    role:     String
+}
+
+input UpdateUserInput {
+    name:     String
+    role:     String
+    disabled: Boolean
+}
+
+input UpsertOAuthInput {
+    type:           String!
+    displayName:    String!
+    iconUrl:        String
+    clientId:       String!
+    clientSecret:   String
+    authUrl:        String
+    tokenUrl:       String
+    userinfoUrl:    String
+    apiUrl:         String
+    scopes:         String!
+    allowedDomains: String
+    allowSignUp:    Boolean!
+    emailClaim:     String!
+    nameClaim:      String!
+    subClaim:       String!
+}
+
+input CreateRoleMappingInput {
+    claimKey:     String!
+    claimValue:   String!
+    role:         String!
+    scope:        String!
+    resourceType: String
+    resourceId:   String
+}
+
+input UpsertLDAPInput {
+    host:              String!
+    port:              Int!
+    useSsl:            Boolean!
+    startTls:          Boolean!
+    skipTlsVerify:     Boolean!
+    bindDn:            String
+    bindPassword:      String
+    searchBaseDn:      String!
+    searchFilter:      String!
+    emailAttribute:    String!
+    nameAttribute:     String!
+    usernameAttribute: String!
+    memberOfAttribute: String!
+    allowSignUp:       Boolean!
+}
+
+input UpsertSAMLInput {
+    idpMetadataUrl:  String
+    idpMetadataXml:  String
+    spEntityId:      String!
+    signRequests:    Boolean!
+    nameIdFormat:    String!
+    emailAttribute:  String!
+    nameAttribute:   String!
+    loginAttribute:  String!
+    groupsAttribute: String
+    allowSignUp:     Boolean!
+}

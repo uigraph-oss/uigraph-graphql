@@ -1,0 +1,396 @@
+extend type Query {
+    testPacks(orgId: ID!, serviceId: ID!):                           [TestPack!]!
+    testPackById(orgId: ID!, id: ID!):                               TestPack!
+    testCases(orgId: ID!, serviceId: ID!, testPackId: ID):           [TestCase!]!
+    testRun(orgId: ID!, serviceId: ID!, id: ID!):                    TestRun!
+    testRuns(orgId: ID!, serviceId: ID!, testPackId: ID):            [TestRun!]!
+    testRunsSummary(
+        orgId: ID!,
+        serviceId: ID!,
+        testPackId: ID,
+        environment: String,
+        status: String,
+        executedBy: ID,
+        fromDate: Time,
+        toDate: Time
+    ): [TestRunSummary!]!
+    testRunResults(orgId: ID!, serviceId: ID!, testRunId: ID!):      [TestRunResult!]!
+}
+
+extend type Mutation {
+    createTestPack(orgId: ID!, serviceId: ID!, input: CreateTestPackInput!):                                    TestPack!
+    updateTestPack(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestPackInput!):                           TestPack!
+    deleteTestPack(orgId: ID!, serviceId: ID!, id: ID!):                                                         Boolean!
+    createTestCase(orgId: ID!, serviceId: ID!, input: CreateTestCaseInput!):                                     TestCase!
+    updateTestCase(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestCaseInput!):                           TestCase!
+    deleteTestCase(orgId: ID!, serviceId: ID!, id: ID!):                                                         Boolean!
+    createTestRun(orgId: ID!, serviceId: ID!, input: CreateTestRunInput!):                                       TestRun!
+    updateTestRun(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestRunInput!):                             TestRun!
+    createTestRunResult(orgId: ID!, serviceId: ID!, input: CreateTestRunResultInput!):                          TestRunResult!
+    updateTestRunResult(orgId: ID!, serviceId: ID!, id: ID!, input: UpdateTestRunResultInput!):                TestRunResult!
+}
+
+type KeyValue {
+    key:   String!
+    value: String!
+}
+
+type Assertion {
+    field: String!
+    type:  String!
+    value: String!
+}
+
+type AuthConfig {
+    type:          String!
+    bearerToken:   String
+    apiKeyHeader:  String
+    apiKeyValue:   String
+    basicUsername: String
+    basicPassword: String
+}
+
+type TestCaseStep {
+    order:          Int!
+    action:         String!
+    expectedResult: String!
+}
+
+type ManualTestCase {
+    preconditions:   String
+    testData:        String
+    steps:           [TestCaseStep!]
+    expectedOutcome: String
+    postconditions:  String
+}
+
+type APITestCase {
+    httpMethod:         String!
+    apiSpecId:          String
+    operationId:        String
+    auth:               AuthConfig
+    requestHeaders:     [KeyValue!]
+    queryParams:        [KeyValue!]
+    requestBody:        String
+    expectedStatusCode: Int
+    maxResponseTimeMs:  Int
+    responseBody:       String
+    assertions:         [Assertion!]
+}
+
+type GraphQLTestCase {
+    operationType: String!
+    operationName: String
+    query:         String!
+    variables:     String
+    responseBody:  String
+    assertions:    [Assertion!]
+    expectError:   Boolean!
+}
+
+type DatabaseTestCase {
+    dialect:       String!
+    schemaId:      String
+    query:         String!
+    assertions:    [Assertion!]
+    setupQuery:    String
+    teardownQuery: String
+}
+
+type GRPCTestCase {
+    serviceName:    String!
+    methodName:     String!
+    callMode:       String!
+    protoFileId:    String
+    serverAddress:  String
+    requestMessage: String
+    metadata:       [KeyValue!]
+    expectedStatus: String!
+    deadlineMs:     Int
+    responseBody:   String
+    assertions:     [Assertion!]
+    useTLS:         Boolean!
+    expectError:    Boolean!
+}
+
+type TestPack {
+    testPackId: ID!
+    serviceId:  ID!
+    orgId:      ID!
+    name:       String!
+    type:       String!
+    createdBy:  ID!
+    updatedBy:  ID
+    deletedBy:  ID
+    createdAt:  Time!
+    updatedAt:  Time!
+    deletedAt:  Time
+}
+
+type TestCase {
+    testCaseId:             ID!
+    testPackId:             ID!
+    serviceId:              ID!
+    orgId:                  ID!
+    title:                  String!
+    order:                  Float!
+    type:                   String!
+    description:            String
+    priority:               String
+    labels:                 [String!]!
+    linkedTicket:           String
+    estimatedDurationMins:  Int
+    testOwner:              String
+    linkedMapNodeId:        ID
+    isCritical:             Boolean!
+    evidenceRequired:       Boolean!
+    manual:                 ManualTestCase
+    api:                    APITestCase
+    graphql:                GraphQLTestCase
+    database:               DatabaseTestCase
+    grpc:                   GRPCTestCase
+    status:                 String!
+    version:                Int!
+    baselineRunResultId:    ID
+    dependencies:           [ID!]!
+    createdBy:              ID!
+    updatedBy:              ID
+    deletedBy:              ID
+    createdAt:              Time!
+    updatedAt:              Time!
+    deletedAt:              Time
+}
+
+type TestRun {
+    testRunId:     ID!
+    testPackId:    ID!
+    serviceId:     ID!
+    orgId:         ID!
+    environment:   String!
+    releaseLabel:  String
+    startedAt:     Time
+    completedAt:   Time
+    status:        String!
+    startedBy:     ID
+    executedBy:    ID!
+    executedAt:    Time!
+    overallStatus: String!
+}
+
+type TestRunSummary {
+    testRunId:     ID!
+    testPackId:    ID!
+    serviceId:     ID!
+    environment:   String!
+    releaseLabel:  String
+    startedAt:     Time
+    completedAt:   Time
+    status:        String!
+    startedBy:     ID
+    executedBy:    ID!
+    executedAt:    Time!
+    overallStatus: String!
+    passedCount:   Int!
+    failedCount:   Int!
+    skippedCount:  Int!
+    blockedCount:  Int!
+}
+
+type TestRunResult {
+    testRunResultId: ID!
+    testRunId:       ID!
+    testCaseId:      ID!
+    serviceId:       ID!
+    orgId:           ID!
+    status:          String!
+    blockedReason:   String
+    responseStatus:  Int
+    responseBody:    String
+    responseTimeMs:  Int
+    notes:           String
+    screenshotUrls:  [String!]!
+    executedAt:      Time!
+    executedBy:      ID!
+}
+
+input KeyValueInput {
+    key:   String!
+    value: String!
+}
+
+input AssertionInput {
+    field: String!
+    type:  String!
+    value: String!
+}
+
+input AuthConfigInput {
+    type:          String!
+    bearerToken:   String
+    apiKeyHeader:  String
+    apiKeyValue:   String
+    basicUsername: String
+    basicPassword: String
+}
+
+input TestCaseStepInput {
+    order:          Int!
+    action:         String!
+    expectedResult: String!
+}
+
+input ManualTestCaseInput {
+    preconditions:   String
+    testData:        String
+    steps:           [TestCaseStepInput!]
+    expectedOutcome: String
+    postconditions:  String
+}
+
+input APITestCaseInput {
+    httpMethod:         String!
+    apiSpecId:          String
+    operationId:        String
+    auth:               AuthConfigInput
+    requestHeaders:     [KeyValueInput!]
+    queryParams:        [KeyValueInput!]
+    requestBody:        String
+    expectedStatusCode: Int
+    maxResponseTimeMs:  Int
+    responseBody:       String
+    assertions:         [AssertionInput!]
+}
+
+input GraphQLTestCaseInput {
+    operationType: String!
+    operationName: String
+    query:         String!
+    variables:     String
+    responseBody:  String
+    assertions:    [AssertionInput!]
+    expectError:   Boolean!
+}
+
+input DatabaseTestCaseInput {
+    dialect:       String!
+    schemaId:      String
+    query:         String!
+    assertions:    [AssertionInput!]
+    setupQuery:    String
+    teardownQuery: String
+}
+
+input GRPCTestCaseInput {
+    serviceName:    String!
+    methodName:     String!
+    callMode:       String!
+    protoFileId:    String
+    serverAddress:  String
+    requestMessage: String
+    metadata:       [KeyValueInput!]
+    expectedStatus: String!
+    deadlineMs:     Int
+    responseBody:   String
+    assertions:     [AssertionInput!]
+    useTLS:         Boolean!
+    expectError:    Boolean!
+}
+
+input CreateTestPackInput {
+    name: String!
+    type: String
+}
+
+input UpdateTestPackInput {
+    name: String
+    type: String
+}
+
+input CreateTestCaseInput {
+    testPackId:            ID!
+    title:                 String!
+    order:                 Float
+    type:                  String!
+    description:           String
+    priority:              String
+    labels:                [String!]
+    linkedTicket:          String
+    estimatedDurationMins: Int
+    testOwner:             String
+    linkedMapNodeId:       ID
+    isCritical:            Boolean
+    evidenceRequired:      Boolean
+    manual:                ManualTestCaseInput
+    api:                   APITestCaseInput
+    graphql:               GraphQLTestCaseInput
+    database:              DatabaseTestCaseInput
+    grpc:                  GRPCTestCaseInput
+    status:                String
+    version:               Int
+    baselineRunResultId:   ID
+    dependencies:          [ID!]
+}
+
+input UpdateTestCaseInput {
+    testPackId:            ID
+    title:                 String
+    order:                 Float
+    type:                  String
+    description:           String
+    priority:              String
+    labels:                [String!]
+    linkedTicket:          String
+    estimatedDurationMins: Int
+    testOwner:             String
+    linkedMapNodeId:       ID
+    isCritical:            Boolean
+    evidenceRequired:      Boolean
+    manual:                ManualTestCaseInput
+    api:                   APITestCaseInput
+    graphql:               GraphQLTestCaseInput
+    database:              DatabaseTestCaseInput
+    grpc:                  GRPCTestCaseInput
+    status:                String
+    version:               Int
+    baselineRunResultId:   ID
+    dependencies:          [ID!]
+}
+
+input CreateTestRunInput {
+    testPackId:    ID!
+    environment:   String!
+    releaseLabel:  String
+    startedAt:     Time
+    completedAt:   Time
+    status:        String
+    startedBy:     ID
+    overallStatus: String
+}
+
+input UpdateTestRunInput {
+    overallStatus: String
+    completedAt:   Time
+    status:        String
+}
+
+input CreateTestRunResultInput {
+    testRunId:      ID!
+    testCaseId:     ID!
+    status:         String!
+    blockedReason:  String
+    responseStatus: Int
+    responseBody:   String
+    responseTimeMs: Int
+    notes:          String
+    screenshotUrls: [String!]
+}
+
+input UpdateTestRunResultInput {
+    status:         String
+    blockedReason:  String
+    responseStatus: Int
+    responseBody:   String
+    responseTimeMs: Int
+    notes:          String
+    screenshotUrls: [String!]
+}

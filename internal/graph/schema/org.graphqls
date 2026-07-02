@@ -1,0 +1,161 @@
+extend type Query {
+    org(id: ID!):                                     Org!
+    orgs:                                             [Org!]!
+    members(orgId: ID!):                              [Member!]!
+    teams(orgId: ID!):                                [Team!]!
+    team(orgId: ID!, teamId: ID!):                    Team!
+    teamMembers(orgId: ID!, teamId: ID!):             [TeamMember!]!
+    serviceAccounts(orgId: ID!):                      [ServiceAccount!]!
+    serviceAccount(orgId: ID!, id: ID!):              ServiceAccount!
+    serviceAccountTokens(orgId: ID!, saId: ID!):      [ServiceAccountToken!]!
+    serviceAccountScopes(orgId: ID!):                 [String!]!
+}
+
+extend type Mutation {
+    createOrg(input: CreateOrgInput!):                Org!
+    updateOrg(id: ID!, input: UpdateOrgInput!):       Org!
+    deleteOrg(id: ID!):                               Boolean!
+
+    addMember(orgId: ID!, input: AddMemberInput!):                       Member!
+    updateMember(orgId: ID!, userId: ID!, input: UpdateMemberInput!):    Member!
+    removeMember(orgId: ID!, userId: ID!):                               Boolean!
+
+    createTeam(orgId: ID!, input: CreateTeamInput!):                     Team!
+    updateTeam(orgId: ID!, teamId: ID!, input: UpdateTeamInput!):        Team!
+    deleteTeam(orgId: ID!, teamId: ID!):                                 Boolean!
+    addTeamMember(orgId: ID!, teamId: ID!, userId: ID!, permission: String): Boolean!
+    removeTeamMember(orgId: ID!, teamId: ID!, userId: ID!):              Boolean!
+
+    createServiceAccount(orgId: ID!, input: CreateServiceAccountInput!):         ServiceAccount!
+    updateServiceAccount(orgId: ID!, id: ID!, input: UpdateServiceAccountInput!): ServiceAccount!
+    deleteServiceAccount(orgId: ID!, id: ID!):                                    Boolean!
+    createServiceAccountToken(orgId: ID!, saId: ID!, input: CreateTokenInput!):  CreatedToken!
+    revokeServiceAccountToken(orgId: ID!, saId: ID!, tokenId: ID!):              Boolean!
+}
+
+# ── Types ─────────────────────────────────────────────────────────────────────
+
+type Org {
+    id:        ID!
+    name:      String!
+    logoUrl:   String
+    disabled:  Boolean!
+    autoJoin:  Boolean!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+type Member {
+    userId:    ID!
+    orgId:     ID!
+    role:      String!
+    source:    String!
+    email:     String!
+    name:      String!
+    teamId:    ID
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+type Team {
+    id:          ID!
+    orgId:       ID!
+    name:        String!
+    email:       String
+    externalId:  String
+    memberCount: Int!
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type TeamMember {
+    teamId:     ID!
+    userId:     ID!
+    permission: String!
+    createdAt:  Time!
+}
+
+type ServiceAccount {
+    id:          ID!
+    orgId:       ID!
+    name:        String!
+    description: String!
+    scopes:      [String!]!
+    disabled:    Boolean!
+    isInternal:  Boolean!
+    createdAt:   Time!
+    updatedAt:   Time!
+}
+
+type ServiceAccountToken {
+    id:               ID!
+    serviceAccountId: ID!
+    name:             String!
+    prefix:           String!
+    expiresAt:        Time
+    lastUsedAt:       Time
+    revoked:          Boolean!
+    createdAt:        Time!
+}
+
+type CreatedToken {
+    id:               ID!
+    serviceAccountId: ID!
+    name:             String!
+    prefix:           String!
+    token:            String!
+    createdAt:        Time!
+}
+
+# ── Inputs ────────────────────────────────────────────────────────────────────
+
+input CreateOrgInput {
+    name: String!
+}
+
+input UpdateOrgInput {
+    name:     String
+    disabled: Boolean
+}
+
+input AddMemberInput {
+    name:     String!
+    email:    String!
+    password: String!
+    role:     String!
+}
+
+input UpdateMemberInput {
+    name:   String!
+    email:  String!
+    role:   String!
+    teamId: ID
+}
+
+input CreateTeamInput {
+    name:  String!
+    email: String
+}
+
+input UpdateTeamInput {
+    name:  String
+    email: String
+}
+
+input CreateServiceAccountInput {
+    name:        String!
+    description: String
+    scopes:      [String!]!
+}
+
+input UpdateServiceAccountInput {
+    name:        String
+    description: String
+    scopes:      [String!]
+    disabled:    Boolean
+}
+
+input CreateTokenInput {
+    name:      String!
+    expiresAt: String
+}

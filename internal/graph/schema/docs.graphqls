@@ -1,0 +1,52 @@
+extend type Query {
+    docs(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DocPage!
+    doc(orgId: ID!, id: ID!):       Doc!
+}
+
+type DocPage {
+    items:      [Doc!]!
+    totalCount: Int!
+}
+
+extend type Mutation {
+    createDoc(orgId: ID!, input: CreateDocInput!):          Doc!
+    updateDoc(orgId: ID!, id: ID!, input: UpdateDocInput!): Doc!
+    deleteDoc(orgId: ID!, id: ID!):                         Boolean!
+}
+
+type Doc {
+    id:             ID!
+    orgId:          ID!
+    folderId:       ID
+    teamId:         ID
+    fileAssetId:    String!
+    fileUrl:        String @goField(forceResolver: true)
+    fileName:       String!
+    fileType:       String!
+    description:    String!
+    contentHash:    String!
+    createdBy:      ID!
+    updatedBy:      ID
+    createdByActor: Actor @goField(forceResolver: true)
+    updatedByActor: Actor @goField(forceResolver: true)
+    createdAt:      Time!
+    updatedAt:      Time!
+}
+
+input CreateDocInput {
+    fileName:      String!
+    fileType:      String
+    description:   String
+    contentBase64: String!
+    folderId:      ID
+    teamId:        ID
+}
+
+input UpdateDocInput {
+    fileName:      String
+    fileType:      String
+    description:   String
+    contentBase64: String
+    folderId:      ID
+    teamId:        ID
+}
