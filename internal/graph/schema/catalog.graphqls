@@ -72,6 +72,8 @@ type Service {
     metadata:         String!
     createdBy:        ID!
     updatedBy:        ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor:   Actor @goField(forceResolver: true)
     updatedByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time!
@@ -99,6 +101,8 @@ type APIGroup {
     specHash:  String
     createdBy: ID!
     updatedBy: ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt: Time!
     updatedAt: Time!
 }
@@ -113,6 +117,7 @@ type APIGroupVersion {
     specHash:      String!
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
@@ -123,6 +128,8 @@ type ServiceDoc {
     orgId:     ID!
     createdBy: ID!
     updatedBy: ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt: Time!
     updatedAt: Time!
     doc:       Doc
@@ -134,6 +141,8 @@ type ServiceDiagram {
     orgId: ID!
     createdBy: ID!
     updatedBy: ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt: Time!
     updatedAt: Time!
     diagram: Diagram
@@ -179,6 +188,8 @@ type ServiceDB {
     sourceTs:     Time
     createdBy:    ID!
     updatedBy:    ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     updatedByActor: Actor @goField(forceResolver: true)
     createdAt:    Time!
@@ -200,6 +211,7 @@ type ServiceDBVersion {
     sourceTs:      Time
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
@@ -223,6 +235,8 @@ type APIEndpoint {
     order:       Float!
     createdBy:   ID!
     updatedBy:   ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt:   Time!
     updatedAt:   Time!
 }

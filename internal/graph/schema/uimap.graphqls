@@ -57,6 +57,8 @@ type UIMap {
     status:      String!
     createdBy:   ID!
     updatedBy:   ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt:   Time!
     updatedAt:   Time!
     previewImgUrls: [String!]! @goField(forceResolver: true)
@@ -84,6 +86,8 @@ type Frame {
     focalPointCount:      Int!
     createdBy:            ID!
     updatedBy:            ID
+    createdByCommitHash:  String
+    updatedByCommitHash:  String
     createdByActor:       Actor @goField(forceResolver: true)
     updatedByActor:       Actor @goField(forceResolver: true)
     createdAt:            Time!
@@ -106,6 +110,8 @@ type FocalPoint {
     isActive:   Boolean!
     createdBy:  ID!
     updatedBy:  ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt:  Time!
     updatedAt:  Time!
 }
@@ -168,6 +174,8 @@ type FocalPointMeta {
     componentModalFields: [ComponentModalField!]!
     createdBy:            ID!
     updatedBy:            ID
+    createdByCommitHash:  String
+    updatedByCommitHash:  String
     createdAt:            Time!
     updatedAt:            Time!
 }

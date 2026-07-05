@@ -9,18 +9,20 @@ import (
 )
 
 type UIMap struct {
-	ID          string     `json:"id"`
-	OrgID       string     `json:"orgId"`
-	FolderID    *string    `json:"folderId,omitempty"`
-	TeamID      *string    `json:"teamId,omitempty"`
-	Name        string     `json:"name"`
-	Description string     `json:"description"`
-	Status      string     `json:"status"`
-	CreatedBy   string     `json:"createdBy"`
-	UpdatedBy   *string    `json:"updatedBy,omitempty"`
-	CreatedAt   time.Time  `json:"createdAt"`
-	UpdatedAt   time.Time  `json:"updatedAt"`
-	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
+	ID                  string     `json:"id"`
+	OrgID               string     `json:"orgId"`
+	FolderID            *string    `json:"folderId,omitempty"`
+	TeamID              *string    `json:"teamId,omitempty"`
+	Name                string     `json:"name"`
+	Description         string     `json:"description"`
+	Status              string     `json:"status"`
+	CreatedBy           string     `json:"createdBy"`
+	UpdatedBy           *string    `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string    `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string    `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time  `json:"createdAt"`
+	UpdatedAt           time.Time  `json:"updatedAt"`
+	DeletedAt           *time.Time `json:"deletedAt,omitempty"`
 }
 
 type Frame struct {
@@ -38,6 +40,8 @@ type Frame struct {
 	Source                *string    `json:"source,omitempty"`
 	CreatedBy             string     `json:"createdBy"`
 	UpdatedBy             *string    `json:"updatedBy,omitempty"`
+	CreatedByCommitHash   *string    `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash   *string    `json:"updatedByCommitHash,omitempty"`
 	CreatedAt             time.Time  `json:"createdAt"`
 	UpdatedAt             time.Time  `json:"updatedAt"`
 	DeletedAt             *time.Time `json:"deletedAt,omitempty"`
@@ -45,19 +49,21 @@ type Frame struct {
 }
 
 type FocalPoint struct {
-	ID         string     `json:"id"`
-	FrameID    string     `json:"frameId"`
-	OrgID      string     `json:"orgId"`
-	Name       string     `json:"name"`
-	LocationX  float64    `json:"locationX"`
-	LocationY  float64    `json:"locationY"`
-	Visibility string     `json:"visibility"`
-	IsActive   bool       `json:"isActive"`
-	CreatedBy  string     `json:"createdBy"`
-	UpdatedBy  *string    `json:"updatedBy,omitempty"`
-	CreatedAt  time.Time  `json:"createdAt"`
-	UpdatedAt  time.Time  `json:"updatedAt"`
-	DeletedAt  *time.Time `json:"deletedAt,omitempty"`
+	ID                  string     `json:"id"`
+	FrameID             string     `json:"frameId"`
+	OrgID               string     `json:"orgId"`
+	Name                string     `json:"name"`
+	LocationX           float64    `json:"locationX"`
+	LocationY           float64    `json:"locationY"`
+	Visibility          string     `json:"visibility"`
+	IsActive            bool       `json:"isActive"`
+	CreatedBy           string     `json:"createdBy"`
+	UpdatedBy           *string    `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string    `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string    `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time  `json:"createdAt"`
+	UpdatedAt           time.Time  `json:"updatedAt"`
+	DeletedAt           *time.Time `json:"deletedAt,omitempty"`
 }
 
 type Canvas struct {
@@ -120,6 +126,8 @@ type FocalPointMeta struct {
 	ComponentModalFields       json.RawMessage `json:"componentModalFields"`
 	CreatedBy                  string          `json:"createdBy"`
 	UpdatedBy                  *string         `json:"updatedBy,omitempty"`
+	CreatedByCommitHash        *string         `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash        *string         `json:"updatedByCommitHash,omitempty"`
 	CreatedAt                  time.Time       `json:"createdAt"`
 	UpdatedAt                  time.Time       `json:"updatedAt"`
 	DeletedAt                  *time.Time      `json:"deletedAt,omitempty"`

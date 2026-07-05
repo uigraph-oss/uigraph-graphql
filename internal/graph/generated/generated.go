@@ -61,56 +61,61 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	APIEndpoint struct {
-		APIGroupID       func(childComplexity int) int
-		CreatedAt        func(childComplexity int) int
-		CreatedBy        func(childComplexity int) int
-		Description      func(childComplexity int) int
-		ExampleRequests  func(childComplexity int) int
-		ExampleResponses func(childComplexity int) int
-		ID               func(childComplexity int) int
-		Method           func(childComplexity int) int
-		OperationID      func(childComplexity int) int
-		Order            func(childComplexity int) int
-		OrgID            func(childComplexity int) int
-		Parameters       func(childComplexity int) int
-		Path             func(childComplexity int) int
-		RequestBody      func(childComplexity int) int
-		Responses        func(childComplexity int) int
-		ServiceID        func(childComplexity int) int
-		Summary          func(childComplexity int) int
-		Tags             func(childComplexity int) int
-		UpdatedAt        func(childComplexity int) int
-		UpdatedBy        func(childComplexity int) int
+		APIGroupID          func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Description         func(childComplexity int) int
+		ExampleRequests     func(childComplexity int) int
+		ExampleResponses    func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		Method              func(childComplexity int) int
+		OperationID         func(childComplexity int) int
+		Order               func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		Parameters          func(childComplexity int) int
+		Path                func(childComplexity int) int
+		RequestBody         func(childComplexity int) int
+		Responses           func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		Summary             func(childComplexity int) int
+		Tags                func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	APIGroup struct {
-		CreatedAt func(childComplexity int) int
-		CreatedBy func(childComplexity int) int
-		ID        func(childComplexity int) int
-		Label     func(childComplexity int) int
-		Name      func(childComplexity int) int
-		OrgID     func(childComplexity int) int
-		Protocol  func(childComplexity int) int
-		ServiceID func(childComplexity int) int
-		SpecHash  func(childComplexity int) int
-		SpecKey   func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
-		UpdatedBy func(childComplexity int) int
-		Version   func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		Label               func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		Protocol            func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		SpecHash            func(childComplexity int) int
+		SpecKey             func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
+		Version             func(childComplexity int) int
 	}
 
 	APIGroupVersion struct {
-		APIGroupID     func(childComplexity int) int
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		CreatedByActor func(childComplexity int) int
-		ID             func(childComplexity int) int
-		IsAutoVersion  func(childComplexity int) int
-		Label          func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		SpecHash       func(childComplexity int) int
-		SpecKey        func(childComplexity int) int
-		VersionNumber  func(childComplexity int) int
+		APIGroupID          func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		IsAutoVersion       func(childComplexity int) int
+		Label               func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		SpecHash            func(childComplexity int) int
+		SpecKey             func(childComplexity int) int
+		VersionNumber       func(childComplexity int) int
 	}
 
 	APITestCase struct {
@@ -418,18 +423,20 @@ type ComplexityRoot struct {
 	}
 
 	FocalPoint struct {
-		CreatedAt  func(childComplexity int) int
-		CreatedBy  func(childComplexity int) int
-		FrameID    func(childComplexity int) int
-		ID         func(childComplexity int) int
-		IsActive   func(childComplexity int) int
-		LocationX  func(childComplexity int) int
-		LocationY  func(childComplexity int) int
-		Name       func(childComplexity int) int
-		OrgID      func(childComplexity int) int
-		UpdatedAt  func(childComplexity int) int
-		UpdatedBy  func(childComplexity int) int
-		Visibility func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		FrameID             func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		IsActive            func(childComplexity int) int
+		LocationX           func(childComplexity int) int
+		LocationY           func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
+		Visibility          func(childComplexity int) int
 	}
 
 	FocalPointMeta struct {
@@ -441,12 +448,14 @@ type ComplexityRoot struct {
 		ComponentModalFields       func(childComplexity int) int
 		CreatedAt                  func(childComplexity int) int
 		CreatedBy                  func(childComplexity int) int
+		CreatedByCommitHash        func(childComplexity int) int
 		FocalPointID               func(childComplexity int) int
 		FrameID                    func(childComplexity int) int
 		ID                         func(childComplexity int) int
 		OrgID                      func(childComplexity int) int
 		UpdatedAt                  func(childComplexity int) int
 		UpdatedBy                  func(childComplexity int) int
+		UpdatedByCommitHash        func(childComplexity int) int
 	}
 
 	Folder struct {
@@ -466,6 +475,7 @@ type ComplexityRoot struct {
 		CreatedAt             func(childComplexity int) int
 		CreatedBy             func(childComplexity int) int
 		CreatedByActor        func(childComplexity int) int
+		CreatedByCommitHash   func(childComplexity int) int
 		Description           func(childComplexity int) int
 		FocalPointCount       func(childComplexity int) int
 		ID                    func(childComplexity int) int
@@ -483,6 +493,7 @@ type ComplexityRoot struct {
 		UpdatedAt             func(childComplexity int) int
 		UpdatedBy             func(childComplexity int) int
 		UpdatedByActor        func(childComplexity int) int
+		UpdatedByCommitHash   func(childComplexity int) int
 	}
 
 	FrameGroup struct {
@@ -949,28 +960,30 @@ type ComplexityRoot struct {
 	}
 
 	Service struct {
-		Category        func(childComplexity int) int
-		CreatedAt       func(childComplexity int) int
-		CreatedBy       func(childComplexity int) int
-		CreatedByActor  func(childComplexity int) int
-		Description     func(childComplexity int) int
-		FolderID        func(childComplexity int) int
-		GitRepoURL      func(childComplexity int) int
-		ID              func(childComplexity int) int
-		JiraProjectURL  func(childComplexity int) int
-		Labels          func(childComplexity int) int
-		Language        func(childComplexity int) int
-		LastCommitSha   func(childComplexity int) int
-		Metadata        func(childComplexity int) int
-		Name            func(childComplexity int) int
-		OrgID           func(childComplexity int) int
-		SlackChannelURL func(childComplexity int) int
-		Status          func(childComplexity int) int
-		TeamID          func(childComplexity int) int
-		Tier            func(childComplexity int) int
-		UpdatedAt       func(childComplexity int) int
-		UpdatedBy       func(childComplexity int) int
-		UpdatedByActor  func(childComplexity int) int
+		Category            func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Description         func(childComplexity int) int
+		FolderID            func(childComplexity int) int
+		GitRepoURL          func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		JiraProjectURL      func(childComplexity int) int
+		Labels              func(childComplexity int) int
+		Language            func(childComplexity int) int
+		LastCommitSha       func(childComplexity int) int
+		Metadata            func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		SlackChannelURL     func(childComplexity int) int
+		Status              func(childComplexity int) int
+		TeamID              func(childComplexity int) int
+		Tier                func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByActor      func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	ServiceAccount struct {
@@ -997,66 +1010,73 @@ type ComplexityRoot struct {
 	}
 
 	ServiceDB struct {
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		CreatedByActor func(childComplexity int) int
-		DbDiagramID    func(childComplexity int) int
-		DbName         func(childComplexity int) int
-		DbType         func(childComplexity int) int
-		Dialect        func(childComplexity int) int
-		ID             func(childComplexity int) int
-		NoSQLSchema    func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		PgDumpFileID   func(childComplexity int) int
-		SchemaJSON     func(childComplexity int) int
-		ServiceID      func(childComplexity int) int
-		Source         func(childComplexity int) int
-		SourceTs       func(childComplexity int) int
-		Tables         func(childComplexity int) int
-		UpdatedAt      func(childComplexity int) int
-		UpdatedBy      func(childComplexity int) int
-		UpdatedByActor func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		DbDiagramID         func(childComplexity int) int
+		DbName              func(childComplexity int) int
+		DbType              func(childComplexity int) int
+		Dialect             func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		NoSQLSchema         func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		PgDumpFileID        func(childComplexity int) int
+		SchemaJSON          func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		Source              func(childComplexity int) int
+		SourceTs            func(childComplexity int) int
+		Tables              func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByActor      func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	ServiceDBVersion struct {
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		CreatedByActor func(childComplexity int) int
-		DbDiagramID    func(childComplexity int) int
-		ID             func(childComplexity int) int
-		IsAutoVersion  func(childComplexity int) int
-		Label          func(childComplexity int) int
-		NoSQLSchema    func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		PgDumpFileID   func(childComplexity int) int
-		SchemaJSON     func(childComplexity int) int
-		ServiceDbID    func(childComplexity int) int
-		Source         func(childComplexity int) int
-		SourceTs       func(childComplexity int) int
-		Tables         func(childComplexity int) int
-		VersionNumber  func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		DbDiagramID         func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		IsAutoVersion       func(childComplexity int) int
+		Label               func(childComplexity int) int
+		NoSQLSchema         func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		PgDumpFileID        func(childComplexity int) int
+		SchemaJSON          func(childComplexity int) int
+		ServiceDbID         func(childComplexity int) int
+		Source              func(childComplexity int) int
+		SourceTs            func(childComplexity int) int
+		Tables              func(childComplexity int) int
+		VersionNumber       func(childComplexity int) int
 	}
 
 	ServiceDiagram struct {
-		CreatedAt func(childComplexity int) int
-		CreatedBy func(childComplexity int) int
-		Diagram   func(childComplexity int) int
-		DiagramID func(childComplexity int) int
-		OrgID     func(childComplexity int) int
-		ServiceID func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
-		UpdatedBy func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Diagram             func(childComplexity int) int
+		DiagramID           func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	ServiceDoc struct {
-		CreatedAt func(childComplexity int) int
-		CreatedBy func(childComplexity int) int
-		Doc       func(childComplexity int) int
-		DocID     func(childComplexity int) int
-		OrgID     func(childComplexity int) int
-		ServiceID func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
-		UpdatedBy func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Doc                 func(childComplexity int) int
+		DocID               func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	ServicePage struct {
@@ -1112,6 +1132,7 @@ type ComplexityRoot struct {
 		BaselineRunResultID   func(childComplexity int) int
 		CreatedAt             func(childComplexity int) int
 		CreatedBy             func(childComplexity int) int
+		CreatedByCommitHash   func(childComplexity int) int
 		Database              func(childComplexity int) int
 		DeletedAt             func(childComplexity int) int
 		DeletedBy             func(childComplexity int) int
@@ -1138,6 +1159,7 @@ type ComplexityRoot struct {
 		Type                  func(childComplexity int) int
 		UpdatedAt             func(childComplexity int) int
 		UpdatedBy             func(childComplexity int) int
+		UpdatedByCommitHash   func(childComplexity int) int
 		Version               func(childComplexity int) int
 	}
 
@@ -1148,17 +1170,19 @@ type ComplexityRoot struct {
 	}
 
 	TestPack struct {
-		CreatedAt  func(childComplexity int) int
-		CreatedBy  func(childComplexity int) int
-		DeletedAt  func(childComplexity int) int
-		DeletedBy  func(childComplexity int) int
-		Name       func(childComplexity int) int
-		OrgID      func(childComplexity int) int
-		ServiceID  func(childComplexity int) int
-		TestPackID func(childComplexity int) int
-		Type       func(childComplexity int) int
-		UpdatedAt  func(childComplexity int) int
-		UpdatedBy  func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		DeletedAt           func(childComplexity int) int
+		DeletedBy           func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		TestPackID          func(childComplexity int) int
+		Type                func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	TestRun struct {
@@ -1221,18 +1245,20 @@ type ComplexityRoot struct {
 	}
 
 	UIMap struct {
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		Description    func(childComplexity int) int
-		FolderID       func(childComplexity int) int
-		ID             func(childComplexity int) int
-		Name           func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		PreviewImgUrls func(childComplexity int) int
-		Status         func(childComplexity int) int
-		TeamID         func(childComplexity int) int
-		UpdatedAt      func(childComplexity int) int
-		UpdatedBy      func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Description         func(childComplexity int) int
+		FolderID            func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		PreviewImgUrls      func(childComplexity int) int
+		Status              func(childComplexity int) int
+		TeamID              func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	UIMapPage struct {
@@ -1545,6 +1571,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.APIEndpoint.CreatedBy(childComplexity), true
 
+	case "APIEndpoint.createdByCommitHash":
+		if e.complexity.APIEndpoint.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIEndpoint.CreatedByCommitHash(childComplexity), true
+
 	case "APIEndpoint.description":
 		if e.complexity.APIEndpoint.Description == nil {
 			break
@@ -1664,6 +1697,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.APIEndpoint.UpdatedBy(childComplexity), true
 
+	case "APIEndpoint.updatedByCommitHash":
+		if e.complexity.APIEndpoint.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIEndpoint.UpdatedByCommitHash(childComplexity), true
+
 	case "APIGroup.createdAt":
 		if e.complexity.APIGroup.CreatedAt == nil {
 			break
@@ -1677,6 +1717,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.APIGroup.CreatedBy(childComplexity), true
+
+	case "APIGroup.createdByCommitHash":
+		if e.complexity.APIGroup.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIGroup.CreatedByCommitHash(childComplexity), true
 
 	case "APIGroup.id":
 		if e.complexity.APIGroup.ID == nil {
@@ -1748,6 +1795,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.APIGroup.UpdatedBy(childComplexity), true
 
+	case "APIGroup.updatedByCommitHash":
+		if e.complexity.APIGroup.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIGroup.UpdatedByCommitHash(childComplexity), true
+
 	case "APIGroup.version":
 		if e.complexity.APIGroup.Version == nil {
 			break
@@ -1782,6 +1836,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.APIGroupVersion.CreatedByActor(childComplexity), true
+
+	case "APIGroupVersion.createdByCommitHash":
+		if e.complexity.APIGroupVersion.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIGroupVersion.CreatedByCommitHash(childComplexity), true
 
 	case "APIGroupVersion.id":
 		if e.complexity.APIGroupVersion.ID == nil {
@@ -3323,6 +3384,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.FocalPoint.CreatedBy(childComplexity), true
 
+	case "FocalPoint.createdByCommitHash":
+		if e.complexity.FocalPoint.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.FocalPoint.CreatedByCommitHash(childComplexity), true
+
 	case "FocalPoint.frameId":
 		if e.complexity.FocalPoint.FrameID == nil {
 			break
@@ -3385,6 +3453,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.FocalPoint.UpdatedBy(childComplexity), true
+
+	case "FocalPoint.updatedByCommitHash":
+		if e.complexity.FocalPoint.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.FocalPoint.UpdatedByCommitHash(childComplexity), true
 
 	case "FocalPoint.visibility":
 		if e.complexity.FocalPoint.Visibility == nil {
@@ -3449,6 +3524,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.FocalPointMeta.CreatedBy(childComplexity), true
 
+	case "FocalPointMeta.createdByCommitHash":
+		if e.complexity.FocalPointMeta.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.CreatedByCommitHash(childComplexity), true
+
 	case "FocalPointMeta.focalPointId":
 		if e.complexity.FocalPointMeta.FocalPointID == nil {
 			break
@@ -3490,6 +3572,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.FocalPointMeta.UpdatedBy(childComplexity), true
+
+	case "FocalPointMeta.updatedByCommitHash":
+		if e.complexity.FocalPointMeta.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.UpdatedByCommitHash(childComplexity), true
 
 	case "Folder.createdAt":
 		if e.complexity.Folder.CreatedAt == nil {
@@ -3581,6 +3670,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Frame.CreatedByActor(childComplexity), true
+
+	case "Frame.createdByCommitHash":
+		if e.complexity.Frame.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Frame.CreatedByCommitHash(childComplexity), true
 
 	case "Frame.description":
 		if e.complexity.Frame.Description == nil {
@@ -3700,6 +3796,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Frame.UpdatedByActor(childComplexity), true
+
+	case "Frame.updatedByCommitHash":
+		if e.complexity.Frame.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Frame.UpdatedByCommitHash(childComplexity), true
 
 	case "FrameGroup.createdAt":
 		if e.complexity.FrameGroup.CreatedAt == nil {
@@ -7336,6 +7439,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Service.CreatedByActor(childComplexity), true
 
+	case "Service.createdByCommitHash":
+		if e.complexity.Service.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Service.CreatedByCommitHash(childComplexity), true
+
 	case "Service.description":
 		if e.complexity.Service.Description == nil {
 			break
@@ -7461,6 +7571,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Service.UpdatedByActor(childComplexity), true
+
+	case "Service.updatedByCommitHash":
+		if e.complexity.Service.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Service.UpdatedByCommitHash(childComplexity), true
 
 	case "ServiceAccount.createdAt":
 		if e.complexity.ServiceAccount.CreatedAt == nil {
@@ -7602,6 +7719,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDB.CreatedByActor(childComplexity), true
 
+	case "ServiceDB.createdByCommitHash":
+		if e.complexity.ServiceDB.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDB.CreatedByCommitHash(childComplexity), true
+
 	case "ServiceDB.dbDiagramId":
 		if e.complexity.ServiceDB.DbDiagramID == nil {
 			break
@@ -7714,6 +7838,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDB.UpdatedByActor(childComplexity), true
 
+	case "ServiceDB.updatedByCommitHash":
+		if e.complexity.ServiceDB.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDB.UpdatedByCommitHash(childComplexity), true
+
 	case "ServiceDBVersion.createdAt":
 		if e.complexity.ServiceDBVersion.CreatedAt == nil {
 			break
@@ -7734,6 +7865,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ServiceDBVersion.CreatedByActor(childComplexity), true
+
+	case "ServiceDBVersion.createdByCommitHash":
+		if e.complexity.ServiceDBVersion.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDBVersion.CreatedByCommitHash(childComplexity), true
 
 	case "ServiceDBVersion.dbDiagramId":
 		if e.complexity.ServiceDBVersion.DbDiagramID == nil {
@@ -7840,6 +7978,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDiagram.CreatedBy(childComplexity), true
 
+	case "ServiceDiagram.createdByCommitHash":
+		if e.complexity.ServiceDiagram.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDiagram.CreatedByCommitHash(childComplexity), true
+
 	case "ServiceDiagram.diagram":
 		if e.complexity.ServiceDiagram.Diagram == nil {
 			break
@@ -7882,6 +8027,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDiagram.UpdatedBy(childComplexity), true
 
+	case "ServiceDiagram.updatedByCommitHash":
+		if e.complexity.ServiceDiagram.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDiagram.UpdatedByCommitHash(childComplexity), true
+
 	case "ServiceDoc.createdAt":
 		if e.complexity.ServiceDoc.CreatedAt == nil {
 			break
@@ -7895,6 +8047,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ServiceDoc.CreatedBy(childComplexity), true
+
+	case "ServiceDoc.createdByCommitHash":
+		if e.complexity.ServiceDoc.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDoc.CreatedByCommitHash(childComplexity), true
 
 	case "ServiceDoc.doc":
 		if e.complexity.ServiceDoc.Doc == nil {
@@ -7937,6 +8096,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ServiceDoc.UpdatedBy(childComplexity), true
+
+	case "ServiceDoc.updatedByCommitHash":
+		if e.complexity.ServiceDoc.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDoc.UpdatedByCommitHash(childComplexity), true
 
 	case "ServicePage.items":
 		if e.complexity.ServicePage.Items == nil {
@@ -8155,6 +8321,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.TestCase.CreatedBy(childComplexity), true
 
+	case "TestCase.createdByCommitHash":
+		if e.complexity.TestCase.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.TestCase.CreatedByCommitHash(childComplexity), true
+
 	case "TestCase.database":
 		if e.complexity.TestCase.Database == nil {
 			break
@@ -8337,6 +8510,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.TestCase.UpdatedBy(childComplexity), true
 
+	case "TestCase.updatedByCommitHash":
+		if e.complexity.TestCase.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.TestCase.UpdatedByCommitHash(childComplexity), true
+
 	case "TestCase.version":
 		if e.complexity.TestCase.Version == nil {
 			break
@@ -8378,6 +8558,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.TestPack.CreatedBy(childComplexity), true
+
+	case "TestPack.createdByCommitHash":
+		if e.complexity.TestPack.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.TestPack.CreatedByCommitHash(childComplexity), true
 
 	case "TestPack.deletedAt":
 		if e.complexity.TestPack.DeletedAt == nil {
@@ -8441,6 +8628,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.TestPack.UpdatedBy(childComplexity), true
+
+	case "TestPack.updatedByCommitHash":
+		if e.complexity.TestPack.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.TestPack.UpdatedByCommitHash(childComplexity), true
 
 	case "TestRun.completedAt":
 		if e.complexity.TestRun.CompletedAt == nil {
@@ -8785,6 +8979,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.UIMap.CreatedBy(childComplexity), true
 
+	case "UIMap.createdByCommitHash":
+		if e.complexity.UIMap.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.UIMap.CreatedByCommitHash(childComplexity), true
+
 	case "UIMap.description":
 		if e.complexity.UIMap.Description == nil {
 			break
@@ -8854,6 +9055,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.UIMap.UpdatedBy(childComplexity), true
+
+	case "UIMap.updatedByCommitHash":
+		if e.complexity.UIMap.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.UIMap.UpdatedByCommitHash(childComplexity), true
 
 	case "UIMapPage.items":
 		if e.complexity.UIMapPage.Items == nil {
@@ -9524,6 +9732,8 @@ type Service {
     metadata:         String!
     createdBy:        ID!
     updatedBy:        ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor:   Actor @goField(forceResolver: true)
     updatedByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time!
@@ -9551,6 +9761,8 @@ type APIGroup {
     specHash:  String
     createdBy: ID!
     updatedBy: ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt: Time!
     updatedAt: Time!
 }
@@ -9565,6 +9777,7 @@ type APIGroupVersion {
     specHash:      String!
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
@@ -9575,6 +9788,8 @@ type ServiceDoc {
     orgId:     ID!
     createdBy: ID!
     updatedBy: ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt: Time!
     updatedAt: Time!
     doc:       Doc
@@ -9586,6 +9801,8 @@ type ServiceDiagram {
     orgId: ID!
     createdBy: ID!
     updatedBy: ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt: Time!
     updatedAt: Time!
     diagram: Diagram
@@ -9631,6 +9848,8 @@ type ServiceDB {
     sourceTs:     Time
     createdBy:    ID!
     updatedBy:    ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     updatedByActor: Actor @goField(forceResolver: true)
     createdAt:    Time!
@@ -9652,6 +9871,7 @@ type ServiceDBVersion {
     sourceTs:      Time
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
@@ -9675,6 +9895,8 @@ type APIEndpoint {
     order:       Float!
     createdBy:   ID!
     updatedBy:   ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt:   Time!
     updatedAt:   Time!
 }
@@ -10590,6 +10812,8 @@ type TestPack {
     type:       String!
     createdBy:  ID!
     updatedBy:  ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     deletedBy:  ID
     createdAt:  Time!
     updatedAt:  Time!
@@ -10624,6 +10848,8 @@ type TestCase {
     dependencies:           [ID!]!
     createdBy:              ID!
     updatedBy:              ID
+    createdByCommitHash:    String
+    updatedByCommitHash:    String
     deletedBy:              ID
     createdAt:              Time!
     updatedAt:              Time!
@@ -10923,6 +11149,8 @@ type UIMap {
     status:      String!
     createdBy:   ID!
     updatedBy:   ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt:   Time!
     updatedAt:   Time!
     previewImgUrls: [String!]! @goField(forceResolver: true)
@@ -10950,6 +11178,8 @@ type Frame {
     focalPointCount:      Int!
     createdBy:            ID!
     updatedBy:            ID
+    createdByCommitHash:  String
+    updatedByCommitHash:  String
     createdByActor:       Actor @goField(forceResolver: true)
     updatedByActor:       Actor @goField(forceResolver: true)
     createdAt:            Time!
@@ -10972,6 +11202,8 @@ type FocalPoint {
     isActive:   Boolean!
     createdBy:  ID!
     updatedBy:  ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt:  Time!
     updatedAt:  Time!
 }
@@ -11034,6 +11266,8 @@ type FocalPointMeta {
     componentModalFields: [ComponentModalField!]!
     createdBy:            ID!
     updatedBy:            ID
+    createdByCommitHash:  String
+    updatedByCommitHash:  String
     createdAt:            Time!
     updatedAt:            Time!
 }
@@ -24494,6 +24728,88 @@ func (ec *executionContext) fieldContext_APIEndpoint_updatedBy(_ context.Context
 	return fc, nil
 }
 
+func (ec *executionContext) _APIEndpoint_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIEndpoint_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIEndpoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _APIEndpoint_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIEndpoint_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIEndpoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _APIEndpoint_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 	if err != nil {
@@ -25054,6 +25370,88 @@ func (ec *executionContext) fieldContext_APIGroup_updatedBy(_ context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _APIGroup_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIGroup_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _APIGroup_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIGroup_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _APIGroup_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.APIGroup) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_APIGroup_createdAt(ctx, field)
 	if err != nil {
@@ -25530,6 +25928,47 @@ func (ec *executionContext) fieldContext_APIGroupVersion_createdBy(_ context.Con
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _APIGroupVersion_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIGroupVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIGroupVersion_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIGroupVersion_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIGroupVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -35499,6 +35938,88 @@ func (ec *executionContext) fieldContext_FocalPoint_updatedBy(_ context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _FocalPoint_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.FocalPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPoint_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPoint_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPoint_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.FocalPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPoint_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPoint_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _FocalPoint_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.FocalPoint) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_FocalPoint_createdAt(ctx, field)
 	if err != nil {
@@ -36113,6 +36634,88 @@ func (ec *executionContext) fieldContext_FocalPointMeta_updatedBy(_ context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -37321,6 +37924,88 @@ func (ec *executionContext) fieldContext_Frame_updatedBy(_ context.Context, fiel
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Frame_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Frame_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Frame",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Frame_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Frame_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Frame",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -38859,6 +39544,10 @@ func (ec *executionContext) fieldContext_FramePage_items(_ context.Context, fiel
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -42853,6 +43542,10 @@ func (ec *executionContext) fieldContext_Mutation_createService(ctx context.Cont
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Service_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Service_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -42954,6 +43647,10 @@ func (ec *executionContext) fieldContext_Mutation_updateService(ctx context.Cont
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Service_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Service_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -43096,6 +43793,10 @@ func (ec *executionContext) fieldContext_Mutation_createAPIGroup(ctx context.Con
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -43179,6 +43880,10 @@ func (ec *executionContext) fieldContext_Mutation_updateAPIGroup(ctx context.Con
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -43378,6 +44083,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreAPIGroupVersion(ctx con
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -43449,6 +44158,10 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDoc(ctx context.C
 				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDoc_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDoc_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDoc_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
 			case "updatedAt":
@@ -43577,6 +44290,10 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDiagram(ctx conte
 				return ec.fieldContext_ServiceDiagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDiagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDiagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDiagram_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDiagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -43725,6 +44442,10 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDB(ctx context.Co
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -43820,6 +44541,10 @@ func (ec *executionContext) fieldContext_Mutation_updateServiceDB(ctx context.Co
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -43968,6 +44693,8 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDBVersion(ctx con
 				return ec.fieldContext_ServiceDBVersion_isAutoVersion(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_ServiceDBVersion_createdBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDBVersion_createdByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDBVersion_createdByActor(ctx, field)
 			case "createdAt":
@@ -44059,6 +44786,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreServiceDBVersion(ctx co
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -44160,6 +44891,10 @@ func (ec *executionContext) fieldContext_Mutation_createAPIEndpoint(ctx context.
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -44257,6 +44992,10 @@ func (ec *executionContext) fieldContext_Mutation_updateAPIEndpoint(ctx context.
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -47343,6 +48082,10 @@ func (ec *executionContext) fieldContext_Mutation_createTestPack(ctx context.Con
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestPack_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestPack_deletedBy(ctx, field)
 			case "createdAt":
@@ -47422,6 +48165,10 @@ func (ec *executionContext) fieldContext_Mutation_updateTestPack(ctx context.Con
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestPack_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestPack_deletedBy(ctx, field)
 			case "createdAt":
@@ -47596,6 +48343,10 @@ func (ec *executionContext) fieldContext_Mutation_createTestCase(ctx context.Con
 				return ec.fieldContext_TestCase_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestCase_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestCase_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestCase_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestCase_deletedBy(ctx, field)
 			case "createdAt":
@@ -47715,6 +48466,10 @@ func (ec *executionContext) fieldContext_Mutation_updateTestCase(ctx context.Con
 				return ec.fieldContext_TestCase_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestCase_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestCase_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestCase_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestCase_deletedBy(ctx, field)
 			case "createdAt":
@@ -48189,6 +48944,10 @@ func (ec *executionContext) fieldContext_Mutation_createMap(ctx context.Context,
 				return ec.fieldContext_UIMap_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_UIMap_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_UIMap_createdAt(ctx, field)
 			case "updatedAt":
@@ -48270,6 +49029,10 @@ func (ec *executionContext) fieldContext_Mutation_updateMap(ctx context.Context,
 				return ec.fieldContext_UIMap_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_UIMap_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_UIMap_createdAt(ctx, field)
 			case "updatedAt":
@@ -48420,6 +49183,10 @@ func (ec *executionContext) fieldContext_Mutation_createFrame(ctx context.Contex
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -48517,6 +49284,10 @@ func (ec *executionContext) fieldContext_Mutation_updateFrame(ctx context.Contex
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -48718,6 +49489,10 @@ func (ec *executionContext) fieldContext_Mutation_createFocalPoint(ctx context.C
 				return ec.fieldContext_FocalPoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -48799,6 +49574,10 @@ func (ec *executionContext) fieldContext_Mutation_updateFocalPoint(ctx context.C
 				return ec.fieldContext_FocalPoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -49464,6 +50243,10 @@ func (ec *executionContext) fieldContext_Mutation_createFocalPointMeta(ctx conte
 				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
 			case "updatedAt":
@@ -49549,6 +50332,10 @@ func (ec *executionContext) fieldContext_Mutation_updateFocalPointMeta(ctx conte
 				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
 			case "updatedAt":
@@ -52075,6 +52862,10 @@ func (ec *executionContext) fieldContext_Query_service(ctx context.Context, fiel
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Service_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Service_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -52162,6 +52953,10 @@ func (ec *executionContext) fieldContext_Query_apiGroups(ctx context.Context, fi
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -52245,6 +53040,10 @@ func (ec *executionContext) fieldContext_Query_apiGroup(ctx context.Context, fie
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -52324,6 +53123,8 @@ func (ec *executionContext) fieldContext_Query_apiGroupVersions(ctx context.Cont
 				return ec.fieldContext_APIGroupVersion_isAutoVersion(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_APIGroupVersion_createdBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroupVersion_createdByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_APIGroupVersion_createdByActor(ctx, field)
 			case "createdAt":
@@ -52395,6 +53196,10 @@ func (ec *executionContext) fieldContext_Query_serviceDocs(ctx context.Context, 
 				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDoc_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDoc_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDoc_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
 			case "updatedAt":
@@ -52468,6 +53273,10 @@ func (ec *executionContext) fieldContext_Query_serviceDiagrams(ctx context.Conte
 				return ec.fieldContext_ServiceDiagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDiagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDiagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDiagram_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDiagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -52561,6 +53370,10 @@ func (ec *executionContext) fieldContext_Query_serviceDBs(ctx context.Context, f
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -52656,6 +53469,10 @@ func (ec *executionContext) fieldContext_Query_serviceDB(ctx context.Context, fi
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -52749,6 +53566,8 @@ func (ec *executionContext) fieldContext_Query_serviceDBVersions(ctx context.Con
 				return ec.fieldContext_ServiceDBVersion_isAutoVersion(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_ServiceDBVersion_createdBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDBVersion_createdByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDBVersion_createdByActor(ctx, field)
 			case "createdAt":
@@ -52846,6 +53665,10 @@ func (ec *executionContext) fieldContext_Query_apiEndpoints(ctx context.Context,
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -52943,6 +53766,10 @@ func (ec *executionContext) fieldContext_Query_apiEndpoint(ctx context.Context, 
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -53040,6 +53867,10 @@ func (ec *executionContext) fieldContext_Query_apiEndpointById(ctx context.Conte
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -53111,6 +53942,10 @@ func (ec *executionContext) fieldContext_Query_serviceDocById(ctx context.Contex
 				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDoc_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDoc_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDoc_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
 			case "updatedAt":
@@ -55471,6 +56306,10 @@ func (ec *executionContext) fieldContext_Query_testPacks(ctx context.Context, fi
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestPack_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestPack_deletedBy(ctx, field)
 			case "createdAt":
@@ -55550,6 +56389,10 @@ func (ec *executionContext) fieldContext_Query_testPackById(ctx context.Context,
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestPack_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestPack_deletedBy(ctx, field)
 			case "createdAt":
@@ -55669,6 +56512,10 @@ func (ec *executionContext) fieldContext_Query_testCases(ctx context.Context, fi
 				return ec.fieldContext_TestCase_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestCase_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestCase_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestCase_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestCase_deletedBy(ctx, field)
 			case "createdAt":
@@ -56153,6 +57000,10 @@ func (ec *executionContext) fieldContext_Query_map(ctx context.Context, field gr
 				return ec.fieldContext_UIMap_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_UIMap_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_UIMap_createdAt(ctx, field)
 			case "updatedAt":
@@ -56309,6 +57160,10 @@ func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field 
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -56406,6 +57261,10 @@ func (ec *executionContext) fieldContext_Query_frameById(ctx context.Context, fi
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -56491,6 +57350,10 @@ func (ec *executionContext) fieldContext_Query_focalPoints(ctx context.Context, 
 				return ec.fieldContext_FocalPoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -56819,6 +57682,10 @@ func (ec *executionContext) fieldContext_Query_focalPointMeta(ctx context.Contex
 				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
 			case "updatedAt":
@@ -56904,6 +57771,10 @@ func (ec *executionContext) fieldContext_Query_focalPointMetaByLink(ctx context.
 				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
 			case "updatedAt":
@@ -61165,6 +62036,88 @@ func (ec *executionContext) fieldContext_Service_updatedBy(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _Service_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Service_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Service_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Service",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Service_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Service_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Service_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Service",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Service_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Service_createdByActor(ctx, field)
 	if err != nil {
@@ -62755,6 +63708,88 @@ func (ec *executionContext) fieldContext_ServiceDB_updatedBy(_ context.Context, 
 	return fc, nil
 }
 
+func (ec *executionContext) _ServiceDB_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDB_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDB",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDB_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDB_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDB",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ServiceDB_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 	if err != nil {
@@ -63559,6 +64594,47 @@ func (ec *executionContext) fieldContext_ServiceDBVersion_createdBy(_ context.Co
 	return fc, nil
 }
 
+func (ec *executionContext) _ServiceDBVersion_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDBVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDBVersion_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDBVersion_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDBVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ServiceDBVersion_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDBVersion) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceDBVersion_createdByActor(ctx, field)
 	if err != nil {
@@ -63870,6 +64946,88 @@ func (ec *executionContext) fieldContext_ServiceDiagram_updatedBy(_ context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDiagram_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDiagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDiagram_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDiagram_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDiagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDiagram_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDiagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDiagram_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDiagram_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDiagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -64259,6 +65417,88 @@ func (ec *executionContext) fieldContext_ServiceDoc_updatedBy(_ context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _ServiceDoc_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDoc_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDoc_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDoc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDoc_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDoc_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDoc_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDoc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ServiceDoc_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceDoc_createdAt(ctx, field)
 	if err != nil {
@@ -64497,6 +65737,10 @@ func (ec *executionContext) fieldContext_ServicePage_items(_ context.Context, fi
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Service_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Service_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -66890,6 +68134,88 @@ func (ec *executionContext) fieldContext_TestCase_updatedBy(_ context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _TestCase_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.TestCase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestCase_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestCase_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestCase",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestCase_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.TestCase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestCase_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestCase_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestCase",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _TestCase_deletedBy(ctx context.Context, field graphql.CollectedField, obj *model.TestCase) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TestCase_deletedBy(ctx, field)
 	if err != nil {
@@ -67492,6 +68818,88 @@ func (ec *executionContext) fieldContext_TestPack_updatedBy(_ context.Context, f
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestPack_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.TestPack) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestPack_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestPack",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestPack_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.TestPack) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestPack_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestPack",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -70083,6 +71491,88 @@ func (ec *executionContext) fieldContext_UIMap_updatedBy(_ context.Context, fiel
 	return fc, nil
 }
 
+func (ec *executionContext) _UIMap_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.UIMap) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UIMap_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UIMap",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UIMap_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.UIMap) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UIMap_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UIMap",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UIMap_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.UIMap) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UIMap_createdAt(ctx, field)
 	if err != nil {
@@ -70272,6 +71762,10 @@ func (ec *executionContext) fieldContext_UIMapPage_items(_ context.Context, fiel
 				return ec.fieldContext_UIMap_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_UIMap_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_UIMap_createdAt(ctx, field)
 			case "updatedAt":
@@ -77875,6 +79369,10 @@ func (ec *executionContext) _APIEndpoint(ctx context.Context, sel ast.SelectionS
 			}
 		case "updatedBy":
 			out.Values[i] = ec._APIEndpoint_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._APIEndpoint_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._APIEndpoint_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._APIEndpoint_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -77962,6 +79460,10 @@ func (ec *executionContext) _APIGroup(ctx context.Context, sel ast.SelectionSet,
 			}
 		case "updatedBy":
 			out.Values[i] = ec._APIGroup_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._APIGroup_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._APIGroup_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._APIGroup_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -78048,6 +79550,8 @@ func (ec *executionContext) _APIGroupVersion(ctx context.Context, sel ast.Select
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdByCommitHash":
+			out.Values[i] = ec._APIGroupVersion_createdByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -80364,6 +81868,10 @@ func (ec *executionContext) _FocalPoint(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedBy":
 			out.Values[i] = ec._FocalPoint_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._FocalPoint_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._FocalPoint_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._FocalPoint_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -80453,6 +81961,10 @@ func (ec *executionContext) _FocalPointMeta(ctx context.Context, sel ast.Selecti
 			}
 		case "updatedBy":
 			out.Values[i] = ec._FocalPointMeta_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._FocalPointMeta_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._FocalPointMeta_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._FocalPointMeta_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -80668,6 +82180,10 @@ func (ec *executionContext) _Frame(ctx context.Context, sel ast.SelectionSet, ob
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Frame_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._Frame_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._Frame_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -85161,6 +86677,10 @@ func (ec *executionContext) _Service(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Service_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._Service_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._Service_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -85475,6 +86995,10 @@ func (ec *executionContext) _ServiceDB(ctx context.Context, sel ast.SelectionSet
 			}
 		case "updatedBy":
 			out.Values[i] = ec._ServiceDB_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._ServiceDB_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._ServiceDB_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -85637,6 +87161,8 @@ func (ec *executionContext) _ServiceDBVersion(ctx context.Context, sel ast.Selec
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdByCommitHash":
+			out.Values[i] = ec._ServiceDBVersion_createdByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -85731,6 +87257,10 @@ func (ec *executionContext) _ServiceDiagram(ctx context.Context, sel ast.Selecti
 			}
 		case "updatedBy":
 			out.Values[i] = ec._ServiceDiagram_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._ServiceDiagram_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._ServiceDiagram_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._ServiceDiagram_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -85799,6 +87329,10 @@ func (ec *executionContext) _ServiceDoc(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedBy":
 			out.Values[i] = ec._ServiceDoc_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._ServiceDoc_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._ServiceDoc_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._ServiceDoc_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -86305,6 +87839,10 @@ func (ec *executionContext) _TestCase(ctx context.Context, sel ast.SelectionSet,
 			}
 		case "updatedBy":
 			out.Values[i] = ec._TestCase_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._TestCase_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._TestCase_updatedByCommitHash(ctx, field, obj)
 		case "deletedBy":
 			out.Values[i] = ec._TestCase_deletedBy(ctx, field, obj)
 		case "createdAt":
@@ -86434,6 +87972,10 @@ func (ec *executionContext) _TestPack(ctx context.Context, sel ast.SelectionSet,
 			}
 		case "updatedBy":
 			out.Values[i] = ec._TestPack_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._TestPack_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._TestPack_updatedByCommitHash(ctx, field, obj)
 		case "deletedBy":
 			out.Values[i] = ec._TestPack_deletedBy(ctx, field, obj)
 		case "createdAt":
@@ -86850,6 +88392,10 @@ func (ec *executionContext) _UIMap(ctx context.Context, sel ast.SelectionSet, ob
 			}
 		case "updatedBy":
 			out.Values[i] = ec._UIMap_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._UIMap_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._UIMap_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._UIMap_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

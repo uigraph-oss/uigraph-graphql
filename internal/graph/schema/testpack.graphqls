@@ -121,6 +121,8 @@ type TestPack {
     type:       String!
     createdBy:  ID!
     updatedBy:  ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     deletedBy:  ID
     createdAt:  Time!
     updatedAt:  Time!
@@ -155,6 +157,8 @@ type TestCase {
     dependencies:           [ID!]!
     createdBy:              ID!
     updatedBy:              ID
+    createdByCommitHash:    String
+    updatedByCommitHash:    String
     deletedBy:              ID
     createdAt:              Time!
     updatedAt:              Time!

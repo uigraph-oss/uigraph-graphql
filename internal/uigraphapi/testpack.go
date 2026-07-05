@@ -91,17 +91,19 @@ type GRPCTestCase struct {
 }
 
 type TestPack struct {
-	TestPackID string     `json:"testPackId"`
-	ServiceID  string     `json:"serviceId"`
-	OrgID      string     `json:"orgId"`
-	Name       string     `json:"name"`
-	Type       string     `json:"type"`
-	CreatedBy  string     `json:"createdBy"`
-	UpdatedBy  *string    `json:"updatedBy,omitempty"`
-	DeletedBy  *string    `json:"deletedBy,omitempty"`
-	CreatedAt  time.Time  `json:"createdAt"`
-	UpdatedAt  time.Time  `json:"updatedAt"`
-	DeletedAt  *time.Time `json:"deletedAt,omitempty"`
+	TestPackID          string     `json:"testPackId"`
+	ServiceID           string     `json:"serviceId"`
+	OrgID               string     `json:"orgId"`
+	Name                string     `json:"name"`
+	Type                string     `json:"type"`
+	CreatedBy           string     `json:"createdBy"`
+	UpdatedBy           *string    `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string    `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string    `json:"updatedByCommitHash,omitempty"`
+	DeletedBy           *string    `json:"deletedBy,omitempty"`
+	CreatedAt           time.Time  `json:"createdAt"`
+	UpdatedAt           time.Time  `json:"updatedAt"`
+	DeletedAt           *time.Time `json:"deletedAt,omitempty"`
 }
 
 type TestCase struct {
@@ -132,6 +134,8 @@ type TestCase struct {
 	Dependencies          []string          `json:"dependencies,omitempty"`
 	CreatedBy             string            `json:"createdBy"`
 	UpdatedBy             *string           `json:"updatedBy,omitempty"`
+	CreatedByCommitHash   *string           `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash   *string           `json:"updatedByCommitHash,omitempty"`
 	DeletedBy             *string           `json:"deletedBy,omitempty"`
 	CreatedAt             time.Time         `json:"createdAt"`
 	UpdatedAt             time.Time         `json:"updatedAt"`

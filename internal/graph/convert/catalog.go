@@ -42,7 +42,9 @@ func ServiceToModel(s *uigraphapi.Service) *model.Service {
 		SlackChannelURL: s.SlackChannelURL, LastCommitSha: s.LastCommitSha,
 		Labels:    s.Labels,
 		Metadata:  RawStr(s.Metadata),
-		CreatedBy: s.CreatedBy, UpdatedBy: s.UpdatedBy, CreatedAt: s.CreatedAt, UpdatedAt: s.UpdatedAt,
+		CreatedBy: s.CreatedBy, UpdatedBy: s.UpdatedBy,
+		CreatedByCommitHash: s.CreatedByCommitHash, UpdatedByCommitHash: s.UpdatedByCommitHash,
+		CreatedAt: s.CreatedAt, UpdatedAt: s.UpdatedAt,
 	}
 }
 
@@ -62,7 +64,9 @@ func APIGroupToModel(g *uigraphapi.APIGroup) *model.APIGroup {
 		ID: g.ID, ServiceID: g.ServiceID, OrgID: g.OrgID,
 		Name: g.Name, Version: g.Version, Label: g.Label, Protocol: g.Protocol,
 		SpecKey: g.SpecKey, SpecHash: g.SpecHash,
-		CreatedBy: g.CreatedBy, UpdatedBy: g.UpdatedBy, CreatedAt: g.CreatedAt, UpdatedAt: g.UpdatedAt,
+		CreatedBy: g.CreatedBy, UpdatedBy: g.UpdatedBy,
+		CreatedByCommitHash: g.CreatedByCommitHash, UpdatedByCommitHash: g.UpdatedByCommitHash,
+		CreatedAt: g.CreatedAt, UpdatedAt: g.UpdatedAt,
 	}
 }
 
@@ -70,19 +74,22 @@ func APIGroupVersionToModel(orgID string, v uigraphapi.APIGroupVersion) *model.A
 	return &model.APIGroupVersion{
 		ID: v.ID, OrgID: orgID, APIGroupID: v.APIGroupID, VersionNumber: v.VersionNumber,
 		Label: v.Label, SpecKey: v.SpecKey, SpecHash: v.SpecHash,
-		IsAutoVersion: v.IsAutoVersion, CreatedBy: v.CreatedBy, CreatedAt: v.CreatedAt,
+		IsAutoVersion: v.IsAutoVersion, CreatedBy: v.CreatedBy,
+		CreatedByCommitHash: v.CreatedByCommitHash, CreatedAt: v.CreatedAt,
 	}
 }
 
 func ServiceDocToModel(d *uigraphapi.ServiceDoc) *model.ServiceDoc {
 	out := &model.ServiceDoc{
-		ServiceID: d.ServiceID,
-		DocID:     d.DocID,
-		OrgID:     d.OrgID,
-		CreatedBy: d.CreatedBy,
-		UpdatedBy: d.UpdatedBy,
-		CreatedAt: d.CreatedAt,
-		UpdatedAt: d.UpdatedAt,
+		ServiceID:           d.ServiceID,
+		DocID:               d.DocID,
+		OrgID:               d.OrgID,
+		CreatedBy:           d.CreatedBy,
+		UpdatedBy:           d.UpdatedBy,
+		CreatedByCommitHash: d.CreatedByCommitHash,
+		UpdatedByCommitHash: d.UpdatedByCommitHash,
+		CreatedAt:           d.CreatedAt,
+		UpdatedAt:           d.UpdatedAt,
 	}
 	if d.Doc != nil {
 		out.Doc = DocToModel(d.Doc)
@@ -92,13 +99,15 @@ func ServiceDocToModel(d *uigraphapi.ServiceDoc) *model.ServiceDoc {
 
 func ServiceDiagramToModel(d *uigraphapi.ServiceDiagram) *model.ServiceDiagram {
 	out := &model.ServiceDiagram{
-		ServiceID: d.ServiceID,
-		DiagramID: d.DiagramID,
-		OrgID:     d.OrgID,
-		CreatedBy: d.CreatedBy,
-		UpdatedBy: d.UpdatedBy,
-		CreatedAt: d.CreatedAt,
-		UpdatedAt: d.UpdatedAt,
+		ServiceID:           d.ServiceID,
+		DiagramID:           d.DiagramID,
+		OrgID:               d.OrgID,
+		CreatedBy:           d.CreatedBy,
+		UpdatedBy:           d.UpdatedBy,
+		CreatedByCommitHash: d.CreatedByCommitHash,
+		UpdatedByCommitHash: d.UpdatedByCommitHash,
+		CreatedAt:           d.CreatedAt,
+		UpdatedAt:           d.UpdatedAt,
 	}
 	if d.Diagram != nil {
 		out.Diagram = DiagramToModel(d.Diagram)
@@ -117,7 +126,9 @@ func ServiceDBToModel(d *uigraphapi.ServiceDB) *model.ServiceDb {
 		DbDiagramID:  p.DbDiagramID,
 		PgDumpFileID: p.PgDumpFileID,
 		Source:       d.Source, SourceTs: d.SourceTS,
-		CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy, CreatedAt: d.CreatedAt, UpdatedAt: d.UpdatedAt,
+		CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy,
+		CreatedByCommitHash: d.CreatedByCommitHash, UpdatedByCommitHash: d.UpdatedByCommitHash,
+		CreatedAt: d.CreatedAt, UpdatedAt: d.UpdatedAt,
 	}
 }
 
@@ -131,7 +142,8 @@ func ServiceDBVersionToModel(orgID string, v uigraphapi.ServiceDBVersion) *model
 		DbDiagramID:  p.DbDiagramID,
 		PgDumpFileID: p.PgDumpFileID,
 		Source:       v.Source, SourceTs: v.SourceTS,
-		IsAutoVersion: v.IsAutoVersion, CreatedBy: v.CreatedBy, CreatedAt: v.CreatedAt,
+		IsAutoVersion: v.IsAutoVersion, CreatedBy: v.CreatedBy,
+		CreatedByCommitHash: v.CreatedByCommitHash, CreatedAt: v.CreatedAt,
 	}
 }
 
@@ -146,7 +158,9 @@ func APIEndpointToModel(e *uigraphapi.APIEndpoint) *model.APIEndpoint {
 		ExampleRequests:  RawArrStr(e.ExampleRequests),
 		ExampleResponses: RawArrStr(e.ExampleResponses),
 		Order:            e.Order,
-		CreatedBy:   e.CreatedBy, UpdatedBy: e.UpdatedBy, CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt,
+		CreatedBy:        e.CreatedBy, UpdatedBy: e.UpdatedBy,
+		CreatedByCommitHash: e.CreatedByCommitHash, UpdatedByCommitHash: e.UpdatedByCommitHash,
+		CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt,
 	}
 }
 
