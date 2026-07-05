@@ -20,22 +20,24 @@ type SavedQueryFolder struct {
 }
 
 type SavedQuery struct {
-	ID          string    `json:"id"`
-	OrgID       string    `json:"orgId"`
-	ServiceDBID string    `json:"serviceDbId"`
-	FolderID    *string   `json:"folderId,omitempty"`
-	Scope       string    `json:"scope"`
-	OwnerUserID *string   `json:"ownerUserId,omitempty"`
-	TeamID      *string   `json:"teamId,omitempty"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	QueryText   string    `json:"queryText"`
-	Tags        []string  `json:"tags"`
-	Source      *string   `json:"source,omitempty"`
-	CreatedBy   string    `json:"createdBy"`
-	UpdatedBy   *string   `json:"updatedBy,omitempty"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
+	ID                  string    `json:"id"`
+	OrgID               string    `json:"orgId"`
+	ServiceDBID         string    `json:"serviceDbId"`
+	FolderID            *string   `json:"folderId,omitempty"`
+	Scope               string    `json:"scope"`
+	OwnerUserID         *string   `json:"ownerUserId,omitempty"`
+	TeamID              *string   `json:"teamId,omitempty"`
+	Title               string    `json:"title"`
+	Description         string    `json:"description"`
+	QueryText           string    `json:"queryText"`
+	Tags                []string  `json:"tags"`
+	Source              *string   `json:"source,omitempty"`
+	CreatedBy           string    `json:"createdBy"`
+	UpdatedBy           *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
 }
 
 func savedQueriesBasePath(orgID, serviceID, dbID string) string {

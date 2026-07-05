@@ -1055,24 +1055,26 @@ type SCIMConfig struct {
 }
 
 type SavedQuery struct {
-	ID             string          `json:"id"`
-	OrgID          string          `json:"orgId"`
-	ServiceDbID    string          `json:"serviceDbId"`
-	FolderID       *string         `json:"folderId,omitempty"`
-	Scope          SavedQueryScope `json:"scope"`
-	OwnerUserID    *string         `json:"ownerUserId,omitempty"`
-	TeamID         *string         `json:"teamId,omitempty"`
-	Title          string          `json:"title"`
-	Description    string          `json:"description"`
-	QueryText      string          `json:"queryText"`
-	Tags           []string        `json:"tags"`
-	Source         *string         `json:"source,omitempty"`
-	CreatedBy      string          `json:"createdBy"`
-	UpdatedBy      *string         `json:"updatedBy,omitempty"`
-	CreatedByActor *Actor          `json:"createdByActor,omitempty"`
-	UpdatedByActor *Actor          `json:"updatedByActor,omitempty"`
-	CreatedAt      time.Time       `json:"createdAt"`
-	UpdatedAt      time.Time       `json:"updatedAt"`
+	ID                  string          `json:"id"`
+	OrgID               string          `json:"orgId"`
+	ServiceDbID         string          `json:"serviceDbId"`
+	FolderID            *string         `json:"folderId,omitempty"`
+	Scope               SavedQueryScope `json:"scope"`
+	OwnerUserID         *string         `json:"ownerUserId,omitempty"`
+	TeamID              *string         `json:"teamId,omitempty"`
+	Title               string          `json:"title"`
+	Description         string          `json:"description"`
+	QueryText           string          `json:"queryText"`
+	Tags                []string        `json:"tags"`
+	Source              *string         `json:"source,omitempty"`
+	CreatedBy           string          `json:"createdBy"`
+	UpdatedBy           *string         `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string         `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string         `json:"updatedByCommitHash,omitempty"`
+	CreatedByActor      *Actor          `json:"createdByActor,omitempty"`
+	UpdatedByActor      *Actor          `json:"updatedByActor,omitempty"`
+	CreatedAt           time.Time       `json:"createdAt"`
+	UpdatedAt           time.Time       `json:"updatedAt"`
 }
 
 type SavedQueryFolder struct {

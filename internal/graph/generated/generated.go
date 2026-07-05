@@ -908,24 +908,26 @@ type ComplexityRoot struct {
 	}
 
 	SavedQuery struct {
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		CreatedByActor func(childComplexity int) int
-		Description    func(childComplexity int) int
-		FolderID       func(childComplexity int) int
-		ID             func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		OwnerUserID    func(childComplexity int) int
-		QueryText      func(childComplexity int) int
-		Scope          func(childComplexity int) int
-		ServiceDbID    func(childComplexity int) int
-		Source         func(childComplexity int) int
-		Tags           func(childComplexity int) int
-		TeamID         func(childComplexity int) int
-		Title          func(childComplexity int) int
-		UpdatedAt      func(childComplexity int) int
-		UpdatedBy      func(childComplexity int) int
-		UpdatedByActor func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Description         func(childComplexity int) int
+		FolderID            func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		OwnerUserID         func(childComplexity int) int
+		QueryText           func(childComplexity int) int
+		Scope               func(childComplexity int) int
+		ServiceDbID         func(childComplexity int) int
+		Source              func(childComplexity int) int
+		Tags                func(childComplexity int) int
+		TeamID              func(childComplexity int) int
+		Title               func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByActor      func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	SavedQueryFolder struct {
@@ -7233,6 +7235,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.SavedQuery.CreatedByActor(childComplexity), true
 
+	case "SavedQuery.createdByCommitHash":
+		if e.complexity.SavedQuery.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.CreatedByCommitHash(childComplexity), true
+
 	case "SavedQuery.description":
 		if e.complexity.SavedQuery.Description == nil {
 			break
@@ -7337,6 +7346,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.SavedQuery.UpdatedByActor(childComplexity), true
+
+	case "SavedQuery.updatedByCommitHash":
+		if e.complexity.SavedQuery.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.UpdatedByCommitHash(childComplexity), true
 
 	case "SavedQueryFolder.createdAt":
 		if e.complexity.SavedQueryFolder.CreatedAt == nil {
@@ -10802,6 +10818,8 @@ type SavedQuery {
     source:      String
     createdBy:   ID!
     updatedBy:   ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     updatedByActor: Actor @goField(forceResolver: true)
     createdAt:   Time!
@@ -48826,6 +48844,10 @@ func (ec *executionContext) fieldContext_Mutation_createSavedQuery(ctx context.C
 				return ec.fieldContext_SavedQuery_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_SavedQuery_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_SavedQuery_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_SavedQuery_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -48919,6 +48941,10 @@ func (ec *executionContext) fieldContext_Mutation_updateSavedQuery(ctx context.C
 				return ec.fieldContext_SavedQuery_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_SavedQuery_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_SavedQuery_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_SavedQuery_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -57198,6 +57224,10 @@ func (ec *executionContext) fieldContext_Query_savedQueries(ctx context.Context,
 				return ec.fieldContext_SavedQuery_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_SavedQuery_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_SavedQuery_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_SavedQuery_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -60766,6 +60796,88 @@ func (ec *executionContext) fieldContext_SavedQuery_updatedBy(_ context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -87302,6 +87414,10 @@ func (ec *executionContext) _SavedQuery(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedBy":
 			out.Values[i] = ec._SavedQuery_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._SavedQuery_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._SavedQuery_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 

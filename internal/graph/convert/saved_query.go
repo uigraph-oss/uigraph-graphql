@@ -36,7 +36,9 @@ func SavedQueryToModel(q *uigraphapi.SavedQuery) *model.SavedQuery {
 		Scope: savedQueryScopeToModel(q.Scope), OwnerUserID: q.OwnerUserID, TeamID: q.TeamID,
 		Title: q.Title, Description: q.Description, QueryText: q.QueryText, Tags: q.Tags,
 		Source:    q.Source,
-		CreatedBy: q.CreatedBy, UpdatedBy: q.UpdatedBy, CreatedAt: q.CreatedAt, UpdatedAt: q.UpdatedAt,
+		CreatedBy: q.CreatedBy, UpdatedBy: q.UpdatedBy,
+		CreatedByCommitHash: q.CreatedByCommitHash, UpdatedByCommitHash: q.UpdatedByCommitHash,
+		CreatedAt: q.CreatedAt, UpdatedAt: q.UpdatedAt,
 	}
 }
 
