@@ -287,7 +287,8 @@ type CreateDocInput struct {
 	FileName      string  `json:"fileName"`
 	FileType      *string `json:"fileType,omitempty"`
 	Description   *string `json:"description,omitempty"`
-	ContentBase64 string  `json:"contentBase64"`
+	ContentBase64 *string `json:"contentBase64,omitempty"`
+	FileAssetID   *string `json:"fileAssetId,omitempty"`
 	FolderID      *string `json:"folderId,omitempty"`
 	TeamID        *string `json:"teamId,omitempty"`
 }
@@ -329,12 +330,13 @@ type CreateFrameGroupInput struct {
 }
 
 type CreateFrameInput struct {
-	Name          string   `json:"name"`
-	Description   *string  `json:"description,omitempty"`
-	TemplateType  string   `json:"templateType"`
-	ParentFrameID *string  `json:"parentFrameId,omitempty"`
-	Order         *float64 `json:"order,omitempty"`
-	Screenshot    *string  `json:"screenshot,omitempty"`
+	Name              string   `json:"name"`
+	Description       *string  `json:"description,omitempty"`
+	TemplateType      string   `json:"templateType"`
+	ParentFrameID     *string  `json:"parentFrameId,omitempty"`
+	Order             *float64 `json:"order,omitempty"`
+	Screenshot        *string  `json:"screenshot,omitempty"`
+	ScreenshotAssetID *string  `json:"screenshotAssetId,omitempty"`
 }
 
 type CreateFrameLinkInput struct {
@@ -427,6 +429,7 @@ type CreateServiceDocInput struct {
 	FileType      *string `json:"fileType,omitempty"`
 	Description   *string `json:"description,omitempty"`
 	ContentBase64 *string `json:"contentBase64,omitempty"`
+	FileAssetID   *string `json:"fileAssetId,omitempty"`
 	FolderID      *string `json:"folderId,omitempty"`
 	TeamID        *string `json:"teamId,omitempty"`
 }
@@ -1468,6 +1471,7 @@ type UpdateDocInput struct {
 	FileType      *string `json:"fileType,omitempty"`
 	Description   *string `json:"description,omitempty"`
 	ContentBase64 *string `json:"contentBase64,omitempty"`
+	FileAssetID   *string `json:"fileAssetId,omitempty"`
 	FolderID      *string `json:"folderId,omitempty"`
 	TeamID        *string `json:"teamId,omitempty"`
 }
@@ -1508,12 +1512,13 @@ type UpdateFrameGroupInput struct {
 }
 
 type UpdateFrameInput struct {
-	Name         *string  `json:"name,omitempty"`
-	Description  *string  `json:"description,omitempty"`
-	TemplateType *string  `json:"templateType,omitempty"`
-	Status       *string  `json:"status,omitempty"`
-	Order        *float64 `json:"order,omitempty"`
-	Screenshot   *string  `json:"screenshot,omitempty"`
+	Name              *string  `json:"name,omitempty"`
+	Description       *string  `json:"description,omitempty"`
+	TemplateType      *string  `json:"templateType,omitempty"`
+	Status            *string  `json:"status,omitempty"`
+	Order             *float64 `json:"order,omitempty"`
+	Screenshot        *string  `json:"screenshot,omitempty"`
+	ScreenshotAssetID *string  `json:"screenshotAssetId,omitempty"`
 }
 
 type UpdateFrameLinkInput struct {

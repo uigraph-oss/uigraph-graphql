@@ -228,21 +228,23 @@ input UpdateMapInput {
 }
 
 input CreateFrameInput {
-    name:          String!
-    description:   String
-    templateType:  String!
-    parentFrameId: ID
-    order:         Float
-    screenshot:    String
+    name:              String!
+    description:       String
+    templateType:      String!
+    parentFrameId:     ID
+    order:             Float
+    screenshot:        String
+    screenshotAssetId: String
 }
 
 input UpdateFrameInput {
-    name:         String
-    description:  String
-    templateType: String
-    status:       String
-    order:        Float
-    screenshot:   String
+    name:              String
+    description:       String
+    templateType:      String
+    status:            String
+    order:             Float
+    screenshot:        String
+    screenshotAssetId: String
 }
 
 input SyncFrameInput {

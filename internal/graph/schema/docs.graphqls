@@ -37,7 +37,8 @@ input CreateDocInput {
     fileName:      String!
     fileType:      String
     description:   String
-    contentBase64: String!
+    contentBase64: String
+    fileAssetId:   String
     folderId:      ID
     teamId:        ID
 }
@@ -47,6 +48,7 @@ input UpdateDocInput {
     fileType:      String
     description:   String
     contentBase64: String
+    fileAssetId:   String
     folderId:      ID
     teamId:        ID
 }

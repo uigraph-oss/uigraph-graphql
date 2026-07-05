@@ -9750,6 +9750,7 @@ input CreateServiceDocInput {
     fileType:      String
     description:   String
     contentBase64: String
+    fileAssetId:   String
     folderId:      ID
     teamId:        ID
 }
@@ -10115,7 +10116,8 @@ input CreateDocInput {
     fileName:      String!
     fileType:      String
     description:   String
-    contentBase64: String!
+    contentBase64: String
+    fileAssetId:   String
     folderId:      ID
     teamId:        ID
 }
@@ -10125,6 +10127,7 @@ input UpdateDocInput {
     fileType:      String
     description:   String
     contentBase64: String
+    fileAssetId:   String
     folderId:      ID
     teamId:        ID
 }
@@ -11094,21 +11097,23 @@ input UpdateMapInput {
 }
 
 input CreateFrameInput {
-    name:          String!
-    description:   String
-    templateType:  String!
-    parentFrameId: ID
-    order:         Float
-    screenshot:    String
+    name:              String!
+    description:       String
+    templateType:      String!
+    parentFrameId:     ID
+    order:             Float
+    screenshot:        String
+    screenshotAssetId: String
 }
 
 input UpdateFrameInput {
-    name:         String
-    description:  String
-    templateType: String
-    status:       String
-    order:        Float
-    screenshot:   String
+    name:              String
+    description:       String
+    templateType:      String
+    status:            String
+    order:             Float
+    screenshot:        String
+    screenshotAssetId: String
 }
 
 input SyncFrameInput {
@@ -73565,7 +73570,7 @@ func (ec *executionContext) unmarshalInputCreateDocInput(ctx context.Context, ob
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "folderId", "teamId"}
+	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "fileAssetId", "folderId", "teamId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -73595,11 +73600,18 @@ func (ec *executionContext) unmarshalInputCreateDocInput(ctx context.Context, ob
 			it.Description = data
 		case "contentBase64":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contentBase64"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.ContentBase64 = data
+		case "fileAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileAssetID = data
 		case "folderId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
 			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
@@ -73875,7 +73887,7 @@ func (ec *executionContext) unmarshalInputCreateFrameInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "templateType", "parentFrameId", "order", "screenshot"}
+	fieldsInOrder := [...]string{"name", "description", "templateType", "parentFrameId", "order", "screenshot", "screenshotAssetId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -73924,6 +73936,13 @@ func (ec *executionContext) unmarshalInputCreateFrameInput(ctx context.Context, 
 				return it, err
 			}
 			it.Screenshot = data
+		case "screenshotAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("screenshotAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ScreenshotAssetID = data
 		}
 	}
 
@@ -74514,7 +74533,7 @@ func (ec *executionContext) unmarshalInputCreateServiceDocInput(ctx context.Cont
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"docId", "fileName", "fileType", "description", "contentBase64", "folderId", "teamId"}
+	fieldsInOrder := [...]string{"docId", "fileName", "fileType", "description", "contentBase64", "fileAssetId", "folderId", "teamId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -74556,6 +74575,13 @@ func (ec *executionContext) unmarshalInputCreateServiceDocInput(ctx context.Cont
 				return it, err
 			}
 			it.ContentBase64 = data
+		case "fileAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileAssetID = data
 		case "folderId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
 			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
@@ -76107,7 +76133,7 @@ func (ec *executionContext) unmarshalInputUpdateDocInput(ctx context.Context, ob
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "folderId", "teamId"}
+	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "fileAssetId", "folderId", "teamId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -76142,6 +76168,13 @@ func (ec *executionContext) unmarshalInputUpdateDocInput(ctx context.Context, ob
 				return it, err
 			}
 			it.ContentBase64 = data
+		case "fileAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileAssetID = data
 		case "folderId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
 			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
@@ -76410,7 +76443,7 @@ func (ec *executionContext) unmarshalInputUpdateFrameInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "templateType", "status", "order", "screenshot"}
+	fieldsInOrder := [...]string{"name", "description", "templateType", "status", "order", "screenshot", "screenshotAssetId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -76459,6 +76492,13 @@ func (ec *executionContext) unmarshalInputUpdateFrameInput(ctx context.Context, 
 				return it, err
 			}
 			it.Screenshot = data
+		case "screenshotAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("screenshotAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ScreenshotAssetID = data
 		}
 	}
 

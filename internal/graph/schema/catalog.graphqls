@@ -298,6 +298,7 @@ input CreateServiceDocInput {
     fileType:      String
     description:   String
     contentBase64: String
+    fileAssetId:   String
     folderId:      ID
     teamId:        ID
 }
