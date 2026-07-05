@@ -618,113 +618,123 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		AddMember                     func(childComplexity int, orgID string, input model.AddMemberInput) int
-		AddTeamMember                 func(childComplexity int, orgID string, teamID string, userID string, permission *string) int
-		ConfirmDiagramThumbnailUpload func(childComplexity int, orgID string, diagramID string, contentHash string) int
-		CreateAPIEndpoint             func(childComplexity int, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) int
-		CreateAPIGroup                func(childComplexity int, orgID string, serviceID string, input model.CreateAPIGroupInput) int
-		CreateAssetUpload             func(childComplexity int, orgID string) int
-		CreateComment                 func(childComplexity int, orgID string, input model.CreateCommentInput) int
-		CreateCustomComponent         func(childComplexity int, orgID string, input model.CustomComponentInput) int
-		CreateDiagram                 func(childComplexity int, orgID string, input model.CreateDiagramInput) int
-		CreateDiagramImage            func(childComplexity int, orgID string, diagramID string, input model.CreateDiagramImageInput) int
-		CreateDiagramVersion          func(childComplexity int, orgID string, diagramID string, label *string) int
-		CreateDoc                     func(childComplexity int, orgID string, input model.CreateDocInput) int
-		CreateFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
-		CreateFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) int
-		CreateFolder                  func(childComplexity int, orgID string, input model.CreateFolderInput) int
-		CreateFrame                   func(childComplexity int, orgID string, mapID string, input model.CreateFrameInput) int
-		CreateFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
-		CreateFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
-		CreateMap                     func(childComplexity int, orgID string, input model.CreateMapInput) int
-		CreateOrg                     func(childComplexity int, input model.CreateOrgInput) int
-		CreateRoleMapping             func(childComplexity int, input model.CreateRoleMappingInput) int
-		CreateSavedQuery              func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryInput) int
-		CreateSavedQueryFolder        func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryFolderInput) int
-		CreateServerOrg               func(childComplexity int, input model.CreateServerOrgInput) int
-		CreateService                 func(childComplexity int, orgID string, input model.CreateServiceInput) int
-		CreateServiceAccount          func(childComplexity int, orgID string, input model.CreateServiceAccountInput) int
-		CreateServiceAccountToken     func(childComplexity int, orgID string, saID string, input model.CreateTokenInput) int
-		CreateServiceDBVersion        func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateServiceDBVersionInput) int
-		CreateServiceDb               func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDBInput) int
-		CreateServiceDiagram          func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDiagramInput) int
-		CreateServiceDoc              func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDocInput) int
-		CreateTeam                    func(childComplexity int, orgID string, input model.CreateTeamInput) int
-		CreateTestCase                func(childComplexity int, orgID string, serviceID string, input model.CreateTestCaseInput) int
-		CreateTestPack                func(childComplexity int, orgID string, serviceID string, input model.CreateTestPackInput) int
-		CreateTestRun                 func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunInput) int
-		CreateTestRunResult           func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunResultInput) int
-		CreateUser                    func(childComplexity int, input model.CreateUserInput) int
-		DeleteAPIEndpoint             func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
-		DeleteAPIGroup                func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteComment                 func(childComplexity int, orgID string, id string) int
-		DeleteCustomComponent         func(childComplexity int, orgID string, id string) int
-		DeleteDiagram                 func(childComplexity int, orgID string, id string) int
-		DeleteDoc                     func(childComplexity int, orgID string, id string) int
-		DeleteFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, id string) int
-		DeleteFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string) int
-		DeleteFolder                  func(childComplexity int, orgID string, id string) int
-		DeleteFrame                   func(childComplexity int, orgID string, mapID string, id string) int
-		DeleteFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, id string) int
-		DeleteFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, id string) int
-		DeleteLdap                    func(childComplexity int) int
-		DeleteMap                     func(childComplexity int, orgID string, id string) int
-		DeleteOAuthProvider           func(childComplexity int, provider string) int
-		DeleteOrg                     func(childComplexity int, id string) int
-		DeleteRoleMapping             func(childComplexity int, id string) int
-		DeleteSavedQuery              func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
-		DeleteSavedQueryFolder        func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
-		DeleteServerOrg               func(childComplexity int, id string) int
-		DeleteService                 func(childComplexity int, orgID string, id string) int
-		DeleteServiceAccount          func(childComplexity int, orgID string, id string) int
-		DeleteServiceDb               func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteServiceDiagram          func(childComplexity int, orgID string, serviceID string, diagramID string) int
-		DeleteServiceDoc              func(childComplexity int, orgID string, serviceID string, docID string) int
-		DeleteTeam                    func(childComplexity int, orgID string, teamID string) int
-		DeleteTestCase                func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteTestPack                func(childComplexity int, orgID string, serviceID string, id string) int
-		DisableUser                   func(childComplexity int, id string) int
-		PrepareDiagramThumbnailUpload func(childComplexity int, orgID string, diagramID string) int
-		RemoveMember                  func(childComplexity int, orgID string, userID string) int
-		RemoveTeamMember              func(childComplexity int, orgID string, teamID string, userID string) int
-		RestoreAPIGroupVersion        func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID string) int
-		RestoreDiagramVersion         func(childComplexity int, orgID string, diagramID string, versionID string) int
-		RestoreServiceDBVersion       func(childComplexity int, orgID string, serviceID string, serviceDbID string, versionID string) int
-		RevokeServiceAccountToken     func(childComplexity int, orgID string, saID string, tokenID string) int
-		SwitchOrg                     func(childComplexity int, orgID string) int
-		SyncAPIGroup                  func(childComplexity int, orgID string, serviceID string, input model.SyncAPIGroupInput) int
-		SyncDiagram                   func(childComplexity int, orgID string, input model.SyncDiagramInput) int
-		SyncFrame                     func(childComplexity int, orgID string, mapID string, input model.SyncFrameInput) int
-		UpdateAPIEndpoint             func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) int
-		UpdateAPIGroup                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
-		UpdateComment                 func(childComplexity int, orgID string, id string, input model.UpdateCommentInput) int
-		UpdateCustomComponent         func(childComplexity int, orgID string, id string, input model.CustomComponentInput) int
-		UpdateDiagram                 func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
-		UpdateDoc                     func(childComplexity int, orgID string, id string, input model.UpdateDocInput) int
-		UpdateFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
-		UpdateFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) int
-		UpdateFolder                  func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
-		UpdateFrame                   func(childComplexity int, orgID string, mapID string, id string, input model.UpdateFrameInput) int
-		UpdateFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) int
-		UpdateFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
-		UpdateMap                     func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
-		UpdateMember                  func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
-		UpdateOrg                     func(childComplexity int, id string, input model.UpdateOrgInput) int
-		UpdateSavedQuery              func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string, input model.UpdateSavedQueryInput) int
-		UpdateServerOrg               func(childComplexity int, id string, input model.UpdateServerOrgInput) int
-		UpdateService                 func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
-		UpdateServiceAccount          func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
-		UpdateServiceDb               func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) int
-		UpdateTeam                    func(childComplexity int, orgID string, teamID string, input model.UpdateTeamInput) int
-		UpdateTestCase                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) int
-		UpdateTestPack                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestPackInput) int
-		UpdateTestRun                 func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunInput) int
-		UpdateTestRunResult           func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunResultInput) int
-		UpdateUser                    func(childComplexity int, id string, input model.UpdateUserInput) int
-		UpsertCanvas                  func(childComplexity int, orgID string, mapID string, input model.UpsertCanvasInput) int
-		UpsertLdap                    func(childComplexity int, input model.UpsertLDAPInput) int
-		UpsertOAuthProvider           func(childComplexity int, provider string, input model.UpsertOAuthInput) int
-		UpsertSaml                    func(childComplexity int, input model.UpsertSAMLInput) int
+		AddMember                         func(childComplexity int, orgID string, input model.AddMemberInput) int
+		AddTeamMember                     func(childComplexity int, orgID string, teamID string, userID string, permission *string) int
+		ConfirmDiagramThumbnailUpload     func(childComplexity int, orgID string, diagramID string, contentHash string) int
+		CreateAPIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) int
+		CreateAPIGroup                    func(childComplexity int, orgID string, serviceID string, input model.CreateAPIGroupInput) int
+		CreateAssetUpload                 func(childComplexity int, orgID string) int
+		CreateComment                     func(childComplexity int, orgID string, input model.CreateCommentInput) int
+		CreateCustomComponent             func(childComplexity int, orgID string, input model.CustomComponentInput) int
+		CreateDiagram                     func(childComplexity int, orgID string, input model.CreateDiagramInput) int
+		CreateDiagramImage                func(childComplexity int, orgID string, diagramID string, input model.CreateDiagramImageInput) int
+		CreateDiagramVersion              func(childComplexity int, orgID string, diagramID string, label *string) int
+		CreateDoc                         func(childComplexity int, orgID string, input model.CreateDocInput) int
+		CreateFocalPoint                  func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
+		CreateFocalPointMeta              func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) int
+		CreateFolder                      func(childComplexity int, orgID string, input model.CreateFolderInput) int
+		CreateFrame                       func(childComplexity int, orgID string, mapID string, input model.CreateFrameInput) int
+		CreateFrameGroup                  func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
+		CreateFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
+		CreateMap                         func(childComplexity int, orgID string, input model.CreateMapInput) int
+		CreateOrg                         func(childComplexity int, input model.CreateOrgInput) int
+		CreateRoleMapping                 func(childComplexity int, input model.CreateRoleMappingInput) int
+		CreateSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryInput) int
+		CreateSavedQueryFolder            func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryFolderInput) int
+		CreateServerOrg                   func(childComplexity int, input model.CreateServerOrgInput) int
+		CreateService                     func(childComplexity int, orgID string, input model.CreateServiceInput) int
+		CreateServiceAccount              func(childComplexity int, orgID string, input model.CreateServiceAccountInput) int
+		CreateServiceAccountToken         func(childComplexity int, orgID string, saID string, input model.CreateTokenInput) int
+		CreateServiceDBVersion            func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateServiceDBVersionInput) int
+		CreateServiceDb                   func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDBInput) int
+		CreateServiceDiagram              func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDiagramInput) int
+		CreateServiceDoc                  func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDocInput) int
+		CreateTeam                        func(childComplexity int, orgID string, input model.CreateTeamInput) int
+		CreateTestCase                    func(childComplexity int, orgID string, serviceID string, input model.CreateTestCaseInput) int
+		CreateTestPack                    func(childComplexity int, orgID string, serviceID string, input model.CreateTestPackInput) int
+		CreateTestRun                     func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunInput) int
+		CreateTestRunResult               func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunResultInput) int
+		CreateUser                        func(childComplexity int, input model.CreateUserInput) int
+		DeleteAPIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
+		DeleteAPIGroup                    func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteComment                     func(childComplexity int, orgID string, id string) int
+		DeleteCustomComponent             func(childComplexity int, orgID string, id string) int
+		DeleteDiagram                     func(childComplexity int, orgID string, id string) int
+		DeleteDoc                         func(childComplexity int, orgID string, id string) int
+		DeleteFocalPoint                  func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteFocalPointMeta              func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string) int
+		DeleteFolder                      func(childComplexity int, orgID string, id string) int
+		DeleteFrame                       func(childComplexity int, orgID string, mapID string, id string) int
+		DeleteFrameGroup                  func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteLdap                        func(childComplexity int) int
+		DeleteMap                         func(childComplexity int, orgID string, id string) int
+		DeleteOAuthProvider               func(childComplexity int, provider string) int
+		DeleteOrg                         func(childComplexity int, id string) int
+		DeleteRoleMapping                 func(childComplexity int, id string) int
+		DeleteSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
+		DeleteSavedQueryFolder            func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
+		DeleteServerOrg                   func(childComplexity int, id string) int
+		DeleteService                     func(childComplexity int, orgID string, id string) int
+		DeleteServiceAccount              func(childComplexity int, orgID string, id string) int
+		DeleteServiceDb                   func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteServiceDiagram              func(childComplexity int, orgID string, serviceID string, diagramID string) int
+		DeleteServiceDoc                  func(childComplexity int, orgID string, serviceID string, docID string) int
+		DeleteTeam                        func(childComplexity int, orgID string, teamID string) int
+		DeleteTestCase                    func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteTestPack                    func(childComplexity int, orgID string, serviceID string, id string) int
+		DisableUser                       func(childComplexity int, id string) int
+		PrepareDiagramThumbnailUpload     func(childComplexity int, orgID string, diagramID string) int
+		PrepareOAuthProviderIconUpload    func(childComplexity int, provider string) int
+		PrepareServerOrgLogoUpload        func(childComplexity int, orgID string) int
+		PrepareServiceAccountAvatarUpload func(childComplexity int, orgID string, saID string) int
+		PrepareUserAvatarUpload           func(childComplexity int) int
+		RemoveMember                      func(childComplexity int, orgID string, userID string) int
+		RemoveOAuthProviderIcon           func(childComplexity int, provider string) int
+		RemoveServerOrgLogo               func(childComplexity int, orgID string) int
+		RemoveTeamMember                  func(childComplexity int, orgID string, teamID string, userID string) int
+		RestoreAPIGroupVersion            func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID string) int
+		RestoreDiagramVersion             func(childComplexity int, orgID string, diagramID string, versionID string) int
+		RestoreServiceDBVersion           func(childComplexity int, orgID string, serviceID string, serviceDbID string, versionID string) int
+		RevokeServiceAccountToken         func(childComplexity int, orgID string, saID string, tokenID string) int
+		SetMyAvatar                       func(childComplexity int) int
+		SetOAuthProviderIcon              func(childComplexity int, provider string) int
+		SetServerOrgLogo                  func(childComplexity int, orgID string) int
+		SetServiceAccountAvatar           func(childComplexity int, orgID string, saID string) int
+		SwitchOrg                         func(childComplexity int, orgID string) int
+		SyncAPIGroup                      func(childComplexity int, orgID string, serviceID string, input model.SyncAPIGroupInput) int
+		SyncDiagram                       func(childComplexity int, orgID string, input model.SyncDiagramInput) int
+		SyncFrame                         func(childComplexity int, orgID string, mapID string, input model.SyncFrameInput) int
+		UpdateAPIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) int
+		UpdateAPIGroup                    func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
+		UpdateComment                     func(childComplexity int, orgID string, id string, input model.UpdateCommentInput) int
+		UpdateCustomComponent             func(childComplexity int, orgID string, id string, input model.CustomComponentInput) int
+		UpdateDiagram                     func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
+		UpdateDoc                         func(childComplexity int, orgID string, id string, input model.UpdateDocInput) int
+		UpdateFocalPoint                  func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
+		UpdateFocalPointMeta              func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) int
+		UpdateFolder                      func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
+		UpdateFrame                       func(childComplexity int, orgID string, mapID string, id string, input model.UpdateFrameInput) int
+		UpdateFrameGroup                  func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) int
+		UpdateFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
+		UpdateMap                         func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
+		UpdateMember                      func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
+		UpdateOrg                         func(childComplexity int, id string, input model.UpdateOrgInput) int
+		UpdateSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string, input model.UpdateSavedQueryInput) int
+		UpdateServerOrg                   func(childComplexity int, id string, input model.UpdateServerOrgInput) int
+		UpdateService                     func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
+		UpdateServiceAccount              func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
+		UpdateServiceDb                   func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) int
+		UpdateTeam                        func(childComplexity int, orgID string, teamID string, input model.UpdateTeamInput) int
+		UpdateTestCase                    func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) int
+		UpdateTestPack                    func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestPackInput) int
+		UpdateTestRun                     func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunInput) int
+		UpdateTestRunResult               func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunResultInput) int
+		UpdateUser                        func(childComplexity int, id string, input model.UpdateUserInput) int
+		UpsertCanvas                      func(childComplexity int, orgID string, mapID string, input model.UpsertCanvasInput) int
+		UpsertLdap                        func(childComplexity int, input model.UpsertLDAPInput) int
+		UpsertOAuthProvider               func(childComplexity int, provider string, input model.UpsertOAuthInput) int
+		UpsertSaml                        func(childComplexity int, input model.UpsertSAMLInput) int
 	}
 
 	OAuthProvider struct {
@@ -1299,11 +1309,17 @@ type MutationResolver interface {
 	CreateServerOrg(ctx context.Context, input model.CreateServerOrgInput) (*model.Org, error)
 	UpdateServerOrg(ctx context.Context, id string, input model.UpdateServerOrgInput) (*model.Org, error)
 	DeleteServerOrg(ctx context.Context, id string) (bool, error)
+	PrepareServerOrgLogoUpload(ctx context.Context, orgID string) (*model.AssetUpload, error)
+	SetServerOrgLogo(ctx context.Context, orgID string) (bool, error)
+	RemoveServerOrgLogo(ctx context.Context, orgID string) (bool, error)
 	CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error)
 	UpdateUser(ctx context.Context, id string, input model.UpdateUserInput) (*model.User, error)
 	DisableUser(ctx context.Context, id string) (bool, error)
 	UpsertOAuthProvider(ctx context.Context, provider string, input model.UpsertOAuthInput) (bool, error)
 	DeleteOAuthProvider(ctx context.Context, provider string) (bool, error)
+	PrepareOAuthProviderIconUpload(ctx context.Context, provider string) (*model.AssetUpload, error)
+	SetOAuthProviderIcon(ctx context.Context, provider string) (bool, error)
+	RemoveOAuthProviderIcon(ctx context.Context, provider string) (bool, error)
 	CreateRoleMapping(ctx context.Context, input model.CreateRoleMappingInput) (bool, error)
 	DeleteRoleMapping(ctx context.Context, id string) (bool, error)
 	UpsertLdap(ctx context.Context, input model.UpsertLDAPInput) (bool, error)
@@ -1311,6 +1327,8 @@ type MutationResolver interface {
 	UpsertSaml(ctx context.Context, input model.UpsertSAMLInput) (bool, error)
 	CreateAssetUpload(ctx context.Context, orgID string) (*model.AssetUpload, error)
 	SwitchOrg(ctx context.Context, orgID string) (bool, error)
+	PrepareUserAvatarUpload(ctx context.Context) (*model.AssetUpload, error)
+	SetMyAvatar(ctx context.Context) (bool, error)
 	CreateService(ctx context.Context, orgID string, input model.CreateServiceInput) (*model.Service, error)
 	UpdateService(ctx context.Context, orgID string, id string, input model.UpdateServiceInput) (*model.Service, error)
 	DeleteService(ctx context.Context, orgID string, id string) (bool, error)
@@ -1368,6 +1386,8 @@ type MutationResolver interface {
 	DeleteServiceAccount(ctx context.Context, orgID string, id string) (bool, error)
 	CreateServiceAccountToken(ctx context.Context, orgID string, saID string, input model.CreateTokenInput) (*model.CreatedToken, error)
 	RevokeServiceAccountToken(ctx context.Context, orgID string, saID string, tokenID string) (bool, error)
+	PrepareServiceAccountAvatarUpload(ctx context.Context, orgID string, saID string) (*model.AssetUpload, error)
+	SetServiceAccountAvatar(ctx context.Context, orgID string, saID string) (bool, error)
 	CreateSavedQueryFolder(ctx context.Context, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryFolderInput) (*model.SavedQueryFolder, error)
 	DeleteSavedQueryFolder(ctx context.Context, orgID string, serviceID string, serviceDbID string, id string) (bool, error)
 	CreateSavedQuery(ctx context.Context, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryInput) (*model.SavedQuery, error)
@@ -5193,6 +5213,49 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.PrepareDiagramThumbnailUpload(childComplexity, args["orgId"].(string), args["diagramId"].(string)), true
 
+	case "Mutation.prepareOAuthProviderIconUpload":
+		if e.complexity.Mutation.PrepareOAuthProviderIconUpload == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_prepareOAuthProviderIconUpload_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.PrepareOAuthProviderIconUpload(childComplexity, args["provider"].(string)), true
+
+	case "Mutation.prepareServerOrgLogoUpload":
+		if e.complexity.Mutation.PrepareServerOrgLogoUpload == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_prepareServerOrgLogoUpload_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.PrepareServerOrgLogoUpload(childComplexity, args["orgId"].(string)), true
+
+	case "Mutation.prepareServiceAccountAvatarUpload":
+		if e.complexity.Mutation.PrepareServiceAccountAvatarUpload == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_prepareServiceAccountAvatarUpload_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.PrepareServiceAccountAvatarUpload(childComplexity, args["orgId"].(string), args["saId"].(string)), true
+
+	case "Mutation.prepareUserAvatarUpload":
+		if e.complexity.Mutation.PrepareUserAvatarUpload == nil {
+			break
+		}
+
+		return e.complexity.Mutation.PrepareUserAvatarUpload(childComplexity), true
+
 	case "Mutation.removeMember":
 		if e.complexity.Mutation.RemoveMember == nil {
 			break
@@ -5204,6 +5267,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.RemoveMember(childComplexity, args["orgId"].(string), args["userId"].(string)), true
+
+	case "Mutation.removeOAuthProviderIcon":
+		if e.complexity.Mutation.RemoveOAuthProviderIcon == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_removeOAuthProviderIcon_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveOAuthProviderIcon(childComplexity, args["provider"].(string)), true
+
+	case "Mutation.removeServerOrgLogo":
+		if e.complexity.Mutation.RemoveServerOrgLogo == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_removeServerOrgLogo_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveServerOrgLogo(childComplexity, args["orgId"].(string)), true
 
 	case "Mutation.removeTeamMember":
 		if e.complexity.Mutation.RemoveTeamMember == nil {
@@ -5264,6 +5351,49 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.RevokeServiceAccountToken(childComplexity, args["orgId"].(string), args["saId"].(string), args["tokenId"].(string)), true
+
+	case "Mutation.setMyAvatar":
+		if e.complexity.Mutation.SetMyAvatar == nil {
+			break
+		}
+
+		return e.complexity.Mutation.SetMyAvatar(childComplexity), true
+
+	case "Mutation.setOAuthProviderIcon":
+		if e.complexity.Mutation.SetOAuthProviderIcon == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setOAuthProviderIcon_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetOAuthProviderIcon(childComplexity, args["provider"].(string)), true
+
+	case "Mutation.setServerOrgLogo":
+		if e.complexity.Mutation.SetServerOrgLogo == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setServerOrgLogo_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetServerOrgLogo(childComplexity, args["orgId"].(string)), true
+
+	case "Mutation.setServiceAccountAvatar":
+		if e.complexity.Mutation.SetServiceAccountAvatar == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setServiceAccountAvatar_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetServiceAccountAvatar(childComplexity, args["orgId"].(string), args["saId"].(string)), true
 
 	case "Mutation.switchOrg":
 		if e.complexity.Mutation.SwitchOrg == nil {
@@ -9191,12 +9321,20 @@ extend type Mutation {
     updateServerOrg(id: ID!, input: UpdateServerOrgInput!):  Org!
     deleteServerOrg(id: ID!):                                Boolean!
 
+    prepareServerOrgLogoUpload(orgId: ID!): AssetUpload!
+    setServerOrgLogo(orgId: ID!):           Boolean!
+    removeServerOrgLogo(orgId: ID!):        Boolean!
+
     createUser(input: CreateUserInput!):              User!
     updateUser(id: ID!, input: UpdateUserInput!):     User!
     disableUser(id: ID!):                             Boolean!
 
     upsertOAuthProvider(provider: String!, input: UpsertOAuthInput!): Boolean!
     deleteOAuthProvider(provider: String!):                          Boolean!
+
+    prepareOAuthProviderIconUpload(provider: String!): AssetUpload!
+    setOAuthProviderIcon(provider: String!):           Boolean!
+    removeOAuthProviderIcon(provider: String!):        Boolean!
 
     createRoleMapping(input: CreateRoleMappingInput!): Boolean!
     deleteRoleMapping(id: ID!):                        Boolean!
@@ -9428,6 +9566,9 @@ type AssetURL {
 
 extend type Mutation {
     switchOrg(orgId: ID!): Boolean!
+
+    prepareUserAvatarUpload: AssetUpload!
+    setMyAvatar: Boolean!
 }
 
 type Me {
@@ -10260,6 +10401,9 @@ extend type Mutation {
     deleteServiceAccount(orgId: ID!, id: ID!):                                    Boolean!
     createServiceAccountToken(orgId: ID!, saId: ID!, input: CreateTokenInput!):  CreatedToken!
     revokeServiceAccountToken(orgId: ID!, saId: ID!, tokenId: ID!):              Boolean!
+
+    prepareServiceAccountAvatarUpload(orgId: ID!, saId: ID!): AssetUpload!
+    setServiceAccountAvatar(orgId: ID!, saId: ID!):           Boolean!
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────
@@ -15593,6 +15737,113 @@ func (ec *executionContext) field_Mutation_prepareDiagramThumbnailUpload_argsDia
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_prepareOAuthProviderIconUpload_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_prepareOAuthProviderIconUpload_argsProvider(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["provider"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_prepareOAuthProviderIconUpload_argsProvider(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["provider"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("provider"))
+	if tmp, ok := rawArgs["provider"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_prepareServerOrgLogoUpload_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_prepareServerOrgLogoUpload_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_prepareServerOrgLogoUpload_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_prepareServiceAccountAvatarUpload_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_prepareServiceAccountAvatarUpload_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_prepareServiceAccountAvatarUpload_argsSaID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["saId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_prepareServiceAccountAvatarUpload_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_prepareServiceAccountAvatarUpload_argsSaID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["saId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("saId"))
+	if tmp, ok := rawArgs["saId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_removeMember_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -15637,6 +15888,62 @@ func (ec *executionContext) field_Mutation_removeMember_argsUserID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 	if tmp, ok := rawArgs["userId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_removeOAuthProviderIcon_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_removeOAuthProviderIcon_argsProvider(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["provider"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_removeOAuthProviderIcon_argsProvider(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["provider"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("provider"))
+	if tmp, ok := rawArgs["provider"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_removeServerOrgLogo_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_removeServerOrgLogo_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_removeServerOrgLogo_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -16053,6 +16360,113 @@ func (ec *executionContext) field_Mutation_revokeServiceAccountToken_argsTokenID
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("tokenId"))
 	if tmp, ok := rawArgs["tokenId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setOAuthProviderIcon_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_setOAuthProviderIcon_argsProvider(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["provider"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_setOAuthProviderIcon_argsProvider(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["provider"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("provider"))
+	if tmp, ok := rawArgs["provider"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setServerOrgLogo_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_setServerOrgLogo_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_setServerOrgLogo_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setServiceAccountAvatar_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_setServiceAccountAvatar_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_setServiceAccountAvatar_argsSaID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["saId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_setServiceAccountAvatar_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setServiceAccountAvatar_argsSaID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["saId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("saId"))
+	if tmp, ok := rawArgs["saId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -42088,6 +42502,177 @@ func (ec *executionContext) fieldContext_Mutation_deleteServerOrg(ctx context.Co
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_prepareServerOrgLogoUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_prepareServerOrgLogoUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().PrepareServerOrgLogoUpload(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AssetUpload)
+	fc.Result = res
+	return ec.marshalNAssetUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetUpload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_prepareServerOrgLogoUpload(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "assetId":
+				return ec.fieldContext_AssetUpload_assetId(ctx, field)
+			case "uploadUrl":
+				return ec.fieldContext_AssetUpload_uploadUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AssetUpload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_prepareServerOrgLogoUpload_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_setServerOrgLogo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_setServerOrgLogo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetServerOrgLogo(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_setServerOrgLogo(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_setServerOrgLogo_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_removeServerOrgLogo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_removeServerOrgLogo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveServerOrgLogo(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_removeServerOrgLogo(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_removeServerOrgLogo_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createUser(ctx, field)
 	if err != nil {
@@ -42397,6 +42982,177 @@ func (ec *executionContext) fieldContext_Mutation_deleteOAuthProvider(ctx contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteOAuthProvider_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_prepareOAuthProviderIconUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_prepareOAuthProviderIconUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().PrepareOAuthProviderIconUpload(rctx, fc.Args["provider"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AssetUpload)
+	fc.Result = res
+	return ec.marshalNAssetUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetUpload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_prepareOAuthProviderIconUpload(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "assetId":
+				return ec.fieldContext_AssetUpload_assetId(ctx, field)
+			case "uploadUrl":
+				return ec.fieldContext_AssetUpload_uploadUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AssetUpload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_prepareOAuthProviderIconUpload_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_setOAuthProviderIcon(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_setOAuthProviderIcon(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetOAuthProviderIcon(rctx, fc.Args["provider"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_setOAuthProviderIcon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_setOAuthProviderIcon_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_removeOAuthProviderIcon(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_removeOAuthProviderIcon(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveOAuthProviderIcon(rctx, fc.Args["provider"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_removeOAuthProviderIcon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_removeOAuthProviderIcon_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -42779,6 +43535,100 @@ func (ec *executionContext) fieldContext_Mutation_switchOrg(ctx context.Context,
 	if fc.Args, err = ec.field_Mutation_switchOrg_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_prepareUserAvatarUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_prepareUserAvatarUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().PrepareUserAvatarUpload(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AssetUpload)
+	fc.Result = res
+	return ec.marshalNAssetUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetUpload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_prepareUserAvatarUpload(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "assetId":
+				return ec.fieldContext_AssetUpload_assetId(ctx, field)
+			case "uploadUrl":
+				return ec.fieldContext_AssetUpload_uploadUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AssetUpload", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_setMyAvatar(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_setMyAvatar(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetMyAvatar(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_setMyAvatar(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
 	}
 	return fc, nil
 }
@@ -46916,6 +47766,122 @@ func (ec *executionContext) fieldContext_Mutation_revokeServiceAccountToken(ctx 
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_revokeServiceAccountToken_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_prepareServiceAccountAvatarUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_prepareServiceAccountAvatarUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().PrepareServiceAccountAvatarUpload(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AssetUpload)
+	fc.Result = res
+	return ec.marshalNAssetUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetUpload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_prepareServiceAccountAvatarUpload(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "assetId":
+				return ec.fieldContext_AssetUpload_assetId(ctx, field)
+			case "uploadUrl":
+				return ec.fieldContext_AssetUpload_uploadUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AssetUpload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_prepareServiceAccountAvatarUpload_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_setServiceAccountAvatar(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_setServiceAccountAvatar(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetServiceAccountAvatar(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_setServiceAccountAvatar(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_setServiceAccountAvatar_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -81650,6 +82616,27 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "prepareServerOrgLogoUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_prepareServerOrgLogoUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "setServerOrgLogo":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_setServerOrgLogo(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "removeServerOrgLogo":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_removeServerOrgLogo(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createUser":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createUser(ctx, field)
@@ -81681,6 +82668,27 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteOAuthProvider":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteOAuthProvider(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "prepareOAuthProviderIconUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_prepareOAuthProviderIconUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "setOAuthProviderIcon":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_setOAuthProviderIcon(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "removeOAuthProviderIcon":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_removeOAuthProviderIcon(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -81730,6 +82738,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "switchOrg":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_switchOrg(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "prepareUserAvatarUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_prepareUserAvatarUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "setMyAvatar":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_setMyAvatar(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -82129,6 +83151,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "revokeServiceAccountToken":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_revokeServiceAccountToken(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "prepareServiceAccountAvatarUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_prepareServiceAccountAvatarUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "setServiceAccountAvatar":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_setServiceAccountAvatar(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++

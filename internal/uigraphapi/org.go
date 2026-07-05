@@ -242,3 +242,25 @@ func (c *Client) CreateServiceAccountToken(ctx context.Context, orgID, saID stri
 func (c *Client) RevokeServiceAccountToken(ctx context.Context, orgID, saID, tokenID string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/service-accounts/%s/tokens/%s", orgID, saID, tokenID))
 }
+
+func (c *Client) PrepareServiceAccountAvatarUpload(ctx context.Context, orgID, saID string) (*AssetUpload, error) {
+	var out AssetUpload
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/service-accounts/%s/avatar/prepare", orgID, saID), nil, &out)
+}
+
+func (c *Client) SetServiceAccountAvatar(ctx context.Context, orgID, saID string) error {
+	return c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/service-accounts/%s/avatar", orgID, saID), nil, nil)
+}
+
+func (c *Client) PrepareServerOrgLogoUpload(ctx context.Context, orgID string) (*AssetUpload, error) {
+	var out AssetUpload
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/server/orgs/%s/logo/prepare", orgID), nil, &out)
+}
+
+func (c *Client) SetServerOrgLogo(ctx context.Context, orgID string) error {
+	return c.put(ctx, fmt.Sprintf("/api/v1/server/orgs/%s/logo", orgID), nil, nil)
+}
+
+func (c *Client) RemoveServerOrgLogo(ctx context.Context, orgID string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/server/orgs/%s/logo", orgID))
+}

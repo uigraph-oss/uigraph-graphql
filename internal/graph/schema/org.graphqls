@@ -31,6 +31,9 @@ extend type Mutation {
     deleteServiceAccount(orgId: ID!, id: ID!):                                    Boolean!
     createServiceAccountToken(orgId: ID!, saId: ID!, input: CreateTokenInput!):  CreatedToken!
     revokeServiceAccountToken(orgId: ID!, saId: ID!, tokenId: ID!):              Boolean!
+
+    prepareServiceAccountAvatarUpload(orgId: ID!, saId: ID!): AssetUpload!
+    setServiceAccountAvatar(orgId: ID!, saId: ID!):           Boolean!
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────

@@ -20,6 +20,8 @@ type authClient interface {
 	Me(ctx context.Context) (*uigraphapi.MeResponse, error)
 	MyOrgs(ctx context.Context) ([]uigraphapi.OrgSummary, error)
 	SwitchOrg(ctx context.Context, orgID string) error
+	PrepareUserAvatarUpload(ctx context.Context) (*uigraphapi.AssetUpload, error)
+	SetMyAvatar(ctx context.Context) error
 }
 
 type orgClient interface {
@@ -49,6 +51,8 @@ type orgClient interface {
 	CreateServiceAccountToken(ctx context.Context, orgID, saID string, body map[string]interface{}) (*uigraphapi.CreatedToken, error)
 	RevokeServiceAccountToken(ctx context.Context, orgID, saID, tokenID string) error
 	ListServiceAccountScopes(ctx context.Context, orgID string) ([]string, error)
+	PrepareServiceAccountAvatarUpload(ctx context.Context, orgID, saID string) (*uigraphapi.AssetUpload, error)
+	SetServiceAccountAvatar(ctx context.Context, orgID, saID string) error
 }
 
 type adminClient interface {
@@ -58,6 +62,9 @@ type adminClient interface {
 	ServerCreateOrg(ctx context.Context, body map[string]interface{}) (*uigraphapi.Org, error)
 	ServerUpdateOrg(ctx context.Context, id string, body map[string]interface{}) (*uigraphapi.Org, error)
 	ServerDeleteOrg(ctx context.Context, id string) error
+	PrepareServerOrgLogoUpload(ctx context.Context, orgID string) (*uigraphapi.AssetUpload, error)
+	SetServerOrgLogo(ctx context.Context, orgID string) error
+	RemoveServerOrgLogo(ctx context.Context, orgID string) error
 	ListUsers(ctx context.Context) ([]uigraphapi.User, error)
 	GetUser(ctx context.Context, id string) (*uigraphapi.User, error)
 	CreateUser(ctx context.Context, body map[string]interface{}) (*uigraphapi.User, error)
@@ -66,6 +73,9 @@ type adminClient interface {
 	ListOAuthProviders(ctx context.Context) ([]uigraphapi.OAuthProvider, error)
 	UpsertOAuthProvider(ctx context.Context, provider string, body map[string]interface{}) error
 	DeleteOAuthProvider(ctx context.Context, provider string) error
+	PrepareOAuthProviderIconUpload(ctx context.Context, provider string) (*uigraphapi.AssetUpload, error)
+	SetOAuthProviderIcon(ctx context.Context, provider string) error
+	RemoveOAuthProviderIcon(ctx context.Context, provider string) error
 	ListRoleMappings(ctx context.Context) ([]uigraphapi.RoleMapping, error)
 	CreateRoleMapping(ctx context.Context, body map[string]interface{}) error
 	DeleteRoleMapping(ctx context.Context, id string) error

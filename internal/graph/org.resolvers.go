@@ -131,6 +131,20 @@ func (r *mutationResolver) RevokeServiceAccountToken(ctx context.Context, orgID 
 	return true, r.OrgAPI.RevokeServiceAccountToken(ctx, orgID, saID, tokenID)
 }
 
+// PrepareServiceAccountAvatarUpload is the resolver for the prepareServiceAccountAvatarUpload field.
+func (r *mutationResolver) PrepareServiceAccountAvatarUpload(ctx context.Context, orgID string, saID string) (*model.AssetUpload, error) {
+	u, err := r.OrgAPI.PrepareServiceAccountAvatarUpload(ctx, orgID, saID)
+	if err != nil {
+		return nil, err
+	}
+	return &model.AssetUpload{AssetID: u.AssetID, UploadURL: u.UploadURL}, nil
+}
+
+// SetServiceAccountAvatar is the resolver for the setServiceAccountAvatar field.
+func (r *mutationResolver) SetServiceAccountAvatar(ctx context.Context, orgID string, saID string) (bool, error) {
+	return true, r.OrgAPI.SetServiceAccountAvatar(ctx, orgID, saID)
+}
+
 // Org is the resolver for the org field.
 func (r *queryResolver) Org(ctx context.Context, id string) (*model.Org, error) {
 	o, err := r.OrgAPI.GetOrg(ctx, id)

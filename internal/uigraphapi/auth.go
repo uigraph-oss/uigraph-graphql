@@ -37,3 +37,12 @@ func (c *Client) MyOrgs(ctx context.Context) ([]OrgSummary, error) {
 func (c *Client) SwitchOrg(ctx context.Context, orgID string) error {
 	return c.post(ctx, "/api/v1/auth/switch-org", map[string]string{"orgId": orgID}, nil)
 }
+
+func (c *Client) PrepareUserAvatarUpload(ctx context.Context) (*AssetUpload, error) {
+	var out AssetUpload
+	return &out, c.post(ctx, "/api/v1/users/me/avatar/prepare", nil, &out)
+}
+
+func (c *Client) SetMyAvatar(ctx context.Context) error {
+	return c.put(ctx, "/api/v1/users/me/avatar", nil, nil)
+}
