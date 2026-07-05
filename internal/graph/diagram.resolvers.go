@@ -129,15 +129,16 @@ func (r *mutationResolver) CreateDiagramImage(ctx context.Context, orgID string,
 }
 
 // Diagrams is the resolver for the diagrams field.
-func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DiagramPage, error) {
+func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DiagramPage, error) {
 	p := uigraphapi.ListParams{
-		FolderID: derefStr(folderID),
-		TeamID:   derefStr(teamID),
-		Search:   derefStr(search),
-		SortBy:   derefStr(sortBy),
-		SortDir:  derefStr(sortDir),
-		Limit:    limit,
-		Offset:   offset,
+		FolderID:  derefStr(folderID),
+		TeamID:    derefStr(teamID),
+		ServiceID: derefStr(serviceID),
+		Search:    derefStr(search),
+		SortBy:    derefStr(sortBy),
+		SortDir:   derefStr(sortDir),
+		Limit:     limit,
+		Offset:    offset,
 	}
 	diagrams, total, err := r.DiagramAPI.ListDiagrams(ctx, orgID, p)
 	if err != nil {

@@ -50,13 +50,14 @@ type DiagramVersion struct {
 }
 
 type ListParams struct {
-	FolderID string
-	TeamID   string
-	Search   string
-	SortBy   string
-	SortDir  string
-	Limit    *int
-	Offset   *int
+	FolderID  string
+	TeamID    string
+	ServiceID string
+	Search    string
+	SortBy    string
+	SortDir   string
+	Limit     *int
+	Offset    *int
 }
 
 func (c *Client) ListDiagrams(ctx context.Context, orgID string, p ListParams) ([]Diagram, int, error) {

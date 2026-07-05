@@ -4,7 +4,7 @@ type DiagramThumbnailUpload {
 }
 
 extend type Query {
-    diagrams(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DiagramPage!
+    diagrams(orgId: ID!, folderId: ID, teamId: ID, serviceId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DiagramPage!
     diagram(orgId: ID!, id: ID!):                             Diagram!
     diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!

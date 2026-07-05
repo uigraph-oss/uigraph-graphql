@@ -813,7 +813,7 @@ type ComplexityRoot struct {
 		DiagramImages         func(childComplexity int, orgID string, diagramID string) int
 		DiagramVersionContent func(childComplexity int, orgID string, diagramID string, versionID string) int
 		DiagramVersions       func(childComplexity int, orgID string, diagramID string) int
-		Diagrams              func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Diagrams              func(childComplexity int, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		Doc                   func(childComplexity int, orgID string, id string) int
 		Docs                  func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		FlowDiagramComponents func(childComplexity int, orgID string) int
@@ -1487,7 +1487,7 @@ type QueryResolver interface {
 	Comments(ctx context.Context, orgID string, resourceID string) ([]*model.Comment, error)
 	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
 	Components(ctx context.Context, orgID string) (*model.Components, error)
-	Diagrams(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DiagramPage, error)
+	Diagrams(ctx context.Context, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DiagramPage, error)
 	Diagram(ctx context.Context, orgID string, id string) (*model.Diagram, error)
 	DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error)
 	DiagramVersions(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramVersion, error)
@@ -6423,7 +6423,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Diagrams(childComplexity, args["orgId"].(string), args["folderId"].(*string), args["teamId"].(*string), args["search"].(*string), args["sortBy"].(*string), args["sortDir"].(*string), args["limit"].(*int), args["offset"].(*int)), true
+		return e.complexity.Query.Diagrams(childComplexity, args["orgId"].(string), args["folderId"].(*string), args["teamId"].(*string), args["serviceId"].(*string), args["search"].(*string), args["sortBy"].(*string), args["sortDir"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.doc":
 		if e.complexity.Query.Doc == nil {
@@ -10333,7 +10333,7 @@ type Components {
 }
 
 extend type Query {
-    diagrams(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DiagramPage!
+    diagrams(orgId: ID!, folderId: ID, teamId: ID, serviceId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DiagramPage!
     diagram(orgId: ID!, id: ID!):                             Diagram!
     diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
@@ -20995,31 +20995,36 @@ func (ec *executionContext) field_Query_diagrams_args(ctx context.Context, rawAr
 		return nil, err
 	}
 	args["teamId"] = arg2
-	arg3, err := ec.field_Query_diagrams_argsSearch(ctx, rawArgs)
+	arg3, err := ec.field_Query_diagrams_argsServiceID(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["search"] = arg3
-	arg4, err := ec.field_Query_diagrams_argsSortBy(ctx, rawArgs)
+	args["serviceId"] = arg3
+	arg4, err := ec.field_Query_diagrams_argsSearch(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["sortBy"] = arg4
-	arg5, err := ec.field_Query_diagrams_argsSortDir(ctx, rawArgs)
+	args["search"] = arg4
+	arg5, err := ec.field_Query_diagrams_argsSortBy(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["sortDir"] = arg5
-	arg6, err := ec.field_Query_diagrams_argsLimit(ctx, rawArgs)
+	args["sortBy"] = arg5
+	arg6, err := ec.field_Query_diagrams_argsSortDir(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["limit"] = arg6
-	arg7, err := ec.field_Query_diagrams_argsOffset(ctx, rawArgs)
+	args["sortDir"] = arg6
+	arg7, err := ec.field_Query_diagrams_argsLimit(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["offset"] = arg7
+	args["limit"] = arg7
+	arg8, err := ec.field_Query_diagrams_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg8
 	return args, nil
 }
 func (ec *executionContext) field_Query_diagrams_argsOrgID(
@@ -21069,6 +21074,24 @@ func (ec *executionContext) field_Query_diagrams_argsTeamID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
 	if tmp, ok := rawArgs["teamId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagrams_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
 		return ec.unmarshalOID2ᚖstring(ctx, tmp)
 	}
 
@@ -55312,7 +55335,7 @@ func (ec *executionContext) _Query_diagrams(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Diagrams(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string), fc.Args["teamId"].(*string), fc.Args["search"].(*string), fc.Args["sortBy"].(*string), fc.Args["sortDir"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.Query().Diagrams(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string), fc.Args["teamId"].(*string), fc.Args["serviceId"].(*string), fc.Args["search"].(*string), fc.Args["sortBy"].(*string), fc.Args["sortDir"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
