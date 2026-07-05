@@ -150,6 +150,7 @@ func TestPackToModel(p *uigraphapi.TestPack) *model.TestPack {
 		TestPackID: p.TestPackID, ServiceID: p.ServiceID, OrgID: p.OrgID,
 		Name: p.Name, Type: p.Type,
 		CreatedBy: p.CreatedBy, UpdatedBy: p.UpdatedBy, DeletedBy: p.DeletedBy,
+		CreatedByCommitHash: p.CreatedByCommitHash, UpdatedByCommitHash: p.UpdatedByCommitHash,
 		CreatedAt: p.CreatedAt, UpdatedAt: p.UpdatedAt, DeletedAt: p.DeletedAt,
 	}
 }
@@ -163,7 +164,9 @@ func TestCaseToModel(tc *uigraphapi.TestCase) *model.TestCase {
 		Manual: ManualTestCaseToModel(tc.Manual), API: APITestCaseToModel(tc.API),
 		Graphql: GraphQLTestCaseToModel(tc.GraphQL), Database: DatabaseTestCaseToModel(tc.Database), Grpc: GRPCTestCaseToModel(tc.GRPC),
 		Status: tc.Status, Version: tc.Version, BaselineRunResultID: tc.BaselineRunResultID, Dependencies: tc.Dependencies,
-		CreatedBy: tc.CreatedBy, UpdatedBy: tc.UpdatedBy, DeletedBy: tc.DeletedBy, CreatedAt: tc.CreatedAt, UpdatedAt: tc.UpdatedAt, DeletedAt: tc.DeletedAt,
+		CreatedBy: tc.CreatedBy, UpdatedBy: tc.UpdatedBy, DeletedBy: tc.DeletedBy,
+		CreatedByCommitHash: tc.CreatedByCommitHash, UpdatedByCommitHash: tc.UpdatedByCommitHash,
+		CreatedAt: tc.CreatedAt, UpdatedAt: tc.UpdatedAt, DeletedAt: tc.DeletedAt,
 	}
 }
 

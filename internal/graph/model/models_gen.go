@@ -11,56 +11,61 @@ import (
 )
 
 type APIEndpoint struct {
-	ID               string    `json:"id"`
-	APIGroupID       string    `json:"apiGroupId"`
-	ServiceID        string    `json:"serviceId"`
-	OrgID            string    `json:"orgId"`
-	OperationID      string    `json:"operationId"`
-	Method           string    `json:"method"`
-	Path             string    `json:"path"`
-	Summary          string    `json:"summary"`
-	Description      string    `json:"description"`
-	Tags             []string  `json:"tags"`
-	Parameters       string    `json:"parameters"`
-	RequestBody      string    `json:"requestBody"`
-	Responses        string    `json:"responses"`
-	ExampleRequests  string    `json:"exampleRequests"`
-	ExampleResponses string    `json:"exampleResponses"`
-	Order            float64   `json:"order"`
-	CreatedBy        string    `json:"createdBy"`
-	UpdatedBy        *string   `json:"updatedBy,omitempty"`
-	CreatedAt        time.Time `json:"createdAt"`
-	UpdatedAt        time.Time `json:"updatedAt"`
+	ID                  string    `json:"id"`
+	APIGroupID          string    `json:"apiGroupId"`
+	ServiceID           string    `json:"serviceId"`
+	OrgID               string    `json:"orgId"`
+	OperationID         string    `json:"operationId"`
+	Method              string    `json:"method"`
+	Path                string    `json:"path"`
+	Summary             string    `json:"summary"`
+	Description         string    `json:"description"`
+	Tags                []string  `json:"tags"`
+	Parameters          string    `json:"parameters"`
+	RequestBody         string    `json:"requestBody"`
+	Responses           string    `json:"responses"`
+	ExampleRequests     string    `json:"exampleRequests"`
+	ExampleResponses    string    `json:"exampleResponses"`
+	Order               float64   `json:"order"`
+	CreatedBy           string    `json:"createdBy"`
+	UpdatedBy           *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
 }
 
 type APIGroup struct {
-	ID        string    `json:"id"`
-	ServiceID string    `json:"serviceId"`
-	OrgID     string    `json:"orgId"`
-	Name      string    `json:"name"`
-	Version   string    `json:"version"`
-	Label     *string   `json:"label,omitempty"`
-	Protocol  string    `json:"protocol"`
-	SpecKey   *string   `json:"specKey,omitempty"`
-	SpecHash  *string   `json:"specHash,omitempty"`
-	CreatedBy string    `json:"createdBy"`
-	UpdatedBy *string   `json:"updatedBy,omitempty"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	ID                  string    `json:"id"`
+	ServiceID           string    `json:"serviceId"`
+	OrgID               string    `json:"orgId"`
+	Name                string    `json:"name"`
+	Version             string    `json:"version"`
+	Label               *string   `json:"label,omitempty"`
+	Protocol            string    `json:"protocol"`
+	SpecKey             *string   `json:"specKey,omitempty"`
+	SpecHash            *string   `json:"specHash,omitempty"`
+	CreatedBy           string    `json:"createdBy"`
+	UpdatedBy           *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
 }
 
 type APIGroupVersion struct {
-	ID             string    `json:"id"`
-	OrgID          string    `json:"orgId"`
-	APIGroupID     string    `json:"apiGroupId"`
-	VersionNumber  int       `json:"versionNumber"`
-	Label          *string   `json:"label,omitempty"`
-	SpecKey        string    `json:"specKey"`
-	SpecHash       string    `json:"specHash"`
-	IsAutoVersion  bool      `json:"isAutoVersion"`
-	CreatedBy      string    `json:"createdBy"`
-	CreatedByActor *Actor    `json:"createdByActor,omitempty"`
-	CreatedAt      time.Time `json:"createdAt"`
+	ID                  string    `json:"id"`
+	OrgID               string    `json:"orgId"`
+	APIGroupID          string    `json:"apiGroupId"`
+	VersionNumber       int       `json:"versionNumber"`
+	Label               *string   `json:"label,omitempty"`
+	SpecKey             string    `json:"specKey"`
+	SpecHash            string    `json:"specHash"`
+	IsAutoVersion       bool      `json:"isAutoVersion"`
+	CreatedBy           string    `json:"createdBy"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	CreatedByActor      *Actor    `json:"createdByActor,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
 }
 
 type APITestCase struct {
@@ -723,18 +728,20 @@ type FlowDiagramComponents struct {
 }
 
 type FocalPoint struct {
-	ID         string    `json:"id"`
-	FrameID    string    `json:"frameId"`
-	OrgID      string    `json:"orgId"`
-	Name       string    `json:"name"`
-	LocationX  float64   `json:"locationX"`
-	LocationY  float64   `json:"locationY"`
-	Visibility string    `json:"visibility"`
-	IsActive   bool      `json:"isActive"`
-	CreatedBy  string    `json:"createdBy"`
-	UpdatedBy  *string   `json:"updatedBy,omitempty"`
-	CreatedAt  time.Time `json:"createdAt"`
-	UpdatedAt  time.Time `json:"updatedAt"`
+	ID                  string    `json:"id"`
+	FrameID             string    `json:"frameId"`
+	OrgID               string    `json:"orgId"`
+	Name                string    `json:"name"`
+	LocationX           float64   `json:"locationX"`
+	LocationY           float64   `json:"locationY"`
+	Visibility          string    `json:"visibility"`
+	IsActive            bool      `json:"isActive"`
+	CreatedBy           string    `json:"createdBy"`
+	UpdatedBy           *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
 }
 
 type FocalPointMeta struct {
@@ -750,6 +757,8 @@ type FocalPointMeta struct {
 	ComponentModalFields       []*ComponentModalField `json:"componentModalFields"`
 	CreatedBy                  string                 `json:"createdBy"`
 	UpdatedBy                  *string                `json:"updatedBy,omitempty"`
+	CreatedByCommitHash        *string                `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash        *string                `json:"updatedByCommitHash,omitempty"`
 	CreatedAt                  time.Time              `json:"createdAt"`
 	UpdatedAt                  time.Time              `json:"updatedAt"`
 }
@@ -784,6 +793,8 @@ type Frame struct {
 	FocalPointCount       int       `json:"focalPointCount"`
 	CreatedBy             string    `json:"createdBy"`
 	UpdatedBy             *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash   *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash   *string   `json:"updatedByCommitHash,omitempty"`
 	CreatedByActor        *Actor    `json:"createdByActor,omitempty"`
 	UpdatedByActor        *Actor    `json:"updatedByActor,omitempty"`
 	CreatedAt             time.Time `json:"createdAt"`
@@ -1106,28 +1117,30 @@ type ServerOverview struct {
 }
 
 type Service struct {
-	ID              string    `json:"id"`
-	OrgID           string    `json:"orgId"`
-	FolderID        *string   `json:"folderId,omitempty"`
-	TeamID          *string   `json:"teamId,omitempty"`
-	Name            string    `json:"name"`
-	Description     string    `json:"description"`
-	Status          string    `json:"status"`
-	Tier            string    `json:"tier"`
-	Category        string    `json:"category"`
-	Language        string    `json:"language"`
-	GitRepoURL      *string   `json:"gitRepoUrl,omitempty"`
-	JiraProjectURL  *string   `json:"jiraProjectUrl,omitempty"`
-	SlackChannelURL *string   `json:"slackChannelUrl,omitempty"`
-	LastCommitSha   *string   `json:"lastCommitSha,omitempty"`
-	Labels          []string  `json:"labels"`
-	Metadata        string    `json:"metadata"`
-	CreatedBy       string    `json:"createdBy"`
-	UpdatedBy       *string   `json:"updatedBy,omitempty"`
-	CreatedByActor  *Actor    `json:"createdByActor,omitempty"`
-	UpdatedByActor  *Actor    `json:"updatedByActor,omitempty"`
-	CreatedAt       time.Time `json:"createdAt"`
-	UpdatedAt       time.Time `json:"updatedAt"`
+	ID                  string    `json:"id"`
+	OrgID               string    `json:"orgId"`
+	FolderID            *string   `json:"folderId,omitempty"`
+	TeamID              *string   `json:"teamId,omitempty"`
+	Name                string    `json:"name"`
+	Description         string    `json:"description"`
+	Status              string    `json:"status"`
+	Tier                string    `json:"tier"`
+	Category            string    `json:"category"`
+	Language            string    `json:"language"`
+	GitRepoURL          *string   `json:"gitRepoUrl,omitempty"`
+	JiraProjectURL      *string   `json:"jiraProjectUrl,omitempty"`
+	SlackChannelURL     *string   `json:"slackChannelUrl,omitempty"`
+	LastCommitSha       *string   `json:"lastCommitSha,omitempty"`
+	Labels              []string  `json:"labels"`
+	Metadata            string    `json:"metadata"`
+	CreatedBy           string    `json:"createdBy"`
+	UpdatedBy           *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
+	CreatedByActor      *Actor    `json:"createdByActor,omitempty"`
+	UpdatedByActor      *Actor    `json:"updatedByActor,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
 }
 
 type ServiceAccount struct {
@@ -1154,66 +1167,73 @@ type ServiceAccountToken struct {
 }
 
 type ServiceDb struct {
-	ID             string     `json:"id"`
-	ServiceID      string     `json:"serviceId"`
-	OrgID          string     `json:"orgId"`
-	DbName         string     `json:"dbName"`
-	DbType         string     `json:"dbType"`
-	Dialect        string     `json:"dialect"`
-	SchemaJSON     string     `json:"schemaJson"`
-	Tables         []*DbTable `json:"tables"`
-	NoSQLSchema    any        `json:"noSQLSchema,omitempty"`
-	DbDiagramID    *string    `json:"dbDiagramId,omitempty"`
-	PgDumpFileID   *string    `json:"pgDumpFileId,omitempty"`
-	Source         *string    `json:"source,omitempty"`
-	SourceTs       *time.Time `json:"sourceTs,omitempty"`
-	CreatedBy      string     `json:"createdBy"`
-	UpdatedBy      *string    `json:"updatedBy,omitempty"`
-	CreatedByActor *Actor     `json:"createdByActor,omitempty"`
-	UpdatedByActor *Actor     `json:"updatedByActor,omitempty"`
-	CreatedAt      time.Time  `json:"createdAt"`
-	UpdatedAt      time.Time  `json:"updatedAt"`
+	ID                  string     `json:"id"`
+	ServiceID           string     `json:"serviceId"`
+	OrgID               string     `json:"orgId"`
+	DbName              string     `json:"dbName"`
+	DbType              string     `json:"dbType"`
+	Dialect             string     `json:"dialect"`
+	SchemaJSON          string     `json:"schemaJson"`
+	Tables              []*DbTable `json:"tables"`
+	NoSQLSchema         any        `json:"noSQLSchema,omitempty"`
+	DbDiagramID         *string    `json:"dbDiagramId,omitempty"`
+	PgDumpFileID        *string    `json:"pgDumpFileId,omitempty"`
+	Source              *string    `json:"source,omitempty"`
+	SourceTs            *time.Time `json:"sourceTs,omitempty"`
+	CreatedBy           string     `json:"createdBy"`
+	UpdatedBy           *string    `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string    `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string    `json:"updatedByCommitHash,omitempty"`
+	CreatedByActor      *Actor     `json:"createdByActor,omitempty"`
+	UpdatedByActor      *Actor     `json:"updatedByActor,omitempty"`
+	CreatedAt           time.Time  `json:"createdAt"`
+	UpdatedAt           time.Time  `json:"updatedAt"`
 }
 
 type ServiceDBVersion struct {
-	ID             string     `json:"id"`
-	OrgID          string     `json:"orgId"`
-	ServiceDbID    string     `json:"serviceDbId"`
-	VersionNumber  int        `json:"versionNumber"`
-	Label          *string    `json:"label,omitempty"`
-	SchemaJSON     string     `json:"schemaJson"`
-	Tables         []*DbTable `json:"tables"`
-	NoSQLSchema    any        `json:"noSQLSchema,omitempty"`
-	DbDiagramID    *string    `json:"dbDiagramId,omitempty"`
-	PgDumpFileID   *string    `json:"pgDumpFileId,omitempty"`
-	Source         *string    `json:"source,omitempty"`
-	SourceTs       *time.Time `json:"sourceTs,omitempty"`
-	IsAutoVersion  bool       `json:"isAutoVersion"`
-	CreatedBy      string     `json:"createdBy"`
-	CreatedByActor *Actor     `json:"createdByActor,omitempty"`
-	CreatedAt      time.Time  `json:"createdAt"`
+	ID                  string     `json:"id"`
+	OrgID               string     `json:"orgId"`
+	ServiceDbID         string     `json:"serviceDbId"`
+	VersionNumber       int        `json:"versionNumber"`
+	Label               *string    `json:"label,omitempty"`
+	SchemaJSON          string     `json:"schemaJson"`
+	Tables              []*DbTable `json:"tables"`
+	NoSQLSchema         any        `json:"noSQLSchema,omitempty"`
+	DbDiagramID         *string    `json:"dbDiagramId,omitempty"`
+	PgDumpFileID        *string    `json:"pgDumpFileId,omitempty"`
+	Source              *string    `json:"source,omitempty"`
+	SourceTs            *time.Time `json:"sourceTs,omitempty"`
+	IsAutoVersion       bool       `json:"isAutoVersion"`
+	CreatedBy           string     `json:"createdBy"`
+	CreatedByCommitHash *string    `json:"createdByCommitHash,omitempty"`
+	CreatedByActor      *Actor     `json:"createdByActor,omitempty"`
+	CreatedAt           time.Time  `json:"createdAt"`
 }
 
 type ServiceDiagram struct {
-	ServiceID string    `json:"serviceId"`
-	DiagramID string    `json:"diagramId"`
-	OrgID     string    `json:"orgId"`
-	CreatedBy string    `json:"createdBy"`
-	UpdatedBy *string   `json:"updatedBy,omitempty"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	Diagram   *Diagram  `json:"diagram,omitempty"`
+	ServiceID           string    `json:"serviceId"`
+	DiagramID           string    `json:"diagramId"`
+	OrgID               string    `json:"orgId"`
+	CreatedBy           string    `json:"createdBy"`
+	UpdatedBy           *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
+	Diagram             *Diagram  `json:"diagram,omitempty"`
 }
 
 type ServiceDoc struct {
-	ServiceID string    `json:"serviceId"`
-	DocID     string    `json:"docId"`
-	OrgID     string    `json:"orgId"`
-	CreatedBy string    `json:"createdBy"`
-	UpdatedBy *string   `json:"updatedBy,omitempty"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	Doc       *Doc      `json:"doc,omitempty"`
+	ServiceID           string    `json:"serviceId"`
+	DocID               string    `json:"docId"`
+	OrgID               string    `json:"orgId"`
+	CreatedBy           string    `json:"createdBy"`
+	UpdatedBy           *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
+	Doc                 *Doc      `json:"doc,omitempty"`
 }
 
 type ServicePage struct {
@@ -1319,6 +1339,8 @@ type TestCase struct {
 	Dependencies          []string          `json:"dependencies"`
 	CreatedBy             string            `json:"createdBy"`
 	UpdatedBy             *string           `json:"updatedBy,omitempty"`
+	CreatedByCommitHash   *string           `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash   *string           `json:"updatedByCommitHash,omitempty"`
 	DeletedBy             *string           `json:"deletedBy,omitempty"`
 	CreatedAt             time.Time         `json:"createdAt"`
 	UpdatedAt             time.Time         `json:"updatedAt"`
@@ -1338,17 +1360,19 @@ type TestCaseStepInput struct {
 }
 
 type TestPack struct {
-	TestPackID string     `json:"testPackId"`
-	ServiceID  string     `json:"serviceId"`
-	OrgID      string     `json:"orgId"`
-	Name       string     `json:"name"`
-	Type       string     `json:"type"`
-	CreatedBy  string     `json:"createdBy"`
-	UpdatedBy  *string    `json:"updatedBy,omitempty"`
-	DeletedBy  *string    `json:"deletedBy,omitempty"`
-	CreatedAt  time.Time  `json:"createdAt"`
-	UpdatedAt  time.Time  `json:"updatedAt"`
-	DeletedAt  *time.Time `json:"deletedAt,omitempty"`
+	TestPackID          string     `json:"testPackId"`
+	ServiceID           string     `json:"serviceId"`
+	OrgID               string     `json:"orgId"`
+	Name                string     `json:"name"`
+	Type                string     `json:"type"`
+	CreatedBy           string     `json:"createdBy"`
+	UpdatedBy           *string    `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string    `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string    `json:"updatedByCommitHash,omitempty"`
+	DeletedBy           *string    `json:"deletedBy,omitempty"`
+	CreatedAt           time.Time  `json:"createdAt"`
+	UpdatedAt           time.Time  `json:"updatedAt"`
+	DeletedAt           *time.Time `json:"deletedAt,omitempty"`
 }
 
 type TestRun struct {
@@ -1411,18 +1435,20 @@ type ToolSavings struct {
 }
 
 type UIMap struct {
-	ID             string    `json:"id"`
-	OrgID          string    `json:"orgId"`
-	FolderID       *string   `json:"folderId,omitempty"`
-	TeamID         *string   `json:"teamId,omitempty"`
-	Name           string    `json:"name"`
-	Description    string    `json:"description"`
-	Status         string    `json:"status"`
-	CreatedBy      string    `json:"createdBy"`
-	UpdatedBy      *string   `json:"updatedBy,omitempty"`
-	CreatedAt      time.Time `json:"createdAt"`
-	UpdatedAt      time.Time `json:"updatedAt"`
-	PreviewImgUrls []string  `json:"previewImgUrls"`
+	ID                  string    `json:"id"`
+	OrgID               string    `json:"orgId"`
+	FolderID            *string   `json:"folderId,omitempty"`
+	TeamID              *string   `json:"teamId,omitempty"`
+	Name                string    `json:"name"`
+	Description         string    `json:"description"`
+	Status              string    `json:"status"`
+	CreatedBy           string    `json:"createdBy"`
+	UpdatedBy           *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
+	PreviewImgUrls      []string  `json:"previewImgUrls"`
 }
 
 type UIMapPage struct {

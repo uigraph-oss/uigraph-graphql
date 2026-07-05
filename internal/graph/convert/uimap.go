@@ -11,7 +11,9 @@ func UIMapToModel(m *uigraphapi.UIMap) *model.UIMap {
 	return &model.UIMap{
 		ID: m.ID, OrgID: m.OrgID, FolderID: m.FolderID, TeamID: m.TeamID,
 		Name: m.Name, Description: m.Description, Status: m.Status,
-		CreatedBy: m.CreatedBy, UpdatedBy: m.UpdatedBy, CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
+		CreatedBy: m.CreatedBy, UpdatedBy: m.UpdatedBy,
+		CreatedByCommitHash: m.CreatedByCommitHash, UpdatedByCommitHash: m.UpdatedByCommitHash,
+		CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
 	}
 }
 
@@ -22,7 +24,9 @@ func FrameToModel(f *uigraphapi.Frame) *model.Frame {
 		ScreenshotAssetID: f.ScreenshotAssetID, ScreenshotContentHash: f.ScreenshotContentHash,
 		Status: f.Status, Order: f.Order, Source: f.Source,
 		FocalPointCount: f.FocalPointCount,
-		CreatedBy:       f.CreatedBy, UpdatedBy: f.UpdatedBy, CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
+		CreatedBy:       f.CreatedBy, UpdatedBy: f.UpdatedBy,
+		CreatedByCommitHash: f.CreatedByCommitHash, UpdatedByCommitHash: f.UpdatedByCommitHash,
+		CreatedAt: f.CreatedAt, UpdatedAt: f.UpdatedAt,
 	}
 }
 
@@ -31,7 +35,9 @@ func FocalPointToModel(fp *uigraphapi.FocalPoint) *model.FocalPoint {
 		ID: fp.ID, FrameID: fp.FrameID, OrgID: fp.OrgID,
 		Name: fp.Name, LocationX: fp.LocationX, LocationY: fp.LocationY,
 		Visibility: fp.Visibility, IsActive: fp.IsActive,
-		CreatedBy: fp.CreatedBy, UpdatedBy: fp.UpdatedBy, CreatedAt: fp.CreatedAt, UpdatedAt: fp.UpdatedAt,
+		CreatedBy: fp.CreatedBy, UpdatedBy: fp.UpdatedBy,
+		CreatedByCommitHash: fp.CreatedByCommitHash, UpdatedByCommitHash: fp.UpdatedByCommitHash,
+		CreatedAt: fp.CreatedAt, UpdatedAt: fp.UpdatedAt,
 	}
 }
 
@@ -110,6 +116,8 @@ func FocalPointMetaToModel(m *uigraphapi.FocalPointMeta) *model.FocalPointMeta {
 		ComponentModalFields:       ComponentModalFieldsFromRaw(m.ComponentModalFields),
 		CreatedBy:                  m.CreatedBy,
 		UpdatedBy:                  m.UpdatedBy,
+		CreatedByCommitHash:        m.CreatedByCommitHash,
+		UpdatedByCommitHash:        m.UpdatedByCommitHash,
 		CreatedAt:                  m.CreatedAt,
 		UpdatedAt:                  m.UpdatedAt,
 	}
