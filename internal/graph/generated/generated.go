@@ -631,6 +631,7 @@ type ComplexityRoot struct {
 	Mutation struct {
 		AddMember                         func(childComplexity int, orgID string, input model.AddMemberInput) int
 		AddTeamMember                     func(childComplexity int, orgID string, teamID string, userID string, permission *string) int
+		CompleteOnboarding                func(childComplexity int, orgID string) int
 		ConfirmDiagramThumbnailUpload     func(childComplexity int, orgID string, diagramID string, contentHash string) int
 		CreateAPIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) int
 		CreateAPIGroup                    func(childComplexity int, orgID string, serviceID string, input model.CreateAPIGroupInput) int
@@ -781,11 +782,12 @@ type ComplexityRoot struct {
 	}
 
 	OrgSummary struct {
-		Active  func(childComplexity int) int
-		ID      func(childComplexity int) int
-		LogoURL func(childComplexity int) int
-		Name    func(childComplexity int) int
-		Role    func(childComplexity int) int
+		Active         func(childComplexity int) int
+		ID             func(childComplexity int) int
+		LogoURL        func(childComplexity int) int
+		Name           func(childComplexity int) int
+		OnboardingDone func(childComplexity int) int
+		Role           func(childComplexity int) int
 	}
 
 	Query struct {
@@ -1401,6 +1403,7 @@ type MutationResolver interface {
 	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
 	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
 	DeleteOrg(ctx context.Context, id string) (bool, error)
+	CompleteOnboarding(ctx context.Context, orgID string) (bool, error)
 	AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error)
 	UpdateMember(ctx context.Context, orgID string, userID string, input model.UpdateMemberInput) (*model.Member, error)
 	RemoveMember(ctx context.Context, orgID string, userID string) (bool, error)
@@ -4543,6 +4546,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.AddTeamMember(childComplexity, args["orgId"].(string), args["teamId"].(string), args["userId"].(string), args["permission"].(*string)), true
 
+	case "Mutation.completeOnboarding":
+		if e.complexity.Mutation.CompleteOnboarding == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_completeOnboarding_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CompleteOnboarding(childComplexity, args["orgId"].(string)), true
+
 	case "Mutation.confirmDiagramThumbnailUpload":
 		if e.complexity.Mutation.ConfirmDiagramThumbnailUpload == nil {
 			break
@@ -6117,6 +6132,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.OrgSummary.Name(childComplexity), true
+
+	case "OrgSummary.onboardingDone":
+		if e.complexity.OrgSummary.OnboardingDone == nil {
+			break
+		}
+
+		return e.complexity.OrgSummary.OnboardingDone(childComplexity), true
 
 	case "OrgSummary.role":
 		if e.complexity.OrgSummary.Role == nil {
@@ -9813,6 +9835,7 @@ type OrgSummary {
     logoUrl: String
     role:    String!
     active:  Boolean!
+    onboardingDone: Boolean!
 }
 `, BuiltIn: false},
 	{Name: "../schema/catalog.graphqls", Input: `extend type Query {
@@ -10623,6 +10646,7 @@ extend type Mutation {
     createOrg(input: CreateOrgInput!):                Org!
     updateOrg(id: ID!, input: UpdateOrgInput!):       Org!
     deleteOrg(id: ID!):                               Boolean!
+    completeOnboarding(orgId: ID!):                   Boolean!
 
     addMember(orgId: ID!, input: AddMemberInput!):                       Member!
     updateMember(orgId: ID!, userId: ID!, input: UpdateMemberInput!):    Member!
@@ -11756,6 +11780,34 @@ func (ec *executionContext) field_Mutation_addTeamMember_argsPermission(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_completeOnboarding_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_completeOnboarding_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_completeOnboarding_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -47707,6 +47759,61 @@ func (ec *executionContext) fieldContext_Mutation_deleteOrg(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_completeOnboarding(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_completeOnboarding(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CompleteOnboarding(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_completeOnboarding(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_completeOnboarding_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_addMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_addMember(ctx, field)
 	if err != nil {
@@ -52791,6 +52898,50 @@ func (ec *executionContext) fieldContext_OrgSummary_active(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _OrgSummary_onboardingDone(ctx context.Context, field graphql.CollectedField, obj *model.OrgSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OrgSummary_onboardingDone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OnboardingDone, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OrgSummary_onboardingDone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OrgSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_actor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_actor(ctx, field)
 	if err != nil {
@@ -53739,6 +53890,8 @@ func (ec *executionContext) fieldContext_Query_myOrgs(_ context.Context, field g
 				return ec.fieldContext_OrgSummary_role(ctx, field)
 			case "active":
 				return ec.fieldContext_OrgSummary_active(ctx, field)
+			case "onboardingDone":
+				return ec.fieldContext_OrgSummary_onboardingDone(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type OrgSummary", field.Name)
 		},
@@ -84715,6 +84868,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "completeOnboarding":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_completeOnboarding(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "addMember":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_addMember(ctx, field)
@@ -85313,6 +85473,11 @@ func (ec *executionContext) _OrgSummary(ctx context.Context, sel ast.SelectionSe
 			}
 		case "active":
 			out.Values[i] = ec._OrgSummary_active(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "onboardingDone":
+			out.Values[i] = ec._OrgSummary_onboardingDone(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}

@@ -101,6 +101,10 @@ func (c *Client) DeleteOrg(ctx context.Context, id string) error {
 	return c.del(ctx, "/api/v1/orgs/"+id)
 }
 
+func (c *Client) CompleteOnboarding(ctx context.Context, orgID string) error {
+	return c.post(ctx, "/api/v1/orgs/"+orgID+"/onboarding-complete", nil, nil)
+}
+
 // ── Server-admin org management ─────────────────────────────────────────────────
 
 func (c *Client) ServerListOrgs(ctx context.Context) ([]Org, error) {

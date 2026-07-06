@@ -34,6 +34,11 @@ func (r *mutationResolver) DeleteOrg(ctx context.Context, id string) (bool, erro
 	return true, r.OrgAPI.DeleteOrg(ctx, id)
 }
 
+// CompleteOnboarding is the resolver for the completeOnboarding field.
+func (r *mutationResolver) CompleteOnboarding(ctx context.Context, orgID string) (bool, error) {
+	return true, r.OrgAPI.CompleteOnboarding(ctx, orgID)
+}
+
 // AddMember is the resolver for the addMember field.
 func (r *mutationResolver) AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error) {
 	m, err := r.OrgAPI.AddMember(ctx, orgID, convert.ToMap(input))

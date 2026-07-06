@@ -18,8 +18,9 @@ type OrgSummary struct {
 	ID      string `json:"id"`
 	Name    string `json:"name"`
 	LogoURL string `json:"logoUrl,omitempty"`
-	Role    string `json:"role"`
-	Active  bool   `json:"active"`
+	Role           string `json:"role"`
+	Active         bool   `json:"active"`
+	OnboardingDone bool   `json:"onboardingDone"`
 }
 
 func (c *Client) Me(ctx context.Context) (*MeResponse, error) {

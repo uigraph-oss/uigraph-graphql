@@ -28,4 +28,5 @@ type OrgSummary {
     logoUrl: String
     role:    String!
     active:  Boolean!
+    onboardingDone: Boolean!
 }
