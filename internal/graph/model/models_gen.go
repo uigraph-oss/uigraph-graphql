@@ -605,24 +605,26 @@ type DbTable struct {
 }
 
 type Diagram struct {
-	ID                 string    `json:"id"`
-	OrgID              string    `json:"orgId"`
-	FolderID           *string   `json:"folderId,omitempty"`
-	TeamID             *string   `json:"teamId,omitempty"`
-	Name               string    `json:"name"`
-	ContentKey         string    `json:"contentKey"`
-	ContentHash        string    `json:"contentHash"`
-	PreviewAssetID     *string   `json:"previewAssetId,omitempty"`
-	PreviewImageURL    *string   `json:"previewImageUrl,omitempty"`
-	PreviewContentHash *string   `json:"previewContentHash,omitempty"`
-	PreviewStatus      string    `json:"previewStatus"`
-	Source             *string   `json:"source,omitempty"`
-	CreatedBy          string    `json:"createdBy"`
-	UpdatedBy          *string   `json:"updatedBy,omitempty"`
-	CreatedByActor     *Actor    `json:"createdByActor,omitempty"`
-	UpdatedByActor     *Actor    `json:"updatedByActor,omitempty"`
-	CreatedAt          time.Time `json:"createdAt"`
-	UpdatedAt          time.Time `json:"updatedAt"`
+	ID                  string    `json:"id"`
+	OrgID               string    `json:"orgId"`
+	FolderID            *string   `json:"folderId,omitempty"`
+	TeamID              *string   `json:"teamId,omitempty"`
+	Name                string    `json:"name"`
+	ContentKey          string    `json:"contentKey"`
+	ContentHash         string    `json:"contentHash"`
+	PreviewAssetID      *string   `json:"previewAssetId,omitempty"`
+	PreviewImageURL     *string   `json:"previewImageUrl,omitempty"`
+	PreviewContentHash  *string   `json:"previewContentHash,omitempty"`
+	PreviewStatus       string    `json:"previewStatus"`
+	Source              *string   `json:"source,omitempty"`
+	CreatedBy           string    `json:"createdBy"`
+	UpdatedBy           *string   `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
+	CreatedByActor      *Actor    `json:"createdByActor,omitempty"`
+	UpdatedByActor      *Actor    `json:"updatedByActor,omitempty"`
+	CreatedAt           time.Time `json:"createdAt"`
+	UpdatedAt           time.Time `json:"updatedAt"`
 }
 
 type DiagramContent struct {

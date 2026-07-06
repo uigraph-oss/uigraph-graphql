@@ -300,24 +300,26 @@ type ComplexityRoot struct {
 	}
 
 	Diagram struct {
-		ContentHash        func(childComplexity int) int
-		ContentKey         func(childComplexity int) int
-		CreatedAt          func(childComplexity int) int
-		CreatedBy          func(childComplexity int) int
-		CreatedByActor     func(childComplexity int) int
-		FolderID           func(childComplexity int) int
-		ID                 func(childComplexity int) int
-		Name               func(childComplexity int) int
-		OrgID              func(childComplexity int) int
-		PreviewAssetID     func(childComplexity int) int
-		PreviewContentHash func(childComplexity int) int
-		PreviewImageURL    func(childComplexity int) int
-		PreviewStatus      func(childComplexity int) int
-		Source             func(childComplexity int) int
-		TeamID             func(childComplexity int) int
-		UpdatedAt          func(childComplexity int) int
-		UpdatedBy          func(childComplexity int) int
-		UpdatedByActor     func(childComplexity int) int
+		ContentHash         func(childComplexity int) int
+		ContentKey          func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		FolderID            func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		PreviewAssetID      func(childComplexity int) int
+		PreviewContentHash  func(childComplexity int) int
+		PreviewImageURL     func(childComplexity int) int
+		PreviewStatus       func(childComplexity int) int
+		Source              func(childComplexity int) int
+		TeamID              func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByActor      func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	DiagramContent struct {
@@ -2821,6 +2823,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Diagram.CreatedByActor(childComplexity), true
 
+	case "Diagram.createdByCommitHash":
+		if e.complexity.Diagram.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Diagram.CreatedByCommitHash(childComplexity), true
+
 	case "Diagram.folderId":
 		if e.complexity.Diagram.FolderID == nil {
 			break
@@ -2911,6 +2920,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Diagram.UpdatedByActor(childComplexity), true
+
+	case "Diagram.updatedByCommitHash":
+		if e.complexity.Diagram.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Diagram.UpdatedByCommitHash(childComplexity), true
 
 	case "DiagramContent.content":
 		if e.complexity.DiagramContent.Content == nil {
@@ -10391,6 +10407,8 @@ type Diagram {
     source:             String
     createdBy:          ID!
     updatedBy:          ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor:     Actor @goField(forceResolver: true)
     updatedByActor:     Actor @goField(forceResolver: true)
     createdAt:          Time!
@@ -32639,6 +32657,88 @@ func (ec *executionContext) fieldContext_Diagram_updatedBy(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _Diagram_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Diagram_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Diagram_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Diagram_createdByActor(ctx, field)
 	if err != nil {
@@ -33382,6 +33482,10 @@ func (ec *executionContext) fieldContext_DiagramPage_items(_ context.Context, fi
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -46518,6 +46622,10 @@ func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -46611,6 +46719,10 @@ func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -46903,6 +47015,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -55602,6 +55718,10 @@ func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, fiel
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -66444,6 +66564,10 @@ func (ec *executionContext) fieldContext_ServiceDiagram_diagram(_ context.Contex
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -82173,6 +82297,10 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Diagram_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._Diagram_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._Diagram_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 

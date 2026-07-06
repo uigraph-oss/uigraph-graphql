@@ -39,6 +39,8 @@ type Diagram {
     source:             String
     createdBy:          ID!
     updatedBy:          ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor:     Actor @goField(forceResolver: true)
     updatedByActor:     Actor @goField(forceResolver: true)
     createdAt:          Time!

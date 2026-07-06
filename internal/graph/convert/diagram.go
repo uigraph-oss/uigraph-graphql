@@ -12,6 +12,7 @@ func DiagramToModel(d *uigraphapi.Diagram) *model.Diagram {
 		PreviewAssetID: d.PreviewAssetID, PreviewContentHash: d.PreviewContentHash,
 		PreviewStatus: d.PreviewStatus,
 		Source:        d.Source, CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy,
+		CreatedByCommitHash: d.CreatedByCommitHash, UpdatedByCommitHash: d.UpdatedByCommitHash,
 		CreatedAt: d.CreatedAt, UpdatedAt: d.UpdatedAt,
 	}
 }
