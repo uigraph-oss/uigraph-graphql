@@ -52,7 +52,7 @@ func TestGetSavingsSummary_OmitsParamsWhenNil(t *testing.T) {
 }
 
 func TestGetSavingsTimeseries_UnwrapsEnvelope(t *testing.T) {
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{"timeseries":[{"totalCalls":2,"totalTokensSaved":300}]}`))
 	}))
@@ -69,7 +69,7 @@ func TestGetSavingsTimeseries_UnwrapsEnvelope(t *testing.T) {
 }
 
 func TestGetSavingsByTool_UnwrapsEnvelope(t *testing.T) {
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{"byTool":[{"toolName":"get_api_spec","totalCalls":3}]}`))
 	}))
@@ -86,7 +86,7 @@ func TestGetSavingsByTool_UnwrapsEnvelope(t *testing.T) {
 }
 
 func TestGetSavingsByModel_UnwrapsEnvelope(t *testing.T) {
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{"byModel":[{"modelId":"claude-haiku-4-5","displayName":"Claude Haiku 4.5"}]}`))
 	}))
