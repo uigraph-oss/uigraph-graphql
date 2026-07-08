@@ -2,6 +2,7 @@ extend type Query {
     costSavingsSummary(orgId: ID!, period: String, modelId: String): SavingsSummary!
     costSavingsTimeseries(orgId: ID!, period: String, modelId: String): [DailySavings!]!
     costSavingsByTool(orgId: ID!, period: String, modelId: String): [ToolSavings!]!
+    costSavingsByClient(orgId: ID!, period: String, modelId: String): [ClientSavings!]!
     costSavingsByModel(orgId: ID!, period: String): [ModelSavings!]!
     costSavingsByUser(orgId: ID!, period: String, modelId: String): [UserSavings!]!
 }
@@ -31,6 +32,13 @@ type DailySavings {
 
 type ToolSavings {
     toolName:     String!
+    totalCalls:   Int!
+    tokensSaved:  Int!
+    costSavedUsd: Float!
+}
+
+type ClientSavings {
+    clientName:   String!
     totalCalls:   Int!
     tokensSaved:  Int!
     costSavedUsd: Float!

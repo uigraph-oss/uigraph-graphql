@@ -162,6 +162,13 @@ type Canvas struct {
 	UpdatedAt      time.Time `json:"updatedAt"`
 }
 
+type ClientSavings struct {
+	ClientName   string  `json:"clientName"`
+	TotalCalls   int     `json:"totalCalls"`
+	TokensSaved  int     `json:"tokensSaved"`
+	CostSavedUsd float64 `json:"costSavedUsd"`
+}
+
 type Comment struct {
 	ID              string    `json:"id"`
 	OrgID           string    `json:"orgId"`

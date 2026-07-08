@@ -12,6 +12,7 @@ type fakeCostSavingsClient struct {
 	summary    *uigraphapi.SavingsSummary
 	timeseries []uigraphapi.DailySavings
 	byTool     []uigraphapi.ToolSavings
+	byClient   []uigraphapi.ClientSavings
 	byModel    []uigraphapi.ModelSavings
 	byUser     []uigraphapi.UserSavings
 }
@@ -24,6 +25,9 @@ func (f *fakeCostSavingsClient) GetSavingsTimeseries(_ context.Context, _ string
 }
 func (f *fakeCostSavingsClient) GetSavingsByTool(_ context.Context, _ string, _, _ *string) ([]uigraphapi.ToolSavings, error) {
 	return f.byTool, nil
+}
+func (f *fakeCostSavingsClient) GetSavingsByClient(_ context.Context, _ string, _, _ *string) ([]uigraphapi.ClientSavings, error) {
+	return f.byClient, nil
 }
 func (f *fakeCostSavingsClient) GetSavingsByModel(_ context.Context, _ string, _ *string) ([]uigraphapi.ModelSavings, error) {
 	return f.byModel, nil

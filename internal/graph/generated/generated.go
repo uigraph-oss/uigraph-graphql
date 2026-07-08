@@ -176,6 +176,13 @@ type ComplexityRoot struct {
 		Zoom           func(childComplexity int) int
 	}
 
+	ClientSavings struct {
+		ClientName   func(childComplexity int) int
+		CostSavedUsd func(childComplexity int) int
+		TokensSaved  func(childComplexity int) int
+		TotalCalls   func(childComplexity int) int
+	}
+
 	Comment struct {
 		CreatedAt       func(childComplexity int) int
 		CreatedBy       func(childComplexity int) int
@@ -807,6 +814,7 @@ type ComplexityRoot struct {
 		Comments              func(childComplexity int, orgID string, resourceID string) int
 		ComponentLinkUsages   func(childComplexity int, orgID string, linkID string) int
 		Components            func(childComplexity int, orgID string) int
+		CostSavingsByClient   func(childComplexity int, orgID string, period *string, modelID *string) int
 		CostSavingsByModel    func(childComplexity int, orgID string, period *string) int
 		CostSavingsByTool     func(childComplexity int, orgID string, period *string, modelID *string) int
 		CostSavingsByUser     func(childComplexity int, orgID string, period *string, modelID *string) int
@@ -1505,6 +1513,7 @@ type QueryResolver interface {
 	CostSavingsSummary(ctx context.Context, orgID string, period *string, modelID *string) (*model.SavingsSummary, error)
 	CostSavingsTimeseries(ctx context.Context, orgID string, period *string, modelID *string) ([]*model.DailySavings, error)
 	CostSavingsByTool(ctx context.Context, orgID string, period *string, modelID *string) ([]*model.ToolSavings, error)
+	CostSavingsByClient(ctx context.Context, orgID string, period *string, modelID *string) ([]*model.ClientSavings, error)
 	CostSavingsByModel(ctx context.Context, orgID string, period *string) ([]*model.ModelSavings, error)
 	CostSavingsByUser(ctx context.Context, orgID string, period *string, modelID *string) ([]*model.UserSavings, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
@@ -2178,6 +2187,34 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Canvas.Zoom(childComplexity), true
+
+	case "ClientSavings.clientName":
+		if e.complexity.ClientSavings.ClientName == nil {
+			break
+		}
+
+		return e.complexity.ClientSavings.ClientName(childComplexity), true
+
+	case "ClientSavings.costSavedUsd":
+		if e.complexity.ClientSavings.CostSavedUsd == nil {
+			break
+		}
+
+		return e.complexity.ClientSavings.CostSavedUsd(childComplexity), true
+
+	case "ClientSavings.tokensSaved":
+		if e.complexity.ClientSavings.TokensSaved == nil {
+			break
+		}
+
+		return e.complexity.ClientSavings.TokensSaved(childComplexity), true
+
+	case "ClientSavings.totalCalls":
+		if e.complexity.ClientSavings.TotalCalls == nil {
+			break
+		}
+
+		return e.complexity.ClientSavings.TotalCalls(childComplexity), true
 
 	case "Comment.createdAt":
 		if e.complexity.Comment.CreatedAt == nil {
@@ -6330,6 +6367,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Components(childComplexity, args["orgId"].(string)), true
+
+	case "Query.costSavingsByClient":
+		if e.complexity.Query.CostSavingsByClient == nil {
+			break
+		}
+
+		args, err := ec.field_Query_costSavingsByClient_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.CostSavingsByClient(childComplexity, args["orgId"].(string), args["period"].(*string), args["modelId"].(*string)), true
 
 	case "Query.costSavingsByModel":
 		if e.complexity.Query.CostSavingsByModel == nil {
@@ -10595,6 +10644,7 @@ input UpdateFolderInput {
     costSavingsSummary(orgId: ID!, period: String, modelId: String): SavingsSummary!
     costSavingsTimeseries(orgId: ID!, period: String, modelId: String): [DailySavings!]!
     costSavingsByTool(orgId: ID!, period: String, modelId: String): [ToolSavings!]!
+    costSavingsByClient(orgId: ID!, period: String, modelId: String): [ClientSavings!]!
     costSavingsByModel(orgId: ID!, period: String): [ModelSavings!]!
     costSavingsByUser(orgId: ID!, period: String, modelId: String): [UserSavings!]!
 }
@@ -10624,6 +10674,13 @@ type DailySavings {
 
 type ToolSavings {
     toolName:     String!
+    totalCalls:   Int!
+    tokensSaved:  Int!
+    costSavedUsd: Float!
+}
+
+type ClientSavings {
+    clientName:   String!
     totalCalls:   Int!
     tokensSaved:  Int!
     costSavedUsd: Float!
@@ -20422,6 +20479,80 @@ func (ec *executionContext) field_Query_components_argsOrgID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_costSavingsByClient_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_costSavingsByClient_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_costSavingsByClient_argsPeriod(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["period"] = arg1
+	arg2, err := ec.field_Query_costSavingsByClient_argsModelID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["modelId"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Query_costSavingsByClient_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_costSavingsByClient_argsPeriod(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["period"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("period"))
+	if tmp, ok := rawArgs["period"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_costSavingsByClient_argsModelID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["modelId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("modelId"))
+	if tmp, ok := rawArgs["modelId"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_costSavingsByModel_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -28209,6 +28340,182 @@ func (ec *executionContext) fieldContext_Canvas_updatedAt(_ context.Context, fie
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ClientSavings_clientName(ctx context.Context, field graphql.CollectedField, obj *model.ClientSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ClientSavings_clientName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ClientName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ClientSavings_clientName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ClientSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ClientSavings_totalCalls(ctx context.Context, field graphql.CollectedField, obj *model.ClientSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ClientSavings_totalCalls(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalCalls, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ClientSavings_totalCalls(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ClientSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ClientSavings_tokensSaved(ctx context.Context, field graphql.CollectedField, obj *model.ClientSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ClientSavings_tokensSaved(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TokensSaved, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ClientSavings_tokensSaved(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ClientSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ClientSavings_costSavedUsd(ctx context.Context, field graphql.CollectedField, obj *model.ClientSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ClientSavings_costSavedUsd(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CostSavedUsd, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ClientSavings_costSavedUsd(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ClientSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
 		},
 	}
 	return fc, nil
@@ -56543,6 +56850,71 @@ func (ec *executionContext) fieldContext_Query_costSavingsByTool(ctx context.Con
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_costSavingsByClient(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_costSavingsByClient(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().CostSavingsByClient(rctx, fc.Args["orgId"].(string), fc.Args["period"].(*string), fc.Args["modelId"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.ClientSavings)
+	fc.Result = res
+	return ec.marshalNClientSavings2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐClientSavingsᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_costSavingsByClient(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "clientName":
+				return ec.fieldContext_ClientSavings_clientName(ctx, field)
+			case "totalCalls":
+				return ec.fieldContext_ClientSavings_totalCalls(ctx, field)
+			case "tokensSaved":
+				return ec.fieldContext_ClientSavings_tokensSaved(ctx, field)
+			case "costSavedUsd":
+				return ec.fieldContext_ClientSavings_costSavedUsd(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ClientSavings", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_costSavingsByClient_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_costSavingsByModel(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_costSavingsByModel(ctx, field)
 	if err != nil {
@@ -81403,6 +81775,60 @@ func (ec *executionContext) _Canvas(ctx context.Context, sel ast.SelectionSet, o
 	return out
 }
 
+var clientSavingsImplementors = []string{"ClientSavings"}
+
+func (ec *executionContext) _ClientSavings(ctx context.Context, sel ast.SelectionSet, obj *model.ClientSavings) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, clientSavingsImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ClientSavings")
+		case "clientName":
+			out.Values[i] = ec._ClientSavings_clientName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalCalls":
+			out.Values[i] = ec._ClientSavings_totalCalls(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "tokensSaved":
+			out.Values[i] = ec._ClientSavings_tokensSaved(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "costSavedUsd":
+			out.Values[i] = ec._ClientSavings_costSavedUsd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var commentImplementors = []string{"Comment"}
 
 func (ec *executionContext) _Comment(ctx context.Context, sel ast.SelectionSet, obj *model.Comment) graphql.Marshaler {
@@ -86670,6 +87096,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "costSavingsByClient":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_costSavingsByClient(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "costSavingsByModel":
 			field := field
 
@@ -90772,6 +91220,60 @@ func (ec *executionContext) marshalNCanvas2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 		return graphql.Null
 	}
 	return ec._Canvas(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNClientSavings2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐClientSavingsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ClientSavings) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNClientSavings2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐClientSavings(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNClientSavings2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐClientSavings(ctx context.Context, sel ast.SelectionSet, v *model.ClientSavings) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ClientSavings(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNComment2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComment(ctx context.Context, sel ast.SelectionSet, v model.Comment) graphql.Marshaler {
