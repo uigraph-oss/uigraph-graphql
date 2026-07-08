@@ -16,6 +16,20 @@ func (r *mutationResolver) SwitchOrg(ctx context.Context, orgID string) (bool, e
 	return true, r.Auth.SwitchOrg(ctx, orgID)
 }
 
+// PrepareUserAvatarUpload is the resolver for the prepareUserAvatarUpload field.
+func (r *mutationResolver) PrepareUserAvatarUpload(ctx context.Context) (*model.AssetUpload, error) {
+	u, err := r.Auth.PrepareUserAvatarUpload(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &model.AssetUpload{AssetID: u.AssetID, UploadURL: u.UploadURL}, nil
+}
+
+// SetMyAvatar is the resolver for the setMyAvatar field.
+func (r *mutationResolver) SetMyAvatar(ctx context.Context) (bool, error) {
+	return true, r.Auth.SetMyAvatar(ctx)
+}
+
 // Me is the resolver for the me field.
 func (r *queryResolver) Me(ctx context.Context) (*model.Me, error) {
 	me, err := r.Auth.Me(ctx)

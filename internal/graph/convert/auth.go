@@ -18,7 +18,7 @@ func MeToModel(m *uigraphapi.MeResponse) *model.Me {
 }
 
 func OrgSummaryToModel(o uigraphapi.OrgSummary) *model.OrgSummary {
-	m := &model.OrgSummary{ID: o.ID, Name: o.Name, Role: o.Role, Active: o.Active}
+	m := &model.OrgSummary{ID: o.ID, Name: o.Name, Role: o.Role, Active: o.Active, OnboardingDone: o.OnboardingDone}
 	if o.LogoURL != "" {
 		m.LogoURL = &o.LogoURL
 	}

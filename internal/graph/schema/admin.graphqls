@@ -19,12 +19,20 @@ extend type Mutation {
     updateServerOrg(id: ID!, input: UpdateServerOrgInput!):  Org!
     deleteServerOrg(id: ID!):                                Boolean!
 
+    prepareServerOrgLogoUpload(orgId: ID!): AssetUpload!
+    setServerOrgLogo(orgId: ID!):           Boolean!
+    removeServerOrgLogo(orgId: ID!):        Boolean!
+
     createUser(input: CreateUserInput!):              User!
     updateUser(id: ID!, input: UpdateUserInput!):     User!
     disableUser(id: ID!):                             Boolean!
 
     upsertOAuthProvider(provider: String!, input: UpsertOAuthInput!): Boolean!
     deleteOAuthProvider(provider: String!):                          Boolean!
+
+    prepareOAuthProviderIconUpload(provider: String!): AssetUpload!
+    setOAuthProviderIcon(provider: String!):           Boolean!
+    removeOAuthProviderIcon(provider: String!):        Boolean!
 
     createRoleMapping(input: CreateRoleMappingInput!): Boolean!
     deleteRoleMapping(id: ID!):                        Boolean!

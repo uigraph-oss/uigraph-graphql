@@ -5,6 +5,9 @@ extend type Query {
 
 extend type Mutation {
     switchOrg(orgId: ID!): Boolean!
+
+    prepareUserAvatarUpload: AssetUpload!
+    setMyAvatar: Boolean!
 }
 
 type Me {
@@ -25,4 +28,5 @@ type OrgSummary {
     logoUrl: String
     role:    String!
     active:  Boolean!
+    onboardingDone: Boolean!
 }

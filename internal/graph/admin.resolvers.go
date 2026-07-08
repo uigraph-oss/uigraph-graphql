@@ -35,6 +35,25 @@ func (r *mutationResolver) DeleteServerOrg(ctx context.Context, id string) (bool
 	return true, r.Admin.ServerDeleteOrg(ctx, id)
 }
 
+// PrepareServerOrgLogoUpload is the resolver for the prepareServerOrgLogoUpload field.
+func (r *mutationResolver) PrepareServerOrgLogoUpload(ctx context.Context, orgID string) (*model.AssetUpload, error) {
+	u, err := r.Admin.PrepareServerOrgLogoUpload(ctx, orgID)
+	if err != nil {
+		return nil, err
+	}
+	return &model.AssetUpload{AssetID: u.AssetID, UploadURL: u.UploadURL}, nil
+}
+
+// SetServerOrgLogo is the resolver for the setServerOrgLogo field.
+func (r *mutationResolver) SetServerOrgLogo(ctx context.Context, orgID string) (bool, error) {
+	return true, r.Admin.SetServerOrgLogo(ctx, orgID)
+}
+
+// RemoveServerOrgLogo is the resolver for the removeServerOrgLogo field.
+func (r *mutationResolver) RemoveServerOrgLogo(ctx context.Context, orgID string) (bool, error) {
+	return true, r.Admin.RemoveServerOrgLogo(ctx, orgID)
+}
+
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
 	u, err := r.Admin.CreateUser(ctx, convert.ToMap(input))
@@ -66,6 +85,25 @@ func (r *mutationResolver) UpsertOAuthProvider(ctx context.Context, provider str
 // DeleteOAuthProvider is the resolver for the deleteOAuthProvider field.
 func (r *mutationResolver) DeleteOAuthProvider(ctx context.Context, provider string) (bool, error) {
 	return true, r.Admin.DeleteOAuthProvider(ctx, provider)
+}
+
+// PrepareOAuthProviderIconUpload is the resolver for the prepareOAuthProviderIconUpload field.
+func (r *mutationResolver) PrepareOAuthProviderIconUpload(ctx context.Context, provider string) (*model.AssetUpload, error) {
+	u, err := r.Admin.PrepareOAuthProviderIconUpload(ctx, provider)
+	if err != nil {
+		return nil, err
+	}
+	return &model.AssetUpload{AssetID: u.AssetID, UploadURL: u.UploadURL}, nil
+}
+
+// SetOAuthProviderIcon is the resolver for the setOAuthProviderIcon field.
+func (r *mutationResolver) SetOAuthProviderIcon(ctx context.Context, provider string) (bool, error) {
+	return true, r.Admin.SetOAuthProviderIcon(ctx, provider)
+}
+
+// RemoveOAuthProviderIcon is the resolver for the removeOAuthProviderIcon field.
+func (r *mutationResolver) RemoveOAuthProviderIcon(ctx context.Context, provider string) (bool, error) {
+	return true, r.Admin.RemoveOAuthProviderIcon(ctx, provider)
 }
 
 // CreateRoleMapping is the resolver for the createRoleMapping field.

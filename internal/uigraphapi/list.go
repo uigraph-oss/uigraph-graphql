@@ -13,6 +13,9 @@ func listQuery(p ListParams) string {
 	if p.TeamID != "" {
 		q.Set("teamId", p.TeamID)
 	}
+	if p.ServiceID != "" {
+		q.Set("serviceId", p.ServiceID)
+	}
 	if p.Search != "" {
 		q.Set("search", p.Search)
 	}

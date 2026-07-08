@@ -34,6 +34,11 @@ func (r *mutationResolver) DeleteOrg(ctx context.Context, id string) (bool, erro
 	return true, r.OrgAPI.DeleteOrg(ctx, id)
 }
 
+// CompleteOnboarding is the resolver for the completeOnboarding field.
+func (r *mutationResolver) CompleteOnboarding(ctx context.Context, orgID string) (bool, error) {
+	return true, r.OrgAPI.CompleteOnboarding(ctx, orgID)
+}
+
 // AddMember is the resolver for the addMember field.
 func (r *mutationResolver) AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error) {
 	m, err := r.OrgAPI.AddMember(ctx, orgID, convert.ToMap(input))
@@ -129,6 +134,20 @@ func (r *mutationResolver) CreateServiceAccountToken(ctx context.Context, orgID 
 // RevokeServiceAccountToken is the resolver for the revokeServiceAccountToken field.
 func (r *mutationResolver) RevokeServiceAccountToken(ctx context.Context, orgID string, saID string, tokenID string) (bool, error) {
 	return true, r.OrgAPI.RevokeServiceAccountToken(ctx, orgID, saID, tokenID)
+}
+
+// PrepareServiceAccountAvatarUpload is the resolver for the prepareServiceAccountAvatarUpload field.
+func (r *mutationResolver) PrepareServiceAccountAvatarUpload(ctx context.Context, orgID string, saID string) (*model.AssetUpload, error) {
+	u, err := r.OrgAPI.PrepareServiceAccountAvatarUpload(ctx, orgID, saID)
+	if err != nil {
+		return nil, err
+	}
+	return &model.AssetUpload{AssetID: u.AssetID, UploadURL: u.UploadURL}, nil
+}
+
+// SetServiceAccountAvatar is the resolver for the setServiceAccountAvatar field.
+func (r *mutationResolver) SetServiceAccountAvatar(ctx context.Context, orgID string, saID string) (bool, error) {
+	return true, r.OrgAPI.SetServiceAccountAvatar(ctx, orgID, saID)
 }
 
 // Org is the resolver for the org field.

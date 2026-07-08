@@ -15,6 +15,7 @@ extend type Mutation {
     createOrg(input: CreateOrgInput!):                Org!
     updateOrg(id: ID!, input: UpdateOrgInput!):       Org!
     deleteOrg(id: ID!):                               Boolean!
+    completeOnboarding(orgId: ID!):                   Boolean!
 
     addMember(orgId: ID!, input: AddMemberInput!):                       Member!
     updateMember(orgId: ID!, userId: ID!, input: UpdateMemberInput!):    Member!
@@ -31,6 +32,9 @@ extend type Mutation {
     deleteServiceAccount(orgId: ID!, id: ID!):                                    Boolean!
     createServiceAccountToken(orgId: ID!, saId: ID!, input: CreateTokenInput!):  CreatedToken!
     revokeServiceAccountToken(orgId: ID!, saId: ID!, tokenId: ID!):              Boolean!
+
+    prepareServiceAccountAvatarUpload(orgId: ID!, saId: ID!): AssetUpload!
+    setServiceAccountAvatar(orgId: ID!, saId: ID!):           Boolean!
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────

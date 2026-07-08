@@ -32,6 +32,10 @@ func (f *fakeAuthClient) MyOrgs(_ context.Context) ([]uigraphapi.OrgSummary, err
 	return nil, nil
 }
 func (f *fakeAuthClient) SwitchOrg(_ context.Context, _ string) error { return nil }
+func (f *fakeAuthClient) PrepareUserAvatarUpload(_ context.Context) (*uigraphapi.AssetUpload, error) {
+	return nil, nil
+}
+func (f *fakeAuthClient) SetMyAvatar(_ context.Context) error { return nil }
 
 type fakeFolderClient struct {
 	created *uigraphapi.Folder

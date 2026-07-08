@@ -7,22 +7,24 @@ import (
 )
 
 type Diagram struct {
-	ID                 string     `json:"id"`
-	OrgID              string     `json:"orgId"`
-	FolderID           *string    `json:"folderId,omitempty"`
-	TeamID             *string    `json:"teamId,omitempty"`
-	Name               string     `json:"name"`
-	ContentKey         string     `json:"contentKey"`
-	ContentHash        string     `json:"contentHash"`
-	PreviewAssetID     *string    `json:"previewAssetId,omitempty"`
-	PreviewContentHash *string    `json:"previewContentHash,omitempty"`
-	PreviewStatus      string     `json:"previewStatus"`
-	Source             *string    `json:"source,omitempty"`
-	CreatedBy          string     `json:"createdBy"`
-	UpdatedBy          *string    `json:"updatedBy,omitempty"`
-	CreatedAt          time.Time  `json:"createdAt"`
-	UpdatedAt          time.Time  `json:"updatedAt"`
-	DeletedAt          *time.Time `json:"deletedAt,omitempty"`
+	ID                  string     `json:"id"`
+	OrgID               string     `json:"orgId"`
+	FolderID            *string    `json:"folderId,omitempty"`
+	TeamID              *string    `json:"teamId,omitempty"`
+	Name                string     `json:"name"`
+	ContentKey          string     `json:"contentKey"`
+	ContentHash         string     `json:"contentHash"`
+	PreviewAssetID      *string    `json:"previewAssetId,omitempty"`
+	PreviewContentHash  *string    `json:"previewContentHash,omitempty"`
+	PreviewStatus       string     `json:"previewStatus"`
+	Source              *string    `json:"source,omitempty"`
+	CreatedBy           string     `json:"createdBy"`
+	UpdatedBy           *string    `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string    `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string    `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time  `json:"createdAt"`
+	UpdatedAt           time.Time  `json:"updatedAt"`
+	DeletedAt           *time.Time `json:"deletedAt,omitempty"`
 }
 
 type DiagramImage struct {
@@ -50,13 +52,14 @@ type DiagramVersion struct {
 }
 
 type ListParams struct {
-	FolderID string
-	TeamID   string
-	Search   string
-	SortBy   string
-	SortDir  string
-	Limit    *int
-	Offset   *int
+	FolderID  string
+	TeamID    string
+	ServiceID string
+	Search    string
+	SortBy    string
+	SortDir   string
+	Limit     *int
+	Offset    *int
 }
 
 func (c *Client) ListDiagrams(ctx context.Context, orgID string, p ListParams) ([]Diagram, int, error) {

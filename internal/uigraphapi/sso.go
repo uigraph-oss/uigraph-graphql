@@ -96,6 +96,19 @@ func (c *Client) DeleteOAuthProvider(ctx context.Context, provider string) error
 	return c.del(ctx, "/api/v1/sso/oauth/"+provider)
 }
 
+func (c *Client) PrepareOAuthProviderIconUpload(ctx context.Context, provider string) (*AssetUpload, error) {
+	var out AssetUpload
+	return &out, c.post(ctx, "/api/v1/sso/oauth/"+provider+"/icon/prepare", nil, &out)
+}
+
+func (c *Client) SetOAuthProviderIcon(ctx context.Context, provider string) error {
+	return c.put(ctx, "/api/v1/sso/oauth/"+provider+"/icon", nil, nil)
+}
+
+func (c *Client) RemoveOAuthProviderIcon(ctx context.Context, provider string) error {
+	return c.del(ctx, "/api/v1/sso/oauth/"+provider+"/icon")
+}
+
 // ── Role mappings ─────────────────────────────────────────────────────────────
 
 func (c *Client) ListRoleMappings(ctx context.Context) ([]RoleMapping, error) {

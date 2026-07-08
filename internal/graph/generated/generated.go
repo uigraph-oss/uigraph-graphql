@@ -61,56 +61,61 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	APIEndpoint struct {
-		APIGroupID       func(childComplexity int) int
-		CreatedAt        func(childComplexity int) int
-		CreatedBy        func(childComplexity int) int
-		Description      func(childComplexity int) int
-		ExampleRequests  func(childComplexity int) int
-		ExampleResponses func(childComplexity int) int
-		ID               func(childComplexity int) int
-		Method           func(childComplexity int) int
-		OperationID      func(childComplexity int) int
-		Order            func(childComplexity int) int
-		OrgID            func(childComplexity int) int
-		Parameters       func(childComplexity int) int
-		Path             func(childComplexity int) int
-		RequestBody      func(childComplexity int) int
-		Responses        func(childComplexity int) int
-		ServiceID        func(childComplexity int) int
-		Summary          func(childComplexity int) int
-		Tags             func(childComplexity int) int
-		UpdatedAt        func(childComplexity int) int
-		UpdatedBy        func(childComplexity int) int
+		APIGroupID          func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Description         func(childComplexity int) int
+		ExampleRequests     func(childComplexity int) int
+		ExampleResponses    func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		Method              func(childComplexity int) int
+		OperationID         func(childComplexity int) int
+		Order               func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		Parameters          func(childComplexity int) int
+		Path                func(childComplexity int) int
+		RequestBody         func(childComplexity int) int
+		Responses           func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		Summary             func(childComplexity int) int
+		Tags                func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	APIGroup struct {
-		CreatedAt func(childComplexity int) int
-		CreatedBy func(childComplexity int) int
-		ID        func(childComplexity int) int
-		Label     func(childComplexity int) int
-		Name      func(childComplexity int) int
-		OrgID     func(childComplexity int) int
-		Protocol  func(childComplexity int) int
-		ServiceID func(childComplexity int) int
-		SpecHash  func(childComplexity int) int
-		SpecKey   func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
-		UpdatedBy func(childComplexity int) int
-		Version   func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		Label               func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		Protocol            func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		SpecHash            func(childComplexity int) int
+		SpecKey             func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
+		Version             func(childComplexity int) int
 	}
 
 	APIGroupVersion struct {
-		APIGroupID     func(childComplexity int) int
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		CreatedByActor func(childComplexity int) int
-		ID             func(childComplexity int) int
-		IsAutoVersion  func(childComplexity int) int
-		Label          func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		SpecHash       func(childComplexity int) int
-		SpecKey        func(childComplexity int) int
-		VersionNumber  func(childComplexity int) int
+		APIGroupID          func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		IsAutoVersion       func(childComplexity int) int
+		Label               func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		SpecHash            func(childComplexity int) int
+		SpecKey             func(childComplexity int) int
+		VersionNumber       func(childComplexity int) int
 	}
 
 	APITestCase struct {
@@ -295,24 +300,26 @@ type ComplexityRoot struct {
 	}
 
 	Diagram struct {
-		ContentHash        func(childComplexity int) int
-		ContentKey         func(childComplexity int) int
-		CreatedAt          func(childComplexity int) int
-		CreatedBy          func(childComplexity int) int
-		CreatedByActor     func(childComplexity int) int
-		FolderID           func(childComplexity int) int
-		ID                 func(childComplexity int) int
-		Name               func(childComplexity int) int
-		OrgID              func(childComplexity int) int
-		PreviewAssetID     func(childComplexity int) int
-		PreviewContentHash func(childComplexity int) int
-		PreviewImageURL    func(childComplexity int) int
-		PreviewStatus      func(childComplexity int) int
-		Source             func(childComplexity int) int
-		TeamID             func(childComplexity int) int
-		UpdatedAt          func(childComplexity int) int
-		UpdatedBy          func(childComplexity int) int
-		UpdatedByActor     func(childComplexity int) int
+		ContentHash         func(childComplexity int) int
+		ContentKey          func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		FolderID            func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		PreviewAssetID      func(childComplexity int) int
+		PreviewContentHash  func(childComplexity int) int
+		PreviewImageURL     func(childComplexity int) int
+		PreviewStatus       func(childComplexity int) int
+		Source              func(childComplexity int) int
+		TeamID              func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByActor      func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	DiagramContent struct {
@@ -418,18 +425,20 @@ type ComplexityRoot struct {
 	}
 
 	FocalPoint struct {
-		CreatedAt  func(childComplexity int) int
-		CreatedBy  func(childComplexity int) int
-		FrameID    func(childComplexity int) int
-		ID         func(childComplexity int) int
-		IsActive   func(childComplexity int) int
-		LocationX  func(childComplexity int) int
-		LocationY  func(childComplexity int) int
-		Name       func(childComplexity int) int
-		OrgID      func(childComplexity int) int
-		UpdatedAt  func(childComplexity int) int
-		UpdatedBy  func(childComplexity int) int
-		Visibility func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		FrameID             func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		IsActive            func(childComplexity int) int
+		LocationX           func(childComplexity int) int
+		LocationY           func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
+		Visibility          func(childComplexity int) int
 	}
 
 	FocalPointMeta struct {
@@ -441,12 +450,14 @@ type ComplexityRoot struct {
 		ComponentModalFields       func(childComplexity int) int
 		CreatedAt                  func(childComplexity int) int
 		CreatedBy                  func(childComplexity int) int
+		CreatedByCommitHash        func(childComplexity int) int
 		FocalPointID               func(childComplexity int) int
 		FrameID                    func(childComplexity int) int
 		ID                         func(childComplexity int) int
 		OrgID                      func(childComplexity int) int
 		UpdatedAt                  func(childComplexity int) int
 		UpdatedBy                  func(childComplexity int) int
+		UpdatedByCommitHash        func(childComplexity int) int
 	}
 
 	Folder struct {
@@ -466,6 +477,7 @@ type ComplexityRoot struct {
 		CreatedAt             func(childComplexity int) int
 		CreatedBy             func(childComplexity int) int
 		CreatedByActor        func(childComplexity int) int
+		CreatedByCommitHash   func(childComplexity int) int
 		Description           func(childComplexity int) int
 		FocalPointCount       func(childComplexity int) int
 		ID                    func(childComplexity int) int
@@ -483,6 +495,7 @@ type ComplexityRoot struct {
 		UpdatedAt             func(childComplexity int) int
 		UpdatedBy             func(childComplexity int) int
 		UpdatedByActor        func(childComplexity int) int
+		UpdatedByCommitHash   func(childComplexity int) int
 	}
 
 	FrameGroup struct {
@@ -618,113 +631,124 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		AddMember                     func(childComplexity int, orgID string, input model.AddMemberInput) int
-		AddTeamMember                 func(childComplexity int, orgID string, teamID string, userID string, permission *string) int
-		ConfirmDiagramThumbnailUpload func(childComplexity int, orgID string, diagramID string, contentHash string) int
-		CreateAPIEndpoint             func(childComplexity int, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) int
-		CreateAPIGroup                func(childComplexity int, orgID string, serviceID string, input model.CreateAPIGroupInput) int
-		CreateAssetUpload             func(childComplexity int, orgID string) int
-		CreateComment                 func(childComplexity int, orgID string, input model.CreateCommentInput) int
-		CreateCustomComponent         func(childComplexity int, orgID string, input model.CustomComponentInput) int
-		CreateDiagram                 func(childComplexity int, orgID string, input model.CreateDiagramInput) int
-		CreateDiagramImage            func(childComplexity int, orgID string, diagramID string, input model.CreateDiagramImageInput) int
-		CreateDiagramVersion          func(childComplexity int, orgID string, diagramID string, label *string) int
-		CreateDoc                     func(childComplexity int, orgID string, input model.CreateDocInput) int
-		CreateFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
-		CreateFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) int
-		CreateFolder                  func(childComplexity int, orgID string, input model.CreateFolderInput) int
-		CreateFrame                   func(childComplexity int, orgID string, mapID string, input model.CreateFrameInput) int
-		CreateFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
-		CreateFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
-		CreateMap                     func(childComplexity int, orgID string, input model.CreateMapInput) int
-		CreateOrg                     func(childComplexity int, input model.CreateOrgInput) int
-		CreateRoleMapping             func(childComplexity int, input model.CreateRoleMappingInput) int
-		CreateSavedQuery              func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryInput) int
-		CreateSavedQueryFolder        func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryFolderInput) int
-		CreateServerOrg               func(childComplexity int, input model.CreateServerOrgInput) int
-		CreateService                 func(childComplexity int, orgID string, input model.CreateServiceInput) int
-		CreateServiceAccount          func(childComplexity int, orgID string, input model.CreateServiceAccountInput) int
-		CreateServiceAccountToken     func(childComplexity int, orgID string, saID string, input model.CreateTokenInput) int
-		CreateServiceDBVersion        func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateServiceDBVersionInput) int
-		CreateServiceDb               func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDBInput) int
-		CreateServiceDiagram          func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDiagramInput) int
-		CreateServiceDoc              func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDocInput) int
-		CreateTeam                    func(childComplexity int, orgID string, input model.CreateTeamInput) int
-		CreateTestCase                func(childComplexity int, orgID string, serviceID string, input model.CreateTestCaseInput) int
-		CreateTestPack                func(childComplexity int, orgID string, serviceID string, input model.CreateTestPackInput) int
-		CreateTestRun                 func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunInput) int
-		CreateTestRunResult           func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunResultInput) int
-		CreateUser                    func(childComplexity int, input model.CreateUserInput) int
-		DeleteAPIEndpoint             func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
-		DeleteAPIGroup                func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteComment                 func(childComplexity int, orgID string, id string) int
-		DeleteCustomComponent         func(childComplexity int, orgID string, id string) int
-		DeleteDiagram                 func(childComplexity int, orgID string, id string) int
-		DeleteDoc                     func(childComplexity int, orgID string, id string) int
-		DeleteFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, id string) int
-		DeleteFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string) int
-		DeleteFolder                  func(childComplexity int, orgID string, id string) int
-		DeleteFrame                   func(childComplexity int, orgID string, mapID string, id string) int
-		DeleteFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, id string) int
-		DeleteFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, id string) int
-		DeleteLdap                    func(childComplexity int) int
-		DeleteMap                     func(childComplexity int, orgID string, id string) int
-		DeleteOAuthProvider           func(childComplexity int, provider string) int
-		DeleteOrg                     func(childComplexity int, id string) int
-		DeleteRoleMapping             func(childComplexity int, id string) int
-		DeleteSavedQuery              func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
-		DeleteSavedQueryFolder        func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
-		DeleteServerOrg               func(childComplexity int, id string) int
-		DeleteService                 func(childComplexity int, orgID string, id string) int
-		DeleteServiceAccount          func(childComplexity int, orgID string, id string) int
-		DeleteServiceDb               func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteServiceDiagram          func(childComplexity int, orgID string, serviceID string, diagramID string) int
-		DeleteServiceDoc              func(childComplexity int, orgID string, serviceID string, docID string) int
-		DeleteTeam                    func(childComplexity int, orgID string, teamID string) int
-		DeleteTestCase                func(childComplexity int, orgID string, serviceID string, id string) int
-		DeleteTestPack                func(childComplexity int, orgID string, serviceID string, id string) int
-		DisableUser                   func(childComplexity int, id string) int
-		PrepareDiagramThumbnailUpload func(childComplexity int, orgID string, diagramID string) int
-		RemoveMember                  func(childComplexity int, orgID string, userID string) int
-		RemoveTeamMember              func(childComplexity int, orgID string, teamID string, userID string) int
-		RestoreAPIGroupVersion        func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID string) int
-		RestoreDiagramVersion         func(childComplexity int, orgID string, diagramID string, versionID string) int
-		RestoreServiceDBVersion       func(childComplexity int, orgID string, serviceID string, serviceDbID string, versionID string) int
-		RevokeServiceAccountToken     func(childComplexity int, orgID string, saID string, tokenID string) int
-		SwitchOrg                     func(childComplexity int, orgID string) int
-		SyncAPIGroup                  func(childComplexity int, orgID string, serviceID string, input model.SyncAPIGroupInput) int
-		SyncDiagram                   func(childComplexity int, orgID string, input model.SyncDiagramInput) int
-		SyncFrame                     func(childComplexity int, orgID string, mapID string, input model.SyncFrameInput) int
-		UpdateAPIEndpoint             func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) int
-		UpdateAPIGroup                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
-		UpdateComment                 func(childComplexity int, orgID string, id string, input model.UpdateCommentInput) int
-		UpdateCustomComponent         func(childComplexity int, orgID string, id string, input model.CustomComponentInput) int
-		UpdateDiagram                 func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
-		UpdateDoc                     func(childComplexity int, orgID string, id string, input model.UpdateDocInput) int
-		UpdateFocalPoint              func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
-		UpdateFocalPointMeta          func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) int
-		UpdateFolder                  func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
-		UpdateFrame                   func(childComplexity int, orgID string, mapID string, id string, input model.UpdateFrameInput) int
-		UpdateFrameGroup              func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) int
-		UpdateFrameLink               func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
-		UpdateMap                     func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
-		UpdateMember                  func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
-		UpdateOrg                     func(childComplexity int, id string, input model.UpdateOrgInput) int
-		UpdateSavedQuery              func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string, input model.UpdateSavedQueryInput) int
-		UpdateServerOrg               func(childComplexity int, id string, input model.UpdateServerOrgInput) int
-		UpdateService                 func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
-		UpdateServiceAccount          func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
-		UpdateServiceDb               func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) int
-		UpdateTeam                    func(childComplexity int, orgID string, teamID string, input model.UpdateTeamInput) int
-		UpdateTestCase                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) int
-		UpdateTestPack                func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestPackInput) int
-		UpdateTestRun                 func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunInput) int
-		UpdateTestRunResult           func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunResultInput) int
-		UpdateUser                    func(childComplexity int, id string, input model.UpdateUserInput) int
-		UpsertCanvas                  func(childComplexity int, orgID string, mapID string, input model.UpsertCanvasInput) int
-		UpsertLdap                    func(childComplexity int, input model.UpsertLDAPInput) int
-		UpsertOAuthProvider           func(childComplexity int, provider string, input model.UpsertOAuthInput) int
-		UpsertSaml                    func(childComplexity int, input model.UpsertSAMLInput) int
+		AddMember                         func(childComplexity int, orgID string, input model.AddMemberInput) int
+		AddTeamMember                     func(childComplexity int, orgID string, teamID string, userID string, permission *string) int
+		CompleteOnboarding                func(childComplexity int, orgID string) int
+		ConfirmDiagramThumbnailUpload     func(childComplexity int, orgID string, diagramID string, contentHash string) int
+		CreateAPIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, input model.CreateAPIEndpointInput) int
+		CreateAPIGroup                    func(childComplexity int, orgID string, serviceID string, input model.CreateAPIGroupInput) int
+		CreateAssetUpload                 func(childComplexity int, orgID string) int
+		CreateComment                     func(childComplexity int, orgID string, input model.CreateCommentInput) int
+		CreateCustomComponent             func(childComplexity int, orgID string, input model.CustomComponentInput) int
+		CreateDiagram                     func(childComplexity int, orgID string, input model.CreateDiagramInput) int
+		CreateDiagramImage                func(childComplexity int, orgID string, diagramID string, input model.CreateDiagramImageInput) int
+		CreateDiagramVersion              func(childComplexity int, orgID string, diagramID string, label *string) int
+		CreateDoc                         func(childComplexity int, orgID string, input model.CreateDocInput) int
+		CreateFocalPoint                  func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFocalPointInput) int
+		CreateFocalPointMeta              func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, input model.CreateFocalPointMetaInput) int
+		CreateFolder                      func(childComplexity int, orgID string, input model.CreateFolderInput) int
+		CreateFrame                       func(childComplexity int, orgID string, mapID string, input model.CreateFrameInput) int
+		CreateFrameGroup                  func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
+		CreateFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
+		CreateMap                         func(childComplexity int, orgID string, input model.CreateMapInput) int
+		CreateOrg                         func(childComplexity int, input model.CreateOrgInput) int
+		CreateRoleMapping                 func(childComplexity int, input model.CreateRoleMappingInput) int
+		CreateSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryInput) int
+		CreateSavedQueryFolder            func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryFolderInput) int
+		CreateServerOrg                   func(childComplexity int, input model.CreateServerOrgInput) int
+		CreateService                     func(childComplexity int, orgID string, input model.CreateServiceInput) int
+		CreateServiceAccount              func(childComplexity int, orgID string, input model.CreateServiceAccountInput) int
+		CreateServiceAccountToken         func(childComplexity int, orgID string, saID string, input model.CreateTokenInput) int
+		CreateServiceDBVersion            func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateServiceDBVersionInput) int
+		CreateServiceDb                   func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDBInput) int
+		CreateServiceDiagram              func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDiagramInput) int
+		CreateServiceDoc                  func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDocInput) int
+		CreateTeam                        func(childComplexity int, orgID string, input model.CreateTeamInput) int
+		CreateTestCase                    func(childComplexity int, orgID string, serviceID string, input model.CreateTestCaseInput) int
+		CreateTestPack                    func(childComplexity int, orgID string, serviceID string, input model.CreateTestPackInput) int
+		CreateTestRun                     func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunInput) int
+		CreateTestRunResult               func(childComplexity int, orgID string, serviceID string, input model.CreateTestRunResultInput) int
+		CreateUser                        func(childComplexity int, input model.CreateUserInput) int
+		DeleteAPIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
+		DeleteAPIGroup                    func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteComment                     func(childComplexity int, orgID string, id string) int
+		DeleteCustomComponent             func(childComplexity int, orgID string, id string) int
+		DeleteDiagram                     func(childComplexity int, orgID string, id string) int
+		DeleteDoc                         func(childComplexity int, orgID string, id string) int
+		DeleteFocalPoint                  func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteFocalPointMeta              func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string) int
+		DeleteFolder                      func(childComplexity int, orgID string, id string) int
+		DeleteFrame                       func(childComplexity int, orgID string, mapID string, id string) int
+		DeleteFrameGroup                  func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, id string) int
+		DeleteLdap                        func(childComplexity int) int
+		DeleteMap                         func(childComplexity int, orgID string, id string) int
+		DeleteOAuthProvider               func(childComplexity int, provider string) int
+		DeleteOrg                         func(childComplexity int, id string) int
+		DeleteRoleMapping                 func(childComplexity int, id string) int
+		DeleteSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
+		DeleteSavedQueryFolder            func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string) int
+		DeleteServerOrg                   func(childComplexity int, id string) int
+		DeleteService                     func(childComplexity int, orgID string, id string) int
+		DeleteServiceAccount              func(childComplexity int, orgID string, id string) int
+		DeleteServiceDb                   func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteServiceDiagram              func(childComplexity int, orgID string, serviceID string, diagramID string) int
+		DeleteServiceDoc                  func(childComplexity int, orgID string, serviceID string, docID string) int
+		DeleteTeam                        func(childComplexity int, orgID string, teamID string) int
+		DeleteTestCase                    func(childComplexity int, orgID string, serviceID string, id string) int
+		DeleteTestPack                    func(childComplexity int, orgID string, serviceID string, id string) int
+		DisableUser                       func(childComplexity int, id string) int
+		PrepareDiagramThumbnailUpload     func(childComplexity int, orgID string, diagramID string) int
+		PrepareOAuthProviderIconUpload    func(childComplexity int, provider string) int
+		PrepareServerOrgLogoUpload        func(childComplexity int, orgID string) int
+		PrepareServiceAccountAvatarUpload func(childComplexity int, orgID string, saID string) int
+		PrepareUserAvatarUpload           func(childComplexity int) int
+		RemoveMember                      func(childComplexity int, orgID string, userID string) int
+		RemoveOAuthProviderIcon           func(childComplexity int, provider string) int
+		RemoveServerOrgLogo               func(childComplexity int, orgID string) int
+		RemoveTeamMember                  func(childComplexity int, orgID string, teamID string, userID string) int
+		RestoreAPIGroupVersion            func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID string) int
+		RestoreDiagramVersion             func(childComplexity int, orgID string, diagramID string, versionID string) int
+		RestoreServiceDBVersion           func(childComplexity int, orgID string, serviceID string, serviceDbID string, versionID string) int
+		RevokeServiceAccountToken         func(childComplexity int, orgID string, saID string, tokenID string) int
+		SetMyAvatar                       func(childComplexity int) int
+		SetOAuthProviderIcon              func(childComplexity int, provider string) int
+		SetServerOrgLogo                  func(childComplexity int, orgID string) int
+		SetServiceAccountAvatar           func(childComplexity int, orgID string, saID string) int
+		SwitchOrg                         func(childComplexity int, orgID string) int
+		SyncAPIGroup                      func(childComplexity int, orgID string, serviceID string, input model.SyncAPIGroupInput) int
+		SyncDiagram                       func(childComplexity int, orgID string, input model.SyncDiagramInput) int
+		SyncFrame                         func(childComplexity int, orgID string, mapID string, input model.SyncFrameInput) int
+		UpdateAPIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) int
+		UpdateAPIGroup                    func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
+		UpdateComment                     func(childComplexity int, orgID string, id string, input model.UpdateCommentInput) int
+		UpdateCustomComponent             func(childComplexity int, orgID string, id string, input model.CustomComponentInput) int
+		UpdateDiagram                     func(childComplexity int, orgID string, id string, input model.UpdateDiagramInput) int
+		UpdateDoc                         func(childComplexity int, orgID string, id string, input model.UpdateDocInput) int
+		UpdateFocalPoint                  func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFocalPointInput) int
+		UpdateFocalPointMeta              func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string, id string, input model.UpdateFocalPointMetaInput) int
+		UpdateFolder                      func(childComplexity int, orgID string, id string, input model.UpdateFolderInput) int
+		UpdateFrame                       func(childComplexity int, orgID string, mapID string, id string, input model.UpdateFrameInput) int
+		UpdateFrameGroup                  func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameGroupInput) int
+		UpdateFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
+		UpdateMap                         func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
+		UpdateMember                      func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
+		UpdateOrg                         func(childComplexity int, id string, input model.UpdateOrgInput) int
+		UpdateSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string, input model.UpdateSavedQueryInput) int
+		UpdateServerOrg                   func(childComplexity int, id string, input model.UpdateServerOrgInput) int
+		UpdateService                     func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
+		UpdateServiceAccount              func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
+		UpdateServiceDb                   func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) int
+		UpdateTeam                        func(childComplexity int, orgID string, teamID string, input model.UpdateTeamInput) int
+		UpdateTestCase                    func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) int
+		UpdateTestPack                    func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestPackInput) int
+		UpdateTestRun                     func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunInput) int
+		UpdateTestRunResult               func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestRunResultInput) int
+		UpdateUser                        func(childComplexity int, id string, input model.UpdateUserInput) int
+		UpsertCanvas                      func(childComplexity int, orgID string, mapID string, input model.UpsertCanvasInput) int
+		UpsertLdap                        func(childComplexity int, input model.UpsertLDAPInput) int
+		UpsertOAuthProvider               func(childComplexity int, provider string, input model.UpsertOAuthInput) int
+		UpsertSaml                        func(childComplexity int, input model.UpsertSAMLInput) int
 	}
 
 	OAuthProvider struct {
@@ -760,11 +784,12 @@ type ComplexityRoot struct {
 	}
 
 	OrgSummary struct {
-		Active  func(childComplexity int) int
-		ID      func(childComplexity int) int
-		LogoURL func(childComplexity int) int
-		Name    func(childComplexity int) int
-		Role    func(childComplexity int) int
+		Active         func(childComplexity int) int
+		ID             func(childComplexity int) int
+		LogoURL        func(childComplexity int) int
+		Name           func(childComplexity int) int
+		OnboardingDone func(childComplexity int) int
+		Role           func(childComplexity int) int
 	}
 
 	Query struct {
@@ -792,7 +817,7 @@ type ComplexityRoot struct {
 		DiagramImages         func(childComplexity int, orgID string, diagramID string) int
 		DiagramVersionContent func(childComplexity int, orgID string, diagramID string, versionID string) int
 		DiagramVersions       func(childComplexity int, orgID string, diagramID string) int
-		Diagrams              func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Diagrams              func(childComplexity int, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		Doc                   func(childComplexity int, orgID string, id string) int
 		Docs                  func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		FlowDiagramComponents func(childComplexity int, orgID string) int
@@ -887,24 +912,26 @@ type ComplexityRoot struct {
 	}
 
 	SavedQuery struct {
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		CreatedByActor func(childComplexity int) int
-		Description    func(childComplexity int) int
-		FolderID       func(childComplexity int) int
-		ID             func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		OwnerUserID    func(childComplexity int) int
-		QueryText      func(childComplexity int) int
-		Scope          func(childComplexity int) int
-		ServiceDbID    func(childComplexity int) int
-		Source         func(childComplexity int) int
-		Tags           func(childComplexity int) int
-		TeamID         func(childComplexity int) int
-		Title          func(childComplexity int) int
-		UpdatedAt      func(childComplexity int) int
-		UpdatedBy      func(childComplexity int) int
-		UpdatedByActor func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Description         func(childComplexity int) int
+		FolderID            func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		OwnerUserID         func(childComplexity int) int
+		QueryText           func(childComplexity int) int
+		Scope               func(childComplexity int) int
+		ServiceDbID         func(childComplexity int) int
+		Source              func(childComplexity int) int
+		Tags                func(childComplexity int) int
+		TeamID              func(childComplexity int) int
+		Title               func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByActor      func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	SavedQueryFolder struct {
@@ -949,28 +976,30 @@ type ComplexityRoot struct {
 	}
 
 	Service struct {
-		Category        func(childComplexity int) int
-		CreatedAt       func(childComplexity int) int
-		CreatedBy       func(childComplexity int) int
-		CreatedByActor  func(childComplexity int) int
-		Description     func(childComplexity int) int
-		FolderID        func(childComplexity int) int
-		GitRepoURL      func(childComplexity int) int
-		ID              func(childComplexity int) int
-		JiraProjectURL  func(childComplexity int) int
-		Labels          func(childComplexity int) int
-		Language        func(childComplexity int) int
-		LastCommitSha   func(childComplexity int) int
-		Metadata        func(childComplexity int) int
-		Name            func(childComplexity int) int
-		OrgID           func(childComplexity int) int
-		SlackChannelURL func(childComplexity int) int
-		Status          func(childComplexity int) int
-		TeamID          func(childComplexity int) int
-		Tier            func(childComplexity int) int
-		UpdatedAt       func(childComplexity int) int
-		UpdatedBy       func(childComplexity int) int
-		UpdatedByActor  func(childComplexity int) int
+		Category            func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Description         func(childComplexity int) int
+		FolderID            func(childComplexity int) int
+		GitRepoURL          func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		JiraProjectURL      func(childComplexity int) int
+		Labels              func(childComplexity int) int
+		Language            func(childComplexity int) int
+		LastCommitSha       func(childComplexity int) int
+		Metadata            func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		SlackChannelURL     func(childComplexity int) int
+		Status              func(childComplexity int) int
+		TeamID              func(childComplexity int) int
+		Tier                func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByActor      func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	ServiceAccount struct {
@@ -997,66 +1026,73 @@ type ComplexityRoot struct {
 	}
 
 	ServiceDB struct {
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		CreatedByActor func(childComplexity int) int
-		DbDiagramID    func(childComplexity int) int
-		DbName         func(childComplexity int) int
-		DbType         func(childComplexity int) int
-		Dialect        func(childComplexity int) int
-		ID             func(childComplexity int) int
-		NoSQLSchema    func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		PgDumpFileID   func(childComplexity int) int
-		SchemaJSON     func(childComplexity int) int
-		ServiceID      func(childComplexity int) int
-		Source         func(childComplexity int) int
-		SourceTs       func(childComplexity int) int
-		Tables         func(childComplexity int) int
-		UpdatedAt      func(childComplexity int) int
-		UpdatedBy      func(childComplexity int) int
-		UpdatedByActor func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		DbDiagramID         func(childComplexity int) int
+		DbName              func(childComplexity int) int
+		DbType              func(childComplexity int) int
+		Dialect             func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		NoSQLSchema         func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		PgDumpFileID        func(childComplexity int) int
+		SchemaJSON          func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		Source              func(childComplexity int) int
+		SourceTs            func(childComplexity int) int
+		Tables              func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByActor      func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	ServiceDBVersion struct {
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		CreatedByActor func(childComplexity int) int
-		DbDiagramID    func(childComplexity int) int
-		ID             func(childComplexity int) int
-		IsAutoVersion  func(childComplexity int) int
-		Label          func(childComplexity int) int
-		NoSQLSchema    func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		PgDumpFileID   func(childComplexity int) int
-		SchemaJSON     func(childComplexity int) int
-		ServiceDbID    func(childComplexity int) int
-		Source         func(childComplexity int) int
-		SourceTs       func(childComplexity int) int
-		Tables         func(childComplexity int) int
-		VersionNumber  func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByActor      func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		DbDiagramID         func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		IsAutoVersion       func(childComplexity int) int
+		Label               func(childComplexity int) int
+		NoSQLSchema         func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		PgDumpFileID        func(childComplexity int) int
+		SchemaJSON          func(childComplexity int) int
+		ServiceDbID         func(childComplexity int) int
+		Source              func(childComplexity int) int
+		SourceTs            func(childComplexity int) int
+		Tables              func(childComplexity int) int
+		VersionNumber       func(childComplexity int) int
 	}
 
 	ServiceDiagram struct {
-		CreatedAt func(childComplexity int) int
-		CreatedBy func(childComplexity int) int
-		Diagram   func(childComplexity int) int
-		DiagramID func(childComplexity int) int
-		OrgID     func(childComplexity int) int
-		ServiceID func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
-		UpdatedBy func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Diagram             func(childComplexity int) int
+		DiagramID           func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	ServiceDoc struct {
-		CreatedAt func(childComplexity int) int
-		CreatedBy func(childComplexity int) int
-		Doc       func(childComplexity int) int
-		DocID     func(childComplexity int) int
-		OrgID     func(childComplexity int) int
-		ServiceID func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
-		UpdatedBy func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Doc                 func(childComplexity int) int
+		DocID               func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	ServicePage struct {
@@ -1112,6 +1148,7 @@ type ComplexityRoot struct {
 		BaselineRunResultID   func(childComplexity int) int
 		CreatedAt             func(childComplexity int) int
 		CreatedBy             func(childComplexity int) int
+		CreatedByCommitHash   func(childComplexity int) int
 		Database              func(childComplexity int) int
 		DeletedAt             func(childComplexity int) int
 		DeletedBy             func(childComplexity int) int
@@ -1138,6 +1175,7 @@ type ComplexityRoot struct {
 		Type                  func(childComplexity int) int
 		UpdatedAt             func(childComplexity int) int
 		UpdatedBy             func(childComplexity int) int
+		UpdatedByCommitHash   func(childComplexity int) int
 		Version               func(childComplexity int) int
 	}
 
@@ -1148,17 +1186,19 @@ type ComplexityRoot struct {
 	}
 
 	TestPack struct {
-		CreatedAt  func(childComplexity int) int
-		CreatedBy  func(childComplexity int) int
-		DeletedAt  func(childComplexity int) int
-		DeletedBy  func(childComplexity int) int
-		Name       func(childComplexity int) int
-		OrgID      func(childComplexity int) int
-		ServiceID  func(childComplexity int) int
-		TestPackID func(childComplexity int) int
-		Type       func(childComplexity int) int
-		UpdatedAt  func(childComplexity int) int
-		UpdatedBy  func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		DeletedAt           func(childComplexity int) int
+		DeletedBy           func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		ServiceID           func(childComplexity int) int
+		TestPackID          func(childComplexity int) int
+		Type                func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	TestRun struct {
@@ -1221,18 +1261,20 @@ type ComplexityRoot struct {
 	}
 
 	UIMap struct {
-		CreatedAt      func(childComplexity int) int
-		CreatedBy      func(childComplexity int) int
-		Description    func(childComplexity int) int
-		FolderID       func(childComplexity int) int
-		ID             func(childComplexity int) int
-		Name           func(childComplexity int) int
-		OrgID          func(childComplexity int) int
-		PreviewImgUrls func(childComplexity int) int
-		Status         func(childComplexity int) int
-		TeamID         func(childComplexity int) int
-		UpdatedAt      func(childComplexity int) int
-		UpdatedBy      func(childComplexity int) int
+		CreatedAt           func(childComplexity int) int
+		CreatedBy           func(childComplexity int) int
+		CreatedByCommitHash func(childComplexity int) int
+		Description         func(childComplexity int) int
+		FolderID            func(childComplexity int) int
+		ID                  func(childComplexity int) int
+		Name                func(childComplexity int) int
+		OrgID               func(childComplexity int) int
+		PreviewImgUrls      func(childComplexity int) int
+		Status              func(childComplexity int) int
+		TeamID              func(childComplexity int) int
+		UpdatedAt           func(childComplexity int) int
+		UpdatedBy           func(childComplexity int) int
+		UpdatedByCommitHash func(childComplexity int) int
 	}
 
 	UIMapPage struct {
@@ -1299,11 +1341,17 @@ type MutationResolver interface {
 	CreateServerOrg(ctx context.Context, input model.CreateServerOrgInput) (*model.Org, error)
 	UpdateServerOrg(ctx context.Context, id string, input model.UpdateServerOrgInput) (*model.Org, error)
 	DeleteServerOrg(ctx context.Context, id string) (bool, error)
+	PrepareServerOrgLogoUpload(ctx context.Context, orgID string) (*model.AssetUpload, error)
+	SetServerOrgLogo(ctx context.Context, orgID string) (bool, error)
+	RemoveServerOrgLogo(ctx context.Context, orgID string) (bool, error)
 	CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error)
 	UpdateUser(ctx context.Context, id string, input model.UpdateUserInput) (*model.User, error)
 	DisableUser(ctx context.Context, id string) (bool, error)
 	UpsertOAuthProvider(ctx context.Context, provider string, input model.UpsertOAuthInput) (bool, error)
 	DeleteOAuthProvider(ctx context.Context, provider string) (bool, error)
+	PrepareOAuthProviderIconUpload(ctx context.Context, provider string) (*model.AssetUpload, error)
+	SetOAuthProviderIcon(ctx context.Context, provider string) (bool, error)
+	RemoveOAuthProviderIcon(ctx context.Context, provider string) (bool, error)
 	CreateRoleMapping(ctx context.Context, input model.CreateRoleMappingInput) (bool, error)
 	DeleteRoleMapping(ctx context.Context, id string) (bool, error)
 	UpsertLdap(ctx context.Context, input model.UpsertLDAPInput) (bool, error)
@@ -1311,6 +1359,8 @@ type MutationResolver interface {
 	UpsertSaml(ctx context.Context, input model.UpsertSAMLInput) (bool, error)
 	CreateAssetUpload(ctx context.Context, orgID string) (*model.AssetUpload, error)
 	SwitchOrg(ctx context.Context, orgID string) (bool, error)
+	PrepareUserAvatarUpload(ctx context.Context) (*model.AssetUpload, error)
+	SetMyAvatar(ctx context.Context) (bool, error)
 	CreateService(ctx context.Context, orgID string, input model.CreateServiceInput) (*model.Service, error)
 	UpdateService(ctx context.Context, orgID string, id string, input model.UpdateServiceInput) (*model.Service, error)
 	DeleteService(ctx context.Context, orgID string, id string) (bool, error)
@@ -1355,6 +1405,7 @@ type MutationResolver interface {
 	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
 	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
 	DeleteOrg(ctx context.Context, id string) (bool, error)
+	CompleteOnboarding(ctx context.Context, orgID string) (bool, error)
 	AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error)
 	UpdateMember(ctx context.Context, orgID string, userID string, input model.UpdateMemberInput) (*model.Member, error)
 	RemoveMember(ctx context.Context, orgID string, userID string) (bool, error)
@@ -1368,6 +1419,8 @@ type MutationResolver interface {
 	DeleteServiceAccount(ctx context.Context, orgID string, id string) (bool, error)
 	CreateServiceAccountToken(ctx context.Context, orgID string, saID string, input model.CreateTokenInput) (*model.CreatedToken, error)
 	RevokeServiceAccountToken(ctx context.Context, orgID string, saID string, tokenID string) (bool, error)
+	PrepareServiceAccountAvatarUpload(ctx context.Context, orgID string, saID string) (*model.AssetUpload, error)
+	SetServiceAccountAvatar(ctx context.Context, orgID string, saID string) (bool, error)
 	CreateSavedQueryFolder(ctx context.Context, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryFolderInput) (*model.SavedQueryFolder, error)
 	DeleteSavedQueryFolder(ctx context.Context, orgID string, serviceID string, serviceDbID string, id string) (bool, error)
 	CreateSavedQuery(ctx context.Context, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryInput) (*model.SavedQuery, error)
@@ -1439,7 +1492,7 @@ type QueryResolver interface {
 	Comments(ctx context.Context, orgID string, resourceID string) ([]*model.Comment, error)
 	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
 	Components(ctx context.Context, orgID string) (*model.Components, error)
-	Diagrams(ctx context.Context, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DiagramPage, error)
+	Diagrams(ctx context.Context, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DiagramPage, error)
 	Diagram(ctx context.Context, orgID string, id string) (*model.Diagram, error)
 	DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error)
 	DiagramVersions(ctx context.Context, orgID string, diagramID string) ([]*model.DiagramVersion, error)
@@ -1544,6 +1597,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.APIEndpoint.CreatedBy(childComplexity), true
+
+	case "APIEndpoint.createdByCommitHash":
+		if e.complexity.APIEndpoint.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIEndpoint.CreatedByCommitHash(childComplexity), true
 
 	case "APIEndpoint.description":
 		if e.complexity.APIEndpoint.Description == nil {
@@ -1664,6 +1724,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.APIEndpoint.UpdatedBy(childComplexity), true
 
+	case "APIEndpoint.updatedByCommitHash":
+		if e.complexity.APIEndpoint.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIEndpoint.UpdatedByCommitHash(childComplexity), true
+
 	case "APIGroup.createdAt":
 		if e.complexity.APIGroup.CreatedAt == nil {
 			break
@@ -1677,6 +1744,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.APIGroup.CreatedBy(childComplexity), true
+
+	case "APIGroup.createdByCommitHash":
+		if e.complexity.APIGroup.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIGroup.CreatedByCommitHash(childComplexity), true
 
 	case "APIGroup.id":
 		if e.complexity.APIGroup.ID == nil {
@@ -1748,6 +1822,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.APIGroup.UpdatedBy(childComplexity), true
 
+	case "APIGroup.updatedByCommitHash":
+		if e.complexity.APIGroup.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIGroup.UpdatedByCommitHash(childComplexity), true
+
 	case "APIGroup.version":
 		if e.complexity.APIGroup.Version == nil {
 			break
@@ -1782,6 +1863,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.APIGroupVersion.CreatedByActor(childComplexity), true
+
+	case "APIGroupVersion.createdByCommitHash":
+		if e.complexity.APIGroupVersion.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.APIGroupVersion.CreatedByCommitHash(childComplexity), true
 
 	case "APIGroupVersion.id":
 		if e.complexity.APIGroupVersion.ID == nil {
@@ -2735,6 +2823,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Diagram.CreatedByActor(childComplexity), true
 
+	case "Diagram.createdByCommitHash":
+		if e.complexity.Diagram.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Diagram.CreatedByCommitHash(childComplexity), true
+
 	case "Diagram.folderId":
 		if e.complexity.Diagram.FolderID == nil {
 			break
@@ -2825,6 +2920,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Diagram.UpdatedByActor(childComplexity), true
+
+	case "Diagram.updatedByCommitHash":
+		if e.complexity.Diagram.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Diagram.UpdatedByCommitHash(childComplexity), true
 
 	case "DiagramContent.content":
 		if e.complexity.DiagramContent.Content == nil {
@@ -3323,6 +3425,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.FocalPoint.CreatedBy(childComplexity), true
 
+	case "FocalPoint.createdByCommitHash":
+		if e.complexity.FocalPoint.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.FocalPoint.CreatedByCommitHash(childComplexity), true
+
 	case "FocalPoint.frameId":
 		if e.complexity.FocalPoint.FrameID == nil {
 			break
@@ -3385,6 +3494,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.FocalPoint.UpdatedBy(childComplexity), true
+
+	case "FocalPoint.updatedByCommitHash":
+		if e.complexity.FocalPoint.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.FocalPoint.UpdatedByCommitHash(childComplexity), true
 
 	case "FocalPoint.visibility":
 		if e.complexity.FocalPoint.Visibility == nil {
@@ -3449,6 +3565,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.FocalPointMeta.CreatedBy(childComplexity), true
 
+	case "FocalPointMeta.createdByCommitHash":
+		if e.complexity.FocalPointMeta.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.CreatedByCommitHash(childComplexity), true
+
 	case "FocalPointMeta.focalPointId":
 		if e.complexity.FocalPointMeta.FocalPointID == nil {
 			break
@@ -3490,6 +3613,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.FocalPointMeta.UpdatedBy(childComplexity), true
+
+	case "FocalPointMeta.updatedByCommitHash":
+		if e.complexity.FocalPointMeta.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.FocalPointMeta.UpdatedByCommitHash(childComplexity), true
 
 	case "Folder.createdAt":
 		if e.complexity.Folder.CreatedAt == nil {
@@ -3581,6 +3711,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Frame.CreatedByActor(childComplexity), true
+
+	case "Frame.createdByCommitHash":
+		if e.complexity.Frame.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Frame.CreatedByCommitHash(childComplexity), true
 
 	case "Frame.description":
 		if e.complexity.Frame.Description == nil {
@@ -3700,6 +3837,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Frame.UpdatedByActor(childComplexity), true
+
+	case "Frame.updatedByCommitHash":
+		if e.complexity.Frame.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Frame.UpdatedByCommitHash(childComplexity), true
 
 	case "FrameGroup.createdAt":
 		if e.complexity.FrameGroup.CreatedAt == nil {
@@ -4417,6 +4561,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.AddTeamMember(childComplexity, args["orgId"].(string), args["teamId"].(string), args["userId"].(string), args["permission"].(*string)), true
+
+	case "Mutation.completeOnboarding":
+		if e.complexity.Mutation.CompleteOnboarding == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_completeOnboarding_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CompleteOnboarding(childComplexity, args["orgId"].(string)), true
 
 	case "Mutation.confirmDiagramThumbnailUpload":
 		if e.complexity.Mutation.ConfirmDiagramThumbnailUpload == nil {
@@ -5193,6 +5349,49 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.PrepareDiagramThumbnailUpload(childComplexity, args["orgId"].(string), args["diagramId"].(string)), true
 
+	case "Mutation.prepareOAuthProviderIconUpload":
+		if e.complexity.Mutation.PrepareOAuthProviderIconUpload == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_prepareOAuthProviderIconUpload_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.PrepareOAuthProviderIconUpload(childComplexity, args["provider"].(string)), true
+
+	case "Mutation.prepareServerOrgLogoUpload":
+		if e.complexity.Mutation.PrepareServerOrgLogoUpload == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_prepareServerOrgLogoUpload_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.PrepareServerOrgLogoUpload(childComplexity, args["orgId"].(string)), true
+
+	case "Mutation.prepareServiceAccountAvatarUpload":
+		if e.complexity.Mutation.PrepareServiceAccountAvatarUpload == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_prepareServiceAccountAvatarUpload_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.PrepareServiceAccountAvatarUpload(childComplexity, args["orgId"].(string), args["saId"].(string)), true
+
+	case "Mutation.prepareUserAvatarUpload":
+		if e.complexity.Mutation.PrepareUserAvatarUpload == nil {
+			break
+		}
+
+		return e.complexity.Mutation.PrepareUserAvatarUpload(childComplexity), true
+
 	case "Mutation.removeMember":
 		if e.complexity.Mutation.RemoveMember == nil {
 			break
@@ -5204,6 +5403,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.RemoveMember(childComplexity, args["orgId"].(string), args["userId"].(string)), true
+
+	case "Mutation.removeOAuthProviderIcon":
+		if e.complexity.Mutation.RemoveOAuthProviderIcon == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_removeOAuthProviderIcon_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveOAuthProviderIcon(childComplexity, args["provider"].(string)), true
+
+	case "Mutation.removeServerOrgLogo":
+		if e.complexity.Mutation.RemoveServerOrgLogo == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_removeServerOrgLogo_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RemoveServerOrgLogo(childComplexity, args["orgId"].(string)), true
 
 	case "Mutation.removeTeamMember":
 		if e.complexity.Mutation.RemoveTeamMember == nil {
@@ -5264,6 +5487,49 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.RevokeServiceAccountToken(childComplexity, args["orgId"].(string), args["saId"].(string), args["tokenId"].(string)), true
+
+	case "Mutation.setMyAvatar":
+		if e.complexity.Mutation.SetMyAvatar == nil {
+			break
+		}
+
+		return e.complexity.Mutation.SetMyAvatar(childComplexity), true
+
+	case "Mutation.setOAuthProviderIcon":
+		if e.complexity.Mutation.SetOAuthProviderIcon == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setOAuthProviderIcon_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetOAuthProviderIcon(childComplexity, args["provider"].(string)), true
+
+	case "Mutation.setServerOrgLogo":
+		if e.complexity.Mutation.SetServerOrgLogo == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setServerOrgLogo_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetServerOrgLogo(childComplexity, args["orgId"].(string)), true
+
+	case "Mutation.setServiceAccountAvatar":
+		if e.complexity.Mutation.SetServiceAccountAvatar == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setServiceAccountAvatar_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetServiceAccountAvatar(childComplexity, args["orgId"].(string), args["saId"].(string)), true
 
 	case "Mutation.switchOrg":
 		if e.complexity.Mutation.SwitchOrg == nil {
@@ -5883,6 +6149,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.OrgSummary.Name(childComplexity), true
 
+	case "OrgSummary.onboardingDone":
+		if e.complexity.OrgSummary.OnboardingDone == nil {
+			break
+		}
+
+		return e.complexity.OrgSummary.OnboardingDone(childComplexity), true
+
 	case "OrgSummary.role":
 		if e.complexity.OrgSummary.Role == nil {
 			break
@@ -6188,7 +6461,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.Diagrams(childComplexity, args["orgId"].(string), args["folderId"].(*string), args["teamId"].(*string), args["search"].(*string), args["sortBy"].(*string), args["sortDir"].(*string), args["limit"].(*int), args["offset"].(*int)), true
+		return e.complexity.Query.Diagrams(childComplexity, args["orgId"].(string), args["folderId"].(*string), args["teamId"].(*string), args["serviceId"].(*string), args["search"].(*string), args["sortBy"].(*string), args["sortDir"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.doc":
 		if e.complexity.Query.Doc == nil {
@@ -7000,6 +7273,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.SavedQuery.CreatedByActor(childComplexity), true
 
+	case "SavedQuery.createdByCommitHash":
+		if e.complexity.SavedQuery.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.CreatedByCommitHash(childComplexity), true
+
 	case "SavedQuery.description":
 		if e.complexity.SavedQuery.Description == nil {
 			break
@@ -7104,6 +7384,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.SavedQuery.UpdatedByActor(childComplexity), true
+
+	case "SavedQuery.updatedByCommitHash":
+		if e.complexity.SavedQuery.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.SavedQuery.UpdatedByCommitHash(childComplexity), true
 
 	case "SavedQueryFolder.createdAt":
 		if e.complexity.SavedQueryFolder.CreatedAt == nil {
@@ -7336,6 +7623,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Service.CreatedByActor(childComplexity), true
 
+	case "Service.createdByCommitHash":
+		if e.complexity.Service.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Service.CreatedByCommitHash(childComplexity), true
+
 	case "Service.description":
 		if e.complexity.Service.Description == nil {
 			break
@@ -7461,6 +7755,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Service.UpdatedByActor(childComplexity), true
+
+	case "Service.updatedByCommitHash":
+		if e.complexity.Service.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.Service.UpdatedByCommitHash(childComplexity), true
 
 	case "ServiceAccount.createdAt":
 		if e.complexity.ServiceAccount.CreatedAt == nil {
@@ -7602,6 +7903,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDB.CreatedByActor(childComplexity), true
 
+	case "ServiceDB.createdByCommitHash":
+		if e.complexity.ServiceDB.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDB.CreatedByCommitHash(childComplexity), true
+
 	case "ServiceDB.dbDiagramId":
 		if e.complexity.ServiceDB.DbDiagramID == nil {
 			break
@@ -7714,6 +8022,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDB.UpdatedByActor(childComplexity), true
 
+	case "ServiceDB.updatedByCommitHash":
+		if e.complexity.ServiceDB.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDB.UpdatedByCommitHash(childComplexity), true
+
 	case "ServiceDBVersion.createdAt":
 		if e.complexity.ServiceDBVersion.CreatedAt == nil {
 			break
@@ -7734,6 +8049,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ServiceDBVersion.CreatedByActor(childComplexity), true
+
+	case "ServiceDBVersion.createdByCommitHash":
+		if e.complexity.ServiceDBVersion.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDBVersion.CreatedByCommitHash(childComplexity), true
 
 	case "ServiceDBVersion.dbDiagramId":
 		if e.complexity.ServiceDBVersion.DbDiagramID == nil {
@@ -7840,6 +8162,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDiagram.CreatedBy(childComplexity), true
 
+	case "ServiceDiagram.createdByCommitHash":
+		if e.complexity.ServiceDiagram.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDiagram.CreatedByCommitHash(childComplexity), true
+
 	case "ServiceDiagram.diagram":
 		if e.complexity.ServiceDiagram.Diagram == nil {
 			break
@@ -7882,6 +8211,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceDiagram.UpdatedBy(childComplexity), true
 
+	case "ServiceDiagram.updatedByCommitHash":
+		if e.complexity.ServiceDiagram.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDiagram.UpdatedByCommitHash(childComplexity), true
+
 	case "ServiceDoc.createdAt":
 		if e.complexity.ServiceDoc.CreatedAt == nil {
 			break
@@ -7895,6 +8231,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ServiceDoc.CreatedBy(childComplexity), true
+
+	case "ServiceDoc.createdByCommitHash":
+		if e.complexity.ServiceDoc.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDoc.CreatedByCommitHash(childComplexity), true
 
 	case "ServiceDoc.doc":
 		if e.complexity.ServiceDoc.Doc == nil {
@@ -7937,6 +8280,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ServiceDoc.UpdatedBy(childComplexity), true
+
+	case "ServiceDoc.updatedByCommitHash":
+		if e.complexity.ServiceDoc.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.ServiceDoc.UpdatedByCommitHash(childComplexity), true
 
 	case "ServicePage.items":
 		if e.complexity.ServicePage.Items == nil {
@@ -8155,6 +8505,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.TestCase.CreatedBy(childComplexity), true
 
+	case "TestCase.createdByCommitHash":
+		if e.complexity.TestCase.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.TestCase.CreatedByCommitHash(childComplexity), true
+
 	case "TestCase.database":
 		if e.complexity.TestCase.Database == nil {
 			break
@@ -8337,6 +8694,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.TestCase.UpdatedBy(childComplexity), true
 
+	case "TestCase.updatedByCommitHash":
+		if e.complexity.TestCase.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.TestCase.UpdatedByCommitHash(childComplexity), true
+
 	case "TestCase.version":
 		if e.complexity.TestCase.Version == nil {
 			break
@@ -8378,6 +8742,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.TestPack.CreatedBy(childComplexity), true
+
+	case "TestPack.createdByCommitHash":
+		if e.complexity.TestPack.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.TestPack.CreatedByCommitHash(childComplexity), true
 
 	case "TestPack.deletedAt":
 		if e.complexity.TestPack.DeletedAt == nil {
@@ -8441,6 +8812,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.TestPack.UpdatedBy(childComplexity), true
+
+	case "TestPack.updatedByCommitHash":
+		if e.complexity.TestPack.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.TestPack.UpdatedByCommitHash(childComplexity), true
 
 	case "TestRun.completedAt":
 		if e.complexity.TestRun.CompletedAt == nil {
@@ -8785,6 +9163,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.UIMap.CreatedBy(childComplexity), true
 
+	case "UIMap.createdByCommitHash":
+		if e.complexity.UIMap.CreatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.UIMap.CreatedByCommitHash(childComplexity), true
+
 	case "UIMap.description":
 		if e.complexity.UIMap.Description == nil {
 			break
@@ -8854,6 +9239,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.UIMap.UpdatedBy(childComplexity), true
+
+	case "UIMap.updatedByCommitHash":
+		if e.complexity.UIMap.UpdatedByCommitHash == nil {
+			break
+		}
+
+		return e.complexity.UIMap.UpdatedByCommitHash(childComplexity), true
 
 	case "UIMapPage.items":
 		if e.complexity.UIMapPage.Items == nil {
@@ -9191,12 +9583,20 @@ extend type Mutation {
     updateServerOrg(id: ID!, input: UpdateServerOrgInput!):  Org!
     deleteServerOrg(id: ID!):                                Boolean!
 
+    prepareServerOrgLogoUpload(orgId: ID!): AssetUpload!
+    setServerOrgLogo(orgId: ID!):           Boolean!
+    removeServerOrgLogo(orgId: ID!):        Boolean!
+
     createUser(input: CreateUserInput!):              User!
     updateUser(id: ID!, input: UpdateUserInput!):     User!
     disableUser(id: ID!):                             Boolean!
 
     upsertOAuthProvider(provider: String!, input: UpsertOAuthInput!): Boolean!
     deleteOAuthProvider(provider: String!):                          Boolean!
+
+    prepareOAuthProviderIconUpload(provider: String!): AssetUpload!
+    setOAuthProviderIcon(provider: String!):           Boolean!
+    removeOAuthProviderIcon(provider: String!):        Boolean!
 
     createRoleMapping(input: CreateRoleMappingInput!): Boolean!
     deleteRoleMapping(id: ID!):                        Boolean!
@@ -9428,6 +9828,9 @@ type AssetURL {
 
 extend type Mutation {
     switchOrg(orgId: ID!): Boolean!
+
+    prepareUserAvatarUpload: AssetUpload!
+    setMyAvatar: Boolean!
 }
 
 type Me {
@@ -9448,6 +9851,7 @@ type OrgSummary {
     logoUrl: String
     role:    String!
     active:  Boolean!
+    onboardingDone: Boolean!
 }
 `, BuiltIn: false},
 	{Name: "../schema/catalog.graphqls", Input: `extend type Query {
@@ -9524,6 +9928,8 @@ type Service {
     metadata:         String!
     createdBy:        ID!
     updatedBy:        ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor:   Actor @goField(forceResolver: true)
     updatedByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time!
@@ -9551,6 +9957,8 @@ type APIGroup {
     specHash:  String
     createdBy: ID!
     updatedBy: ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt: Time!
     updatedAt: Time!
 }
@@ -9565,6 +9973,7 @@ type APIGroupVersion {
     specHash:      String!
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
@@ -9575,6 +9984,8 @@ type ServiceDoc {
     orgId:     ID!
     createdBy: ID!
     updatedBy: ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt: Time!
     updatedAt: Time!
     doc:       Doc
@@ -9586,6 +9997,8 @@ type ServiceDiagram {
     orgId: ID!
     createdBy: ID!
     updatedBy: ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt: Time!
     updatedAt: Time!
     diagram: Diagram
@@ -9631,6 +10044,8 @@ type ServiceDB {
     sourceTs:     Time
     createdBy:    ID!
     updatedBy:    ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     updatedByActor: Actor @goField(forceResolver: true)
     createdAt:    Time!
@@ -9652,6 +10067,7 @@ type ServiceDBVersion {
     sourceTs:      Time
     isAutoVersion: Boolean!
     createdBy:     ID!
+    createdByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     createdAt:     Time!
 }
@@ -9675,6 +10091,8 @@ type APIEndpoint {
     order:       Float!
     createdBy:   ID!
     updatedBy:   ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt:   Time!
     updatedAt:   Time!
 }
@@ -9750,6 +10168,7 @@ input CreateServiceDocInput {
     fileType:      String
     description:   String
     contentBase64: String
+    fileAssetId:   String
     folderId:      ID
     teamId:        ID
 }
@@ -9953,7 +10372,7 @@ type Components {
 }
 
 extend type Query {
-    diagrams(orgId: ID!, folderId: ID, teamId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DiagramPage!
+    diagrams(orgId: ID!, folderId: ID, teamId: ID, serviceId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DiagramPage!
     diagram(orgId: ID!, id: ID!):                             Diagram!
     diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
@@ -9988,6 +10407,8 @@ type Diagram {
     source:             String
     createdBy:          ID!
     updatedBy:          ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor:     Actor @goField(forceResolver: true)
     updatedByActor:     Actor @goField(forceResolver: true)
     createdAt:          Time!
@@ -10115,7 +10536,8 @@ input CreateDocInput {
     fileName:      String!
     fileType:      String
     description:   String
-    contentBase64: String!
+    contentBase64: String
+    fileAssetId:   String
     folderId:      ID
     teamId:        ID
 }
@@ -10125,6 +10547,7 @@ input UpdateDocInput {
     fileType:      String
     description:   String
     contentBase64: String
+    fileAssetId:   String
     folderId:      ID
     teamId:        ID
 }
@@ -10241,6 +10664,7 @@ extend type Mutation {
     createOrg(input: CreateOrgInput!):                Org!
     updateOrg(id: ID!, input: UpdateOrgInput!):       Org!
     deleteOrg(id: ID!):                               Boolean!
+    completeOnboarding(orgId: ID!):                   Boolean!
 
     addMember(orgId: ID!, input: AddMemberInput!):                       Member!
     updateMember(orgId: ID!, userId: ID!, input: UpdateMemberInput!):    Member!
@@ -10257,6 +10681,9 @@ extend type Mutation {
     deleteServiceAccount(orgId: ID!, id: ID!):                                    Boolean!
     createServiceAccountToken(orgId: ID!, saId: ID!, input: CreateTokenInput!):  CreatedToken!
     revokeServiceAccountToken(orgId: ID!, saId: ID!, tokenId: ID!):              Boolean!
+
+    prepareServiceAccountAvatarUpload(orgId: ID!, saId: ID!): AssetUpload!
+    setServiceAccountAvatar(orgId: ID!, saId: ID!):           Boolean!
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────
@@ -10433,6 +10860,8 @@ type SavedQuery {
     source:      String
     createdBy:   ID!
     updatedBy:   ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdByActor: Actor @goField(forceResolver: true)
     updatedByActor: Actor @goField(forceResolver: true)
     createdAt:   Time!
@@ -10590,6 +11019,8 @@ type TestPack {
     type:       String!
     createdBy:  ID!
     updatedBy:  ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     deletedBy:  ID
     createdAt:  Time!
     updatedAt:  Time!
@@ -10624,6 +11055,8 @@ type TestCase {
     dependencies:           [ID!]!
     createdBy:              ID!
     updatedBy:              ID
+    createdByCommitHash:    String
+    updatedByCommitHash:    String
     deletedBy:              ID
     createdAt:              Time!
     updatedAt:              Time!
@@ -10923,6 +11356,8 @@ type UIMap {
     status:      String!
     createdBy:   ID!
     updatedBy:   ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt:   Time!
     updatedAt:   Time!
     previewImgUrls: [String!]! @goField(forceResolver: true)
@@ -10950,6 +11385,8 @@ type Frame {
     focalPointCount:      Int!
     createdBy:            ID!
     updatedBy:            ID
+    createdByCommitHash:  String
+    updatedByCommitHash:  String
     createdByActor:       Actor @goField(forceResolver: true)
     updatedByActor:       Actor @goField(forceResolver: true)
     createdAt:            Time!
@@ -10972,6 +11409,8 @@ type FocalPoint {
     isActive:   Boolean!
     createdBy:  ID!
     updatedBy:  ID
+    createdByCommitHash: String
+    updatedByCommitHash: String
     createdAt:  Time!
     updatedAt:  Time!
 }
@@ -11034,6 +11473,8 @@ type FocalPointMeta {
     componentModalFields: [ComponentModalField!]!
     createdBy:            ID!
     updatedBy:            ID
+    createdByCommitHash:  String
+    updatedByCommitHash:  String
     createdAt:            Time!
     updatedAt:            Time!
 }
@@ -11094,21 +11535,23 @@ input UpdateMapInput {
 }
 
 input CreateFrameInput {
-    name:          String!
-    description:   String
-    templateType:  String!
-    parentFrameId: ID
-    order:         Float
-    screenshot:    String
+    name:              String!
+    description:       String
+    templateType:      String!
+    parentFrameId:     ID
+    order:             Float
+    screenshot:        String
+    screenshotAssetId: String
 }
 
 input UpdateFrameInput {
-    name:         String
-    description:  String
-    templateType: String
-    status:       String
-    order:        Float
-    screenshot:   String
+    name:              String
+    description:       String
+    templateType:      String
+    status:            String
+    order:             Float
+    screenshot:        String
+    screenshotAssetId: String
 }
 
 input SyncFrameInput {
@@ -11355,6 +11798,34 @@ func (ec *executionContext) field_Mutation_addTeamMember_argsPermission(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_completeOnboarding_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_completeOnboarding_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_completeOnboarding_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -15588,6 +16059,113 @@ func (ec *executionContext) field_Mutation_prepareDiagramThumbnailUpload_argsDia
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_prepareOAuthProviderIconUpload_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_prepareOAuthProviderIconUpload_argsProvider(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["provider"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_prepareOAuthProviderIconUpload_argsProvider(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["provider"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("provider"))
+	if tmp, ok := rawArgs["provider"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_prepareServerOrgLogoUpload_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_prepareServerOrgLogoUpload_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_prepareServerOrgLogoUpload_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_prepareServiceAccountAvatarUpload_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_prepareServiceAccountAvatarUpload_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_prepareServiceAccountAvatarUpload_argsSaID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["saId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_prepareServiceAccountAvatarUpload_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_prepareServiceAccountAvatarUpload_argsSaID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["saId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("saId"))
+	if tmp, ok := rawArgs["saId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_removeMember_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -15632,6 +16210,62 @@ func (ec *executionContext) field_Mutation_removeMember_argsUserID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
 	if tmp, ok := rawArgs["userId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_removeOAuthProviderIcon_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_removeOAuthProviderIcon_argsProvider(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["provider"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_removeOAuthProviderIcon_argsProvider(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["provider"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("provider"))
+	if tmp, ok := rawArgs["provider"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_removeServerOrgLogo_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_removeServerOrgLogo_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_removeServerOrgLogo_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -16048,6 +16682,113 @@ func (ec *executionContext) field_Mutation_revokeServiceAccountToken_argsTokenID
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("tokenId"))
 	if tmp, ok := rawArgs["tokenId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setOAuthProviderIcon_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_setOAuthProviderIcon_argsProvider(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["provider"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_setOAuthProviderIcon_argsProvider(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["provider"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("provider"))
+	if tmp, ok := rawArgs["provider"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setServerOrgLogo_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_setServerOrgLogo_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_setServerOrgLogo_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setServiceAccountAvatar_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_setServiceAccountAvatar_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_setServiceAccountAvatar_argsSaID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["saId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_setServiceAccountAvatar_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setServiceAccountAvatar_argsSaID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["saId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("saId"))
+	if tmp, ok := rawArgs["saId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -20324,31 +21065,36 @@ func (ec *executionContext) field_Query_diagrams_args(ctx context.Context, rawAr
 		return nil, err
 	}
 	args["teamId"] = arg2
-	arg3, err := ec.field_Query_diagrams_argsSearch(ctx, rawArgs)
+	arg3, err := ec.field_Query_diagrams_argsServiceID(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["search"] = arg3
-	arg4, err := ec.field_Query_diagrams_argsSortBy(ctx, rawArgs)
+	args["serviceId"] = arg3
+	arg4, err := ec.field_Query_diagrams_argsSearch(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["sortBy"] = arg4
-	arg5, err := ec.field_Query_diagrams_argsSortDir(ctx, rawArgs)
+	args["search"] = arg4
+	arg5, err := ec.field_Query_diagrams_argsSortBy(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["sortDir"] = arg5
-	arg6, err := ec.field_Query_diagrams_argsLimit(ctx, rawArgs)
+	args["sortBy"] = arg5
+	arg6, err := ec.field_Query_diagrams_argsSortDir(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["limit"] = arg6
-	arg7, err := ec.field_Query_diagrams_argsOffset(ctx, rawArgs)
+	args["sortDir"] = arg6
+	arg7, err := ec.field_Query_diagrams_argsLimit(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["offset"] = arg7
+	args["limit"] = arg7
+	arg8, err := ec.field_Query_diagrams_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg8
 	return args, nil
 }
 func (ec *executionContext) field_Query_diagrams_argsOrgID(
@@ -20398,6 +21144,24 @@ func (ec *executionContext) field_Query_diagrams_argsTeamID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
 	if tmp, ok := rawArgs["teamId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_diagrams_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
 		return ec.unmarshalOID2ᚖstring(ctx, tmp)
 	}
 
@@ -24494,6 +25258,88 @@ func (ec *executionContext) fieldContext_APIEndpoint_updatedBy(_ context.Context
 	return fc, nil
 }
 
+func (ec *executionContext) _APIEndpoint_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIEndpoint_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIEndpoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _APIEndpoint_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIEndpoint_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIEndpoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _APIEndpoint_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 	if err != nil {
@@ -25054,6 +25900,88 @@ func (ec *executionContext) fieldContext_APIGroup_updatedBy(_ context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _APIGroup_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIGroup_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _APIGroup_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIGroup) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIGroup_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIGroup",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _APIGroup_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.APIGroup) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_APIGroup_createdAt(ctx, field)
 	if err != nil {
@@ -25530,6 +26458,47 @@ func (ec *executionContext) fieldContext_APIGroupVersion_createdBy(_ context.Con
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _APIGroupVersion_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.APIGroupVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIGroupVersion_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIGroupVersion_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIGroupVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -31688,6 +32657,88 @@ func (ec *executionContext) fieldContext_Diagram_updatedBy(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _Diagram_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Diagram_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Diagram_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Diagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Diagram_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.Diagram) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Diagram_createdByActor(ctx, field)
 	if err != nil {
@@ -32431,6 +33482,10 @@ func (ec *executionContext) fieldContext_DiagramPage_items(_ context.Context, fi
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -35499,6 +36554,88 @@ func (ec *executionContext) fieldContext_FocalPoint_updatedBy(_ context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _FocalPoint_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.FocalPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPoint_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPoint_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPoint_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.FocalPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPoint_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPoint_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _FocalPoint_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.FocalPoint) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_FocalPoint_createdAt(ctx, field)
 	if err != nil {
@@ -36113,6 +37250,88 @@ func (ec *executionContext) fieldContext_FocalPointMeta_updatedBy(_ context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FocalPointMeta_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.FocalPointMeta) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FocalPointMeta_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FocalPointMeta",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -37321,6 +38540,88 @@ func (ec *executionContext) fieldContext_Frame_updatedBy(_ context.Context, fiel
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Frame_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Frame_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Frame",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Frame_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Frame) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Frame_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Frame",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -38859,6 +40160,10 @@ func (ec *executionContext) fieldContext_FramePage_items(_ context.Context, fiel
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -42083,6 +43388,177 @@ func (ec *executionContext) fieldContext_Mutation_deleteServerOrg(ctx context.Co
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_prepareServerOrgLogoUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_prepareServerOrgLogoUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().PrepareServerOrgLogoUpload(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AssetUpload)
+	fc.Result = res
+	return ec.marshalNAssetUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetUpload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_prepareServerOrgLogoUpload(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "assetId":
+				return ec.fieldContext_AssetUpload_assetId(ctx, field)
+			case "uploadUrl":
+				return ec.fieldContext_AssetUpload_uploadUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AssetUpload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_prepareServerOrgLogoUpload_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_setServerOrgLogo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_setServerOrgLogo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetServerOrgLogo(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_setServerOrgLogo(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_setServerOrgLogo_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_removeServerOrgLogo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_removeServerOrgLogo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveServerOrgLogo(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_removeServerOrgLogo(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_removeServerOrgLogo_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createUser(ctx, field)
 	if err != nil {
@@ -42392,6 +43868,177 @@ func (ec *executionContext) fieldContext_Mutation_deleteOAuthProvider(ctx contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteOAuthProvider_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_prepareOAuthProviderIconUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_prepareOAuthProviderIconUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().PrepareOAuthProviderIconUpload(rctx, fc.Args["provider"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AssetUpload)
+	fc.Result = res
+	return ec.marshalNAssetUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetUpload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_prepareOAuthProviderIconUpload(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "assetId":
+				return ec.fieldContext_AssetUpload_assetId(ctx, field)
+			case "uploadUrl":
+				return ec.fieldContext_AssetUpload_uploadUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AssetUpload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_prepareOAuthProviderIconUpload_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_setOAuthProviderIcon(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_setOAuthProviderIcon(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetOAuthProviderIcon(rctx, fc.Args["provider"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_setOAuthProviderIcon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_setOAuthProviderIcon_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_removeOAuthProviderIcon(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_removeOAuthProviderIcon(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().RemoveOAuthProviderIcon(rctx, fc.Args["provider"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_removeOAuthProviderIcon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_removeOAuthProviderIcon_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -42778,6 +44425,100 @@ func (ec *executionContext) fieldContext_Mutation_switchOrg(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_prepareUserAvatarUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_prepareUserAvatarUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().PrepareUserAvatarUpload(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AssetUpload)
+	fc.Result = res
+	return ec.marshalNAssetUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetUpload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_prepareUserAvatarUpload(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "assetId":
+				return ec.fieldContext_AssetUpload_assetId(ctx, field)
+			case "uploadUrl":
+				return ec.fieldContext_AssetUpload_uploadUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AssetUpload", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_setMyAvatar(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_setMyAvatar(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetMyAvatar(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_setMyAvatar(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createService(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createService(ctx, field)
 	if err != nil {
@@ -42853,6 +44594,10 @@ func (ec *executionContext) fieldContext_Mutation_createService(ctx context.Cont
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Service_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Service_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -42954,6 +44699,10 @@ func (ec *executionContext) fieldContext_Mutation_updateService(ctx context.Cont
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Service_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Service_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -43096,6 +44845,10 @@ func (ec *executionContext) fieldContext_Mutation_createAPIGroup(ctx context.Con
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -43179,6 +44932,10 @@ func (ec *executionContext) fieldContext_Mutation_updateAPIGroup(ctx context.Con
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -43378,6 +45135,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreAPIGroupVersion(ctx con
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -43449,6 +45210,10 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDoc(ctx context.C
 				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDoc_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDoc_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDoc_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
 			case "updatedAt":
@@ -43577,6 +45342,10 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDiagram(ctx conte
 				return ec.fieldContext_ServiceDiagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDiagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDiagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDiagram_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDiagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -43725,6 +45494,10 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDB(ctx context.Co
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -43820,6 +45593,10 @@ func (ec *executionContext) fieldContext_Mutation_updateServiceDB(ctx context.Co
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -43968,6 +45745,8 @@ func (ec *executionContext) fieldContext_Mutation_createServiceDBVersion(ctx con
 				return ec.fieldContext_ServiceDBVersion_isAutoVersion(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_ServiceDBVersion_createdBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDBVersion_createdByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDBVersion_createdByActor(ctx, field)
 			case "createdAt":
@@ -44059,6 +45838,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreServiceDBVersion(ctx co
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -44160,6 +45943,10 @@ func (ec *executionContext) fieldContext_Mutation_createAPIEndpoint(ctx context.
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -44257,6 +46044,10 @@ func (ec *executionContext) fieldContext_Mutation_updateAPIEndpoint(ctx context.
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -44831,6 +46622,10 @@ func (ec *executionContext) fieldContext_Mutation_createDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -44924,6 +46719,10 @@ func (ec *executionContext) fieldContext_Mutation_updateDiagram(ctx context.Cont
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -45216,6 +47015,10 @@ func (ec *executionContext) fieldContext_Mutation_restoreDiagramVersion(ctx cont
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -46072,6 +47875,61 @@ func (ec *executionContext) fieldContext_Mutation_deleteOrg(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_completeOnboarding(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_completeOnboarding(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CompleteOnboarding(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_completeOnboarding(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_completeOnboarding_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_addMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_addMember(ctx, field)
 	if err != nil {
@@ -46917,6 +48775,122 @@ func (ec *executionContext) fieldContext_Mutation_revokeServiceAccountToken(ctx 
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_prepareServiceAccountAvatarUpload(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_prepareServiceAccountAvatarUpload(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().PrepareServiceAccountAvatarUpload(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AssetUpload)
+	fc.Result = res
+	return ec.marshalNAssetUpload2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐAssetUpload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_prepareServiceAccountAvatarUpload(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "assetId":
+				return ec.fieldContext_AssetUpload_assetId(ctx, field)
+			case "uploadUrl":
+				return ec.fieldContext_AssetUpload_uploadUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AssetUpload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_prepareServiceAccountAvatarUpload_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_setServiceAccountAvatar(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_setServiceAccountAvatar(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetServiceAccountAvatar(rctx, fc.Args["orgId"].(string), fc.Args["saId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_setServiceAccountAvatar(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_setServiceAccountAvatar_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createSavedQueryFolder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createSavedQueryFolder(ctx, field)
 	if err != nil {
@@ -47116,6 +49090,10 @@ func (ec *executionContext) fieldContext_Mutation_createSavedQuery(ctx context.C
 				return ec.fieldContext_SavedQuery_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_SavedQuery_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_SavedQuery_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_SavedQuery_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -47209,6 +49187,10 @@ func (ec *executionContext) fieldContext_Mutation_updateSavedQuery(ctx context.C
 				return ec.fieldContext_SavedQuery_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_SavedQuery_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_SavedQuery_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_SavedQuery_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -47343,6 +49325,10 @@ func (ec *executionContext) fieldContext_Mutation_createTestPack(ctx context.Con
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestPack_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestPack_deletedBy(ctx, field)
 			case "createdAt":
@@ -47422,6 +49408,10 @@ func (ec *executionContext) fieldContext_Mutation_updateTestPack(ctx context.Con
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestPack_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestPack_deletedBy(ctx, field)
 			case "createdAt":
@@ -47596,6 +49586,10 @@ func (ec *executionContext) fieldContext_Mutation_createTestCase(ctx context.Con
 				return ec.fieldContext_TestCase_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestCase_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestCase_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestCase_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestCase_deletedBy(ctx, field)
 			case "createdAt":
@@ -47715,6 +49709,10 @@ func (ec *executionContext) fieldContext_Mutation_updateTestCase(ctx context.Con
 				return ec.fieldContext_TestCase_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestCase_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestCase_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestCase_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestCase_deletedBy(ctx, field)
 			case "createdAt":
@@ -48189,6 +50187,10 @@ func (ec *executionContext) fieldContext_Mutation_createMap(ctx context.Context,
 				return ec.fieldContext_UIMap_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_UIMap_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_UIMap_createdAt(ctx, field)
 			case "updatedAt":
@@ -48270,6 +50272,10 @@ func (ec *executionContext) fieldContext_Mutation_updateMap(ctx context.Context,
 				return ec.fieldContext_UIMap_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_UIMap_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_UIMap_createdAt(ctx, field)
 			case "updatedAt":
@@ -48420,6 +50426,10 @@ func (ec *executionContext) fieldContext_Mutation_createFrame(ctx context.Contex
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -48517,6 +50527,10 @@ func (ec *executionContext) fieldContext_Mutation_updateFrame(ctx context.Contex
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -48718,6 +50732,10 @@ func (ec *executionContext) fieldContext_Mutation_createFocalPoint(ctx context.C
 				return ec.fieldContext_FocalPoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -48799,6 +50817,10 @@ func (ec *executionContext) fieldContext_Mutation_updateFocalPoint(ctx context.C
 				return ec.fieldContext_FocalPoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -49464,6 +51486,10 @@ func (ec *executionContext) fieldContext_Mutation_createFocalPointMeta(ctx conte
 				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
 			case "updatedAt":
@@ -49549,6 +51575,10 @@ func (ec *executionContext) fieldContext_Mutation_updateFocalPointMeta(ctx conte
 				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
 			case "updatedAt":
@@ -50984,6 +53014,50 @@ func (ec *executionContext) fieldContext_OrgSummary_active(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _OrgSummary_onboardingDone(ctx context.Context, field graphql.CollectedField, obj *model.OrgSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OrgSummary_onboardingDone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OnboardingDone, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_OrgSummary_onboardingDone(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "OrgSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_actor(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_actor(ctx, field)
 	if err != nil {
@@ -51932,6 +54006,8 @@ func (ec *executionContext) fieldContext_Query_myOrgs(_ context.Context, field g
 				return ec.fieldContext_OrgSummary_role(ctx, field)
 			case "active":
 				return ec.fieldContext_OrgSummary_active(ctx, field)
+			case "onboardingDone":
+				return ec.fieldContext_OrgSummary_onboardingDone(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type OrgSummary", field.Name)
 		},
@@ -52075,6 +54151,10 @@ func (ec *executionContext) fieldContext_Query_service(ctx context.Context, fiel
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Service_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Service_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -52162,6 +54242,10 @@ func (ec *executionContext) fieldContext_Query_apiGroups(ctx context.Context, fi
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -52245,6 +54329,10 @@ func (ec *executionContext) fieldContext_Query_apiGroup(ctx context.Context, fie
 				return ec.fieldContext_APIGroup_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIGroup_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroup_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIGroup_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIGroup_createdAt(ctx, field)
 			case "updatedAt":
@@ -52324,6 +54412,8 @@ func (ec *executionContext) fieldContext_Query_apiGroupVersions(ctx context.Cont
 				return ec.fieldContext_APIGroupVersion_isAutoVersion(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_APIGroupVersion_createdBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIGroupVersion_createdByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_APIGroupVersion_createdByActor(ctx, field)
 			case "createdAt":
@@ -52395,6 +54485,10 @@ func (ec *executionContext) fieldContext_Query_serviceDocs(ctx context.Context, 
 				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDoc_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDoc_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDoc_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
 			case "updatedAt":
@@ -52468,6 +54562,10 @@ func (ec *executionContext) fieldContext_Query_serviceDiagrams(ctx context.Conte
 				return ec.fieldContext_ServiceDiagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDiagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDiagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDiagram_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDiagram_createdAt(ctx, field)
 			case "updatedAt":
@@ -52561,6 +54659,10 @@ func (ec *executionContext) fieldContext_Query_serviceDBs(ctx context.Context, f
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -52656,6 +54758,10 @@ func (ec *executionContext) fieldContext_Query_serviceDB(ctx context.Context, fi
 				return ec.fieldContext_ServiceDB_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDB_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -52749,6 +54855,8 @@ func (ec *executionContext) fieldContext_Query_serviceDBVersions(ctx context.Con
 				return ec.fieldContext_ServiceDBVersion_isAutoVersion(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_ServiceDBVersion_createdBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDBVersion_createdByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_ServiceDBVersion_createdByActor(ctx, field)
 			case "createdAt":
@@ -52846,6 +54954,10 @@ func (ec *executionContext) fieldContext_Query_apiEndpoints(ctx context.Context,
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -52943,6 +55055,10 @@ func (ec *executionContext) fieldContext_Query_apiEndpoint(ctx context.Context, 
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -53040,6 +55156,10 @@ func (ec *executionContext) fieldContext_Query_apiEndpointById(ctx context.Conte
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_APIEndpoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_APIEndpoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_APIEndpoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_APIEndpoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -53111,6 +55231,10 @@ func (ec *executionContext) fieldContext_Query_serviceDocById(ctx context.Contex
 				return ec.fieldContext_ServiceDoc_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_ServiceDoc_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_ServiceDoc_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_ServiceDoc_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ServiceDoc_createdAt(ctx, field)
 			case "updatedAt":
@@ -53480,7 +55604,7 @@ func (ec *executionContext) _Query_diagrams(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Diagrams(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string), fc.Args["teamId"].(*string), fc.Args["search"].(*string), fc.Args["sortBy"].(*string), fc.Args["sortDir"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.Query().Diagrams(rctx, fc.Args["orgId"].(string), fc.Args["folderId"].(*string), fc.Args["teamId"].(*string), fc.Args["serviceId"].(*string), fc.Args["search"].(*string), fc.Args["sortBy"].(*string), fc.Args["sortDir"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -53594,6 +55718,10 @@ func (ec *executionContext) fieldContext_Query_diagram(ctx context.Context, fiel
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -55392,6 +57520,10 @@ func (ec *executionContext) fieldContext_Query_savedQueries(ctx context.Context,
 				return ec.fieldContext_SavedQuery_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_SavedQuery_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_SavedQuery_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_SavedQuery_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_SavedQuery_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -55471,6 +57603,10 @@ func (ec *executionContext) fieldContext_Query_testPacks(ctx context.Context, fi
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestPack_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestPack_deletedBy(ctx, field)
 			case "createdAt":
@@ -55550,6 +57686,10 @@ func (ec *executionContext) fieldContext_Query_testPackById(ctx context.Context,
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestPack_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestPack_deletedBy(ctx, field)
 			case "createdAt":
@@ -55669,6 +57809,10 @@ func (ec *executionContext) fieldContext_Query_testCases(ctx context.Context, fi
 				return ec.fieldContext_TestCase_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_TestCase_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_TestCase_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_TestCase_updatedByCommitHash(ctx, field)
 			case "deletedBy":
 				return ec.fieldContext_TestCase_deletedBy(ctx, field)
 			case "createdAt":
@@ -56153,6 +58297,10 @@ func (ec *executionContext) fieldContext_Query_map(ctx context.Context, field gr
 				return ec.fieldContext_UIMap_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_UIMap_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_UIMap_createdAt(ctx, field)
 			case "updatedAt":
@@ -56309,6 +58457,10 @@ func (ec *executionContext) fieldContext_Query_frame(ctx context.Context, field 
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -56406,6 +58558,10 @@ func (ec *executionContext) fieldContext_Query_frameById(ctx context.Context, fi
 				return ec.fieldContext_Frame_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Frame_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Frame_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Frame_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Frame_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -56491,6 +58647,10 @@ func (ec *executionContext) fieldContext_Query_focalPoints(ctx context.Context, 
 				return ec.fieldContext_FocalPoint_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPoint_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPoint_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPoint_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPoint_createdAt(ctx, field)
 			case "updatedAt":
@@ -56819,6 +58979,10 @@ func (ec *executionContext) fieldContext_Query_focalPointMeta(ctx context.Contex
 				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
 			case "updatedAt":
@@ -56904,6 +59068,10 @@ func (ec *executionContext) fieldContext_Query_focalPointMetaByLink(ctx context.
 				return ec.fieldContext_FocalPointMeta_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_FocalPointMeta_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_FocalPointMeta_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_FocalPointMeta_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_FocalPointMeta_createdAt(ctx, field)
 			case "updatedAt":
@@ -58924,6 +61092,88 @@ func (ec *executionContext) fieldContext_SavedQuery_updatedBy(_ context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavedQuery_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.SavedQuery) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavedQuery_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavedQuery_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavedQuery",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -61165,6 +63415,88 @@ func (ec *executionContext) fieldContext_Service_updatedBy(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _Service_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Service_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Service_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Service",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Service_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Service_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Service_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Service",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Service_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Service_createdByActor(ctx, field)
 	if err != nil {
@@ -62755,6 +65087,88 @@ func (ec *executionContext) fieldContext_ServiceDB_updatedBy(_ context.Context, 
 	return fc, nil
 }
 
+func (ec *executionContext) _ServiceDB_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDB_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDB_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDB",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDB_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDB_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDB_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDB",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ServiceDB_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceDB_createdByActor(ctx, field)
 	if err != nil {
@@ -63559,6 +65973,47 @@ func (ec *executionContext) fieldContext_ServiceDBVersion_createdBy(_ context.Co
 	return fc, nil
 }
 
+func (ec *executionContext) _ServiceDBVersion_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDBVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDBVersion_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDBVersion_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDBVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ServiceDBVersion_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDBVersion) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceDBVersion_createdByActor(ctx, field)
 	if err != nil {
@@ -63875,6 +66330,88 @@ func (ec *executionContext) fieldContext_ServiceDiagram_updatedBy(_ context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _ServiceDiagram_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDiagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDiagram_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDiagram_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDiagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDiagram_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDiagram) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDiagram_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDiagram_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDiagram",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ServiceDiagram_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDiagram) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceDiagram_createdAt(ctx, field)
 	if err != nil {
@@ -64027,6 +66564,10 @@ func (ec *executionContext) fieldContext_ServiceDiagram_diagram(_ context.Contex
 				return ec.fieldContext_Diagram_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Diagram_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Diagram_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Diagram_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Diagram_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -64254,6 +66795,88 @@ func (ec *executionContext) fieldContext_ServiceDoc_updatedBy(_ context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDoc_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDoc_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDoc_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDoc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceDoc_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDoc) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceDoc_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceDoc_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceDoc",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -64497,6 +67120,10 @@ func (ec *executionContext) fieldContext_ServicePage_items(_ context.Context, fi
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_Service_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_Service_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_Service_updatedByCommitHash(ctx, field)
 			case "createdByActor":
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
@@ -66890,6 +69517,88 @@ func (ec *executionContext) fieldContext_TestCase_updatedBy(_ context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _TestCase_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.TestCase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestCase_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestCase_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestCase",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestCase_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.TestCase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestCase_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestCase_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestCase",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _TestCase_deletedBy(ctx context.Context, field graphql.CollectedField, obj *model.TestCase) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TestCase_deletedBy(ctx, field)
 	if err != nil {
@@ -67492,6 +70201,88 @@ func (ec *executionContext) fieldContext_TestPack_updatedBy(_ context.Context, f
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestPack_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.TestPack) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestPack_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestPack_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestPack",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestPack_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.TestPack) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestPack_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestPack_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestPack",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -70083,6 +72874,88 @@ func (ec *executionContext) fieldContext_UIMap_updatedBy(_ context.Context, fiel
 	return fc, nil
 }
 
+func (ec *executionContext) _UIMap_createdByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.UIMap) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UIMap_createdByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UIMap",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UIMap_updatedByCommitHash(ctx context.Context, field graphql.CollectedField, obj *model.UIMap) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedByCommitHash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UIMap_updatedByCommitHash(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UIMap",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UIMap_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.UIMap) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UIMap_createdAt(ctx, field)
 	if err != nil {
@@ -70272,6 +73145,10 @@ func (ec *executionContext) fieldContext_UIMapPage_items(_ context.Context, fiel
 				return ec.fieldContext_UIMap_createdBy(ctx, field)
 			case "updatedBy":
 				return ec.fieldContext_UIMap_updatedBy(ctx, field)
+			case "createdByCommitHash":
+				return ec.fieldContext_UIMap_createdByCommitHash(ctx, field)
+			case "updatedByCommitHash":
+				return ec.fieldContext_UIMap_updatedByCommitHash(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_UIMap_createdAt(ctx, field)
 			case "updatedAt":
@@ -73565,7 +76442,7 @@ func (ec *executionContext) unmarshalInputCreateDocInput(ctx context.Context, ob
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "folderId", "teamId"}
+	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "fileAssetId", "folderId", "teamId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -73595,11 +76472,18 @@ func (ec *executionContext) unmarshalInputCreateDocInput(ctx context.Context, ob
 			it.Description = data
 		case "contentBase64":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contentBase64"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.ContentBase64 = data
+		case "fileAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileAssetID = data
 		case "folderId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
 			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
@@ -73875,7 +76759,7 @@ func (ec *executionContext) unmarshalInputCreateFrameInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "templateType", "parentFrameId", "order", "screenshot"}
+	fieldsInOrder := [...]string{"name", "description", "templateType", "parentFrameId", "order", "screenshot", "screenshotAssetId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -73924,6 +76808,13 @@ func (ec *executionContext) unmarshalInputCreateFrameInput(ctx context.Context, 
 				return it, err
 			}
 			it.Screenshot = data
+		case "screenshotAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("screenshotAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ScreenshotAssetID = data
 		}
 	}
 
@@ -74514,7 +77405,7 @@ func (ec *executionContext) unmarshalInputCreateServiceDocInput(ctx context.Cont
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"docId", "fileName", "fileType", "description", "contentBase64", "folderId", "teamId"}
+	fieldsInOrder := [...]string{"docId", "fileName", "fileType", "description", "contentBase64", "fileAssetId", "folderId", "teamId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -74556,6 +77447,13 @@ func (ec *executionContext) unmarshalInputCreateServiceDocInput(ctx context.Cont
 				return it, err
 			}
 			it.ContentBase64 = data
+		case "fileAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileAssetID = data
 		case "folderId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
 			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
@@ -76107,7 +79005,7 @@ func (ec *executionContext) unmarshalInputUpdateDocInput(ctx context.Context, ob
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "folderId", "teamId"}
+	fieldsInOrder := [...]string{"fileName", "fileType", "description", "contentBase64", "fileAssetId", "folderId", "teamId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -76142,6 +79040,13 @@ func (ec *executionContext) unmarshalInputUpdateDocInput(ctx context.Context, ob
 				return it, err
 			}
 			it.ContentBase64 = data
+		case "fileAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fileAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FileAssetID = data
 		case "folderId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("folderId"))
 			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
@@ -76410,7 +79315,7 @@ func (ec *executionContext) unmarshalInputUpdateFrameInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "templateType", "status", "order", "screenshot"}
+	fieldsInOrder := [...]string{"name", "description", "templateType", "status", "order", "screenshot", "screenshotAssetId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -76459,6 +79364,13 @@ func (ec *executionContext) unmarshalInputUpdateFrameInput(ctx context.Context, 
 				return it, err
 			}
 			it.Screenshot = data
+		case "screenshotAssetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("screenshotAssetId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ScreenshotAssetID = data
 		}
 	}
 
@@ -77875,6 +80787,10 @@ func (ec *executionContext) _APIEndpoint(ctx context.Context, sel ast.SelectionS
 			}
 		case "updatedBy":
 			out.Values[i] = ec._APIEndpoint_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._APIEndpoint_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._APIEndpoint_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._APIEndpoint_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -77962,6 +80878,10 @@ func (ec *executionContext) _APIGroup(ctx context.Context, sel ast.SelectionSet,
 			}
 		case "updatedBy":
 			out.Values[i] = ec._APIGroup_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._APIGroup_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._APIGroup_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._APIGroup_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -78048,6 +80968,8 @@ func (ec *executionContext) _APIGroupVersion(ctx context.Context, sel ast.Select
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdByCommitHash":
+			out.Values[i] = ec._APIGroupVersion_createdByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -79375,6 +82297,10 @@ func (ec *executionContext) _Diagram(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Diagram_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._Diagram_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._Diagram_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -80364,6 +83290,10 @@ func (ec *executionContext) _FocalPoint(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedBy":
 			out.Values[i] = ec._FocalPoint_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._FocalPoint_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._FocalPoint_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._FocalPoint_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -80453,6 +83383,10 @@ func (ec *executionContext) _FocalPointMeta(ctx context.Context, sel ast.Selecti
 			}
 		case "updatedBy":
 			out.Values[i] = ec._FocalPointMeta_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._FocalPointMeta_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._FocalPointMeta_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._FocalPointMeta_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -80668,6 +83602,10 @@ func (ec *executionContext) _Frame(ctx context.Context, sel ast.SelectionSet, ob
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Frame_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._Frame_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._Frame_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -81610,6 +84548,27 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "prepareServerOrgLogoUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_prepareServerOrgLogoUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "setServerOrgLogo":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_setServerOrgLogo(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "removeServerOrgLogo":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_removeServerOrgLogo(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createUser":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createUser(ctx, field)
@@ -81641,6 +84600,27 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteOAuthProvider":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteOAuthProvider(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "prepareOAuthProviderIconUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_prepareOAuthProviderIconUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "setOAuthProviderIcon":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_setOAuthProviderIcon(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "removeOAuthProviderIcon":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_removeOAuthProviderIcon(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -81690,6 +84670,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "switchOrg":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_switchOrg(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "prepareUserAvatarUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_prepareUserAvatarUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "setMyAvatar":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_setMyAvatar(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -82002,6 +84996,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "completeOnboarding":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_completeOnboarding(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "addMember":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_addMember(ctx, field)
@@ -82089,6 +85090,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "revokeServiceAccountToken":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_revokeServiceAccountToken(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "prepareServiceAccountAvatarUpload":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_prepareServiceAccountAvatarUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "setServiceAccountAvatar":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_setServiceAccountAvatar(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -82586,6 +85601,11 @@ func (ec *executionContext) _OrgSummary(ctx context.Context, sel ast.SelectionSe
 			}
 		case "active":
 			out.Values[i] = ec._OrgSummary_active(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "onboardingDone":
+			out.Values[i] = ec._OrgSummary_onboardingDone(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -84710,6 +87730,10 @@ func (ec *executionContext) _SavedQuery(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedBy":
 			out.Values[i] = ec._SavedQuery_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._SavedQuery_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._SavedQuery_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -85161,6 +88185,10 @@ func (ec *executionContext) _Service(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "updatedBy":
 			out.Values[i] = ec._Service_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._Service_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._Service_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -85475,6 +88503,10 @@ func (ec *executionContext) _ServiceDB(ctx context.Context, sel ast.SelectionSet
 			}
 		case "updatedBy":
 			out.Values[i] = ec._ServiceDB_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._ServiceDB_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._ServiceDB_updatedByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -85637,6 +88669,8 @@ func (ec *executionContext) _ServiceDBVersion(ctx context.Context, sel ast.Selec
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdByCommitHash":
+			out.Values[i] = ec._ServiceDBVersion_createdByCommitHash(ctx, field, obj)
 		case "createdByActor":
 			field := field
 
@@ -85731,6 +88765,10 @@ func (ec *executionContext) _ServiceDiagram(ctx context.Context, sel ast.Selecti
 			}
 		case "updatedBy":
 			out.Values[i] = ec._ServiceDiagram_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._ServiceDiagram_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._ServiceDiagram_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._ServiceDiagram_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -85799,6 +88837,10 @@ func (ec *executionContext) _ServiceDoc(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedBy":
 			out.Values[i] = ec._ServiceDoc_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._ServiceDoc_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._ServiceDoc_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._ServiceDoc_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -86305,6 +89347,10 @@ func (ec *executionContext) _TestCase(ctx context.Context, sel ast.SelectionSet,
 			}
 		case "updatedBy":
 			out.Values[i] = ec._TestCase_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._TestCase_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._TestCase_updatedByCommitHash(ctx, field, obj)
 		case "deletedBy":
 			out.Values[i] = ec._TestCase_deletedBy(ctx, field, obj)
 		case "createdAt":
@@ -86434,6 +89480,10 @@ func (ec *executionContext) _TestPack(ctx context.Context, sel ast.SelectionSet,
 			}
 		case "updatedBy":
 			out.Values[i] = ec._TestPack_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._TestPack_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._TestPack_updatedByCommitHash(ctx, field, obj)
 		case "deletedBy":
 			out.Values[i] = ec._TestPack_deletedBy(ctx, field, obj)
 		case "createdAt":
@@ -86850,6 +89900,10 @@ func (ec *executionContext) _UIMap(ctx context.Context, sel ast.SelectionSet, ob
 			}
 		case "updatedBy":
 			out.Values[i] = ec._UIMap_updatedBy(ctx, field, obj)
+		case "createdByCommitHash":
+			out.Values[i] = ec._UIMap_createdByCommitHash(ctx, field, obj)
+		case "updatedByCommitHash":
+			out.Values[i] = ec._UIMap_updatedByCommitHash(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._UIMap_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
