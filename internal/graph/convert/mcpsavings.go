@@ -88,6 +88,7 @@ func ModelSavingsToModel(s uigraphapi.ModelSavings) *model.ModelSavings {
 		Provider:     s.Provider,
 		TotalCalls:   s.TotalCalls,
 		TokensSaved:  s.TokensSaved,
+		CostRawUsd:   s.CostRawUSD,
 		CostSavedUsd: s.CostSavedUSD,
 	}
 }

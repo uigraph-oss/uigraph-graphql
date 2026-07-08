@@ -50,6 +50,7 @@ type ModelSavings {
     provider:     String!
     totalCalls:   Int!
     tokensSaved:  Int!
+    costRawUsd:   Float!
     costSavedUsd: Float!
 }
 

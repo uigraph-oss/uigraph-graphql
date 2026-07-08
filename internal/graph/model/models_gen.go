@@ -978,6 +978,7 @@ type ModelSavings struct {
 	Provider     string  `json:"provider"`
 	TotalCalls   int     `json:"totalCalls"`
 	TokensSaved  int     `json:"tokensSaved"`
+	CostRawUsd   float64 `json:"costRawUsd"`
 	CostSavedUsd float64 `json:"costSavedUsd"`
 }
 
