@@ -18,6 +18,9 @@ type SavingsSummary struct {
 	CostRawUSD        float64 `json:"costRawUsd"`
 	CostSavedUSD      float64 `json:"costSavedUsd"`
 	UniqueUsersCount  int     `json:"uniqueUsersCount"`
+	TotalDurationMs   int     `json:"totalDurationMs"`
+	EstAgentTimeMs    int     `json:"estAgentTimeMs"`
+	TimeSavedMs       int     `json:"timeSavedMs"`
 }
 
 type DailySavings struct {
@@ -28,20 +31,27 @@ type DailySavings struct {
 	CostServedUSD     float64   `json:"costServedUsd"`
 	CostRawUSD        float64   `json:"costRawUsd"`
 	CostSavedUSD      float64   `json:"costSavedUsd"`
+	TotalDurationMs   int       `json:"totalDurationMs"`
+	EstAgentTimeMs    int       `json:"estAgentTimeMs"`
+	TimeSavedMs       int       `json:"timeSavedMs"`
 }
 
 type ToolSavings struct {
-	ToolName     string  `json:"toolName"`
-	TotalCalls   int     `json:"totalCalls"`
-	TokensSaved  int     `json:"tokensSaved"`
-	CostSavedUSD float64 `json:"costSavedUsd"`
+	ToolName        string  `json:"toolName"`
+	TotalCalls      int     `json:"totalCalls"`
+	TokensSaved     int     `json:"tokensSaved"`
+	CostSavedUSD    float64 `json:"costSavedUsd"`
+	TotalDurationMs int     `json:"totalDurationMs"`
+	EstAgentTimeMs  int     `json:"estAgentTimeMs"`
+	TimeSavedMs     int     `json:"timeSavedMs"`
 }
 
 type ClientSavings struct {
-	ClientName   string  `json:"clientName"`
-	TotalCalls   int     `json:"totalCalls"`
-	TokensSaved  int     `json:"tokensSaved"`
-	CostSavedUSD float64 `json:"costSavedUsd"`
+	ClientName      string  `json:"clientName"`
+	TotalCalls      int     `json:"totalCalls"`
+	TokensSaved     int     `json:"tokensSaved"`
+	CostSavedUSD    float64 `json:"costSavedUsd"`
+	TotalDurationMs int     `json:"totalDurationMs"`
 }
 
 type ModelSavings struct {
@@ -60,6 +70,7 @@ type UserSavings struct {
 	TotalCalls       int     `json:"totalCalls"`
 	TokensSaved      int     `json:"tokensSaved"`
 	CostSavedUSD     float64 `json:"costSavedUsd"`
+	TotalDurationMs  int     `json:"totalDurationMs"`
 }
 
 func savingsQuery(period, modelID *string) url.Values {

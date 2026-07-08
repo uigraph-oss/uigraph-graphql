@@ -24,6 +24,9 @@ func SavingsSummaryToModel(s *uigraphapi.SavingsSummary) *model.SavingsSummary {
 		CostRawUsd:        s.CostRawUSD,
 		CostSavedUsd:      s.CostSavedUSD,
 		UniqueUsersCount:  s.UniqueUsersCount,
+		TotalDurationMs:   s.TotalDurationMs,
+		EstAgentTimeMs:    s.EstAgentTimeMs,
+		TimeSavedMs:       s.TimeSavedMs,
 	}
 }
 
@@ -36,6 +39,9 @@ func DailySavingsToModel(d uigraphapi.DailySavings) *model.DailySavings {
 		CostServedUsd:     d.CostServedUSD,
 		CostRawUsd:        d.CostRawUSD,
 		CostSavedUsd:      d.CostSavedUSD,
+		TotalDurationMs:   d.TotalDurationMs,
+		EstAgentTimeMs:    d.EstAgentTimeMs,
+		TimeSavedMs:       d.TimeSavedMs,
 	}
 }
 
@@ -49,10 +55,13 @@ func DailySavingsListToModel(rows []uigraphapi.DailySavings) []*model.DailySavin
 
 func ToolSavingsToModel(s uigraphapi.ToolSavings) *model.ToolSavings {
 	return &model.ToolSavings{
-		ToolName:     s.ToolName,
-		TotalCalls:   s.TotalCalls,
-		TokensSaved:  s.TokensSaved,
-		CostSavedUsd: s.CostSavedUSD,
+		ToolName:        s.ToolName,
+		TotalCalls:      s.TotalCalls,
+		TokensSaved:     s.TokensSaved,
+		CostSavedUsd:    s.CostSavedUSD,
+		TotalDurationMs: s.TotalDurationMs,
+		EstAgentTimeMs:  s.EstAgentTimeMs,
+		TimeSavedMs:     s.TimeSavedMs,
 	}
 }
 
@@ -66,10 +75,11 @@ func ToolSavingsListToModel(rows []uigraphapi.ToolSavings) []*model.ToolSavings 
 
 func ClientSavingsToModel(s uigraphapi.ClientSavings) *model.ClientSavings {
 	return &model.ClientSavings{
-		ClientName:   s.ClientName,
-		TotalCalls:   s.TotalCalls,
-		TokensSaved:  s.TokensSaved,
-		CostSavedUsd: s.CostSavedUSD,
+		ClientName:      s.ClientName,
+		TotalCalls:      s.TotalCalls,
+		TokensSaved:     s.TokensSaved,
+		CostSavedUsd:    s.CostSavedUSD,
+		TotalDurationMs: s.TotalDurationMs,
 	}
 }
 
@@ -124,6 +134,7 @@ func UserSavingsToModel(s uigraphapi.UserSavings, actors map[string]*uigraphapi.
 		TotalCalls:       s.TotalCalls,
 		TokensSaved:      s.TokensSaved,
 		CostSavedUsd:     s.CostSavedUSD,
+		TotalDurationMs:  s.TotalDurationMs,
 	}
 }
 

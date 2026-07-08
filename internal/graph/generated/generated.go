@@ -177,10 +177,11 @@ type ComplexityRoot struct {
 	}
 
 	ClientSavings struct {
-		ClientName   func(childComplexity int) int
-		CostSavedUsd func(childComplexity int) int
-		TokensSaved  func(childComplexity int) int
-		TotalCalls   func(childComplexity int) int
+		ClientName      func(childComplexity int) int
+		CostSavedUsd    func(childComplexity int) int
+		TokensSaved     func(childComplexity int) int
+		TotalCalls      func(childComplexity int) int
+		TotalDurationMs func(childComplexity int) int
 	}
 
 	Comment struct {
@@ -268,7 +269,10 @@ type ComplexityRoot struct {
 		CostSavedUsd      func(childComplexity int) int
 		CostServedUsd     func(childComplexity int) int
 		Date              func(childComplexity int) int
+		EstAgentTimeMs    func(childComplexity int) int
+		TimeSavedMs       func(childComplexity int) int
 		TotalCalls        func(childComplexity int) int
+		TotalDurationMs   func(childComplexity int) int
 		TotalTokensSaved  func(childComplexity int) int
 		TotalTokensServed func(childComplexity int) int
 	}
@@ -960,10 +964,13 @@ type ComplexityRoot struct {
 		CostRawUsd        func(childComplexity int) int
 		CostSavedUsd      func(childComplexity int) int
 		CostServedUsd     func(childComplexity int) int
+		EstAgentTimeMs    func(childComplexity int) int
 		ModelID           func(childComplexity int) int
 		OrgID             func(childComplexity int) int
 		Period            func(childComplexity int) int
+		TimeSavedMs       func(childComplexity int) int
 		TotalCalls        func(childComplexity int) int
+		TotalDurationMs   func(childComplexity int) int
 		TotalTokensSaved  func(childComplexity int) int
 		TotalTokensServed func(childComplexity int) int
 		UniqueUsersCount  func(childComplexity int) int
@@ -1263,10 +1270,13 @@ type ComplexityRoot struct {
 	}
 
 	ToolSavings struct {
-		CostSavedUsd func(childComplexity int) int
-		TokensSaved  func(childComplexity int) int
-		ToolName     func(childComplexity int) int
-		TotalCalls   func(childComplexity int) int
+		CostSavedUsd    func(childComplexity int) int
+		EstAgentTimeMs  func(childComplexity int) int
+		TimeSavedMs     func(childComplexity int) int
+		TokensSaved     func(childComplexity int) int
+		ToolName        func(childComplexity int) int
+		TotalCalls      func(childComplexity int) int
+		TotalDurationMs func(childComplexity int) int
 	}
 
 	UIMap struct {
@@ -1309,6 +1319,7 @@ type ComplexityRoot struct {
 		ServiceAccountID func(childComplexity int) int
 		TokensSaved      func(childComplexity int) int
 		TotalCalls       func(childComplexity int) int
+		TotalDurationMs  func(childComplexity int) int
 		UserID           func(childComplexity int) int
 	}
 }
@@ -2217,6 +2228,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ClientSavings.TotalCalls(childComplexity), true
 
+	case "ClientSavings.totalDurationMs":
+		if e.complexity.ClientSavings.TotalDurationMs == nil {
+			break
+		}
+
+		return e.complexity.ClientSavings.TotalDurationMs(childComplexity), true
+
 	case "Comment.createdAt":
 		if e.complexity.Comment.CreatedAt == nil {
 			break
@@ -2658,12 +2676,33 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DailySavings.Date(childComplexity), true
 
+	case "DailySavings.estAgentTimeMs":
+		if e.complexity.DailySavings.EstAgentTimeMs == nil {
+			break
+		}
+
+		return e.complexity.DailySavings.EstAgentTimeMs(childComplexity), true
+
+	case "DailySavings.timeSavedMs":
+		if e.complexity.DailySavings.TimeSavedMs == nil {
+			break
+		}
+
+		return e.complexity.DailySavings.TimeSavedMs(childComplexity), true
+
 	case "DailySavings.totalCalls":
 		if e.complexity.DailySavings.TotalCalls == nil {
 			break
 		}
 
 		return e.complexity.DailySavings.TotalCalls(childComplexity), true
+
+	case "DailySavings.totalDurationMs":
+		if e.complexity.DailySavings.TotalDurationMs == nil {
+			break
+		}
+
+		return e.complexity.DailySavings.TotalDurationMs(childComplexity), true
 
 	case "DailySavings.totalTokensSaved":
 		if e.complexity.DailySavings.TotalTokensSaved == nil {
@@ -7540,6 +7579,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.SavingsSummary.CostServedUsd(childComplexity), true
 
+	case "SavingsSummary.estAgentTimeMs":
+		if e.complexity.SavingsSummary.EstAgentTimeMs == nil {
+			break
+		}
+
+		return e.complexity.SavingsSummary.EstAgentTimeMs(childComplexity), true
+
 	case "SavingsSummary.modelId":
 		if e.complexity.SavingsSummary.ModelID == nil {
 			break
@@ -7561,12 +7607,26 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.SavingsSummary.Period(childComplexity), true
 
+	case "SavingsSummary.timeSavedMs":
+		if e.complexity.SavingsSummary.TimeSavedMs == nil {
+			break
+		}
+
+		return e.complexity.SavingsSummary.TimeSavedMs(childComplexity), true
+
 	case "SavingsSummary.totalCalls":
 		if e.complexity.SavingsSummary.TotalCalls == nil {
 			break
 		}
 
 		return e.complexity.SavingsSummary.TotalCalls(childComplexity), true
+
+	case "SavingsSummary.totalDurationMs":
+		if e.complexity.SavingsSummary.TotalDurationMs == nil {
+			break
+		}
+
+		return e.complexity.SavingsSummary.TotalDurationMs(childComplexity), true
 
 	case "SavingsSummary.totalTokensSaved":
 		if e.complexity.SavingsSummary.TotalTokensSaved == nil {
@@ -9185,6 +9245,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ToolSavings.CostSavedUsd(childComplexity), true
 
+	case "ToolSavings.estAgentTimeMs":
+		if e.complexity.ToolSavings.EstAgentTimeMs == nil {
+			break
+		}
+
+		return e.complexity.ToolSavings.EstAgentTimeMs(childComplexity), true
+
+	case "ToolSavings.timeSavedMs":
+		if e.complexity.ToolSavings.TimeSavedMs == nil {
+			break
+		}
+
+		return e.complexity.ToolSavings.TimeSavedMs(childComplexity), true
+
 	case "ToolSavings.tokensSaved":
 		if e.complexity.ToolSavings.TokensSaved == nil {
 			break
@@ -9205,6 +9279,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ToolSavings.TotalCalls(childComplexity), true
+
+	case "ToolSavings.totalDurationMs":
+		if e.complexity.ToolSavings.TotalDurationMs == nil {
+			break
+		}
+
+		return e.complexity.ToolSavings.TotalDurationMs(childComplexity), true
 
 	case "UIMap.createdAt":
 		if e.complexity.UIMap.CreatedAt == nil {
@@ -9415,6 +9496,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.UserSavings.TotalCalls(childComplexity), true
+
+	case "UserSavings.totalDurationMs":
+		if e.complexity.UserSavings.TotalDurationMs == nil {
+			break
+		}
+
+		return e.complexity.UserSavings.TotalDurationMs(childComplexity), true
 
 	case "UserSavings.userId":
 		if e.complexity.UserSavings.UserID == nil {
@@ -10668,6 +10756,9 @@ type SavingsSummary {
     costRawUsd:        Float!
     costSavedUsd:      Float!
     uniqueUsersCount:  Int!
+    totalDurationMs:   Int!
+    estAgentTimeMs:    Int!
+    timeSavedMs:       Int!
 }
 
 type DailySavings {
@@ -10678,20 +10769,27 @@ type DailySavings {
     costServedUsd:     Float!
     costRawUsd:        Float!
     costSavedUsd:      Float!
+    totalDurationMs:   Int!
+    estAgentTimeMs:    Int!
+    timeSavedMs:       Int!
 }
 
 type ToolSavings {
-    toolName:     String!
-    totalCalls:   Int!
-    tokensSaved:  Int!
-    costSavedUsd: Float!
+    toolName:        String!
+    totalCalls:      Int!
+    tokensSaved:     Int!
+    costSavedUsd:    Float!
+    totalDurationMs: Int!
+    estAgentTimeMs:  Int!
+    timeSavedMs:     Int!
 }
 
 type ClientSavings {
-    clientName:   String!
-    totalCalls:   Int!
-    tokensSaved:  Int!
-    costSavedUsd: Float!
+    clientName:      String!
+    totalCalls:      Int!
+    tokensSaved:     Int!
+    costSavedUsd:    Float!
+    totalDurationMs: Int!
 }
 
 type ModelSavings {
@@ -10711,6 +10809,7 @@ type UserSavings {
     totalCalls:       Int!
     tokensSaved:      Int!
     costSavedUsd:     Float!
+    totalDurationMs:  Int!
 }
 `, BuiltIn: false},
 	{Name: "../schema/org.graphqls", Input: `extend type Query {
@@ -28530,6 +28629,50 @@ func (ec *executionContext) fieldContext_ClientSavings_costSavedUsd(_ context.Co
 	return fc, nil
 }
 
+func (ec *executionContext) _ClientSavings_totalDurationMs(ctx context.Context, field graphql.CollectedField, obj *model.ClientSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ClientSavings_totalDurationMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalDurationMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ClientSavings_totalDurationMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ClientSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Comment_id(ctx context.Context, field graphql.CollectedField, obj *model.Comment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Comment_id(ctx, field)
 	if err != nil {
@@ -31470,6 +31613,138 @@ func (ec *executionContext) fieldContext_DailySavings_costSavedUsd(_ context.Con
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DailySavings_totalDurationMs(ctx context.Context, field graphql.CollectedField, obj *model.DailySavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DailySavings_totalDurationMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalDurationMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DailySavings_totalDurationMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DailySavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DailySavings_estAgentTimeMs(ctx context.Context, field graphql.CollectedField, obj *model.DailySavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DailySavings_estAgentTimeMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EstAgentTimeMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DailySavings_estAgentTimeMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DailySavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DailySavings_timeSavedMs(ctx context.Context, field graphql.CollectedField, obj *model.DailySavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DailySavings_timeSavedMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TimeSavedMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DailySavings_timeSavedMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DailySavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -56749,6 +57024,12 @@ func (ec *executionContext) fieldContext_Query_costSavingsSummary(ctx context.Co
 				return ec.fieldContext_SavingsSummary_costSavedUsd(ctx, field)
 			case "uniqueUsersCount":
 				return ec.fieldContext_SavingsSummary_uniqueUsersCount(ctx, field)
+			case "totalDurationMs":
+				return ec.fieldContext_SavingsSummary_totalDurationMs(ctx, field)
+			case "estAgentTimeMs":
+				return ec.fieldContext_SavingsSummary_estAgentTimeMs(ctx, field)
+			case "timeSavedMs":
+				return ec.fieldContext_SavingsSummary_timeSavedMs(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type SavingsSummary", field.Name)
 		},
@@ -56820,6 +57101,12 @@ func (ec *executionContext) fieldContext_Query_costSavingsTimeseries(ctx context
 				return ec.fieldContext_DailySavings_costRawUsd(ctx, field)
 			case "costSavedUsd":
 				return ec.fieldContext_DailySavings_costSavedUsd(ctx, field)
+			case "totalDurationMs":
+				return ec.fieldContext_DailySavings_totalDurationMs(ctx, field)
+			case "estAgentTimeMs":
+				return ec.fieldContext_DailySavings_estAgentTimeMs(ctx, field)
+			case "timeSavedMs":
+				return ec.fieldContext_DailySavings_timeSavedMs(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type DailySavings", field.Name)
 		},
@@ -56885,6 +57172,12 @@ func (ec *executionContext) fieldContext_Query_costSavingsByTool(ctx context.Con
 				return ec.fieldContext_ToolSavings_tokensSaved(ctx, field)
 			case "costSavedUsd":
 				return ec.fieldContext_ToolSavings_costSavedUsd(ctx, field)
+			case "totalDurationMs":
+				return ec.fieldContext_ToolSavings_totalDurationMs(ctx, field)
+			case "estAgentTimeMs":
+				return ec.fieldContext_ToolSavings_estAgentTimeMs(ctx, field)
+			case "timeSavedMs":
+				return ec.fieldContext_ToolSavings_timeSavedMs(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type ToolSavings", field.Name)
 		},
@@ -56950,6 +57243,8 @@ func (ec *executionContext) fieldContext_Query_costSavingsByClient(ctx context.C
 				return ec.fieldContext_ClientSavings_tokensSaved(ctx, field)
 			case "costSavedUsd":
 				return ec.fieldContext_ClientSavings_costSavedUsd(ctx, field)
+			case "totalDurationMs":
+				return ec.fieldContext_ClientSavings_totalDurationMs(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type ClientSavings", field.Name)
 		},
@@ -57090,6 +57385,8 @@ func (ec *executionContext) fieldContext_Query_costSavingsByUser(ctx context.Con
 				return ec.fieldContext_UserSavings_tokensSaved(ctx, field)
 			case "costSavedUsd":
 				return ec.fieldContext_UserSavings_costSavedUsd(ctx, field)
+			case "totalDurationMs":
+				return ec.fieldContext_UserSavings_totalDurationMs(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type UserSavings", field.Name)
 		},
@@ -62663,6 +62960,138 @@ func (ec *executionContext) _SavingsSummary_uniqueUsersCount(ctx context.Context
 }
 
 func (ec *executionContext) fieldContext_SavingsSummary_uniqueUsersCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavingsSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavingsSummary_totalDurationMs(ctx context.Context, field graphql.CollectedField, obj *model.SavingsSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavingsSummary_totalDurationMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalDurationMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavingsSummary_totalDurationMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavingsSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavingsSummary_estAgentTimeMs(ctx context.Context, field graphql.CollectedField, obj *model.SavingsSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavingsSummary_estAgentTimeMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EstAgentTimeMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavingsSummary_estAgentTimeMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SavingsSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SavingsSummary_timeSavedMs(ctx context.Context, field graphql.CollectedField, obj *model.SavingsSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SavingsSummary_timeSavedMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TimeSavedMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SavingsSummary_timeSavedMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "SavingsSummary",
 		Field:      field,
@@ -72914,6 +73343,138 @@ func (ec *executionContext) fieldContext_ToolSavings_costSavedUsd(_ context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _ToolSavings_totalDurationMs(ctx context.Context, field graphql.CollectedField, obj *model.ToolSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ToolSavings_totalDurationMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalDurationMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ToolSavings_totalDurationMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ToolSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ToolSavings_estAgentTimeMs(ctx context.Context, field graphql.CollectedField, obj *model.ToolSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ToolSavings_estAgentTimeMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EstAgentTimeMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ToolSavings_estAgentTimeMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ToolSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ToolSavings_timeSavedMs(ctx context.Context, field graphql.CollectedField, obj *model.ToolSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ToolSavings_timeSavedMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TimeSavedMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ToolSavings_timeSavedMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ToolSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UIMap_id(ctx context.Context, field graphql.CollectedField, obj *model.UIMap) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UIMap_id(ctx, field)
 	if err != nil {
@@ -74279,6 +74840,50 @@ func (ec *executionContext) fieldContext_UserSavings_costSavedUsd(_ context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserSavings_totalDurationMs(ctx context.Context, field graphql.CollectedField, obj *model.UserSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserSavings_totalDurationMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalDurationMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserSavings_totalDurationMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -81861,6 +82466,11 @@ func (ec *executionContext) _ClientSavings(ctx context.Context, sel ast.Selectio
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "totalDurationMs":
+			out.Values[i] = ec._ClientSavings_totalDurationMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -82477,6 +83087,21 @@ func (ec *executionContext) _DailySavings(ctx context.Context, sel ast.Selection
 			}
 		case "costSavedUsd":
 			out.Values[i] = ec._DailySavings_costSavedUsd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalDurationMs":
+			out.Values[i] = ec._DailySavings_totalDurationMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "estAgentTimeMs":
+			out.Values[i] = ec._DailySavings_estAgentTimeMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "timeSavedMs":
+			out.Values[i] = ec._DailySavings_timeSavedMs(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -88477,6 +89102,21 @@ func (ec *executionContext) _SavingsSummary(ctx context.Context, sel ast.Selecti
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "totalDurationMs":
+			out.Values[i] = ec._SavingsSummary_totalDurationMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "estAgentTimeMs":
+			out.Values[i] = ec._SavingsSummary_estAgentTimeMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "timeSavedMs":
+			out.Values[i] = ec._SavingsSummary_timeSavedMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -90338,6 +90978,21 @@ func (ec *executionContext) _ToolSavings(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "totalDurationMs":
+			out.Values[i] = ec._ToolSavings_totalDurationMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "estAgentTimeMs":
+			out.Values[i] = ec._ToolSavings_estAgentTimeMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "timeSavedMs":
+			out.Values[i] = ec._ToolSavings_timeSavedMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -90633,6 +91288,11 @@ func (ec *executionContext) _UserSavings(ctx context.Context, sel ast.SelectionS
 			}
 		case "costSavedUsd":
 			out.Values[i] = ec._UserSavings_costSavedUsd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalDurationMs":
+			out.Values[i] = ec._UserSavings_totalDurationMs(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
