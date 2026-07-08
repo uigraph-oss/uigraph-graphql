@@ -163,10 +163,11 @@ type Canvas struct {
 }
 
 type ClientSavings struct {
-	ClientName   string  `json:"clientName"`
-	TotalCalls   int     `json:"totalCalls"`
-	TokensSaved  int     `json:"tokensSaved"`
-	CostSavedUsd float64 `json:"costSavedUsd"`
+	ClientName      string  `json:"clientName"`
+	TotalCalls      int     `json:"totalCalls"`
+	TokensSaved     int     `json:"tokensSaved"`
+	CostSavedUsd    float64 `json:"costSavedUsd"`
+	TotalDurationMs int     `json:"totalDurationMs"`
 }
 
 type Comment struct {
@@ -567,6 +568,9 @@ type DailySavings struct {
 	CostServedUsd     float64   `json:"costServedUsd"`
 	CostRawUsd        float64   `json:"costRawUsd"`
 	CostSavedUsd      float64   `json:"costSavedUsd"`
+	TotalDurationMs   int       `json:"totalDurationMs"`
+	EstAgentTimeMs    int       `json:"estAgentTimeMs"`
+	TimeSavedMs       int       `json:"timeSavedMs"`
 }
 
 type DatabaseTestCase struct {
@@ -1112,6 +1116,9 @@ type SavingsSummary struct {
 	CostRawUsd        float64 `json:"costRawUsd"`
 	CostSavedUsd      float64 `json:"costSavedUsd"`
 	UniqueUsersCount  int     `json:"uniqueUsersCount"`
+	TotalDurationMs   int     `json:"totalDurationMs"`
+	EstAgentTimeMs    int     `json:"estAgentTimeMs"`
+	TimeSavedMs       int     `json:"timeSavedMs"`
 }
 
 type ServerConfig struct {
@@ -1441,10 +1448,13 @@ type TestRunSummary struct {
 }
 
 type ToolSavings struct {
-	ToolName     string  `json:"toolName"`
-	TotalCalls   int     `json:"totalCalls"`
-	TokensSaved  int     `json:"tokensSaved"`
-	CostSavedUsd float64 `json:"costSavedUsd"`
+	ToolName        string  `json:"toolName"`
+	TotalCalls      int     `json:"totalCalls"`
+	TokensSaved     int     `json:"tokensSaved"`
+	CostSavedUsd    float64 `json:"costSavedUsd"`
+	TotalDurationMs int     `json:"totalDurationMs"`
+	EstAgentTimeMs  int     `json:"estAgentTimeMs"`
+	TimeSavedMs     int     `json:"timeSavedMs"`
 }
 
 type UIMap struct {
@@ -1768,6 +1778,7 @@ type UserSavings struct {
 	TotalCalls       int     `json:"totalCalls"`
 	TokensSaved      int     `json:"tokensSaved"`
 	CostSavedUsd     float64 `json:"costSavedUsd"`
+	TotalDurationMs  int     `json:"totalDurationMs"`
 }
 
 type SavedQueryScope string

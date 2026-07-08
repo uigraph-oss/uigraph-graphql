@@ -18,6 +18,9 @@ type SavingsSummary {
     costRawUsd:        Float!
     costSavedUsd:      Float!
     uniqueUsersCount:  Int!
+    totalDurationMs:   Int!
+    estAgentTimeMs:    Int!
+    timeSavedMs:       Int!
 }
 
 type DailySavings {
@@ -28,20 +31,27 @@ type DailySavings {
     costServedUsd:     Float!
     costRawUsd:        Float!
     costSavedUsd:      Float!
+    totalDurationMs:   Int!
+    estAgentTimeMs:    Int!
+    timeSavedMs:       Int!
 }
 
 type ToolSavings {
-    toolName:     String!
-    totalCalls:   Int!
-    tokensSaved:  Int!
-    costSavedUsd: Float!
+    toolName:        String!
+    totalCalls:      Int!
+    tokensSaved:     Int!
+    costSavedUsd:    Float!
+    totalDurationMs: Int!
+    estAgentTimeMs:  Int!
+    timeSavedMs:     Int!
 }
 
 type ClientSavings {
-    clientName:   String!
-    totalCalls:   Int!
-    tokensSaved:  Int!
-    costSavedUsd: Float!
+    clientName:      String!
+    totalCalls:      Int!
+    tokensSaved:     Int!
+    costSavedUsd:    Float!
+    totalDurationMs: Int!
 }
 
 type ModelSavings {
@@ -61,4 +71,5 @@ type UserSavings {
     totalCalls:       Int!
     tokensSaved:      Int!
     costSavedUsd:     Float!
+    totalDurationMs:  Int!
 }
