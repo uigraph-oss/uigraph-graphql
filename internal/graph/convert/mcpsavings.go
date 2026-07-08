@@ -64,6 +64,23 @@ func ToolSavingsListToModel(rows []uigraphapi.ToolSavings) []*model.ToolSavings 
 	return out
 }
 
+func ClientSavingsToModel(s uigraphapi.ClientSavings) *model.ClientSavings {
+	return &model.ClientSavings{
+		ClientName:   s.ClientName,
+		TotalCalls:   s.TotalCalls,
+		TokensSaved:  s.TokensSaved,
+		CostSavedUsd: s.CostSavedUSD,
+	}
+}
+
+func ClientSavingsListToModel(rows []uigraphapi.ClientSavings) []*model.ClientSavings {
+	out := make([]*model.ClientSavings, len(rows))
+	for i, row := range rows {
+		out[i] = ClientSavingsToModel(row)
+	}
+	return out
+}
+
 func ModelSavingsToModel(s uigraphapi.ModelSavings) *model.ModelSavings {
 	return &model.ModelSavings{
 		ModelID:      s.ModelID,
@@ -71,6 +88,7 @@ func ModelSavingsToModel(s uigraphapi.ModelSavings) *model.ModelSavings {
 		Provider:     s.Provider,
 		TotalCalls:   s.TotalCalls,
 		TokensSaved:  s.TokensSaved,
+		CostRawUsd:   s.CostRawUSD,
 		CostSavedUsd: s.CostSavedUSD,
 	}
 }

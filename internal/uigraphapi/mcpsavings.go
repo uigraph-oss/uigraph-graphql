@@ -37,12 +37,20 @@ type ToolSavings struct {
 	CostSavedUSD float64 `json:"costSavedUsd"`
 }
 
+type ClientSavings struct {
+	ClientName   string  `json:"clientName"`
+	TotalCalls   int     `json:"totalCalls"`
+	TokensSaved  int     `json:"tokensSaved"`
+	CostSavedUSD float64 `json:"costSavedUsd"`
+}
+
 type ModelSavings struct {
 	ModelID      string  `json:"modelId"`
 	DisplayName  string  `json:"displayName"`
 	Provider     string  `json:"provider"`
 	TotalCalls   int     `json:"totalCalls"`
 	TokensSaved  int     `json:"tokensSaved"`
+	CostRawUSD   float64 `json:"costRawUsd"`
 	CostSavedUSD float64 `json:"costSavedUsd"`
 }
 
@@ -92,6 +100,14 @@ func (c *Client) GetSavingsByTool(ctx context.Context, orgID string, period, mod
 		ByTool []ToolSavings `json:"byTool"`
 	}
 	return out.ByTool, c.get(ctx, path, &out)
+}
+
+func (c *Client) GetSavingsByClient(ctx context.Context, orgID string, period, modelID *string) ([]ClientSavings, error) {
+	path := withQuery(fmt.Sprintf("/api/v1/orgs/%s/mcp/savings/by-client", orgID), savingsQuery(period, modelID))
+	var out struct {
+		ByClient []ClientSavings `json:"byClient"`
+	}
+	return out.ByClient, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetSavingsByModel(ctx context.Context, orgID string, period *string) ([]ModelSavings, error) {

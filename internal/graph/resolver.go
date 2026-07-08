@@ -249,6 +249,7 @@ type costSavingsClient interface {
 	GetSavingsSummary(ctx context.Context, orgID string, period, modelID *string) (*uigraphapi.SavingsSummary, error)
 	GetSavingsTimeseries(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.DailySavings, error)
 	GetSavingsByTool(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.ToolSavings, error)
+	GetSavingsByClient(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.ClientSavings, error)
 	GetSavingsByModel(ctx context.Context, orgID string, period *string) ([]uigraphapi.ModelSavings, error)
 	GetSavingsByUser(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.UserSavings, error)
 }

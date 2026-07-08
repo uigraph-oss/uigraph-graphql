@@ -39,6 +39,15 @@ func (r *queryResolver) CostSavingsByTool(ctx context.Context, orgID string, per
 	return convert.ToolSavingsListToModel(rows), nil
 }
 
+// CostSavingsByClient is the resolver for the costSavingsByClient field.
+func (r *queryResolver) CostSavingsByClient(ctx context.Context, orgID string, period *string, modelID *string) ([]*model.ClientSavings, error) {
+	rows, err := r.CostSavings.GetSavingsByClient(ctx, orgID, period, modelID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.ClientSavingsListToModel(rows), nil
+}
+
 // CostSavingsByModel is the resolver for the costSavingsByModel field.
 func (r *queryResolver) CostSavingsByModel(ctx context.Context, orgID string, period *string) ([]*model.ModelSavings, error) {
 	rows, err := r.CostSavings.GetSavingsByModel(ctx, orgID, period)
