@@ -872,7 +872,6 @@ type ComplexityRoot struct {
 		ServiceDiagrams       func(childComplexity int, orgID string, serviceID string) int
 		ServiceDocByID        func(childComplexity int, orgID string, id string) int
 		ServiceDocs           func(childComplexity int, orgID string, serviceID string) int
-		ServiceStats          func(childComplexity int, orgID string, serviceID *string) int
 		Services              func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
 		Team                  func(childComplexity int, orgID string, teamID string) int
 		TeamMembers           func(childComplexity int, orgID string, teamID string) int
@@ -1009,6 +1008,7 @@ type ComplexityRoot struct {
 		Name                func(childComplexity int) int
 		OrgID               func(childComplexity int) int
 		SlackChannelURL     func(childComplexity int) int
+		Stats               func(childComplexity int) int
 		Status              func(childComplexity int) int
 		TeamID              func(childComplexity int) int
 		Tier                func(childComplexity int) int
@@ -1508,7 +1508,6 @@ type QueryResolver interface {
 	APIEndpointByID(ctx context.Context, orgID string, id string) (*model.APIEndpoint, error)
 	ServiceDocByID(ctx context.Context, orgID string, id string) (*model.ServiceDoc, error)
 	APIGroupSpec(ctx context.Context, orgID string, serviceID string, apiGroupID string, versionID *string) (*model.FileDownload, error)
-	ServiceStats(ctx context.Context, orgID string, serviceID *string) ([]*model.ServiceStats, error)
 	Comments(ctx context.Context, orgID string, resourceID string) ([]*model.Comment, error)
 	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
 	Components(ctx context.Context, orgID string) (*model.Components, error)
@@ -6996,18 +6995,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.ServiceDocs(childComplexity, args["orgId"].(string), args["serviceId"].(string)), true
 
-	case "Query.serviceStats":
-		if e.complexity.Query.ServiceStats == nil {
-			break
-		}
-
-		args, err := ec.field_Query_serviceStats_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.ServiceStats(childComplexity, args["orgId"].(string), args["serviceId"].(*string)), true
-
 	case "Query.services":
 		if e.complexity.Query.Services == nil {
 			break
@@ -7830,6 +7817,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Service.SlackChannelURL(childComplexity), true
+
+	case "Service.stats":
+		if e.complexity.Service.Stats == nil {
+			break
+		}
+
+		return e.complexity.Service.Stats(childComplexity), true
 
 	case "Service.status":
 		if e.complexity.Service.Status == nil {
@@ -10015,7 +10009,6 @@ type OrgSummary {
     apiEndpointById(orgId: ID!, id: ID!):                            APIEndpoint!
     serviceDocById(orgId: ID!, id: ID!):                             ServiceDoc!
     apiGroupSpec(orgId: ID!, serviceId: ID!, apiGroupId: ID!, versionId: ID): FileDownload!
-    serviceStats(orgId: ID!, serviceId: ID):                         [ServiceStats!]!
 }
 
 type FileDownload {
@@ -10077,6 +10070,7 @@ type Service {
     updatedByCommitHash: String
     createdByActor:   Actor @goField(forceResolver: true)
     updatedByActor:   Actor @goField(forceResolver: true)
+    stats:            ServiceStats
     createdAt:        Time!
     updatedAt:        Time!
 }
@@ -23549,57 +23543,6 @@ func (ec *executionContext) field_Query_serviceDocs_argsServiceID(
 	}
 
 	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Query_serviceStats_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Query_serviceStats_argsOrgID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["orgId"] = arg0
-	arg1, err := ec.field_Query_serviceStats_argsServiceID(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["serviceId"] = arg1
-	return args, nil
-}
-func (ec *executionContext) field_Query_serviceStats_argsOrgID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (string, error) {
-	if _, ok := rawArgs["orgId"]; !ok {
-		var zeroVal string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
-	if tmp, ok := rawArgs["orgId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
-	}
-
-	var zeroVal string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Query_serviceStats_argsServiceID(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*string, error) {
-	if _, ok := rawArgs["serviceId"]; !ok {
-		var zeroVal *string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
-	if tmp, ok := rawArgs["serviceId"]; ok {
-		return ec.unmarshalOID2ᚖstring(ctx, tmp)
-	}
-
-	var zeroVal *string
 	return zeroVal, nil
 }
 
@@ -45237,6 +45180,8 @@ func (ec *executionContext) fieldContext_Mutation_createService(ctx context.Cont
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
 				return ec.fieldContext_Service_updatedByActor(ctx, field)
+			case "stats":
+				return ec.fieldContext_Service_stats(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Service_createdAt(ctx, field)
 			case "updatedAt":
@@ -45342,6 +45287,8 @@ func (ec *executionContext) fieldContext_Mutation_updateService(ctx context.Cont
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
 				return ec.fieldContext_Service_updatedByActor(ctx, field)
+			case "stats":
+				return ec.fieldContext_Service_stats(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Service_createdAt(ctx, field)
 			case "updatedAt":
@@ -54794,6 +54741,8 @@ func (ec *executionContext) fieldContext_Query_service(ctx context.Context, fiel
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
 				return ec.fieldContext_Service_updatedByActor(ctx, field)
+			case "stats":
+				return ec.fieldContext_Service_stats(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Service_createdAt(ctx, field)
 			case "updatedAt":
@@ -55951,75 +55900,6 @@ func (ec *executionContext) fieldContext_Query_apiGroupSpec(ctx context.Context,
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_apiGroupSpec_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_serviceStats(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_serviceStats(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().ServiceStats(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(*string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.ServiceStats)
-	fc.Result = res
-	return ec.marshalNServiceStats2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStatsᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_serviceStats(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "serviceId":
-				return ec.fieldContext_ServiceStats_serviceId(ctx, field)
-			case "endpointCount":
-				return ec.fieldContext_ServiceStats_endpointCount(ctx, field)
-			case "diagramCount":
-				return ec.fieldContext_ServiceStats_diagramCount(ctx, field)
-			case "docCount":
-				return ec.fieldContext_ServiceStats_docCount(ctx, field)
-			case "dbTableCount":
-				return ec.fieldContext_ServiceStats_dbTableCount(ctx, field)
-			case "testCaseCount":
-				return ec.fieldContext_ServiceStats_testCaseCount(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type ServiceStats", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_serviceStats_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -64463,6 +64343,61 @@ func (ec *executionContext) fieldContext_Service_updatedByActor(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _Service_stats(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Service_stats(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Stats, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.ServiceStats)
+	fc.Result = res
+	return ec.marshalOServiceStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStats(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Service_stats(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Service",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "serviceId":
+				return ec.fieldContext_ServiceStats_serviceId(ctx, field)
+			case "endpointCount":
+				return ec.fieldContext_ServiceStats_endpointCount(ctx, field)
+			case "diagramCount":
+				return ec.fieldContext_ServiceStats_diagramCount(ctx, field)
+			case "docCount":
+				return ec.fieldContext_ServiceStats_docCount(ctx, field)
+			case "dbTableCount":
+				return ec.fieldContext_ServiceStats_dbTableCount(ctx, field)
+			case "testCaseCount":
+				return ec.fieldContext_ServiceStats_testCaseCount(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServiceStats", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Service_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Service_createdAt(ctx, field)
 	if err != nil {
@@ -67984,6 +67919,8 @@ func (ec *executionContext) fieldContext_ServicePage_items(_ context.Context, fi
 				return ec.fieldContext_Service_createdByActor(ctx, field)
 			case "updatedByActor":
 				return ec.fieldContext_Service_updatedByActor(ctx, field)
+			case "stats":
+				return ec.fieldContext_Service_stats(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Service_createdAt(ctx, field)
 			case "updatedAt":
@@ -87407,28 +87344,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "serviceStats":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_serviceStats(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx,
-					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "comments":
 			field := field
 
@@ -89403,6 +89318,8 @@ func (ec *executionContext) _Service(ctx context.Context, sel ast.SelectionSet, 
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "stats":
+			out.Values[i] = ec._Service_stats(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._Service_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -94409,60 +94326,6 @@ func (ec *executionContext) marshalNServicePage2ᚖgithubᚗcomᚋuigraphᚋgrap
 	return ec._ServicePage(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNServiceStats2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStatsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceStats) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNServiceStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStats(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalNServiceStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStats(ctx context.Context, sel ast.SelectionSet, v *model.ServiceStats) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._ServiceStats(ctx, sel, v)
-}
-
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v any) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -96188,6 +96051,13 @@ func (ec *executionContext) marshalOSCIMConfig2ᚖgithubᚗcomᚋuigraphᚋgraph
 		return graphql.Null
 	}
 	return ec._SCIMConfig(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOServiceStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceStats(ctx context.Context, sel ast.SelectionSet, v *model.ServiceStats) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._ServiceStats(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOString2ᚕstringᚄ(ctx context.Context, v any) ([]string, error) {

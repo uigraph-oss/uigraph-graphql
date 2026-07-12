@@ -192,7 +192,21 @@ func (r *queryResolver) Services(ctx context.Context, orgID string, folderID *st
 	if err != nil {
 		return nil, err
 	}
-	return &model.ServicePage{Items: convert.ServicesToModel(services), TotalCount: total}, nil
+	items := convert.ServicesToModel(services)
+
+	stats, err := r.Catalog.ListServiceStats(ctx, orgID, nil)
+	if err != nil {
+		return nil, err
+	}
+	statsByID := make(map[string]*model.ServiceStats, len(stats))
+	for _, s := range stats {
+		statsByID[s.ServiceID] = convert.ServiceStatsToModel(s)
+	}
+	for _, item := range items {
+		item.Stats = statsByID[item.ID]
+	}
+
+	return &model.ServicePage{Items: items, TotalCount: total}, nil
 }
 
 // Service is the resolver for the service field.
@@ -201,7 +215,17 @@ func (r *queryResolver) Service(ctx context.Context, orgID string, id string) (*
 	if err != nil {
 		return nil, err
 	}
-	return convert.ServiceToModel(s), nil
+	svc := convert.ServiceToModel(s)
+
+	stats, err := r.Catalog.ListServiceStats(ctx, orgID, &id)
+	if err != nil {
+		return nil, err
+	}
+	if len(stats) > 0 {
+		svc.Stats = convert.ServiceStatsToModel(stats[0])
+	}
+
+	return svc, nil
 }
 
 // APIGroups is the resolver for the apiGroups field.
@@ -331,15 +355,6 @@ func (r *queryResolver) APIGroupSpec(ctx context.Context, orgID string, serviceI
 		FileName:   spec.FileName,
 		Content:    spec.Content,
 	}, nil
-}
-
-// ServiceStats is the resolver for the serviceStats field.
-func (r *queryResolver) ServiceStats(ctx context.Context, orgID string, serviceID *string) ([]*model.ServiceStats, error) {
-	stats, err := r.Catalog.ListServiceStats(ctx, orgID, serviceID)
-	if err != nil {
-		return nil, err
-	}
-	return convert.ServiceStatsListToModel(stats), nil
 }
 
 // CreatedByActor is the resolver for the createdByActor field.
