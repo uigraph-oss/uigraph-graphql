@@ -14,7 +14,6 @@ extend type Query {
     apiEndpointById(orgId: ID!, id: ID!):                            APIEndpoint!
     serviceDocById(orgId: ID!, id: ID!):                             ServiceDoc!
     apiGroupSpec(orgId: ID!, serviceId: ID!, apiGroupId: ID!, versionId: ID): FileDownload!
-    serviceStats(orgId: ID!, serviceId: ID):                         [ServiceStats!]!
 }
 
 type FileDownload {
@@ -76,6 +75,7 @@ type Service {
     updatedByCommitHash: String
     createdByActor:   Actor @goField(forceResolver: true)
     updatedByActor:   Actor @goField(forceResolver: true)
+    stats:            ServiceStats
     createdAt:        Time!
     updatedAt:        Time!
 }

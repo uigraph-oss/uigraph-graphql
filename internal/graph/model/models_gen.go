@@ -1137,30 +1137,31 @@ type ServerOverview struct {
 }
 
 type Service struct {
-	ID                  string    `json:"id"`
-	OrgID               string    `json:"orgId"`
-	FolderID            *string   `json:"folderId,omitempty"`
-	TeamID              *string   `json:"teamId,omitempty"`
-	Name                string    `json:"name"`
-	Description         string    `json:"description"`
-	Status              string    `json:"status"`
-	Tier                string    `json:"tier"`
-	Category            string    `json:"category"`
-	Language            string    `json:"language"`
-	GitRepoURL          *string   `json:"gitRepoUrl,omitempty"`
-	JiraProjectURL      *string   `json:"jiraProjectUrl,omitempty"`
-	SlackChannelURL     *string   `json:"slackChannelUrl,omitempty"`
-	LastCommitSha       *string   `json:"lastCommitSha,omitempty"`
-	Labels              []string  `json:"labels"`
-	Metadata            string    `json:"metadata"`
-	CreatedBy           string    `json:"createdBy"`
-	UpdatedBy           *string   `json:"updatedBy,omitempty"`
-	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
-	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
-	CreatedByActor      *Actor    `json:"createdByActor,omitempty"`
-	UpdatedByActor      *Actor    `json:"updatedByActor,omitempty"`
-	CreatedAt           time.Time `json:"createdAt"`
-	UpdatedAt           time.Time `json:"updatedAt"`
+	ID                  string        `json:"id"`
+	OrgID               string        `json:"orgId"`
+	FolderID            *string       `json:"folderId,omitempty"`
+	TeamID              *string       `json:"teamId,omitempty"`
+	Name                string        `json:"name"`
+	Description         string        `json:"description"`
+	Status              string        `json:"status"`
+	Tier                string        `json:"tier"`
+	Category            string        `json:"category"`
+	Language            string        `json:"language"`
+	GitRepoURL          *string       `json:"gitRepoUrl,omitempty"`
+	JiraProjectURL      *string       `json:"jiraProjectUrl,omitempty"`
+	SlackChannelURL     *string       `json:"slackChannelUrl,omitempty"`
+	LastCommitSha       *string       `json:"lastCommitSha,omitempty"`
+	Labels              []string      `json:"labels"`
+	Metadata            string        `json:"metadata"`
+	CreatedBy           string        `json:"createdBy"`
+	UpdatedBy           *string       `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string       `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string       `json:"updatedByCommitHash,omitempty"`
+	CreatedByActor      *Actor        `json:"createdByActor,omitempty"`
+	UpdatedByActor      *Actor        `json:"updatedByActor,omitempty"`
+	Stats               *ServiceStats `json:"stats,omitempty"`
+	CreatedAt           time.Time     `json:"createdAt"`
+	UpdatedAt           time.Time     `json:"updatedAt"`
 }
 
 type ServiceAccount struct {

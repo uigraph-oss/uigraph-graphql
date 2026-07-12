@@ -172,14 +172,6 @@ func ServicesToModel(services []uigraphapi.Service) []*model.Service {
 	return out
 }
 
-func ServiceStatsListToModel(stats []uigraphapi.ServiceStats) []*model.ServiceStats {
-	out := make([]*model.ServiceStats, len(stats))
-	for i, s := range stats {
-		out[i] = ServiceStatsToModel(s)
-	}
-	return out
-}
-
 func APIGroupsToModel(groups []uigraphapi.APIGroup) []*model.APIGroup {
 	out := make([]*model.APIGroup, len(groups))
 	for i := range groups {
