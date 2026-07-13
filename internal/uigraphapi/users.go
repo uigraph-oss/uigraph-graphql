@@ -12,6 +12,7 @@ type User struct {
 	Login      string     `json:"login"`
 	Disabled   bool       `json:"disabled"`
 	Role       string     `json:"role"`
+	AvatarURL  string     `json:"avatarUrl,omitempty"`
 	LastSeenAt *time.Time `json:"lastSeenAt,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt"`
 	UpdatedAt  time.Time  `json:"updatedAt"`

@@ -9,6 +9,7 @@ import (
 
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 // CreateOrg is the resolver for the createOrg field.
@@ -174,7 +175,20 @@ func (r *queryResolver) Members(ctx context.Context, orgID string) ([]*model.Mem
 	if err != nil {
 		return nil, err
 	}
-	return convert.MembersToModel(members), nil
+
+	ids := make([]string, len(members))
+	for i, m := range members {
+		ids[i] = m.UserID
+	}
+
+	actors := map[string]*uigraphapi.Actor{}
+	if len(ids) > 0 {
+		actors, err = r.Resolver.Actor.ResolveActors(ctx, orgID, ids)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return convert.MembersToModel(members, actors), nil
 }
 
 // Teams is the resolver for the teams field.

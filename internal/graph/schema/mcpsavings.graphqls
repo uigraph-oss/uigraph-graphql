@@ -68,6 +68,7 @@ type UserSavings {
     userId:           ID
     serviceAccountId: ID
     displayName:      String!
+    avatarUrl:        String
     totalCalls:       Int!
     tokensSaved:      Int!
     costSavedUsd:     Float!

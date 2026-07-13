@@ -971,6 +971,7 @@ type Member struct {
 	Source    string    `json:"source"`
 	Email     string    `json:"email"`
 	Name      string    `json:"name"`
+	AvatarURL *string   `json:"avatarUrl,omitempty"`
 	TeamID    *string   `json:"teamId,omitempty"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
@@ -1767,6 +1768,7 @@ type User struct {
 	Login      string     `json:"login"`
 	Disabled   bool       `json:"disabled"`
 	Role       string     `json:"role"`
+	AvatarURL  *string    `json:"avatarUrl,omitempty"`
 	LastSeenAt *time.Time `json:"lastSeenAt,omitempty"`
 	CreatedAt  time.Time  `json:"createdAt"`
 	UpdatedAt  time.Time  `json:"updatedAt"`
@@ -1776,6 +1778,7 @@ type UserSavings struct {
 	UserID           *string `json:"userId,omitempty"`
 	ServiceAccountID *string `json:"serviceAccountId,omitempty"`
 	DisplayName      string  `json:"displayName"`
+	AvatarURL        *string `json:"avatarUrl,omitempty"`
 	TotalCalls       int     `json:"totalCalls"`
 	TokensSaved      int     `json:"tokensSaved"`
 	CostSavedUsd     float64 `json:"costSavedUsd"`
