@@ -66,10 +66,14 @@ func OrgsToModel(orgs []uigraphapi.Org) []*model.Org {
 	return out
 }
 
-func MembersToModel(members []uigraphapi.Member) []*model.Member {
+func MembersToModel(members []uigraphapi.Member, actors map[string]*uigraphapi.Actor) []*model.Member {
 	out := make([]*model.Member, len(members))
 	for i, m := range members {
-		out[i] = MemberToModel(m)
+		row := MemberToModel(m)
+		if a := actors[m.UserID]; a != nil && a.AvatarURL != "" {
+			row.AvatarURL = &a.AvatarURL
+		}
+		out[i] = row
 	}
 	return out
 }

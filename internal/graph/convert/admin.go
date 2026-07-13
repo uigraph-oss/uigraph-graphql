@@ -20,11 +20,15 @@ func ServerConfigToModel(c *uigraphapi.ServerConfig) *model.ServerConfig {
 }
 
 func UserToModel(u *uigraphapi.User) *model.User {
-	return &model.User{
+	m := &model.User{
 		ID: u.ID, Email: u.Email, Name: u.Name, Login: u.Login,
 		Disabled: u.Disabled, Role: u.Role, LastSeenAt: u.LastSeenAt,
 		CreatedAt: u.CreatedAt, UpdatedAt: u.UpdatedAt,
 	}
+	if u.AvatarURL != "" {
+		m.AvatarURL = &u.AvatarURL
+	}
+	return m
 }
 
 func UsersToModel(users []uigraphapi.User) []*model.User {

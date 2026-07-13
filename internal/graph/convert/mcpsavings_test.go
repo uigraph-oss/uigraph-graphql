@@ -82,4 +82,22 @@ func TestUserSavingsToModel(t *testing.T) {
 			t.Errorf("DisplayName = %q, want Unknown User", got.DisplayName)
 		}
 	})
+
+	t.Run("sets AvatarURL from the resolved actor", func(t *testing.T) {
+		uid := "u1"
+		actors := map[string]*uigraphapi.Actor{"u1": {ID: "u1", Name: "Ada Lovelace", AvatarURL: "https://x/a.png"}}
+		got := UserSavingsToModel(uigraphapi.UserSavings{UserID: &uid}, actors)
+		if got.AvatarURL == nil || *got.AvatarURL != "https://x/a.png" {
+			t.Errorf("AvatarURL = %v, want pointer to https://x/a.png", got.AvatarURL)
+		}
+	})
+
+	t.Run("nil AvatarURL when actor has no avatar", func(t *testing.T) {
+		uid := "u1"
+		actors := map[string]*uigraphapi.Actor{"u1": {ID: "u1", Name: "Ada Lovelace"}}
+		got := UserSavingsToModel(uigraphapi.UserSavings{UserID: &uid}, actors)
+		if got.AvatarURL != nil {
+			t.Errorf("AvatarURL = %v, want nil", *got.AvatarURL)
+		}
+	})
 }

@@ -621,6 +621,7 @@ type ComplexityRoot struct {
 	}
 
 	Member struct {
+		AvatarURL func(childComplexity int) int
 		CreatedAt func(childComplexity int) int
 		Email     func(childComplexity int) int
 		Name      func(childComplexity int) int
@@ -1302,6 +1303,7 @@ type ComplexityRoot struct {
 	}
 
 	User struct {
+		AvatarURL  func(childComplexity int) int
 		CreatedAt  func(childComplexity int) int
 		Disabled   func(childComplexity int) int
 		Email      func(childComplexity int) int
@@ -1314,6 +1316,7 @@ type ComplexityRoot struct {
 	}
 
 	UserSavings struct {
+		AvatarURL        func(childComplexity int) int
 		CostSavedUsd     func(childComplexity int) int
 		DisplayName      func(childComplexity int) int
 		ServiceAccountID func(childComplexity int) int
@@ -4508,6 +4511,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Me.UserID(childComplexity), true
+
+	case "Member.avatarUrl":
+		if e.complexity.Member.AvatarURL == nil {
+			break
+		}
+
+		return e.complexity.Member.AvatarURL(childComplexity), true
 
 	case "Member.createdAt":
 		if e.complexity.Member.CreatedAt == nil {
@@ -9393,6 +9403,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.UIMapPage.TotalCount(childComplexity), true
 
+	case "User.avatarUrl":
+		if e.complexity.User.AvatarURL == nil {
+			break
+		}
+
+		return e.complexity.User.AvatarURL(childComplexity), true
+
 	case "User.createdAt":
 		if e.complexity.User.CreatedAt == nil {
 			break
@@ -9455,6 +9472,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.User.UpdatedAt(childComplexity), true
+
+	case "UserSavings.avatarUrl":
+		if e.complexity.UserSavings.AvatarURL == nil {
+			break
+		}
+
+		return e.complexity.UserSavings.AvatarURL(childComplexity), true
 
 	case "UserSavings.costSavedUsd":
 		if e.complexity.UserSavings.CostSavedUsd == nil {
@@ -9770,6 +9794,7 @@ type User {
     login:      String!
     disabled:   Boolean!
     role:       String!
+    avatarUrl:  String
     lastSeenAt: Time
     createdAt:  Time!
     updatedAt:  Time!
@@ -10800,6 +10825,7 @@ type UserSavings {
     userId:           ID
     serviceAccountId: ID
     displayName:      String!
+    avatarUrl:        String
     totalCalls:       Int!
     tokensSaved:      Int!
     costSavedUsd:     Float!
@@ -10864,6 +10890,7 @@ type Member {
     source:    String!
     email:     String!
     name:      String!
+    avatarUrl: String
     teamId:    ID
     createdAt: Time!
     updatedAt: Time!
@@ -43332,6 +43359,47 @@ func (ec *executionContext) fieldContext_Member_name(_ context.Context, field gr
 	return fc, nil
 }
 
+func (ec *executionContext) _Member_avatarUrl(ctx context.Context, field graphql.CollectedField, obj *model.Member) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Member_avatarUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvatarURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Member_avatarUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Member",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Member_teamId(ctx context.Context, field graphql.CollectedField, obj *model.Member) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Member_teamId(ctx, field)
 	if err != nil {
@@ -44188,6 +44256,8 @@ func (ec *executionContext) fieldContext_Mutation_createUser(ctx context.Context
 				return ec.fieldContext_User_disabled(ctx, field)
 			case "role":
 				return ec.fieldContext_User_role(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_User_avatarUrl(ctx, field)
 			case "lastSeenAt":
 				return ec.fieldContext_User_lastSeenAt(ctx, field)
 			case "createdAt":
@@ -44263,6 +44333,8 @@ func (ec *executionContext) fieldContext_Mutation_updateUser(ctx context.Context
 				return ec.fieldContext_User_disabled(ctx, field)
 			case "role":
 				return ec.fieldContext_User_role(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_User_avatarUrl(ctx, field)
 			case "lastSeenAt":
 				return ec.fieldContext_User_lastSeenAt(ctx, field)
 			case "createdAt":
@@ -48563,6 +48635,8 @@ func (ec *executionContext) fieldContext_Mutation_addMember(ctx context.Context,
 				return ec.fieldContext_Member_email(ctx, field)
 			case "name":
 				return ec.fieldContext_Member_name(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Member_avatarUrl(ctx, field)
 			case "teamId":
 				return ec.fieldContext_Member_teamId(ctx, field)
 			case "createdAt":
@@ -48638,6 +48712,8 @@ func (ec *executionContext) fieldContext_Mutation_updateMember(ctx context.Conte
 				return ec.fieldContext_Member_email(ctx, field)
 			case "name":
 				return ec.fieldContext_Member_name(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Member_avatarUrl(ctx, field)
 			case "teamId":
 				return ec.fieldContext_Member_teamId(ctx, field)
 			case "createdAt":
@@ -53927,6 +54003,8 @@ func (ec *executionContext) fieldContext_Query_users(_ context.Context, field gr
 				return ec.fieldContext_User_disabled(ctx, field)
 			case "role":
 				return ec.fieldContext_User_role(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_User_avatarUrl(ctx, field)
 			case "lastSeenAt":
 				return ec.fieldContext_User_lastSeenAt(ctx, field)
 			case "createdAt":
@@ -53991,6 +54069,8 @@ func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field g
 				return ec.fieldContext_User_disabled(ctx, field)
 			case "role":
 				return ec.fieldContext_User_role(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_User_avatarUrl(ctx, field)
 			case "lastSeenAt":
 				return ec.fieldContext_User_lastSeenAt(ctx, field)
 			case "createdAt":
@@ -57259,6 +57339,8 @@ func (ec *executionContext) fieldContext_Query_costSavingsByUser(ctx context.Con
 				return ec.fieldContext_UserSavings_serviceAccountId(ctx, field)
 			case "displayName":
 				return ec.fieldContext_UserSavings_displayName(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_UserSavings_avatarUrl(ctx, field)
 			case "totalCalls":
 				return ec.fieldContext_UserSavings_totalCalls(ctx, field)
 			case "tokensSaved":
@@ -57467,6 +57549,8 @@ func (ec *executionContext) fieldContext_Query_members(ctx context.Context, fiel
 				return ec.fieldContext_Member_email(ctx, field)
 			case "name":
 				return ec.fieldContext_Member_name(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Member_avatarUrl(ctx, field)
 			case "teamId":
 				return ec.fieldContext_Member_teamId(ctx, field)
 			case "createdAt":
@@ -74395,6 +74479,47 @@ func (ec *executionContext) fieldContext_User_role(_ context.Context, field grap
 	return fc, nil
 }
 
+func (ec *executionContext) _User_avatarUrl(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_avatarUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvatarURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_avatarUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _User_lastSeenAt(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_lastSeenAt(ctx, field)
 	if err != nil {
@@ -74638,6 +74763,47 @@ func (ec *executionContext) _UserSavings_displayName(ctx context.Context, field 
 }
 
 func (ec *executionContext) fieldContext_UserSavings_displayName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserSavings",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserSavings_avatarUrl(ctx context.Context, field graphql.CollectedField, obj *model.UserSavings) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserSavings_avatarUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvatarURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserSavings_avatarUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "UserSavings",
 		Field:      field,
@@ -85452,6 +85618,8 @@ func (ec *executionContext) _Member(ctx context.Context, sel ast.SelectionSet, o
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "avatarUrl":
+			out.Values[i] = ec._Member_avatarUrl(ctx, field, obj)
 		case "teamId":
 			out.Values[i] = ec._Member_teamId(ctx, field, obj)
 		case "createdAt":
@@ -91138,6 +91306,8 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "avatarUrl":
+			out.Values[i] = ec._User_avatarUrl(ctx, field, obj)
 		case "lastSeenAt":
 			out.Values[i] = ec._User_lastSeenAt(ctx, field, obj)
 		case "createdAt":
@@ -91193,6 +91363,8 @@ func (ec *executionContext) _UserSavings(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "avatarUrl":
+			out.Values[i] = ec._UserSavings_avatarUrl(ctx, field, obj)
 		case "totalCalls":
 			out.Values[i] = ec._UserSavings_totalCalls(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

@@ -67,6 +67,7 @@ type User {
     login:      String!
     disabled:   Boolean!
     role:       String!
+    avatarUrl:  String
     lastSeenAt: Time
     createdAt:  Time!
     updatedAt:  Time!

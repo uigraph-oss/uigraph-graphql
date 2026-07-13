@@ -122,8 +122,12 @@ func UserSavingsToModel(s uigraphapi.UserSavings, actors map[string]*uigraphapi.
 		id = *s.ServiceAccountID
 	}
 	displayName := "Unknown User"
+	var avatarURL *string
 	if a := actors[id]; a != nil {
 		displayName = a.Name
+		if a.AvatarURL != "" {
+			avatarURL = &a.AvatarURL
+		}
 	} else if s.ServiceAccountID != nil {
 		displayName = "Service Account"
 	}
@@ -131,6 +135,7 @@ func UserSavingsToModel(s uigraphapi.UserSavings, actors map[string]*uigraphapi.
 		UserID:           s.UserID,
 		ServiceAccountID: s.ServiceAccountID,
 		DisplayName:      displayName,
+		AvatarURL:        avatarURL,
 		TotalCalls:       s.TotalCalls,
 		TokensSaved:      s.TokensSaved,
 		CostSavedUsd:     s.CostSavedUSD,
