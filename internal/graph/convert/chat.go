@@ -25,7 +25,7 @@ func ChatSessionsToModel(sessions []uigraphapi.ChatSession) []*model.ChatSession
 func ChatMessageToModel(m *uigraphapi.ChatMessage) *model.ChatMessage {
 	return &model.ChatMessage{
 		ID: m.ID, OrgID: m.OrgID, ChatSessionID: m.ChatSessionID,
-		Role: m.Role, Content: m.Content, CreatedAt: m.CreatedAt,
+		Role: m.Role, Content: m.Content, Parts: m.Parts, CreatedAt: m.CreatedAt,
 	}
 }
 

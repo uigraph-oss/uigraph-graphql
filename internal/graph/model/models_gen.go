@@ -168,6 +168,7 @@ type ChatMessage struct {
 	ChatSessionID string    `json:"chatSessionId"`
 	Role          string    `json:"role"`
 	Content       string    `json:"content"`
+	Parts         any       `json:"parts,omitempty"`
 	CreatedAt     time.Time `json:"createdAt"`
 }
 

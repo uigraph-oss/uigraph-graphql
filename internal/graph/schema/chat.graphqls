@@ -30,6 +30,7 @@ type ChatMessage {
     chatSessionId: ID!
     role:          String!
     content:       String!
+    parts:         JSON
     createdAt:     Time!
 }
 

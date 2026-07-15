@@ -182,6 +182,7 @@ type ComplexityRoot struct {
 		CreatedAt     func(childComplexity int) int
 		ID            func(childComplexity int) int
 		OrgID         func(childComplexity int) int
+		Parts         func(childComplexity int) int
 		Role          func(childComplexity int) int
 	}
 
@@ -2277,6 +2278,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.ChatMessage.OrgID(childComplexity), true
+
+	case "ChatMessage.parts":
+		if e.complexity.ChatMessage.Parts == nil {
+			break
+		}
+
+		return e.complexity.ChatMessage.Parts(childComplexity), true
 
 	case "ChatMessage.role":
 		if e.complexity.ChatMessage.Role == nil {
@@ -10691,6 +10699,7 @@ type ChatMessage {
     chatSessionId: ID!
     role:          String!
     content:       String!
+    parts:         JSON
     createdAt:     Time!
 }
 
@@ -29331,6 +29340,47 @@ func (ec *executionContext) fieldContext_ChatMessage_content(_ context.Context, 
 	return fc, nil
 }
 
+func (ec *executionContext) _ChatMessage_parts(ctx context.Context, field graphql.CollectedField, obj *model.ChatMessage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ChatMessage_parts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Parts, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(any)
+	fc.Result = res
+	return ec.marshalOJSON2interface(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ChatMessage_parts(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ChatMessage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type JSON does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ChatMessage_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.ChatMessage) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ChatMessage_createdAt(ctx, field)
 	if err != nil {
@@ -29927,6 +29977,8 @@ func (ec *executionContext) fieldContext_ChatSessionWithMessages_messages(_ cont
 				return ec.fieldContext_ChatMessage_role(ctx, field)
 			case "content":
 				return ec.fieldContext_ChatMessage_content(ctx, field)
+			case "parts":
+				return ec.fieldContext_ChatMessage_parts(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ChatMessage_createdAt(ctx, field)
 			}
@@ -48550,6 +48602,8 @@ func (ec *executionContext) fieldContext_Mutation_createChatMessage(ctx context.
 				return ec.fieldContext_ChatMessage_role(ctx, field)
 			case "content":
 				return ec.fieldContext_ChatMessage_content(ctx, field)
+			case "parts":
+				return ec.fieldContext_ChatMessage_parts(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ChatMessage_createdAt(ctx, field)
 			}
@@ -57964,6 +58018,8 @@ func (ec *executionContext) fieldContext_Query_chatMessages(ctx context.Context,
 				return ec.fieldContext_ChatMessage_role(ctx, field)
 			case "content":
 				return ec.fieldContext_ChatMessage_content(ctx, field)
+			case "parts":
+				return ec.fieldContext_ChatMessage_parts(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_ChatMessage_createdAt(ctx, field)
 			}
@@ -84667,6 +84723,8 @@ func (ec *executionContext) _ChatMessage(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "parts":
+			out.Values[i] = ec._ChatMessage_parts(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._ChatMessage_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
