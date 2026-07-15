@@ -9,8 +9,6 @@ import (
 	"testing"
 )
 
-// TestClientGet_DecodesResponse verifies that a successful GET request decodes
-// the JSON response body into the provided output struct.
 func TestClientGet_DecodesResponse(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet || r.URL.Path != "/api/v1/orgs/org-1" {
@@ -33,8 +31,6 @@ func TestClientGet_DecodesResponse(t *testing.T) {
 	}
 }
 
-// TestClientGet_404ReturnsAPIError verifies that a 404 response causes the
-// client to return an *APIError with Status == 404 and IsNotFound returns true.
 func TestClientGet_404ReturnsAPIError(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
@@ -59,8 +55,6 @@ func TestClientGet_404ReturnsAPIError(t *testing.T) {
 	}
 }
 
-// TestClientGet_500IsNotIsNotFound verifies that a 500 response returns an error
-// that is NOT classified as "not found" by IsNotFound.
 func TestClientGet_500IsNotIsNotFound(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -77,8 +71,6 @@ func TestClientGet_500IsNotIsNotFound(t *testing.T) {
 	}
 }
 
-// TestClientPost_SendsBody verifies that a POST request marshals the body to
-// JSON and sends it, and that the response is correctly decoded.
 func TestClientPost_SendsBody(t *testing.T) {
 	var gotBody map[string]interface{}
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -109,8 +101,6 @@ func TestClientPost_SendsBody(t *testing.T) {
 	}
 }
 
-// TestAPIError_Error verifies that APIError.Error() returns a useful string
-// containing both the status code and the body.
 func TestAPIError_Error(t *testing.T) {
 	e := &APIError{Status: 422, Body: `{"error":"unprocessable"}`}
 	msg := e.Error()
@@ -122,8 +112,6 @@ func TestAPIError_Error(t *testing.T) {
 	}
 }
 
-// TestClientPing_Success verifies that Ping returns nil when the server
-// responds with 200 OK.
 func TestClientPing_Success(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/healthz" {
@@ -141,8 +129,6 @@ func TestClientPing_Success(t *testing.T) {
 	}
 }
 
-// TestClientPing_Error verifies that Ping returns an error when the server
-// responds with a non-2xx status.
 func TestClientPing_Error(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)

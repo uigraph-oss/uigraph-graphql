@@ -165,7 +165,6 @@ func TestTestCaseToModel(t *testing.T) {
 		if !out.IsCritical {
 			t.Errorf("IsCritical = false, want true")
 		}
-		// nil sub-converters should return nil
 		if out.Manual != nil {
 			t.Errorf("Manual = %v, want nil when source Manual is nil", out.Manual)
 		}

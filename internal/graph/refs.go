@@ -6,8 +6,6 @@ import (
 	"github.com/uigraph/graphql/internal/graph/model"
 )
 
-// resolveActor resolves a single created_by / updated_by id within an org to
-// its public actor info, returning nil when id is empty or matches no actor.
 func (r *Resolver) resolveActor(ctx context.Context, orgID, id string) (*model.Actor, error) {
 	if id == "" {
 		return nil, nil
@@ -30,8 +28,6 @@ func (r *Resolver) resolveActor(ctx context.Context, orgID, id string) (*model.A
 	return m, nil
 }
 
-// resolveAssetURL resolves a single asset id within an org to a presigned GET
-// URL, returning nil when id is empty or no url is produced.
 func (r *Resolver) resolveAssetURL(ctx context.Context, orgID, assetID string) (*string, error) {
 	if assetID == "" {
 		return nil, nil

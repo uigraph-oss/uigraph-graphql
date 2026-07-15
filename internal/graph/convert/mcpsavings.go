@@ -111,9 +111,6 @@ func ModelSavingsListToModel(rows []uigraphapi.ModelSavings) []*model.ModelSavin
 	return out
 }
 
-// UserSavingsToModel resolves DisplayName from actors (keyed by user ID or
-// service account ID), falling back to "Service Account" or "Unknown User"
-// when no actor was resolved for that ID.
 func UserSavingsToModel(s uigraphapi.UserSavings, actors map[string]*uigraphapi.Actor) *model.UserSavings {
 	id := ""
 	if s.UserID != nil {

@@ -1,0 +1,54 @@
+extend type Query {
+    chatSessions(orgId: ID!): [ChatSession!]!
+    chatSession(orgId: ID!, id: ID!): ChatSessionWithMessages!
+    chatMessages(orgId: ID!, sessionId: ID!): [ChatMessage!]!
+}
+
+extend type Mutation {
+    createChatSession(orgId: ID!, input: CreateChatSessionInput!): ChatSession!
+    updateChatSession(orgId: ID!, id: ID!, input: UpdateChatSessionInput!): ChatSession!
+    deleteChatSession(orgId: ID!, id: ID!): Boolean!
+    createChatMessage(orgId: ID!, sessionId: ID!, input: CreateChatMessageInput!): ChatMessage!
+}
+
+type ChatSession {
+    id:           ID!
+    orgId:        ID!
+    ownerUserId:  ID!
+    title:        String!
+    isPinned:     Boolean!
+    messageCount: Int!
+    createdBy:    ID!
+    updatedBy:    ID
+    createdAt:    Time!
+    updatedAt:    Time!
+}
+
+type ChatMessage {
+    id:            ID!
+    orgId:         ID!
+    chatSessionId: ID!
+    role:          String!
+    content:       String!
+    parts:         JSON
+    createdAt:     Time!
+}
+
+type ChatSessionWithMessages {
+    session:  ChatSession!
+    messages: [ChatMessage!]!
+}
+
+input CreateChatSessionInput {
+    title: String
+}
+
+input UpdateChatSessionInput {
+    title:    String
+    isPinned: Boolean
+}
+
+input CreateChatMessageInput {
+    role:    String!
+    content: String!
+}

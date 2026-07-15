@@ -76,7 +76,6 @@ func TestLogging_GeneratesFreshUUIDWhenNoHeader(t *testing.T) {
 	}))
 
 	req := httptest.NewRequest(http.MethodGet, "/healthz", nil)
-	// No X-Request-ID header set.
 	rec := httptest.NewRecorder()
 	handler.ServeHTTP(rec, req)
 

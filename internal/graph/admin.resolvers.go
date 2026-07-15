@@ -199,7 +199,6 @@ func (r *queryResolver) RoleMappings(ctx context.Context) ([]*model.RoleMapping,
 }
 
 // Ldap is the resolver for the ldap field.
-// Single-config GET returns 404 when not yet configured; treat as null.
 func (r *queryResolver) Ldap(ctx context.Context) (*model.LDAPConfig, error) {
 	l, err := r.Admin.GetLDAP(ctx)
 	if err != nil {
@@ -212,7 +211,6 @@ func (r *queryResolver) Ldap(ctx context.Context) (*model.LDAPConfig, error) {
 }
 
 // Saml is the resolver for the saml field.
-// Single-config GET returns 404 when not yet configured; treat as null.
 func (r *queryResolver) Saml(ctx context.Context) (*model.SAMLConfig, error) {
 	s, err := r.Admin.GetSAML(ctx)
 	if err != nil {
@@ -225,7 +223,6 @@ func (r *queryResolver) Saml(ctx context.Context) (*model.SAMLConfig, error) {
 }
 
 // Scim is the resolver for the scim field.
-// Single-config GET returns 404 when not yet configured; treat as null.
 func (r *queryResolver) Scim(ctx context.Context) (*model.SCIMConfig, error) {
 	s, err := r.Admin.GetSCIM(ctx)
 	if err != nil {

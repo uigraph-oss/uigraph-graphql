@@ -232,6 +232,16 @@ type testPackClient interface {
 	UpdateTestRunResult(ctx context.Context, orgID, serviceID, id string, body map[string]interface{}) (*uigraphapi.TestRunResult, error)
 }
 
+type chatClient interface {
+	ListChatSessions(ctx context.Context, orgID string) ([]uigraphapi.ChatSession, error)
+	CreateChatSession(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.ChatSession, error)
+	GetChatSession(ctx context.Context, orgID, id string) (*uigraphapi.ChatSession, []uigraphapi.ChatMessage, error)
+	UpdateChatSession(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.ChatSession, error)
+	DeleteChatSession(ctx context.Context, orgID, id string) error
+	ListChatMessages(ctx context.Context, orgID, sessionID string) ([]uigraphapi.ChatMessage, error)
+	CreateChatMessage(ctx context.Context, orgID, sessionID string, body map[string]interface{}) (*uigraphapi.ChatMessage, error)
+}
+
 type actorClient interface {
 	ResolveActors(ctx context.Context, orgID string, ids []string) (map[string]*uigraphapi.Actor, error)
 	ResolveAssetURLs(ctx context.Context, orgID string, ids []string) (map[string]string, error)
@@ -254,10 +264,6 @@ type costSavingsClient interface {
 	GetSavingsByUser(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.UserSavings, error)
 }
 
-// Resolver is the root dependency-injection struct for all resolvers. Each
-// field is the minimal interface its domain's resolvers need — not the full
-// *uigraphapi.Client — so tests can inject a narrow fake instead of mocking
-// every REST method.
 type Resolver struct {
 	Auth        authClient
 	OrgAPI      orgClient
@@ -268,6 +274,7 @@ type Resolver struct {
 	Component   componentClient
 	UIMapAPI    uimapClient
 	Catalog     catalogClient
+	Chat        chatClient
 	TestPack    testPackClient
 	Actor       actorClient
 	CommentAPI  commentClient

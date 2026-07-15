@@ -162,6 +162,34 @@ type Canvas struct {
 	UpdatedAt      time.Time `json:"updatedAt"`
 }
 
+type ChatMessage struct {
+	ID            string    `json:"id"`
+	OrgID         string    `json:"orgId"`
+	ChatSessionID string    `json:"chatSessionId"`
+	Role          string    `json:"role"`
+	Content       string    `json:"content"`
+	Parts         any       `json:"parts,omitempty"`
+	CreatedAt     time.Time `json:"createdAt"`
+}
+
+type ChatSession struct {
+	ID           string    `json:"id"`
+	OrgID        string    `json:"orgId"`
+	OwnerUserID  string    `json:"ownerUserId"`
+	Title        string    `json:"title"`
+	IsPinned     bool      `json:"isPinned"`
+	MessageCount int       `json:"messageCount"`
+	CreatedBy    string    `json:"createdBy"`
+	UpdatedBy    *string   `json:"updatedBy,omitempty"`
+	CreatedAt    time.Time `json:"createdAt"`
+	UpdatedAt    time.Time `json:"updatedAt"`
+}
+
+type ChatSessionWithMessages struct {
+	Session  *ChatSession   `json:"session"`
+	Messages []*ChatMessage `json:"messages"`
+}
+
 type ClientSavings struct {
 	ClientName      string  `json:"clientName"`
 	TotalCalls      int     `json:"totalCalls"`
@@ -274,6 +302,15 @@ type CreateAPIGroupInput struct {
 	Protocol    *string `json:"protocol,omitempty"`
 	Spec        *string `json:"spec,omitempty"`
 	SpecAssetID *string `json:"specAssetId,omitempty"`
+}
+
+type CreateChatMessageInput struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
+type CreateChatSessionInput struct {
+	Title *string `json:"title,omitempty"`
 }
 
 type CreateCommentInput struct {
@@ -1503,6 +1540,11 @@ type UpdateAPIGroupInput struct {
 	Protocol    *string `json:"protocol,omitempty"`
 	Spec        *string `json:"spec,omitempty"`
 	SpecAssetID *string `json:"specAssetId,omitempty"`
+}
+
+type UpdateChatSessionInput struct {
+	Title    *string `json:"title,omitempty"`
+	IsPinned *bool   `json:"isPinned,omitempty"`
 }
 
 type UpdateCommentInput struct {

@@ -14,8 +14,6 @@ const (
 	apiKeyKey     contextKey = "api_key_header"
 )
 
-// Auth extracts the Authorization header, session cookie, and X-API-Key from the
-// incoming request and stores them in the context so client calls can forward them.
 func Auth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
@@ -32,7 +30,6 @@ func Auth(next http.Handler) http.Handler {
 	})
 }
 
-// ApplyAuth copies stored auth headers onto an outgoing request.
 func ApplyAuth(ctx context.Context, req *http.Request) {
 	if v, ok := ctx.Value(authHeaderKey).(string); ok && v != "" {
 		req.Header.Set("Authorization", v)
@@ -45,8 +42,6 @@ func ApplyAuth(ctx context.Context, req *http.Request) {
 	}
 }
 
-// BearerToken extracts the raw token from "Bearer <token>" in the context.
-// Returns empty string if absent.
 func BearerToken(ctx context.Context) string {
 	v, _ := ctx.Value(authHeaderKey).(string)
 	if strings.HasPrefix(v, "Bearer ") {

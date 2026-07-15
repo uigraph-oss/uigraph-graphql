@@ -30,8 +30,6 @@ const (
 	shutdownTimeout   = 10 * time.Second
 )
 
-// Run builds the HTTP server from cfg and blocks until it shuts down, either
-// because ListenAndServe failed or the process received SIGINT/SIGTERM.
 func Run(cfg *config.Config) error {
 	c := uigraphapi.New(cfg.APIBaseURL)
 
@@ -45,6 +43,7 @@ func Run(cfg *config.Config) error {
 		Component:   c,
 		UIMapAPI:    c,
 		Catalog:     c,
+		Chat:        c,
 		TestPack:    c,
 		Actor:       c,
 		CommentAPI:  c,
