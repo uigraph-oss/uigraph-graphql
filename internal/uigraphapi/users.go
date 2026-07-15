@@ -18,8 +18,6 @@ type User struct {
 	UpdatedAt  time.Time  `json:"updatedAt"`
 }
 
-// ── Users (server admin) ────────────────────────────────────────────────────
-
 func (c *Client) ListUsers(ctx context.Context) ([]User, error) {
 	var out struct {
 		Users []User `json:"users"`

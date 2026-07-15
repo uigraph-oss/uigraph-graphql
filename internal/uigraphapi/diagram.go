@@ -140,21 +140,16 @@ func (c *Client) RestoreDiagramVersion(ctx context.Context, orgID, diagramID, ve
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/versions/%s/restore", orgID, diagramID, versionID), nil, &out)
 }
 
-// DiagramThumbnailUpload is the response from PrepareDiagramThumbnailUpload.
 type DiagramThumbnailUpload struct {
 	UploadURL string `json:"uploadUrl"`
 	AssetID   string `json:"assetId"`
 }
 
-// PrepareDiagramThumbnailUpload calls POST /thumbnail/prepare and returns a
-// presigned PUT URL plus the deterministic asset ID for the diagram thumbnail.
 func (c *Client) PrepareDiagramThumbnailUpload(ctx context.Context, orgID, diagramID string) (*DiagramThumbnailUpload, error) {
 	var out DiagramThumbnailUpload
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/thumbnail/prepare", orgID, diagramID), nil, &out)
 }
 
-// ConfirmDiagramThumbnailUpload calls POST /thumbnail/confirm after the client
-// has uploaded the file directly to storage via the presigned PUT URL.
 func (c *Client) ConfirmDiagramThumbnailUpload(ctx context.Context, orgID, diagramID, contentHash string) error {
 	return c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/thumbnail/confirm", orgID, diagramID),
 		map[string]any{"contentHash": contentHash}, nil)

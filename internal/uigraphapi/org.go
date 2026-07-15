@@ -73,8 +73,6 @@ type CreatedToken struct {
 	Token string `json:"token"`
 }
 
-// ── Orgs ──────────────────────────────────────────────────────────────────────
-
 func (c *Client) ListOrgs(ctx context.Context) ([]Org, error) {
 	var out struct {
 		Orgs []Org `json:"orgs"`
@@ -105,8 +103,6 @@ func (c *Client) CompleteOnboarding(ctx context.Context, orgID string) error {
 	return c.post(ctx, "/api/v1/orgs/"+orgID+"/onboarding-complete", nil, nil)
 }
 
-// ── Server-admin org management ─────────────────────────────────────────────────
-
 func (c *Client) ServerListOrgs(ctx context.Context) ([]Org, error) {
 	var out struct {
 		Orgs []Org `json:"orgs"`
@@ -128,8 +124,6 @@ func (c *Client) ServerDeleteOrg(ctx context.Context, id string) error {
 	return c.del(ctx, "/api/v1/server/orgs/"+id)
 }
 
-// ── Members ───────────────────────────────────────────────────────────────────
-
 func (c *Client) ListMembers(ctx context.Context, orgID string) ([]Member, error) {
 	var out struct {
 		Members []Member `json:"members"`
@@ -150,8 +144,6 @@ func (c *Client) UpdateMember(ctx context.Context, orgID, userID string, body ma
 func (c *Client) RemoveMember(ctx context.Context, orgID, userID string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/members/%s", orgID, userID))
 }
-
-// ── Teams ─────────────────────────────────────────────────────────────────────
 
 func (c *Client) ListTeams(ctx context.Context, orgID string) ([]Team, error) {
 	var out struct {
@@ -193,8 +185,6 @@ func (c *Client) AddTeamMember(ctx context.Context, orgID, teamID string, body m
 func (c *Client) RemoveTeamMember(ctx context.Context, orgID, teamID, userID string) error {
 	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/teams/%s/members/%s", orgID, teamID, userID))
 }
-
-// ── Service Accounts ──────────────────────────────────────────────────────────
 
 func (c *Client) ListServiceAccounts(ctx context.Context, orgID string) ([]ServiceAccount, error) {
 	var out struct {

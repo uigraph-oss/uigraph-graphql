@@ -11,8 +11,6 @@ import (
 
 type requestIDKey struct{}
 
-// Logging wraps next with a per-request access log line and a request id
-// propagated through the context so downstream code can correlate logs.
 func Logging(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		requestID := r.Header.Get("X-Request-ID")
@@ -36,7 +34,6 @@ func Logging(next http.Handler) http.Handler {
 	})
 }
 
-// RequestID returns the request id stored in ctx by Logging, or "" if absent.
 func RequestID(ctx context.Context) string {
 	v, _ := ctx.Value(requestIDKey{}).(string)
 	return v

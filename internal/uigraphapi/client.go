@@ -1,4 +1,3 @@
-// Package client provides a typed HTTP client for the uigraph-api REST API.
 package uigraphapi
 
 import (
@@ -13,13 +12,11 @@ import (
 	"github.com/uigraph/graphql/internal/middleware"
 )
 
-// Client calls the uigraph-api REST backend.
 type Client struct {
 	base string
 	http *http.Client
 }
 
-// New returns a Client targeting baseURL (e.g. "http://uigraph-api:8080").
 func New(baseURL string) *Client {
 	return &Client{
 		base: baseURL,
@@ -27,12 +24,9 @@ func New(baseURL string) *Client {
 	}
 }
 
-// Ping checks that the configured uigraph-api backend is reachable.
 func (c *Client) Ping(ctx context.Context) error {
 	return c.get(ctx, "/healthz", nil)
 }
-
-// ── internal helpers ─────────────────────────────────────────────────────────
 
 func (c *Client) do(ctx context.Context, method, path string, body, out interface{}) error {
 	var bodyReader io.Reader
@@ -88,7 +82,6 @@ func (c *Client) del(ctx context.Context, path string) error {
 	return c.do(ctx, http.MethodDelete, path, nil, nil)
 }
 
-// APIError carries the HTTP status code returned by uigraph-api.
 type APIError struct {
 	Status int
 	Body   string
@@ -98,7 +91,6 @@ func (e *APIError) Error() string {
 	return fmt.Sprintf("api error %d: %s", e.Status, e.Body)
 }
 
-// IsNotFound returns true when the upstream returned 404.
 func IsNotFound(err error) bool {
 	if e, ok := err.(*APIError); ok {
 		return e.Status == http.StatusNotFound

@@ -79,8 +79,6 @@ type SAMLConfig struct {
 	UpdatedAt       time.Time `json:"updatedAt"`
 }
 
-// ── OAuth providers ───────────────────────────────────────────────────────────
-
 func (c *Client) ListOAuthProviders(ctx context.Context) ([]OAuthProvider, error) {
 	var out struct {
 		Providers []OAuthProvider `json:"providers"`
@@ -109,8 +107,6 @@ func (c *Client) RemoveOAuthProviderIcon(ctx context.Context, provider string) e
 	return c.del(ctx, "/api/v1/sso/oauth/"+provider+"/icon")
 }
 
-// ── Role mappings ─────────────────────────────────────────────────────────────
-
 func (c *Client) ListRoleMappings(ctx context.Context) ([]RoleMapping, error) {
 	var out struct {
 		Mappings []RoleMapping `json:"mappings"`
@@ -126,8 +122,6 @@ func (c *Client) DeleteRoleMapping(ctx context.Context, id string) error {
 	return c.del(ctx, "/api/v1/sso/role-mappings/"+id)
 }
 
-// ── LDAP ──────────────────────────────────────────────────────────────────────
-
 func (c *Client) GetLDAP(ctx context.Context) (*LDAPConfig, error) {
 	var out LDAPConfig
 	return &out, c.get(ctx, "/api/v1/sso/ldap", &out)
@@ -141,8 +135,6 @@ func (c *Client) DeleteLDAP(ctx context.Context) error {
 	return c.del(ctx, "/api/v1/sso/ldap")
 }
 
-// ── SAML ──────────────────────────────────────────────────────────────────────
-
 func (c *Client) GetSAML(ctx context.Context) (*SAMLConfig, error) {
 	var out SAMLConfig
 	return &out, c.get(ctx, "/api/v1/sso/saml", &out)
@@ -151,8 +143,6 @@ func (c *Client) GetSAML(ctx context.Context) (*SAMLConfig, error) {
 func (c *Client) UpsertSAML(ctx context.Context, body map[string]interface{}) error {
 	return c.put(ctx, "/api/v1/sso/saml", body, nil)
 }
-
-// ── SCIM ──────────────────────────────────────────────────────────────────────
 
 type SCIMConfig struct {
 	ID string `json:"id"`

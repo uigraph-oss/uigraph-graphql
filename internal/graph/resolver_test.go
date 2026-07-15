@@ -68,8 +68,6 @@ func newTestServer(resolver *graph.Resolver) *httptest.Server {
 	return httptest.NewServer(srv)
 }
 
-// doGraphQL sends a GraphQL query and returns the data map.
-// It fails the test on HTTP errors or if GraphQL errors are present.
 func doGraphQL(t *testing.T, srv *httptest.Server, query string) map[string]interface{} {
 	t.Helper()
 	body, _ := json.Marshal(map[string]string{"query": query})
@@ -89,8 +87,6 @@ func doGraphQL(t *testing.T, srv *httptest.Server, query string) map[string]inte
 	return out["data"].(map[string]interface{})
 }
 
-// doGraphQLRaw sends a GraphQL query and returns the raw decoded response
-// (including any errors field), without failing on GraphQL errors.
 func doGraphQLRaw(t *testing.T, srv *httptest.Server, query string) map[string]interface{} {
 	t.Helper()
 	body, _ := json.Marshal(map[string]string{"query": query})
@@ -107,8 +103,6 @@ func doGraphQLRaw(t *testing.T, srv *httptest.Server, query string) map[string]i
 	return out
 }
 
-// TestMeQuery exercises the me query through the real gqlgen executable schema
-// using a fake authClient that returns a known MeResponse.
 func TestMeQuery(t *testing.T) {
 	resolver := &graph.Resolver{
 		Auth: &fakeAuthClient{
@@ -136,8 +130,6 @@ func TestMeQuery(t *testing.T) {
 	}
 }
 
-// TestMeQueryError verifies that an error from the authClient propagates as a
-// GraphQL error in the response (not a 500).
 func TestMeQueryError(t *testing.T) {
 	resolver := &graph.Resolver{
 		Auth: &fakeAuthClient{err: errUnauthorized},
@@ -156,8 +148,6 @@ func TestMeQueryError(t *testing.T) {
 	}
 }
 
-// TestCreateFolderMutation exercises the createFolder mutation through the real
-// schema using a fake folderClient.
 func TestCreateFolderMutation(t *testing.T) {
 	folders := &fakeFolderClient{}
 	resolver := &graph.Resolver{FolderAPI: folders}
