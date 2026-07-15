@@ -264,10 +264,6 @@ type costSavingsClient interface {
 	GetSavingsByUser(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.UserSavings, error)
 }
 
-// Resolver is the root dependency-injection struct for all resolvers. Each
-// field is the minimal interface its domain's resolvers need — not the full
-// *uigraphapi.Client — so tests can inject a narrow fake instead of mocking
-// every REST method.
 type Resolver struct {
 	Auth        authClient
 	OrgAPI      orgClient
