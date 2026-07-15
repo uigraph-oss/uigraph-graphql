@@ -45,6 +45,7 @@ func Run(cfg *config.Config) error {
 		Component:   c,
 		UIMapAPI:    c,
 		Catalog:     c,
+		Chat:        c,
 		TestPack:    c,
 		Actor:       c,
 		CommentAPI:  c,
