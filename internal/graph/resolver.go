@@ -212,6 +212,13 @@ type catalogClient interface {
 	DeleteAPIEndpoint(ctx context.Context, orgID, serviceID, apiGroupID, id string) error
 }
 
+type dependencyClient interface {
+	ListDependencies(ctx context.Context, orgID, serviceID string, direction, criticality *string) ([]uigraphapi.Dependency, error)
+	GetServiceDependencyGraph(ctx context.Context, orgID, serviceID string) (*uigraphapi.DependencyGraph, error)
+	GetDependencyGraph(ctx context.Context, orgID string) (*uigraphapi.DependencyGraph, error)
+	GetServiceImpact(ctx context.Context, orgID, serviceID string, direction *string, maxDepth *int) (*uigraphapi.DependencyGraph, error)
+}
+
 type testPackClient interface {
 	ListTestPacks(ctx context.Context, orgID, serviceID string) ([]uigraphapi.TestPack, error)
 	GetTestPackByID(ctx context.Context, orgID, id string) (*uigraphapi.TestPack, error)
@@ -274,6 +281,7 @@ type Resolver struct {
 	Component   componentClient
 	UIMapAPI    uimapClient
 	Catalog     catalogClient
+	Dependency  dependencyClient
 	Chat        chatClient
 	TestPack    testPackClient
 	Actor       actorClient

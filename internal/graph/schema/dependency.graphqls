@@ -1,0 +1,60 @@
+extend type Query {
+    dependencies(orgId: ID!, serviceId: ID!, direction: String, criticality: String): [Dependency!]!
+    serviceDependencyGraph(orgId: ID!, serviceId: ID!): DependencyGraph!
+    dependencyGraph(orgId: ID!): DependencyGraph!
+    serviceImpact(orgId: ID!, serviceId: ID!, direction: String, maxDepth: Int): DependencyGraph!
+}
+
+type Dependency {
+    id:               ID!
+    name:             String!
+    consumerService:  DependencyService!
+    providerService:  DependencyService
+    providerName:     String
+    onboardingStatus: String
+    type:             String
+    criticality:      String
+    description:      String
+    api:              JSON
+    operations:       JSON
+    direction:        String
+}
+
+type DependencyService {
+    id:          ID!
+    name:        String!
+    description: String
+    status:      String
+    tier:        String
+    category:    String
+    language:    String
+    metadata:    JSON
+}
+
+type DependencyGraph {
+    nodes: [DependencyGraphNode!]!
+    edges: [DependencyGraphEdge!]!
+}
+
+type DependencyGraphNode {
+    id:       ID!
+    name:     String!
+    type:     String
+    service:  DependencyService
+    onboardingStatus: String
+    depth:    Int
+    metadata: JSON
+}
+
+type DependencyGraphEdge {
+    id:           ID!
+    source:       ID!
+    target:       ID!
+    dependencyId: ID
+    type:         String
+    criticality:  String
+    direction:    String
+    depth:        Int
+    operations:   JSON
+    metadata:     JSON
+}
