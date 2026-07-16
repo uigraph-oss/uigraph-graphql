@@ -652,6 +652,63 @@ type DbTable struct {
 	Indexes []*DbIndex  `json:"indexes,omitempty"`
 }
 
+type Dependency struct {
+	ID               string             `json:"id"`
+	Name             string             `json:"name"`
+	ConsumerService  *DependencyService `json:"consumerService"`
+	ProviderService  *DependencyService `json:"providerService,omitempty"`
+	ProviderName     *string            `json:"providerName,omitempty"`
+	Type             *string            `json:"type,omitempty"`
+	Criticality      *string            `json:"criticality,omitempty"`
+	Description      *string            `json:"description,omitempty"`
+	APIGroupName     *string            `json:"apiGroupName,omitempty"`
+	APIEndpointNames []string           `json:"apiEndpointNames,omitempty"`
+	DatabaseName     *string            `json:"databaseName,omitempty"`
+	Direction        *string            `json:"direction,omitempty"`
+}
+
+type DependencyGraph struct {
+	Nodes []*DependencyGraphNode `json:"nodes"`
+	Edges []*DependencyGraphEdge `json:"edges"`
+}
+
+type DependencyGraphEdge struct {
+	ID               string   `json:"id"`
+	Source           string   `json:"source"`
+	Target           string   `json:"target"`
+	DependencyID     *string  `json:"dependencyId,omitempty"`
+	Type             *string  `json:"type,omitempty"`
+	Criticality      *string  `json:"criticality,omitempty"`
+	Direction        *string  `json:"direction,omitempty"`
+	Depth            *int     `json:"depth,omitempty"`
+	APIGroupName     *string  `json:"apiGroupName,omitempty"`
+	APIEndpointNames []string `json:"apiEndpointNames,omitempty"`
+	DatabaseName     *string  `json:"databaseName,omitempty"`
+	Metadata         any      `json:"metadata,omitempty"`
+}
+
+type DependencyGraphNode struct {
+	ID       string             `json:"id"`
+	Name     string             `json:"name"`
+	Type     *string            `json:"type,omitempty"`
+	Service  *DependencyService `json:"service,omitempty"`
+	Depth    *int               `json:"depth,omitempty"`
+	Metadata any                `json:"metadata,omitempty"`
+}
+
+type DependencyService struct {
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	Description *string `json:"description,omitempty"`
+	Status      *string `json:"status,omitempty"`
+	Tier        *string `json:"tier,omitempty"`
+	Category    *string `json:"category,omitempty"`
+	Language    *string `json:"language,omitempty"`
+	GitRepoURL  *string `json:"gitRepoUrl,omitempty"`
+	UpdatedAt   *string `json:"updatedAt,omitempty"`
+	Metadata    any     `json:"metadata,omitempty"`
+}
+
 type Diagram struct {
 	ID                  string    `json:"id"`
 	OrgID               string    `json:"orgId"`
@@ -1269,6 +1326,17 @@ type ServiceDBVersion struct {
 	CreatedAt           time.Time  `json:"createdAt"`
 }
 
+type ServiceDependencyInput struct {
+	Name             string   `json:"name"`
+	Service          string   `json:"service"`
+	Type             *string  `json:"type,omitempty"`
+	Criticality      string   `json:"criticality"`
+	Description      *string  `json:"description,omitempty"`
+	APIGroupName     *string  `json:"apiGroupName,omitempty"`
+	APIEndpointNames []string `json:"apiEndpointNames,omitempty"`
+	DatabaseName     *string  `json:"databaseName,omitempty"`
+}
+
 type ServiceDiagram struct {
 	ServiceID           string    `json:"serviceId"`
 	DiagramID           string    `json:"diagramId"`
@@ -1672,6 +1740,11 @@ type UpdateServiceDBInput struct {
 	SchemaJSON *string    `json:"schemaJson,omitempty"`
 	Source     *string    `json:"source,omitempty"`
 	SourceTs   *time.Time `json:"sourceTs,omitempty"`
+}
+
+type UpdateServiceDependenciesInput struct {
+	Dependencies []*ServiceDependencyInput `json:"dependencies"`
+	CommitHash   *string                   `json:"commitHash,omitempty"`
 }
 
 type UpdateServiceInput struct {

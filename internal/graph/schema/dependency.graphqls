@@ -1,0 +1,83 @@
+extend type Query {
+    dependencies(orgId: ID!, serviceId: ID!, direction: String, criticality: String): [Dependency!]!
+    serviceDependencyGraph(orgId: ID!, serviceId: ID!): DependencyGraph!
+    dependencyGraph(orgId: ID!): DependencyGraph!
+    serviceImpact(orgId: ID!, serviceId: ID!, direction: String, maxDepth: Int): DependencyGraph!
+}
+
+extend type Mutation {
+    updateServiceDependencies(orgId: ID!, serviceId: ID!, input: UpdateServiceDependenciesInput!): DependencyGraph!
+}
+
+input UpdateServiceDependenciesInput {
+    dependencies: [ServiceDependencyInput!]!
+    commitHash:   String
+}
+
+input ServiceDependencyInput {
+    name:        String!
+    service:     String!
+    type:        String
+    criticality: String!
+    description: String
+    apiGroupName:     String
+    apiEndpointNames: [String!]
+    databaseName:     String
+}
+
+type Dependency {
+    id:               ID!
+    name:             String!
+    consumerService:  DependencyService!
+    providerService:  DependencyService
+    providerName:     String
+    type:             String
+    criticality:      String
+    description:      String
+    apiGroupName:     String
+    apiEndpointNames: [String!]
+    databaseName:     String
+    direction:        String
+}
+
+type DependencyService {
+    id:          ID!
+    name:        String!
+    description: String
+    status:      String
+    tier:        String
+    category:    String
+    language:    String
+    gitRepoUrl:  String
+    updatedAt:   String
+    metadata:    JSON
+}
+
+type DependencyGraph {
+    nodes: [DependencyGraphNode!]!
+    edges: [DependencyGraphEdge!]!
+}
+
+type DependencyGraphNode {
+    id:       ID!
+    name:     String!
+    type:     String
+    service:  DependencyService
+    depth:    Int
+    metadata: JSON
+}
+
+type DependencyGraphEdge {
+    id:           ID!
+    source:       ID!
+    target:       ID!
+    dependencyId: ID
+    type:         String
+    criticality:  String
+    direction:    String
+    depth:        Int
+    apiGroupName:     String
+    apiEndpointNames: [String!]
+    databaseName:     String
+    metadata:     JSON
+}

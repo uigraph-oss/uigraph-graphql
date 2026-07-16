@@ -180,6 +180,71 @@ func TestCreateFolderMutation(t *testing.T) {
 	}
 }
 
+type fakeDependencyClient struct {
+	direction   *string
+	criticality *string
+	maxDepth    *int
+}
+
+func (f *fakeDependencyClient) ListDependencies(_ context.Context, _, _ string, direction, criticality *string) ([]uigraphapi.Dependency, error) {
+	f.direction = direction
+	f.criticality = criticality
+	return []uigraphapi.Dependency{{
+		ID:              "dependency-1",
+		Name:            "Payments",
+		ConsumerService: uigraphapi.DependencyService{ID: "service-1", Name: "Checkout"},
+	}}, nil
+}
+
+func (f *fakeDependencyClient) GetServiceDependencyGraph(_ context.Context, _, _ string) (*uigraphapi.DependencyGraph, error) {
+	return &uigraphapi.DependencyGraph{Nodes: []uigraphapi.DependencyGraphNode{{ID: "service-1", Name: "Checkout"}}}, nil
+}
+
+func (f *fakeDependencyClient) GetDependencyGraph(_ context.Context, _ string) (*uigraphapi.DependencyGraph, error) {
+	return &uigraphapi.DependencyGraph{Nodes: []uigraphapi.DependencyGraphNode{{ID: "service-1", Name: "Checkout"}}}, nil
+}
+
+func (f *fakeDependencyClient) UpdateServiceDependencies(_ context.Context, _, _ string, _ map[string]interface{}) (*uigraphapi.DependencyGraph, error) {
+	return &uigraphapi.DependencyGraph{Nodes: []uigraphapi.DependencyGraphNode{{ID: "service-1", Name: "Checkout"}}}, nil
+}
+
+func (f *fakeDependencyClient) GetServiceImpact(_ context.Context, _, _ string, direction *string, maxDepth *int) (*uigraphapi.DependencyGraph, error) {
+	f.direction = direction
+	f.maxDepth = maxDepth
+	return &uigraphapi.DependencyGraph{Edges: []uigraphapi.DependencyGraphEdge{{ID: "edge-1", Source: "service-1", Target: "service-2"}}}, nil
+}
+
+func TestDependencyQueries(t *testing.T) {
+	dependencies := &fakeDependencyClient{}
+	srv := newTestServer(&graph.Resolver{Dependency: dependencies})
+	defer srv.Close()
+
+	data := doGraphQL(t, srv, `{ dependencies(orgId: "org-1", serviceId: "service-1", direction: "outbound", criticality: "high") { id name consumerService { id name } } }`)
+	items, ok := data["dependencies"].([]interface{})
+	if !ok || len(items) != 1 {
+		t.Fatalf("dependencies = %#v, want one item", data["dependencies"])
+	}
+	if dependencies.direction == nil || *dependencies.direction != "outbound" {
+		t.Errorf("direction = %v, want outbound", dependencies.direction)
+	}
+	if dependencies.criticality == nil || *dependencies.criticality != "high" {
+		t.Errorf("criticality = %v, want high", dependencies.criticality)
+	}
+
+	data = doGraphQL(t, srv, `{ serviceImpact(orgId: "org-1", serviceId: "service-1", direction: "inbound", maxDepth: 2) { edges { id source target } } }`)
+	impact, ok := data["serviceImpact"].(map[string]interface{})
+	if !ok {
+		t.Fatalf("serviceImpact = %#v, want graph", data["serviceImpact"])
+	}
+	edges, ok := impact["edges"].([]interface{})
+	if !ok || len(edges) != 1 {
+		t.Fatalf("serviceImpact.edges = %#v, want one edge", impact["edges"])
+	}
+	if dependencies.maxDepth == nil || *dependencies.maxDepth != 2 {
+		t.Errorf("maxDepth = %v, want 2", dependencies.maxDepth)
+	}
+}
+
 type fakeDiagramClient struct {
 	prepareThumbnailFn func(ctx context.Context, orgID, diagramID string) (*uigraphapi.DiagramThumbnailUpload, error)
 	confirmThumbnailFn func(ctx context.Context, orgID, diagramID, hash string) error
