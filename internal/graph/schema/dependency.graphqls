@@ -17,11 +17,12 @@ input UpdateServiceDependenciesInput {
 input ServiceDependencyInput {
     name:        String!
     service:     String!
-    type:        String!
+    type:        String
     criticality: String!
     description: String
-    api:         String
-    operations:  [String!]
+    apiGroupName:     String
+    apiEndpointNames: [String!]
+    databaseName:     String
 }
 
 type Dependency {
@@ -30,12 +31,12 @@ type Dependency {
     consumerService:  DependencyService!
     providerService:  DependencyService
     providerName:     String
-    onboardingStatus: String
     type:             String
     criticality:      String
     description:      String
-    api:              JSON
-    operations:       JSON
+    apiGroupName:     String
+    apiEndpointNames: [String!]
+    databaseName:     String
     direction:        String
 }
 
@@ -62,7 +63,6 @@ type DependencyGraphNode {
     name:     String!
     type:     String
     service:  DependencyService
-    onboardingStatus: String
     depth:    Int
     metadata: JSON
 }
@@ -76,6 +76,8 @@ type DependencyGraphEdge {
     criticality:  String
     direction:    String
     depth:        Int
-    operations:   JSON
+    apiGroupName:     String
+    apiEndpointNames: [String!]
+    databaseName:     String
     metadata:     JSON
 }

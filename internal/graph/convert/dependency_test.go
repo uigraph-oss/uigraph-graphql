@@ -9,13 +9,14 @@ import (
 
 func TestDependencyToModel(t *testing.T) {
 	providerName := "External payments"
+	apiGroupName := "v1"
 	dependency := DependencyToModel(uigraphapi.Dependency{
-		ID:              "dependency-1",
-		Name:            "Payments",
-		ConsumerService: uigraphapi.DependencyService{ID: "service-1", Name: "Checkout"},
-		ProviderName:    &providerName,
-		API:             json.RawMessage(`{"protocol":"http"}`),
-		Operations:      json.RawMessage(`[{"method":"POST"}]`),
+		ID:               "dependency-1",
+		Name:             "Payments",
+		ConsumerService:  uigraphapi.DependencyService{ID: "service-1", Name: "Checkout"},
+		ProviderName:     &providerName,
+		APIGroupName:     &apiGroupName,
+		APIEndpointNames: []string{"createPayment"},
 	})
 	if dependency.ConsumerService.ID != "service-1" {
 		t.Errorf("ConsumerService.ID = %q, want service-1", dependency.ConsumerService.ID)
@@ -26,13 +27,11 @@ func TestDependencyToModel(t *testing.T) {
 	if dependency.ProviderName == nil || *dependency.ProviderName != providerName {
 		t.Errorf("ProviderName = %v, want %q", dependency.ProviderName, providerName)
 	}
-	api, ok := dependency.API.(map[string]interface{})
-	if !ok || api["protocol"] != "http" {
-		t.Errorf("API = %#v, want protocol http", dependency.API)
+	if dependency.APIGroupName == nil || *dependency.APIGroupName != apiGroupName {
+		t.Errorf("APIGroupName = %v, want %q", dependency.APIGroupName, apiGroupName)
 	}
-	operations, ok := dependency.Operations.([]interface{})
-	if !ok || len(operations) != 1 {
-		t.Errorf("Operations = %#v, want one operation", dependency.Operations)
+	if len(dependency.APIEndpointNames) != 1 || dependency.APIEndpointNames[0] != "createPayment" {
+		t.Errorf("APIEndpointNames = %#v, want [createPayment]", dependency.APIEndpointNames)
 	}
 }
 

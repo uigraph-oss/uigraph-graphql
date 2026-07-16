@@ -339,15 +339,15 @@ type ComplexityRoot struct {
 	}
 
 	Dependency struct {
-		API              func(childComplexity int) int
+		APIEndpointNames func(childComplexity int) int
+		APIGroupName     func(childComplexity int) int
 		ConsumerService  func(childComplexity int) int
 		Criticality      func(childComplexity int) int
+		DatabaseName     func(childComplexity int) int
 		Description      func(childComplexity int) int
 		Direction        func(childComplexity int) int
 		ID               func(childComplexity int) int
 		Name             func(childComplexity int) int
-		OnboardingStatus func(childComplexity int) int
-		Operations       func(childComplexity int) int
 		ProviderName     func(childComplexity int) int
 		ProviderService  func(childComplexity int) int
 		Type             func(childComplexity int) int
@@ -359,26 +359,27 @@ type ComplexityRoot struct {
 	}
 
 	DependencyGraphEdge struct {
-		Criticality  func(childComplexity int) int
-		DependencyID func(childComplexity int) int
-		Depth        func(childComplexity int) int
-		Direction    func(childComplexity int) int
-		ID           func(childComplexity int) int
-		Metadata     func(childComplexity int) int
-		Operations   func(childComplexity int) int
-		Source       func(childComplexity int) int
-		Target       func(childComplexity int) int
-		Type         func(childComplexity int) int
+		APIEndpointNames func(childComplexity int) int
+		APIGroupName     func(childComplexity int) int
+		Criticality      func(childComplexity int) int
+		DatabaseName     func(childComplexity int) int
+		DependencyID     func(childComplexity int) int
+		Depth            func(childComplexity int) int
+		Direction        func(childComplexity int) int
+		ID               func(childComplexity int) int
+		Metadata         func(childComplexity int) int
+		Source           func(childComplexity int) int
+		Target           func(childComplexity int) int
+		Type             func(childComplexity int) int
 	}
 
 	DependencyGraphNode struct {
-		Depth            func(childComplexity int) int
-		ID               func(childComplexity int) int
-		Metadata         func(childComplexity int) int
-		Name             func(childComplexity int) int
-		OnboardingStatus func(childComplexity int) int
-		Service          func(childComplexity int) int
-		Type             func(childComplexity int) int
+		Depth    func(childComplexity int) int
+		ID       func(childComplexity int) int
+		Metadata func(childComplexity int) int
+		Name     func(childComplexity int) int
+		Service  func(childComplexity int) int
+		Type     func(childComplexity int) int
 	}
 
 	DependencyService struct {
@@ -3108,12 +3109,19 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DbTable.Name(childComplexity), true
 
-	case "Dependency.api":
-		if e.complexity.Dependency.API == nil {
+	case "Dependency.apiEndpointNames":
+		if e.complexity.Dependency.APIEndpointNames == nil {
 			break
 		}
 
-		return e.complexity.Dependency.API(childComplexity), true
+		return e.complexity.Dependency.APIEndpointNames(childComplexity), true
+
+	case "Dependency.apiGroupName":
+		if e.complexity.Dependency.APIGroupName == nil {
+			break
+		}
+
+		return e.complexity.Dependency.APIGroupName(childComplexity), true
 
 	case "Dependency.consumerService":
 		if e.complexity.Dependency.ConsumerService == nil {
@@ -3128,6 +3136,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Dependency.Criticality(childComplexity), true
+
+	case "Dependency.databaseName":
+		if e.complexity.Dependency.DatabaseName == nil {
+			break
+		}
+
+		return e.complexity.Dependency.DatabaseName(childComplexity), true
 
 	case "Dependency.description":
 		if e.complexity.Dependency.Description == nil {
@@ -3156,20 +3171,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Dependency.Name(childComplexity), true
-
-	case "Dependency.onboardingStatus":
-		if e.complexity.Dependency.OnboardingStatus == nil {
-			break
-		}
-
-		return e.complexity.Dependency.OnboardingStatus(childComplexity), true
-
-	case "Dependency.operations":
-		if e.complexity.Dependency.Operations == nil {
-			break
-		}
-
-		return e.complexity.Dependency.Operations(childComplexity), true
 
 	case "Dependency.providerName":
 		if e.complexity.Dependency.ProviderName == nil {
@@ -3206,12 +3207,33 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DependencyGraph.Nodes(childComplexity), true
 
+	case "DependencyGraphEdge.apiEndpointNames":
+		if e.complexity.DependencyGraphEdge.APIEndpointNames == nil {
+			break
+		}
+
+		return e.complexity.DependencyGraphEdge.APIEndpointNames(childComplexity), true
+
+	case "DependencyGraphEdge.apiGroupName":
+		if e.complexity.DependencyGraphEdge.APIGroupName == nil {
+			break
+		}
+
+		return e.complexity.DependencyGraphEdge.APIGroupName(childComplexity), true
+
 	case "DependencyGraphEdge.criticality":
 		if e.complexity.DependencyGraphEdge.Criticality == nil {
 			break
 		}
 
 		return e.complexity.DependencyGraphEdge.Criticality(childComplexity), true
+
+	case "DependencyGraphEdge.databaseName":
+		if e.complexity.DependencyGraphEdge.DatabaseName == nil {
+			break
+		}
+
+		return e.complexity.DependencyGraphEdge.DatabaseName(childComplexity), true
 
 	case "DependencyGraphEdge.dependencyId":
 		if e.complexity.DependencyGraphEdge.DependencyID == nil {
@@ -3247,13 +3269,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DependencyGraphEdge.Metadata(childComplexity), true
-
-	case "DependencyGraphEdge.operations":
-		if e.complexity.DependencyGraphEdge.Operations == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.Operations(childComplexity), true
 
 	case "DependencyGraphEdge.source":
 		if e.complexity.DependencyGraphEdge.Source == nil {
@@ -3303,13 +3318,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DependencyGraphNode.Name(childComplexity), true
-
-	case "DependencyGraphNode.onboardingStatus":
-		if e.complexity.DependencyGraphNode.OnboardingStatus == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphNode.OnboardingStatus(childComplexity), true
 
 	case "DependencyGraphNode.service":
 		if e.complexity.DependencyGraphNode.Service == nil {
@@ -11281,11 +11289,12 @@ input UpdateServiceDependenciesInput {
 input ServiceDependencyInput {
     name:        String!
     service:     String!
-    type:        String!
+    type:        String
     criticality: String!
     description: String
-    api:         String
-    operations:  [String!]
+    apiGroupName:     String
+    apiEndpointNames: [String!]
+    databaseName:     String
 }
 
 type Dependency {
@@ -11294,12 +11303,12 @@ type Dependency {
     consumerService:  DependencyService!
     providerService:  DependencyService
     providerName:     String
-    onboardingStatus: String
     type:             String
     criticality:      String
     description:      String
-    api:              JSON
-    operations:       JSON
+    apiGroupName:     String
+    apiEndpointNames: [String!]
+    databaseName:     String
     direction:        String
 }
 
@@ -11326,7 +11335,6 @@ type DependencyGraphNode {
     name:     String!
     type:     String
     service:  DependencyService
-    onboardingStatus: String
     depth:    Int
     metadata: JSON
 }
@@ -11340,7 +11348,9 @@ type DependencyGraphEdge {
     criticality:  String
     direction:    String
     depth:        Int
-    operations:   JSON
+    apiGroupName:     String
+    apiEndpointNames: [String!]
+    databaseName:     String
     metadata:     JSON
 }
 `, BuiltIn: false},
@@ -35290,47 +35300,6 @@ func (ec *executionContext) fieldContext_Dependency_providerName(_ context.Conte
 	return fc, nil
 }
 
-func (ec *executionContext) _Dependency_onboardingStatus(ctx context.Context, field graphql.CollectedField, obj *model.Dependency) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Dependency_onboardingStatus(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OnboardingStatus, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Dependency_onboardingStatus(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Dependency",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Dependency_type(ctx context.Context, field graphql.CollectedField, obj *model.Dependency) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Dependency_type(ctx, field)
 	if err != nil {
@@ -35454,8 +35423,8 @@ func (ec *executionContext) fieldContext_Dependency_description(_ context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _Dependency_api(ctx context.Context, field graphql.CollectedField, obj *model.Dependency) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Dependency_api(ctx, field)
+func (ec *executionContext) _Dependency_apiGroupName(ctx context.Context, field graphql.CollectedField, obj *model.Dependency) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Dependency_apiGroupName(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -35468,7 +35437,7 @@ func (ec *executionContext) _Dependency_api(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.API, nil
+		return obj.APIGroupName, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -35477,26 +35446,26 @@ func (ec *executionContext) _Dependency_api(ctx context.Context, field graphql.C
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(any)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOJSON2interface(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Dependency_api(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Dependency_apiGroupName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Dependency",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type JSON does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
 }
 
-func (ec *executionContext) _Dependency_operations(ctx context.Context, field graphql.CollectedField, obj *model.Dependency) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Dependency_operations(ctx, field)
+func (ec *executionContext) _Dependency_apiEndpointNames(ctx context.Context, field graphql.CollectedField, obj *model.Dependency) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Dependency_apiEndpointNames(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -35509,7 +35478,7 @@ func (ec *executionContext) _Dependency_operations(ctx context.Context, field gr
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Operations, nil
+		return obj.APIEndpointNames, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -35518,19 +35487,60 @@ func (ec *executionContext) _Dependency_operations(ctx context.Context, field gr
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(any)
+	res := resTmp.([]string)
 	fc.Result = res
-	return ec.marshalOJSON2interface(ctx, field.Selections, res)
+	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Dependency_operations(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Dependency_apiEndpointNames(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Dependency",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type JSON does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Dependency_databaseName(ctx context.Context, field graphql.CollectedField, obj *model.Dependency) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Dependency_databaseName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DatabaseName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Dependency_databaseName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Dependency",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -35624,8 +35634,6 @@ func (ec *executionContext) fieldContext_DependencyGraph_nodes(_ context.Context
 				return ec.fieldContext_DependencyGraphNode_type(ctx, field)
 			case "service":
 				return ec.fieldContext_DependencyGraphNode_service(ctx, field)
-			case "onboardingStatus":
-				return ec.fieldContext_DependencyGraphNode_onboardingStatus(ctx, field)
 			case "depth":
 				return ec.fieldContext_DependencyGraphNode_depth(ctx, field)
 			case "metadata":
@@ -35692,8 +35700,12 @@ func (ec *executionContext) fieldContext_DependencyGraph_edges(_ context.Context
 				return ec.fieldContext_DependencyGraphEdge_direction(ctx, field)
 			case "depth":
 				return ec.fieldContext_DependencyGraphEdge_depth(ctx, field)
-			case "operations":
-				return ec.fieldContext_DependencyGraphEdge_operations(ctx, field)
+			case "apiGroupName":
+				return ec.fieldContext_DependencyGraphEdge_apiGroupName(ctx, field)
+			case "apiEndpointNames":
+				return ec.fieldContext_DependencyGraphEdge_apiEndpointNames(ctx, field)
+			case "databaseName":
+				return ec.fieldContext_DependencyGraphEdge_databaseName(ctx, field)
 			case "metadata":
 				return ec.fieldContext_DependencyGraphEdge_metadata(ctx, field)
 			}
@@ -36040,8 +36052,8 @@ func (ec *executionContext) fieldContext_DependencyGraphEdge_depth(_ context.Con
 	return fc, nil
 }
 
-func (ec *executionContext) _DependencyGraphEdge_operations(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_operations(ctx, field)
+func (ec *executionContext) _DependencyGraphEdge_apiGroupName(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DependencyGraphEdge_apiGroupName(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -36054,7 +36066,7 @@ func (ec *executionContext) _DependencyGraphEdge_operations(ctx context.Context,
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Operations, nil
+		return obj.APIGroupName, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -36063,19 +36075,101 @@ func (ec *executionContext) _DependencyGraphEdge_operations(ctx context.Context,
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(any)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOJSON2interface(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_DependencyGraphEdge_operations(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_DependencyGraphEdge_apiGroupName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "DependencyGraphEdge",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type JSON does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DependencyGraphEdge_apiEndpointNames(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DependencyGraphEdge_apiEndpointNames(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.APIEndpointNames, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DependencyGraphEdge_apiEndpointNames(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DependencyGraphEdge",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DependencyGraphEdge_databaseName(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DependencyGraphEdge_databaseName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DatabaseName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DependencyGraphEdge_databaseName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DependencyGraphEdge",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -36309,47 +36403,6 @@ func (ec *executionContext) fieldContext_DependencyGraphNode_service(_ context.C
 				return ec.fieldContext_DependencyService_metadata(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type DependencyService", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphNode_onboardingStatus(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphNode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphNode_onboardingStatus(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OnboardingStatus, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphNode_onboardingStatus(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphNode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -61014,18 +61067,18 @@ func (ec *executionContext) fieldContext_Query_dependencies(ctx context.Context,
 				return ec.fieldContext_Dependency_providerService(ctx, field)
 			case "providerName":
 				return ec.fieldContext_Dependency_providerName(ctx, field)
-			case "onboardingStatus":
-				return ec.fieldContext_Dependency_onboardingStatus(ctx, field)
 			case "type":
 				return ec.fieldContext_Dependency_type(ctx, field)
 			case "criticality":
 				return ec.fieldContext_Dependency_criticality(ctx, field)
 			case "description":
 				return ec.fieldContext_Dependency_description(ctx, field)
-			case "api":
-				return ec.fieldContext_Dependency_api(ctx, field)
-			case "operations":
-				return ec.fieldContext_Dependency_operations(ctx, field)
+			case "apiGroupName":
+				return ec.fieldContext_Dependency_apiGroupName(ctx, field)
+			case "apiEndpointNames":
+				return ec.fieldContext_Dependency_apiEndpointNames(ctx, field)
+			case "databaseName":
+				return ec.fieldContext_Dependency_databaseName(ctx, field)
 			case "direction":
 				return ec.fieldContext_Dependency_direction(ctx, field)
 			}
@@ -84770,7 +84823,7 @@ func (ec *executionContext) unmarshalInputServiceDependencyInput(ctx context.Con
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "service", "type", "criticality", "description", "api", "operations"}
+	fieldsInOrder := [...]string{"name", "service", "type", "criticality", "description", "apiGroupName", "apiEndpointNames", "databaseName"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -84793,7 +84846,7 @@ func (ec *executionContext) unmarshalInputServiceDependencyInput(ctx context.Con
 			it.Service = data
 		case "type":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("type"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -84812,20 +84865,27 @@ func (ec *executionContext) unmarshalInputServiceDependencyInput(ctx context.Con
 				return it, err
 			}
 			it.Description = data
-		case "api":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("api"))
+		case "apiGroupName":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("apiGroupName"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.API = data
-		case "operations":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("operations"))
+			it.APIGroupName = data
+		case "apiEndpointNames":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("apiEndpointNames"))
 			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.Operations = data
+			it.APIEndpointNames = data
+		case "databaseName":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("databaseName"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DatabaseName = data
 		}
 	}
 
@@ -88878,18 +88938,18 @@ func (ec *executionContext) _Dependency(ctx context.Context, sel ast.SelectionSe
 			out.Values[i] = ec._Dependency_providerService(ctx, field, obj)
 		case "providerName":
 			out.Values[i] = ec._Dependency_providerName(ctx, field, obj)
-		case "onboardingStatus":
-			out.Values[i] = ec._Dependency_onboardingStatus(ctx, field, obj)
 		case "type":
 			out.Values[i] = ec._Dependency_type(ctx, field, obj)
 		case "criticality":
 			out.Values[i] = ec._Dependency_criticality(ctx, field, obj)
 		case "description":
 			out.Values[i] = ec._Dependency_description(ctx, field, obj)
-		case "api":
-			out.Values[i] = ec._Dependency_api(ctx, field, obj)
-		case "operations":
-			out.Values[i] = ec._Dependency_operations(ctx, field, obj)
+		case "apiGroupName":
+			out.Values[i] = ec._Dependency_apiGroupName(ctx, field, obj)
+		case "apiEndpointNames":
+			out.Values[i] = ec._Dependency_apiEndpointNames(ctx, field, obj)
+		case "databaseName":
+			out.Values[i] = ec._Dependency_databaseName(ctx, field, obj)
 		case "direction":
 			out.Values[i] = ec._Dependency_direction(ctx, field, obj)
 		default:
@@ -88995,8 +89055,12 @@ func (ec *executionContext) _DependencyGraphEdge(ctx context.Context, sel ast.Se
 			out.Values[i] = ec._DependencyGraphEdge_direction(ctx, field, obj)
 		case "depth":
 			out.Values[i] = ec._DependencyGraphEdge_depth(ctx, field, obj)
-		case "operations":
-			out.Values[i] = ec._DependencyGraphEdge_operations(ctx, field, obj)
+		case "apiGroupName":
+			out.Values[i] = ec._DependencyGraphEdge_apiGroupName(ctx, field, obj)
+		case "apiEndpointNames":
+			out.Values[i] = ec._DependencyGraphEdge_apiEndpointNames(ctx, field, obj)
+		case "databaseName":
+			out.Values[i] = ec._DependencyGraphEdge_databaseName(ctx, field, obj)
 		case "metadata":
 			out.Values[i] = ec._DependencyGraphEdge_metadata(ctx, field, obj)
 		default:
@@ -89047,8 +89111,6 @@ func (ec *executionContext) _DependencyGraphNode(ctx context.Context, sel ast.Se
 			out.Values[i] = ec._DependencyGraphNode_type(ctx, field, obj)
 		case "service":
 			out.Values[i] = ec._DependencyGraphNode_service(ctx, field, obj)
-		case "onboardingStatus":
-			out.Values[i] = ec._DependencyGraphNode_onboardingStatus(ctx, field, obj)
 		case "depth":
 			out.Values[i] = ec._DependencyGraphNode_depth(ctx, field, obj)
 		case "metadata":

@@ -32,12 +32,12 @@ func DependencyToModel(dependency uigraphapi.Dependency) *model.Dependency {
 		ConsumerService:  DependencyServiceToModel(&dependency.ConsumerService),
 		ProviderService:  DependencyServiceToModel(dependency.ProviderService),
 		ProviderName:     dependency.ProviderName,
-		OnboardingStatus: dependency.OnboardingStatus,
 		Type:             dependency.Type,
 		Criticality:      dependency.Criticality,
 		Description:      dependency.Description,
-		API:              rawJSON(dependency.API),
-		Operations:       rawJSON(dependency.Operations),
+		APIGroupName:     dependency.APIGroupName,
+		APIEndpointNames: dependency.APIEndpointNames,
+		DatabaseName:     dependency.DatabaseName,
 		Direction:        dependency.Direction,
 	}
 }
@@ -58,7 +58,6 @@ func DependencyGraphToModel(graph *uigraphapi.DependencyGraph) *model.Dependency
 			Name:             node.Name,
 			Type:             node.Type,
 			Service:          DependencyServiceToModel(node.Service),
-			OnboardingStatus: node.OnboardingStatus,
 			Depth:            node.Depth,
 			Metadata:         rawJSON(node.Metadata),
 		}
@@ -88,7 +87,9 @@ func DependencyGraphToModel(graph *uigraphapi.DependencyGraph) *model.Dependency
 			Criticality:  edge.Criticality,
 			Direction:    edge.Direction,
 			Depth:        edge.Depth,
-			Operations:   rawJSON(edge.Operations),
+			APIGroupName:     edge.APIGroupName,
+			APIEndpointNames: edge.APIEndpointNames,
+			DatabaseName:     edge.DatabaseName,
 			Metadata:     rawJSON(edge.Metadata),
 		}
 	}

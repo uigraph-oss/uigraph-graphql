@@ -27,12 +27,12 @@ type Dependency struct {
 	ConsumerService  DependencyService  `json:"consumer"`
 	ProviderService  *DependencyService `json:"provider,omitempty"`
 	ProviderName     *string            `json:"providerName,omitempty"`
-	OnboardingStatus *string            `json:"onboardingStatus,omitempty"`
 	Type             *string            `json:"type,omitempty"`
 	Criticality      *string            `json:"criticality,omitempty"`
 	Description      *string            `json:"description,omitempty"`
-	API              json.RawMessage    `json:"api,omitempty"`
-	Operations       json.RawMessage    `json:"operations,omitempty"`
+	APIGroupName     *string            `json:"apiGroupName,omitempty"`
+	APIEndpointNames []string           `json:"apiEndpointNames,omitempty"`
+	DatabaseName     *string            `json:"databaseName,omitempty"`
 	Direction        *string            `json:"direction,omitempty"`
 }
 
@@ -41,7 +41,6 @@ type DependencyGraphNode struct {
 	Name             string             `json:"name"`
 	Type             *string            `json:"type,omitempty"`
 	Service          *DependencyService `json:"service,omitempty"`
-	OnboardingStatus *string            `json:"onboardingStatus,omitempty"`
 	Depth            *int               `json:"depth,omitempty"`
 	Metadata         json.RawMessage    `json:"metadata,omitempty"`
 }
@@ -59,7 +58,9 @@ type DependencyGraphEdge struct {
 	Criticality         *string            `json:"criticality,omitempty"`
 	Direction           *string            `json:"direction,omitempty"`
 	Depth               *int               `json:"depth,omitempty"`
-	Operations          json.RawMessage    `json:"operations,omitempty"`
+	APIGroupName        *string            `json:"apiGroupName,omitempty"`
+	APIEndpointNames    []string           `json:"apiEndpointNames,omitempty"`
+	DatabaseName        *string            `json:"databaseName,omitempty"`
 	Metadata            json.RawMessage    `json:"metadata,omitempty"`
 }
 

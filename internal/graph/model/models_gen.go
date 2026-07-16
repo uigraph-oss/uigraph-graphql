@@ -658,12 +658,12 @@ type Dependency struct {
 	ConsumerService  *DependencyService `json:"consumerService"`
 	ProviderService  *DependencyService `json:"providerService,omitempty"`
 	ProviderName     *string            `json:"providerName,omitempty"`
-	OnboardingStatus *string            `json:"onboardingStatus,omitempty"`
 	Type             *string            `json:"type,omitempty"`
 	Criticality      *string            `json:"criticality,omitempty"`
 	Description      *string            `json:"description,omitempty"`
-	API              any                `json:"api,omitempty"`
-	Operations       any                `json:"operations,omitempty"`
+	APIGroupName     *string            `json:"apiGroupName,omitempty"`
+	APIEndpointNames []string           `json:"apiEndpointNames,omitempty"`
+	DatabaseName     *string            `json:"databaseName,omitempty"`
 	Direction        *string            `json:"direction,omitempty"`
 }
 
@@ -673,26 +673,27 @@ type DependencyGraph struct {
 }
 
 type DependencyGraphEdge struct {
-	ID           string  `json:"id"`
-	Source       string  `json:"source"`
-	Target       string  `json:"target"`
-	DependencyID *string `json:"dependencyId,omitempty"`
-	Type         *string `json:"type,omitempty"`
-	Criticality  *string `json:"criticality,omitempty"`
-	Direction    *string `json:"direction,omitempty"`
-	Depth        *int    `json:"depth,omitempty"`
-	Operations   any     `json:"operations,omitempty"`
-	Metadata     any     `json:"metadata,omitempty"`
+	ID               string   `json:"id"`
+	Source           string   `json:"source"`
+	Target           string   `json:"target"`
+	DependencyID     *string  `json:"dependencyId,omitempty"`
+	Type             *string  `json:"type,omitempty"`
+	Criticality      *string  `json:"criticality,omitempty"`
+	Direction        *string  `json:"direction,omitempty"`
+	Depth            *int     `json:"depth,omitempty"`
+	APIGroupName     *string  `json:"apiGroupName,omitempty"`
+	APIEndpointNames []string `json:"apiEndpointNames,omitempty"`
+	DatabaseName     *string  `json:"databaseName,omitempty"`
+	Metadata         any      `json:"metadata,omitempty"`
 }
 
 type DependencyGraphNode struct {
-	ID               string             `json:"id"`
-	Name             string             `json:"name"`
-	Type             *string            `json:"type,omitempty"`
-	Service          *DependencyService `json:"service,omitempty"`
-	OnboardingStatus *string            `json:"onboardingStatus,omitempty"`
-	Depth            *int               `json:"depth,omitempty"`
-	Metadata         any                `json:"metadata,omitempty"`
+	ID       string             `json:"id"`
+	Name     string             `json:"name"`
+	Type     *string            `json:"type,omitempty"`
+	Service  *DependencyService `json:"service,omitempty"`
+	Depth    *int               `json:"depth,omitempty"`
+	Metadata any                `json:"metadata,omitempty"`
 }
 
 type DependencyService struct {
@@ -1326,13 +1327,14 @@ type ServiceDBVersion struct {
 }
 
 type ServiceDependencyInput struct {
-	Name        string   `json:"name"`
-	Service     string   `json:"service"`
-	Type        string   `json:"type"`
-	Criticality string   `json:"criticality"`
-	Description *string  `json:"description,omitempty"`
-	API         *string  `json:"api,omitempty"`
-	Operations  []string `json:"operations,omitempty"`
+	Name             string   `json:"name"`
+	Service          string   `json:"service"`
+	Type             *string  `json:"type,omitempty"`
+	Criticality      string   `json:"criticality"`
+	Description      *string  `json:"description,omitempty"`
+	APIGroupName     *string  `json:"apiGroupName,omitempty"`
+	APIEndpointNames []string `json:"apiEndpointNames,omitempty"`
+	DatabaseName     *string  `json:"databaseName,omitempty"`
 }
 
 type ServiceDiagram struct {
