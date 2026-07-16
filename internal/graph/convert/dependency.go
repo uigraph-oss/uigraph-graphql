@@ -19,6 +19,8 @@ func DependencyServiceToModel(service *uigraphapi.DependencyService) *model.Depe
 		Tier:        service.Tier,
 		Category:    service.Category,
 		Language:    service.Language,
+		GitRepoURL:  service.GitRepoURL,
+		UpdatedAt:   service.UpdatedAt,
 		Metadata:    rawJSON(service.Metadata),
 	}
 }

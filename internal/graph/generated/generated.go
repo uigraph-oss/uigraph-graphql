@@ -384,12 +384,14 @@ type ComplexityRoot struct {
 	DependencyService struct {
 		Category    func(childComplexity int) int
 		Description func(childComplexity int) int
+		GitRepoURL  func(childComplexity int) int
 		ID          func(childComplexity int) int
 		Language    func(childComplexity int) int
 		Metadata    func(childComplexity int) int
 		Name        func(childComplexity int) int
 		Status      func(childComplexity int) int
 		Tier        func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
 	}
 
 	Diagram struct {
@@ -3335,6 +3337,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.DependencyService.Description(childComplexity), true
 
+	case "DependencyService.gitRepoUrl":
+		if e.complexity.DependencyService.GitRepoURL == nil {
+			break
+		}
+
+		return e.complexity.DependencyService.GitRepoURL(childComplexity), true
+
 	case "DependencyService.id":
 		if e.complexity.DependencyService.ID == nil {
 			break
@@ -3376,6 +3385,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DependencyService.Tier(childComplexity), true
+
+	case "DependencyService.updatedAt":
+		if e.complexity.DependencyService.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.DependencyService.UpdatedAt(childComplexity), true
 
 	case "Diagram.contentHash":
 		if e.complexity.Diagram.ContentHash == nil {
@@ -11260,6 +11276,8 @@ type DependencyService {
     tier:        String
     category:    String
     language:    String
+    gitRepoUrl:  String
+    updatedAt:   String
     metadata:    JSON
 }
 
@@ -35046,6 +35064,10 @@ func (ec *executionContext) fieldContext_Dependency_consumerService(_ context.Co
 				return ec.fieldContext_DependencyService_category(ctx, field)
 			case "language":
 				return ec.fieldContext_DependencyService_language(ctx, field)
+			case "gitRepoUrl":
+				return ec.fieldContext_DependencyService_gitRepoUrl(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_DependencyService_updatedAt(ctx, field)
 			case "metadata":
 				return ec.fieldContext_DependencyService_metadata(ctx, field)
 			}
@@ -35105,6 +35127,10 @@ func (ec *executionContext) fieldContext_Dependency_providerService(_ context.Co
 				return ec.fieldContext_DependencyService_category(ctx, field)
 			case "language":
 				return ec.fieldContext_DependencyService_language(ctx, field)
+			case "gitRepoUrl":
+				return ec.fieldContext_DependencyService_gitRepoUrl(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_DependencyService_updatedAt(ctx, field)
 			case "metadata":
 				return ec.fieldContext_DependencyService_metadata(ctx, field)
 			}
@@ -36166,6 +36192,10 @@ func (ec *executionContext) fieldContext_DependencyGraphNode_service(_ context.C
 				return ec.fieldContext_DependencyService_category(ctx, field)
 			case "language":
 				return ec.fieldContext_DependencyService_language(ctx, field)
+			case "gitRepoUrl":
+				return ec.fieldContext_DependencyService_gitRepoUrl(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_DependencyService_updatedAt(ctx, field)
 			case "metadata":
 				return ec.fieldContext_DependencyService_metadata(ctx, field)
 			}
@@ -36579,6 +36609,88 @@ func (ec *executionContext) _DependencyService_language(ctx context.Context, fie
 }
 
 func (ec *executionContext) fieldContext_DependencyService_language(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DependencyService",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DependencyService_gitRepoUrl(ctx context.Context, field graphql.CollectedField, obj *model.DependencyService) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DependencyService_gitRepoUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.GitRepoURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DependencyService_gitRepoUrl(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DependencyService",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DependencyService_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.DependencyService) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DependencyService_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DependencyService_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "DependencyService",
 		Field:      field,
@@ -88722,6 +88834,10 @@ func (ec *executionContext) _DependencyService(ctx context.Context, sel ast.Sele
 			out.Values[i] = ec._DependencyService_category(ctx, field, obj)
 		case "language":
 			out.Values[i] = ec._DependencyService_language(ctx, field, obj)
+		case "gitRepoUrl":
+			out.Values[i] = ec._DependencyService_gitRepoUrl(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._DependencyService_updatedAt(ctx, field, obj)
 		case "metadata":
 			out.Values[i] = ec._DependencyService_metadata(ctx, field, obj)
 		default:

@@ -28,6 +28,8 @@ type DependencyService {
     tier:        String
     category:    String
     language:    String
+    gitRepoUrl:  String
+    updatedAt:   String
     metadata:    JSON
 }
 

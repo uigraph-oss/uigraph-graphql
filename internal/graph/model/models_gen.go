@@ -703,6 +703,8 @@ type DependencyService struct {
 	Tier        *string `json:"tier,omitempty"`
 	Category    *string `json:"category,omitempty"`
 	Language    *string `json:"language,omitempty"`
+	GitRepoURL  *string `json:"gitRepoUrl,omitempty"`
+	UpdatedAt   *string `json:"updatedAt,omitempty"`
 	Metadata    any     `json:"metadata,omitempty"`
 }
 
