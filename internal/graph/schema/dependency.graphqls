@@ -5,6 +5,25 @@ extend type Query {
     serviceImpact(orgId: ID!, serviceId: ID!, direction: String, maxDepth: Int): DependencyGraph!
 }
 
+extend type Mutation {
+    updateServiceDependencies(orgId: ID!, serviceId: ID!, input: UpdateServiceDependenciesInput!): DependencyGraph!
+}
+
+input UpdateServiceDependenciesInput {
+    dependencies: [ServiceDependencyInput!]!
+    commitHash:   String
+}
+
+input ServiceDependencyInput {
+    name:        String!
+    service:     String!
+    type:        String!
+    criticality: String!
+    description: String
+    api:         String
+    operations:  [String!]
+}
+
 type Dependency {
     id:               ID!
     name:             String!

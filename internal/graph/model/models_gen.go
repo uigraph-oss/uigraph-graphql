@@ -1325,6 +1325,16 @@ type ServiceDBVersion struct {
 	CreatedAt           time.Time  `json:"createdAt"`
 }
 
+type ServiceDependencyInput struct {
+	Name        string   `json:"name"`
+	Service     string   `json:"service"`
+	Type        string   `json:"type"`
+	Criticality string   `json:"criticality"`
+	Description *string  `json:"description,omitempty"`
+	API         *string  `json:"api,omitempty"`
+	Operations  []string `json:"operations,omitempty"`
+}
+
 type ServiceDiagram struct {
 	ServiceID           string    `json:"serviceId"`
 	DiagramID           string    `json:"diagramId"`
@@ -1728,6 +1738,11 @@ type UpdateServiceDBInput struct {
 	SchemaJSON *string    `json:"schemaJson,omitempty"`
 	Source     *string    `json:"source,omitempty"`
 	SourceTs   *time.Time `json:"sourceTs,omitempty"`
+}
+
+type UpdateServiceDependenciesInput struct {
+	Dependencies []*ServiceDependencyInput `json:"dependencies"`
+	CommitHash   *string                   `json:"commitHash,omitempty"`
 }
 
 type UpdateServiceInput struct {

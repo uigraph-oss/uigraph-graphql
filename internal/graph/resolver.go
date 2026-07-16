@@ -217,6 +217,7 @@ type dependencyClient interface {
 	GetServiceDependencyGraph(ctx context.Context, orgID, serviceID string) (*uigraphapi.DependencyGraph, error)
 	GetDependencyGraph(ctx context.Context, orgID string) (*uigraphapi.DependencyGraph, error)
 	GetServiceImpact(ctx context.Context, orgID, serviceID string, direction *string, maxDepth *int) (*uigraphapi.DependencyGraph, error)
+	UpdateServiceDependencies(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.DependencyGraph, error)
 }
 
 type testPackClient interface {

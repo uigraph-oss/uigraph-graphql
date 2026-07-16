@@ -11,6 +11,15 @@ import (
 	"github.com/uigraph/graphql/internal/graph/model"
 )
 
+// UpdateServiceDependencies is the resolver for the updateServiceDependencies field.
+func (r *mutationResolver) UpdateServiceDependencies(ctx context.Context, orgID string, serviceID string, input model.UpdateServiceDependenciesInput) (*model.DependencyGraph, error) {
+	graph, err := r.Dependency.UpdateServiceDependencies(ctx, orgID, serviceID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.DependencyGraphToModel(graph), nil
+}
+
 // Dependencies is the resolver for the dependencies field.
 func (r *queryResolver) Dependencies(ctx context.Context, orgID string, serviceID string, direction *string, criticality *string) ([]*model.Dependency, error) {
 	dependencies, err := r.Dependency.ListDependencies(ctx, orgID, serviceID, direction, criticality)

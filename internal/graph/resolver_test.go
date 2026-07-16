@@ -204,6 +204,10 @@ func (f *fakeDependencyClient) GetDependencyGraph(_ context.Context, _ string) (
 	return &uigraphapi.DependencyGraph{Nodes: []uigraphapi.DependencyGraphNode{{ID: "service-1", Name: "Checkout"}}}, nil
 }
 
+func (f *fakeDependencyClient) UpdateServiceDependencies(_ context.Context, _, _ string, _ map[string]interface{}) (*uigraphapi.DependencyGraph, error) {
+	return &uigraphapi.DependencyGraph{Nodes: []uigraphapi.DependencyGraphNode{{ID: "service-1", Name: "Checkout"}}}, nil
+}
+
 func (f *fakeDependencyClient) GetServiceImpact(_ context.Context, _, _ string, direction *string, maxDepth *int) (*uigraphapi.DependencyGraph, error) {
 	f.direction = direction
 	f.maxDepth = maxDepth

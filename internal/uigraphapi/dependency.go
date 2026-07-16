@@ -91,6 +91,13 @@ func (c *Client) GetServiceDependencyGraph(ctx context.Context, orgID, serviceID
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/dependency-graph", orgID, serviceID), &out)
 }
 
+func (c *Client) UpdateServiceDependencies(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*DependencyGraph, error) {
+	if err := c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/dependencies/sync", orgID, serviceID), body, nil); err != nil {
+		return nil, err
+	}
+	return c.GetServiceDependencyGraph(ctx, orgID, serviceID)
+}
+
 func (c *Client) GetDependencyGraph(ctx context.Context, orgID string) (*DependencyGraph, error) {
 	var out DependencyGraph
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/dependency-graph", orgID), &out)

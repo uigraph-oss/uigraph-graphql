@@ -840,6 +840,7 @@ type ComplexityRoot struct {
 		UpdateService                     func(childComplexity int, orgID string, id string, input model.UpdateServiceInput) int
 		UpdateServiceAccount              func(childComplexity int, orgID string, id string, input model.UpdateServiceAccountInput) int
 		UpdateServiceDb                   func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateServiceDBInput) int
+		UpdateServiceDependencies         func(childComplexity int, orgID string, serviceID string, input model.UpdateServiceDependenciesInput) int
 		UpdateTeam                        func(childComplexity int, orgID string, teamID string, input model.UpdateTeamInput) int
 		UpdateTestCase                    func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestCaseInput) int
 		UpdateTestPack                    func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateTestPackInput) int
@@ -1509,6 +1510,7 @@ type MutationResolver interface {
 	CreateCustomComponent(ctx context.Context, orgID string, input model.CustomComponentInput) (*model.Component, error)
 	UpdateCustomComponent(ctx context.Context, orgID string, id string, input model.CustomComponentInput) (*model.Component, error)
 	DeleteCustomComponent(ctx context.Context, orgID string, id string) (bool, error)
+	UpdateServiceDependencies(ctx context.Context, orgID string, serviceID string, input model.UpdateServiceDependenciesInput) (*model.DependencyGraph, error)
 	CreateDiagram(ctx context.Context, orgID string, input model.CreateDiagramInput) (*model.Diagram, error)
 	UpdateDiagram(ctx context.Context, orgID string, id string, input model.UpdateDiagramInput) (*model.Diagram, error)
 	DeleteDiagram(ctx context.Context, orgID string, id string) (bool, error)
@@ -6486,6 +6488,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.UpdateServiceDb(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["id"].(string), args["input"].(model.UpdateServiceDBInput)), true
 
+	case "Mutation.updateServiceDependencies":
+		if e.complexity.Mutation.UpdateServiceDependencies == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateServiceDependencies_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateServiceDependencies(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["input"].(model.UpdateServiceDependenciesInput)), true
+
 	case "Mutation.updateTeam":
 		if e.complexity.Mutation.UpdateTeam == nil {
 			break
@@ -10240,6 +10254,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputGraphQLTestCaseInput,
 		ec.unmarshalInputKeyValueInput,
 		ec.unmarshalInputManualTestCaseInput,
+		ec.unmarshalInputServiceDependencyInput,
 		ec.unmarshalInputSyncAPIGroupInput,
 		ec.unmarshalInputSyncDiagramInput,
 		ec.unmarshalInputSyncFrameInput,
@@ -10263,6 +10278,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateServerOrgInput,
 		ec.unmarshalInputUpdateServiceAccountInput,
 		ec.unmarshalInputUpdateServiceDBInput,
+		ec.unmarshalInputUpdateServiceDependenciesInput,
 		ec.unmarshalInputUpdateServiceInput,
 		ec.unmarshalInputUpdateTeamInput,
 		ec.unmarshalInputUpdateTestCaseInput,
@@ -11251,6 +11267,25 @@ type Components {
     serviceDependencyGraph(orgId: ID!, serviceId: ID!): DependencyGraph!
     dependencyGraph(orgId: ID!): DependencyGraph!
     serviceImpact(orgId: ID!, serviceId: ID!, direction: String, maxDepth: Int): DependencyGraph!
+}
+
+extend type Mutation {
+    updateServiceDependencies(orgId: ID!, serviceId: ID!, input: UpdateServiceDependenciesInput!): DependencyGraph!
+}
+
+input UpdateServiceDependenciesInput {
+    dependencies: [ServiceDependencyInput!]!
+    commitHash:   String
+}
+
+input ServiceDependencyInput {
+    name:        String!
+    service:     String!
+    type:        String!
+    criticality: String!
+    description: String
+    api:         String
+    operations:  [String!]
 }
 
 type Dependency {
@@ -19963,6 +19998,80 @@ func (ec *executionContext) field_Mutation_updateServiceDB_argsInput(
 	}
 
 	var zeroVal model.UpdateServiceDBInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateServiceDependencies_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateServiceDependencies_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateServiceDependencies_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Mutation_updateServiceDependencies_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateServiceDependencies_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateServiceDependencies_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateServiceDependencies_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateServiceDependenciesInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateServiceDependenciesInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateServiceDependenciesInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDependenciesInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateServiceDependenciesInput
 	return zeroVal, nil
 }
 
@@ -51604,6 +51713,67 @@ func (ec *executionContext) fieldContext_Mutation_deleteCustomComponent(ctx cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteCustomComponent_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateServiceDependencies(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateServiceDependencies(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateServiceDependencies(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["input"].(model.UpdateServiceDependenciesInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.DependencyGraph)
+	fc.Result = res
+	return ec.marshalNDependencyGraph2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraph(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateServiceDependencies(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "nodes":
+				return ec.fieldContext_DependencyGraph_nodes(ctx, field)
+			case "edges":
+				return ec.fieldContext_DependencyGraph_edges(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DependencyGraph", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateServiceDependencies_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -84593,6 +84763,75 @@ func (ec *executionContext) unmarshalInputManualTestCaseInput(ctx context.Contex
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputServiceDependencyInput(ctx context.Context, obj any) (model.ServiceDependencyInput, error) {
+	var it model.ServiceDependencyInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "service", "type", "criticality", "description", "api", "operations"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "service":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("service"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Service = data
+		case "type":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("type"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Type = data
+		case "criticality":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("criticality"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Criticality = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "api":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("api"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.API = data
+		case "operations":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("operations"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Operations = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputSyncAPIGroupInput(ctx context.Context, obj any) (model.SyncAPIGroupInput, error) {
 	var it model.SyncAPIGroupInput
 	asMap := map[string]any{}
@@ -85887,6 +86126,40 @@ func (ec *executionContext) unmarshalInputUpdateServiceDBInput(ctx context.Conte
 				return it, err
 			}
 			it.SourceTs = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdateServiceDependenciesInput(ctx context.Context, obj any) (model.UpdateServiceDependenciesInput, error) {
+	var it model.UpdateServiceDependenciesInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"dependencies", "commitHash"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "dependencies":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("dependencies"))
+			data, err := ec.unmarshalNServiceDependencyInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDependencyInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Dependencies = data
+		case "commitHash":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("commitHash"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CommitHash = data
 		}
 	}
 
@@ -91558,6 +91831,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteCustomComponent":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteCustomComponent(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateServiceDependencies":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateServiceDependencies(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -100324,6 +100604,26 @@ func (ec *executionContext) marshalNServiceDBVersion2ᚖgithubᚗcomᚋuigraph�
 	return ec._ServiceDBVersion(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNServiceDependencyInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDependencyInputᚄ(ctx context.Context, v any) ([]*model.ServiceDependencyInput, error) {
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*model.ServiceDependencyInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNServiceDependencyInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDependencyInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalNServiceDependencyInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDependencyInput(ctx context.Context, v any) (*model.ServiceDependencyInput, error) {
+	res, err := ec.unmarshalInputServiceDependencyInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalNServiceDiagram2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDiagram(ctx context.Context, sel ast.SelectionSet, v model.ServiceDiagram) graphql.Marshaler {
 	return ec._ServiceDiagram(ctx, sel, &v)
 }
@@ -101204,6 +101504,11 @@ func (ec *executionContext) unmarshalNUpdateServiceAccountInput2githubᚗcomᚋu
 
 func (ec *executionContext) unmarshalNUpdateServiceDBInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDBInput(ctx context.Context, v any) (model.UpdateServiceDBInput, error) {
 	res, err := ec.unmarshalInputUpdateServiceDBInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateServiceDependenciesInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateServiceDependenciesInput(ctx context.Context, v any) (model.UpdateServiceDependenciesInput, error) {
+	res, err := ec.unmarshalInputUpdateServiceDependenciesInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
