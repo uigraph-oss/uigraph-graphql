@@ -196,22 +196,22 @@ func (f *fakeDependencyClient) ListDependencies(_ context.Context, _, _ string, 
 	}}, nil
 }
 
-func (f *fakeDependencyClient) GetServiceDependencyGraph(_ context.Context, _, _ string) (*uigraphapi.DependencyGraph, error) {
-	return &uigraphapi.DependencyGraph{Nodes: []uigraphapi.DependencyGraphNode{{ID: "service-1", Name: "Checkout"}}}, nil
+func (f *fakeDependencyClient) GetServiceDependencyGraph(_ context.Context, _, _ string) ([]uigraphapi.Dependency, error) {
+	return []uigraphapi.Dependency{{ID: "dependency-1", Name: "Payments", ConsumerService: uigraphapi.DependencyService{ID: "service-1", Name: "Checkout"}}}, nil
 }
 
-func (f *fakeDependencyClient) GetDependencyGraph(_ context.Context, _ string) (*uigraphapi.DependencyGraph, error) {
-	return &uigraphapi.DependencyGraph{Nodes: []uigraphapi.DependencyGraphNode{{ID: "service-1", Name: "Checkout"}}}, nil
+func (f *fakeDependencyClient) GetDependencyGraph(_ context.Context, _ string) ([]uigraphapi.Dependency, error) {
+	return []uigraphapi.Dependency{{ID: "dependency-1", Name: "Payments", ConsumerService: uigraphapi.DependencyService{ID: "service-1", Name: "Checkout"}}}, nil
 }
 
-func (f *fakeDependencyClient) UpdateServiceDependencies(_ context.Context, _, _ string, _ map[string]interface{}) (*uigraphapi.DependencyGraph, error) {
-	return &uigraphapi.DependencyGraph{Nodes: []uigraphapi.DependencyGraphNode{{ID: "service-1", Name: "Checkout"}}}, nil
+func (f *fakeDependencyClient) UpdateServiceDependencies(_ context.Context, _, _ string, _ map[string]interface{}) ([]uigraphapi.Dependency, error) {
+	return []uigraphapi.Dependency{{ID: "dependency-1", Name: "Payments", ConsumerService: uigraphapi.DependencyService{ID: "service-1", Name: "Checkout"}}}, nil
 }
 
-func (f *fakeDependencyClient) GetServiceImpact(_ context.Context, _, _ string, direction *string, maxDepth *int) (*uigraphapi.DependencyGraph, error) {
+func (f *fakeDependencyClient) GetServiceImpact(_ context.Context, _, _ string, direction *string, maxDepth *int) ([]uigraphapi.Dependency, error) {
 	f.direction = direction
 	f.maxDepth = maxDepth
-	return &uigraphapi.DependencyGraph{Edges: []uigraphapi.DependencyGraphEdge{{ID: "edge-1", Source: "service-1", Target: "service-2"}}}, nil
+	return []uigraphapi.Dependency{{ID: "dependency-1", Name: "Payments", ConsumerService: uigraphapi.DependencyService{ID: "service-1", Name: "Checkout"}}}, nil
 }
 
 func TestDependencyQueries(t *testing.T) {
@@ -231,14 +231,10 @@ func TestDependencyQueries(t *testing.T) {
 		t.Errorf("criticality = %v, want high", dependencies.criticality)
 	}
 
-	data = doGraphQL(t, srv, `{ serviceImpact(orgId: "org-1", serviceId: "service-1", direction: "inbound", maxDepth: 2) { edges { id source target } } }`)
-	impact, ok := data["serviceImpact"].(map[string]interface{})
-	if !ok {
-		t.Fatalf("serviceImpact = %#v, want graph", data["serviceImpact"])
-	}
-	edges, ok := impact["edges"].([]interface{})
-	if !ok || len(edges) != 1 {
-		t.Fatalf("serviceImpact.edges = %#v, want one edge", impact["edges"])
+	data = doGraphQL(t, srv, `{ serviceImpact(orgId: "org-1", serviceId: "service-1", direction: "inbound", maxDepth: 2) { id name consumerService { id name } } }`)
+	impact, ok := data["serviceImpact"].([]interface{})
+	if !ok || len(impact) != 1 {
+		t.Fatalf("serviceImpact = %#v, want one dependency", data["serviceImpact"])
 	}
 	if dependencies.maxDepth == nil || *dependencies.maxDepth != 2 {
 		t.Errorf("maxDepth = %v, want 2", dependencies.maxDepth)

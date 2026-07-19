@@ -50,52 +50,6 @@ func DependenciesToModel(dependencies []uigraphapi.Dependency) []*model.Dependen
 	return out
 }
 
-func DependencyGraphToModel(graph *uigraphapi.DependencyGraph) *model.DependencyGraph {
-	nodes := make([]*model.DependencyGraphNode, len(graph.Nodes))
-	for i, node := range graph.Nodes {
-		nodes[i] = &model.DependencyGraphNode{
-			ID:               node.ID,
-			Name:             node.Name,
-			Type:             node.Type,
-			Service:          DependencyServiceToModel(node.Service),
-			Depth:            node.Depth,
-			Metadata:         rawJSON(node.Metadata),
-		}
-	}
-	edges := make([]*model.DependencyGraphEdge, len(graph.Edges))
-	for i, edge := range graph.Edges {
-		source := edge.Source
-		if source == "" {
-			source = edge.SourceServiceID
-		}
-		if source == "" && edge.Consumer != nil {
-			source = edge.Consumer.ID
-		}
-		target := edge.Target
-		if target == "" && edge.Provider != nil {
-			target = edge.Provider.ID
-		}
-		if target == "" {
-			target = "ghost:" + edge.ProviderServiceName
-		}
-		edges[i] = &model.DependencyGraphEdge{
-			ID:           edge.ID,
-			Source:       source,
-			Target:       target,
-			DependencyID: edge.DependencyID,
-			Type:         edge.Type,
-			Criticality:  edge.Criticality,
-			Direction:    edge.Direction,
-			Depth:        edge.Depth,
-			APIGroupName:     edge.APIGroupName,
-			APIEndpointNames: edge.APIEndpointNames,
-			DatabaseName:     edge.DatabaseName,
-			Metadata:     rawJSON(edge.Metadata),
-		}
-	}
-	return &model.DependencyGraph{Nodes: nodes, Edges: edges}
-}
-
 func rawJSON(raw json.RawMessage) interface{} {
 	if len(raw) == 0 || string(raw) == "null" {
 		return nil

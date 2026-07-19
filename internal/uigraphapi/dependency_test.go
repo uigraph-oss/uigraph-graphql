@@ -18,12 +18,12 @@ func TestDependencyClientRequests(t *testing.T) {
 			}
 			_ = json.NewEncoder(w).Encode(map[string]interface{}{"edges": []Dependency{{ID: "dependency-1", Name: "Payments"}}})
 		case "/api/v1/orgs/org-1/services/service-1/dependency-graph", "/api/v1/orgs/org-1/dependency-graph":
-			_ = json.NewEncoder(w).Encode(DependencyGraph{Nodes: []DependencyGraphNode{{ID: "service-1", Name: "Checkout"}}})
+			_ = json.NewEncoder(w).Encode(map[string]interface{}{"edges": []Dependency{{ID: "dependency-1", Name: "Checkout"}}})
 		case "/api/v1/orgs/org-1/services/service-1/impact":
 			if r.URL.Query().Get("direction") != "inbound" || r.URL.Query().Get("maxDepth") != "3" {
 				t.Errorf("query = %q, want direction=inbound and maxDepth=3", r.URL.RawQuery)
 			}
-			_ = json.NewEncoder(w).Encode(DependencyGraph{Edges: []DependencyGraphEdge{{ID: "edge-1", Source: "a", Target: "b"}}})
+			_ = json.NewEncoder(w).Encode(map[string]interface{}{"edges": []Dependency{{ID: "edge-1", Name: "Impact"}}})
 		default:
 			w.WriteHeader(http.StatusNotFound)
 		}
@@ -52,7 +52,7 @@ func TestDependencyClientRequests(t *testing.T) {
 	if err != nil {
 		t.Fatalf("GetServiceImpact() error = %v", err)
 	}
-	if len(impact.Edges) != 1 || impact.Edges[0].ID != "edge-1" {
+	if len(impact) != 1 || impact[0].ID != "edge-1" {
 		t.Fatalf("GetServiceImpact() = %+v, want edge-1", impact)
 	}
 }

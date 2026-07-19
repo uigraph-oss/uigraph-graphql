@@ -353,35 +353,6 @@ type ComplexityRoot struct {
 		Type             func(childComplexity int) int
 	}
 
-	DependencyGraph struct {
-		Edges func(childComplexity int) int
-		Nodes func(childComplexity int) int
-	}
-
-	DependencyGraphEdge struct {
-		APIEndpointNames func(childComplexity int) int
-		APIGroupName     func(childComplexity int) int
-		Criticality      func(childComplexity int) int
-		DatabaseName     func(childComplexity int) int
-		DependencyID     func(childComplexity int) int
-		Depth            func(childComplexity int) int
-		Direction        func(childComplexity int) int
-		ID               func(childComplexity int) int
-		Metadata         func(childComplexity int) int
-		Source           func(childComplexity int) int
-		Target           func(childComplexity int) int
-		Type             func(childComplexity int) int
-	}
-
-	DependencyGraphNode struct {
-		Depth    func(childComplexity int) int
-		ID       func(childComplexity int) int
-		Metadata func(childComplexity int) int
-		Name     func(childComplexity int) int
-		Service  func(childComplexity int) int
-		Type     func(childComplexity int) int
-	}
-
 	DependencyService struct {
 		Category    func(childComplexity int) int
 		Description func(childComplexity int) int
@@ -1511,7 +1482,7 @@ type MutationResolver interface {
 	CreateCustomComponent(ctx context.Context, orgID string, input model.CustomComponentInput) (*model.Component, error)
 	UpdateCustomComponent(ctx context.Context, orgID string, id string, input model.CustomComponentInput) (*model.Component, error)
 	DeleteCustomComponent(ctx context.Context, orgID string, id string) (bool, error)
-	UpdateServiceDependencies(ctx context.Context, orgID string, serviceID string, input model.UpdateServiceDependenciesInput) (*model.DependencyGraph, error)
+	UpdateServiceDependencies(ctx context.Context, orgID string, serviceID string, input model.UpdateServiceDependenciesInput) ([]*model.Dependency, error)
 	CreateDiagram(ctx context.Context, orgID string, input model.CreateDiagramInput) (*model.Diagram, error)
 	UpdateDiagram(ctx context.Context, orgID string, id string, input model.UpdateDiagramInput) (*model.Diagram, error)
 	DeleteDiagram(ctx context.Context, orgID string, id string) (bool, error)
@@ -1620,9 +1591,9 @@ type QueryResolver interface {
 	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
 	Components(ctx context.Context, orgID string) (*model.Components, error)
 	Dependencies(ctx context.Context, orgID string, serviceID string, direction *string, criticality *string) ([]*model.Dependency, error)
-	ServiceDependencyGraph(ctx context.Context, orgID string, serviceID string) (*model.DependencyGraph, error)
-	DependencyGraph(ctx context.Context, orgID string) (*model.DependencyGraph, error)
-	ServiceImpact(ctx context.Context, orgID string, serviceID string, direction *string, maxDepth *int) (*model.DependencyGraph, error)
+	ServiceDependencyGraph(ctx context.Context, orgID string, serviceID string) ([]*model.Dependency, error)
+	DependencyGraph(ctx context.Context, orgID string) ([]*model.Dependency, error)
+	ServiceImpact(ctx context.Context, orgID string, serviceID string, direction *string, maxDepth *int) ([]*model.Dependency, error)
 	Diagrams(ctx context.Context, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) (*model.DiagramPage, error)
 	Diagram(ctx context.Context, orgID string, id string) (*model.Diagram, error)
 	DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error)
@@ -3192,146 +3163,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Dependency.Type(childComplexity), true
-
-	case "DependencyGraph.edges":
-		if e.complexity.DependencyGraph.Edges == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraph.Edges(childComplexity), true
-
-	case "DependencyGraph.nodes":
-		if e.complexity.DependencyGraph.Nodes == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraph.Nodes(childComplexity), true
-
-	case "DependencyGraphEdge.apiEndpointNames":
-		if e.complexity.DependencyGraphEdge.APIEndpointNames == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.APIEndpointNames(childComplexity), true
-
-	case "DependencyGraphEdge.apiGroupName":
-		if e.complexity.DependencyGraphEdge.APIGroupName == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.APIGroupName(childComplexity), true
-
-	case "DependencyGraphEdge.criticality":
-		if e.complexity.DependencyGraphEdge.Criticality == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.Criticality(childComplexity), true
-
-	case "DependencyGraphEdge.databaseName":
-		if e.complexity.DependencyGraphEdge.DatabaseName == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.DatabaseName(childComplexity), true
-
-	case "DependencyGraphEdge.dependencyId":
-		if e.complexity.DependencyGraphEdge.DependencyID == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.DependencyID(childComplexity), true
-
-	case "DependencyGraphEdge.depth":
-		if e.complexity.DependencyGraphEdge.Depth == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.Depth(childComplexity), true
-
-	case "DependencyGraphEdge.direction":
-		if e.complexity.DependencyGraphEdge.Direction == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.Direction(childComplexity), true
-
-	case "DependencyGraphEdge.id":
-		if e.complexity.DependencyGraphEdge.ID == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.ID(childComplexity), true
-
-	case "DependencyGraphEdge.metadata":
-		if e.complexity.DependencyGraphEdge.Metadata == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.Metadata(childComplexity), true
-
-	case "DependencyGraphEdge.source":
-		if e.complexity.DependencyGraphEdge.Source == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.Source(childComplexity), true
-
-	case "DependencyGraphEdge.target":
-		if e.complexity.DependencyGraphEdge.Target == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.Target(childComplexity), true
-
-	case "DependencyGraphEdge.type":
-		if e.complexity.DependencyGraphEdge.Type == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphEdge.Type(childComplexity), true
-
-	case "DependencyGraphNode.depth":
-		if e.complexity.DependencyGraphNode.Depth == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphNode.Depth(childComplexity), true
-
-	case "DependencyGraphNode.id":
-		if e.complexity.DependencyGraphNode.ID == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphNode.ID(childComplexity), true
-
-	case "DependencyGraphNode.metadata":
-		if e.complexity.DependencyGraphNode.Metadata == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphNode.Metadata(childComplexity), true
-
-	case "DependencyGraphNode.name":
-		if e.complexity.DependencyGraphNode.Name == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphNode.Name(childComplexity), true
-
-	case "DependencyGraphNode.service":
-		if e.complexity.DependencyGraphNode.Service == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphNode.Service(childComplexity), true
-
-	case "DependencyGraphNode.type":
-		if e.complexity.DependencyGraphNode.Type == nil {
-			break
-		}
-
-		return e.complexity.DependencyGraphNode.Type(childComplexity), true
 
 	case "DependencyService.category":
 		if e.complexity.DependencyService.Category == nil {
@@ -11272,13 +11103,13 @@ type Components {
 `, BuiltIn: false},
 	{Name: "../schema/dependency.graphqls", Input: `extend type Query {
     dependencies(orgId: ID!, serviceId: ID!, direction: String, criticality: String): [Dependency!]!
-    serviceDependencyGraph(orgId: ID!, serviceId: ID!): DependencyGraph!
-    dependencyGraph(orgId: ID!): DependencyGraph!
-    serviceImpact(orgId: ID!, serviceId: ID!, direction: String, maxDepth: Int): DependencyGraph!
+    serviceDependencyGraph(orgId: ID!, serviceId: ID!): [Dependency!]!
+    dependencyGraph(orgId: ID!): [Dependency!]!
+    serviceImpact(orgId: ID!, serviceId: ID!, direction: String, maxDepth: Int): [Dependency!]!
 }
 
 extend type Mutation {
-    updateServiceDependencies(orgId: ID!, serviceId: ID!, input: UpdateServiceDependenciesInput!): DependencyGraph!
+    updateServiceDependencies(orgId: ID!, serviceId: ID!, input: UpdateServiceDependenciesInput!): [Dependency!]!
 }
 
 input UpdateServiceDependenciesInput {
@@ -11325,34 +11156,6 @@ type DependencyService {
     metadata:    JSON
 }
 
-type DependencyGraph {
-    nodes: [DependencyGraphNode!]!
-    edges: [DependencyGraphEdge!]!
-}
-
-type DependencyGraphNode {
-    id:       ID!
-    name:     String!
-    type:     String
-    service:  DependencyService
-    depth:    Int
-    metadata: JSON
-}
-
-type DependencyGraphEdge {
-    id:           ID!
-    source:       ID!
-    target:       ID!
-    dependencyId: ID
-    type:         String
-    criticality:  String
-    direction:    String
-    depth:        Int
-    apiGroupName:     String
-    apiEndpointNames: [String!]
-    databaseName:     String
-    metadata:     JSON
-}
 `, BuiltIn: false},
 	{Name: "../schema/diagram.graphqls", Input: `type DiagramThumbnailUpload {
     uploadUrl: String!
@@ -35587,909 +35390,6 @@ func (ec *executionContext) fieldContext_Dependency_direction(_ context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _DependencyGraph_nodes(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraph) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraph_nodes(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Nodes, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.DependencyGraphNode)
-	fc.Result = res
-	return ec.marshalNDependencyGraphNode2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraphNodeᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraph_nodes(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraph",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_DependencyGraphNode_id(ctx, field)
-			case "name":
-				return ec.fieldContext_DependencyGraphNode_name(ctx, field)
-			case "type":
-				return ec.fieldContext_DependencyGraphNode_type(ctx, field)
-			case "service":
-				return ec.fieldContext_DependencyGraphNode_service(ctx, field)
-			case "depth":
-				return ec.fieldContext_DependencyGraphNode_depth(ctx, field)
-			case "metadata":
-				return ec.fieldContext_DependencyGraphNode_metadata(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type DependencyGraphNode", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraph_edges(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraph) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraph_edges(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Edges, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.DependencyGraphEdge)
-	fc.Result = res
-	return ec.marshalNDependencyGraphEdge2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraphEdgeᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraph_edges(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraph",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_DependencyGraphEdge_id(ctx, field)
-			case "source":
-				return ec.fieldContext_DependencyGraphEdge_source(ctx, field)
-			case "target":
-				return ec.fieldContext_DependencyGraphEdge_target(ctx, field)
-			case "dependencyId":
-				return ec.fieldContext_DependencyGraphEdge_dependencyId(ctx, field)
-			case "type":
-				return ec.fieldContext_DependencyGraphEdge_type(ctx, field)
-			case "criticality":
-				return ec.fieldContext_DependencyGraphEdge_criticality(ctx, field)
-			case "direction":
-				return ec.fieldContext_DependencyGraphEdge_direction(ctx, field)
-			case "depth":
-				return ec.fieldContext_DependencyGraphEdge_depth(ctx, field)
-			case "apiGroupName":
-				return ec.fieldContext_DependencyGraphEdge_apiGroupName(ctx, field)
-			case "apiEndpointNames":
-				return ec.fieldContext_DependencyGraphEdge_apiEndpointNames(ctx, field)
-			case "databaseName":
-				return ec.fieldContext_DependencyGraphEdge_databaseName(ctx, field)
-			case "metadata":
-				return ec.fieldContext_DependencyGraphEdge_metadata(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type DependencyGraphEdge", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_id(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_source(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_source(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Source, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_source(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_target(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_target(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Target, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_target(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_dependencyId(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_dependencyId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DependencyID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_dependencyId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_type(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_type(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Type, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_type(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_criticality(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_criticality(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Criticality, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_criticality(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_direction(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_direction(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Direction, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_direction(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_depth(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_depth(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Depth, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_depth(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_apiGroupName(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_apiGroupName(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.APIGroupName, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_apiGroupName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_apiEndpointNames(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_apiEndpointNames(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.APIEndpointNames, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]string)
-	fc.Result = res
-	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_apiEndpointNames(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_databaseName(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_databaseName(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DatabaseName, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_databaseName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphEdge_metadata(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphEdge) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphEdge_metadata(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Metadata, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(any)
-	fc.Result = res
-	return ec.marshalOJSON2interface(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphEdge_metadata(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphEdge",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type JSON does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphNode_id(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphNode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphNode_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphNode_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphNode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphNode_name(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphNode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphNode_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphNode_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphNode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphNode_type(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphNode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphNode_type(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Type, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphNode_type(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphNode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphNode_service(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphNode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphNode_service(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Service, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*model.DependencyService)
-	fc.Result = res
-	return ec.marshalODependencyService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyService(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphNode_service(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphNode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_DependencyService_id(ctx, field)
-			case "name":
-				return ec.fieldContext_DependencyService_name(ctx, field)
-			case "description":
-				return ec.fieldContext_DependencyService_description(ctx, field)
-			case "status":
-				return ec.fieldContext_DependencyService_status(ctx, field)
-			case "tier":
-				return ec.fieldContext_DependencyService_tier(ctx, field)
-			case "category":
-				return ec.fieldContext_DependencyService_category(ctx, field)
-			case "language":
-				return ec.fieldContext_DependencyService_language(ctx, field)
-			case "gitRepoUrl":
-				return ec.fieldContext_DependencyService_gitRepoUrl(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_DependencyService_updatedAt(ctx, field)
-			case "metadata":
-				return ec.fieldContext_DependencyService_metadata(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type DependencyService", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphNode_depth(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphNode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphNode_depth(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Depth, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphNode_depth(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphNode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DependencyGraphNode_metadata(ctx context.Context, field graphql.CollectedField, obj *model.DependencyGraphNode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DependencyGraphNode_metadata(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Metadata, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(any)
-	fc.Result = res
-	return ec.marshalOJSON2interface(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_DependencyGraphNode_metadata(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DependencyGraphNode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type JSON does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _DependencyService_id(ctx context.Context, field graphql.CollectedField, obj *model.DependencyService) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DependencyService_id(ctx, field)
 	if err != nil {
@@ -51798,9 +50698,9 @@ func (ec *executionContext) _Mutation_updateServiceDependencies(ctx context.Cont
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.DependencyGraph)
+	res := resTmp.([]*model.Dependency)
 	fc.Result = res
-	return ec.marshalNDependencyGraph2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraph(ctx, field.Selections, res)
+	return ec.marshalNDependency2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateServiceDependencies(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -51811,12 +50711,32 @@ func (ec *executionContext) fieldContext_Mutation_updateServiceDependencies(ctx 
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "nodes":
-				return ec.fieldContext_DependencyGraph_nodes(ctx, field)
-			case "edges":
-				return ec.fieldContext_DependencyGraph_edges(ctx, field)
+			case "id":
+				return ec.fieldContext_Dependency_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Dependency_name(ctx, field)
+			case "consumerService":
+				return ec.fieldContext_Dependency_consumerService(ctx, field)
+			case "providerService":
+				return ec.fieldContext_Dependency_providerService(ctx, field)
+			case "providerName":
+				return ec.fieldContext_Dependency_providerName(ctx, field)
+			case "type":
+				return ec.fieldContext_Dependency_type(ctx, field)
+			case "criticality":
+				return ec.fieldContext_Dependency_criticality(ctx, field)
+			case "description":
+				return ec.fieldContext_Dependency_description(ctx, field)
+			case "apiGroupName":
+				return ec.fieldContext_Dependency_apiGroupName(ctx, field)
+			case "apiEndpointNames":
+				return ec.fieldContext_Dependency_apiEndpointNames(ctx, field)
+			case "databaseName":
+				return ec.fieldContext_Dependency_databaseName(ctx, field)
+			case "direction":
+				return ec.fieldContext_Dependency_direction(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type DependencyGraph", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Dependency", field.Name)
 		},
 	}
 	defer func() {
@@ -61125,9 +60045,9 @@ func (ec *executionContext) _Query_serviceDependencyGraph(ctx context.Context, f
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.DependencyGraph)
+	res := resTmp.([]*model.Dependency)
 	fc.Result = res
-	return ec.marshalNDependencyGraph2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraph(ctx, field.Selections, res)
+	return ec.marshalNDependency2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceDependencyGraph(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -61138,12 +60058,32 @@ func (ec *executionContext) fieldContext_Query_serviceDependencyGraph(ctx contex
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "nodes":
-				return ec.fieldContext_DependencyGraph_nodes(ctx, field)
-			case "edges":
-				return ec.fieldContext_DependencyGraph_edges(ctx, field)
+			case "id":
+				return ec.fieldContext_Dependency_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Dependency_name(ctx, field)
+			case "consumerService":
+				return ec.fieldContext_Dependency_consumerService(ctx, field)
+			case "providerService":
+				return ec.fieldContext_Dependency_providerService(ctx, field)
+			case "providerName":
+				return ec.fieldContext_Dependency_providerName(ctx, field)
+			case "type":
+				return ec.fieldContext_Dependency_type(ctx, field)
+			case "criticality":
+				return ec.fieldContext_Dependency_criticality(ctx, field)
+			case "description":
+				return ec.fieldContext_Dependency_description(ctx, field)
+			case "apiGroupName":
+				return ec.fieldContext_Dependency_apiGroupName(ctx, field)
+			case "apiEndpointNames":
+				return ec.fieldContext_Dependency_apiEndpointNames(ctx, field)
+			case "databaseName":
+				return ec.fieldContext_Dependency_databaseName(ctx, field)
+			case "direction":
+				return ec.fieldContext_Dependency_direction(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type DependencyGraph", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Dependency", field.Name)
 		},
 	}
 	defer func() {
@@ -61186,9 +60126,9 @@ func (ec *executionContext) _Query_dependencyGraph(ctx context.Context, field gr
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.DependencyGraph)
+	res := resTmp.([]*model.Dependency)
 	fc.Result = res
-	return ec.marshalNDependencyGraph2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraph(ctx, field.Selections, res)
+	return ec.marshalNDependency2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_dependencyGraph(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -61199,12 +60139,32 @@ func (ec *executionContext) fieldContext_Query_dependencyGraph(ctx context.Conte
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "nodes":
-				return ec.fieldContext_DependencyGraph_nodes(ctx, field)
-			case "edges":
-				return ec.fieldContext_DependencyGraph_edges(ctx, field)
+			case "id":
+				return ec.fieldContext_Dependency_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Dependency_name(ctx, field)
+			case "consumerService":
+				return ec.fieldContext_Dependency_consumerService(ctx, field)
+			case "providerService":
+				return ec.fieldContext_Dependency_providerService(ctx, field)
+			case "providerName":
+				return ec.fieldContext_Dependency_providerName(ctx, field)
+			case "type":
+				return ec.fieldContext_Dependency_type(ctx, field)
+			case "criticality":
+				return ec.fieldContext_Dependency_criticality(ctx, field)
+			case "description":
+				return ec.fieldContext_Dependency_description(ctx, field)
+			case "apiGroupName":
+				return ec.fieldContext_Dependency_apiGroupName(ctx, field)
+			case "apiEndpointNames":
+				return ec.fieldContext_Dependency_apiEndpointNames(ctx, field)
+			case "databaseName":
+				return ec.fieldContext_Dependency_databaseName(ctx, field)
+			case "direction":
+				return ec.fieldContext_Dependency_direction(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type DependencyGraph", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Dependency", field.Name)
 		},
 	}
 	defer func() {
@@ -61247,9 +60207,9 @@ func (ec *executionContext) _Query_serviceImpact(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.DependencyGraph)
+	res := resTmp.([]*model.Dependency)
 	fc.Result = res
-	return ec.marshalNDependencyGraph2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraph(ctx, field.Selections, res)
+	return ec.marshalNDependency2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_serviceImpact(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -61260,12 +60220,32 @@ func (ec *executionContext) fieldContext_Query_serviceImpact(ctx context.Context
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "nodes":
-				return ec.fieldContext_DependencyGraph_nodes(ctx, field)
-			case "edges":
-				return ec.fieldContext_DependencyGraph_edges(ctx, field)
+			case "id":
+				return ec.fieldContext_Dependency_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Dependency_name(ctx, field)
+			case "consumerService":
+				return ec.fieldContext_Dependency_consumerService(ctx, field)
+			case "providerService":
+				return ec.fieldContext_Dependency_providerService(ctx, field)
+			case "providerName":
+				return ec.fieldContext_Dependency_providerName(ctx, field)
+			case "type":
+				return ec.fieldContext_Dependency_type(ctx, field)
+			case "criticality":
+				return ec.fieldContext_Dependency_criticality(ctx, field)
+			case "description":
+				return ec.fieldContext_Dependency_description(ctx, field)
+			case "apiGroupName":
+				return ec.fieldContext_Dependency_apiGroupName(ctx, field)
+			case "apiEndpointNames":
+				return ec.fieldContext_Dependency_apiEndpointNames(ctx, field)
+			case "databaseName":
+				return ec.fieldContext_Dependency_databaseName(ctx, field)
+			case "direction":
+				return ec.fieldContext_Dependency_direction(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type DependencyGraph", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type Dependency", field.Name)
 		},
 	}
 	defer func() {
@@ -88975,169 +87955,6 @@ func (ec *executionContext) _Dependency(ctx context.Context, sel ast.SelectionSe
 	return out
 }
 
-var dependencyGraphImplementors = []string{"DependencyGraph"}
-
-func (ec *executionContext) _DependencyGraph(ctx context.Context, sel ast.SelectionSet, obj *model.DependencyGraph) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, dependencyGraphImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DependencyGraph")
-		case "nodes":
-			out.Values[i] = ec._DependencyGraph_nodes(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "edges":
-			out.Values[i] = ec._DependencyGraph_edges(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
-var dependencyGraphEdgeImplementors = []string{"DependencyGraphEdge"}
-
-func (ec *executionContext) _DependencyGraphEdge(ctx context.Context, sel ast.SelectionSet, obj *model.DependencyGraphEdge) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, dependencyGraphEdgeImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DependencyGraphEdge")
-		case "id":
-			out.Values[i] = ec._DependencyGraphEdge_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "source":
-			out.Values[i] = ec._DependencyGraphEdge_source(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "target":
-			out.Values[i] = ec._DependencyGraphEdge_target(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "dependencyId":
-			out.Values[i] = ec._DependencyGraphEdge_dependencyId(ctx, field, obj)
-		case "type":
-			out.Values[i] = ec._DependencyGraphEdge_type(ctx, field, obj)
-		case "criticality":
-			out.Values[i] = ec._DependencyGraphEdge_criticality(ctx, field, obj)
-		case "direction":
-			out.Values[i] = ec._DependencyGraphEdge_direction(ctx, field, obj)
-		case "depth":
-			out.Values[i] = ec._DependencyGraphEdge_depth(ctx, field, obj)
-		case "apiGroupName":
-			out.Values[i] = ec._DependencyGraphEdge_apiGroupName(ctx, field, obj)
-		case "apiEndpointNames":
-			out.Values[i] = ec._DependencyGraphEdge_apiEndpointNames(ctx, field, obj)
-		case "databaseName":
-			out.Values[i] = ec._DependencyGraphEdge_databaseName(ctx, field, obj)
-		case "metadata":
-			out.Values[i] = ec._DependencyGraphEdge_metadata(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
-var dependencyGraphNodeImplementors = []string{"DependencyGraphNode"}
-
-func (ec *executionContext) _DependencyGraphNode(ctx context.Context, sel ast.SelectionSet, obj *model.DependencyGraphNode) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, dependencyGraphNodeImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DependencyGraphNode")
-		case "id":
-			out.Values[i] = ec._DependencyGraphNode_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "name":
-			out.Values[i] = ec._DependencyGraphNode_name(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "type":
-			out.Values[i] = ec._DependencyGraphNode_type(ctx, field, obj)
-		case "service":
-			out.Values[i] = ec._DependencyGraphNode_service(ctx, field, obj)
-		case "depth":
-			out.Values[i] = ec._DependencyGraphNode_depth(ctx, field, obj)
-		case "metadata":
-			out.Values[i] = ec._DependencyGraphNode_metadata(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
 var dependencyServiceImplementors = []string{"DependencyService"}
 
 func (ec *executionContext) _DependencyService(ctx context.Context, sel ast.SelectionSet, obj *model.DependencyService) graphql.Marshaler {
@@ -98853,128 +97670,6 @@ func (ec *executionContext) marshalNDependency2ᚖgithubᚗcomᚋuigraphᚋgraph
 		return graphql.Null
 	}
 	return ec._Dependency(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDependencyGraph2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraph(ctx context.Context, sel ast.SelectionSet, v model.DependencyGraph) graphql.Marshaler {
-	return ec._DependencyGraph(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNDependencyGraph2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraph(ctx context.Context, sel ast.SelectionSet, v *model.DependencyGraph) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._DependencyGraph(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDependencyGraphEdge2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraphEdgeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DependencyGraphEdge) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNDependencyGraphEdge2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraphEdge(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalNDependencyGraphEdge2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraphEdge(ctx context.Context, sel ast.SelectionSet, v *model.DependencyGraphEdge) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._DependencyGraphEdge(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNDependencyGraphNode2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraphNodeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DependencyGraphNode) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNDependencyGraphNode2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraphNode(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalNDependencyGraphNode2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyGraphNode(ctx context.Context, sel ast.SelectionSet, v *model.DependencyGraphNode) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._DependencyGraphNode(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNDependencyService2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDependencyService(ctx context.Context, sel ast.SelectionSet, v *model.DependencyService) graphql.Marshaler {
