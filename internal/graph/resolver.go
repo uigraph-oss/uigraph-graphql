@@ -214,10 +214,10 @@ type catalogClient interface {
 
 type dependencyClient interface {
 	ListDependencies(ctx context.Context, orgID, serviceID string, direction, criticality *string) ([]uigraphapi.Dependency, error)
-	GetServiceDependencyGraph(ctx context.Context, orgID, serviceID string) (*uigraphapi.DependencyGraph, error)
-	GetDependencyGraph(ctx context.Context, orgID string) (*uigraphapi.DependencyGraph, error)
-	GetServiceImpact(ctx context.Context, orgID, serviceID string, direction *string, maxDepth *int) (*uigraphapi.DependencyGraph, error)
-	UpdateServiceDependencies(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.DependencyGraph, error)
+	GetServiceDependencyGraph(ctx context.Context, orgID, serviceID string) ([]uigraphapi.Dependency, error)
+	GetDependencyGraph(ctx context.Context, orgID string) ([]uigraphapi.Dependency, error)
+	GetServiceImpact(ctx context.Context, orgID, serviceID string, direction *string, maxDepth *int) ([]uigraphapi.Dependency, error)
+	UpdateServiceDependencies(ctx context.Context, orgID, serviceID string, body map[string]interface{}) ([]uigraphapi.Dependency, error)
 }
 
 type testPackClient interface {

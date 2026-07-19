@@ -667,35 +667,6 @@ type Dependency struct {
 	Direction        *string            `json:"direction,omitempty"`
 }
 
-type DependencyGraph struct {
-	Nodes []*DependencyGraphNode `json:"nodes"`
-	Edges []*DependencyGraphEdge `json:"edges"`
-}
-
-type DependencyGraphEdge struct {
-	ID               string   `json:"id"`
-	Source           string   `json:"source"`
-	Target           string   `json:"target"`
-	DependencyID     *string  `json:"dependencyId,omitempty"`
-	Type             *string  `json:"type,omitempty"`
-	Criticality      *string  `json:"criticality,omitempty"`
-	Direction        *string  `json:"direction,omitempty"`
-	Depth            *int     `json:"depth,omitempty"`
-	APIGroupName     *string  `json:"apiGroupName,omitempty"`
-	APIEndpointNames []string `json:"apiEndpointNames,omitempty"`
-	DatabaseName     *string  `json:"databaseName,omitempty"`
-	Metadata         any      `json:"metadata,omitempty"`
-}
-
-type DependencyGraphNode struct {
-	ID       string             `json:"id"`
-	Name     string             `json:"name"`
-	Type     *string            `json:"type,omitempty"`
-	Service  *DependencyService `json:"service,omitempty"`
-	Depth    *int               `json:"depth,omitempty"`
-	Metadata any                `json:"metadata,omitempty"`
-}
-
 type DependencyService struct {
 	ID          string  `json:"id"`
 	Name        string  `json:"name"`

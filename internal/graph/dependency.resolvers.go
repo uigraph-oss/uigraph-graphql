@@ -12,12 +12,12 @@ import (
 )
 
 // UpdateServiceDependencies is the resolver for the updateServiceDependencies field.
-func (r *mutationResolver) UpdateServiceDependencies(ctx context.Context, orgID string, serviceID string, input model.UpdateServiceDependenciesInput) (*model.DependencyGraph, error) {
-	graph, err := r.Dependency.UpdateServiceDependencies(ctx, orgID, serviceID, convert.ToMap(input))
+func (r *mutationResolver) UpdateServiceDependencies(ctx context.Context, orgID string, serviceID string, input model.UpdateServiceDependenciesInput) ([]*model.Dependency, error) {
+	dependencies, err := r.Dependency.UpdateServiceDependencies(ctx, orgID, serviceID, convert.ToMap(input))
 	if err != nil {
 		return nil, err
 	}
-	return convert.DependencyGraphToModel(graph), nil
+	return convert.DependenciesToModel(dependencies), nil
 }
 
 // Dependencies is the resolver for the dependencies field.
@@ -30,28 +30,28 @@ func (r *queryResolver) Dependencies(ctx context.Context, orgID string, serviceI
 }
 
 // ServiceDependencyGraph is the resolver for the serviceDependencyGraph field.
-func (r *queryResolver) ServiceDependencyGraph(ctx context.Context, orgID string, serviceID string) (*model.DependencyGraph, error) {
-	graph, err := r.Dependency.GetServiceDependencyGraph(ctx, orgID, serviceID)
+func (r *queryResolver) ServiceDependencyGraph(ctx context.Context, orgID string, serviceID string) ([]*model.Dependency, error) {
+	dependencies, err := r.Dependency.GetServiceDependencyGraph(ctx, orgID, serviceID)
 	if err != nil {
 		return nil, err
 	}
-	return convert.DependencyGraphToModel(graph), nil
+	return convert.DependenciesToModel(dependencies), nil
 }
 
 // DependencyGraph is the resolver for the dependencyGraph field.
-func (r *queryResolver) DependencyGraph(ctx context.Context, orgID string) (*model.DependencyGraph, error) {
-	graph, err := r.Dependency.GetDependencyGraph(ctx, orgID)
+func (r *queryResolver) DependencyGraph(ctx context.Context, orgID string) ([]*model.Dependency, error) {
+	dependencies, err := r.Dependency.GetDependencyGraph(ctx, orgID)
 	if err != nil {
 		return nil, err
 	}
-	return convert.DependencyGraphToModel(graph), nil
+	return convert.DependenciesToModel(dependencies), nil
 }
 
 // ServiceImpact is the resolver for the serviceImpact field.
-func (r *queryResolver) ServiceImpact(ctx context.Context, orgID string, serviceID string, direction *string, maxDepth *int) (*model.DependencyGraph, error) {
-	graph, err := r.Dependency.GetServiceImpact(ctx, orgID, serviceID, direction, maxDepth)
+func (r *queryResolver) ServiceImpact(ctx context.Context, orgID string, serviceID string, direction *string, maxDepth *int) ([]*model.Dependency, error) {
+	dependencies, err := r.Dependency.GetServiceImpact(ctx, orgID, serviceID, direction, maxDepth)
 	if err != nil {
 		return nil, err
 	}
-	return convert.DependencyGraphToModel(graph), nil
+	return convert.DependenciesToModel(dependencies), nil
 }
