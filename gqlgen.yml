@@ -33,3 +33,7 @@ models:
     model: github.com/99designs/gqlgen/graphql.Time
   JSON:
     model: github.com/99designs/gqlgen/graphql.Any
+  MlRun:
+    fields:
+      series:
+        resolver: true

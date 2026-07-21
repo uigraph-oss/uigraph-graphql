@@ -272,6 +272,30 @@ type costSavingsClient interface {
 	GetSavingsByUser(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.UserSavings, error)
 }
 
+type mlStudioClient interface {
+	ListMLModels(ctx context.Context, orgID string) ([]uigraphapi.MLModel, error)
+	GetMLModel(ctx context.Context, orgID, id string) (*uigraphapi.MLModel, error)
+	UpdateMLModel(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLModel, error)
+	ListMLModelVersions(ctx context.Context, orgID, modelID string) ([]uigraphapi.MLModelVersion, error)
+	GetMLModelVersion(ctx context.Context, orgID, id string) (*uigraphapi.MLModelVersion, error)
+	ListMLExperiments(ctx context.Context, orgID string) ([]uigraphapi.MLExperiment, error)
+	GetMLExperiment(ctx context.Context, orgID, id string) (*uigraphapi.MLExperiment, error)
+	ListMLRuns(ctx context.Context, orgID, experimentID string) ([]uigraphapi.MLRun, error)
+	GetMLRun(ctx context.Context, orgID, id string) (*uigraphapi.MLRun, error)
+	ListMLRunSeries(ctx context.Context, orgID, runID string) ([]uigraphapi.MLMetricPoint, error)
+	ListMLArtifacts(ctx context.Context, orgID, runID string) ([]uigraphapi.MLArtifact, error)
+	ListMLDatasets(ctx context.Context, orgID string) ([]uigraphapi.MLDataset, error)
+	GetMLDataset(ctx context.Context, orgID, id string) (*uigraphapi.MLDataset, error)
+	ListMLDeployments(ctx context.Context, orgID, modelID, versionID string) ([]uigraphapi.MLDeployment, error)
+	CreateMLDeployment(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLDeployment, error)
+	UpdateMLDeployment(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLDeployment, error)
+	DeleteMLDeployment(ctx context.Context, orgID, id string) error
+	ListMLFindings(ctx context.Context, orgID, modelID string) ([]uigraphapi.MLFinding, error)
+	CreateMLFinding(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLFinding, error)
+	UpdateMLFinding(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLFinding, error)
+	DeleteMLFinding(ctx context.Context, orgID, id string) error
+}
+
 type Resolver struct {
 	Auth        authClient
 	OrgAPI      orgClient
@@ -288,4 +312,5 @@ type Resolver struct {
 	Actor       actorClient
 	CommentAPI  commentClient
 	CostSavings costSavingsClient
+	MLStudio    mlStudioClient
 }

@@ -406,6 +406,27 @@ type CreateMapInput struct {
 	TeamID      *string `json:"teamId,omitempty"`
 }
 
+type CreateMlDeploymentInput struct {
+	ModelID      string     `json:"modelId"`
+	VersionID    string     `json:"versionId"`
+	Name         string     `json:"name"`
+	Environment  *string    `json:"environment,omitempty"`
+	Status       *string    `json:"status,omitempty"`
+	Endpoint     *string    `json:"endpoint,omitempty"`
+	Region       *string    `json:"region,omitempty"`
+	DeployedAt   *time.Time `json:"deployedAt,omitempty"`
+	RolledBackAt *time.Time `json:"rolledBackAt,omitempty"`
+}
+
+type CreateMlFindingInput struct {
+	ModelID     string   `json:"modelId"`
+	VersionID   *string  `json:"versionId,omitempty"`
+	Title       string   `json:"title"`
+	Summary     *string  `json:"summary,omitempty"`
+	Description *string  `json:"description,omitempty"`
+	RunIds      []string `json:"runIds,omitempty"`
+}
+
 type CreateOrgInput struct {
 	Name string `json:"name"`
 }
@@ -1042,6 +1063,101 @@ type Member struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
+type MlArtifact struct {
+	ID     string `json:"id"`
+	RunID  string `json:"runId"`
+	Name   string `json:"name"`
+	Type   string `json:"type"`
+	URI    string `json:"uri"`
+	Size   string `json:"size"`
+	Format string `json:"format"`
+}
+
+type MlDataset struct {
+	ID       string           `json:"id"`
+	Name     string           `json:"name"`
+	Source   string           `json:"source"`
+	Type     string           `json:"type"`
+	RowCount int              `json:"rowCount"`
+	Schema   []*MlSchemaField `json:"schema"`
+}
+
+type MlDeployment struct {
+	ID           string     `json:"id"`
+	ModelID      string     `json:"modelId"`
+	VersionID    string     `json:"versionId"`
+	Name         string     `json:"name"`
+	Environment  string     `json:"environment"`
+	Status       string     `json:"status"`
+	Endpoint     string     `json:"endpoint"`
+	Region       string     `json:"region"`
+	DeployedAt   *time.Time `json:"deployedAt,omitempty"`
+	RolledBackAt *time.Time `json:"rolledBackAt,omitempty"`
+}
+
+type MlExperiment struct {
+	ID          string     `json:"id"`
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	Status      string     `json:"status"`
+	StartedAt   *time.Time `json:"startedAt,omitempty"`
+}
+
+type MlFinding struct {
+	ID          string   `json:"id"`
+	ModelID     string   `json:"modelId"`
+	VersionID   *string  `json:"versionId,omitempty"`
+	Title       string   `json:"title"`
+	Summary     string   `json:"summary"`
+	Description string   `json:"description"`
+	RunIds      []string `json:"runIds"`
+}
+
+type MlModel struct {
+	ID                  string     `json:"id"`
+	Name                string     `json:"name"`
+	Description         string     `json:"description"`
+	Domain              string     `json:"domain"`
+	ProblemType         string     `json:"problemType"`
+	Tags                []string   `json:"tags"`
+	ProductionVersionID *string    `json:"productionVersionId,omitempty"`
+	CreatedAt           *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt           *time.Time `json:"updatedAt,omitempty"`
+}
+
+type MlModelVersion struct {
+	ID          string     `json:"id"`
+	ModelID     string     `json:"modelId"`
+	Version     string     `json:"version"`
+	Description string     `json:"description"`
+	Status      string     `json:"status"`
+	Stage       string     `json:"stage"`
+	RunID       *string    `json:"runId,omitempty"`
+	CreatedAt   *time.Time `json:"createdAt,omitempty"`
+}
+
+type MlRun struct {
+	ID           string     `json:"id"`
+	OrgID        string     `json:"orgId"`
+	ExperimentID string     `json:"experimentId"`
+	Name         string     `json:"name"`
+	Status       string     `json:"status"`
+	StartedAt    *time.Time `json:"startedAt,omitempty"`
+	EndedAt      *time.Time `json:"endedAt,omitempty"`
+	Duration     string     `json:"duration"`
+	Notes        string     `json:"notes"`
+	Parameters   any        `json:"parameters"`
+	Metrics      any        `json:"metrics"`
+	DatasetID    *string    `json:"datasetId,omitempty"`
+	Series       any        `json:"series"`
+}
+
+type MlSchemaField struct {
+	Name        string `json:"name"`
+	Type        string `json:"type"`
+	Description string `json:"description"`
+}
+
 type ModelSavings struct {
 	ModelID      string  `json:"modelId"`
 	DisplayName  string  `json:"displayName"`
@@ -1676,6 +1792,24 @@ type UpdateMemberInput struct {
 	Email  string  `json:"email"`
 	Role   string  `json:"role"`
 	TeamID *string `json:"teamId,omitempty"`
+}
+
+type UpdateMlDeploymentInput struct {
+	Name         *string    `json:"name,omitempty"`
+	Environment  *string    `json:"environment,omitempty"`
+	Status       *string    `json:"status,omitempty"`
+	Endpoint     *string    `json:"endpoint,omitempty"`
+	Region       *string    `json:"region,omitempty"`
+	DeployedAt   *time.Time `json:"deployedAt,omitempty"`
+	RolledBackAt *time.Time `json:"rolledBackAt,omitempty"`
+}
+
+type UpdateMlFindingInput struct {
+	VersionID   *string  `json:"versionId,omitempty"`
+	Title       *string  `json:"title,omitempty"`
+	Summary     *string  `json:"summary,omitempty"`
+	Description *string  `json:"description,omitempty"`
+	RunIds      []string `json:"runIds,omitempty"`
 }
 
 type UpdateOrgInput struct {

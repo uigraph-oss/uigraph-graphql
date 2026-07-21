@@ -1,0 +1,159 @@
+extend type Query {
+    mlModels(orgId: ID!):                                       [MlModel!]!
+    mlModel(orgId: ID!, id: ID!):                               MlModel!
+    mlModelVersions(orgId: ID!, modelId: ID):                   [MlModelVersion!]!
+    mlModelVersion(orgId: ID!, id: ID!):                        MlModelVersion!
+    mlExperiments(orgId: ID!):                                  [MlExperiment!]!
+    mlExperiment(orgId: ID!, id: ID!):                          MlExperiment!
+    mlRuns(orgId: ID!, experimentId: ID):                       [MlRun!]!
+    mlRun(orgId: ID!, id: ID!):                                 MlRun!
+    mlArtifacts(orgId: ID!, runId: ID):                         [MlArtifact!]!
+    mlDatasets(orgId: ID!):                                     [MlDataset!]!
+    mlDataset(orgId: ID!, id: ID!):                             MlDataset!
+    mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
+    mlFindings(orgId: ID!, modelId: ID):                        [MlFinding!]!
+}
+
+extend type Mutation {
+    createMlDeployment(orgId: ID!, input: CreateMlDeploymentInput!):          MlDeployment!
+    updateMlDeployment(orgId: ID!, id: ID!, input: UpdateMlDeploymentInput!): MlDeployment!
+    deleteMlDeployment(orgId: ID!, id: ID!):                                  Boolean!
+    createMlFinding(orgId: ID!, input: CreateMlFindingInput!):                MlFinding!
+    updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
+    deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
+    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String):  MlModel!
+}
+
+type MlModel {
+    id:                  ID!
+    name:                String!
+    description:         String!
+    domain:              String!
+    problemType:         String!
+    tags:                [String!]!
+    productionVersionId: ID
+    createdAt:           Time
+    updatedAt:           Time
+}
+
+type MlModelVersion {
+    id:          ID!
+    modelId:     ID!
+    version:     String!
+    description: String!
+    status:      String!
+    stage:       String!
+    runId:       ID
+    createdAt:   Time
+}
+
+type MlExperiment {
+    id:          ID!
+    name:        String!
+    description: String!
+    status:      String!
+    startedAt:   Time
+}
+
+type MlRun {
+    id:           ID!
+    orgId:        ID!
+    experimentId: ID!
+    name:         String!
+    status:       String!
+    startedAt:    Time
+    endedAt:      Time
+    duration:     String!
+    notes:        String!
+    parameters:   JSON!
+    metrics:      JSON!
+    datasetId:    ID
+    series:       JSON!
+}
+
+type MlArtifact {
+    id:     ID!
+    runId:  ID!
+    name:   String!
+    type:   String!
+    uri:    String!
+    size:   String!
+    format: String!
+}
+
+type MlSchemaField {
+    name:        String!
+    type:        String!
+    description: String!
+}
+
+type MlDataset {
+    id:       ID!
+    name:     String!
+    source:   String!
+    type:     String!
+    rowCount: Int!
+    schema:   [MlSchemaField!]!
+}
+
+type MlDeployment {
+    id:           ID!
+    modelId:      ID!
+    versionId:    ID!
+    name:         String!
+    environment:  String!
+    status:       String!
+    endpoint:     String!
+    region:       String!
+    deployedAt:   Time
+    rolledBackAt: Time
+}
+
+type MlFinding {
+    id:          ID!
+    modelId:     ID!
+    versionId:   ID
+    title:       String!
+    summary:     String!
+    description: String!
+    runIds:      [ID!]!
+}
+
+input CreateMlDeploymentInput {
+    modelId:      ID!
+    versionId:    ID!
+    name:         String!
+    environment:  String
+    status:       String
+    endpoint:     String
+    region:       String
+    deployedAt:   Time
+    rolledBackAt: Time
+}
+
+input UpdateMlDeploymentInput {
+    name:         String
+    environment:  String
+    status:       String
+    endpoint:     String
+    region:       String
+    deployedAt:   Time
+    rolledBackAt: Time
+}
+
+input CreateMlFindingInput {
+    modelId:     ID!
+    versionId:   ID
+    title:       String!
+    summary:     String
+    description: String
+    runIds:      [ID!]
+}
+
+input UpdateMlFindingInput {
+    versionId:   ID
+    title:       String
+    summary:     String
+    description: String
+    runIds:      [ID!]
+}
