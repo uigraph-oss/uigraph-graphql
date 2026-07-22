@@ -179,6 +179,15 @@ func (r *queryResolver) MlDataset(ctx context.Context, orgID string, id string) 
 	return convert.MLDatasetToModel(ds), nil
 }
 
+// MlEvaluationDatasets is the resolver for the mlEvaluationDatasets field.
+func (r *queryResolver) MlEvaluationDatasets(ctx context.Context, orgID string, experimentID *string) ([]*model.MlEvaluationDataset, error) {
+	datasets, err := r.MLStudio.ListMLEvaluationDatasets(ctx, orgID, derefStr(experimentID))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLEvaluationDatasetsToModel(datasets), nil
+}
+
 // MlDeployments is the resolver for the mlDeployments field.
 func (r *queryResolver) MlDeployments(ctx context.Context, orgID string, modelID *string, versionID *string) ([]*model.MlDeployment, error) {
 	deployments, err := r.MLStudio.ListMLDeployments(ctx, orgID, derefStr(modelID), derefStr(versionID))

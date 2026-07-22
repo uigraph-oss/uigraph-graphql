@@ -1095,6 +1095,16 @@ type MlDeployment struct {
 	RolledBackAt *time.Time `json:"rolledBackAt,omitempty"`
 }
 
+type MlEvaluationDataset struct {
+	ID         string           `json:"id"`
+	Name       string           `json:"name"`
+	Digest     string           `json:"digest"`
+	Source     string           `json:"source"`
+	SourceType string           `json:"sourceType"`
+	RowCount   int              `json:"rowCount"`
+	Schema     []*MlSchemaField `json:"schema"`
+}
+
 type MlExperiment struct {
 	ID          string     `json:"id"`
 	Name        string     `json:"name"`

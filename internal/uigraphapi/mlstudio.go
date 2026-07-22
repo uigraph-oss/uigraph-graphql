@@ -90,6 +90,17 @@ type MLDataset struct {
 	Schema   []MLSchemaField `json:"schema"`
 }
 
+type MLEvaluationDataset struct {
+	ID         string          `json:"id"`
+	OrgID      string          `json:"orgId"`
+	Name       string          `json:"name"`
+	Digest     string          `json:"digest"`
+	Source     string          `json:"source"`
+	SourceType string          `json:"sourceType"`
+	RowCount   int64           `json:"rowCount"`
+	Schema     []MLSchemaField `json:"schema"`
+}
+
 type MLDeployment struct {
 	ID           string     `json:"id"`
 	OrgID        string     `json:"orgId"`
@@ -220,6 +231,21 @@ func (c *Client) ListMLDatasets(ctx context.Context, orgID string) ([]MLDataset,
 func (c *Client) GetMLDataset(ctx context.Context, orgID, id string) (*MLDataset, error) {
 	var out MLDataset
 	return &out, c.get(ctx, mlBase(orgID)+"/datasets/"+id, &out)
+}
+
+func (c *Client) ListMLEvaluationDatasets(ctx context.Context, orgID, experimentID string) ([]MLEvaluationDataset, error) {
+	q := url.Values{}
+	if experimentID != "" {
+		q.Set("experimentId", experimentID)
+	}
+	path := mlBase(orgID) + "/evaluation-datasets"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var out struct {
+		EvaluationDatasets []MLEvaluationDataset `json:"evaluationDatasets"`
+	}
+	return out.EvaluationDatasets, c.get(ctx, path, &out)
 }
 
 func (c *Client) ListMLDeployments(ctx context.Context, orgID, modelID, versionID string) ([]MLDeployment, error) {

@@ -286,6 +286,7 @@ type mlStudioClient interface {
 	ListMLArtifacts(ctx context.Context, orgID, runID string) ([]uigraphapi.MLArtifact, error)
 	ListMLDatasets(ctx context.Context, orgID string) ([]uigraphapi.MLDataset, error)
 	GetMLDataset(ctx context.Context, orgID, id string) (*uigraphapi.MLDataset, error)
+	ListMLEvaluationDatasets(ctx context.Context, orgID, experimentID string) ([]uigraphapi.MLEvaluationDataset, error)
 	ListMLDeployments(ctx context.Context, orgID, modelID, versionID string) ([]uigraphapi.MLDeployment, error)
 	CreateMLDeployment(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLDeployment, error)
 	UpdateMLDeployment(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLDeployment, error)

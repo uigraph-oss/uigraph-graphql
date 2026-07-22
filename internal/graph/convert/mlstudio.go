@@ -124,6 +124,27 @@ func MLDatasetsToModel(in []uigraphapi.MLDataset) []*model.MlDataset {
 	return out
 }
 
+func MLEvaluationDatasetToModel(ds *uigraphapi.MLEvaluationDataset) *model.MlEvaluationDataset {
+	schema := make([]*model.MlSchemaField, len(ds.Schema))
+	for i := range ds.Schema {
+		schema[i] = &model.MlSchemaField{
+			Name: ds.Schema[i].Name, Type: ds.Schema[i].Type, Description: ds.Schema[i].Description,
+		}
+	}
+	return &model.MlEvaluationDataset{
+		ID: ds.ID, Name: ds.Name, Digest: ds.Digest, Source: ds.Source,
+		SourceType: ds.SourceType, RowCount: int(ds.RowCount), Schema: schema,
+	}
+}
+
+func MLEvaluationDatasetsToModel(in []uigraphapi.MLEvaluationDataset) []*model.MlEvaluationDataset {
+	out := make([]*model.MlEvaluationDataset, len(in))
+	for i := range in {
+		out[i] = MLEvaluationDatasetToModel(&in[i])
+	}
+	return out
+}
+
 func MLDeploymentToModel(d *uigraphapi.MLDeployment) *model.MlDeployment {
 	return &model.MlDeployment{
 		ID: d.ID, ModelID: d.ModelID, VersionID: d.VersionID, Name: d.Name, Environment: d.Environment,

@@ -722,6 +722,16 @@ type ComplexityRoot struct {
 		VersionID    func(childComplexity int) int
 	}
 
+	MlEvaluationDataset struct {
+		Digest     func(childComplexity int) int
+		ID         func(childComplexity int) int
+		Name       func(childComplexity int) int
+		RowCount   func(childComplexity int) int
+		Schema     func(childComplexity int) int
+		Source     func(childComplexity int) int
+		SourceType func(childComplexity int) int
+	}
+
 	MlExperiment struct {
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
@@ -1023,6 +1033,7 @@ type ComplexityRoot struct {
 		MlDataset              func(childComplexity int, orgID string, id string) int
 		MlDatasets             func(childComplexity int, orgID string) int
 		MlDeployments          func(childComplexity int, orgID string, modelID *string, versionID *string) int
+		MlEvaluationDatasets   func(childComplexity int, orgID string, experimentID *string) int
 		MlExperiment           func(childComplexity int, orgID string, id string) int
 		MlExperiments          func(childComplexity int, orgID string) int
 		MlFindings             func(childComplexity int, orgID string, modelID *string) int
@@ -1747,6 +1758,7 @@ type QueryResolver interface {
 	MlArtifacts(ctx context.Context, orgID string, runID *string) ([]*model.MlArtifact, error)
 	MlDatasets(ctx context.Context, orgID string) ([]*model.MlDataset, error)
 	MlDataset(ctx context.Context, orgID string, id string) (*model.MlDataset, error)
+	MlEvaluationDatasets(ctx context.Context, orgID string, experimentID *string) ([]*model.MlEvaluationDataset, error)
 	MlDeployments(ctx context.Context, orgID string, modelID *string, versionID *string) ([]*model.MlDeployment, error)
 	MlFindings(ctx context.Context, orgID string, modelID *string) ([]*model.MlFinding, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
@@ -5249,6 +5261,55 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlDeployment.VersionID(childComplexity), true
 
+	case "MlEvaluationDataset.digest":
+		if e.complexity.MlEvaluationDataset.Digest == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluationDataset.Digest(childComplexity), true
+
+	case "MlEvaluationDataset.id":
+		if e.complexity.MlEvaluationDataset.ID == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluationDataset.ID(childComplexity), true
+
+	case "MlEvaluationDataset.name":
+		if e.complexity.MlEvaluationDataset.Name == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluationDataset.Name(childComplexity), true
+
+	case "MlEvaluationDataset.rowCount":
+		if e.complexity.MlEvaluationDataset.RowCount == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluationDataset.RowCount(childComplexity), true
+
+	case "MlEvaluationDataset.schema":
+		if e.complexity.MlEvaluationDataset.Schema == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluationDataset.Schema(childComplexity), true
+
+	case "MlEvaluationDataset.source":
+		if e.complexity.MlEvaluationDataset.Source == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluationDataset.Source(childComplexity), true
+
+	case "MlEvaluationDataset.sourceType":
+		if e.complexity.MlEvaluationDataset.SourceType == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluationDataset.SourceType(childComplexity), true
+
 	case "MlExperiment.description":
 		if e.complexity.MlExperiment.Description == nil {
 			break
@@ -8007,6 +8068,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.MlDeployments(childComplexity, args["orgId"].(string), args["modelId"].(*string), args["versionId"].(*string)), true
+
+	case "Query.mlEvaluationDatasets":
+		if e.complexity.Query.MlEvaluationDatasets == nil {
+			break
+		}
+
+		args, err := ec.field_Query_mlEvaluationDatasets_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MlEvaluationDatasets(childComplexity, args["orgId"].(string), args["experimentId"].(*string)), true
 
 	case "Query.mlExperiment":
 		if e.complexity.Query.MlExperiment == nil {
@@ -12330,6 +12403,7 @@ type UserSavings {
     mlArtifacts(orgId: ID!, runId: ID):                         [MlArtifact!]!
     mlDatasets(orgId: ID!):                                     [MlDataset!]!
     mlDataset(orgId: ID!, id: ID!):                             MlDataset!
+    mlEvaluationDatasets(orgId: ID!, experimentId: ID):         [MlEvaluationDataset!]!
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
     mlFindings(orgId: ID!, modelId: ID):                        [MlFinding!]!
 }
@@ -12414,6 +12488,16 @@ type MlDataset {
     type:     String!
     rowCount: Int!
     schema:   [MlSchemaField!]!
+}
+
+type MlEvaluationDataset {
+    id:         ID!
+    name:       String!
+    digest:     String!
+    source:     String!
+    sourceType: String!
+    rowCount:   Int!
+    schema:     [MlSchemaField!]!
 }
 
 type MlDeployment {
@@ -25712,6 +25796,57 @@ func (ec *executionContext) field_Query_mlDeployments_argsVersionID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
 	if tmp, ok := rawArgs["versionId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluationDatasets_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_mlEvaluationDatasets_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlEvaluationDatasets_argsExperimentID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["experimentId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_mlEvaluationDatasets_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluationDatasets_argsExperimentID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["experimentId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("experimentId"))
+	if tmp, ok := rawArgs["experimentId"]; ok {
 		return ec.unmarshalOID2ᚖstring(ctx, tmp)
 	}
 
@@ -49811,6 +49946,322 @@ func (ec *executionContext) fieldContext_MlDeployment_rolledBackAt(_ context.Con
 	return fc, nil
 }
 
+func (ec *executionContext) _MlEvaluationDataset_id(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationDataset) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluationDataset_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluationDataset_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluationDataset",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlEvaluationDataset_name(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationDataset) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluationDataset_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluationDataset_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluationDataset",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlEvaluationDataset_digest(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationDataset) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluationDataset_digest(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Digest, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluationDataset_digest(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluationDataset",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlEvaluationDataset_source(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationDataset) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluationDataset_source(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Source, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluationDataset_source(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluationDataset",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlEvaluationDataset_sourceType(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationDataset) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluationDataset_sourceType(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SourceType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluationDataset_sourceType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluationDataset",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlEvaluationDataset_rowCount(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationDataset) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluationDataset_rowCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RowCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluationDataset_rowCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluationDataset",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlEvaluationDataset_schema(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationDataset) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluationDataset_schema(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Schema, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.MlSchemaField)
+	fc.Result = res
+	return ec.marshalNMlSchemaField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlSchemaFieldᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluationDataset_schema(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluationDataset",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "name":
+				return ec.fieldContext_MlSchemaField_name(ctx, field)
+			case "type":
+				return ec.fieldContext_MlSchemaField_type(ctx, field)
+			case "description":
+				return ec.fieldContext_MlSchemaField_description(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlSchemaField", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlExperiment_id(ctx context.Context, field graphql.CollectedField, obj *model.MlExperiment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlExperiment_id(ctx, field)
 	if err != nil {
@@ -67773,6 +68224,77 @@ func (ec *executionContext) fieldContext_Query_mlDataset(ctx context.Context, fi
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_mlDataset_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_mlEvaluationDatasets(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_mlEvaluationDatasets(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().MlEvaluationDatasets(rctx, fc.Args["orgId"].(string), fc.Args["experimentId"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.MlEvaluationDataset)
+	fc.Result = res
+	return ec.marshalNMlEvaluationDataset2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationDatasetᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_mlEvaluationDatasets(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlEvaluationDataset_id(ctx, field)
+			case "name":
+				return ec.fieldContext_MlEvaluationDataset_name(ctx, field)
+			case "digest":
+				return ec.fieldContext_MlEvaluationDataset_digest(ctx, field)
+			case "source":
+				return ec.fieldContext_MlEvaluationDataset_source(ctx, field)
+			case "sourceType":
+				return ec.fieldContext_MlEvaluationDataset_sourceType(ctx, field)
+			case "rowCount":
+				return ec.fieldContext_MlEvaluationDataset_rowCount(ctx, field)
+			case "schema":
+				return ec.fieldContext_MlEvaluationDataset_schema(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlEvaluationDataset", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_mlEvaluationDatasets_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -97218,6 +97740,75 @@ func (ec *executionContext) _MlDeployment(ctx context.Context, sel ast.Selection
 	return out
 }
 
+var mlEvaluationDatasetImplementors = []string{"MlEvaluationDataset"}
+
+func (ec *executionContext) _MlEvaluationDataset(ctx context.Context, sel ast.SelectionSet, obj *model.MlEvaluationDataset) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mlEvaluationDatasetImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MlEvaluationDataset")
+		case "id":
+			out.Values[i] = ec._MlEvaluationDataset_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._MlEvaluationDataset_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "digest":
+			out.Values[i] = ec._MlEvaluationDataset_digest(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "source":
+			out.Values[i] = ec._MlEvaluationDataset_source(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "sourceType":
+			out.Values[i] = ec._MlEvaluationDataset_sourceType(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "rowCount":
+			out.Values[i] = ec._MlEvaluationDataset_rowCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "schema":
+			out.Values[i] = ec._MlEvaluationDataset_schema(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var mlExperimentImplementors = []string{"MlExperiment"}
 
 func (ec *executionContext) _MlExperiment(ctx context.Context, sel ast.SelectionSet, obj *model.MlExperiment) graphql.Marshaler {
@@ -100391,6 +100982,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_mlDataset(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "mlEvaluationDatasets":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_mlEvaluationDatasets(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -106561,6 +107174,60 @@ func (ec *executionContext) marshalNMlDeployment2ᚖgithubᚗcomᚋuigraphᚋgra
 		return graphql.Null
 	}
 	return ec._MlDeployment(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMlEvaluationDataset2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationDatasetᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MlEvaluationDataset) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNMlEvaluationDataset2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationDataset(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNMlEvaluationDataset2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationDataset(ctx context.Context, sel ast.SelectionSet, v *model.MlEvaluationDataset) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MlEvaluationDataset(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNMlExperiment2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlExperiment(ctx context.Context, sel ast.SelectionSet, v model.MlExperiment) graphql.Marshaler {
