@@ -87,6 +87,15 @@ func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id s
 	return convert.MLModelToModel(m), nil
 }
 
+// CreateMlVersionDeploymentUpdate is the resolver for the createMlVersionDeploymentUpdate field.
+func (r *mutationResolver) CreateMlVersionDeploymentUpdate(ctx context.Context, orgID string, versionID string, toStatus string) (*model.MlVersionDeploymentUpdate, error) {
+	u, err := r.MLStudio.CreateVersionDeploymentUpdate(ctx, orgID, versionID, map[string]interface{}{"toStatus": toStatus})
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLVersionDeploymentUpdateToModel(u), nil
+}
+
 // MlModels is the resolver for the mlModels field.
 func (r *queryResolver) MlModels(ctx context.Context, orgID string) ([]*model.MlModel, error) {
 	models, err := r.MLStudio.ListMLModels(ctx, orgID)
@@ -202,6 +211,15 @@ func (r *queryResolver) MlFindings(ctx context.Context, orgID string, modelID *s
 		return nil, err
 	}
 	return convert.MLFindingsToModel(findings), nil
+}
+
+// MlVersionDeploymentUpdates is the resolver for the mlVersionDeploymentUpdates field.
+func (r *queryResolver) MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID string) ([]*model.MlVersionDeploymentUpdate, error) {
+	updates, err := r.MLStudio.ListVersionDeploymentUpdates(ctx, orgID, versionID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLVersionDeploymentUpdatesToModel(updates), nil
 }
 
 // MlRun returns generated.MlRunResolver implementation.

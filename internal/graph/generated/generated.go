@@ -764,14 +764,13 @@ type ComplexityRoot struct {
 	}
 
 	MlModelVersion struct {
-		CreatedAt   func(childComplexity int) int
-		Description func(childComplexity int) int
-		ID          func(childComplexity int) int
-		ModelID     func(childComplexity int) int
-		RunID       func(childComplexity int) int
-		Stage       func(childComplexity int) int
-		Status      func(childComplexity int) int
-		Version     func(childComplexity int) int
+		CreatedAt        func(childComplexity int) int
+		DeploymentStatus func(childComplexity int) int
+		Description      func(childComplexity int) int
+		ID               func(childComplexity int) int
+		ModelID          func(childComplexity int) int
+		RunID            func(childComplexity int) int
+		Version          func(childComplexity int) int
 	}
 
 	MlRun struct {
@@ -794,6 +793,15 @@ type ComplexityRoot struct {
 		Description func(childComplexity int) int
 		Name        func(childComplexity int) int
 		Type        func(childComplexity int) int
+	}
+
+	MlVersionDeploymentUpdate struct {
+		ChangedAt  func(childComplexity int) int
+		ChangedBy  func(childComplexity int) int
+		FromStatus func(childComplexity int) int
+		ID         func(childComplexity int) int
+		ToStatus   func(childComplexity int) int
+		VersionID  func(childComplexity int) int
 	}
 
 	ModelSavings struct {
@@ -831,6 +839,7 @@ type ComplexityRoot struct {
 		CreateMap                         func(childComplexity int, orgID string, input model.CreateMapInput) int
 		CreateMlDeployment                func(childComplexity int, orgID string, input model.CreateMlDeploymentInput) int
 		CreateMlFinding                   func(childComplexity int, orgID string, input model.CreateMlFindingInput) int
+		CreateMlVersionDeploymentUpdate   func(childComplexity int, orgID string, versionID string, toStatus string) int
 		CreateOrg                         func(childComplexity int, input model.CreateOrgInput) int
 		CreateRoleMapping                 func(childComplexity int, input model.CreateRoleMappingInput) int
 		CreateSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateSavedQueryInput) int
@@ -981,106 +990,107 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		APIEndpoint            func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
-		APIEndpointByID        func(childComplexity int, orgID string, id string) int
-		APIEndpoints           func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
-		APIGroup               func(childComplexity int, orgID string, serviceID string, id string) int
-		APIGroupSpec           func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
-		APIGroupVersions       func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
-		APIGroups              func(childComplexity int, orgID string, serviceID string) int
-		Actor                  func(childComplexity int, orgID string, id string) int
-		AssetURL               func(childComplexity int, orgID string, assetID string) int
-		AssetUrls              func(childComplexity int, orgID string, assetIds []string) int
-		Canvas                 func(childComplexity int, orgID string, mapID string) int
-		ChatMessages           func(childComplexity int, orgID string, sessionID string) int
-		ChatSession            func(childComplexity int, orgID string, id string) int
-		ChatSessions           func(childComplexity int, orgID string) int
-		Comments               func(childComplexity int, orgID string, resourceID string) int
-		ComponentLinkUsages    func(childComplexity int, orgID string, linkID string) int
-		Components             func(childComplexity int, orgID string) int
-		CostSavingsByClient    func(childComplexity int, orgID string, period *string, modelID *string) int
-		CostSavingsByModel     func(childComplexity int, orgID string, period *string) int
-		CostSavingsByTool      func(childComplexity int, orgID string, period *string, modelID *string) int
-		CostSavingsByUser      func(childComplexity int, orgID string, period *string, modelID *string) int
-		CostSavingsSummary     func(childComplexity int, orgID string, period *string, modelID *string) int
-		CostSavingsTimeseries  func(childComplexity int, orgID string, period *string, modelID *string) int
-		Dependencies           func(childComplexity int, orgID string, serviceID string, direction *string, criticality *string) int
-		DependencyGraph        func(childComplexity int, orgID string) int
-		Diagram                func(childComplexity int, orgID string, id string) int
-		DiagramContent         func(childComplexity int, orgID string, id string) int
-		DiagramImages          func(childComplexity int, orgID string, diagramID string) int
-		DiagramVersionContent  func(childComplexity int, orgID string, diagramID string, versionID string) int
-		DiagramVersions        func(childComplexity int, orgID string, diagramID string) int
-		Diagrams               func(childComplexity int, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		Doc                    func(childComplexity int, orgID string, id string) int
-		Docs                   func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		FlowDiagramComponents  func(childComplexity int, orgID string) int
-		FocalPointMeta         func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string) int
-		FocalPointMetaByLink   func(childComplexity int, orgID string, linkID string) int
-		FocalPoints            func(childComplexity int, orgID string, mapID string, frameID string) int
-		Folder                 func(childComplexity int, orgID string, id string) int
-		Folders                func(childComplexity int, orgID string, typeArg *string, parentID *string) int
-		Frame                  func(childComplexity int, orgID string, mapID string, id string) int
-		FrameByID              func(childComplexity int, orgID string, id string) int
-		FrameGroups            func(childComplexity int, orgID string, mapID string, frameID string) int
-		FrameLinks             func(childComplexity int, orgID string, mapID string, frameID string) int
-		Frames                 func(childComplexity int, orgID string, mapID string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		Ldap                   func(childComplexity int) int
-		Map                    func(childComplexity int, orgID string, id string) int
-		Maps                   func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		Me                     func(childComplexity int) int
-		Members                func(childComplexity int, orgID string) int
-		MlArtifacts            func(childComplexity int, orgID string, runID *string) int
-		MlDataset              func(childComplexity int, orgID string, id string) int
-		MlDatasets             func(childComplexity int, orgID string, experimentID *string) int
-		MlDeployments          func(childComplexity int, orgID string, modelID *string, versionID *string) int
-		MlExperiment           func(childComplexity int, orgID string, id string) int
-		MlExperiments          func(childComplexity int, orgID string) int
-		MlFindings             func(childComplexity int, orgID string, modelID *string) int
-		MlModel                func(childComplexity int, orgID string, id string) int
-		MlModelVersion         func(childComplexity int, orgID string, id string) int
-		MlModelVersions        func(childComplexity int, orgID string, modelID *string) int
-		MlModels               func(childComplexity int, orgID string) int
-		MlRun                  func(childComplexity int, orgID string, id string) int
-		MlRuns                 func(childComplexity int, orgID string, experimentID *string) int
-		MyOrgs                 func(childComplexity int) int
-		OauthProviders         func(childComplexity int) int
-		Org                    func(childComplexity int, id string) int
-		Orgs                   func(childComplexity int) int
-		RoleMappings           func(childComplexity int) int
-		Saml                   func(childComplexity int) int
-		SavedQueries           func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
-		SavedQueryFolders      func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
-		Scim                   func(childComplexity int) int
-		ServerConfig           func(childComplexity int) int
-		ServerOrgs             func(childComplexity int) int
-		ServerOverview         func(childComplexity int) int
-		Service                func(childComplexity int, orgID string, id string) int
-		ServiceAccount         func(childComplexity int, orgID string, id string) int
-		ServiceAccountScopes   func(childComplexity int, orgID string) int
-		ServiceAccountTokens   func(childComplexity int, orgID string, saID string) int
-		ServiceAccounts        func(childComplexity int, orgID string) int
-		ServiceDBVersions      func(childComplexity int, orgID string, serviceID string, serviceDbID string) int
-		ServiceDBs             func(childComplexity int, orgID string, serviceID string) int
-		ServiceDb              func(childComplexity int, orgID string, serviceID string, id string) int
-		ServiceDependencyGraph func(childComplexity int, orgID string, serviceID string) int
-		ServiceDiagrams        func(childComplexity int, orgID string, serviceID string) int
-		ServiceDocByID         func(childComplexity int, orgID string, id string) int
-		ServiceDocs            func(childComplexity int, orgID string, serviceID string) int
-		ServiceImpact          func(childComplexity int, orgID string, serviceID string, direction *string, maxDepth *int) int
-		Services               func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		Team                   func(childComplexity int, orgID string, teamID string) int
-		TeamMembers            func(childComplexity int, orgID string, teamID string) int
-		Teams                  func(childComplexity int, orgID string) int
-		TestCases              func(childComplexity int, orgID string, serviceID string, testPackID *string) int
-		TestPackByID           func(childComplexity int, orgID string, id string) int
-		TestPacks              func(childComplexity int, orgID string, serviceID string) int
-		TestRun                func(childComplexity int, orgID string, serviceID string, id string) int
-		TestRunResults         func(childComplexity int, orgID string, serviceID string, testRunID string) int
-		TestRuns               func(childComplexity int, orgID string, serviceID string, testPackID *string) int
-		TestRunsSummary        func(childComplexity int, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) int
-		User                   func(childComplexity int, id string) int
-		Users                  func(childComplexity int) int
+		APIEndpoint                func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
+		APIEndpointByID            func(childComplexity int, orgID string, id string) int
+		APIEndpoints               func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
+		APIGroup                   func(childComplexity int, orgID string, serviceID string, id string) int
+		APIGroupSpec               func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
+		APIGroupVersions           func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
+		APIGroups                  func(childComplexity int, orgID string, serviceID string) int
+		Actor                      func(childComplexity int, orgID string, id string) int
+		AssetURL                   func(childComplexity int, orgID string, assetID string) int
+		AssetUrls                  func(childComplexity int, orgID string, assetIds []string) int
+		Canvas                     func(childComplexity int, orgID string, mapID string) int
+		ChatMessages               func(childComplexity int, orgID string, sessionID string) int
+		ChatSession                func(childComplexity int, orgID string, id string) int
+		ChatSessions               func(childComplexity int, orgID string) int
+		Comments                   func(childComplexity int, orgID string, resourceID string) int
+		ComponentLinkUsages        func(childComplexity int, orgID string, linkID string) int
+		Components                 func(childComplexity int, orgID string) int
+		CostSavingsByClient        func(childComplexity int, orgID string, period *string, modelID *string) int
+		CostSavingsByModel         func(childComplexity int, orgID string, period *string) int
+		CostSavingsByTool          func(childComplexity int, orgID string, period *string, modelID *string) int
+		CostSavingsByUser          func(childComplexity int, orgID string, period *string, modelID *string) int
+		CostSavingsSummary         func(childComplexity int, orgID string, period *string, modelID *string) int
+		CostSavingsTimeseries      func(childComplexity int, orgID string, period *string, modelID *string) int
+		Dependencies               func(childComplexity int, orgID string, serviceID string, direction *string, criticality *string) int
+		DependencyGraph            func(childComplexity int, orgID string) int
+		Diagram                    func(childComplexity int, orgID string, id string) int
+		DiagramContent             func(childComplexity int, orgID string, id string) int
+		DiagramImages              func(childComplexity int, orgID string, diagramID string) int
+		DiagramVersionContent      func(childComplexity int, orgID string, diagramID string, versionID string) int
+		DiagramVersions            func(childComplexity int, orgID string, diagramID string) int
+		Diagrams                   func(childComplexity int, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Doc                        func(childComplexity int, orgID string, id string) int
+		Docs                       func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		FlowDiagramComponents      func(childComplexity int, orgID string) int
+		FocalPointMeta             func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string) int
+		FocalPointMetaByLink       func(childComplexity int, orgID string, linkID string) int
+		FocalPoints                func(childComplexity int, orgID string, mapID string, frameID string) int
+		Folder                     func(childComplexity int, orgID string, id string) int
+		Folders                    func(childComplexity int, orgID string, typeArg *string, parentID *string) int
+		Frame                      func(childComplexity int, orgID string, mapID string, id string) int
+		FrameByID                  func(childComplexity int, orgID string, id string) int
+		FrameGroups                func(childComplexity int, orgID string, mapID string, frameID string) int
+		FrameLinks                 func(childComplexity int, orgID string, mapID string, frameID string) int
+		Frames                     func(childComplexity int, orgID string, mapID string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Ldap                       func(childComplexity int) int
+		Map                        func(childComplexity int, orgID string, id string) int
+		Maps                       func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Me                         func(childComplexity int) int
+		Members                    func(childComplexity int, orgID string) int
+		MlArtifacts                func(childComplexity int, orgID string, runID *string) int
+		MlDataset                  func(childComplexity int, orgID string, id string) int
+		MlDatasets                 func(childComplexity int, orgID string, experimentID *string) int
+		MlDeployments              func(childComplexity int, orgID string, modelID *string, versionID *string) int
+		MlExperiment               func(childComplexity int, orgID string, id string) int
+		MlExperiments              func(childComplexity int, orgID string) int
+		MlFindings                 func(childComplexity int, orgID string, modelID *string) int
+		MlModel                    func(childComplexity int, orgID string, id string) int
+		MlModelVersion             func(childComplexity int, orgID string, id string) int
+		MlModelVersions            func(childComplexity int, orgID string, modelID *string) int
+		MlModels                   func(childComplexity int, orgID string) int
+		MlRun                      func(childComplexity int, orgID string, id string) int
+		MlRuns                     func(childComplexity int, orgID string, experimentID *string) int
+		MlVersionDeploymentUpdates func(childComplexity int, orgID string, versionID string) int
+		MyOrgs                     func(childComplexity int) int
+		OauthProviders             func(childComplexity int) int
+		Org                        func(childComplexity int, id string) int
+		Orgs                       func(childComplexity int) int
+		RoleMappings               func(childComplexity int) int
+		Saml                       func(childComplexity int) int
+		SavedQueries               func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
+		SavedQueryFolders          func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
+		Scim                       func(childComplexity int) int
+		ServerConfig               func(childComplexity int) int
+		ServerOrgs                 func(childComplexity int) int
+		ServerOverview             func(childComplexity int) int
+		Service                    func(childComplexity int, orgID string, id string) int
+		ServiceAccount             func(childComplexity int, orgID string, id string) int
+		ServiceAccountScopes       func(childComplexity int, orgID string) int
+		ServiceAccountTokens       func(childComplexity int, orgID string, saID string) int
+		ServiceAccounts            func(childComplexity int, orgID string) int
+		ServiceDBVersions          func(childComplexity int, orgID string, serviceID string, serviceDbID string) int
+		ServiceDBs                 func(childComplexity int, orgID string, serviceID string) int
+		ServiceDb                  func(childComplexity int, orgID string, serviceID string, id string) int
+		ServiceDependencyGraph     func(childComplexity int, orgID string, serviceID string) int
+		ServiceDiagrams            func(childComplexity int, orgID string, serviceID string) int
+		ServiceDocByID             func(childComplexity int, orgID string, id string) int
+		ServiceDocs                func(childComplexity int, orgID string, serviceID string) int
+		ServiceImpact              func(childComplexity int, orgID string, serviceID string, direction *string, maxDepth *int) int
+		Services                   func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Team                       func(childComplexity int, orgID string, teamID string) int
+		TeamMembers                func(childComplexity int, orgID string, teamID string) int
+		Teams                      func(childComplexity int, orgID string) int
+		TestCases                  func(childComplexity int, orgID string, serviceID string, testPackID *string) int
+		TestPackByID               func(childComplexity int, orgID string, id string) int
+		TestPacks                  func(childComplexity int, orgID string, serviceID string) int
+		TestRun                    func(childComplexity int, orgID string, serviceID string, id string) int
+		TestRunResults             func(childComplexity int, orgID string, serviceID string, testRunID string) int
+		TestRuns                   func(childComplexity int, orgID string, serviceID string, testPackID *string) int
+		TestRunsSummary            func(childComplexity int, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) int
+		User                       func(childComplexity int, id string) int
+		Users                      func(childComplexity int) int
 	}
 
 	RoleMapping struct {
@@ -1635,6 +1645,7 @@ type MutationResolver interface {
 	UpdateMlFinding(ctx context.Context, orgID string, id string, input model.UpdateMlFindingInput) (*model.MlFinding, error)
 	DeleteMlFinding(ctx context.Context, orgID string, id string) (bool, error)
 	UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, owners *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error)
+	CreateMlVersionDeploymentUpdate(ctx context.Context, orgID string, versionID string, toStatus string) (*model.MlVersionDeploymentUpdate, error)
 	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
 	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
 	DeleteOrg(ctx context.Context, id string) (bool, error)
@@ -1760,6 +1771,7 @@ type QueryResolver interface {
 	MlDataset(ctx context.Context, orgID string, id string) (*model.MlDataset, error)
 	MlDeployments(ctx context.Context, orgID string, modelID *string, versionID *string) ([]*model.MlDeployment, error)
 	MlFindings(ctx context.Context, orgID string, modelID *string) ([]*model.MlFinding, error)
+	MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID string) ([]*model.MlVersionDeploymentUpdate, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
 	Orgs(ctx context.Context) ([]*model.Org, error)
 	Members(ctx context.Context, orgID string) ([]*model.Member, error)
@@ -5491,6 +5503,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlModelVersion.CreatedAt(childComplexity), true
 
+	case "MlModelVersion.deploymentStatus":
+		if e.complexity.MlModelVersion.DeploymentStatus == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersion.DeploymentStatus(childComplexity), true
+
 	case "MlModelVersion.description":
 		if e.complexity.MlModelVersion.Description == nil {
 			break
@@ -5518,20 +5537,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlModelVersion.RunID(childComplexity), true
-
-	case "MlModelVersion.stage":
-		if e.complexity.MlModelVersion.Stage == nil {
-			break
-		}
-
-		return e.complexity.MlModelVersion.Stage(childComplexity), true
-
-	case "MlModelVersion.status":
-		if e.complexity.MlModelVersion.Status == nil {
-			break
-		}
-
-		return e.complexity.MlModelVersion.Status(childComplexity), true
 
 	case "MlModelVersion.version":
 		if e.complexity.MlModelVersion.Version == nil {
@@ -5651,6 +5656,48 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlSchemaField.Type(childComplexity), true
+
+	case "MlVersionDeploymentUpdate.changedAt":
+		if e.complexity.MlVersionDeploymentUpdate.ChangedAt == nil {
+			break
+		}
+
+		return e.complexity.MlVersionDeploymentUpdate.ChangedAt(childComplexity), true
+
+	case "MlVersionDeploymentUpdate.changedBy":
+		if e.complexity.MlVersionDeploymentUpdate.ChangedBy == nil {
+			break
+		}
+
+		return e.complexity.MlVersionDeploymentUpdate.ChangedBy(childComplexity), true
+
+	case "MlVersionDeploymentUpdate.fromStatus":
+		if e.complexity.MlVersionDeploymentUpdate.FromStatus == nil {
+			break
+		}
+
+		return e.complexity.MlVersionDeploymentUpdate.FromStatus(childComplexity), true
+
+	case "MlVersionDeploymentUpdate.id":
+		if e.complexity.MlVersionDeploymentUpdate.ID == nil {
+			break
+		}
+
+		return e.complexity.MlVersionDeploymentUpdate.ID(childComplexity), true
+
+	case "MlVersionDeploymentUpdate.toStatus":
+		if e.complexity.MlVersionDeploymentUpdate.ToStatus == nil {
+			break
+		}
+
+		return e.complexity.MlVersionDeploymentUpdate.ToStatus(childComplexity), true
+
+	case "MlVersionDeploymentUpdate.versionId":
+		if e.complexity.MlVersionDeploymentUpdate.VersionID == nil {
+			break
+		}
+
+		return e.complexity.MlVersionDeploymentUpdate.VersionID(childComplexity), true
 
 	case "ModelSavings.costRawUsd":
 		if e.complexity.ModelSavings.CostRawUsd == nil {
@@ -5988,6 +6035,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateMlFinding(childComplexity, args["orgId"].(string), args["input"].(model.CreateMlFindingInput)), true
+
+	case "Mutation.createMlVersionDeploymentUpdate":
+		if e.complexity.Mutation.CreateMlVersionDeploymentUpdate == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMlVersionDeploymentUpdate_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMlVersionDeploymentUpdate(childComplexity, args["orgId"].(string), args["versionId"].(string), args["toStatus"].(string)), true
 
 	case "Mutation.createOrg":
 		if e.complexity.Mutation.CreateOrg == nil {
@@ -8203,6 +8262,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.MlRuns(childComplexity, args["orgId"].(string), args["experimentId"].(*string)), true
+
+	case "Query.mlVersionDeploymentUpdates":
+		if e.complexity.Query.MlVersionDeploymentUpdates == nil {
+			break
+		}
+
+		args, err := ec.field_Query_mlVersionDeploymentUpdates_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MlVersionDeploymentUpdates(childComplexity, args["orgId"].(string), args["versionId"].(string)), true
 
 	case "Query.myOrgs":
 		if e.complexity.Query.MyOrgs == nil {
@@ -12420,6 +12491,7 @@ type UserSavings {
     mlDataset(orgId: ID!, id: ID!):                             MlDataset!
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
     mlFindings(orgId: ID!, modelId: ID):                        [MlFinding!]!
+    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID!):     [MlVersionDeploymentUpdate!]!
 }
 
 extend type Mutation {
@@ -12430,6 +12502,7 @@ extend type Mutation {
     updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
     deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
     updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, owners: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
+    createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
 }
 
 type MlModel {
@@ -12452,14 +12525,22 @@ type MlModel {
 }
 
 type MlModelVersion {
-    id:          ID!
-    modelId:     ID!
-    version:     String!
-    description: String!
-    status:      String!
-    stage:       String!
-    runId:       ID
-    createdAt:   Time
+    id:               ID!
+    modelId:          ID!
+    version:          String!
+    description:      String!
+    deploymentStatus: String!
+    runId:            ID
+    createdAt:        Time
+}
+
+type MlVersionDeploymentUpdate {
+    id:         ID!
+    versionId:  ID!
+    fromStatus: String
+    toStatus:   String!
+    changedBy:  ID!
+    changedAt:  Time
 }
 
 type MlExperiment {
@@ -15196,6 +15277,80 @@ func (ec *executionContext) field_Mutation_createMlFinding_argsInput(
 	}
 
 	var zeroVal model.CreateMlFindingInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlVersionDeploymentUpdate_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createMlVersionDeploymentUpdate_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createMlVersionDeploymentUpdate_argsVersionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["versionId"] = arg1
+	arg2, err := ec.field_Mutation_createMlVersionDeploymentUpdate_argsToStatus(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["toStatus"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createMlVersionDeploymentUpdate_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlVersionDeploymentUpdate_argsVersionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["versionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
+	if tmp, ok := rawArgs["versionId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlVersionDeploymentUpdate_argsToStatus(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["toStatus"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("toStatus"))
+	if tmp, ok := rawArgs["toStatus"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -26412,6 +26567,57 @@ func (ec *executionContext) field_Query_mlRuns_argsExperimentID(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_mlVersionDeploymentUpdates_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlVersionDeploymentUpdates_argsVersionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["versionId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_argsVersionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["versionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
+	if tmp, ok := rawArgs["versionId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -51663,8 +51869,8 @@ func (ec *executionContext) fieldContext_MlModelVersion_description(_ context.Co
 	return fc, nil
 }
 
-func (ec *executionContext) _MlModelVersion_status(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlModelVersion_status(ctx, field)
+func (ec *executionContext) _MlModelVersion_deploymentStatus(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersion_deploymentStatus(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -51677,7 +51883,7 @@ func (ec *executionContext) _MlModelVersion_status(ctx context.Context, field gr
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Status, nil
+		return obj.DeploymentStatus, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -51694,51 +51900,7 @@ func (ec *executionContext) _MlModelVersion_status(ctx context.Context, field gr
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_MlModelVersion_status(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlModelVersion",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _MlModelVersion_stage(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlModelVersion_stage(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Stage, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlModelVersion_stage(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_MlModelVersion_deploymentStatus(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "MlModelVersion",
 		Field:      field,
@@ -52523,6 +52685,264 @@ func (ec *executionContext) fieldContext_MlSchemaField_description(_ context.Con
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlVersionDeploymentUpdate_id(ctx context.Context, field graphql.CollectedField, obj *model.MlVersionDeploymentUpdate) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlVersionDeploymentUpdate_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlVersionDeploymentUpdate_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlVersionDeploymentUpdate",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlVersionDeploymentUpdate_versionId(ctx context.Context, field graphql.CollectedField, obj *model.MlVersionDeploymentUpdate) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlVersionDeploymentUpdate_versionId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.VersionID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlVersionDeploymentUpdate_versionId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlVersionDeploymentUpdate",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlVersionDeploymentUpdate_fromStatus(ctx context.Context, field graphql.CollectedField, obj *model.MlVersionDeploymentUpdate) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlVersionDeploymentUpdate_fromStatus(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FromStatus, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlVersionDeploymentUpdate_fromStatus(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlVersionDeploymentUpdate",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlVersionDeploymentUpdate_toStatus(ctx context.Context, field graphql.CollectedField, obj *model.MlVersionDeploymentUpdate) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlVersionDeploymentUpdate_toStatus(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ToStatus, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlVersionDeploymentUpdate_toStatus(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlVersionDeploymentUpdate",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlVersionDeploymentUpdate_changedBy(ctx context.Context, field graphql.CollectedField, obj *model.MlVersionDeploymentUpdate) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlVersionDeploymentUpdate_changedBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ChangedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlVersionDeploymentUpdate_changedBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlVersionDeploymentUpdate",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlVersionDeploymentUpdate_changedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlVersionDeploymentUpdate) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlVersionDeploymentUpdate_changedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ChangedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlVersionDeploymentUpdate_changedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlVersionDeploymentUpdate",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -58181,6 +58601,75 @@ func (ec *executionContext) fieldContext_Mutation_updateMlModel(ctx context.Cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_updateMlModel_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createMlVersionDeploymentUpdate(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createMlVersionDeploymentUpdate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMlVersionDeploymentUpdate(rctx, fc.Args["orgId"].(string), fc.Args["versionId"].(string), fc.Args["toStatus"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlVersionDeploymentUpdate)
+	fc.Result = res
+	return ec.marshalNMlVersionDeploymentUpdate2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlVersionDeploymentUpdate(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createMlVersionDeploymentUpdate(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlVersionDeploymentUpdate_id(ctx, field)
+			case "versionId":
+				return ec.fieldContext_MlVersionDeploymentUpdate_versionId(ctx, field)
+			case "fromStatus":
+				return ec.fieldContext_MlVersionDeploymentUpdate_fromStatus(ctx, field)
+			case "toStatus":
+				return ec.fieldContext_MlVersionDeploymentUpdate_toStatus(ctx, field)
+			case "changedBy":
+				return ec.fieldContext_MlVersionDeploymentUpdate_changedBy(ctx, field)
+			case "changedAt":
+				return ec.fieldContext_MlVersionDeploymentUpdate_changedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlVersionDeploymentUpdate", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createMlVersionDeploymentUpdate_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -67980,10 +68469,8 @@ func (ec *executionContext) fieldContext_Query_mlModelVersions(ctx context.Conte
 				return ec.fieldContext_MlModelVersion_version(ctx, field)
 			case "description":
 				return ec.fieldContext_MlModelVersion_description(ctx, field)
-			case "status":
-				return ec.fieldContext_MlModelVersion_status(ctx, field)
-			case "stage":
-				return ec.fieldContext_MlModelVersion_stage(ctx, field)
+			case "deploymentStatus":
+				return ec.fieldContext_MlModelVersion_deploymentStatus(ctx, field)
 			case "runId":
 				return ec.fieldContext_MlModelVersion_runId(ctx, field)
 			case "createdAt":
@@ -68053,10 +68540,8 @@ func (ec *executionContext) fieldContext_Query_mlModelVersion(ctx context.Contex
 				return ec.fieldContext_MlModelVersion_version(ctx, field)
 			case "description":
 				return ec.fieldContext_MlModelVersion_description(ctx, field)
-			case "status":
-				return ec.fieldContext_MlModelVersion_status(ctx, field)
-			case "stage":
-				return ec.fieldContext_MlModelVersion_stage(ctx, field)
+			case "deploymentStatus":
+				return ec.fieldContext_MlModelVersion_deploymentStatus(ctx, field)
 			case "runId":
 				return ec.fieldContext_MlModelVersion_runId(ctx, field)
 			case "createdAt":
@@ -68746,6 +69231,75 @@ func (ec *executionContext) fieldContext_Query_mlFindings(ctx context.Context, f
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_mlFindings_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_mlVersionDeploymentUpdates(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_mlVersionDeploymentUpdates(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().MlVersionDeploymentUpdates(rctx, fc.Args["orgId"].(string), fc.Args["versionId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.MlVersionDeploymentUpdate)
+	fc.Result = res
+	return ec.marshalNMlVersionDeploymentUpdate2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlVersionDeploymentUpdateᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_mlVersionDeploymentUpdates(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlVersionDeploymentUpdate_id(ctx, field)
+			case "versionId":
+				return ec.fieldContext_MlVersionDeploymentUpdate_versionId(ctx, field)
+			case "fromStatus":
+				return ec.fieldContext_MlVersionDeploymentUpdate_fromStatus(ctx, field)
+			case "toStatus":
+				return ec.fieldContext_MlVersionDeploymentUpdate_toStatus(ctx, field)
+			case "changedBy":
+				return ec.fieldContext_MlVersionDeploymentUpdate_changedBy(ctx, field)
+			case "changedAt":
+				return ec.fieldContext_MlVersionDeploymentUpdate_changedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlVersionDeploymentUpdate", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_mlVersionDeploymentUpdates_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -98321,13 +98875,8 @@ func (ec *executionContext) _MlModelVersion(ctx context.Context, sel ast.Selecti
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "status":
-			out.Values[i] = ec._MlModelVersion_status(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "stage":
-			out.Values[i] = ec._MlModelVersion_stage(ctx, field, obj)
+		case "deploymentStatus":
+			out.Values[i] = ec._MlModelVersion_deploymentStatus(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -98505,6 +99054,64 @@ func (ec *executionContext) _MlSchemaField(ctx context.Context, sel ast.Selectio
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var mlVersionDeploymentUpdateImplementors = []string{"MlVersionDeploymentUpdate"}
+
+func (ec *executionContext) _MlVersionDeploymentUpdate(ctx context.Context, sel ast.SelectionSet, obj *model.MlVersionDeploymentUpdate) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mlVersionDeploymentUpdateImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MlVersionDeploymentUpdate")
+		case "id":
+			out.Values[i] = ec._MlVersionDeploymentUpdate_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "versionId":
+			out.Values[i] = ec._MlVersionDeploymentUpdate_versionId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "fromStatus":
+			out.Values[i] = ec._MlVersionDeploymentUpdate_fromStatus(ctx, field, obj)
+		case "toStatus":
+			out.Values[i] = ec._MlVersionDeploymentUpdate_toStatus(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "changedBy":
+			out.Values[i] = ec._MlVersionDeploymentUpdate_changedBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "changedAt":
+			out.Values[i] = ec._MlVersionDeploymentUpdate_changedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -99144,6 +99751,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "updateMlModel":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateMlModel(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createMlVersionDeploymentUpdate":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMlVersionDeploymentUpdate(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -101315,6 +101929,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_mlFindings(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "mlVersionDeploymentUpdates":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_mlVersionDeploymentUpdates(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -107785,6 +108421,64 @@ func (ec *executionContext) marshalNMlSchemaField2ᚖgithubᚗcomᚋuigraphᚋgr
 		return graphql.Null
 	}
 	return ec._MlSchemaField(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMlVersionDeploymentUpdate2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlVersionDeploymentUpdate(ctx context.Context, sel ast.SelectionSet, v model.MlVersionDeploymentUpdate) graphql.Marshaler {
+	return ec._MlVersionDeploymentUpdate(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNMlVersionDeploymentUpdate2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlVersionDeploymentUpdateᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MlVersionDeploymentUpdate) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNMlVersionDeploymentUpdate2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlVersionDeploymentUpdate(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNMlVersionDeploymentUpdate2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlVersionDeploymentUpdate(ctx context.Context, sel ast.SelectionSet, v *model.MlVersionDeploymentUpdate) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MlVersionDeploymentUpdate(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNModelSavings2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐModelSavingsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ModelSavings) graphql.Marshaler {

@@ -1137,14 +1137,13 @@ type MlModel struct {
 }
 
 type MlModelVersion struct {
-	ID          string     `json:"id"`
-	ModelID     string     `json:"modelId"`
-	Version     string     `json:"version"`
-	Description string     `json:"description"`
-	Status      string     `json:"status"`
-	Stage       string     `json:"stage"`
-	RunID       *string    `json:"runId,omitempty"`
-	CreatedAt   *time.Time `json:"createdAt,omitempty"`
+	ID               string     `json:"id"`
+	ModelID          string     `json:"modelId"`
+	Version          string     `json:"version"`
+	Description      string     `json:"description"`
+	DeploymentStatus string     `json:"deploymentStatus"`
+	RunID            *string    `json:"runId,omitempty"`
+	CreatedAt        *time.Time `json:"createdAt,omitempty"`
 }
 
 type MlRun struct {
@@ -1167,6 +1166,15 @@ type MlSchemaField struct {
 	Name        string `json:"name"`
 	Type        string `json:"type"`
 	Description string `json:"description"`
+}
+
+type MlVersionDeploymentUpdate struct {
+	ID         string     `json:"id"`
+	VersionID  string     `json:"versionId"`
+	FromStatus *string    `json:"fromStatus,omitempty"`
+	ToStatus   string     `json:"toStatus"`
+	ChangedBy  string     `json:"changedBy"`
+	ChangedAt  *time.Time `json:"changedAt,omitempty"`
 }
 
 type ModelSavings struct {

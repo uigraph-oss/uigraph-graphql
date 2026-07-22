@@ -27,7 +27,7 @@ func MLModelsToModel(in []uigraphapi.MLModel) []*model.MlModel {
 func MLModelVersionToModel(v *uigraphapi.MLModelVersion) *model.MlModelVersion {
 	return &model.MlModelVersion{
 		ID: v.ID, ModelID: v.ModelID, Version: v.Version,
-		Description: v.Description, Status: v.Status, Stage: v.Stage, RunID: v.RunID,
+		Description: v.Description, DeploymentStatus: v.DeploymentStatus, RunID: v.RunID,
 		CreatedAt: v.CreatedAt,
 	}
 }
@@ -36,6 +36,21 @@ func MLModelVersionsToModel(in []uigraphapi.MLModelVersion) []*model.MlModelVers
 	out := make([]*model.MlModelVersion, len(in))
 	for i := range in {
 		out[i] = MLModelVersionToModel(&in[i])
+	}
+	return out
+}
+
+func MLVersionDeploymentUpdateToModel(u *uigraphapi.MLVersionDeploymentUpdate) *model.MlVersionDeploymentUpdate {
+	return &model.MlVersionDeploymentUpdate{
+		ID: u.ID, VersionID: u.VersionID, FromStatus: u.FromStatus,
+		ToStatus: u.ToStatus, ChangedBy: u.ChangedBy, ChangedAt: u.ChangedAt,
+	}
+}
+
+func MLVersionDeploymentUpdatesToModel(in []uigraphapi.MLVersionDeploymentUpdate) []*model.MlVersionDeploymentUpdate {
+	out := make([]*model.MlVersionDeploymentUpdate, len(in))
+	for i := range in {
+		out[i] = MLVersionDeploymentUpdateToModel(&in[i])
 	}
 	return out
 }

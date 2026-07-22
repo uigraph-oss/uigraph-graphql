@@ -28,15 +28,24 @@ type MLModel struct {
 }
 
 type MLModelVersion struct {
-	ID          string     `json:"id"`
-	OrgID       string     `json:"orgId"`
-	ModelID     string     `json:"modelId"`
-	Version     string     `json:"version"`
-	Description string     `json:"description"`
-	Status      string     `json:"status"`
-	Stage       string     `json:"stage"`
-	RunID       *string    `json:"runId,omitempty"`
-	CreatedAt   *time.Time `json:"createdAt,omitempty"`
+	ID               string     `json:"id"`
+	OrgID            string     `json:"orgId"`
+	ModelID          string     `json:"modelId"`
+	Version          string     `json:"version"`
+	Description      string     `json:"description"`
+	DeploymentStatus string     `json:"deploymentStatus"`
+	RunID            *string    `json:"runId,omitempty"`
+	CreatedAt        *time.Time `json:"createdAt,omitempty"`
+}
+
+type MLVersionDeploymentUpdate struct {
+	ID         string     `json:"id"`
+	OrgID      string     `json:"orgId"`
+	VersionID  string     `json:"versionId"`
+	FromStatus *string    `json:"fromStatus,omitempty"`
+	ToStatus   string     `json:"toStatus"`
+	ChangedBy  string     `json:"changedBy"`
+	ChangedAt  *time.Time `json:"changedAt,omitempty"`
 }
 
 type MLExperiment struct {
@@ -276,6 +285,18 @@ func (c *Client) UpdateMLDeployment(ctx context.Context, orgID, id string, body 
 
 func (c *Client) DeleteMLDeployment(ctx context.Context, orgID, id string) error {
 	return c.del(ctx, mlBase(orgID)+"/deployments/"+id)
+}
+
+func (c *Client) ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID string) ([]MLVersionDeploymentUpdate, error) {
+	var out struct {
+		Updates []MLVersionDeploymentUpdate `json:"updates"`
+	}
+	return out.Updates, c.get(ctx, fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID), &out)
+}
+
+func (c *Client) CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*MLVersionDeploymentUpdate, error) {
+	var out MLVersionDeploymentUpdate
+	return &out, c.post(ctx, fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID), body, &out)
 }
 
 func (c *Client) ListMLFindings(ctx context.Context, orgID, modelID string) ([]MLFinding, error) {

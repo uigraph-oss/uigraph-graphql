@@ -294,6 +294,8 @@ type mlStudioClient interface {
 	CreateMLFinding(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLFinding, error)
 	UpdateMLFinding(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLFinding, error)
 	DeleteMLFinding(ctx context.Context, orgID, id string) error
+	ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID string) ([]uigraphapi.MLVersionDeploymentUpdate, error)
+	CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*uigraphapi.MLVersionDeploymentUpdate, error)
 }
 
 type Resolver struct {

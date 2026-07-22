@@ -12,6 +12,7 @@ extend type Query {
     mlDataset(orgId: ID!, id: ID!):                             MlDataset!
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
     mlFindings(orgId: ID!, modelId: ID):                        [MlFinding!]!
+    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID!):     [MlVersionDeploymentUpdate!]!
 }
 
 extend type Mutation {
@@ -22,6 +23,7 @@ extend type Mutation {
     updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
     deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
     updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, owners: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
+    createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
 }
 
 type MlModel {
@@ -44,14 +46,22 @@ type MlModel {
 }
 
 type MlModelVersion {
-    id:          ID!
-    modelId:     ID!
-    version:     String!
-    description: String!
-    status:      String!
-    stage:       String!
-    runId:       ID
-    createdAt:   Time
+    id:               ID!
+    modelId:          ID!
+    version:          String!
+    description:      String!
+    deploymentStatus: String!
+    runId:            ID
+    createdAt:        Time
+}
+
+type MlVersionDeploymentUpdate {
+    id:         ID!
+    versionId:  ID!
+    fromStatus: String
+    toStatus:   String!
+    changedBy:  ID!
+    changedAt:  Time
 }
 
 type MlExperiment {
