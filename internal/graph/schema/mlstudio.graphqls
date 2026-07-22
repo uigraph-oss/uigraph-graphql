@@ -12,7 +12,7 @@ extend type Query {
     mlDataset(orgId: ID!, id: ID!):                             MlDataset!
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
     mlFindings(orgId: ID!, modelId: ID):                        [MlFinding!]!
-    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID!):     [MlVersionDeploymentUpdate!]!
+    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID):      [MlVersionDeploymentUpdate!]!
 }
 
 extend type Mutation {

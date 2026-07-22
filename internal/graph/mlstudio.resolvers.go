@@ -214,8 +214,8 @@ func (r *queryResolver) MlFindings(ctx context.Context, orgID string, modelID *s
 }
 
 // MlVersionDeploymentUpdates is the resolver for the mlVersionDeploymentUpdates field.
-func (r *queryResolver) MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID string) ([]*model.MlVersionDeploymentUpdate, error) {
-	updates, err := r.MLStudio.ListVersionDeploymentUpdates(ctx, orgID, versionID)
+func (r *queryResolver) MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID *string) ([]*model.MlVersionDeploymentUpdate, error) {
+	updates, err := r.MLStudio.ListVersionDeploymentUpdates(ctx, orgID, derefStr(versionID))
 	if err != nil {
 		return nil, err
 	}

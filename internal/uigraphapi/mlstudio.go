@@ -288,10 +288,14 @@ func (c *Client) DeleteMLDeployment(ctx context.Context, orgID, id string) error
 }
 
 func (c *Client) ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID string) ([]MLVersionDeploymentUpdate, error) {
+	path := mlBase(orgID) + "/deployment-updates"
+	if versionID != "" {
+		path = fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID)
+	}
 	var out struct {
 		Updates []MLVersionDeploymentUpdate `json:"updates"`
 	}
-	return out.Updates, c.get(ctx, fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID), &out)
+	return out.Updates, c.get(ctx, path, &out)
 }
 
 func (c *Client) CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*MLVersionDeploymentUpdate, error) {

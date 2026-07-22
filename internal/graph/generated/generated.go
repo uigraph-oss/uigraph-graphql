@@ -1052,7 +1052,7 @@ type ComplexityRoot struct {
 		MlModels                   func(childComplexity int, orgID string) int
 		MlRun                      func(childComplexity int, orgID string, id string) int
 		MlRuns                     func(childComplexity int, orgID string, experimentID *string) int
-		MlVersionDeploymentUpdates func(childComplexity int, orgID string, versionID string) int
+		MlVersionDeploymentUpdates func(childComplexity int, orgID string, versionID *string) int
 		MyOrgs                     func(childComplexity int) int
 		OauthProviders             func(childComplexity int) int
 		Org                        func(childComplexity int, id string) int
@@ -1771,7 +1771,7 @@ type QueryResolver interface {
 	MlDataset(ctx context.Context, orgID string, id string) (*model.MlDataset, error)
 	MlDeployments(ctx context.Context, orgID string, modelID *string, versionID *string) ([]*model.MlDeployment, error)
 	MlFindings(ctx context.Context, orgID string, modelID *string) ([]*model.MlFinding, error)
-	MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID string) ([]*model.MlVersionDeploymentUpdate, error)
+	MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID *string) ([]*model.MlVersionDeploymentUpdate, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
 	Orgs(ctx context.Context) ([]*model.Org, error)
 	Members(ctx context.Context, orgID string) ([]*model.Member, error)
@@ -8273,7 +8273,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.MlVersionDeploymentUpdates(childComplexity, args["orgId"].(string), args["versionId"].(string)), true
+		return e.complexity.Query.MlVersionDeploymentUpdates(childComplexity, args["orgId"].(string), args["versionId"].(*string)), true
 
 	case "Query.myOrgs":
 		if e.complexity.Query.MyOrgs == nil {
@@ -12491,7 +12491,7 @@ type UserSavings {
     mlDataset(orgId: ID!, id: ID!):                             MlDataset!
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
     mlFindings(orgId: ID!, modelId: ID):                        [MlFinding!]!
-    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID!):     [MlVersionDeploymentUpdate!]!
+    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID):      [MlVersionDeploymentUpdate!]!
 }
 
 extend type Mutation {
@@ -26606,18 +26606,18 @@ func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_argsOrgID(
 func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_argsVersionID(
 	ctx context.Context,
 	rawArgs map[string]any,
-) (string, error) {
+) (*string, error) {
 	if _, ok := rawArgs["versionId"]; !ok {
-		var zeroVal string
+		var zeroVal *string
 		return zeroVal, nil
 	}
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
 	if tmp, ok := rawArgs["versionId"]; ok {
-		return ec.unmarshalNID2string(ctx, tmp)
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
 	}
 
-	var zeroVal string
+	var zeroVal *string
 	return zeroVal, nil
 }
 
@@ -69251,7 +69251,7 @@ func (ec *executionContext) _Query_mlVersionDeploymentUpdates(ctx context.Contex
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().MlVersionDeploymentUpdates(rctx, fc.Args["orgId"].(string), fc.Args["versionId"].(string))
+		return ec.resolvers.Query().MlVersionDeploymentUpdates(rctx, fc.Args["orgId"].(string), fc.Args["versionId"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
