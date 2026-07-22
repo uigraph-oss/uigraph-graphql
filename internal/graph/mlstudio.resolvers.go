@@ -169,8 +169,8 @@ func (r *queryResolver) MlArtifacts(ctx context.Context, orgID string, runID *st
 }
 
 // MlDatasets is the resolver for the mlDatasets field.
-func (r *queryResolver) MlDatasets(ctx context.Context, orgID string) ([]*model.MlDataset, error) {
-	datasets, err := r.MLStudio.ListMLDatasets(ctx, orgID)
+func (r *queryResolver) MlDatasets(ctx context.Context, orgID string, experimentID *string) ([]*model.MlDataset, error) {
+	datasets, err := r.MLStudio.ListMLDatasets(ctx, orgID, derefStr(experimentID))
 	if err != nil {
 		return nil, err
 	}
@@ -184,15 +184,6 @@ func (r *queryResolver) MlDataset(ctx context.Context, orgID string, id string) 
 		return nil, err
 	}
 	return convert.MLDatasetToModel(ds), nil
-}
-
-// MlEvaluationDatasets is the resolver for the mlEvaluationDatasets field.
-func (r *queryResolver) MlEvaluationDatasets(ctx context.Context, orgID string, experimentID *string) ([]*model.MlEvaluationDataset, error) {
-	datasets, err := r.MLStudio.ListMLEvaluationDatasets(ctx, orgID, derefStr(experimentID))
-	if err != nil {
-		return nil, err
-	}
-	return convert.MLEvaluationDatasetsToModel(datasets), nil
 }
 
 // MlDeployments is the resolver for the mlDeployments field.

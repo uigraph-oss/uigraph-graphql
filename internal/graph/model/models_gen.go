@@ -1074,12 +1074,16 @@ type MlArtifact struct {
 }
 
 type MlDataset struct {
-	ID       string           `json:"id"`
-	Name     string           `json:"name"`
-	Source   string           `json:"source"`
-	Type     string           `json:"type"`
-	RowCount int              `json:"rowCount"`
-	Schema   []*MlSchemaField `json:"schema"`
+	ID           string           `json:"id"`
+	ExperimentID string           `json:"experimentId"`
+	Name         string           `json:"name"`
+	Digest       string           `json:"digest"`
+	Source       string           `json:"source"`
+	SourceType   string           `json:"sourceType"`
+	Context      string           `json:"context"`
+	RowCount     int              `json:"rowCount"`
+	Schema       []*MlSchemaField `json:"schema"`
+	Tags         any              `json:"tags"`
 }
 
 type MlDeployment struct {
@@ -1093,16 +1097,6 @@ type MlDeployment struct {
 	Region       string     `json:"region"`
 	DeployedAt   *time.Time `json:"deployedAt,omitempty"`
 	RolledBackAt *time.Time `json:"rolledBackAt,omitempty"`
-}
-
-type MlEvaluationDataset struct {
-	ID         string           `json:"id"`
-	Name       string           `json:"name"`
-	Digest     string           `json:"digest"`
-	Source     string           `json:"source"`
-	SourceType string           `json:"sourceType"`
-	RowCount   int              `json:"rowCount"`
-	Schema     []*MlSchemaField `json:"schema"`
 }
 
 type MlExperiment struct {

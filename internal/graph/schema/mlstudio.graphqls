@@ -8,9 +8,8 @@ extend type Query {
     mlRuns(orgId: ID!, experimentId: ID):                       [MlRun!]!
     mlRun(orgId: ID!, id: ID!):                                 MlRun!
     mlArtifacts(orgId: ID!, runId: ID):                         [MlArtifact!]!
-    mlDatasets(orgId: ID!):                                     [MlDataset!]!
+    mlDatasets(orgId: ID!, experimentId: ID):                   [MlDataset!]!
     mlDataset(orgId: ID!, id: ID!):                             MlDataset!
-    mlEvaluationDatasets(orgId: ID!, experimentId: ID):         [MlEvaluationDataset!]!
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
     mlFindings(orgId: ID!, modelId: ID):                        [MlFinding!]!
 }
@@ -96,22 +95,16 @@ type MlSchemaField {
 }
 
 type MlDataset {
-    id:       ID!
-    name:     String!
-    source:   String!
-    type:     String!
-    rowCount: Int!
-    schema:   [MlSchemaField!]!
-}
-
-type MlEvaluationDataset {
-    id:         ID!
-    name:       String!
-    digest:     String!
-    source:     String!
-    sourceType: String!
-    rowCount:   Int!
-    schema:     [MlSchemaField!]!
+    id:           ID!
+    experimentId: ID!
+    name:         String!
+    digest:       String!
+    source:       String!
+    sourceType:   String!
+    context:      String!
+    rowCount:     Int!
+    schema:       [MlSchemaField!]!
+    tags:         JSON!
 }
 
 type MlDeployment {
