@@ -751,15 +751,22 @@ type ComplexityRoot struct {
 	}
 
 	MlModel struct {
-		CreatedAt           func(childComplexity int) int
-		Description         func(childComplexity int) int
-		Domain              func(childComplexity int) int
-		ID                  func(childComplexity int) int
-		Name                func(childComplexity int) int
-		ProblemType         func(childComplexity int) int
-		ProductionVersionID func(childComplexity int) int
-		Tags                func(childComplexity int) int
-		UpdatedAt           func(childComplexity int) int
+		Caveats               func(childComplexity int) int
+		CreatedAt             func(childComplexity int) int
+		Description           func(childComplexity int) int
+		Domain                func(childComplexity int) int
+		EthicalConsiderations func(childComplexity int) int
+		ID                    func(childComplexity int) int
+		IntendedUse           func(childComplexity int) int
+		License               func(childComplexity int) int
+		Limitations           func(childComplexity int) int
+		Name                  func(childComplexity int) int
+		Owners                func(childComplexity int) int
+		ProblemType           func(childComplexity int) int
+		ProductionVersionID   func(childComplexity int) int
+		References            func(childComplexity int) int
+		Tags                  func(childComplexity int) int
+		UpdatedAt             func(childComplexity int) int
 	}
 
 	MlModelVersion struct {
@@ -918,7 +925,7 @@ type ComplexityRoot struct {
 		UpdateMember                      func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
 		UpdateMlDeployment                func(childComplexity int, orgID string, id string, input model.UpdateMlDeploymentInput) int
 		UpdateMlFinding                   func(childComplexity int, orgID string, id string, input model.UpdateMlFindingInput) int
-		UpdateMlModel                     func(childComplexity int, orgID string, id string, domain *string, problemType *string) int
+		UpdateMlModel                     func(childComplexity int, orgID string, id string, domain *string, problemType *string, owners *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) int
 		UpdateOrg                         func(childComplexity int, id string, input model.UpdateOrgInput) int
 		UpdateSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string, input model.UpdateSavedQueryInput) int
 		UpdateServerOrg                   func(childComplexity int, id string, input model.UpdateServerOrgInput) int
@@ -1634,7 +1641,7 @@ type MutationResolver interface {
 	CreateMlFinding(ctx context.Context, orgID string, input model.CreateMlFindingInput) (*model.MlFinding, error)
 	UpdateMlFinding(ctx context.Context, orgID string, id string, input model.UpdateMlFindingInput) (*model.MlFinding, error)
 	DeleteMlFinding(ctx context.Context, orgID string, id string) (bool, error)
-	UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string) (*model.MlModel, error)
+	UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, owners *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error)
 	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
 	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
 	DeleteOrg(ctx context.Context, id string) (bool, error)
@@ -5394,6 +5401,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlFinding.VersionID(childComplexity), true
 
+	case "MlModel.caveats":
+		if e.complexity.MlModel.Caveats == nil {
+			break
+		}
+
+		return e.complexity.MlModel.Caveats(childComplexity), true
+
 	case "MlModel.createdAt":
 		if e.complexity.MlModel.CreatedAt == nil {
 			break
@@ -5415,6 +5429,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlModel.Domain(childComplexity), true
 
+	case "MlModel.ethicalConsiderations":
+		if e.complexity.MlModel.EthicalConsiderations == nil {
+			break
+		}
+
+		return e.complexity.MlModel.EthicalConsiderations(childComplexity), true
+
 	case "MlModel.id":
 		if e.complexity.MlModel.ID == nil {
 			break
@@ -5422,12 +5443,40 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlModel.ID(childComplexity), true
 
+	case "MlModel.intendedUse":
+		if e.complexity.MlModel.IntendedUse == nil {
+			break
+		}
+
+		return e.complexity.MlModel.IntendedUse(childComplexity), true
+
+	case "MlModel.license":
+		if e.complexity.MlModel.License == nil {
+			break
+		}
+
+		return e.complexity.MlModel.License(childComplexity), true
+
+	case "MlModel.limitations":
+		if e.complexity.MlModel.Limitations == nil {
+			break
+		}
+
+		return e.complexity.MlModel.Limitations(childComplexity), true
+
 	case "MlModel.name":
 		if e.complexity.MlModel.Name == nil {
 			break
 		}
 
 		return e.complexity.MlModel.Name(childComplexity), true
+
+	case "MlModel.owners":
+		if e.complexity.MlModel.Owners == nil {
+			break
+		}
+
+		return e.complexity.MlModel.Owners(childComplexity), true
 
 	case "MlModel.problemType":
 		if e.complexity.MlModel.ProblemType == nil {
@@ -5442,6 +5491,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlModel.ProductionVersionID(childComplexity), true
+
+	case "MlModel.references":
+		if e.complexity.MlModel.References == nil {
+			break
+		}
+
+		return e.complexity.MlModel.References(childComplexity), true
 
 	case "MlModel.tags":
 		if e.complexity.MlModel.Tags == nil {
@@ -7013,7 +7069,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateMlModel(childComplexity, args["orgId"].(string), args["id"].(string), args["domain"].(*string), args["problemType"].(*string)), true
+		return e.complexity.Mutation.UpdateMlModel(childComplexity, args["orgId"].(string), args["id"].(string), args["domain"].(*string), args["problemType"].(*string), args["owners"].(*string), args["license"].(*string), args["references"].([]string), args["intendedUse"].(*string), args["limitations"].(*string), args["ethicalConsiderations"].(*string), args["caveats"].(*string)), true
 
 	case "Mutation.updateOrg":
 		if e.complexity.Mutation.UpdateOrg == nil {
@@ -12415,19 +12471,26 @@ extend type Mutation {
     createMlFinding(orgId: ID!, input: CreateMlFindingInput!):                MlFinding!
     updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
     deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
-    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String):  MlModel!
+    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, owners: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
 }
 
 type MlModel {
-    id:                  ID!
-    name:                String!
-    description:         String!
-    domain:              String!
-    problemType:         String!
-    tags:                [String!]!
-    productionVersionId: ID
-    createdAt:           Time
-    updatedAt:           Time
+    id:                    ID!
+    name:                  String!
+    description:           String!
+    domain:                String!
+    problemType:           String!
+    tags:                  [String!]!
+    owners:                String!
+    license:               String!
+    references:            [String!]!
+    intendedUse:           String!
+    limitations:           String!
+    ethicalConsiderations: String!
+    caveats:               String!
+    productionVersionId:   ID
+    createdAt:             Time
+    updatedAt:             Time
 }
 
 type MlModelVersion {
@@ -20899,6 +20962,41 @@ func (ec *executionContext) field_Mutation_updateMlModel_args(ctx context.Contex
 		return nil, err
 	}
 	args["problemType"] = arg3
+	arg4, err := ec.field_Mutation_updateMlModel_argsOwners(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["owners"] = arg4
+	arg5, err := ec.field_Mutation_updateMlModel_argsLicense(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["license"] = arg5
+	arg6, err := ec.field_Mutation_updateMlModel_argsReferences(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["references"] = arg6
+	arg7, err := ec.field_Mutation_updateMlModel_argsIntendedUse(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["intendedUse"] = arg7
+	arg8, err := ec.field_Mutation_updateMlModel_argsLimitations(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limitations"] = arg8
+	arg9, err := ec.field_Mutation_updateMlModel_argsEthicalConsiderations(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["ethicalConsiderations"] = arg9
+	arg10, err := ec.field_Mutation_updateMlModel_argsCaveats(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["caveats"] = arg10
 	return args, nil
 }
 func (ec *executionContext) field_Mutation_updateMlModel_argsOrgID(
@@ -20966,6 +21064,132 @@ func (ec *executionContext) field_Mutation_updateMlModel_argsProblemType(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("problemType"))
 	if tmp, ok := rawArgs["problemType"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlModel_argsOwners(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["owners"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("owners"))
+	if tmp, ok := rawArgs["owners"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlModel_argsLicense(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["license"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("license"))
+	if tmp, ok := rawArgs["license"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlModel_argsReferences(
+	ctx context.Context,
+	rawArgs map[string]any,
+) ([]string, error) {
+	if _, ok := rawArgs["references"]; !ok {
+		var zeroVal []string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("references"))
+	if tmp, ok := rawArgs["references"]; ok {
+		return ec.unmarshalOString2ᚕstringᚄ(ctx, tmp)
+	}
+
+	var zeroVal []string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlModel_argsIntendedUse(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["intendedUse"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("intendedUse"))
+	if tmp, ok := rawArgs["intendedUse"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlModel_argsLimitations(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["limitations"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limitations"))
+	if tmp, ok := rawArgs["limitations"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlModel_argsEthicalConsiderations(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["ethicalConsiderations"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("ethicalConsiderations"))
+	if tmp, ok := rawArgs["ethicalConsiderations"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlModel_argsCaveats(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["caveats"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("caveats"))
+	if tmp, ok := rawArgs["caveats"]; ok {
 		return ec.unmarshalOString2ᚖstring(ctx, tmp)
 	}
 
@@ -51048,6 +51272,314 @@ func (ec *executionContext) fieldContext_MlModel_tags(_ context.Context, field g
 	return fc, nil
 }
 
+func (ec *executionContext) _MlModel_owners(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModel_owners(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Owners, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModel_owners(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModel",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModel_license(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModel_license(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.License, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModel_license(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModel",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModel_references(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModel_references(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.References, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModel_references(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModel",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModel_intendedUse(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModel_intendedUse(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IntendedUse, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModel_intendedUse(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModel",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModel_limitations(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModel_limitations(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Limitations, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModel_limitations(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModel",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModel_ethicalConsiderations(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModel_ethicalConsiderations(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EthicalConsiderations, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModel_ethicalConsiderations(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModel",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModel_caveats(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModel_caveats(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Caveats, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModel_caveats(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModel",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlModel_productionVersionId(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlModel_productionVersionId(ctx, field)
 	if err != nil {
@@ -57796,7 +58328,7 @@ func (ec *executionContext) _Mutation_updateMlModel(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateMlModel(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["domain"].(*string), fc.Args["problemType"].(*string))
+		return ec.resolvers.Mutation().UpdateMlModel(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["domain"].(*string), fc.Args["problemType"].(*string), fc.Args["owners"].(*string), fc.Args["license"].(*string), fc.Args["references"].([]string), fc.Args["intendedUse"].(*string), fc.Args["limitations"].(*string), fc.Args["ethicalConsiderations"].(*string), fc.Args["caveats"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -57833,6 +58365,20 @@ func (ec *executionContext) fieldContext_Mutation_updateMlModel(ctx context.Cont
 				return ec.fieldContext_MlModel_problemType(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlModel_tags(ctx, field)
+			case "owners":
+				return ec.fieldContext_MlModel_owners(ctx, field)
+			case "license":
+				return ec.fieldContext_MlModel_license(ctx, field)
+			case "references":
+				return ec.fieldContext_MlModel_references(ctx, field)
+			case "intendedUse":
+				return ec.fieldContext_MlModel_intendedUse(ctx, field)
+			case "limitations":
+				return ec.fieldContext_MlModel_limitations(ctx, field)
+			case "ethicalConsiderations":
+				return ec.fieldContext_MlModel_ethicalConsiderations(ctx, field)
+			case "caveats":
+				return ec.fieldContext_MlModel_caveats(ctx, field)
 			case "productionVersionId":
 				return ec.fieldContext_MlModel_productionVersionId(ctx, field)
 			case "createdAt":
@@ -67476,6 +68022,20 @@ func (ec *executionContext) fieldContext_Query_mlModels(ctx context.Context, fie
 				return ec.fieldContext_MlModel_problemType(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlModel_tags(ctx, field)
+			case "owners":
+				return ec.fieldContext_MlModel_owners(ctx, field)
+			case "license":
+				return ec.fieldContext_MlModel_license(ctx, field)
+			case "references":
+				return ec.fieldContext_MlModel_references(ctx, field)
+			case "intendedUse":
+				return ec.fieldContext_MlModel_intendedUse(ctx, field)
+			case "limitations":
+				return ec.fieldContext_MlModel_limitations(ctx, field)
+			case "ethicalConsiderations":
+				return ec.fieldContext_MlModel_ethicalConsiderations(ctx, field)
+			case "caveats":
+				return ec.fieldContext_MlModel_caveats(ctx, field)
 			case "productionVersionId":
 				return ec.fieldContext_MlModel_productionVersionId(ctx, field)
 			case "createdAt":
@@ -67551,6 +68111,20 @@ func (ec *executionContext) fieldContext_Query_mlModel(ctx context.Context, fiel
 				return ec.fieldContext_MlModel_problemType(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlModel_tags(ctx, field)
+			case "owners":
+				return ec.fieldContext_MlModel_owners(ctx, field)
+			case "license":
+				return ec.fieldContext_MlModel_license(ctx, field)
+			case "references":
+				return ec.fieldContext_MlModel_references(ctx, field)
+			case "intendedUse":
+				return ec.fieldContext_MlModel_intendedUse(ctx, field)
+			case "limitations":
+				return ec.fieldContext_MlModel_limitations(ctx, field)
+			case "ethicalConsiderations":
+				return ec.fieldContext_MlModel_ethicalConsiderations(ctx, field)
+			case "caveats":
+				return ec.fieldContext_MlModel_caveats(ctx, field)
 			case "productionVersionId":
 				return ec.fieldContext_MlModel_productionVersionId(ctx, field)
 			case "createdAt":
@@ -97969,6 +98543,41 @@ func (ec *executionContext) _MlModel(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "tags":
 			out.Values[i] = ec._MlModel_tags(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "owners":
+			out.Values[i] = ec._MlModel_owners(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "license":
+			out.Values[i] = ec._MlModel_license(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "references":
+			out.Values[i] = ec._MlModel_references(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "intendedUse":
+			out.Values[i] = ec._MlModel_intendedUse(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "limitations":
+			out.Values[i] = ec._MlModel_limitations(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "ethicalConsiderations":
+			out.Values[i] = ec._MlModel_ethicalConsiderations(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "caveats":
+			out.Values[i] = ec._MlModel_caveats(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}

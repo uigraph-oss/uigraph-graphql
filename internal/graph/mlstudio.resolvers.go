@@ -68,10 +68,17 @@ func (r *mutationResolver) DeleteMlFinding(ctx context.Context, orgID string, id
 }
 
 // UpdateMlModel is the resolver for the updateMlModel field.
-func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string) (*model.MlModel, error) {
+func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, owners *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error) {
 	body := map[string]interface{}{
-		"domain":      derefStr(domain),
-		"problemType": derefStr(problemType),
+		"domain":                derefStr(domain),
+		"problemType":           derefStr(problemType),
+		"owners":                derefStr(owners),
+		"license":               derefStr(license),
+		"references":            references,
+		"intendedUse":           derefStr(intendedUse),
+		"limitations":           derefStr(limitations),
+		"ethicalConsiderations": derefStr(ethicalConsiderations),
+		"caveats":               derefStr(caveats),
 	}
 	m, err := r.MLStudio.UpdateMLModel(ctx, orgID, id, body)
 	if err != nil {

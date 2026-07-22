@@ -22,19 +22,26 @@ extend type Mutation {
     createMlFinding(orgId: ID!, input: CreateMlFindingInput!):                MlFinding!
     updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
     deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
-    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String):  MlModel!
+    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, owners: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
 }
 
 type MlModel {
-    id:                  ID!
-    name:                String!
-    description:         String!
-    domain:              String!
-    problemType:         String!
-    tags:                [String!]!
-    productionVersionId: ID
-    createdAt:           Time
-    updatedAt:           Time
+    id:                    ID!
+    name:                  String!
+    description:           String!
+    domain:                String!
+    problemType:           String!
+    tags:                  [String!]!
+    owners:                String!
+    license:               String!
+    references:            [String!]!
+    intendedUse:           String!
+    limitations:           String!
+    ethicalConsiderations: String!
+    caveats:               String!
+    productionVersionId:   ID
+    createdAt:             Time
+    updatedAt:             Time
 }
 
 type MlModelVersion {
