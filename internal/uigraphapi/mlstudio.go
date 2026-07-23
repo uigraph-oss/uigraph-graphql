@@ -8,14 +8,21 @@ import (
 )
 
 type MLProject struct {
-	ID          string  `json:"id"`
-	OrgID       string  `json:"orgId"`
-	Name        string  `json:"name"`
-	Type        string  `json:"type"`
-	Description string  `json:"description"`
-	SourceType  string  `json:"sourceType"`
-	SourceURL   string  `json:"sourceUrl"`
-	TeamID      *string `json:"teamId,omitempty"`
+	ID          string          `json:"id"`
+	OrgID       string          `json:"orgId"`
+	Name        string          `json:"name"`
+	Type        string          `json:"type"`
+	Description string          `json:"description"`
+	SourceType  string          `json:"sourceType"`
+	SourceURL   string          `json:"sourceUrl"`
+	TeamID      *string         `json:"teamId,omitempty"`
+	Stats       *MLProjectStats `json:"stats,omitempty"`
+}
+
+type MLProjectStats struct {
+	ModelCount      int `json:"modelCount"`
+	ExperimentCount int `json:"experimentCount"`
+	RunCount        int `json:"runCount"`
 }
 
 type MLModel struct {

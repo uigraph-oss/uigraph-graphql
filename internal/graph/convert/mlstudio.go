@@ -6,10 +6,18 @@ import (
 )
 
 func MLProjectToModel(p *uigraphapi.MLProject) *model.MlProject {
-	return &model.MlProject{
+	out := &model.MlProject{
 		ID: p.ID, Name: p.Name, Type: p.Type, Description: p.Description,
 		SourceType: p.SourceType, SourceURL: p.SourceURL, TeamID: p.TeamID,
 	}
+	if p.Stats != nil {
+		out.Stats = &model.MlProjectStats{
+			ModelCount:      p.Stats.ModelCount,
+			ExperimentCount: p.Stats.ExperimentCount,
+			RunCount:        p.Stats.RunCount,
+		}
+	}
+	return out
 }
 
 func MLProjectsToModel(in []uigraphapi.MLProject) []*model.MlProject {

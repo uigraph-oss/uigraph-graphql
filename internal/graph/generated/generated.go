@@ -783,8 +783,15 @@ type ComplexityRoot struct {
 		Name        func(childComplexity int) int
 		SourceType  func(childComplexity int) int
 		SourceURL   func(childComplexity int) int
+		Stats       func(childComplexity int) int
 		TeamID      func(childComplexity int) int
 		Type        func(childComplexity int) int
+	}
+
+	MlProjectStats struct {
+		ExperimentCount func(childComplexity int) int
+		ModelCount      func(childComplexity int) int
+		RunCount        func(childComplexity int) int
 	}
 
 	MlRun struct {
@@ -5630,6 +5637,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlProject.SourceURL(childComplexity), true
 
+	case "MlProject.stats":
+		if e.complexity.MlProject.Stats == nil {
+			break
+		}
+
+		return e.complexity.MlProject.Stats(childComplexity), true
+
 	case "MlProject.teamId":
 		if e.complexity.MlProject.TeamID == nil {
 			break
@@ -5643,6 +5657,27 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlProject.Type(childComplexity), true
+
+	case "MlProjectStats.experimentCount":
+		if e.complexity.MlProjectStats.ExperimentCount == nil {
+			break
+		}
+
+		return e.complexity.MlProjectStats.ExperimentCount(childComplexity), true
+
+	case "MlProjectStats.modelCount":
+		if e.complexity.MlProjectStats.ModelCount == nil {
+			break
+		}
+
+		return e.complexity.MlProjectStats.ModelCount(childComplexity), true
+
+	case "MlProjectStats.runCount":
+		if e.complexity.MlProjectStats.RunCount == nil {
+			break
+		}
+
+		return e.complexity.MlProjectStats.RunCount(childComplexity), true
 
 	case "MlRun.datasetId":
 		if e.complexity.MlRun.DatasetID == nil {
@@ -12666,6 +12701,13 @@ type MlProject {
     sourceType:  String!
     sourceUrl:   String!
     teamId:      ID
+    stats:       MlProjectStats
+}
+
+type MlProjectStats {
+    modelCount:      Int!
+    experimentCount: Int!
+    runCount:        Int!
 }
 
 type MlModel {
@@ -52908,6 +52950,187 @@ func (ec *executionContext) fieldContext_MlProject_teamId(_ context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _MlProject_stats(ctx context.Context, field graphql.CollectedField, obj *model.MlProject) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlProject_stats(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Stats, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlProjectStats)
+	fc.Result = res
+	return ec.marshalOMlProjectStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlProjectStats(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlProject_stats(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlProject",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "modelCount":
+				return ec.fieldContext_MlProjectStats_modelCount(ctx, field)
+			case "experimentCount":
+				return ec.fieldContext_MlProjectStats_experimentCount(ctx, field)
+			case "runCount":
+				return ec.fieldContext_MlProjectStats_runCount(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlProjectStats", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlProjectStats_modelCount(ctx context.Context, field graphql.CollectedField, obj *model.MlProjectStats) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlProjectStats_modelCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ModelCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlProjectStats_modelCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlProjectStats",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlProjectStats_experimentCount(ctx context.Context, field graphql.CollectedField, obj *model.MlProjectStats) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlProjectStats_experimentCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExperimentCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlProjectStats_experimentCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlProjectStats",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlProjectStats_runCount(ctx context.Context, field graphql.CollectedField, obj *model.MlProjectStats) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlProjectStats_runCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RunCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlProjectStats_runCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlProjectStats",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlRun_id(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlRun_id(ctx, field)
 	if err != nil {
@@ -59160,6 +59383,8 @@ func (ec *executionContext) fieldContext_Mutation_createMlProject(ctx context.Co
 				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
 			case "teamId":
 				return ec.fieldContext_MlProject_teamId(ctx, field)
+			case "stats":
+				return ec.fieldContext_MlProject_stats(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlProject", field.Name)
 		},
@@ -69365,6 +69590,8 @@ func (ec *executionContext) fieldContext_Query_mlProjects(ctx context.Context, f
 				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
 			case "teamId":
 				return ec.fieldContext_MlProject_teamId(ctx, field)
+			case "stats":
+				return ec.fieldContext_MlProject_stats(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlProject", field.Name)
 		},
@@ -69436,6 +69663,8 @@ func (ec *executionContext) fieldContext_Query_mlProject(ctx context.Context, fi
 				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
 			case "teamId":
 				return ec.fieldContext_MlProject_teamId(ctx, field)
+			case "stats":
+				return ec.fieldContext_MlProject_stats(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlProject", field.Name)
 		},
@@ -100236,6 +100465,57 @@ func (ec *executionContext) _MlProject(ctx context.Context, sel ast.SelectionSet
 			}
 		case "teamId":
 			out.Values[i] = ec._MlProject_teamId(ctx, field, obj)
+		case "stats":
+			out.Values[i] = ec._MlProject_stats(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var mlProjectStatsImplementors = []string{"MlProjectStats"}
+
+func (ec *executionContext) _MlProjectStats(ctx context.Context, sel ast.SelectionSet, obj *model.MlProjectStats) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mlProjectStatsImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MlProjectStats")
+		case "modelCount":
+			out.Values[i] = ec._MlProjectStats_modelCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "experimentCount":
+			out.Values[i] = ec._MlProjectStats_experimentCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "runCount":
+			out.Values[i] = ec._MlProjectStats_runCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -112567,6 +112847,13 @@ func (ec *executionContext) unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigr
 	}
 	res, err := ec.unmarshalInputManualTestCaseInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOMlProjectStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlProjectStats(ctx context.Context, sel ast.SelectionSet, v *model.MlProjectStats) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._MlProjectStats(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOSAMLConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSAMLConfig(ctx context.Context, sel ast.SelectionSet, v *model.SAMLConfig) graphql.Marshaler {

@@ -37,6 +37,13 @@ type MlProject {
     sourceType:  String!
     sourceUrl:   String!
     teamId:      ID
+    stats:       MlProjectStats
+}
+
+type MlProjectStats {
+    modelCount:      Int!
+    experimentCount: Int!
+    runCount:        Int!
 }
 
 type MlModel {
