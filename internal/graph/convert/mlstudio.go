@@ -8,7 +8,7 @@ import (
 func MLProjectToModel(p *uigraphapi.MLProject) *model.MlProject {
 	return &model.MlProject{
 		ID: p.ID, Name: p.Name, Type: p.Type, Description: p.Description,
-		SourceType: p.SourceType, SourceURL: p.SourceURL, Team: p.Team, Email: p.Email,
+		SourceType: p.SourceType, SourceURL: p.SourceURL, TeamID: p.TeamID,
 	}
 }
 

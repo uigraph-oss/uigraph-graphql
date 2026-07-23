@@ -431,7 +431,7 @@ type CreateMlProjectInput struct {
 	Name        string  `json:"name"`
 	Type        string  `json:"type"`
 	Description *string `json:"description,omitempty"`
-	Team        *string `json:"team,omitempty"`
+	TeamID      *string `json:"teamId,omitempty"`
 }
 
 type CreateOrgInput struct {
@@ -1156,14 +1156,13 @@ type MlModelVersion struct {
 }
 
 type MlProject struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Type        string `json:"type"`
-	Description string `json:"description"`
-	SourceType  string `json:"sourceType"`
-	SourceURL   string `json:"sourceUrl"`
-	Team        string `json:"team"`
-	Email       string `json:"email"`
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	Type        string  `json:"type"`
+	Description string  `json:"description"`
+	SourceType  string  `json:"sourceType"`
+	SourceURL   string  `json:"sourceUrl"`
+	TeamID      *string `json:"teamId,omitempty"`
 }
 
 type MlRun struct {

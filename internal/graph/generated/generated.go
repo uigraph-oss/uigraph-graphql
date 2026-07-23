@@ -777,12 +777,11 @@ type ComplexityRoot struct {
 
 	MlProject struct {
 		Description func(childComplexity int) int
-		Email       func(childComplexity int) int
 		ID          func(childComplexity int) int
 		Name        func(childComplexity int) int
 		SourceType  func(childComplexity int) int
 		SourceURL   func(childComplexity int) int
-		Team        func(childComplexity int) int
+		TeamID      func(childComplexity int) int
 		Type        func(childComplexity int) int
 	}
 
@@ -5585,13 +5584,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlProject.Description(childComplexity), true
 
-	case "MlProject.email":
-		if e.complexity.MlProject.Email == nil {
-			break
-		}
-
-		return e.complexity.MlProject.Email(childComplexity), true
-
 	case "MlProject.id":
 		if e.complexity.MlProject.ID == nil {
 			break
@@ -5620,12 +5612,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlProject.SourceURL(childComplexity), true
 
-	case "MlProject.team":
-		if e.complexity.MlProject.Team == nil {
+	case "MlProject.teamId":
+		if e.complexity.MlProject.TeamID == nil {
 			break
 		}
 
-		return e.complexity.MlProject.Team(childComplexity), true
+		return e.complexity.MlProject.TeamID(childComplexity), true
 
 	case "MlProject.type":
 		if e.complexity.MlProject.Type == nil {
@@ -12641,8 +12633,7 @@ type MlProject {
     description: String!
     sourceType:  String!
     sourceUrl:   String!
-    team:        String!
-    email:       String!
+    teamId:      ID
 }
 
 type MlModel {
@@ -12787,7 +12778,7 @@ input CreateMlProjectInput {
     name:        String!
     type:        String!
     description: String
-    team:        String
+    teamId:      ID
 }
 
 input CreateMlFindingInput {
@@ -52758,8 +52749,8 @@ func (ec *executionContext) fieldContext_MlProject_sourceUrl(_ context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _MlProject_team(ctx context.Context, field graphql.CollectedField, obj *model.MlProject) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlProject_team(ctx, field)
+func (ec *executionContext) _MlProject_teamId(ctx context.Context, field graphql.CollectedField, obj *model.MlProject) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlProject_teamId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -52772,75 +52763,28 @@ func (ec *executionContext) _MlProject_team(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Team, nil
+		return obj.TeamID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_MlProject_team(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_MlProject_teamId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "MlProject",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _MlProject_email(ctx context.Context, field graphql.CollectedField, obj *model.MlProject) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlProject_email(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Email, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlProject_email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlProject",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
+			return nil, errors.New("field of type ID does not have child fields")
 		},
 	}
 	return fc, nil
@@ -59014,10 +58958,8 @@ func (ec *executionContext) fieldContext_Mutation_createMlProject(ctx context.Co
 				return ec.fieldContext_MlProject_sourceType(ctx, field)
 			case "sourceUrl":
 				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
-			case "team":
-				return ec.fieldContext_MlProject_team(ctx, field)
-			case "email":
-				return ec.fieldContext_MlProject_email(ctx, field)
+			case "teamId":
+				return ec.fieldContext_MlProject_teamId(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlProject", field.Name)
 		},
@@ -69221,10 +69163,8 @@ func (ec *executionContext) fieldContext_Query_mlProjects(ctx context.Context, f
 				return ec.fieldContext_MlProject_sourceType(ctx, field)
 			case "sourceUrl":
 				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
-			case "team":
-				return ec.fieldContext_MlProject_team(ctx, field)
-			case "email":
-				return ec.fieldContext_MlProject_email(ctx, field)
+			case "teamId":
+				return ec.fieldContext_MlProject_teamId(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlProject", field.Name)
 		},
@@ -69294,10 +69234,8 @@ func (ec *executionContext) fieldContext_Query_mlProject(ctx context.Context, fi
 				return ec.fieldContext_MlProject_sourceType(ctx, field)
 			case "sourceUrl":
 				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
-			case "team":
-				return ec.fieldContext_MlProject_team(ctx, field)
-			case "email":
-				return ec.fieldContext_MlProject_email(ctx, field)
+			case "teamId":
+				return ec.fieldContext_MlProject_teamId(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlProject", field.Name)
 		},
@@ -91305,7 +91243,7 @@ func (ec *executionContext) unmarshalInputCreateMlProjectInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "type", "description", "team"}
+	fieldsInOrder := [...]string{"name", "type", "description", "teamId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -91333,13 +91271,13 @@ func (ec *executionContext) unmarshalInputCreateMlProjectInput(ctx context.Conte
 				return it, err
 			}
 			it.Description = data
-		case "team":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("team"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+		case "teamId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.Team = data
+			it.TeamID = data
 		}
 	}
 
@@ -100080,16 +100018,8 @@ func (ec *executionContext) _MlProject(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "team":
-			out.Values[i] = ec._MlProject_team(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "email":
-			out.Values[i] = ec._MlProject_email(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
+		case "teamId":
+			out.Values[i] = ec._MlProject_teamId(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

@@ -36,8 +36,7 @@ type MlProject {
     description: String!
     sourceType:  String!
     sourceUrl:   String!
-    team:        String!
-    email:       String!
+    teamId:      ID
 }
 
 type MlModel {
@@ -182,7 +181,7 @@ input CreateMlProjectInput {
     name:        String!
     type:        String!
     description: String
-    team:        String
+    teamId:      ID
 }
 
 input CreateMlFindingInput {
