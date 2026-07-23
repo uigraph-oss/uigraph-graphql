@@ -98,6 +98,7 @@ func MLRunToModel(run *uigraphapi.MLRun) *model.MlRun {
 		ID: run.ID, OrgID: run.OrgID, ExperimentID: run.ExperimentID, Name: run.Name, Status: run.Status,
 		StartedAt: run.StartedAt, EndedAt: run.EndedAt, Duration: run.Duration, Notes: run.Notes,
 		Parameters: params, Metrics: metrics, DatasetID: run.DatasetID,
+		UpdatedAt: run.UpdatedAt, SyncedAt: run.SyncedAt,
 	}
 }
 
@@ -125,6 +126,7 @@ func MLArtifactToModel(a *uigraphapi.MLArtifact) *model.MlArtifact {
 	return &model.MlArtifact{
 		ID: a.ID, RunID: a.RunID, Name: a.Name, Type: a.Type,
 		URI: a.URI, Size: a.Size, Format: a.Format,
+		UpdatedAt: a.UpdatedAt, SyncedAt: a.SyncedAt,
 	}
 }
 

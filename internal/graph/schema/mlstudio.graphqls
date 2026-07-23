@@ -101,6 +101,8 @@ type MlRun {
     metrics:      JSON!
     datasetId:    ID
     series:       JSON!
+    updatedAt:    Time
+    syncedAt:     Time
 }
 
 type MlArtifact {
@@ -111,6 +113,8 @@ type MlArtifact {
     uri:    String!
     size:   String!
     format: String!
+    updatedAt: Time
+    syncedAt:  Time
 }
 
 type MlSchemaField {

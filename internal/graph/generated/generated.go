@@ -691,13 +691,15 @@ type ComplexityRoot struct {
 	}
 
 	MlArtifact struct {
-		Format func(childComplexity int) int
-		ID     func(childComplexity int) int
-		Name   func(childComplexity int) int
-		RunID  func(childComplexity int) int
-		Size   func(childComplexity int) int
-		Type   func(childComplexity int) int
-		URI    func(childComplexity int) int
+		Format    func(childComplexity int) int
+		ID        func(childComplexity int) int
+		Name      func(childComplexity int) int
+		RunID     func(childComplexity int) int
+		Size      func(childComplexity int) int
+		SyncedAt  func(childComplexity int) int
+		Type      func(childComplexity int) int
+		URI       func(childComplexity int) int
+		UpdatedAt func(childComplexity int) int
 	}
 
 	MlDataset struct {
@@ -799,6 +801,8 @@ type ComplexityRoot struct {
 		Series       func(childComplexity int) int
 		StartedAt    func(childComplexity int) int
 		Status       func(childComplexity int) int
+		SyncedAt     func(childComplexity int) int
+		UpdatedAt    func(childComplexity int) int
 	}
 
 	MlSchemaField struct {
@@ -5164,6 +5168,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlArtifact.Size(childComplexity), true
 
+	case "MlArtifact.syncedAt":
+		if e.complexity.MlArtifact.SyncedAt == nil {
+			break
+		}
+
+		return e.complexity.MlArtifact.SyncedAt(childComplexity), true
+
 	case "MlArtifact.type":
 		if e.complexity.MlArtifact.Type == nil {
 			break
@@ -5177,6 +5188,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlArtifact.URI(childComplexity), true
+
+	case "MlArtifact.updatedAt":
+		if e.complexity.MlArtifact.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.MlArtifact.UpdatedAt(childComplexity), true
 
 	case "MlDataset.context":
 		if e.complexity.MlDataset.Context == nil {
@@ -5716,6 +5734,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlRun.Status(childComplexity), true
+
+	case "MlRun.syncedAt":
+		if e.complexity.MlRun.SyncedAt == nil {
+			break
+		}
+
+		return e.complexity.MlRun.SyncedAt(childComplexity), true
+
+	case "MlRun.updatedAt":
+		if e.complexity.MlRun.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.MlRun.UpdatedAt(childComplexity), true
 
 	case "MlSchemaField.description":
 		if e.complexity.MlSchemaField.Description == nil {
@@ -12698,6 +12730,8 @@ type MlRun {
     metrics:      JSON!
     datasetId:    ID
     series:       JSON!
+    updatedAt:    Time
+    syncedAt:     Time
 }
 
 type MlArtifact {
@@ -12708,6 +12742,8 @@ type MlArtifact {
     uri:    String!
     size:   String!
     format: String!
+    updatedAt: Time
+    syncedAt:  Time
 }
 
 type MlSchemaField {
@@ -50002,6 +50038,88 @@ func (ec *executionContext) fieldContext_MlArtifact_format(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _MlArtifact_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlArtifact) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlArtifact_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlArtifact_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlArtifact",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlArtifact_syncedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlArtifact) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlArtifact_syncedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SyncedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlArtifact_syncedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlArtifact",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlDataset_id(ctx context.Context, field graphql.CollectedField, obj *model.MlDataset) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlDataset_id(ctx, field)
 	if err != nil {
@@ -53348,6 +53466,88 @@ func (ec *executionContext) fieldContext_MlRun_series(_ context.Context, field g
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type JSON does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlRun_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlRun_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlRun_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlRun",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlRun_syncedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlRun_syncedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SyncedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlRun_syncedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlRun",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -69781,6 +69981,10 @@ func (ec *executionContext) fieldContext_Query_mlRuns(ctx context.Context, field
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
 			case "series":
 				return ec.fieldContext_MlRun_series(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlRun_updatedAt(ctx, field)
+			case "syncedAt":
+				return ec.fieldContext_MlRun_syncedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlRun", field.Name)
 		},
@@ -69864,6 +70068,10 @@ func (ec *executionContext) fieldContext_Query_mlRun(ctx context.Context, field 
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
 			case "series":
 				return ec.fieldContext_MlRun_series(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlRun_updatedAt(ctx, field)
+			case "syncedAt":
+				return ec.fieldContext_MlRun_syncedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlRun", field.Name)
 		},
@@ -69935,6 +70143,10 @@ func (ec *executionContext) fieldContext_Query_mlArtifacts(ctx context.Context, 
 				return ec.fieldContext_MlArtifact_size(ctx, field)
 			case "format":
 				return ec.fieldContext_MlArtifact_format(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlArtifact_updatedAt(ctx, field)
+			case "syncedAt":
+				return ec.fieldContext_MlArtifact_syncedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlArtifact", field.Name)
 		},
@@ -99498,6 +99710,10 @@ func (ec *executionContext) _MlArtifact(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "updatedAt":
+			out.Values[i] = ec._MlArtifact_updatedAt(ctx, field, obj)
+		case "syncedAt":
+			out.Values[i] = ec._MlArtifact_syncedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -100141,6 +100357,10 @@ func (ec *executionContext) _MlRun(ctx context.Context, sel ast.SelectionSet, ob
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "updatedAt":
+			out.Values[i] = ec._MlRun_updatedAt(ctx, field, obj)
+		case "syncedAt":
+			out.Values[i] = ec._MlRun_syncedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

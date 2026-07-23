@@ -1071,13 +1071,15 @@ type Member struct {
 }
 
 type MlArtifact struct {
-	ID     string `json:"id"`
-	RunID  string `json:"runId"`
-	Name   string `json:"name"`
-	Type   string `json:"type"`
-	URI    string `json:"uri"`
-	Size   string `json:"size"`
-	Format string `json:"format"`
+	ID        string     `json:"id"`
+	RunID     string     `json:"runId"`
+	Name      string     `json:"name"`
+	Type      string     `json:"type"`
+	URI       string     `json:"uri"`
+	Size      string     `json:"size"`
+	Format    string     `json:"format"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	SyncedAt  *time.Time `json:"syncedAt,omitempty"`
 }
 
 type MlDataset struct {
@@ -1179,6 +1181,8 @@ type MlRun struct {
 	Metrics      any        `json:"metrics"`
 	DatasetID    *string    `json:"datasetId,omitempty"`
 	Series       any        `json:"series"`
+	UpdatedAt    *time.Time `json:"updatedAt,omitempty"`
+	SyncedAt     *time.Time `json:"syncedAt,omitempty"`
 }
 
 type MlSchemaField struct {
