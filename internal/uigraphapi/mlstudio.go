@@ -17,6 +17,7 @@ type MLProject struct {
 	SourceType  string          `json:"sourceType"`
 	SourceURL   string          `json:"sourceUrl"`
 	TeamID      *string         `json:"teamId,omitempty"`
+	UpdatedAt   *time.Time      `json:"updatedAt,omitempty"`
 	Stats       *MLProjectStats `json:"stats,omitempty"`
 }
 
@@ -105,13 +106,14 @@ type MLArtifact struct {
 	ID        string     `json:"id"`
 	OrgID     string     `json:"orgId"`
 	RunID     string     `json:"runId"`
-	Name      string     `json:"name"`
-	Type      string     `json:"type"`
-	URI       string     `json:"uri"`
-	Size      string     `json:"size"`
-	Format    string     `json:"format"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	SyncedAt  *time.Time `json:"syncedAt,omitempty"`
+	Name        string     `json:"name"`
+	Type        string     `json:"type"`
+	URI         string     `json:"uri"`
+	DownloadURI string     `json:"downloadUri"`
+	Size        string     `json:"size"`
+	Format      string     `json:"format"`
+	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
+	SyncedAt    *time.Time `json:"syncedAt,omitempty"`
 }
 
 type MLSchemaField struct {

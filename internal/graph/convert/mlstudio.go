@@ -9,6 +9,7 @@ func MLProjectToModel(p *uigraphapi.MLProject) *model.MlProject {
 	out := &model.MlProject{
 		ID: p.ID, Name: p.Name, Type: p.Type, Description: p.Description,
 		SourceType: p.SourceType, SourceURL: p.SourceURL, TeamID: p.TeamID,
+		UpdatedAt: p.UpdatedAt,
 	}
 	if p.Stats != nil {
 		out.Stats = &model.MlProjectStats{
@@ -133,7 +134,7 @@ func MLRunSeriesToJSON(points []uigraphapi.MLMetricPoint) map[string]any {
 func MLArtifactToModel(a *uigraphapi.MLArtifact) *model.MlArtifact {
 	return &model.MlArtifact{
 		ID: a.ID, RunID: a.RunID, Name: a.Name, Type: a.Type,
-		URI: a.URI, Size: a.Size, Format: a.Format,
+		URI: a.URI, DownloadURI: a.DownloadURI, Size: a.Size, Format: a.Format,
 		UpdatedAt: a.UpdatedAt, SyncedAt: a.SyncedAt,
 	}
 }

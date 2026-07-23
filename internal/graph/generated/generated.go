@@ -691,15 +691,16 @@ type ComplexityRoot struct {
 	}
 
 	MlArtifact struct {
-		Format    func(childComplexity int) int
-		ID        func(childComplexity int) int
-		Name      func(childComplexity int) int
-		RunID     func(childComplexity int) int
-		Size      func(childComplexity int) int
-		SyncedAt  func(childComplexity int) int
-		Type      func(childComplexity int) int
-		URI       func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
+		DownloadURI func(childComplexity int) int
+		Format      func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Name        func(childComplexity int) int
+		RunID       func(childComplexity int) int
+		Size        func(childComplexity int) int
+		SyncedAt    func(childComplexity int) int
+		Type        func(childComplexity int) int
+		URI         func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
 	}
 
 	MlDataset struct {
@@ -785,6 +786,7 @@ type ComplexityRoot struct {
 		Stats       func(childComplexity int) int
 		TeamID      func(childComplexity int) int
 		Type        func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
 	}
 
 	MlProjectStats struct {
@@ -5146,6 +5148,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Member.UserID(childComplexity), true
 
+	case "MlArtifact.downloadUri":
+		if e.complexity.MlArtifact.DownloadURI == nil {
+			break
+		}
+
+		return e.complexity.MlArtifact.DownloadURI(childComplexity), true
+
 	case "MlArtifact.format":
 		if e.complexity.MlArtifact.Format == nil {
 			break
@@ -5656,6 +5665,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlProject.Type(childComplexity), true
+
+	case "MlProject.updatedAt":
+		if e.complexity.MlProject.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.MlProject.UpdatedAt(childComplexity), true
 
 	case "MlProjectStats.experimentCount":
 		if e.complexity.MlProjectStats.ExperimentCount == nil {
@@ -12727,6 +12743,7 @@ type MlProject {
     sourceType:  String!
     sourceUrl:   String!
     teamId:      ID
+    updatedAt:   Time
     stats:       MlProjectStats
 }
 
@@ -12812,6 +12829,7 @@ type MlArtifact {
     name:   String!
     type:   String!
     uri:    String!
+    downloadUri: String!
     size:   String!
     format: String!
     updatedAt: Time
@@ -50142,6 +50160,50 @@ func (ec *executionContext) fieldContext_MlArtifact_uri(_ context.Context, field
 	return fc, nil
 }
 
+func (ec *executionContext) _MlArtifact_downloadUri(ctx context.Context, field graphql.CollectedField, obj *model.MlArtifact) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlArtifact_downloadUri(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DownloadURI, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlArtifact_downloadUri(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlArtifact",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlArtifact_size(ctx context.Context, field graphql.CollectedField, obj *model.MlArtifact) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlArtifact_size(ctx, field)
 	if err != nil {
@@ -53051,6 +53113,47 @@ func (ec *executionContext) fieldContext_MlProject_teamId(_ context.Context, fie
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlProject_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlProject) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlProject_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlProject_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlProject",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -59609,6 +59712,8 @@ func (ec *executionContext) fieldContext_Mutation_createMlProject(ctx context.Co
 				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
 			case "teamId":
 				return ec.fieldContext_MlProject_teamId(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlProject_updatedAt(ctx, field)
 			case "stats":
 				return ec.fieldContext_MlProject_stats(ctx, field)
 			}
@@ -69814,6 +69919,8 @@ func (ec *executionContext) fieldContext_Query_mlProjects(ctx context.Context, f
 				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
 			case "teamId":
 				return ec.fieldContext_MlProject_teamId(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlProject_updatedAt(ctx, field)
 			case "stats":
 				return ec.fieldContext_MlProject_stats(ctx, field)
 			}
@@ -69887,6 +69994,8 @@ func (ec *executionContext) fieldContext_Query_mlProject(ctx context.Context, fi
 				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
 			case "teamId":
 				return ec.fieldContext_MlProject_teamId(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlProject_updatedAt(ctx, field)
 			case "stats":
 				return ec.fieldContext_MlProject_stats(ctx, field)
 			}
@@ -70649,6 +70758,8 @@ func (ec *executionContext) fieldContext_Query_mlArtifacts(ctx context.Context, 
 				return ec.fieldContext_MlArtifact_type(ctx, field)
 			case "uri":
 				return ec.fieldContext_MlArtifact_uri(ctx, field)
+			case "downloadUri":
+				return ec.fieldContext_MlArtifact_downloadUri(ctx, field)
 			case "size":
 				return ec.fieldContext_MlArtifact_size(ctx, field)
 			case "format":
@@ -100210,6 +100321,11 @@ func (ec *executionContext) _MlArtifact(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "downloadUri":
+			out.Values[i] = ec._MlArtifact_downloadUri(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "size":
 			out.Values[i] = ec._MlArtifact_size(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -100741,6 +100857,8 @@ func (ec *executionContext) _MlProject(ctx context.Context, sel ast.SelectionSet
 			}
 		case "teamId":
 			out.Values[i] = ec._MlProject_teamId(ctx, field, obj)
+		case "updatedAt":
+			out.Values[i] = ec._MlProject_updatedAt(ctx, field, obj)
 		case "stats":
 			out.Values[i] = ec._MlProject_stats(ctx, field, obj)
 		default:

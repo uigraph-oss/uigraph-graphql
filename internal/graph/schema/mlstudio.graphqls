@@ -38,6 +38,7 @@ type MlProject {
     sourceType:  String!
     sourceUrl:   String!
     teamId:      ID
+    updatedAt:   Time
     stats:       MlProjectStats
 }
 
@@ -123,6 +124,7 @@ type MlArtifact {
     name:   String!
     type:   String!
     uri:    String!
+    downloadUri: String!
     size:   String!
     format: String!
     updatedAt: Time
