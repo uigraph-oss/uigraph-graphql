@@ -427,6 +427,13 @@ type CreateMlFindingInput struct {
 	RunIds      []string `json:"runIds,omitempty"`
 }
 
+type CreateMlProjectInput struct {
+	Name        string  `json:"name"`
+	Type        string  `json:"type"`
+	Description *string `json:"description,omitempty"`
+	Team        *string `json:"team,omitempty"`
+}
+
 type CreateOrgInput struct {
 	Name string `json:"name"`
 }
@@ -1101,6 +1108,7 @@ type MlDeployment struct {
 
 type MlExperiment struct {
 	ID          string     `json:"id"`
+	ProjectID   *string    `json:"projectId,omitempty"`
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
 	Status      string     `json:"status"`
@@ -1119,6 +1127,7 @@ type MlFinding struct {
 
 type MlModel struct {
 	ID                    string     `json:"id"`
+	ProjectID             *string    `json:"projectId,omitempty"`
 	Name                  string     `json:"name"`
 	Description           string     `json:"description"`
 	Domain                string     `json:"domain"`
@@ -1144,6 +1153,17 @@ type MlModelVersion struct {
 	DeploymentStatus string     `json:"deploymentStatus"`
 	RunID            *string    `json:"runId,omitempty"`
 	CreatedAt        *time.Time `json:"createdAt,omitempty"`
+}
+
+type MlProject struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Type        string `json:"type"`
+	Description string `json:"description"`
+	SourceType  string `json:"sourceType"`
+	SourceURL   string `json:"sourceUrl"`
+	Team        string `json:"team"`
+	Email       string `json:"email"`
 }
 
 type MlRun struct {

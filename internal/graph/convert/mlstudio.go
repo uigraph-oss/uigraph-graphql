@@ -5,9 +5,24 @@ import (
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
+func MLProjectToModel(p *uigraphapi.MLProject) *model.MlProject {
+	return &model.MlProject{
+		ID: p.ID, Name: p.Name, Type: p.Type, Description: p.Description,
+		SourceType: p.SourceType, SourceURL: p.SourceURL, Team: p.Team, Email: p.Email,
+	}
+}
+
+func MLProjectsToModel(in []uigraphapi.MLProject) []*model.MlProject {
+	out := make([]*model.MlProject, len(in))
+	for i := range in {
+		out[i] = MLProjectToModel(&in[i])
+	}
+	return out
+}
+
 func MLModelToModel(m *uigraphapi.MLModel) *model.MlModel {
 	return &model.MlModel{
-		ID: m.ID, Name: m.Name, Description: m.Description,
+		ID: m.ID, ProjectID: m.ProjectID, Name: m.Name, Description: m.Description,
 		Domain: m.Domain, ProblemType: m.ProblemType, Tags: m.Tags,
 		Owners: m.Owners, License: m.License, References: m.References,
 		IntendedUse: m.IntendedUse, Limitations: m.Limitations,
@@ -57,7 +72,7 @@ func MLVersionDeploymentUpdatesToModel(in []uigraphapi.MLVersionDeploymentUpdate
 
 func MLExperimentToModel(e *uigraphapi.MLExperiment) *model.MlExperiment {
 	return &model.MlExperiment{
-		ID: e.ID, Name: e.Name, Description: e.Description, Status: e.Status,
+		ID: e.ID, ProjectID: e.ProjectID, Name: e.Name, Description: e.Description, Status: e.Status,
 		StartedAt: e.StartedAt,
 	}
 }

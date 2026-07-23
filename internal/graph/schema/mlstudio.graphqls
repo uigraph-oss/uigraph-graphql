@@ -1,4 +1,6 @@
 extend type Query {
+    mlProjects(orgId: ID!):                                     [MlProject!]!
+    mlProject(orgId: ID!, id: ID!):                             MlProject!
     mlModels(orgId: ID!):                                       [MlModel!]!
     mlModel(orgId: ID!, id: ID!):                               MlModel!
     mlModelVersions(orgId: ID!, modelId: ID):                   [MlModelVersion!]!
@@ -16,6 +18,7 @@ extend type Query {
 }
 
 extend type Mutation {
+    createMlProject(orgId: ID!, input: CreateMlProjectInput!):                MlProject!
     createMlDeployment(orgId: ID!, input: CreateMlDeploymentInput!):          MlDeployment!
     updateMlDeployment(orgId: ID!, id: ID!, input: UpdateMlDeploymentInput!): MlDeployment!
     deleteMlDeployment(orgId: ID!, id: ID!):                                  Boolean!
@@ -26,8 +29,20 @@ extend type Mutation {
     createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
 }
 
+type MlProject {
+    id:          ID!
+    name:        String!
+    type:        String!
+    description: String!
+    sourceType:  String!
+    sourceUrl:   String!
+    team:        String!
+    email:       String!
+}
+
 type MlModel {
     id:                    ID!
+    projectId:             ID
     name:                  String!
     description:           String!
     domain:                String!
@@ -66,6 +81,7 @@ type MlVersionDeploymentUpdate {
 
 type MlExperiment {
     id:          ID!
+    projectId:   ID
     name:        String!
     description: String!
     status:      String!
@@ -160,6 +176,13 @@ input UpdateMlDeploymentInput {
     region:       String
     deployedAt:   Time
     rolledBackAt: Time
+}
+
+input CreateMlProjectInput {
+    name:        String!
+    type:        String!
+    description: String
+    team:        String
 }
 
 input CreateMlFindingInput {

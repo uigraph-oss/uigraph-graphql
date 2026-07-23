@@ -7,9 +7,22 @@ import (
 	"time"
 )
 
+type MLProject struct {
+	ID          string `json:"id"`
+	OrgID       string `json:"orgId"`
+	Name        string `json:"name"`
+	Type        string `json:"type"`
+	Description string `json:"description"`
+	SourceType  string `json:"sourceType"`
+	SourceURL   string `json:"sourceUrl"`
+	Team        string `json:"team"`
+	Email       string `json:"email"`
+}
+
 type MLModel struct {
 	ID                    string     `json:"id"`
 	OrgID                 string     `json:"orgId"`
+	ProjectID             *string    `json:"projectId,omitempty"`
 	Name                  string     `json:"name"`
 	Description           string     `json:"description"`
 	Domain                string     `json:"domain"`
@@ -51,6 +64,7 @@ type MLVersionDeploymentUpdate struct {
 type MLExperiment struct {
 	ID          string     `json:"id"`
 	OrgID       string     `json:"orgId"`
+	ProjectID   *string    `json:"projectId,omitempty"`
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
 	Status      string     `json:"status"`
@@ -137,6 +151,23 @@ type MLFinding struct {
 
 func mlBase(orgID string) string {
 	return "/api/v1/orgs/" + orgID + "/ml"
+}
+
+func (c *Client) ListMLProjects(ctx context.Context, orgID string) ([]MLProject, error) {
+	var out struct {
+		Projects []MLProject `json:"projects"`
+	}
+	return out.Projects, c.get(ctx, mlBase(orgID)+"/projects", &out)
+}
+
+func (c *Client) GetMLProject(ctx context.Context, orgID, id string) (*MLProject, error) {
+	var out MLProject
+	return &out, c.get(ctx, mlBase(orgID)+"/projects/"+id, &out)
+}
+
+func (c *Client) CreateMLProject(ctx context.Context, orgID string, body map[string]interface{}) (*MLProject, error) {
+	var out MLProject
+	return &out, c.post(ctx, mlBase(orgID)+"/projects", body, &out)
 }
 
 func (c *Client) ListMLModels(ctx context.Context, orgID string) ([]MLModel, error) {

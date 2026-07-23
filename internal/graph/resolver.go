@@ -273,6 +273,9 @@ type costSavingsClient interface {
 }
 
 type mlStudioClient interface {
+	ListMLProjects(ctx context.Context, orgID string) ([]uigraphapi.MLProject, error)
+	GetMLProject(ctx context.Context, orgID, id string) (*uigraphapi.MLProject, error)
+	CreateMLProject(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLProject, error)
 	ListMLModels(ctx context.Context, orgID string) ([]uigraphapi.MLModel, error)
 	GetMLModel(ctx context.Context, orgID, id string) (*uigraphapi.MLModel, error)
 	UpdateMLModel(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLModel, error)

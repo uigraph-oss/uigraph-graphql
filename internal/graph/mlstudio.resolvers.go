@@ -21,6 +21,15 @@ func (r *mlRunResolver) Series(ctx context.Context, obj *model.MlRun) (any, erro
 	return convert.MLRunSeriesToJSON(points), nil
 }
 
+// CreateMlProject is the resolver for the createMlProject field.
+func (r *mutationResolver) CreateMlProject(ctx context.Context, orgID string, input model.CreateMlProjectInput) (*model.MlProject, error) {
+	p, err := r.MLStudio.CreateMLProject(ctx, orgID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLProjectToModel(p), nil
+}
+
 // CreateMlDeployment is the resolver for the createMlDeployment field.
 func (r *mutationResolver) CreateMlDeployment(ctx context.Context, orgID string, input model.CreateMlDeploymentInput) (*model.MlDeployment, error) {
 	d, err := r.MLStudio.CreateMLDeployment(ctx, orgID, convert.ToMap(input))
@@ -94,6 +103,24 @@ func (r *mutationResolver) CreateMlVersionDeploymentUpdate(ctx context.Context, 
 		return nil, err
 	}
 	return convert.MLVersionDeploymentUpdateToModel(u), nil
+}
+
+// MlProjects is the resolver for the mlProjects field.
+func (r *queryResolver) MlProjects(ctx context.Context, orgID string) ([]*model.MlProject, error) {
+	projects, err := r.MLStudio.ListMLProjects(ctx, orgID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLProjectsToModel(projects), nil
+}
+
+// MlProject is the resolver for the mlProject field.
+func (r *queryResolver) MlProject(ctx context.Context, orgID string, id string) (*model.MlProject, error) {
+	p, err := r.MLStudio.GetMLProject(ctx, orgID, id)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLProjectToModel(p), nil
 }
 
 // MlModels is the resolver for the mlModels field.
