@@ -1,20 +1,20 @@
 extend type Query {
     mlProjects(orgId: ID!):                                     [MlProject!]!
     mlProject(orgId: ID!, id: ID!):                             MlProject!
-    mlModels(orgId: ID!):                                       [MlModel!]!
+    mlModels(orgId: ID!, projectId: ID):                        [MlModel!]!
     mlModel(orgId: ID!, id: ID!):                               MlModel!
-    mlModelVersions(orgId: ID!, modelId: ID):                   [MlModelVersion!]!
+    mlModelVersions(orgId: ID!, modelId: ID, projectId: ID):    [MlModelVersion!]!
     mlModelVersion(orgId: ID!, id: ID!):                        MlModelVersion!
-    mlExperiments(orgId: ID!):                                  [MlExperiment!]!
+    mlExperiments(orgId: ID!, projectId: ID):                   [MlExperiment!]!
     mlExperiment(orgId: ID!, id: ID!):                          MlExperiment!
-    mlRuns(orgId: ID!, experimentId: ID):                       [MlRun!]!
+    mlRuns(orgId: ID!, experimentId: ID, projectId: ID):        [MlRun!]!
     mlRun(orgId: ID!, id: ID!):                                 MlRun!
     mlArtifacts(orgId: ID!, runId: ID):                         [MlArtifact!]!
     mlDatasets(orgId: ID!, experimentId: ID):                   [MlDataset!]!
     mlDataset(orgId: ID!, id: ID!):                             MlDataset!
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
-    mlFindings(orgId: ID!, modelId: ID):                        [MlFinding!]!
-    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID):      [MlVersionDeploymentUpdate!]!
+    mlFindings(orgId: ID!, modelId: ID, projectId: ID):         [MlFinding!]!
+    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
 }
 
 extend type Mutation {

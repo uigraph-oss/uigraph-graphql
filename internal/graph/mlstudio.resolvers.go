@@ -124,8 +124,8 @@ func (r *queryResolver) MlProject(ctx context.Context, orgID string, id string) 
 }
 
 // MlModels is the resolver for the mlModels field.
-func (r *queryResolver) MlModels(ctx context.Context, orgID string) ([]*model.MlModel, error) {
-	models, err := r.MLStudio.ListMLModels(ctx, orgID)
+func (r *queryResolver) MlModels(ctx context.Context, orgID string, projectID *string) ([]*model.MlModel, error) {
+	models, err := r.MLStudio.ListMLModels(ctx, orgID, derefStr(projectID))
 	if err != nil {
 		return nil, err
 	}
@@ -142,8 +142,8 @@ func (r *queryResolver) MlModel(ctx context.Context, orgID string, id string) (*
 }
 
 // MlModelVersions is the resolver for the mlModelVersions field.
-func (r *queryResolver) MlModelVersions(ctx context.Context, orgID string, modelID *string) ([]*model.MlModelVersion, error) {
-	versions, err := r.MLStudio.ListMLModelVersions(ctx, orgID, derefStr(modelID))
+func (r *queryResolver) MlModelVersions(ctx context.Context, orgID string, modelID *string, projectID *string) ([]*model.MlModelVersion, error) {
+	versions, err := r.MLStudio.ListMLModelVersions(ctx, orgID, derefStr(modelID), derefStr(projectID))
 	if err != nil {
 		return nil, err
 	}
@@ -160,8 +160,8 @@ func (r *queryResolver) MlModelVersion(ctx context.Context, orgID string, id str
 }
 
 // MlExperiments is the resolver for the mlExperiments field.
-func (r *queryResolver) MlExperiments(ctx context.Context, orgID string) ([]*model.MlExperiment, error) {
-	experiments, err := r.MLStudio.ListMLExperiments(ctx, orgID)
+func (r *queryResolver) MlExperiments(ctx context.Context, orgID string, projectID *string) ([]*model.MlExperiment, error) {
+	experiments, err := r.MLStudio.ListMLExperiments(ctx, orgID, derefStr(projectID))
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +178,8 @@ func (r *queryResolver) MlExperiment(ctx context.Context, orgID string, id strin
 }
 
 // MlRuns is the resolver for the mlRuns field.
-func (r *queryResolver) MlRuns(ctx context.Context, orgID string, experimentID *string) ([]*model.MlRun, error) {
-	runs, err := r.MLStudio.ListMLRuns(ctx, orgID, derefStr(experimentID))
+func (r *queryResolver) MlRuns(ctx context.Context, orgID string, experimentID *string, projectID *string) ([]*model.MlRun, error) {
+	runs, err := r.MLStudio.ListMLRuns(ctx, orgID, derefStr(experimentID), derefStr(projectID))
 	if err != nil {
 		return nil, err
 	}
@@ -232,8 +232,8 @@ func (r *queryResolver) MlDeployments(ctx context.Context, orgID string, modelID
 }
 
 // MlFindings is the resolver for the mlFindings field.
-func (r *queryResolver) MlFindings(ctx context.Context, orgID string, modelID *string) ([]*model.MlFinding, error) {
-	findings, err := r.MLStudio.ListMLFindings(ctx, orgID, derefStr(modelID))
+func (r *queryResolver) MlFindings(ctx context.Context, orgID string, modelID *string, projectID *string) ([]*model.MlFinding, error) {
+	findings, err := r.MLStudio.ListMLFindings(ctx, orgID, derefStr(modelID), derefStr(projectID))
 	if err != nil {
 		return nil, err
 	}
@@ -241,8 +241,8 @@ func (r *queryResolver) MlFindings(ctx context.Context, orgID string, modelID *s
 }
 
 // MlVersionDeploymentUpdates is the resolver for the mlVersionDeploymentUpdates field.
-func (r *queryResolver) MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID *string) ([]*model.MlVersionDeploymentUpdate, error) {
-	updates, err := r.MLStudio.ListVersionDeploymentUpdates(ctx, orgID, derefStr(versionID))
+func (r *queryResolver) MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID *string, projectID *string) ([]*model.MlVersionDeploymentUpdate, error) {
+	updates, err := r.MLStudio.ListVersionDeploymentUpdates(ctx, orgID, derefStr(versionID), derefStr(projectID))
 	if err != nil {
 		return nil, err
 	}

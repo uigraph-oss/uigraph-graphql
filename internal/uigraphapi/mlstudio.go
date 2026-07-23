@@ -170,11 +170,19 @@ func (c *Client) CreateMLProject(ctx context.Context, orgID string, body map[str
 	return &out, c.post(ctx, mlBase(orgID)+"/projects", body, &out)
 }
 
-func (c *Client) ListMLModels(ctx context.Context, orgID string) ([]MLModel, error) {
+func (c *Client) ListMLModels(ctx context.Context, orgID, projectID string) ([]MLModel, error) {
+	q := url.Values{}
+	if projectID != "" {
+		q.Set("projectId", projectID)
+	}
+	path := mlBase(orgID) + "/models"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
 	var out struct {
 		Models []MLModel `json:"models"`
 	}
-	return out.Models, c.get(ctx, mlBase(orgID)+"/models", &out)
+	return out.Models, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetMLModel(ctx context.Context, orgID, id string) (*MLModel, error) {
@@ -187,10 +195,13 @@ func (c *Client) UpdateMLModel(ctx context.Context, orgID, id string, body map[s
 	return &out, c.patch(ctx, mlBase(orgID)+"/models/"+id, body, &out)
 }
 
-func (c *Client) ListMLModelVersions(ctx context.Context, orgID, modelID string) ([]MLModelVersion, error) {
+func (c *Client) ListMLModelVersions(ctx context.Context, orgID, modelID, projectID string) ([]MLModelVersion, error) {
 	q := url.Values{}
 	if modelID != "" {
 		q.Set("modelId", modelID)
+	}
+	if projectID != "" {
+		q.Set("projectId", projectID)
 	}
 	path := mlBase(orgID) + "/versions"
 	if len(q) > 0 {
@@ -207,11 +218,19 @@ func (c *Client) GetMLModelVersion(ctx context.Context, orgID, id string) (*MLMo
 	return &out, c.get(ctx, mlBase(orgID)+"/versions/"+id, &out)
 }
 
-func (c *Client) ListMLExperiments(ctx context.Context, orgID string) ([]MLExperiment, error) {
+func (c *Client) ListMLExperiments(ctx context.Context, orgID, projectID string) ([]MLExperiment, error) {
+	q := url.Values{}
+	if projectID != "" {
+		q.Set("projectId", projectID)
+	}
+	path := mlBase(orgID) + "/experiments"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
 	var out struct {
 		Experiments []MLExperiment `json:"experiments"`
 	}
-	return out.Experiments, c.get(ctx, mlBase(orgID)+"/experiments", &out)
+	return out.Experiments, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetMLExperiment(ctx context.Context, orgID, id string) (*MLExperiment, error) {
@@ -219,10 +238,13 @@ func (c *Client) GetMLExperiment(ctx context.Context, orgID, id string) (*MLExpe
 	return &out, c.get(ctx, mlBase(orgID)+"/experiments/"+id, &out)
 }
 
-func (c *Client) ListMLRuns(ctx context.Context, orgID, experimentID string) ([]MLRun, error) {
+func (c *Client) ListMLRuns(ctx context.Context, orgID, experimentID, projectID string) ([]MLRun, error) {
 	q := url.Values{}
 	if experimentID != "" {
 		q.Set("experimentId", experimentID)
+	}
+	if projectID != "" {
+		q.Set("projectId", projectID)
 	}
 	path := mlBase(orgID) + "/runs"
 	if len(q) > 0 {
@@ -318,10 +340,13 @@ func (c *Client) DeleteMLDeployment(ctx context.Context, orgID, id string) error
 	return c.del(ctx, mlBase(orgID)+"/deployments/"+id)
 }
 
-func (c *Client) ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID string) ([]MLVersionDeploymentUpdate, error) {
+func (c *Client) ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID, projectID string) ([]MLVersionDeploymentUpdate, error) {
 	path := mlBase(orgID) + "/deployment-updates"
 	if versionID != "" {
 		path = fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID)
+	}
+	if projectID != "" {
+		path += "?" + url.Values{"projectId": {projectID}}.Encode()
 	}
 	var out struct {
 		Updates []MLVersionDeploymentUpdate `json:"updates"`
@@ -334,10 +359,13 @@ func (c *Client) CreateVersionDeploymentUpdate(ctx context.Context, orgID, versi
 	return &out, c.post(ctx, fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID), body, &out)
 }
 
-func (c *Client) ListMLFindings(ctx context.Context, orgID, modelID string) ([]MLFinding, error) {
+func (c *Client) ListMLFindings(ctx context.Context, orgID, modelID, projectID string) ([]MLFinding, error) {
 	q := url.Values{}
 	if modelID != "" {
 		q.Set("modelId", modelID)
+	}
+	if projectID != "" {
+		q.Set("projectId", projectID)
 	}
 	path := mlBase(orgID) + "/findings"
 	if len(q) > 0 {

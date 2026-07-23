@@ -1058,17 +1058,17 @@ type ComplexityRoot struct {
 		MlDatasets                 func(childComplexity int, orgID string, experimentID *string) int
 		MlDeployments              func(childComplexity int, orgID string, modelID *string, versionID *string) int
 		MlExperiment               func(childComplexity int, orgID string, id string) int
-		MlExperiments              func(childComplexity int, orgID string) int
-		MlFindings                 func(childComplexity int, orgID string, modelID *string) int
+		MlExperiments              func(childComplexity int, orgID string, projectID *string) int
+		MlFindings                 func(childComplexity int, orgID string, modelID *string, projectID *string) int
 		MlModel                    func(childComplexity int, orgID string, id string) int
 		MlModelVersion             func(childComplexity int, orgID string, id string) int
-		MlModelVersions            func(childComplexity int, orgID string, modelID *string) int
-		MlModels                   func(childComplexity int, orgID string) int
+		MlModelVersions            func(childComplexity int, orgID string, modelID *string, projectID *string) int
+		MlModels                   func(childComplexity int, orgID string, projectID *string) int
 		MlProject                  func(childComplexity int, orgID string, id string) int
 		MlProjects                 func(childComplexity int, orgID string) int
 		MlRun                      func(childComplexity int, orgID string, id string) int
-		MlRuns                     func(childComplexity int, orgID string, experimentID *string) int
-		MlVersionDeploymentUpdates func(childComplexity int, orgID string, versionID *string) int
+		MlRuns                     func(childComplexity int, orgID string, experimentID *string, projectID *string) int
+		MlVersionDeploymentUpdates func(childComplexity int, orgID string, versionID *string, projectID *string) int
 		MyOrgs                     func(childComplexity int) int
 		OauthProviders             func(childComplexity int) int
 		Org                        func(childComplexity int, id string) int
@@ -1777,20 +1777,20 @@ type QueryResolver interface {
 	CostSavingsByUser(ctx context.Context, orgID string, period *string, modelID *string) ([]*model.UserSavings, error)
 	MlProjects(ctx context.Context, orgID string) ([]*model.MlProject, error)
 	MlProject(ctx context.Context, orgID string, id string) (*model.MlProject, error)
-	MlModels(ctx context.Context, orgID string) ([]*model.MlModel, error)
+	MlModels(ctx context.Context, orgID string, projectID *string) ([]*model.MlModel, error)
 	MlModel(ctx context.Context, orgID string, id string) (*model.MlModel, error)
-	MlModelVersions(ctx context.Context, orgID string, modelID *string) ([]*model.MlModelVersion, error)
+	MlModelVersions(ctx context.Context, orgID string, modelID *string, projectID *string) ([]*model.MlModelVersion, error)
 	MlModelVersion(ctx context.Context, orgID string, id string) (*model.MlModelVersion, error)
-	MlExperiments(ctx context.Context, orgID string) ([]*model.MlExperiment, error)
+	MlExperiments(ctx context.Context, orgID string, projectID *string) ([]*model.MlExperiment, error)
 	MlExperiment(ctx context.Context, orgID string, id string) (*model.MlExperiment, error)
-	MlRuns(ctx context.Context, orgID string, experimentID *string) ([]*model.MlRun, error)
+	MlRuns(ctx context.Context, orgID string, experimentID *string, projectID *string) ([]*model.MlRun, error)
 	MlRun(ctx context.Context, orgID string, id string) (*model.MlRun, error)
 	MlArtifacts(ctx context.Context, orgID string, runID *string) ([]*model.MlArtifact, error)
 	MlDatasets(ctx context.Context, orgID string, experimentID *string) ([]*model.MlDataset, error)
 	MlDataset(ctx context.Context, orgID string, id string) (*model.MlDataset, error)
 	MlDeployments(ctx context.Context, orgID string, modelID *string, versionID *string) ([]*model.MlDeployment, error)
-	MlFindings(ctx context.Context, orgID string, modelID *string) ([]*model.MlFinding, error)
-	MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID *string) ([]*model.MlVersionDeploymentUpdate, error)
+	MlFindings(ctx context.Context, orgID string, modelID *string, projectID *string) ([]*model.MlFinding, error)
+	MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID *string, projectID *string) ([]*model.MlVersionDeploymentUpdate, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
 	Orgs(ctx context.Context) ([]*model.Org, error)
 	Members(ctx context.Context, orgID string) ([]*model.Member, error)
@@ -8278,7 +8278,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.MlExperiments(childComplexity, args["orgId"].(string)), true
+		return e.complexity.Query.MlExperiments(childComplexity, args["orgId"].(string), args["projectId"].(*string)), true
 
 	case "Query.mlFindings":
 		if e.complexity.Query.MlFindings == nil {
@@ -8290,7 +8290,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.MlFindings(childComplexity, args["orgId"].(string), args["modelId"].(*string)), true
+		return e.complexity.Query.MlFindings(childComplexity, args["orgId"].(string), args["modelId"].(*string), args["projectId"].(*string)), true
 
 	case "Query.mlModel":
 		if e.complexity.Query.MlModel == nil {
@@ -8326,7 +8326,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.MlModelVersions(childComplexity, args["orgId"].(string), args["modelId"].(*string)), true
+		return e.complexity.Query.MlModelVersions(childComplexity, args["orgId"].(string), args["modelId"].(*string), args["projectId"].(*string)), true
 
 	case "Query.mlModels":
 		if e.complexity.Query.MlModels == nil {
@@ -8338,7 +8338,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.MlModels(childComplexity, args["orgId"].(string)), true
+		return e.complexity.Query.MlModels(childComplexity, args["orgId"].(string), args["projectId"].(*string)), true
 
 	case "Query.mlProject":
 		if e.complexity.Query.MlProject == nil {
@@ -8386,7 +8386,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.MlRuns(childComplexity, args["orgId"].(string), args["experimentId"].(*string)), true
+		return e.complexity.Query.MlRuns(childComplexity, args["orgId"].(string), args["experimentId"].(*string), args["projectId"].(*string)), true
 
 	case "Query.mlVersionDeploymentUpdates":
 		if e.complexity.Query.MlVersionDeploymentUpdates == nil {
@@ -8398,7 +8398,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.MlVersionDeploymentUpdates(childComplexity, args["orgId"].(string), args["versionId"].(*string)), true
+		return e.complexity.Query.MlVersionDeploymentUpdates(childComplexity, args["orgId"].(string), args["versionId"].(*string), args["projectId"].(*string)), true
 
 	case "Query.myOrgs":
 		if e.complexity.Query.MyOrgs == nil {
@@ -12606,20 +12606,20 @@ type UserSavings {
 	{Name: "../schema/mlstudio.graphqls", Input: `extend type Query {
     mlProjects(orgId: ID!):                                     [MlProject!]!
     mlProject(orgId: ID!, id: ID!):                             MlProject!
-    mlModels(orgId: ID!):                                       [MlModel!]!
+    mlModels(orgId: ID!, projectId: ID):                        [MlModel!]!
     mlModel(orgId: ID!, id: ID!):                               MlModel!
-    mlModelVersions(orgId: ID!, modelId: ID):                   [MlModelVersion!]!
+    mlModelVersions(orgId: ID!, modelId: ID, projectId: ID):    [MlModelVersion!]!
     mlModelVersion(orgId: ID!, id: ID!):                        MlModelVersion!
-    mlExperiments(orgId: ID!):                                  [MlExperiment!]!
+    mlExperiments(orgId: ID!, projectId: ID):                   [MlExperiment!]!
     mlExperiment(orgId: ID!, id: ID!):                          MlExperiment!
-    mlRuns(orgId: ID!, experimentId: ID):                       [MlRun!]!
+    mlRuns(orgId: ID!, experimentId: ID, projectId: ID):        [MlRun!]!
     mlRun(orgId: ID!, id: ID!):                                 MlRun!
     mlArtifacts(orgId: ID!, runId: ID):                         [MlArtifact!]!
     mlDatasets(orgId: ID!, experimentId: ID):                   [MlDataset!]!
     mlDataset(orgId: ID!, id: ID!):                             MlDataset!
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
-    mlFindings(orgId: ID!, modelId: ID):                        [MlFinding!]!
-    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID):      [MlVersionDeploymentUpdate!]!
+    mlFindings(orgId: ID!, modelId: ID, projectId: ID):         [MlFinding!]!
+    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
 }
 
 extend type Mutation {
@@ -26416,6 +26416,11 @@ func (ec *executionContext) field_Query_mlExperiments_args(ctx context.Context, 
 		return nil, err
 	}
 	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlExperiments_argsProjectID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["projectId"] = arg1
 	return args, nil
 }
 func (ec *executionContext) field_Query_mlExperiments_argsOrgID(
@@ -26436,6 +26441,24 @@ func (ec *executionContext) field_Query_mlExperiments_argsOrgID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_mlExperiments_argsProjectID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["projectId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+	if tmp, ok := rawArgs["projectId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_mlFindings_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -26449,6 +26472,11 @@ func (ec *executionContext) field_Query_mlFindings_args(ctx context.Context, raw
 		return nil, err
 	}
 	args["modelId"] = arg1
+	arg2, err := ec.field_Query_mlFindings_argsProjectID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["projectId"] = arg2
 	return args, nil
 }
 func (ec *executionContext) field_Query_mlFindings_argsOrgID(
@@ -26480,6 +26508,24 @@ func (ec *executionContext) field_Query_mlFindings_argsModelID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("modelId"))
 	if tmp, ok := rawArgs["modelId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlFindings_argsProjectID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["projectId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+	if tmp, ok := rawArgs["projectId"]; ok {
 		return ec.unmarshalOID2ᚖstring(ctx, tmp)
 	}
 
@@ -26551,6 +26597,11 @@ func (ec *executionContext) field_Query_mlModelVersions_args(ctx context.Context
 		return nil, err
 	}
 	args["modelId"] = arg1
+	arg2, err := ec.field_Query_mlModelVersions_argsProjectID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["projectId"] = arg2
 	return args, nil
 }
 func (ec *executionContext) field_Query_mlModelVersions_argsOrgID(
@@ -26582,6 +26633,24 @@ func (ec *executionContext) field_Query_mlModelVersions_argsModelID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("modelId"))
 	if tmp, ok := rawArgs["modelId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlModelVersions_argsProjectID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["projectId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+	if tmp, ok := rawArgs["projectId"]; ok {
 		return ec.unmarshalOID2ᚖstring(ctx, tmp)
 	}
 
@@ -26648,6 +26717,11 @@ func (ec *executionContext) field_Query_mlModels_args(ctx context.Context, rawAr
 		return nil, err
 	}
 	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlModels_argsProjectID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["projectId"] = arg1
 	return args, nil
 }
 func (ec *executionContext) field_Query_mlModels_argsOrgID(
@@ -26665,6 +26739,24 @@ func (ec *executionContext) field_Query_mlModels_argsOrgID(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlModels_argsProjectID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["projectId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+	if tmp, ok := rawArgs["projectId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
 	return zeroVal, nil
 }
 
@@ -26811,6 +26903,11 @@ func (ec *executionContext) field_Query_mlRuns_args(ctx context.Context, rawArgs
 		return nil, err
 	}
 	args["experimentId"] = arg1
+	arg2, err := ec.field_Query_mlRuns_argsProjectID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["projectId"] = arg2
 	return args, nil
 }
 func (ec *executionContext) field_Query_mlRuns_argsOrgID(
@@ -26849,6 +26946,24 @@ func (ec *executionContext) field_Query_mlRuns_argsExperimentID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_mlRuns_argsProjectID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["projectId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+	if tmp, ok := rawArgs["projectId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -26862,6 +26977,11 @@ func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_args(ctx cont
 		return nil, err
 	}
 	args["versionId"] = arg1
+	arg2, err := ec.field_Query_mlVersionDeploymentUpdates_argsProjectID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["projectId"] = arg2
 	return args, nil
 }
 func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_argsOrgID(
@@ -26893,6 +27013,24 @@ func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_argsVersionID
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
 	if tmp, ok := rawArgs["versionId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_argsProjectID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["projectId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+	if tmp, ok := rawArgs["projectId"]; ok {
 		return ec.unmarshalOID2ᚖstring(ctx, tmp)
 	}
 
@@ -69192,7 +69330,7 @@ func (ec *executionContext) _Query_mlModels(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().MlModels(rctx, fc.Args["orgId"].(string))
+		return ec.resolvers.Query().MlModels(rctx, fc.Args["orgId"].(string), fc.Args["projectId"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -69374,7 +69512,7 @@ func (ec *executionContext) _Query_mlModelVersions(ctx context.Context, field gr
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().MlModelVersions(rctx, fc.Args["orgId"].(string), fc.Args["modelId"].(*string))
+		return ec.resolvers.Query().MlModelVersions(rctx, fc.Args["orgId"].(string), fc.Args["modelId"].(*string), fc.Args["projectId"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -69516,7 +69654,7 @@ func (ec *executionContext) _Query_mlExperiments(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().MlExperiments(rctx, fc.Args["orgId"].(string))
+		return ec.resolvers.Query().MlExperiments(rctx, fc.Args["orgId"].(string), fc.Args["projectId"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -69654,7 +69792,7 @@ func (ec *executionContext) _Query_mlRuns(ctx context.Context, field graphql.Col
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().MlRuns(rctx, fc.Args["orgId"].(string), fc.Args["experimentId"].(*string))
+		return ec.resolvers.Query().MlRuns(rctx, fc.Args["orgId"].(string), fc.Args["experimentId"].(*string), fc.Args["projectId"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -70122,7 +70260,7 @@ func (ec *executionContext) _Query_mlFindings(ctx context.Context, field graphql
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().MlFindings(rctx, fc.Args["orgId"].(string), fc.Args["modelId"].(*string))
+		return ec.resolvers.Query().MlFindings(rctx, fc.Args["orgId"].(string), fc.Args["modelId"].(*string), fc.Args["projectId"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -70193,7 +70331,7 @@ func (ec *executionContext) _Query_mlVersionDeploymentUpdates(ctx context.Contex
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().MlVersionDeploymentUpdates(rctx, fc.Args["orgId"].(string), fc.Args["versionId"].(*string))
+		return ec.resolvers.Query().MlVersionDeploymentUpdates(rctx, fc.Args["orgId"].(string), fc.Args["versionId"].(*string), fc.Args["projectId"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)

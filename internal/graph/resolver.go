@@ -276,14 +276,14 @@ type mlStudioClient interface {
 	ListMLProjects(ctx context.Context, orgID string) ([]uigraphapi.MLProject, error)
 	GetMLProject(ctx context.Context, orgID, id string) (*uigraphapi.MLProject, error)
 	CreateMLProject(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLProject, error)
-	ListMLModels(ctx context.Context, orgID string) ([]uigraphapi.MLModel, error)
+	ListMLModels(ctx context.Context, orgID, projectID string) ([]uigraphapi.MLModel, error)
 	GetMLModel(ctx context.Context, orgID, id string) (*uigraphapi.MLModel, error)
 	UpdateMLModel(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLModel, error)
-	ListMLModelVersions(ctx context.Context, orgID, modelID string) ([]uigraphapi.MLModelVersion, error)
+	ListMLModelVersions(ctx context.Context, orgID, modelID, projectID string) ([]uigraphapi.MLModelVersion, error)
 	GetMLModelVersion(ctx context.Context, orgID, id string) (*uigraphapi.MLModelVersion, error)
-	ListMLExperiments(ctx context.Context, orgID string) ([]uigraphapi.MLExperiment, error)
+	ListMLExperiments(ctx context.Context, orgID, projectID string) ([]uigraphapi.MLExperiment, error)
 	GetMLExperiment(ctx context.Context, orgID, id string) (*uigraphapi.MLExperiment, error)
-	ListMLRuns(ctx context.Context, orgID, experimentID string) ([]uigraphapi.MLRun, error)
+	ListMLRuns(ctx context.Context, orgID, experimentID, projectID string) ([]uigraphapi.MLRun, error)
 	GetMLRun(ctx context.Context, orgID, id string) (*uigraphapi.MLRun, error)
 	ListMLRunSeries(ctx context.Context, orgID, runID string) ([]uigraphapi.MLMetricPoint, error)
 	ListMLArtifacts(ctx context.Context, orgID, runID string) ([]uigraphapi.MLArtifact, error)
@@ -293,11 +293,11 @@ type mlStudioClient interface {
 	CreateMLDeployment(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLDeployment, error)
 	UpdateMLDeployment(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLDeployment, error)
 	DeleteMLDeployment(ctx context.Context, orgID, id string) error
-	ListMLFindings(ctx context.Context, orgID, modelID string) ([]uigraphapi.MLFinding, error)
+	ListMLFindings(ctx context.Context, orgID, modelID, projectID string) ([]uigraphapi.MLFinding, error)
 	CreateMLFinding(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLFinding, error)
 	UpdateMLFinding(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLFinding, error)
 	DeleteMLFinding(ctx context.Context, orgID, id string) error
-	ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID string) ([]uigraphapi.MLVersionDeploymentUpdate, error)
+	ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID, projectID string) ([]uigraphapi.MLVersionDeploymentUpdate, error)
 	CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*uigraphapi.MLVersionDeploymentUpdate, error)
 }
 
