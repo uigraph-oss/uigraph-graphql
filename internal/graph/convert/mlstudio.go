@@ -32,7 +32,7 @@ func MLModelToModel(m *uigraphapi.MLModel) *model.MlModel {
 	return &model.MlModel{
 		ID: m.ID, ProjectID: m.ProjectID, Name: m.Name, Description: m.Description,
 		Domain: m.Domain, ProblemType: m.ProblemType, Tags: m.Tags,
-		Owners: m.Owners, License: m.License, References: m.References,
+		License: m.License, References: m.References,
 		IntendedUse: m.IntendedUse, Limitations: m.Limitations,
 		EthicalConsiderations: m.EthicalConsiderations, Caveats: m.Caveats,
 		ProductionVersionID: m.ProductionVersionID, CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,

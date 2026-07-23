@@ -758,7 +758,6 @@ type ComplexityRoot struct {
 		License               func(childComplexity int) int
 		Limitations           func(childComplexity int) int
 		Name                  func(childComplexity int) int
-		Owners                func(childComplexity int) int
 		ProblemType           func(childComplexity int) int
 		ProductionVersionID   func(childComplexity int) int
 		ProjectID             func(childComplexity int) int
@@ -810,6 +809,11 @@ type ComplexityRoot struct {
 		Status       func(childComplexity int) int
 		SyncedAt     func(childComplexity int) int
 		UpdatedAt    func(childComplexity int) int
+	}
+
+	MlRunPage struct {
+		Runs  func(childComplexity int) int
+		Total func(childComplexity int) int
 	}
 
 	MlSchemaField struct {
@@ -952,7 +956,7 @@ type ComplexityRoot struct {
 		UpdateMember                      func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
 		UpdateMlDeployment                func(childComplexity int, orgID string, id string, input model.UpdateMlDeploymentInput) int
 		UpdateMlFinding                   func(childComplexity int, orgID string, id string, input model.UpdateMlFindingInput) int
-		UpdateMlModel                     func(childComplexity int, orgID string, id string, domain *string, problemType *string, owners *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) int
+		UpdateMlModel                     func(childComplexity int, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) int
 		UpdateOrg                         func(childComplexity int, id string, input model.UpdateOrgInput) int
 		UpdateSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string, input model.UpdateSavedQueryInput) int
 		UpdateServerOrg                   func(childComplexity int, id string, input model.UpdateServerOrgInput) int
@@ -1078,6 +1082,7 @@ type ComplexityRoot struct {
 		MlProjects                 func(childComplexity int, orgID string) int
 		MlRun                      func(childComplexity int, orgID string, id string) int
 		MlRuns                     func(childComplexity int, orgID string, experimentID *string, projectID *string) int
+		MlRunsPage                 func(childComplexity int, orgID string, experimentID *string, projectID *string, search *string, limit *int, offset *int) int
 		MlVersionDeploymentUpdates func(childComplexity int, orgID string, versionID *string, projectID *string) int
 		MyOrgs                     func(childComplexity int) int
 		OauthProviders             func(childComplexity int) int
@@ -1671,7 +1676,7 @@ type MutationResolver interface {
 	CreateMlFinding(ctx context.Context, orgID string, input model.CreateMlFindingInput) (*model.MlFinding, error)
 	UpdateMlFinding(ctx context.Context, orgID string, id string, input model.UpdateMlFindingInput) (*model.MlFinding, error)
 	DeleteMlFinding(ctx context.Context, orgID string, id string) (bool, error)
-	UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, owners *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error)
+	UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error)
 	CreateMlVersionDeploymentUpdate(ctx context.Context, orgID string, versionID string, toStatus string) (*model.MlVersionDeploymentUpdate, error)
 	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
 	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
@@ -1794,6 +1799,7 @@ type QueryResolver interface {
 	MlExperiments(ctx context.Context, orgID string, projectID *string) ([]*model.MlExperiment, error)
 	MlExperiment(ctx context.Context, orgID string, id string) (*model.MlExperiment, error)
 	MlRuns(ctx context.Context, orgID string, experimentID *string, projectID *string) ([]*model.MlRun, error)
+	MlRunsPage(ctx context.Context, orgID string, experimentID *string, projectID *string, search *string, limit *int, offset *int) (*model.MlRunPage, error)
 	MlRun(ctx context.Context, orgID string, id string) (*model.MlRun, error)
 	MlArtifacts(ctx context.Context, orgID string, runID *string) ([]*model.MlArtifact, error)
 	MlDatasets(ctx context.Context, orgID string, experimentID *string) ([]*model.MlDataset, error)
@@ -5504,13 +5510,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlModel.Name(childComplexity), true
 
-	case "MlModel.owners":
-		if e.complexity.MlModel.Owners == nil {
-			break
-		}
-
-		return e.complexity.MlModel.Owners(childComplexity), true
-
 	case "MlModel.problemType":
 		if e.complexity.MlModel.ProblemType == nil {
 			break
@@ -5783,6 +5782,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlRun.UpdatedAt(childComplexity), true
+
+	case "MlRunPage.runs":
+		if e.complexity.MlRunPage.Runs == nil {
+			break
+		}
+
+		return e.complexity.MlRunPage.Runs(childComplexity), true
+
+	case "MlRunPage.total":
+		if e.complexity.MlRunPage.Total == nil {
+			break
+		}
+
+		return e.complexity.MlRunPage.Total(childComplexity), true
 
 	case "MlSchemaField.description":
 		if e.complexity.MlSchemaField.Description == nil {
@@ -7259,7 +7272,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateMlModel(childComplexity, args["orgId"].(string), args["id"].(string), args["domain"].(*string), args["problemType"].(*string), args["owners"].(*string), args["license"].(*string), args["references"].([]string), args["intendedUse"].(*string), args["limitations"].(*string), args["ethicalConsiderations"].(*string), args["caveats"].(*string)), true
+		return e.complexity.Mutation.UpdateMlModel(childComplexity, args["orgId"].(string), args["id"].(string), args["domain"].(*string), args["problemType"].(*string), args["license"].(*string), args["references"].([]string), args["intendedUse"].(*string), args["limitations"].(*string), args["ethicalConsiderations"].(*string), args["caveats"].(*string)), true
 
 	case "Mutation.updateOrg":
 		if e.complexity.Mutation.UpdateOrg == nil {
@@ -8446,6 +8459,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.MlRuns(childComplexity, args["orgId"].(string), args["experimentId"].(*string), args["projectId"].(*string)), true
+
+	case "Query.mlRunsPage":
+		if e.complexity.Query.MlRunsPage == nil {
+			break
+		}
+
+		args, err := ec.field_Query_mlRunsPage_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MlRunsPage(childComplexity, args["orgId"].(string), args["experimentId"].(*string), args["projectId"].(*string), args["search"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.mlVersionDeploymentUpdates":
 		if e.complexity.Query.MlVersionDeploymentUpdates == nil {
@@ -12672,6 +12697,7 @@ type UserSavings {
     mlExperiments(orgId: ID!, projectId: ID):                   [MlExperiment!]!
     mlExperiment(orgId: ID!, id: ID!):                          MlExperiment!
     mlRuns(orgId: ID!, experimentId: ID, projectId: ID):        [MlRun!]!
+    mlRunsPage(orgId: ID!, experimentId: ID, projectId: ID, search: String, limit: Int, offset: Int): MlRunPage!
     mlRun(orgId: ID!, id: ID!):                                 MlRun!
     mlArtifacts(orgId: ID!, runId: ID):                         [MlArtifact!]!
     mlDatasets(orgId: ID!, experimentId: ID):                   [MlDataset!]!
@@ -12689,7 +12715,7 @@ extend type Mutation {
     createMlFinding(orgId: ID!, input: CreateMlFindingInput!):                MlFinding!
     updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
     deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
-    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, owners: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
+    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
     createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
 }
 
@@ -12718,7 +12744,6 @@ type MlModel {
     domain:                String!
     problemType:           String!
     tags:                  [String!]!
-    owners:                String!
     license:               String!
     references:            [String!]!
     intendedUse:           String!
@@ -12756,6 +12781,11 @@ type MlExperiment {
     description: String!
     status:      String!
     startedAt:   Time
+}
+
+type MlRunPage {
+    runs:  [MlRun!]!
+    total: Int!
 }
 
 type MlRun {
@@ -21338,41 +21368,36 @@ func (ec *executionContext) field_Mutation_updateMlModel_args(ctx context.Contex
 		return nil, err
 	}
 	args["problemType"] = arg3
-	arg4, err := ec.field_Mutation_updateMlModel_argsOwners(ctx, rawArgs)
+	arg4, err := ec.field_Mutation_updateMlModel_argsLicense(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["owners"] = arg4
-	arg5, err := ec.field_Mutation_updateMlModel_argsLicense(ctx, rawArgs)
+	args["license"] = arg4
+	arg5, err := ec.field_Mutation_updateMlModel_argsReferences(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["license"] = arg5
-	arg6, err := ec.field_Mutation_updateMlModel_argsReferences(ctx, rawArgs)
+	args["references"] = arg5
+	arg6, err := ec.field_Mutation_updateMlModel_argsIntendedUse(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["references"] = arg6
-	arg7, err := ec.field_Mutation_updateMlModel_argsIntendedUse(ctx, rawArgs)
+	args["intendedUse"] = arg6
+	arg7, err := ec.field_Mutation_updateMlModel_argsLimitations(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["intendedUse"] = arg7
-	arg8, err := ec.field_Mutation_updateMlModel_argsLimitations(ctx, rawArgs)
+	args["limitations"] = arg7
+	arg8, err := ec.field_Mutation_updateMlModel_argsEthicalConsiderations(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["limitations"] = arg8
-	arg9, err := ec.field_Mutation_updateMlModel_argsEthicalConsiderations(ctx, rawArgs)
+	args["ethicalConsiderations"] = arg8
+	arg9, err := ec.field_Mutation_updateMlModel_argsCaveats(ctx, rawArgs)
 	if err != nil {
 		return nil, err
 	}
-	args["ethicalConsiderations"] = arg9
-	arg10, err := ec.field_Mutation_updateMlModel_argsCaveats(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["caveats"] = arg10
+	args["caveats"] = arg9
 	return args, nil
 }
 func (ec *executionContext) field_Mutation_updateMlModel_argsOrgID(
@@ -21440,24 +21465,6 @@ func (ec *executionContext) field_Mutation_updateMlModel_argsProblemType(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("problemType"))
 	if tmp, ok := rawArgs["problemType"]; ok {
-		return ec.unmarshalOString2ᚖstring(ctx, tmp)
-	}
-
-	var zeroVal *string
-	return zeroVal, nil
-}
-
-func (ec *executionContext) field_Mutation_updateMlModel_argsOwners(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (*string, error) {
-	if _, ok := rawArgs["owners"]; !ok {
-		var zeroVal *string
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("owners"))
-	if tmp, ok := rawArgs["owners"]; ok {
 		return ec.unmarshalOString2ᚖstring(ctx, tmp)
 	}
 
@@ -26956,6 +26963,149 @@ func (ec *executionContext) field_Query_mlRun_argsID(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlRunsPage_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_mlRunsPage_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlRunsPage_argsExperimentID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["experimentId"] = arg1
+	arg2, err := ec.field_Query_mlRunsPage_argsProjectID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["projectId"] = arg2
+	arg3, err := ec.field_Query_mlRunsPage_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg3
+	arg4, err := ec.field_Query_mlRunsPage_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg4
+	arg5, err := ec.field_Query_mlRunsPage_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg5
+	return args, nil
+}
+func (ec *executionContext) field_Query_mlRunsPage_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlRunsPage_argsExperimentID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["experimentId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("experimentId"))
+	if tmp, ok := rawArgs["experimentId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlRunsPage_argsProjectID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["projectId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+	if tmp, ok := rawArgs["projectId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlRunsPage_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlRunsPage_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlRunsPage_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -51912,50 +52062,6 @@ func (ec *executionContext) fieldContext_MlModel_tags(_ context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _MlModel_owners(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlModel_owners(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Owners, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlModel_owners(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlModel",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _MlModel_license(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlModel_license(ctx, field)
 	if err != nil {
@@ -53771,6 +53877,126 @@ func (ec *executionContext) fieldContext_MlRun_syncedAt(_ context.Context, field
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlRunPage_runs(ctx context.Context, field graphql.CollectedField, obj *model.MlRunPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlRunPage_runs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Runs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.MlRun)
+	fc.Result = res
+	return ec.marshalNMlRun2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlRunᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlRunPage_runs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlRunPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlRun_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlRun_orgId(ctx, field)
+			case "experimentId":
+				return ec.fieldContext_MlRun_experimentId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlRun_name(ctx, field)
+			case "status":
+				return ec.fieldContext_MlRun_status(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlRun_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlRun_endedAt(ctx, field)
+			case "duration":
+				return ec.fieldContext_MlRun_duration(ctx, field)
+			case "notes":
+				return ec.fieldContext_MlRun_notes(ctx, field)
+			case "parameters":
+				return ec.fieldContext_MlRun_parameters(ctx, field)
+			case "metrics":
+				return ec.fieldContext_MlRun_metrics(ctx, field)
+			case "datasetId":
+				return ec.fieldContext_MlRun_datasetId(ctx, field)
+			case "series":
+				return ec.fieldContext_MlRun_series(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlRun_updatedAt(ctx, field)
+			case "syncedAt":
+				return ec.fieldContext_MlRun_syncedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlRun", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlRunPage_total(ctx context.Context, field graphql.CollectedField, obj *model.MlRunPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlRunPage_total(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Total, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlRunPage_total(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlRunPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -59823,7 +60049,7 @@ func (ec *executionContext) _Mutation_updateMlModel(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateMlModel(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["domain"].(*string), fc.Args["problemType"].(*string), fc.Args["owners"].(*string), fc.Args["license"].(*string), fc.Args["references"].([]string), fc.Args["intendedUse"].(*string), fc.Args["limitations"].(*string), fc.Args["ethicalConsiderations"].(*string), fc.Args["caveats"].(*string))
+		return ec.resolvers.Mutation().UpdateMlModel(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["domain"].(*string), fc.Args["problemType"].(*string), fc.Args["license"].(*string), fc.Args["references"].([]string), fc.Args["intendedUse"].(*string), fc.Args["limitations"].(*string), fc.Args["ethicalConsiderations"].(*string), fc.Args["caveats"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -59862,8 +60088,6 @@ func (ec *executionContext) fieldContext_Mutation_updateMlModel(ctx context.Cont
 				return ec.fieldContext_MlModel_problemType(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlModel_tags(ctx, field)
-			case "owners":
-				return ec.fieldContext_MlModel_owners(ctx, field)
 			case "license":
 				return ec.fieldContext_MlModel_license(ctx, field)
 			case "references":
@@ -69736,8 +69960,6 @@ func (ec *executionContext) fieldContext_Query_mlModels(ctx context.Context, fie
 				return ec.fieldContext_MlModel_problemType(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlModel_tags(ctx, field)
-			case "owners":
-				return ec.fieldContext_MlModel_owners(ctx, field)
 			case "license":
 				return ec.fieldContext_MlModel_license(ctx, field)
 			case "references":
@@ -69827,8 +70049,6 @@ func (ec *executionContext) fieldContext_Query_mlModel(ctx context.Context, fiel
 				return ec.fieldContext_MlModel_problemType(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlModel_tags(ctx, field)
-			case "owners":
-				return ec.fieldContext_MlModel_owners(ctx, field)
 			case "license":
 				return ec.fieldContext_MlModel_license(ctx, field)
 			case "references":
@@ -70226,6 +70446,67 @@ func (ec *executionContext) fieldContext_Query_mlRuns(ctx context.Context, field
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_mlRuns_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_mlRunsPage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_mlRunsPage(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().MlRunsPage(rctx, fc.Args["orgId"].(string), fc.Args["experimentId"].(*string), fc.Args["projectId"].(*string), fc.Args["search"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlRunPage)
+	fc.Result = res
+	return ec.marshalNMlRunPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlRunPage(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_mlRunsPage(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "runs":
+				return ec.fieldContext_MlRunPage_runs(ctx, field)
+			case "total":
+				return ec.fieldContext_MlRunPage_total(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlRunPage", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_mlRunsPage_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -100295,11 +100576,6 @@ func (ec *executionContext) _MlModel(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "owners":
-			out.Values[i] = ec._MlModel_owners(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "license":
 			out.Values[i] = ec._MlModel_license(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -100641,6 +100917,50 @@ func (ec *executionContext) _MlRun(ctx context.Context, sel ast.SelectionSet, ob
 			out.Values[i] = ec._MlRun_updatedAt(ctx, field, obj)
 		case "syncedAt":
 			out.Values[i] = ec._MlRun_syncedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var mlRunPageImplementors = []string{"MlRunPage"}
+
+func (ec *executionContext) _MlRunPage(ctx context.Context, sel ast.SelectionSet, obj *model.MlRunPage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mlRunPageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MlRunPage")
+		case "runs":
+			out.Values[i] = ec._MlRunPage_runs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "total":
+			out.Values[i] = ec._MlRunPage_total(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -103484,6 +103804,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_mlRuns(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "mlRunsPage":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_mlRunsPage(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -110117,6 +110459,20 @@ func (ec *executionContext) marshalNMlRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋ
 		return graphql.Null
 	}
 	return ec._MlRun(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMlRunPage2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlRunPage(ctx context.Context, sel ast.SelectionSet, v model.MlRunPage) graphql.Marshaler {
+	return ec._MlRunPage(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNMlRunPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlRunPage(ctx context.Context, sel ast.SelectionSet, v *model.MlRunPage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MlRunPage(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNMlSchemaField2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlSchemaFieldᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MlSchemaField) graphql.Marshaler {

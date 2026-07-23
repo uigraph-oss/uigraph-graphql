@@ -8,6 +8,7 @@ extend type Query {
     mlExperiments(orgId: ID!, projectId: ID):                   [MlExperiment!]!
     mlExperiment(orgId: ID!, id: ID!):                          MlExperiment!
     mlRuns(orgId: ID!, experimentId: ID, projectId: ID):        [MlRun!]!
+    mlRunsPage(orgId: ID!, experimentId: ID, projectId: ID, search: String, limit: Int, offset: Int): MlRunPage!
     mlRun(orgId: ID!, id: ID!):                                 MlRun!
     mlArtifacts(orgId: ID!, runId: ID):                         [MlArtifact!]!
     mlDatasets(orgId: ID!, experimentId: ID):                   [MlDataset!]!
@@ -25,7 +26,7 @@ extend type Mutation {
     createMlFinding(orgId: ID!, input: CreateMlFindingInput!):                MlFinding!
     updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
     deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
-    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, owners: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
+    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
     createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
 }
 
@@ -54,7 +55,6 @@ type MlModel {
     domain:                String!
     problemType:           String!
     tags:                  [String!]!
-    owners:                String!
     license:               String!
     references:            [String!]!
     intendedUse:           String!
@@ -92,6 +92,11 @@ type MlExperiment {
     description: String!
     status:      String!
     startedAt:   Time
+}
+
+type MlRunPage {
+    runs:  [MlRun!]!
+    total: Int!
 }
 
 type MlRun {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"strconv"
 	"time"
 )
 
@@ -34,7 +35,6 @@ type MLModel struct {
 	Domain                string     `json:"domain"`
 	ProblemType           string     `json:"problemType"`
 	Tags                  []string   `json:"tags"`
-	Owners                string     `json:"owners"`
 	License               string     `json:"license"`
 	References            []string   `json:"references"`
 	IntendedUse           string     `json:"intendedUse"`
@@ -248,22 +248,40 @@ func (c *Client) GetMLExperiment(ctx context.Context, orgID, id string) (*MLExpe
 	return &out, c.get(ctx, mlBase(orgID)+"/experiments/"+id, &out)
 }
 
-func (c *Client) ListMLRuns(ctx context.Context, orgID, experimentID, projectID string) ([]MLRun, error) {
+type MLRunQuery struct {
+	ExperimentID string
+	ProjectID    string
+	Search       string
+	Limit        int
+	Offset       int
+}
+
+func (c *Client) ListMLRuns(ctx context.Context, orgID string, query MLRunQuery) ([]MLRun, int, error) {
 	q := url.Values{}
-	if experimentID != "" {
-		q.Set("experimentId", experimentID)
+	if query.ExperimentID != "" {
+		q.Set("experimentId", query.ExperimentID)
 	}
-	if projectID != "" {
-		q.Set("projectId", projectID)
+	if query.ProjectID != "" {
+		q.Set("projectId", query.ProjectID)
+	}
+	if query.Search != "" {
+		q.Set("search", query.Search)
+	}
+	if query.Limit > 0 {
+		q.Set("limit", strconv.Itoa(query.Limit))
+	}
+	if query.Offset > 0 {
+		q.Set("offset", strconv.Itoa(query.Offset))
 	}
 	path := mlBase(orgID) + "/runs"
 	if len(q) > 0 {
 		path += "?" + q.Encode()
 	}
 	var out struct {
-		Runs []MLRun `json:"runs"`
+		Runs  []MLRun `json:"runs"`
+		Total int     `json:"total"`
 	}
-	return out.Runs, c.get(ctx, path, &out)
+	return out.Runs, out.Total, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetMLRun(ctx context.Context, orgID, id string) (*MLRun, error) {

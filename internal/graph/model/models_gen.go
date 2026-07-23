@@ -1135,7 +1135,6 @@ type MlModel struct {
 	Domain                string     `json:"domain"`
 	ProblemType           string     `json:"problemType"`
 	Tags                  []string   `json:"tags"`
-	Owners                string     `json:"owners"`
 	License               string     `json:"license"`
 	References            []string   `json:"references"`
 	IntendedUse           string     `json:"intendedUse"`
@@ -1190,6 +1189,11 @@ type MlRun struct {
 	Series       any        `json:"series"`
 	UpdatedAt    *time.Time `json:"updatedAt,omitempty"`
 	SyncedAt     *time.Time `json:"syncedAt,omitempty"`
+}
+
+type MlRunPage struct {
+	Runs  []*MlRun `json:"runs"`
+	Total int      `json:"total"`
 }
 
 type MlSchemaField struct {

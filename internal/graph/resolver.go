@@ -283,7 +283,7 @@ type mlStudioClient interface {
 	GetMLModelVersion(ctx context.Context, orgID, id string) (*uigraphapi.MLModelVersion, error)
 	ListMLExperiments(ctx context.Context, orgID, projectID string) ([]uigraphapi.MLExperiment, error)
 	GetMLExperiment(ctx context.Context, orgID, id string) (*uigraphapi.MLExperiment, error)
-	ListMLRuns(ctx context.Context, orgID, experimentID, projectID string) ([]uigraphapi.MLRun, error)
+	ListMLRuns(ctx context.Context, orgID string, query uigraphapi.MLRunQuery) ([]uigraphapi.MLRun, int, error)
 	GetMLRun(ctx context.Context, orgID, id string) (*uigraphapi.MLRun, error)
 	ListMLRunSeries(ctx context.Context, orgID, runID string) ([]uigraphapi.MLMetricPoint, error)
 	ListMLArtifacts(ctx context.Context, orgID, runID string) ([]uigraphapi.MLArtifact, error)

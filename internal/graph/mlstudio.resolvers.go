@@ -10,6 +10,7 @@ import (
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
+	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 // Series is the resolver for the series field.
@@ -77,11 +78,10 @@ func (r *mutationResolver) DeleteMlFinding(ctx context.Context, orgID string, id
 }
 
 // UpdateMlModel is the resolver for the updateMlModel field.
-func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, owners *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error) {
+func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error) {
 	body := map[string]interface{}{
 		"domain":                derefStr(domain),
 		"problemType":           derefStr(problemType),
-		"owners":                derefStr(owners),
 		"license":               derefStr(license),
 		"references":            references,
 		"intendedUse":           derefStr(intendedUse),
@@ -179,11 +179,37 @@ func (r *queryResolver) MlExperiment(ctx context.Context, orgID string, id strin
 
 // MlRuns is the resolver for the mlRuns field.
 func (r *queryResolver) MlRuns(ctx context.Context, orgID string, experimentID *string, projectID *string) ([]*model.MlRun, error) {
-	runs, err := r.MLStudio.ListMLRuns(ctx, orgID, derefStr(experimentID), derefStr(projectID))
+	runs, _, err := r.MLStudio.ListMLRuns(ctx, orgID, uigraphapi.MLRunQuery{
+		ExperimentID: derefStr(experimentID),
+		ProjectID:    derefStr(projectID),
+	})
 	if err != nil {
 		return nil, err
 	}
 	return convert.MLRunsToModel(runs), nil
+}
+
+// MlRunsPage is the resolver for the mlRunsPage field.
+func (r *queryResolver) MlRunsPage(ctx context.Context, orgID string, experimentID *string, projectID *string, search *string, limit *int, offset *int) (*model.MlRunPage, error) {
+	query := uigraphapi.MLRunQuery{
+		ExperimentID: derefStr(experimentID),
+		ProjectID:    derefStr(projectID),
+		Search:       derefStr(search),
+	}
+	if limit != nil {
+		query.Limit = *limit
+	}
+	if offset != nil {
+		query.Offset = *offset
+	}
+	runs, total, err := r.MLStudio.ListMLRuns(ctx, orgID, query)
+	if err != nil {
+		return nil, err
+	}
+	return &model.MlRunPage{
+		Runs:  convert.MLRunsToModel(runs),
+		Total: total,
+	}, nil
 }
 
 // MlRun is the resolver for the mlRun field.
