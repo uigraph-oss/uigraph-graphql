@@ -6,7 +6,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
@@ -15,67 +14,119 @@ import (
 
 // CreateMlProject is the resolver for the createMlProject field.
 func (r *mutationResolver) CreateMlProject(ctx context.Context, orgID string, input model.CreateMlProjectInput) (*model.MlProject, error) {
-	panic(fmt.Errorf("not implemented: CreateMlProject - createMlProject"))
+	p, err := r.MLStudio.CreateMLProject(ctx, orgID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLProjectToModel(p), nil
 }
 
 // UpdateMlProject is the resolver for the updateMlProject field.
 func (r *mutationResolver) UpdateMlProject(ctx context.Context, orgID string, id string, input model.UpdateMlProjectInput) (*model.MlProject, error) {
-	panic(fmt.Errorf("not implemented: UpdateMlProject - updateMlProject"))
+	p, err := r.MLStudio.UpdateMLProject(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLProjectToModel(p), nil
 }
 
 // DeleteMlProject is the resolver for the deleteMlProject field.
 func (r *mutationResolver) DeleteMlProject(ctx context.Context, orgID string, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteMlProject - deleteMlProject"))
+	return true, r.MLStudio.DeleteMLProject(ctx, orgID, id)
 }
 
 // CreateMlDeployment is the resolver for the createMlDeployment field.
 func (r *mutationResolver) CreateMlDeployment(ctx context.Context, orgID string, input model.CreateMlDeploymentInput) (*model.MlDeployment, error) {
-	panic(fmt.Errorf("not implemented: CreateMlDeployment - createMlDeployment"))
+	d, err := r.MLStudio.CreateMLDeployment(ctx, orgID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLDeploymentToModel(d), nil
 }
 
 // UpdateMlDeployment is the resolver for the updateMlDeployment field.
 func (r *mutationResolver) UpdateMlDeployment(ctx context.Context, orgID string, id string, input model.UpdateMlDeploymentInput) (*model.MlDeployment, error) {
-	panic(fmt.Errorf("not implemented: UpdateMlDeployment - updateMlDeployment"))
+	d, err := r.MLStudio.UpdateMLDeployment(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLDeploymentToModel(d), nil
 }
 
 // DeleteMlDeployment is the resolver for the deleteMlDeployment field.
 func (r *mutationResolver) DeleteMlDeployment(ctx context.Context, orgID string, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteMlDeployment - deleteMlDeployment"))
+	return true, r.MLStudio.DeleteMLDeployment(ctx, orgID, id)
 }
 
 // CreateMlFinding is the resolver for the createMlFinding field.
 func (r *mutationResolver) CreateMlFinding(ctx context.Context, orgID string, input model.CreateMlFindingInput) (*model.MlFinding, error) {
-	panic(fmt.Errorf("not implemented: CreateMlFinding - createMlFinding"))
+	f, err := r.MLStudio.CreateMLFinding(ctx, orgID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLFindingToModel(f), nil
 }
 
 // UpdateMlFinding is the resolver for the updateMlFinding field.
 func (r *mutationResolver) UpdateMlFinding(ctx context.Context, orgID string, id string, input model.UpdateMlFindingInput) (*model.MlFinding, error) {
-	panic(fmt.Errorf("not implemented: UpdateMlFinding - updateMlFinding"))
+	f, err := r.MLStudio.UpdateMLFinding(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLFindingToModel(f), nil
 }
 
 // DeleteMlFinding is the resolver for the deleteMlFinding field.
 func (r *mutationResolver) DeleteMlFinding(ctx context.Context, orgID string, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteMlFinding - deleteMlFinding"))
+	return true, r.MLStudio.DeleteMLFinding(ctx, orgID, id)
 }
 
 // CreateMlModel is the resolver for the createMlModel field.
 func (r *mutationResolver) CreateMlModel(ctx context.Context, orgID string, input model.CreateMlModelInput) (*model.MlModel, error) {
-	panic(fmt.Errorf("not implemented: CreateMlModel - createMlModel"))
+	m, err := r.MLStudio.CreateMLModel(ctx, orgID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLModelToModel(m), nil
 }
 
 // UpdateMlModel is the resolver for the updateMlModel field.
 func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, considerations *string, recommendations *string) (*model.MlModel, error) {
-	panic(fmt.Errorf("not implemented: UpdateMlModel - updateMlModel"))
+	body := map[string]interface{}{
+		"domain":          derefStr(domain),
+		"problemType":     derefStr(problemType),
+		"license":         derefStr(license),
+		"references":      references,
+		"intendedUse":     derefStr(intendedUse),
+		"limitations":     derefStr(limitations),
+		"considerations":  derefStr(considerations),
+		"recommendations": derefStr(recommendations),
+	}
+	m, err := r.MLStudio.UpdateMLModel(ctx, orgID, id, body)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLModelToModel(m), nil
 }
 
 // UpdateMlModelInfo is the resolver for the updateMlModelInfo field.
 func (r *mutationResolver) UpdateMlModelInfo(ctx context.Context, orgID string, id string, input model.UpdateMlModelInfoInput) (*model.MlModel, error) {
-	panic(fmt.Errorf("not implemented: UpdateMlModelInfo - updateMlModelInfo"))
+	body := convert.ToMap(input)
+	// ToMap drops an empty tag list because of `omitempty`, which would make
+	// clearing every tag a no-op instead of an update.
+	if input.Tags != nil {
+		body["tags"] = input.Tags
+	}
+	m, err := r.MLStudio.UpdateMLModelInfo(ctx, orgID, id, body)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLModelToModel(m), nil
 }
 
 // DeleteMlModel is the resolver for the deleteMlModel field.
 func (r *mutationResolver) DeleteMlModel(ctx context.Context, orgID string, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteMlModel - deleteMlModel"))
+	return true, r.MLStudio.DeleteMLModel(ctx, orgID, id)
 }
 
 // CreateMlVersionDeploymentUpdate is the resolver for the createMlVersionDeploymentUpdate field.
@@ -89,47 +140,77 @@ func (r *mutationResolver) CreateMlVersionDeploymentUpdate(ctx context.Context, 
 
 // CreateMlExperiment is the resolver for the createMlExperiment field.
 func (r *mutationResolver) CreateMlExperiment(ctx context.Context, orgID string, input model.CreateMlExperimentInput) (*model.MlExperiment, error) {
-	panic(fmt.Errorf("not implemented: CreateMlExperiment - createMlExperiment"))
+	e, err := r.MLStudio.CreateMLExperiment(ctx, orgID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLExperimentToModel(e), nil
 }
 
 // UpdateMlExperiment is the resolver for the updateMlExperiment field.
 func (r *mutationResolver) UpdateMlExperiment(ctx context.Context, orgID string, id string, input model.UpdateMlExperimentInput) (*model.MlExperiment, error) {
-	panic(fmt.Errorf("not implemented: UpdateMlExperiment - updateMlExperiment"))
+	body := convert.ToMap(input)
+	// ToMap drops an empty tag list because of `omitempty`, which would make
+	// clearing every tag a no-op instead of an update.
+	if input.Tags != nil {
+		body["tags"] = input.Tags
+	}
+	e, err := r.MLStudio.UpdateMLExperiment(ctx, orgID, id, body)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLExperimentToModel(e), nil
 }
 
 // DeleteMlExperiment is the resolver for the deleteMlExperiment field.
 func (r *mutationResolver) DeleteMlExperiment(ctx context.Context, orgID string, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteMlExperiment - deleteMlExperiment"))
+	return true, r.MLStudio.DeleteMLExperiment(ctx, orgID, id)
 }
 
 // CreateMlRun is the resolver for the createMlRun field.
 func (r *mutationResolver) CreateMlRun(ctx context.Context, orgID string, experimentID string, input model.CreateMlRunInput) (*model.MlRun, error) {
-	panic(fmt.Errorf("not implemented: CreateMlRun - createMlRun"))
+	run, err := r.MLStudio.CreateMLRun(ctx, orgID, experimentID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLRunToModel(run), nil
 }
 
 // UpdateMlRun is the resolver for the updateMlRun field.
 func (r *mutationResolver) UpdateMlRun(ctx context.Context, orgID string, id string, input model.UpdateMlRunInput) (*model.MlRun, error) {
-	panic(fmt.Errorf("not implemented: UpdateMlRun - updateMlRun"))
+	run, err := r.MLStudio.UpdateMLRun(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLRunToModel(run), nil
 }
 
 // DeleteMlRun is the resolver for the deleteMlRun field.
 func (r *mutationResolver) DeleteMlRun(ctx context.Context, orgID string, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteMlRun - deleteMlRun"))
+	return true, r.MLStudio.DeleteMLRun(ctx, orgID, id)
 }
 
 // CreateMlDataset is the resolver for the createMlDataset field.
 func (r *mutationResolver) CreateMlDataset(ctx context.Context, orgID string, experimentID string, input model.CreateMlDatasetInput) (*model.MlDataset, error) {
-	panic(fmt.Errorf("not implemented: CreateMlDataset - createMlDataset"))
+	ds, err := r.MLStudio.CreateMLDataset(ctx, orgID, experimentID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLDatasetToModel(ds), nil
 }
 
 // UpdateMlDataset is the resolver for the updateMlDataset field.
 func (r *mutationResolver) UpdateMlDataset(ctx context.Context, orgID string, id string, input model.UpdateMlDatasetInput) (*model.MlDataset, error) {
-	panic(fmt.Errorf("not implemented: UpdateMlDataset - updateMlDataset"))
+	ds, err := r.MLStudio.UpdateMLDataset(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLDatasetToModel(ds), nil
 }
 
 // DeleteMlDataset is the resolver for the deleteMlDataset field.
 func (r *mutationResolver) DeleteMlDataset(ctx context.Context, orgID string, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteMlDataset - deleteMlDataset"))
+	return true, r.MLStudio.DeleteMLDataset(ctx, orgID, id)
 }
 
 // MlProjects is the resolver for the mlProjects field.
