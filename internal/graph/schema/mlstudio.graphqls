@@ -17,6 +17,7 @@ extend type Query {
     mlFindings(orgId: ID!, modelId: ID, projectId: ID):         [MlFinding!]!
     mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
     mlVersionEvaluations(orgId: ID!, versionId: ID!):           [MlEvaluation!]!
+    mlExperimentEvaluations(orgId: ID!, experimentId: ID!):     [MlEvaluation!]!
     mlEvaluation(orgId: ID!, id: ID!):                          MlEvaluation!
 }
 
@@ -184,8 +185,11 @@ type MlDeployment {
 }
 
 type MlEvaluation {
-    id:          ID!
-    versionId:   ID!
+    id:           ID!
+    versionId:    ID!
+    experimentId: ID!
+    modelName:    String!
+    version:      String!
     datasetId:   ID
     name:        String!
     type:        String!

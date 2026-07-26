@@ -307,6 +307,15 @@ func (r *queryResolver) MlVersionEvaluations(ctx context.Context, orgID string, 
 	return convert.MLEvaluationsToModel(evaluations), nil
 }
 
+// MlExperimentEvaluations is the resolver for the mlExperimentEvaluations field.
+func (r *queryResolver) MlExperimentEvaluations(ctx context.Context, orgID string, experimentID string) ([]*model.MlEvaluation, error) {
+	evaluations, err := r.MLStudio.ListMLExperimentEvaluations(ctx, orgID, experimentID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLEvaluationsToModel(evaluations), nil
+}
+
 // MlEvaluation is the resolver for the mlEvaluation field.
 func (r *queryResolver) MlEvaluation(ctx context.Context, orgID string, id string) (*model.MlEvaluation, error) {
 	evaluation, err := r.MLStudio.GetMLEvaluation(ctx, orgID, id)

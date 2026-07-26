@@ -160,19 +160,22 @@ type MLFinding struct {
 }
 
 type MLEvaluation struct {
-	ID          string         `json:"id"`
-	OrgID       string         `json:"orgId"`
-	MLflowID    string         `json:"mlflowId"`
-	VersionID   string         `json:"versionId"`
-	DatasetID   *string        `json:"datasetId,omitempty"`
-	Name        string         `json:"name"`
-	Type        string         `json:"type"`
-	Description string         `json:"description"`
-	Summary     string         `json:"summary"`
-	EvaluatedAt *time.Time     `json:"evaluatedAt,omitempty"`
-	Evaluator   string         `json:"evaluator"`
-	Parameters  map[string]any `json:"parameters"`
-	Metrics     map[string]any `json:"metrics"`
+	ID           string         `json:"id"`
+	OrgID        string         `json:"orgId"`
+	MLflowID     string         `json:"mlflowId"`
+	VersionID    string         `json:"versionId"`
+	ExperimentID string         `json:"experimentId"`
+	ModelName    string         `json:"modelName"`
+	Version      string         `json:"version"`
+	DatasetID    *string        `json:"datasetId,omitempty"`
+	Name         string         `json:"name"`
+	Type         string         `json:"type"`
+	Description  string         `json:"description"`
+	Summary      string         `json:"summary"`
+	EvaluatedAt  *time.Time     `json:"evaluatedAt,omitempty"`
+	Evaluator    string         `json:"evaluator"`
+	Parameters   map[string]any `json:"parameters"`
+	Metrics      map[string]any `json:"metrics"`
 }
 
 func mlBase(orgID string) string {
@@ -461,6 +464,13 @@ func (c *Client) ListMLVersionEvaluations(ctx context.Context, orgID, versionID 
 		Evaluations []MLEvaluation `json:"evaluations"`
 	}
 	return out.Evaluations, c.get(ctx, fmt.Sprintf("%s/versions/%s/evaluations", mlBase(orgID), versionID), &out)
+}
+
+func (c *Client) ListMLExperimentEvaluations(ctx context.Context, orgID, experimentID string) ([]MLEvaluation, error) {
+	var out struct {
+		Evaluations []MLEvaluation `json:"evaluations"`
+	}
+	return out.Evaluations, c.get(ctx, fmt.Sprintf("%s/experiments/%s/evaluations", mlBase(orgID), experimentID), &out)
 }
 
 func (c *Client) GetMLEvaluation(ctx context.Context, orgID, id string) (*MLEvaluation, error) {

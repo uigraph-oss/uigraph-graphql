@@ -1151,17 +1151,20 @@ type MlDeployment struct {
 }
 
 type MlEvaluation struct {
-	ID          string     `json:"id"`
-	VersionID   string     `json:"versionId"`
-	DatasetID   *string    `json:"datasetId,omitempty"`
-	Name        string     `json:"name"`
-	Type        string     `json:"type"`
-	Description string     `json:"description"`
-	Summary     string     `json:"summary"`
-	EvaluatedAt *time.Time `json:"evaluatedAt,omitempty"`
-	Evaluator   string     `json:"evaluator"`
-	Parameters  any        `json:"parameters"`
-	Metrics     any        `json:"metrics"`
+	ID           string     `json:"id"`
+	VersionID    string     `json:"versionId"`
+	ExperimentID string     `json:"experimentId"`
+	ModelName    string     `json:"modelName"`
+	Version      string     `json:"version"`
+	DatasetID    *string    `json:"datasetId,omitempty"`
+	Name         string     `json:"name"`
+	Type         string     `json:"type"`
+	Description  string     `json:"description"`
+	Summary      string     `json:"summary"`
+	EvaluatedAt  *time.Time `json:"evaluatedAt,omitempty"`
+	Evaluator    string     `json:"evaluator"`
+	Parameters   any        `json:"parameters"`
+	Metrics      any        `json:"metrics"`
 }
 
 type MlExperiment struct {

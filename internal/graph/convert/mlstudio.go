@@ -187,7 +187,9 @@ func MLEvaluationToModel(e *uigraphapi.MLEvaluation) *model.MlEvaluation {
 		metrics[k] = v
 	}
 	return &model.MlEvaluation{
-		ID: e.ID, VersionID: e.VersionID, DatasetID: e.DatasetID, Name: e.Name,
+		ID: e.ID, VersionID: e.VersionID, ExperimentID: e.ExperimentID,
+		ModelName: e.ModelName, Version: e.Version,
+		DatasetID: e.DatasetID, Name: e.Name,
 		Type: e.Type, Description: e.Description, Summary: e.Summary,
 		EvaluatedAt: e.EvaluatedAt, Evaluator: e.Evaluator,
 		Parameters: parameters, Metrics: metrics,

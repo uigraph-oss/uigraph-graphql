@@ -313,6 +313,7 @@ type mlStudioClient interface {
 	ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID, projectID string) ([]uigraphapi.MLVersionDeploymentUpdate, error)
 	CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*uigraphapi.MLVersionDeploymentUpdate, error)
 	ListMLVersionEvaluations(ctx context.Context, orgID, versionID string) ([]uigraphapi.MLEvaluation, error)
+	ListMLExperimentEvaluations(ctx context.Context, orgID, experimentID string) ([]uigraphapi.MLEvaluation, error)
 	GetMLEvaluation(ctx context.Context, orgID, id string) (*uigraphapi.MLEvaluation, error)
 }
 
