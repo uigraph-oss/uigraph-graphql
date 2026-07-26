@@ -748,6 +748,11 @@ type ComplexityRoot struct {
 		VersionID    func(childComplexity int) int
 	}
 
+	MlEvaluationPage struct {
+		Evaluations func(childComplexity int) int
+		Total       func(childComplexity int) int
+	}
+
 	MlExperiment struct {
 		CreatedBy   func(childComplexity int) int
 		Description func(childComplexity int) int
@@ -1063,113 +1068,115 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		APIEndpoint                func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
-		APIEndpointByID            func(childComplexity int, orgID string, id string) int
-		APIEndpoints               func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
-		APIGroup                   func(childComplexity int, orgID string, serviceID string, id string) int
-		APIGroupSpec               func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
-		APIGroupVersions           func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
-		APIGroups                  func(childComplexity int, orgID string, serviceID string) int
-		Actor                      func(childComplexity int, orgID string, id string) int
-		AssetURL                   func(childComplexity int, orgID string, assetID string) int
-		AssetUrls                  func(childComplexity int, orgID string, assetIds []string) int
-		Canvas                     func(childComplexity int, orgID string, mapID string) int
-		ChatMessages               func(childComplexity int, orgID string, sessionID string) int
-		ChatSession                func(childComplexity int, orgID string, id string) int
-		ChatSessions               func(childComplexity int, orgID string) int
-		Comments                   func(childComplexity int, orgID string, resourceID string) int
-		ComponentLinkUsages        func(childComplexity int, orgID string, linkID string) int
-		Components                 func(childComplexity int, orgID string) int
-		CostSavingsByClient        func(childComplexity int, orgID string, period *string, modelID *string) int
-		CostSavingsByModel         func(childComplexity int, orgID string, period *string) int
-		CostSavingsByTool          func(childComplexity int, orgID string, period *string, modelID *string) int
-		CostSavingsByUser          func(childComplexity int, orgID string, period *string, modelID *string) int
-		CostSavingsSummary         func(childComplexity int, orgID string, period *string, modelID *string) int
-		CostSavingsTimeseries      func(childComplexity int, orgID string, period *string, modelID *string) int
-		Dependencies               func(childComplexity int, orgID string, serviceID string, direction *string, criticality *string) int
-		DependencyGraph            func(childComplexity int, orgID string) int
-		Diagram                    func(childComplexity int, orgID string, id string) int
-		DiagramContent             func(childComplexity int, orgID string, id string) int
-		DiagramImages              func(childComplexity int, orgID string, diagramID string) int
-		DiagramVersionContent      func(childComplexity int, orgID string, diagramID string, versionID string) int
-		DiagramVersions            func(childComplexity int, orgID string, diagramID string) int
-		Diagrams                   func(childComplexity int, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		Doc                        func(childComplexity int, orgID string, id string) int
-		Docs                       func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		FlowDiagramComponents      func(childComplexity int, orgID string) int
-		FocalPointMeta             func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string) int
-		FocalPointMetaByLink       func(childComplexity int, orgID string, linkID string) int
-		FocalPoints                func(childComplexity int, orgID string, mapID string, frameID string) int
-		Folder                     func(childComplexity int, orgID string, id string) int
-		Folders                    func(childComplexity int, orgID string, typeArg *string, parentID *string) int
-		Frame                      func(childComplexity int, orgID string, mapID string, id string) int
-		FrameByID                  func(childComplexity int, orgID string, id string) int
-		FrameGroups                func(childComplexity int, orgID string, mapID string, frameID string) int
-		FrameLinks                 func(childComplexity int, orgID string, mapID string, frameID string) int
-		Frames                     func(childComplexity int, orgID string, mapID string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		Ldap                       func(childComplexity int) int
-		Map                        func(childComplexity int, orgID string, id string) int
-		Maps                       func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		Me                         func(childComplexity int) int
-		Members                    func(childComplexity int, orgID string) int
-		MlArtifacts                func(childComplexity int, orgID string, runID *string) int
-		MlDataset                  func(childComplexity int, orgID string, id string) int
-		MlDatasets                 func(childComplexity int, orgID string, experimentID *string) int
-		MlDeployments              func(childComplexity int, orgID string, modelID *string, versionID *string) int
-		MlEvaluation               func(childComplexity int, orgID string, id string) int
-		MlExperiment               func(childComplexity int, orgID string, id string) int
-		MlExperimentEvaluations    func(childComplexity int, orgID string, experimentID string) int
-		MlExperiments              func(childComplexity int, orgID string, projectID *string) int
-		MlFindings                 func(childComplexity int, orgID string, modelID *string, projectID *string) int
-		MlModel                    func(childComplexity int, orgID string, id string) int
-		MlModelVersion             func(childComplexity int, orgID string, id string) int
-		MlModelVersions            func(childComplexity int, orgID string, modelID *string, projectID *string) int
-		MlModels                   func(childComplexity int, orgID string, projectID *string) int
-		MlProject                  func(childComplexity int, orgID string, id string) int
-		MlProjects                 func(childComplexity int, orgID string) int
-		MlRun                      func(childComplexity int, orgID string, id string) int
-		MlRuns                     func(childComplexity int, orgID string, experimentID *string, projectID *string) int
-		MlRunsPage                 func(childComplexity int, orgID string, experimentID *string, projectID *string, search *string, limit *int, offset *int) int
-		MlVersionDeploymentUpdates func(childComplexity int, orgID string, versionID *string, projectID *string) int
-		MlVersionEvaluations       func(childComplexity int, orgID string, versionID string) int
-		MyOrgs                     func(childComplexity int) int
-		OauthProviders             func(childComplexity int) int
-		Org                        func(childComplexity int, id string) int
-		Orgs                       func(childComplexity int) int
-		RoleMappings               func(childComplexity int) int
-		Saml                       func(childComplexity int) int
-		SavedQueries               func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
-		SavedQueryFolders          func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
-		Scim                       func(childComplexity int) int
-		ServerConfig               func(childComplexity int) int
-		ServerOrgs                 func(childComplexity int) int
-		ServerOverview             func(childComplexity int) int
-		Service                    func(childComplexity int, orgID string, id string) int
-		ServiceAccount             func(childComplexity int, orgID string, id string) int
-		ServiceAccountScopes       func(childComplexity int, orgID string) int
-		ServiceAccountTokens       func(childComplexity int, orgID string, saID string) int
-		ServiceAccounts            func(childComplexity int, orgID string) int
-		ServiceDBVersions          func(childComplexity int, orgID string, serviceID string, serviceDbID string) int
-		ServiceDBs                 func(childComplexity int, orgID string, serviceID string) int
-		ServiceDb                  func(childComplexity int, orgID string, serviceID string, id string) int
-		ServiceDependencyGraph     func(childComplexity int, orgID string, serviceID string) int
-		ServiceDiagrams            func(childComplexity int, orgID string, serviceID string) int
-		ServiceDocByID             func(childComplexity int, orgID string, id string) int
-		ServiceDocs                func(childComplexity int, orgID string, serviceID string) int
-		ServiceImpact              func(childComplexity int, orgID string, serviceID string, direction *string, maxDepth *int) int
-		Services                   func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
-		Team                       func(childComplexity int, orgID string, teamID string) int
-		TeamMembers                func(childComplexity int, orgID string, teamID string) int
-		Teams                      func(childComplexity int, orgID string) int
-		TestCases                  func(childComplexity int, orgID string, serviceID string, testPackID *string) int
-		TestPackByID               func(childComplexity int, orgID string, id string) int
-		TestPacks                  func(childComplexity int, orgID string, serviceID string) int
-		TestRun                    func(childComplexity int, orgID string, serviceID string, id string) int
-		TestRunResults             func(childComplexity int, orgID string, serviceID string, testRunID string) int
-		TestRuns                   func(childComplexity int, orgID string, serviceID string, testPackID *string) int
-		TestRunsSummary            func(childComplexity int, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) int
-		User                       func(childComplexity int, id string) int
-		Users                      func(childComplexity int) int
+		APIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
+		APIEndpointByID             func(childComplexity int, orgID string, id string) int
+		APIEndpoints                func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
+		APIGroup                    func(childComplexity int, orgID string, serviceID string, id string) int
+		APIGroupSpec                func(childComplexity int, orgID string, serviceID string, apiGroupID string, versionID *string) int
+		APIGroupVersions            func(childComplexity int, orgID string, serviceID string, apiGroupID string) int
+		APIGroups                   func(childComplexity int, orgID string, serviceID string) int
+		Actor                       func(childComplexity int, orgID string, id string) int
+		AssetURL                    func(childComplexity int, orgID string, assetID string) int
+		AssetUrls                   func(childComplexity int, orgID string, assetIds []string) int
+		Canvas                      func(childComplexity int, orgID string, mapID string) int
+		ChatMessages                func(childComplexity int, orgID string, sessionID string) int
+		ChatSession                 func(childComplexity int, orgID string, id string) int
+		ChatSessions                func(childComplexity int, orgID string) int
+		Comments                    func(childComplexity int, orgID string, resourceID string) int
+		ComponentLinkUsages         func(childComplexity int, orgID string, linkID string) int
+		Components                  func(childComplexity int, orgID string) int
+		CostSavingsByClient         func(childComplexity int, orgID string, period *string, modelID *string) int
+		CostSavingsByModel          func(childComplexity int, orgID string, period *string) int
+		CostSavingsByTool           func(childComplexity int, orgID string, period *string, modelID *string) int
+		CostSavingsByUser           func(childComplexity int, orgID string, period *string, modelID *string) int
+		CostSavingsSummary          func(childComplexity int, orgID string, period *string, modelID *string) int
+		CostSavingsTimeseries       func(childComplexity int, orgID string, period *string, modelID *string) int
+		Dependencies                func(childComplexity int, orgID string, serviceID string, direction *string, criticality *string) int
+		DependencyGraph             func(childComplexity int, orgID string) int
+		Diagram                     func(childComplexity int, orgID string, id string) int
+		DiagramContent              func(childComplexity int, orgID string, id string) int
+		DiagramImages               func(childComplexity int, orgID string, diagramID string) int
+		DiagramVersionContent       func(childComplexity int, orgID string, diagramID string, versionID string) int
+		DiagramVersions             func(childComplexity int, orgID string, diagramID string) int
+		Diagrams                    func(childComplexity int, orgID string, folderID *string, teamID *string, serviceID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Doc                         func(childComplexity int, orgID string, id string) int
+		Docs                        func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		FlowDiagramComponents       func(childComplexity int, orgID string) int
+		FocalPointMeta              func(childComplexity int, orgID string, mapID string, frameID string, focalPointID string) int
+		FocalPointMetaByLink        func(childComplexity int, orgID string, linkID string) int
+		FocalPoints                 func(childComplexity int, orgID string, mapID string, frameID string) int
+		Folder                      func(childComplexity int, orgID string, id string) int
+		Folders                     func(childComplexity int, orgID string, typeArg *string, parentID *string) int
+		Frame                       func(childComplexity int, orgID string, mapID string, id string) int
+		FrameByID                   func(childComplexity int, orgID string, id string) int
+		FrameGroups                 func(childComplexity int, orgID string, mapID string, frameID string) int
+		FrameLinks                  func(childComplexity int, orgID string, mapID string, frameID string) int
+		Frames                      func(childComplexity int, orgID string, mapID string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Ldap                        func(childComplexity int) int
+		Map                         func(childComplexity int, orgID string, id string) int
+		Maps                        func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Me                          func(childComplexity int) int
+		Members                     func(childComplexity int, orgID string) int
+		MlArtifacts                 func(childComplexity int, orgID string, runID *string) int
+		MlDataset                   func(childComplexity int, orgID string, id string) int
+		MlDatasets                  func(childComplexity int, orgID string, experimentID *string) int
+		MlDeployments               func(childComplexity int, orgID string, modelID *string, versionID *string) int
+		MlEvaluation                func(childComplexity int, orgID string, id string) int
+		MlExperiment                func(childComplexity int, orgID string, id string) int
+		MlExperimentEvaluations     func(childComplexity int, orgID string, experimentID string) int
+		MlExperimentEvaluationsPage func(childComplexity int, orgID string, experimentID string, search *string, limit *int, offset *int) int
+		MlExperiments               func(childComplexity int, orgID string, projectID *string) int
+		MlFindings                  func(childComplexity int, orgID string, modelID *string, projectID *string) int
+		MlModel                     func(childComplexity int, orgID string, id string) int
+		MlModelVersion              func(childComplexity int, orgID string, id string) int
+		MlModelVersions             func(childComplexity int, orgID string, modelID *string, projectID *string) int
+		MlModels                    func(childComplexity int, orgID string, projectID *string) int
+		MlProject                   func(childComplexity int, orgID string, id string) int
+		MlProjects                  func(childComplexity int, orgID string) int
+		MlRun                       func(childComplexity int, orgID string, id string) int
+		MlRuns                      func(childComplexity int, orgID string, experimentID *string, projectID *string) int
+		MlRunsPage                  func(childComplexity int, orgID string, experimentID *string, projectID *string, search *string, limit *int, offset *int) int
+		MlVersionDeploymentUpdates  func(childComplexity int, orgID string, versionID *string, projectID *string) int
+		MlVersionEvaluations        func(childComplexity int, orgID string, versionID string) int
+		MlVersionEvaluationsPage    func(childComplexity int, orgID string, versionID string, search *string, limit *int, offset *int) int
+		MyOrgs                      func(childComplexity int) int
+		OauthProviders              func(childComplexity int) int
+		Org                         func(childComplexity int, id string) int
+		Orgs                        func(childComplexity int) int
+		RoleMappings                func(childComplexity int) int
+		Saml                        func(childComplexity int) int
+		SavedQueries                func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
+		SavedQueryFolders           func(childComplexity int, orgID string, serviceID string, serviceDbID string, scope model.SavedQueryScope) int
+		Scim                        func(childComplexity int) int
+		ServerConfig                func(childComplexity int) int
+		ServerOrgs                  func(childComplexity int) int
+		ServerOverview              func(childComplexity int) int
+		Service                     func(childComplexity int, orgID string, id string) int
+		ServiceAccount              func(childComplexity int, orgID string, id string) int
+		ServiceAccountScopes        func(childComplexity int, orgID string) int
+		ServiceAccountTokens        func(childComplexity int, orgID string, saID string) int
+		ServiceAccounts             func(childComplexity int, orgID string) int
+		ServiceDBVersions           func(childComplexity int, orgID string, serviceID string, serviceDbID string) int
+		ServiceDBs                  func(childComplexity int, orgID string, serviceID string) int
+		ServiceDb                   func(childComplexity int, orgID string, serviceID string, id string) int
+		ServiceDependencyGraph      func(childComplexity int, orgID string, serviceID string) int
+		ServiceDiagrams             func(childComplexity int, orgID string, serviceID string) int
+		ServiceDocByID              func(childComplexity int, orgID string, id string) int
+		ServiceDocs                 func(childComplexity int, orgID string, serviceID string) int
+		ServiceImpact               func(childComplexity int, orgID string, serviceID string, direction *string, maxDepth *int) int
+		Services                    func(childComplexity int, orgID string, folderID *string, teamID *string, search *string, sortBy *string, sortDir *string, limit *int, offset *int) int
+		Team                        func(childComplexity int, orgID string, teamID string) int
+		TeamMembers                 func(childComplexity int, orgID string, teamID string) int
+		Teams                       func(childComplexity int, orgID string) int
+		TestCases                   func(childComplexity int, orgID string, serviceID string, testPackID *string) int
+		TestPackByID                func(childComplexity int, orgID string, id string) int
+		TestPacks                   func(childComplexity int, orgID string, serviceID string) int
+		TestRun                     func(childComplexity int, orgID string, serviceID string, id string) int
+		TestRunResults              func(childComplexity int, orgID string, serviceID string, testRunID string) int
+		TestRuns                    func(childComplexity int, orgID string, serviceID string, testPackID *string) int
+		TestRunsSummary             func(childComplexity int, orgID string, serviceID string, testPackID *string, environment *string, status *string, executedBy *string, fromDate *time.Time, toDate *time.Time) int
+		User                        func(childComplexity int, id string) int
+		Users                       func(childComplexity int) int
 	}
 
 	RoleMapping struct {
@@ -1873,6 +1880,8 @@ type QueryResolver interface {
 	MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID *string, projectID *string) ([]*model.MlVersionDeploymentUpdate, error)
 	MlVersionEvaluations(ctx context.Context, orgID string, versionID string) ([]*model.MlEvaluation, error)
 	MlExperimentEvaluations(ctx context.Context, orgID string, experimentID string) ([]*model.MlEvaluation, error)
+	MlVersionEvaluationsPage(ctx context.Context, orgID string, versionID string, search *string, limit *int, offset *int) (*model.MlEvaluationPage, error)
+	MlExperimentEvaluationsPage(ctx context.Context, orgID string, experimentID string, search *string, limit *int, offset *int) (*model.MlEvaluationPage, error)
 	MlEvaluation(ctx context.Context, orgID string, id string) (*model.MlEvaluation, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
 	Orgs(ctx context.Context) ([]*model.Org, error)
@@ -5535,6 +5544,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlEvaluation.VersionID(childComplexity), true
 
+	case "MlEvaluationPage.evaluations":
+		if e.complexity.MlEvaluationPage.Evaluations == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluationPage.Evaluations(childComplexity), true
+
+	case "MlEvaluationPage.total":
+		if e.complexity.MlEvaluationPage.Total == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluationPage.Total(childComplexity), true
+
 	case "MlExperiment.createdBy":
 		if e.complexity.MlExperiment.CreatedBy == nil {
 			break
@@ -8805,6 +8828,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.MlExperimentEvaluations(childComplexity, args["orgId"].(string), args["experimentId"].(string)), true
 
+	case "Query.mlExperimentEvaluationsPage":
+		if e.complexity.Query.MlExperimentEvaluationsPage == nil {
+			break
+		}
+
+		args, err := ec.field_Query_mlExperimentEvaluationsPage_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MlExperimentEvaluationsPage(childComplexity, args["orgId"].(string), args["experimentId"].(string), args["search"].(*string), args["limit"].(*int), args["offset"].(*int)), true
+
 	case "Query.mlExperiments":
 		if e.complexity.Query.MlExperiments == nil {
 			break
@@ -8960,6 +8995,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.MlVersionEvaluations(childComplexity, args["orgId"].(string), args["versionId"].(string)), true
+
+	case "Query.mlVersionEvaluationsPage":
+		if e.complexity.Query.MlVersionEvaluationsPage == nil {
+			break
+		}
+
+		args, err := ec.field_Query_mlVersionEvaluationsPage_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MlVersionEvaluationsPage(childComplexity, args["orgId"].(string), args["versionId"].(string), args["search"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.myOrgs":
 		if e.complexity.Query.MyOrgs == nil {
@@ -13193,6 +13240,8 @@ type UserSavings {
     mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
     mlVersionEvaluations(orgId: ID!, versionId: ID!):           [MlEvaluation!]!
     mlExperimentEvaluations(orgId: ID!, experimentId: ID!):     [MlEvaluation!]!
+    mlVersionEvaluationsPage(orgId: ID!, versionId: ID!, search: String, limit: Int, offset: Int):          MlEvaluationPage!
+    mlExperimentEvaluationsPage(orgId: ID!, experimentId: ID!, search: String, limit: Int, offset: Int):    MlEvaluationPage!
     mlEvaluation(orgId: ID!, id: ID!):                          MlEvaluation!
 }
 
@@ -13360,6 +13409,11 @@ type MlDeployment {
     region:       String!
     deployedAt:   Time
     rolledBackAt: Time
+}
+
+type MlEvaluationPage {
+    evaluations: [MlEvaluation!]!
+    total:       Int!
 }
 
 type MlEvaluation {
@@ -28127,6 +28181,126 @@ func (ec *executionContext) field_Query_mlEvaluation_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Query_mlExperimentEvaluationsPage_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_mlExperimentEvaluationsPage_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlExperimentEvaluationsPage_argsExperimentID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["experimentId"] = arg1
+	arg2, err := ec.field_Query_mlExperimentEvaluationsPage_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg2
+	arg3, err := ec.field_Query_mlExperimentEvaluationsPage_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg3
+	arg4, err := ec.field_Query_mlExperimentEvaluationsPage_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg4
+	return args, nil
+}
+func (ec *executionContext) field_Query_mlExperimentEvaluationsPage_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlExperimentEvaluationsPage_argsExperimentID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["experimentId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("experimentId"))
+	if tmp, ok := rawArgs["experimentId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlExperimentEvaluationsPage_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlExperimentEvaluationsPage_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlExperimentEvaluationsPage_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Query_mlExperimentEvaluations_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -28999,6 +29173,126 @@ func (ec *executionContext) field_Query_mlVersionDeploymentUpdates_argsProjectID
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlVersionEvaluationsPage_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_mlVersionEvaluationsPage_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlVersionEvaluationsPage_argsVersionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["versionId"] = arg1
+	arg2, err := ec.field_Query_mlVersionEvaluationsPage_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg2
+	arg3, err := ec.field_Query_mlVersionEvaluationsPage_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg3
+	arg4, err := ec.field_Query_mlVersionEvaluationsPage_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg4
+	return args, nil
+}
+func (ec *executionContext) field_Query_mlVersionEvaluationsPage_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlVersionEvaluationsPage_argsVersionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["versionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
+	if tmp, ok := rawArgs["versionId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlVersionEvaluationsPage_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlVersionEvaluationsPage_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlVersionEvaluationsPage_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -53729,6 +54023,126 @@ func (ec *executionContext) fieldContext_MlEvaluation_metrics(_ context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _MlEvaluationPage_evaluations(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluationPage_evaluations(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Evaluations, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.MlEvaluation)
+	fc.Result = res
+	return ec.marshalNMlEvaluation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluationPage_evaluations(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluationPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlEvaluation_id(ctx, field)
+			case "versionId":
+				return ec.fieldContext_MlEvaluation_versionId(ctx, field)
+			case "experimentId":
+				return ec.fieldContext_MlEvaluation_experimentId(ctx, field)
+			case "modelName":
+				return ec.fieldContext_MlEvaluation_modelName(ctx, field)
+			case "version":
+				return ec.fieldContext_MlEvaluation_version(ctx, field)
+			case "datasetId":
+				return ec.fieldContext_MlEvaluation_datasetId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlEvaluation_name(ctx, field)
+			case "type":
+				return ec.fieldContext_MlEvaluation_type(ctx, field)
+			case "description":
+				return ec.fieldContext_MlEvaluation_description(ctx, field)
+			case "summary":
+				return ec.fieldContext_MlEvaluation_summary(ctx, field)
+			case "evaluatedAt":
+				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "evaluator":
+				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
+			case "parameters":
+				return ec.fieldContext_MlEvaluation_parameters(ctx, field)
+			case "metrics":
+				return ec.fieldContext_MlEvaluation_metrics(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlEvaluation", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlEvaluationPage_total(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluationPage_total(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Total, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluationPage_total(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluationPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlExperiment_id(ctx context.Context, field graphql.CollectedField, obj *model.MlExperiment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlExperiment_id(ctx, field)
 	if err != nil {
@@ -75366,6 +75780,128 @@ func (ec *executionContext) fieldContext_Query_mlExperimentEvaluations(ctx conte
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_mlExperimentEvaluations_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_mlVersionEvaluationsPage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_mlVersionEvaluationsPage(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().MlVersionEvaluationsPage(rctx, fc.Args["orgId"].(string), fc.Args["versionId"].(string), fc.Args["search"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlEvaluationPage)
+	fc.Result = res
+	return ec.marshalNMlEvaluationPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationPage(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_mlVersionEvaluationsPage(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "evaluations":
+				return ec.fieldContext_MlEvaluationPage_evaluations(ctx, field)
+			case "total":
+				return ec.fieldContext_MlEvaluationPage_total(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlEvaluationPage", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_mlVersionEvaluationsPage_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_mlExperimentEvaluationsPage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_mlExperimentEvaluationsPage(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().MlExperimentEvaluationsPage(rctx, fc.Args["orgId"].(string), fc.Args["experimentId"].(string), fc.Args["search"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlEvaluationPage)
+	fc.Result = res
+	return ec.marshalNMlEvaluationPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationPage(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_mlExperimentEvaluationsPage(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "evaluations":
+				return ec.fieldContext_MlEvaluationPage_evaluations(ctx, field)
+			case "total":
+				return ec.fieldContext_MlEvaluationPage_total(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlEvaluationPage", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_mlExperimentEvaluationsPage_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -105525,6 +106061,50 @@ func (ec *executionContext) _MlEvaluation(ctx context.Context, sel ast.Selection
 	return out
 }
 
+var mlEvaluationPageImplementors = []string{"MlEvaluationPage"}
+
+func (ec *executionContext) _MlEvaluationPage(ctx context.Context, sel ast.SelectionSet, obj *model.MlEvaluationPage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mlEvaluationPageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MlEvaluationPage")
+		case "evaluations":
+			out.Values[i] = ec._MlEvaluationPage_evaluations(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "total":
+			out.Values[i] = ec._MlEvaluationPage_total(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var mlExperimentImplementors = []string{"MlExperiment"}
 
 func (ec *executionContext) _MlExperiment(ctx context.Context, sel ast.SelectionSet, obj *model.MlExperiment) graphql.Marshaler {
@@ -109282,6 +109862,50 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_mlExperimentEvaluations(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "mlVersionEvaluationsPage":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_mlVersionEvaluationsPage(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "mlExperimentEvaluationsPage":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_mlExperimentEvaluationsPage(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -115513,6 +116137,20 @@ func (ec *executionContext) marshalNMlEvaluation2ᚖgithubᚗcomᚋuigraphᚋgra
 		return graphql.Null
 	}
 	return ec._MlEvaluation(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMlEvaluationPage2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationPage(ctx context.Context, sel ast.SelectionSet, v model.MlEvaluationPage) graphql.Marshaler {
+	return ec._MlEvaluationPage(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNMlEvaluationPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationPage(ctx context.Context, sel ast.SelectionSet, v *model.MlEvaluationPage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MlEvaluationPage(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNMlExperiment2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlExperiment(ctx context.Context, sel ast.SelectionSet, v model.MlExperiment) graphql.Marshaler {

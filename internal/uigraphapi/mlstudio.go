@@ -463,18 +463,45 @@ func (c *Client) ListVersionDeploymentUpdates(ctx context.Context, orgID, versio
 	return out.Updates, c.get(ctx, path, &out)
 }
 
-func (c *Client) ListMLVersionEvaluations(ctx context.Context, orgID, versionID string) ([]MLEvaluation, error) {
-	var out struct {
-		Evaluations []MLEvaluation `json:"evaluations"`
-	}
-	return out.Evaluations, c.get(ctx, fmt.Sprintf("%s/versions/%s/evaluations", mlBase(orgID), versionID), &out)
+type MLEvaluationQuery struct {
+	Search string
+	Limit  int
+	Offset int
 }
 
-func (c *Client) ListMLExperimentEvaluations(ctx context.Context, orgID, experimentID string) ([]MLEvaluation, error) {
+func (q MLEvaluationQuery) encode() string {
+	v := url.Values{}
+	if q.Search != "" {
+		v.Set("search", q.Search)
+	}
+	if q.Limit > 0 {
+		v.Set("limit", strconv.Itoa(q.Limit))
+	}
+	if q.Offset > 0 {
+		v.Set("offset", strconv.Itoa(q.Offset))
+	}
+	if len(v) == 0 {
+		return ""
+	}
+	return "?" + v.Encode()
+}
+
+func (c *Client) ListMLVersionEvaluations(ctx context.Context, orgID, versionID string, query MLEvaluationQuery) ([]MLEvaluation, int, error) {
 	var out struct {
 		Evaluations []MLEvaluation `json:"evaluations"`
+		Total       int            `json:"total"`
 	}
-	return out.Evaluations, c.get(ctx, fmt.Sprintf("%s/experiments/%s/evaluations", mlBase(orgID), experimentID), &out)
+	path := fmt.Sprintf("%s/versions/%s/evaluations", mlBase(orgID), versionID) + query.encode()
+	return out.Evaluations, out.Total, c.get(ctx, path, &out)
+}
+
+func (c *Client) ListMLExperimentEvaluations(ctx context.Context, orgID, experimentID string, query MLEvaluationQuery) ([]MLEvaluation, int, error) {
+	var out struct {
+		Evaluations []MLEvaluation `json:"evaluations"`
+		Total       int            `json:"total"`
+	}
+	path := fmt.Sprintf("%s/experiments/%s/evaluations", mlBase(orgID), experimentID) + query.encode()
+	return out.Evaluations, out.Total, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetMLEvaluation(ctx context.Context, orgID, id string) (*MLEvaluation, error) {

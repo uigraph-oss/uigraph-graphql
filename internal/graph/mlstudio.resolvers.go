@@ -412,7 +412,7 @@ func (r *queryResolver) MlVersionDeploymentUpdates(ctx context.Context, orgID st
 
 // MlVersionEvaluations is the resolver for the mlVersionEvaluations field.
 func (r *queryResolver) MlVersionEvaluations(ctx context.Context, orgID string, versionID string) ([]*model.MlEvaluation, error) {
-	evaluations, err := r.MLStudio.ListMLVersionEvaluations(ctx, orgID, versionID)
+	evaluations, _, err := r.MLStudio.ListMLVersionEvaluations(ctx, orgID, versionID, uigraphapi.MLEvaluationQuery{})
 	if err != nil {
 		return nil, err
 	}
@@ -421,11 +421,49 @@ func (r *queryResolver) MlVersionEvaluations(ctx context.Context, orgID string, 
 
 // MlExperimentEvaluations is the resolver for the mlExperimentEvaluations field.
 func (r *queryResolver) MlExperimentEvaluations(ctx context.Context, orgID string, experimentID string) ([]*model.MlEvaluation, error) {
-	evaluations, err := r.MLStudio.ListMLExperimentEvaluations(ctx, orgID, experimentID)
+	evaluations, _, err := r.MLStudio.ListMLExperimentEvaluations(ctx, orgID, experimentID, uigraphapi.MLEvaluationQuery{})
 	if err != nil {
 		return nil, err
 	}
 	return convert.MLEvaluationsToModel(evaluations), nil
+}
+
+// MlVersionEvaluationsPage is the resolver for the mlVersionEvaluationsPage field.
+func (r *queryResolver) MlVersionEvaluationsPage(ctx context.Context, orgID string, versionID string, search *string, limit *int, offset *int) (*model.MlEvaluationPage, error) {
+	query := uigraphapi.MLEvaluationQuery{Search: derefStr(search)}
+	if limit != nil {
+		query.Limit = *limit
+	}
+	if offset != nil {
+		query.Offset = *offset
+	}
+	evaluations, total, err := r.MLStudio.ListMLVersionEvaluations(ctx, orgID, versionID, query)
+	if err != nil {
+		return nil, err
+	}
+	return &model.MlEvaluationPage{
+		Evaluations: convert.MLEvaluationsToModel(evaluations),
+		Total:       total,
+	}, nil
+}
+
+// MlExperimentEvaluationsPage is the resolver for the mlExperimentEvaluationsPage field.
+func (r *queryResolver) MlExperimentEvaluationsPage(ctx context.Context, orgID string, experimentID string, search *string, limit *int, offset *int) (*model.MlEvaluationPage, error) {
+	query := uigraphapi.MLEvaluationQuery{Search: derefStr(search)}
+	if limit != nil {
+		query.Limit = *limit
+	}
+	if offset != nil {
+		query.Offset = *offset
+	}
+	evaluations, total, err := r.MLStudio.ListMLExperimentEvaluations(ctx, orgID, experimentID, query)
+	if err != nil {
+		return nil, err
+	}
+	return &model.MlEvaluationPage{
+		Evaluations: convert.MLEvaluationsToModel(evaluations),
+		Total:       total,
+	}, nil
 }
 
 // MlEvaluation is the resolver for the mlEvaluation field.

@@ -18,6 +18,8 @@ extend type Query {
     mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
     mlVersionEvaluations(orgId: ID!, versionId: ID!):           [MlEvaluation!]!
     mlExperimentEvaluations(orgId: ID!, experimentId: ID!):     [MlEvaluation!]!
+    mlVersionEvaluationsPage(orgId: ID!, versionId: ID!, search: String, limit: Int, offset: Int):          MlEvaluationPage!
+    mlExperimentEvaluationsPage(orgId: ID!, experimentId: ID!, search: String, limit: Int, offset: Int):    MlEvaluationPage!
     mlEvaluation(orgId: ID!, id: ID!):                          MlEvaluation!
 }
 
@@ -185,6 +187,11 @@ type MlDeployment {
     region:       String!
     deployedAt:   Time
     rolledBackAt: Time
+}
+
+type MlEvaluationPage {
+    evaluations: [MlEvaluation!]!
+    total:       Int!
 }
 
 type MlEvaluation {

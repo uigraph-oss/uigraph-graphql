@@ -1168,6 +1168,11 @@ type MlEvaluation struct {
 	Metrics      any        `json:"metrics"`
 }
 
+type MlEvaluationPage struct {
+	Evaluations []*MlEvaluation `json:"evaluations"`
+	Total       int             `json:"total"`
+}
+
 type MlExperiment struct {
 	ID          string     `json:"id"`
 	ProjectID   *string    `json:"projectId,omitempty"`

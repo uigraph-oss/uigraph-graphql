@@ -314,8 +314,8 @@ type mlStudioClient interface {
 	CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*uigraphapi.MLVersionDeploymentUpdate, error)
 	SetMLModelVersionRun(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*uigraphapi.MLModelVersion, error)
 	LinkMLVersionEvaluations(ctx context.Context, orgID, versionID string, body map[string]interface{}) ([]uigraphapi.MLEvaluation, error)
-	ListMLVersionEvaluations(ctx context.Context, orgID, versionID string) ([]uigraphapi.MLEvaluation, error)
-	ListMLExperimentEvaluations(ctx context.Context, orgID, experimentID string) ([]uigraphapi.MLEvaluation, error)
+	ListMLVersionEvaluations(ctx context.Context, orgID, versionID string, query uigraphapi.MLEvaluationQuery) ([]uigraphapi.MLEvaluation, int, error)
+	ListMLExperimentEvaluations(ctx context.Context, orgID, experimentID string, query uigraphapi.MLEvaluationQuery) ([]uigraphapi.MLEvaluation, int, error)
 	GetMLEvaluation(ctx context.Context, orgID, id string) (*uigraphapi.MLEvaluation, error)
 }
 
