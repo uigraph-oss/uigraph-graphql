@@ -123,7 +123,6 @@ type MlRun {
     status:       String!
     startedAt:    Time
     endedAt:      Time
-    duration:     Int!
     notes:        String!
     parameters:   JSON!
     metrics:      JSON!
@@ -273,7 +272,6 @@ input CreateMlRunInput {
     status:     String
     startedAt:  Time
     endedAt:    Time
-    duration:   Int
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -286,7 +284,6 @@ input UpdateMlRunInput {
     status:     String
     startedAt:  Time
     endedAt:    Time
-    duration:   Int
     notes:      String
     parameters: JSON
     metrics:    JSON

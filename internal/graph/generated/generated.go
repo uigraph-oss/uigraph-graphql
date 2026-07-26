@@ -801,7 +801,6 @@ type ComplexityRoot struct {
 
 	MlRun struct {
 		DatasetID    func(childComplexity int) int
-		Duration     func(childComplexity int) int
 		EndedAt      func(childComplexity int) int
 		ExperimentID func(childComplexity int) int
 		ID           func(childComplexity int) int
@@ -5757,13 +5756,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlRun.DatasetID(childComplexity), true
-
-	case "MlRun.duration":
-		if e.complexity.MlRun.Duration == nil {
-			break
-		}
-
-		return e.complexity.MlRun.Duration(childComplexity), true
 
 	case "MlRun.endedAt":
 		if e.complexity.MlRun.EndedAt == nil {
@@ -13044,7 +13036,6 @@ type MlRun {
     status:       String!
     startedAt:    Time
     endedAt:      Time
-    duration:     Int!
     notes:        String!
     parameters:   JSON!
     metrics:      JSON!
@@ -13194,7 +13185,6 @@ input CreateMlRunInput {
     status:     String
     startedAt:  Time
     endedAt:    Time
-    duration:   Int
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -13207,7 +13197,6 @@ input UpdateMlRunInput {
     status:     String
     startedAt:  Time
     endedAt:    Time
-    duration:   Int
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -54876,50 +54865,6 @@ func (ec *executionContext) fieldContext_MlRun_endedAt(_ context.Context, field 
 	return fc, nil
 }
 
-func (ec *executionContext) _MlRun_duration(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlRun_duration(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Duration, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlRun_duration(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlRun",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _MlRun_notes(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlRun_notes(ctx, field)
 	if err != nil {
@@ -55316,8 +55261,6 @@ func (ec *executionContext) fieldContext_MlRunPage_runs(_ context.Context, field
 				return ec.fieldContext_MlRun_startedAt(ctx, field)
 			case "endedAt":
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
-			case "duration":
-				return ec.fieldContext_MlRun_duration(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
 			case "parameters":
@@ -62055,8 +61998,6 @@ func (ec *executionContext) fieldContext_Mutation_createMlRun(ctx context.Contex
 				return ec.fieldContext_MlRun_startedAt(ctx, field)
 			case "endedAt":
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
-			case "duration":
-				return ec.fieldContext_MlRun_duration(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
 			case "parameters":
@@ -62144,8 +62085,6 @@ func (ec *executionContext) fieldContext_Mutation_updateMlRun(ctx context.Contex
 				return ec.fieldContext_MlRun_startedAt(ctx, field)
 			case "endedAt":
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
-			case "duration":
-				return ec.fieldContext_MlRun_duration(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
 			case "parameters":
@@ -72689,8 +72628,6 @@ func (ec *executionContext) fieldContext_Query_mlRuns(ctx context.Context, field
 				return ec.fieldContext_MlRun_startedAt(ctx, field)
 			case "endedAt":
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
-			case "duration":
-				return ec.fieldContext_MlRun_duration(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
 			case "parameters":
@@ -72839,8 +72776,6 @@ func (ec *executionContext) fieldContext_Query_mlRun(ctx context.Context, field 
 				return ec.fieldContext_MlRun_startedAt(ctx, field)
 			case "endedAt":
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
-			case "duration":
-				return ec.fieldContext_MlRun_duration(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
 			case "parameters":
@@ -94480,7 +94415,7 @@ func (ec *executionContext) unmarshalInputCreateMlRunInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "duration", "notes", "parameters", "metrics", "datasetId", "series"}
+	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "notes", "parameters", "metrics", "datasetId", "series"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -94515,13 +94450,6 @@ func (ec *executionContext) unmarshalInputCreateMlRunInput(ctx context.Context, 
 				return it, err
 			}
 			it.EndedAt = data
-		case "duration":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("duration"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Duration = data
 		case "notes":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notes"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -97587,7 +97515,7 @@ func (ec *executionContext) unmarshalInputUpdateMlRunInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "duration", "notes", "parameters", "metrics", "datasetId", "series"}
+	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "notes", "parameters", "metrics", "datasetId", "series"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -97622,13 +97550,6 @@ func (ec *executionContext) unmarshalInputUpdateMlRunInput(ctx context.Context, 
 				return it, err
 			}
 			it.EndedAt = data
-		case "duration":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("duration"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Duration = data
 		case "notes":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notes"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -103698,11 +103619,6 @@ func (ec *executionContext) _MlRun(ctx context.Context, sel ast.SelectionSet, ob
 			out.Values[i] = ec._MlRun_startedAt(ctx, field, obj)
 		case "endedAt":
 			out.Values[i] = ec._MlRun_endedAt(ctx, field, obj)
-		case "duration":
-			out.Values[i] = ec._MlRun_duration(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
 		case "notes":
 			out.Values[i] = ec._MlRun_notes(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

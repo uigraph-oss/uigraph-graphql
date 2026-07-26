@@ -466,7 +466,6 @@ type CreateMlRunInput struct {
 	Status     *string    `json:"status,omitempty"`
 	StartedAt  *time.Time `json:"startedAt,omitempty"`
 	EndedAt    *time.Time `json:"endedAt,omitempty"`
-	Duration   *int       `json:"duration,omitempty"`
 	Notes      *string    `json:"notes,omitempty"`
 	Parameters any        `json:"parameters,omitempty"`
 	Metrics    any        `json:"metrics,omitempty"`
@@ -1227,7 +1226,6 @@ type MlRun struct {
 	Status       string     `json:"status"`
 	StartedAt    *time.Time `json:"startedAt,omitempty"`
 	EndedAt      *time.Time `json:"endedAt,omitempty"`
-	Duration     int        `json:"duration"`
 	Notes        string     `json:"notes"`
 	Parameters   any        `json:"parameters"`
 	Metrics      any        `json:"metrics"`
@@ -1942,7 +1940,6 @@ type UpdateMlRunInput struct {
 	Status     *string    `json:"status,omitempty"`
 	StartedAt  *time.Time `json:"startedAt,omitempty"`
 	EndedAt    *time.Time `json:"endedAt,omitempty"`
-	Duration   *int       `json:"duration,omitempty"`
 	Notes      *string    `json:"notes,omitempty"`
 	Parameters any        `json:"parameters,omitempty"`
 	Metrics    any        `json:"metrics,omitempty"`
