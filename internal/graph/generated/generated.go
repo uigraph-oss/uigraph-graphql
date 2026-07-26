@@ -13044,7 +13044,7 @@ type MlRun {
     status:       String!
     startedAt:    Time
     endedAt:      Time
-    duration:     String!
+    duration:     Int!
     notes:        String!
     parameters:   JSON!
     metrics:      JSON!
@@ -13194,7 +13194,7 @@ input CreateMlRunInput {
     status:     String
     startedAt:  Time
     endedAt:    Time
-    duration:   String
+    duration:   Int
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -13207,7 +13207,7 @@ input UpdateMlRunInput {
     status:     String
     startedAt:  Time
     endedAt:    Time
-    duration:   String
+    duration:   Int
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -54902,9 +54902,9 @@ func (ec *executionContext) _MlRun_duration(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MlRun_duration(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -54914,7 +54914,7 @@ func (ec *executionContext) fieldContext_MlRun_duration(_ context.Context, field
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -94517,7 +94517,7 @@ func (ec *executionContext) unmarshalInputCreateMlRunInput(ctx context.Context, 
 			it.EndedAt = data
 		case "duration":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("duration"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -97624,7 +97624,7 @@ func (ec *executionContext) unmarshalInputUpdateMlRunInput(ctx context.Context, 
 			it.EndedAt = data
 		case "duration":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("duration"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}

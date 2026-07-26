@@ -105,7 +105,7 @@ func MLRunToModel(run *uigraphapi.MLRun) *model.MlRun {
 	}
 	return &model.MlRun{
 		ID: run.ID, OrgID: run.OrgID, ExperimentID: run.ExperimentID, Name: run.Name, Status: run.Status,
-		StartedAt: run.StartedAt, EndedAt: run.EndedAt, Duration: run.Duration, Notes: run.Notes,
+		StartedAt: run.StartedAt, EndedAt: run.EndedAt, Duration: int(run.Duration), Notes: run.Notes,
 		Parameters: params, Metrics: metrics, DatasetID: run.DatasetID, Source: run.Source,
 		UpdatedAt: run.UpdatedAt, SyncedAt: run.SyncedAt,
 	}

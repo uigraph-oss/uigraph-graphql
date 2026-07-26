@@ -89,7 +89,7 @@ type MLRun struct {
 	Status       string         `json:"status"`
 	StartedAt    *time.Time     `json:"startedAt,omitempty"`
 	EndedAt      *time.Time     `json:"endedAt,omitempty"`
-	Duration     string         `json:"duration"`
+	Duration     int64          `json:"duration"`
 	Notes        string         `json:"notes"`
 	Parameters   map[string]any `json:"parameters"`
 	Metrics      map[string]any `json:"metrics"`
