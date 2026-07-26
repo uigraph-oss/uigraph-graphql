@@ -730,6 +730,7 @@ type ComplexityRoot struct {
 	}
 
 	MlEvaluation struct {
+		CreatedBy    func(childComplexity int) int
 		DatasetID    func(childComplexity int) int
 		Description  func(childComplexity int) int
 		EvaluatedAt  func(childComplexity int) int
@@ -5415,6 +5416,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlDeployment.VersionID(childComplexity), true
+
+	case "MlEvaluation.createdBy":
+		if e.complexity.MlEvaluation.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluation.CreatedBy(childComplexity), true
 
 	case "MlEvaluation.datasetId":
 		if e.complexity.MlEvaluation.DatasetID == nil {
@@ -13292,6 +13300,7 @@ type MlEvaluation {
     summary:     String!
     evaluatedAt: Time
     evaluator:   String!
+    createdBy:   ID
     parameters:  JSON!
     metrics:     JSON!
 }
@@ -53364,6 +53373,47 @@ func (ec *executionContext) fieldContext_MlEvaluation_evaluator(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _MlEvaluation_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluation) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluation_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluation_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluation",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlEvaluation_parameters(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluation) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlEvaluation_parameters(ctx, field)
 	if err != nil {
@@ -74571,6 +74621,8 @@ func (ec *executionContext) fieldContext_Query_mlVersionEvaluations(ctx context.
 				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
 			case "parameters":
 				return ec.fieldContext_MlEvaluation_parameters(ctx, field)
 			case "metrics":
@@ -74656,6 +74708,8 @@ func (ec *executionContext) fieldContext_Query_mlExperimentEvaluations(ctx conte
 				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
 			case "parameters":
 				return ec.fieldContext_MlEvaluation_parameters(ctx, field)
 			case "metrics":
@@ -74741,6 +74795,8 @@ func (ec *executionContext) fieldContext_Query_mlEvaluation(ctx context.Context,
 				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
 			case "parameters":
 				return ec.fieldContext_MlEvaluation_parameters(ctx, field)
 			case "metrics":
@@ -104794,6 +104850,8 @@ func (ec *executionContext) _MlEvaluation(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "createdBy":
+			out.Values[i] = ec._MlEvaluation_createdBy(ctx, field, obj)
 		case "parameters":
 			out.Values[i] = ec._MlEvaluation_parameters(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

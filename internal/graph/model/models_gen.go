@@ -1163,6 +1163,7 @@ type MlEvaluation struct {
 	Summary      string     `json:"summary"`
 	EvaluatedAt  *time.Time `json:"evaluatedAt,omitempty"`
 	Evaluator    string     `json:"evaluator"`
+	CreatedBy    *string    `json:"createdBy,omitempty"`
 	Parameters   any        `json:"parameters"`
 	Metrics      any        `json:"metrics"`
 }
