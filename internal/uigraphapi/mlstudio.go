@@ -76,6 +76,7 @@ type MLExperiment struct {
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
 	Status      string     `json:"status"`
+	Tags        []string   `json:"tags"`
 	StartedAt   *time.Time `json:"startedAt,omitempty"`
 	Source      string     `json:"source"`
 	CreatedBy   *string    `json:"createdBy,omitempty"`
@@ -106,9 +107,9 @@ type MLMetricPoint struct {
 }
 
 type MLArtifact struct {
-	ID        string     `json:"id"`
-	OrgID     string     `json:"orgId"`
-	RunID     string     `json:"runId"`
+	ID          string     `json:"id"`
+	OrgID       string     `json:"orgId"`
+	RunID       string     `json:"runId"`
 	Name        string     `json:"name"`
 	Type        string     `json:"type"`
 	URI         string     `json:"uri"`

@@ -433,6 +433,7 @@ type CreateMlExperimentInput struct {
 	Name        string     `json:"name"`
 	Description *string    `json:"description,omitempty"`
 	Status      *string    `json:"status,omitempty"`
+	Tags        []string   `json:"tags,omitempty"`
 	StartedAt   *time.Time `json:"startedAt,omitempty"`
 }
 
@@ -1155,6 +1156,7 @@ type MlExperiment struct {
 	Name        string     `json:"name"`
 	Description string     `json:"description"`
 	Status      string     `json:"status"`
+	Tags        []string   `json:"tags"`
 	StartedAt   *time.Time `json:"startedAt,omitempty"`
 	Source      string     `json:"source"`
 	CreatedBy   *string    `json:"createdBy,omitempty"`
@@ -1917,6 +1919,7 @@ type UpdateMlExperimentInput struct {
 	Name        *string    `json:"name,omitempty"`
 	Description *string    `json:"description,omitempty"`
 	Status      *string    `json:"status,omitempty"`
+	Tags        []string   `json:"tags,omitempty"`
 	StartedAt   *time.Time `json:"startedAt,omitempty"`
 }
 

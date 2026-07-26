@@ -139,7 +139,13 @@ func (r *mutationResolver) CreateMlExperiment(ctx context.Context, orgID string,
 
 // UpdateMlExperiment is the resolver for the updateMlExperiment field.
 func (r *mutationResolver) UpdateMlExperiment(ctx context.Context, orgID string, id string, input model.UpdateMlExperimentInput) (*model.MlExperiment, error) {
-	e, err := r.MLStudio.UpdateMLExperiment(ctx, orgID, id, convert.ToMap(input))
+	body := convert.ToMap(input)
+	// ToMap drops an empty tag list because of `omitempty`, which would make
+	// clearing every tag a no-op instead of an update.
+	if input.Tags != nil {
+		body["tags"] = input.Tags
+	}
+	e, err := r.MLStudio.UpdateMLExperiment(ctx, orgID, id, body)
 	if err != nil {
 		return nil, err
 	}
