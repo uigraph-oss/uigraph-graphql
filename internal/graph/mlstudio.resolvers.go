@@ -393,6 +393,15 @@ func (r *queryResolver) MlVersionDeploymentUpdates(ctx context.Context, orgID st
 	return convert.MLVersionDeploymentUpdatesToModel(updates), nil
 }
 
+// MlVersionEvaluations is the resolver for the mlVersionEvaluations field.
+func (r *queryResolver) MlVersionEvaluations(ctx context.Context, orgID string, versionID string) ([]*model.MlEvaluation, error) {
+	evaluations, err := r.MLStudio.ListMLVersionEvaluations(ctx, orgID, versionID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLEvaluationsToModel(evaluations), nil
+}
+
 // MlRun returns generated.MlRunResolver implementation.
 func (r *Resolver) MlRun() generated.MlRunResolver { return &mlRunResolver{r} }
 

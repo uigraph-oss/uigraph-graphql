@@ -166,6 +166,32 @@ type MLFinding struct {
 	RunIDs      []string `json:"runIds"`
 }
 
+type MLEvaluationMetric struct {
+	ID         string     `json:"id"`
+	Name       string     `json:"name"`
+	Value      float64    `json:"value"`
+	Unit       string     `json:"unit"`
+	Direction  string     `json:"direction"`
+	Category   string     `json:"category"`
+	MeasuredAt *time.Time `json:"measuredAt,omitempty"`
+}
+
+type MLEvaluation struct {
+	ID          string               `json:"id"`
+	OrgID       string               `json:"orgId"`
+	MLflowID    string               `json:"mlflowId"`
+	VersionID   string               `json:"versionId"`
+	DatasetID   *string              `json:"datasetId,omitempty"`
+	Name        string               `json:"name"`
+	Type        string               `json:"type"`
+	Description string               `json:"description"`
+	Summary     string               `json:"summary"`
+	EvaluatedAt *time.Time           `json:"evaluatedAt,omitempty"`
+	Evaluator   string               `json:"evaluator"`
+	Parameters  map[string]any       `json:"parameters"`
+	Metrics     []MLEvaluationMetric `json:"metrics"`
+}
+
 func mlBase(orgID string) string {
 	return "/api/v1/orgs/" + orgID + "/ml"
 }
@@ -452,6 +478,13 @@ func (c *Client) ListVersionDeploymentUpdates(ctx context.Context, orgID, versio
 		Updates []MLVersionDeploymentUpdate `json:"updates"`
 	}
 	return out.Updates, c.get(ctx, path, &out)
+}
+
+func (c *Client) ListMLVersionEvaluations(ctx context.Context, orgID, versionID string) ([]MLEvaluation, error) {
+	var out struct {
+		Evaluations []MLEvaluation `json:"evaluations"`
+	}
+	return out.Evaluations, c.get(ctx, fmt.Sprintf("%s/versions/%s/evaluations", mlBase(orgID), versionID), &out)
 }
 
 func (c *Client) CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*MLVersionDeploymentUpdate, error) {

@@ -189,6 +189,35 @@ func MLDeploymentsToModel(in []uigraphapi.MLDeployment) []*model.MlDeployment {
 	return out
 }
 
+func MLEvaluationToModel(e *uigraphapi.MLEvaluation) *model.MlEvaluation {
+	metrics := make([]*model.MlEvaluationMetric, len(e.Metrics))
+	for i := range e.Metrics {
+		metrics[i] = &model.MlEvaluationMetric{
+			ID: e.Metrics[i].ID, Name: e.Metrics[i].Name, Value: e.Metrics[i].Value,
+			Unit: e.Metrics[i].Unit, Direction: e.Metrics[i].Direction,
+			Category: e.Metrics[i].Category, MeasuredAt: e.Metrics[i].MeasuredAt,
+		}
+	}
+	parameters := map[string]any{}
+	for k, v := range e.Parameters {
+		parameters[k] = v
+	}
+	return &model.MlEvaluation{
+		ID: e.ID, VersionID: e.VersionID, DatasetID: e.DatasetID, Name: e.Name,
+		Type: e.Type, Description: e.Description, Summary: e.Summary,
+		EvaluatedAt: e.EvaluatedAt, Evaluator: e.Evaluator,
+		Parameters: parameters, Metrics: metrics,
+	}
+}
+
+func MLEvaluationsToModel(in []uigraphapi.MLEvaluation) []*model.MlEvaluation {
+	out := make([]*model.MlEvaluation, len(in))
+	for i := range in {
+		out[i] = MLEvaluationToModel(&in[i])
+	}
+	return out
+}
+
 func MLFindingToModel(f *uigraphapi.MLFinding) *model.MlFinding {
 	runIDs := f.RunIDs
 	if runIDs == nil {

@@ -16,6 +16,7 @@ extend type Query {
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
     mlFindings(orgId: ID!, modelId: ID, projectId: ID):         [MlFinding!]!
     mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
+    mlVersionEvaluations(orgId: ID!, versionId: ID!):           [MlEvaluation!]!
 }
 
 extend type Mutation {
@@ -180,6 +181,30 @@ type MlDeployment {
     region:       String!
     deployedAt:   Time
     rolledBackAt: Time
+}
+
+type MlEvaluationMetric {
+    id:         ID!
+    name:       String!
+    value:      Float!
+    unit:       String!
+    direction:  String!
+    category:   String!
+    measuredAt: Time
+}
+
+type MlEvaluation {
+    id:          ID!
+    versionId:   ID!
+    datasetId:   ID
+    name:        String!
+    type:        String!
+    description: String!
+    summary:     String!
+    evaluatedAt: Time
+    evaluator:   String!
+    parameters:  JSON!
+    metrics:     [MlEvaluationMetric!]!
 }
 
 type MlFinding {

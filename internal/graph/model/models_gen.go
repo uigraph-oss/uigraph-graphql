@@ -1150,6 +1150,30 @@ type MlDeployment struct {
 	RolledBackAt *time.Time `json:"rolledBackAt,omitempty"`
 }
 
+type MlEvaluation struct {
+	ID          string                `json:"id"`
+	VersionID   string                `json:"versionId"`
+	DatasetID   *string               `json:"datasetId,omitempty"`
+	Name        string                `json:"name"`
+	Type        string                `json:"type"`
+	Description string                `json:"description"`
+	Summary     string                `json:"summary"`
+	EvaluatedAt *time.Time            `json:"evaluatedAt,omitempty"`
+	Evaluator   string                `json:"evaluator"`
+	Parameters  any                   `json:"parameters"`
+	Metrics     []*MlEvaluationMetric `json:"metrics"`
+}
+
+type MlEvaluationMetric struct {
+	ID         string     `json:"id"`
+	Name       string     `json:"name"`
+	Value      float64    `json:"value"`
+	Unit       string     `json:"unit"`
+	Direction  string     `json:"direction"`
+	Category   string     `json:"category"`
+	MeasuredAt *time.Time `json:"measuredAt,omitempty"`
+}
+
 type MlExperiment struct {
 	ID          string     `json:"id"`
 	ProjectID   *string    `json:"projectId,omitempty"`
