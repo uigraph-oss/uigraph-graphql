@@ -36,6 +36,8 @@ extend type Mutation {
     updateMlModelInfo(orgId: ID!, id: ID!, input: UpdateMlModelInfoInput!):   MlModel!
     deleteMlModel(orgId: ID!, id: ID!):                                      Boolean!
     createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
+    setMlModelVersionRun(orgId: ID!, versionId: ID!, runId: ID):              MlModelVersion!
+    linkMlVersionEvaluations(orgId: ID!, versionId: ID!, evaluationIds: [ID!]!): [MlEvaluation!]!
     createMlExperiment(orgId: ID!, input: CreateMlExperimentInput!):          MlExperiment!
     updateMlExperiment(orgId: ID!, id: ID!, input: UpdateMlExperimentInput!): MlExperiment!
     deleteMlExperiment(orgId: ID!, id: ID!):                                  Boolean!
@@ -92,6 +94,7 @@ type MlModelVersion {
     description:      String!
     deploymentStatus: String!
     runId:            ID
+    source:           String!
     createdAt:        Time
 }
 

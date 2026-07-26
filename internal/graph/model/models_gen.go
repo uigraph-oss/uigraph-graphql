@@ -1221,6 +1221,7 @@ type MlModelVersion struct {
 	Description      string     `json:"description"`
 	DeploymentStatus string     `json:"deploymentStatus"`
 	RunID            *string    `json:"runId,omitempty"`
+	Source           string     `json:"source"`
 	CreatedAt        *time.Time `json:"createdAt,omitempty"`
 }
 

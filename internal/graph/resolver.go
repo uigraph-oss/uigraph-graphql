@@ -312,6 +312,8 @@ type mlStudioClient interface {
 	DeleteMLFinding(ctx context.Context, orgID, id string) error
 	ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID, projectID string) ([]uigraphapi.MLVersionDeploymentUpdate, error)
 	CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*uigraphapi.MLVersionDeploymentUpdate, error)
+	SetMLModelVersionRun(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*uigraphapi.MLModelVersion, error)
+	LinkMLVersionEvaluations(ctx context.Context, orgID, versionID string, body map[string]interface{}) ([]uigraphapi.MLEvaluation, error)
 	ListMLVersionEvaluations(ctx context.Context, orgID, versionID string) ([]uigraphapi.MLEvaluation, error)
 	ListMLExperimentEvaluations(ctx context.Context, orgID, experimentID string) ([]uigraphapi.MLEvaluation, error)
 	GetMLEvaluation(ctx context.Context, orgID, id string) (*uigraphapi.MLEvaluation, error)

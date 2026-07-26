@@ -52,7 +52,7 @@ func MLModelVersionToModel(v *uigraphapi.MLModelVersion) *model.MlModelVersion {
 	return &model.MlModelVersion{
 		ID: v.ID, ModelID: v.ModelID, Version: v.Version,
 		Description: v.Description, DeploymentStatus: v.DeploymentStatus, RunID: v.RunID,
-		CreatedAt: v.CreatedAt,
+		Source: v.Source, CreatedAt: v.CreatedAt,
 	}
 }
 

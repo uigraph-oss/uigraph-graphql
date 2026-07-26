@@ -147,6 +147,24 @@ func (r *mutationResolver) CreateMlVersionDeploymentUpdate(ctx context.Context, 
 	return convert.MLVersionDeploymentUpdateToModel(update), nil
 }
 
+// SetMlModelVersionRun is the resolver for the setMlModelVersionRun field.
+func (r *mutationResolver) SetMlModelVersionRun(ctx context.Context, orgID string, versionID string, runID *string) (*model.MlModelVersion, error) {
+	v, err := r.MLStudio.SetMLModelVersionRun(ctx, orgID, versionID, map[string]interface{}{"runId": runID})
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLModelVersionToModel(v), nil
+}
+
+// LinkMlVersionEvaluations is the resolver for the linkMlVersionEvaluations field.
+func (r *mutationResolver) LinkMlVersionEvaluations(ctx context.Context, orgID string, versionID string, evaluationIds []string) ([]*model.MlEvaluation, error) {
+	evals, err := r.MLStudio.LinkMLVersionEvaluations(ctx, orgID, versionID, map[string]interface{}{"evaluationIds": evaluationIds})
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLEvaluationsToModel(evals), nil
+}
+
 // CreateMlExperiment is the resolver for the createMlExperiment field.
 func (r *mutationResolver) CreateMlExperiment(ctx context.Context, orgID string, input model.CreateMlExperimentInput) (*model.MlExperiment, error) {
 	e, err := r.MLStudio.CreateMLExperiment(ctx, orgID, convert.ToMap(input))

@@ -56,6 +56,7 @@ type MLModelVersion struct {
 	Description      string     `json:"description"`
 	DeploymentStatus string     `json:"deploymentStatus"`
 	RunID            *string    `json:"runId,omitempty"`
+	Source           string     `json:"source"`
 	CreatedAt        *time.Time `json:"createdAt,omitempty"`
 }
 
@@ -149,12 +150,12 @@ type MLDeployment struct {
 }
 
 type MLFinding struct {
-	ID          string   `json:"id"`
-	OrgID       string   `json:"orgId"`
-	ModelID     string   `json:"modelId"`
-	VersionID   *string  `json:"versionId,omitempty"`
-	Title       string   `json:"title"`
-	Summary     string   `json:"summary"`
+	ID          string     `json:"id"`
+	OrgID       string     `json:"orgId"`
+	ModelID     string     `json:"modelId"`
+	VersionID   *string    `json:"versionId,omitempty"`
+	Title       string     `json:"title"`
+	Summary     string     `json:"summary"`
 	Description string     `json:"description"`
 	RunIDs      []string   `json:"runIds"`
 	CreatedBy   string     `json:"createdBy"`
@@ -484,6 +485,18 @@ func (c *Client) GetMLEvaluation(ctx context.Context, orgID, id string) (*MLEval
 func (c *Client) CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*MLVersionDeploymentUpdate, error) {
 	var out MLVersionDeploymentUpdate
 	return &out, c.post(ctx, fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID), body, &out)
+}
+
+func (c *Client) LinkMLVersionEvaluations(ctx context.Context, orgID, versionID string, body map[string]interface{}) ([]MLEvaluation, error) {
+	var out struct {
+		Evaluations []MLEvaluation `json:"evaluations"`
+	}
+	return out.Evaluations, c.put(ctx, fmt.Sprintf("%s/versions/%s/evaluations", mlBase(orgID), versionID), body, &out)
+}
+
+func (c *Client) SetMLModelVersionRun(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*MLModelVersion, error) {
+	var out MLModelVersion
+	return &out, c.put(ctx, fmt.Sprintf("%s/versions/%s/run", mlBase(orgID), versionID), body, &out)
 }
 
 func (c *Client) ListMLFindings(ctx context.Context, orgID, modelID, projectID string) ([]MLFinding, error) {

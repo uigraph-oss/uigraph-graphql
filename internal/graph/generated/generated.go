@@ -801,6 +801,7 @@ type ComplexityRoot struct {
 		ID               func(childComplexity int) int
 		ModelID          func(childComplexity int) int
 		RunID            func(childComplexity int) int
+		Source           func(childComplexity int) int
 		Version          func(childComplexity int) int
 	}
 
@@ -955,6 +956,7 @@ type ComplexityRoot struct {
 		DeleteTestCase                    func(childComplexity int, orgID string, serviceID string, id string) int
 		DeleteTestPack                    func(childComplexity int, orgID string, serviceID string, id string) int
 		DisableUser                       func(childComplexity int, id string) int
+		LinkMlVersionEvaluations          func(childComplexity int, orgID string, versionID string, evaluationIds []string) int
 		PrepareDiagramThumbnailUpload     func(childComplexity int, orgID string, diagramID string) int
 		PrepareOAuthProviderIconUpload    func(childComplexity int, provider string) int
 		PrepareServerOrgLogoUpload        func(childComplexity int, orgID string) int
@@ -968,6 +970,7 @@ type ComplexityRoot struct {
 		RestoreDiagramVersion             func(childComplexity int, orgID string, diagramID string, versionID string) int
 		RestoreServiceDBVersion           func(childComplexity int, orgID string, serviceID string, serviceDbID string, versionID string) int
 		RevokeServiceAccountToken         func(childComplexity int, orgID string, saID string, tokenID string) int
+		SetMlModelVersionRun              func(childComplexity int, orgID string, versionID string, runID *string) int
 		SetMyAvatar                       func(childComplexity int) int
 		SetOAuthProviderIcon              func(childComplexity int, provider string) int
 		SetServerOrgLogo                  func(childComplexity int, orgID string) int
@@ -1728,6 +1731,8 @@ type MutationResolver interface {
 	UpdateMlModelInfo(ctx context.Context, orgID string, id string, input model.UpdateMlModelInfoInput) (*model.MlModel, error)
 	DeleteMlModel(ctx context.Context, orgID string, id string) (bool, error)
 	CreateMlVersionDeploymentUpdate(ctx context.Context, orgID string, versionID string, toStatus string) (*model.MlVersionDeploymentUpdate, error)
+	SetMlModelVersionRun(ctx context.Context, orgID string, versionID string, runID *string) (*model.MlModelVersion, error)
+	LinkMlVersionEvaluations(ctx context.Context, orgID string, versionID string, evaluationIds []string) ([]*model.MlEvaluation, error)
 	CreateMlExperiment(ctx context.Context, orgID string, input model.CreateMlExperimentInput) (*model.MlExperiment, error)
 	UpdateMlExperiment(ctx context.Context, orgID string, id string, input model.UpdateMlExperimentInput) (*model.MlExperiment, error)
 	DeleteMlExperiment(ctx context.Context, orgID string, id string) (bool, error)
@@ -5831,6 +5836,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlModelVersion.RunID(childComplexity), true
 
+	case "MlModelVersion.source":
+		if e.complexity.MlModelVersion.Source == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersion.Source(childComplexity), true
+
 	case "MlModelVersion.version":
 		if e.complexity.MlModelVersion.Version == nil {
 			break
@@ -7161,6 +7173,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.DisableUser(childComplexity, args["id"].(string)), true
 
+	case "Mutation.linkMlVersionEvaluations":
+		if e.complexity.Mutation.LinkMlVersionEvaluations == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_linkMlVersionEvaluations_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.LinkMlVersionEvaluations(childComplexity, args["orgId"].(string), args["versionId"].(string), args["evaluationIds"].([]string)), true
+
 	case "Mutation.prepareDiagramThumbnailUpload":
 		if e.complexity.Mutation.PrepareDiagramThumbnailUpload == nil {
 			break
@@ -7311,6 +7335,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.RevokeServiceAccountToken(childComplexity, args["orgId"].(string), args["saId"].(string), args["tokenId"].(string)), true
+
+	case "Mutation.setMlModelVersionRun":
+		if e.complexity.Mutation.SetMlModelVersionRun == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setMlModelVersionRun_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetMlModelVersionRun(childComplexity, args["orgId"].(string), args["versionId"].(string), args["runId"].(*string)), true
 
 	case "Mutation.setMyAvatar":
 		if e.complexity.Mutation.SetMyAvatar == nil {
@@ -13175,6 +13211,8 @@ extend type Mutation {
     updateMlModelInfo(orgId: ID!, id: ID!, input: UpdateMlModelInfoInput!):   MlModel!
     deleteMlModel(orgId: ID!, id: ID!):                                      Boolean!
     createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
+    setMlModelVersionRun(orgId: ID!, versionId: ID!, runId: ID):              MlModelVersion!
+    linkMlVersionEvaluations(orgId: ID!, versionId: ID!, evaluationIds: [ID!]!): [MlEvaluation!]!
     createMlExperiment(orgId: ID!, input: CreateMlExperimentInput!):          MlExperiment!
     updateMlExperiment(orgId: ID!, id: ID!, input: UpdateMlExperimentInput!): MlExperiment!
     deleteMlExperiment(orgId: ID!, id: ID!):                                  Boolean!
@@ -13231,6 +13269,7 @@ type MlModelVersion {
     description:      String!
     deploymentStatus: String!
     runId:            ID
+    source:           String!
     createdAt:        Time
 }
 
@@ -19859,6 +19898,80 @@ func (ec *executionContext) field_Mutation_disableUser_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_linkMlVersionEvaluations_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_linkMlVersionEvaluations_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_linkMlVersionEvaluations_argsVersionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["versionId"] = arg1
+	arg2, err := ec.field_Mutation_linkMlVersionEvaluations_argsEvaluationIds(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["evaluationIds"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_linkMlVersionEvaluations_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_linkMlVersionEvaluations_argsVersionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["versionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
+	if tmp, ok := rawArgs["versionId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_linkMlVersionEvaluations_argsEvaluationIds(
+	ctx context.Context,
+	rawArgs map[string]any,
+) ([]string, error) {
+	if _, ok := rawArgs["evaluationIds"]; !ok {
+		var zeroVal []string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluationIds"))
+	if tmp, ok := rawArgs["evaluationIds"]; ok {
+		return ec.unmarshalNID2ᚕstringᚄ(ctx, tmp)
+	}
+
+	var zeroVal []string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_prepareDiagramThumbnailUpload_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -20537,6 +20650,80 @@ func (ec *executionContext) field_Mutation_revokeServiceAccountToken_argsTokenID
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setMlModelVersionRun_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_setMlModelVersionRun_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_setMlModelVersionRun_argsVersionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["versionId"] = arg1
+	arg2, err := ec.field_Mutation_setMlModelVersionRun_argsRunID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["runId"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_setMlModelVersionRun_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setMlModelVersionRun_argsVersionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["versionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
+	if tmp, ok := rawArgs["versionId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_setMlModelVersionRun_argsRunID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["runId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("runId"))
+	if tmp, ok := rawArgs["runId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
 	return zeroVal, nil
 }
 
@@ -55412,6 +55599,50 @@ func (ec *executionContext) fieldContext_MlModelVersion_runId(_ context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _MlModelVersion_source(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersion_source(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Source, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersion_source(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlModelVersion_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlModelVersion_createdAt(ctx, field)
 	if err != nil {
@@ -63271,6 +63502,166 @@ func (ec *executionContext) fieldContext_Mutation_createMlVersionDeploymentUpdat
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createMlVersionDeploymentUpdate_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_setMlModelVersionRun(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_setMlModelVersionRun(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetMlModelVersionRun(rctx, fc.Args["orgId"].(string), fc.Args["versionId"].(string), fc.Args["runId"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlModelVersion)
+	fc.Result = res
+	return ec.marshalNMlModelVersion2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModelVersion(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_setMlModelVersionRun(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlModelVersion_id(ctx, field)
+			case "modelId":
+				return ec.fieldContext_MlModelVersion_modelId(ctx, field)
+			case "version":
+				return ec.fieldContext_MlModelVersion_version(ctx, field)
+			case "description":
+				return ec.fieldContext_MlModelVersion_description(ctx, field)
+			case "deploymentStatus":
+				return ec.fieldContext_MlModelVersion_deploymentStatus(ctx, field)
+			case "runId":
+				return ec.fieldContext_MlModelVersion_runId(ctx, field)
+			case "source":
+				return ec.fieldContext_MlModelVersion_source(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlModelVersion_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlModelVersion", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_setMlModelVersionRun_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_linkMlVersionEvaluations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_linkMlVersionEvaluations(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().LinkMlVersionEvaluations(rctx, fc.Args["orgId"].(string), fc.Args["versionId"].(string), fc.Args["evaluationIds"].([]string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.MlEvaluation)
+	fc.Result = res
+	return ec.marshalNMlEvaluation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_linkMlVersionEvaluations(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlEvaluation_id(ctx, field)
+			case "versionId":
+				return ec.fieldContext_MlEvaluation_versionId(ctx, field)
+			case "experimentId":
+				return ec.fieldContext_MlEvaluation_experimentId(ctx, field)
+			case "modelName":
+				return ec.fieldContext_MlEvaluation_modelName(ctx, field)
+			case "version":
+				return ec.fieldContext_MlEvaluation_version(ctx, field)
+			case "datasetId":
+				return ec.fieldContext_MlEvaluation_datasetId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlEvaluation_name(ctx, field)
+			case "type":
+				return ec.fieldContext_MlEvaluation_type(ctx, field)
+			case "description":
+				return ec.fieldContext_MlEvaluation_description(ctx, field)
+			case "summary":
+				return ec.fieldContext_MlEvaluation_summary(ctx, field)
+			case "evaluatedAt":
+				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "evaluator":
+				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
+			case "parameters":
+				return ec.fieldContext_MlEvaluation_parameters(ctx, field)
+			case "metrics":
+				return ec.fieldContext_MlEvaluation_metrics(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlEvaluation", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_linkMlVersionEvaluations_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -73871,6 +74262,8 @@ func (ec *executionContext) fieldContext_Query_mlModelVersions(ctx context.Conte
 				return ec.fieldContext_MlModelVersion_deploymentStatus(ctx, field)
 			case "runId":
 				return ec.fieldContext_MlModelVersion_runId(ctx, field)
+			case "source":
+				return ec.fieldContext_MlModelVersion_source(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_MlModelVersion_createdAt(ctx, field)
 			}
@@ -73942,6 +74335,8 @@ func (ec *executionContext) fieldContext_Query_mlModelVersion(ctx context.Contex
 				return ec.fieldContext_MlModelVersion_deploymentStatus(ctx, field)
 			case "runId":
 				return ec.fieldContext_MlModelVersion_runId(ctx, field)
+			case "source":
+				return ec.fieldContext_MlModelVersion_source(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_MlModelVersion_createdAt(ctx, field)
 			}
@@ -105453,6 +105848,11 @@ func (ec *executionContext) _MlModelVersion(ctx context.Context, sel ast.Selecti
 			}
 		case "runId":
 			out.Values[i] = ec._MlModelVersion_runId(ctx, field, obj)
+		case "source":
+			out.Values[i] = ec._MlModelVersion_source(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createdAt":
 			out.Values[i] = ec._MlModelVersion_createdAt(ctx, field, obj)
 		default:
@@ -106502,6 +106902,20 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "createMlVersionDeploymentUpdate":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createMlVersionDeploymentUpdate(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "setMlModelVersionRun":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_setMlModelVersionRun(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "linkMlVersionEvaluations":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_linkMlVersionEvaluations(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
