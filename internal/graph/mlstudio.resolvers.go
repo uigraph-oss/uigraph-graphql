@@ -80,7 +80,11 @@ func (r *mutationResolver) DeleteMlModel(ctx context.Context, orgID string, id s
 
 // CreateMlVersionDeploymentUpdate is the resolver for the createMlVersionDeploymentUpdate field.
 func (r *mutationResolver) CreateMlVersionDeploymentUpdate(ctx context.Context, orgID string, versionID string, toStatus string) (*model.MlVersionDeploymentUpdate, error) {
-	panic(fmt.Errorf("not implemented: CreateMlVersionDeploymentUpdate - createMlVersionDeploymentUpdate"))
+	update, err := r.MLStudio.CreateVersionDeploymentUpdate(ctx, orgID, versionID, map[string]interface{}{"toStatus": toStatus})
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLVersionDeploymentUpdateToModel(update), nil
 }
 
 // CreateMlExperiment is the resolver for the createMlExperiment field.
