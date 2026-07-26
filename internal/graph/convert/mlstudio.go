@@ -36,7 +36,7 @@ func MLModelToModel(m *uigraphapi.MLModel) *model.MlModel {
 		License: m.License, References: m.References,
 		IntendedUse: m.IntendedUse, Limitations: m.Limitations,
 		EthicalConsiderations: m.EthicalConsiderations, Caveats: m.Caveats,
-		ProductionVersionID: m.ProductionVersionID, CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
+		ProductionVersionID: m.ProductionVersionID, Origin: m.Origin, CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
 	}
 }
 
@@ -82,7 +82,7 @@ func MLVersionDeploymentUpdatesToModel(in []uigraphapi.MLVersionDeploymentUpdate
 func MLExperimentToModel(e *uigraphapi.MLExperiment) *model.MlExperiment {
 	return &model.MlExperiment{
 		ID: e.ID, ProjectID: e.ProjectID, Name: e.Name, Description: e.Description, Status: e.Status,
-		StartedAt: e.StartedAt,
+		StartedAt: e.StartedAt, Source: e.Source,
 	}
 }
 
@@ -106,7 +106,7 @@ func MLRunToModel(run *uigraphapi.MLRun) *model.MlRun {
 	return &model.MlRun{
 		ID: run.ID, OrgID: run.OrgID, ExperimentID: run.ExperimentID, Name: run.Name, Status: run.Status,
 		StartedAt: run.StartedAt, EndedAt: run.EndedAt, Duration: run.Duration, Notes: run.Notes,
-		Parameters: params, Metrics: metrics, DatasetID: run.DatasetID,
+		Parameters: params, Metrics: metrics, DatasetID: run.DatasetID, Source: run.Source,
 		UpdatedAt: run.UpdatedAt, SyncedAt: run.SyncedAt,
 	}
 }
@@ -161,7 +161,7 @@ func MLDatasetToModel(ds *uigraphapi.MLDataset) *model.MlDataset {
 	return &model.MlDataset{
 		ID: ds.ID, ExperimentID: ds.ExperimentID, Name: ds.Name, Digest: ds.Digest,
 		Source: ds.Source, SourceType: ds.SourceType, Context: ds.Context,
-		RowCount: int(ds.RowCount), Schema: schema, Tags: tags,
+		RowCount: int(ds.RowCount), Schema: schema, Tags: tags, Origin: ds.Origin,
 	}
 }
 

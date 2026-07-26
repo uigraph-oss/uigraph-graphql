@@ -43,6 +43,7 @@ type MLModel struct {
 	EthicalConsiderations string     `json:"ethicalConsiderations"`
 	Caveats               string     `json:"caveats"`
 	ProductionVersionID   *string    `json:"productionVersionId,omitempty"`
+	Origin                string     `json:"origin"`
 	CreatedAt             *time.Time `json:"createdAt,omitempty"`
 	UpdatedAt             *time.Time `json:"updatedAt,omitempty"`
 }
@@ -76,6 +77,7 @@ type MLExperiment struct {
 	Description string     `json:"description"`
 	Status      string     `json:"status"`
 	StartedAt   *time.Time `json:"startedAt,omitempty"`
+	Source      string     `json:"source"`
 }
 
 type MLRun struct {
@@ -91,6 +93,7 @@ type MLRun struct {
 	Parameters   map[string]any `json:"parameters"`
 	Metrics      map[string]any `json:"metrics"`
 	DatasetID    *string        `json:"datasetId,omitempty"`
+	Source       string         `json:"source"`
 	UpdatedAt    *time.Time     `json:"updatedAt,omitempty"`
 	SyncedAt     *time.Time     `json:"syncedAt,omitempty"`
 }
@@ -134,6 +137,7 @@ type MLDataset struct {
 	RowCount     int64             `json:"rowCount"`
 	Schema       []MLSchemaField   `json:"schema"`
 	Tags         map[string]string `json:"tags"`
+	Origin       string            `json:"origin"`
 }
 
 type MLDeployment struct {
@@ -202,6 +206,11 @@ func (c *Client) GetMLModel(ctx context.Context, orgID, id string) (*MLModel, er
 	return &out, c.get(ctx, mlBase(orgID)+"/models/"+id, &out)
 }
 
+func (c *Client) CreateMLModel(ctx context.Context, orgID string, body map[string]interface{}) (*MLModel, error) {
+	var out MLModel
+	return &out, c.post(ctx, mlBase(orgID)+"/models", body, &out)
+}
+
 func (c *Client) UpdateMLModel(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLModel, error) {
 	var out MLModel
 	return &out, c.patch(ctx, mlBase(orgID)+"/models/"+id, body, &out)
@@ -250,6 +259,20 @@ func (c *Client) GetMLExperiment(ctx context.Context, orgID, id string) (*MLExpe
 	return &out, c.get(ctx, mlBase(orgID)+"/experiments/"+id, &out)
 }
 
+func (c *Client) CreateMLExperiment(ctx context.Context, orgID string, body map[string]interface{}) (*MLExperiment, error) {
+	var out MLExperiment
+	return &out, c.post(ctx, mlBase(orgID)+"/experiments", body, &out)
+}
+
+func (c *Client) UpdateMLExperiment(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLExperiment, error) {
+	var out MLExperiment
+	return &out, c.put(ctx, mlBase(orgID)+"/experiments/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLExperiment(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/experiments/"+id)
+}
+
 type MLRunQuery struct {
 	ExperimentID string
 	ProjectID    string
@@ -289,6 +312,20 @@ func (c *Client) ListMLRuns(ctx context.Context, orgID string, query MLRunQuery)
 func (c *Client) GetMLRun(ctx context.Context, orgID, id string) (*MLRun, error) {
 	var out MLRun
 	return &out, c.get(ctx, mlBase(orgID)+"/runs/"+id, &out)
+}
+
+func (c *Client) CreateMLRun(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*MLRun, error) {
+	var out MLRun
+	return &out, c.post(ctx, fmt.Sprintf("%s/experiments/%s/runs", mlBase(orgID), experimentID), body, &out)
+}
+
+func (c *Client) UpdateMLRun(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLRun, error) {
+	var out MLRun
+	return &out, c.put(ctx, mlBase(orgID)+"/runs/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLRun(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/runs/"+id)
 }
 
 func (c *Client) ListMLRunSeries(ctx context.Context, orgID, runID string) ([]MLMetricPoint, error) {
@@ -331,6 +368,20 @@ func (c *Client) ListMLDatasets(ctx context.Context, orgID, experimentID string)
 func (c *Client) GetMLDataset(ctx context.Context, orgID, id string) (*MLDataset, error) {
 	var out MLDataset
 	return &out, c.get(ctx, mlBase(orgID)+"/datasets/"+id, &out)
+}
+
+func (c *Client) CreateMLDataset(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*MLDataset, error) {
+	var out MLDataset
+	return &out, c.post(ctx, fmt.Sprintf("%s/experiments/%s/datasets", mlBase(orgID), experimentID), body, &out)
+}
+
+func (c *Client) UpdateMLDataset(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLDataset, error) {
+	var out MLDataset
+	return &out, c.put(ctx, mlBase(orgID)+"/datasets/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLDataset(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/datasets/"+id)
 }
 
 func (c *Client) ListMLDeployments(ctx context.Context, orgID, modelID, versionID string) ([]MLDeployment, error) {

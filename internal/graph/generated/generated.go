@@ -709,6 +709,7 @@ type ComplexityRoot struct {
 		ExperimentID func(childComplexity int) int
 		ID           func(childComplexity int) int
 		Name         func(childComplexity int) int
+		Origin       func(childComplexity int) int
 		RowCount     func(childComplexity int) int
 		Schema       func(childComplexity int) int
 		Source       func(childComplexity int) int
@@ -734,6 +735,7 @@ type ComplexityRoot struct {
 		ID          func(childComplexity int) int
 		Name        func(childComplexity int) int
 		ProjectID   func(childComplexity int) int
+		Source      func(childComplexity int) int
 		StartedAt   func(childComplexity int) int
 		Status      func(childComplexity int) int
 	}
@@ -759,6 +761,7 @@ type ComplexityRoot struct {
 		License               func(childComplexity int) int
 		Limitations           func(childComplexity int) int
 		Name                  func(childComplexity int) int
+		Origin                func(childComplexity int) int
 		ProblemType           func(childComplexity int) int
 		ProductionVersionID   func(childComplexity int) int
 		ProjectID             func(childComplexity int) int
@@ -807,6 +810,7 @@ type ComplexityRoot struct {
 		OrgID        func(childComplexity int) int
 		Parameters   func(childComplexity int) int
 		Series       func(childComplexity int) int
+		Source       func(childComplexity int) int
 		StartedAt    func(childComplexity int) int
 		Status       func(childComplexity int) int
 		SyncedAt     func(childComplexity int) int
@@ -866,9 +870,13 @@ type ComplexityRoot struct {
 		CreateFrameGroup                  func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
 		CreateFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
 		CreateMap                         func(childComplexity int, orgID string, input model.CreateMapInput) int
+		CreateMlDataset                   func(childComplexity int, orgID string, experimentID string, input model.CreateMlDatasetInput) int
 		CreateMlDeployment                func(childComplexity int, orgID string, input model.CreateMlDeploymentInput) int
+		CreateMlExperiment                func(childComplexity int, orgID string, input model.CreateMlExperimentInput) int
 		CreateMlFinding                   func(childComplexity int, orgID string, input model.CreateMlFindingInput) int
+		CreateMlModel                     func(childComplexity int, orgID string, input model.CreateMlModelInput) int
 		CreateMlProject                   func(childComplexity int, orgID string, input model.CreateMlProjectInput) int
+		CreateMlRun                       func(childComplexity int, orgID string, experimentID string, input model.CreateMlRunInput) int
 		CreateMlVersionDeploymentUpdate   func(childComplexity int, orgID string, versionID string, toStatus string) int
 		CreateOrg                         func(childComplexity int, input model.CreateOrgInput) int
 		CreateRoleMapping                 func(childComplexity int, input model.CreateRoleMappingInput) int
@@ -903,8 +911,11 @@ type ComplexityRoot struct {
 		DeleteFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, id string) int
 		DeleteLdap                        func(childComplexity int) int
 		DeleteMap                         func(childComplexity int, orgID string, id string) int
+		DeleteMlDataset                   func(childComplexity int, orgID string, id string) int
 		DeleteMlDeployment                func(childComplexity int, orgID string, id string) int
+		DeleteMlExperiment                func(childComplexity int, orgID string, id string) int
 		DeleteMlFinding                   func(childComplexity int, orgID string, id string) int
+		DeleteMlRun                       func(childComplexity int, orgID string, id string) int
 		DeleteOAuthProvider               func(childComplexity int, provider string) int
 		DeleteOrg                         func(childComplexity int, id string) int
 		DeleteRoleMapping                 func(childComplexity int, id string) int
@@ -956,9 +967,12 @@ type ComplexityRoot struct {
 		UpdateFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
 		UpdateMap                         func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
 		UpdateMember                      func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
+		UpdateMlDataset                   func(childComplexity int, orgID string, id string, input model.UpdateMlDatasetInput) int
 		UpdateMlDeployment                func(childComplexity int, orgID string, id string, input model.UpdateMlDeploymentInput) int
+		UpdateMlExperiment                func(childComplexity int, orgID string, id string, input model.UpdateMlExperimentInput) int
 		UpdateMlFinding                   func(childComplexity int, orgID string, id string, input model.UpdateMlFindingInput) int
 		UpdateMlModel                     func(childComplexity int, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) int
+		UpdateMlRun                       func(childComplexity int, orgID string, id string, input model.UpdateMlRunInput) int
 		UpdateOrg                         func(childComplexity int, id string, input model.UpdateOrgInput) int
 		UpdateSavedQuery                  func(childComplexity int, orgID string, serviceID string, serviceDbID string, id string, input model.UpdateSavedQueryInput) int
 		UpdateServerOrg                   func(childComplexity int, id string, input model.UpdateServerOrgInput) int
@@ -1678,8 +1692,18 @@ type MutationResolver interface {
 	CreateMlFinding(ctx context.Context, orgID string, input model.CreateMlFindingInput) (*model.MlFinding, error)
 	UpdateMlFinding(ctx context.Context, orgID string, id string, input model.UpdateMlFindingInput) (*model.MlFinding, error)
 	DeleteMlFinding(ctx context.Context, orgID string, id string) (bool, error)
+	CreateMlModel(ctx context.Context, orgID string, input model.CreateMlModelInput) (*model.MlModel, error)
 	UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error)
 	CreateMlVersionDeploymentUpdate(ctx context.Context, orgID string, versionID string, toStatus string) (*model.MlVersionDeploymentUpdate, error)
+	CreateMlExperiment(ctx context.Context, orgID string, input model.CreateMlExperimentInput) (*model.MlExperiment, error)
+	UpdateMlExperiment(ctx context.Context, orgID string, id string, input model.UpdateMlExperimentInput) (*model.MlExperiment, error)
+	DeleteMlExperiment(ctx context.Context, orgID string, id string) (bool, error)
+	CreateMlRun(ctx context.Context, orgID string, experimentID string, input model.CreateMlRunInput) (*model.MlRun, error)
+	UpdateMlRun(ctx context.Context, orgID string, id string, input model.UpdateMlRunInput) (*model.MlRun, error)
+	DeleteMlRun(ctx context.Context, orgID string, id string) (bool, error)
+	CreateMlDataset(ctx context.Context, orgID string, experimentID string, input model.CreateMlDatasetInput) (*model.MlDataset, error)
+	UpdateMlDataset(ctx context.Context, orgID string, id string, input model.UpdateMlDatasetInput) (*model.MlDataset, error)
+	DeleteMlDataset(ctx context.Context, orgID string, id string) (bool, error)
 	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
 	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
 	DeleteOrg(ctx context.Context, id string) (bool, error)
@@ -5253,6 +5277,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlDataset.Name(childComplexity), true
 
+	case "MlDataset.origin":
+		if e.complexity.MlDataset.Origin == nil {
+			break
+		}
+
+		return e.complexity.MlDataset.Origin(childComplexity), true
+
 	case "MlDataset.rowCount":
 		if e.complexity.MlDataset.RowCount == nil {
 			break
@@ -5386,6 +5417,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlExperiment.ProjectID(childComplexity), true
 
+	case "MlExperiment.source":
+		if e.complexity.MlExperiment.Source == nil {
+			break
+		}
+
+		return e.complexity.MlExperiment.Source(childComplexity), true
+
 	case "MlExperiment.startedAt":
 		if e.complexity.MlExperiment.StartedAt == nil {
 			break
@@ -5518,6 +5556,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlModel.Name(childComplexity), true
+
+	case "MlModel.origin":
+		if e.complexity.MlModel.Origin == nil {
+			break
+		}
+
+		return e.complexity.MlModel.Origin(childComplexity), true
 
 	case "MlModel.problemType":
 		if e.complexity.MlModel.ProblemType == nil {
@@ -5770,6 +5815,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlRun.Series(childComplexity), true
+
+	case "MlRun.source":
+		if e.complexity.MlRun.Source == nil {
+			break
+		}
+
+		return e.complexity.MlRun.Source(childComplexity), true
 
 	case "MlRun.startedAt":
 		if e.complexity.MlRun.StartedAt == nil {
@@ -6189,6 +6241,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateMap(childComplexity, args["orgId"].(string), args["input"].(model.CreateMapInput)), true
 
+	case "Mutation.createMlDataset":
+		if e.complexity.Mutation.CreateMlDataset == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMlDataset_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMlDataset(childComplexity, args["orgId"].(string), args["experimentId"].(string), args["input"].(model.CreateMlDatasetInput)), true
+
 	case "Mutation.createMlDeployment":
 		if e.complexity.Mutation.CreateMlDeployment == nil {
 			break
@@ -6200,6 +6264,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateMlDeployment(childComplexity, args["orgId"].(string), args["input"].(model.CreateMlDeploymentInput)), true
+
+	case "Mutation.createMlExperiment":
+		if e.complexity.Mutation.CreateMlExperiment == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMlExperiment_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMlExperiment(childComplexity, args["orgId"].(string), args["input"].(model.CreateMlExperimentInput)), true
 
 	case "Mutation.createMlFinding":
 		if e.complexity.Mutation.CreateMlFinding == nil {
@@ -6213,6 +6289,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateMlFinding(childComplexity, args["orgId"].(string), args["input"].(model.CreateMlFindingInput)), true
 
+	case "Mutation.createMlModel":
+		if e.complexity.Mutation.CreateMlModel == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMlModel_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMlModel(childComplexity, args["orgId"].(string), args["input"].(model.CreateMlModelInput)), true
+
 	case "Mutation.createMlProject":
 		if e.complexity.Mutation.CreateMlProject == nil {
 			break
@@ -6224,6 +6312,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateMlProject(childComplexity, args["orgId"].(string), args["input"].(model.CreateMlProjectInput)), true
+
+	case "Mutation.createMlRun":
+		if e.complexity.Mutation.CreateMlRun == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMlRun_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMlRun(childComplexity, args["orgId"].(string), args["experimentId"].(string), args["input"].(model.CreateMlRunInput)), true
 
 	case "Mutation.createMlVersionDeploymentUpdate":
 		if e.complexity.Mutation.CreateMlVersionDeploymentUpdate == nil {
@@ -6628,6 +6728,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.DeleteMap(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
+	case "Mutation.deleteMlDataset":
+		if e.complexity.Mutation.DeleteMlDataset == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteMlDataset_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteMlDataset(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
 	case "Mutation.deleteMlDeployment":
 		if e.complexity.Mutation.DeleteMlDeployment == nil {
 			break
@@ -6640,6 +6752,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.DeleteMlDeployment(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
+	case "Mutation.deleteMlExperiment":
+		if e.complexity.Mutation.DeleteMlExperiment == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteMlExperiment_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteMlExperiment(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
 	case "Mutation.deleteMlFinding":
 		if e.complexity.Mutation.DeleteMlFinding == nil {
 			break
@@ -6651,6 +6775,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteMlFinding(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
+	case "Mutation.deleteMlRun":
+		if e.complexity.Mutation.DeleteMlRun == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteMlRun_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteMlRun(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
 	case "Mutation.deleteOAuthProvider":
 		if e.complexity.Mutation.DeleteOAuthProvider == nil {
@@ -7254,6 +7390,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.UpdateMember(childComplexity, args["orgId"].(string), args["userId"].(string), args["input"].(model.UpdateMemberInput)), true
 
+	case "Mutation.updateMlDataset":
+		if e.complexity.Mutation.UpdateMlDataset == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateMlDataset_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateMlDataset(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateMlDatasetInput)), true
+
 	case "Mutation.updateMlDeployment":
 		if e.complexity.Mutation.UpdateMlDeployment == nil {
 			break
@@ -7265,6 +7413,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateMlDeployment(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateMlDeploymentInput)), true
+
+	case "Mutation.updateMlExperiment":
+		if e.complexity.Mutation.UpdateMlExperiment == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateMlExperiment_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateMlExperiment(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateMlExperimentInput)), true
 
 	case "Mutation.updateMlFinding":
 		if e.complexity.Mutation.UpdateMlFinding == nil {
@@ -7289,6 +7449,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateMlModel(childComplexity, args["orgId"].(string), args["id"].(string), args["domain"].(*string), args["problemType"].(*string), args["license"].(*string), args["references"].([]string), args["intendedUse"].(*string), args["limitations"].(*string), args["ethicalConsiderations"].(*string), args["caveats"].(*string)), true
+
+	case "Mutation.updateMlRun":
+		if e.complexity.Mutation.UpdateMlRun == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateMlRun_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateMlRun(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateMlRunInput)), true
 
 	case "Mutation.updateOrg":
 		if e.complexity.Mutation.UpdateOrg == nil {
@@ -11307,9 +11479,13 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateFrameInput,
 		ec.unmarshalInputCreateFrameLinkInput,
 		ec.unmarshalInputCreateMapInput,
+		ec.unmarshalInputCreateMlDatasetInput,
 		ec.unmarshalInputCreateMlDeploymentInput,
+		ec.unmarshalInputCreateMlExperimentInput,
 		ec.unmarshalInputCreateMlFindingInput,
+		ec.unmarshalInputCreateMlModelInput,
 		ec.unmarshalInputCreateMlProjectInput,
+		ec.unmarshalInputCreateMlRunInput,
 		ec.unmarshalInputCreateOrgInput,
 		ec.unmarshalInputCreateRoleMappingInput,
 		ec.unmarshalInputCreateSavedQueryFolderInput,
@@ -11354,8 +11530,11 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateFrameLinkInput,
 		ec.unmarshalInputUpdateMapInput,
 		ec.unmarshalInputUpdateMemberInput,
+		ec.unmarshalInputUpdateMlDatasetInput,
 		ec.unmarshalInputUpdateMlDeploymentInput,
+		ec.unmarshalInputUpdateMlExperimentInput,
 		ec.unmarshalInputUpdateMlFindingInput,
+		ec.unmarshalInputUpdateMlRunInput,
 		ec.unmarshalInputUpdateOrgInput,
 		ec.unmarshalInputUpdateSavedQueryInput,
 		ec.unmarshalInputUpdateServerOrgInput,
@@ -12731,8 +12910,18 @@ extend type Mutation {
     createMlFinding(orgId: ID!, input: CreateMlFindingInput!):                MlFinding!
     updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
     deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
+    createMlModel(orgId: ID!, input: CreateMlModelInput!):                    MlModel!
     updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
     createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
+    createMlExperiment(orgId: ID!, input: CreateMlExperimentInput!):          MlExperiment!
+    updateMlExperiment(orgId: ID!, id: ID!, input: UpdateMlExperimentInput!): MlExperiment!
+    deleteMlExperiment(orgId: ID!, id: ID!):                                  Boolean!
+    createMlRun(orgId: ID!, experimentId: ID!, input: CreateMlRunInput!):     MlRun!
+    updateMlRun(orgId: ID!, id: ID!, input: UpdateMlRunInput!):               MlRun!
+    deleteMlRun(orgId: ID!, id: ID!):                                        Boolean!
+    createMlDataset(orgId: ID!, experimentId: ID!, input: CreateMlDatasetInput!): MlDataset!
+    updateMlDataset(orgId: ID!, id: ID!, input: UpdateMlDatasetInput!):      MlDataset!
+    deleteMlDataset(orgId: ID!, id: ID!):                                    Boolean!
 }
 
 type MlProject {
@@ -12768,6 +12957,7 @@ type MlModel {
     ethicalConsiderations: String!
     caveats:               String!
     productionVersionId:   ID
+    origin:                String!
     createdAt:             Time
     updatedAt:             Time
 }
@@ -12798,6 +12988,7 @@ type MlExperiment {
     description: String!
     status:      String!
     startedAt:   Time
+    source:      String!
 }
 
 type MlRunPage {
@@ -12819,6 +13010,7 @@ type MlRun {
     metrics:      JSON!
     datasetId:    ID
     series:       JSON!
+    source:       String!
     updatedAt:    Time
     syncedAt:     Time
 }
@@ -12853,6 +13045,7 @@ type MlDataset {
     rowCount:     Int!
     schema:       [MlSchemaField!]!
     tags:         JSON!
+    origin:       String!
 }
 
 type MlDeployment {
@@ -12900,6 +13093,15 @@ input UpdateMlDeploymentInput {
     rolledBackAt: Time
 }
 
+input CreateMlModelInput {
+    projectId:   ID!
+    name:        String!
+    description: String
+    domain:      String
+    problemType: String
+    tags:        [String!]
+}
+
 input CreateMlProjectInput {
     name:        String!
     type:        String!
@@ -12922,6 +13124,68 @@ input UpdateMlFindingInput {
     summary:     String
     description: String
     runIds:      [ID!]
+}
+
+input CreateMlExperimentInput {
+    projectId:   ID!
+    name:        String!
+    description: String
+    status:      String
+    startedAt:   Time
+}
+
+input UpdateMlExperimentInput {
+    projectId:   ID
+    name:        String
+    description: String
+    status:      String
+    startedAt:   Time
+}
+
+input CreateMlRunInput {
+    name:       String!
+    status:     String
+    startedAt:  Time
+    endedAt:    Time
+    duration:   String
+    notes:      String
+    parameters: JSON
+    metrics:    JSON
+    datasetId:  ID
+    series:     JSON
+}
+
+input UpdateMlRunInput {
+    name:       String
+    status:     String
+    startedAt:  Time
+    endedAt:    Time
+    duration:   String
+    notes:      String
+    parameters: JSON
+    metrics:    JSON
+    datasetId:  ID
+    series:     JSON
+}
+
+input CreateMlDatasetInput {
+    name:       String!
+    digest:     String
+    source:     String
+    sourceType: String
+    context:    String
+    rowCount:   Int
+    tags:       JSON
+}
+
+input UpdateMlDatasetInput {
+    name:       String
+    digest:     String
+    source:     String
+    sourceType: String
+    context:    String
+    rowCount:   Int
+    tags:       JSON
 }
 `, BuiltIn: false},
 	{Name: "../schema/org.graphqls", Input: `extend type Query {
@@ -15444,6 +15708,80 @@ func (ec *executionContext) field_Mutation_createMap_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_createMlDataset_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createMlDataset_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createMlDataset_argsExperimentID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["experimentId"] = arg1
+	arg2, err := ec.field_Mutation_createMlDataset_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createMlDataset_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlDataset_argsExperimentID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["experimentId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("experimentId"))
+	if tmp, ok := rawArgs["experimentId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlDataset_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateMlDatasetInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateMlDatasetInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateMlDatasetInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlDatasetInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateMlDatasetInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_createMlDeployment_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -15492,6 +15830,57 @@ func (ec *executionContext) field_Mutation_createMlDeployment_argsInput(
 	}
 
 	var zeroVal model.CreateMlDeploymentInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlExperiment_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createMlExperiment_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createMlExperiment_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createMlExperiment_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlExperiment_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateMlExperimentInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateMlExperimentInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateMlExperimentInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlExperimentInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateMlExperimentInput
 	return zeroVal, nil
 }
 
@@ -15546,6 +15935,57 @@ func (ec *executionContext) field_Mutation_createMlFinding_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_createMlModel_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createMlModel_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createMlModel_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createMlModel_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlModel_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateMlModelInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateMlModelInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateMlModelInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlModelInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateMlModelInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_createMlProject_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -15594,6 +16034,80 @@ func (ec *executionContext) field_Mutation_createMlProject_argsInput(
 	}
 
 	var zeroVal model.CreateMlProjectInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlRun_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createMlRun_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createMlRun_argsExperimentID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["experimentId"] = arg1
+	arg2, err := ec.field_Mutation_createMlRun_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createMlRun_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlRun_argsExperimentID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["experimentId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("experimentId"))
+	if tmp, ok := rawArgs["experimentId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlRun_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateMlRunInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateMlRunInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateMlRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlRunInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateMlRunInput
 	return zeroVal, nil
 }
 
@@ -17832,6 +18346,57 @@ func (ec *executionContext) field_Mutation_deleteMap_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_deleteMlDataset_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteMlDataset_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteMlDataset_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteMlDataset_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteMlDataset_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_deleteMlDeployment_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -17883,6 +18448,57 @@ func (ec *executionContext) field_Mutation_deleteMlDeployment_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_deleteMlExperiment_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteMlExperiment_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteMlExperiment_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteMlExperiment_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteMlExperiment_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_deleteMlFinding_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -17917,6 +18533,57 @@ func (ec *executionContext) field_Mutation_deleteMlFinding_argsOrgID(
 }
 
 func (ec *executionContext) field_Mutation_deleteMlFinding_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteMlRun_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteMlRun_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteMlRun_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteMlRun_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteMlRun_argsID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
@@ -21215,6 +21882,80 @@ func (ec *executionContext) field_Mutation_updateMember_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_updateMlDataset_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateMlDataset_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateMlDataset_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	arg2, err := ec.field_Mutation_updateMlDataset_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateMlDataset_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlDataset_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlDataset_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateMlDatasetInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateMlDatasetInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateMlDatasetInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlDatasetInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateMlDatasetInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_updateMlDeployment_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -21286,6 +22027,80 @@ func (ec *executionContext) field_Mutation_updateMlDeployment_argsInput(
 	}
 
 	var zeroVal model.UpdateMlDeploymentInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlExperiment_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateMlExperiment_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateMlExperiment_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	arg2, err := ec.field_Mutation_updateMlExperiment_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateMlExperiment_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlExperiment_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlExperiment_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateMlExperimentInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateMlExperimentInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateMlExperimentInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlExperimentInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateMlExperimentInput
 	return zeroVal, nil
 }
 
@@ -21595,6 +22410,80 @@ func (ec *executionContext) field_Mutation_updateMlModel_argsCaveats(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlRun_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateMlRun_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateMlRun_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	arg2, err := ec.field_Mutation_updateMlRun_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateMlRun_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlRun_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlRun_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateMlRunInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateMlRunInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateMlRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlRunInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateMlRunInput
 	return zeroVal, nil
 }
 
@@ -50822,6 +51711,50 @@ func (ec *executionContext) fieldContext_MlDataset_tags(_ context.Context, field
 	return fc, nil
 }
 
+func (ec *executionContext) _MlDataset_origin(ctx context.Context, field graphql.CollectedField, obj *model.MlDataset) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlDataset_origin(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Origin, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlDataset_origin(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlDataset",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlDeployment_id(ctx context.Context, field graphql.CollectedField, obj *model.MlDeployment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlDeployment_id(ctx, field)
 	if err != nil {
@@ -51509,6 +52442,50 @@ func (ec *executionContext) fieldContext_MlExperiment_startedAt(_ context.Contex
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlExperiment_source(ctx context.Context, field graphql.CollectedField, obj *model.MlExperiment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlExperiment_source(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Source, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlExperiment_source(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlExperiment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -52424,6 +53401,50 @@ func (ec *executionContext) fieldContext_MlModel_productionVersionId(_ context.C
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModel_origin(ctx context.Context, field graphql.CollectedField, obj *model.MlModel) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModel_origin(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Origin, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModel_origin(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModel",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -53903,6 +54924,50 @@ func (ec *executionContext) fieldContext_MlRun_series(_ context.Context, field g
 	return fc, nil
 }
 
+func (ec *executionContext) _MlRun_source(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlRun_source(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Source, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlRun_source(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlRun",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlRun_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlRun_updatedAt(ctx, field)
 	if err != nil {
@@ -54050,6 +55115,8 @@ func (ec *executionContext) fieldContext_MlRunPage_runs(_ context.Context, field
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
 			case "series":
 				return ec.fieldContext_MlRun_series(ctx, field)
+			case "source":
+				return ec.fieldContext_MlRun_source(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_MlRun_updatedAt(ctx, field)
 			case "syncedAt":
@@ -60140,6 +61207,97 @@ func (ec *executionContext) fieldContext_Mutation_deleteMlFinding(ctx context.Co
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createMlModel(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createMlModel(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMlModel(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateMlModelInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlModel)
+	fc.Result = res
+	return ec.marshalNMlModel2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModel(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createMlModel(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlModel_id(ctx, field)
+			case "projectId":
+				return ec.fieldContext_MlModel_projectId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlModel_name(ctx, field)
+			case "description":
+				return ec.fieldContext_MlModel_description(ctx, field)
+			case "domain":
+				return ec.fieldContext_MlModel_domain(ctx, field)
+			case "problemType":
+				return ec.fieldContext_MlModel_problemType(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlModel_tags(ctx, field)
+			case "license":
+				return ec.fieldContext_MlModel_license(ctx, field)
+			case "references":
+				return ec.fieldContext_MlModel_references(ctx, field)
+			case "intendedUse":
+				return ec.fieldContext_MlModel_intendedUse(ctx, field)
+			case "limitations":
+				return ec.fieldContext_MlModel_limitations(ctx, field)
+			case "ethicalConsiderations":
+				return ec.fieldContext_MlModel_ethicalConsiderations(ctx, field)
+			case "caveats":
+				return ec.fieldContext_MlModel_caveats(ctx, field)
+			case "productionVersionId":
+				return ec.fieldContext_MlModel_productionVersionId(ctx, field)
+			case "origin":
+				return ec.fieldContext_MlModel_origin(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlModel_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlModel_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlModel", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createMlModel_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_updateMlModel(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_updateMlModel(ctx, field)
 	if err != nil {
@@ -60207,6 +61365,8 @@ func (ec *executionContext) fieldContext_Mutation_updateMlModel(ctx context.Cont
 				return ec.fieldContext_MlModel_caveats(ctx, field)
 			case "productionVersionId":
 				return ec.fieldContext_MlModel_productionVersionId(ctx, field)
+			case "origin":
+				return ec.fieldContext_MlModel_origin(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_MlModel_createdAt(ctx, field)
 			case "updatedAt":
@@ -60292,6 +61452,649 @@ func (ec *executionContext) fieldContext_Mutation_createMlVersionDeploymentUpdat
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createMlVersionDeploymentUpdate_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createMlExperiment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createMlExperiment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMlExperiment(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateMlExperimentInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlExperiment)
+	fc.Result = res
+	return ec.marshalNMlExperiment2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlExperiment(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createMlExperiment(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlExperiment_id(ctx, field)
+			case "projectId":
+				return ec.fieldContext_MlExperiment_projectId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlExperiment_name(ctx, field)
+			case "description":
+				return ec.fieldContext_MlExperiment_description(ctx, field)
+			case "status":
+				return ec.fieldContext_MlExperiment_status(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlExperiment_startedAt(ctx, field)
+			case "source":
+				return ec.fieldContext_MlExperiment_source(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlExperiment", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createMlExperiment_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateMlExperiment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateMlExperiment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMlExperiment(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateMlExperimentInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlExperiment)
+	fc.Result = res
+	return ec.marshalNMlExperiment2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlExperiment(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateMlExperiment(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlExperiment_id(ctx, field)
+			case "projectId":
+				return ec.fieldContext_MlExperiment_projectId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlExperiment_name(ctx, field)
+			case "description":
+				return ec.fieldContext_MlExperiment_description(ctx, field)
+			case "status":
+				return ec.fieldContext_MlExperiment_status(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlExperiment_startedAt(ctx, field)
+			case "source":
+				return ec.fieldContext_MlExperiment_source(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlExperiment", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateMlExperiment_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteMlExperiment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteMlExperiment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteMlExperiment(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteMlExperiment(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteMlExperiment_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createMlRun(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createMlRun(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMlRun(rctx, fc.Args["orgId"].(string), fc.Args["experimentId"].(string), fc.Args["input"].(model.CreateMlRunInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlRun)
+	fc.Result = res
+	return ec.marshalNMlRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlRun(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createMlRun(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlRun_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlRun_orgId(ctx, field)
+			case "experimentId":
+				return ec.fieldContext_MlRun_experimentId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlRun_name(ctx, field)
+			case "status":
+				return ec.fieldContext_MlRun_status(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlRun_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlRun_endedAt(ctx, field)
+			case "duration":
+				return ec.fieldContext_MlRun_duration(ctx, field)
+			case "notes":
+				return ec.fieldContext_MlRun_notes(ctx, field)
+			case "parameters":
+				return ec.fieldContext_MlRun_parameters(ctx, field)
+			case "metrics":
+				return ec.fieldContext_MlRun_metrics(ctx, field)
+			case "datasetId":
+				return ec.fieldContext_MlRun_datasetId(ctx, field)
+			case "series":
+				return ec.fieldContext_MlRun_series(ctx, field)
+			case "source":
+				return ec.fieldContext_MlRun_source(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlRun_updatedAt(ctx, field)
+			case "syncedAt":
+				return ec.fieldContext_MlRun_syncedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlRun", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createMlRun_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateMlRun(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateMlRun(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMlRun(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateMlRunInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlRun)
+	fc.Result = res
+	return ec.marshalNMlRun2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlRun(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateMlRun(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlRun_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlRun_orgId(ctx, field)
+			case "experimentId":
+				return ec.fieldContext_MlRun_experimentId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlRun_name(ctx, field)
+			case "status":
+				return ec.fieldContext_MlRun_status(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlRun_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlRun_endedAt(ctx, field)
+			case "duration":
+				return ec.fieldContext_MlRun_duration(ctx, field)
+			case "notes":
+				return ec.fieldContext_MlRun_notes(ctx, field)
+			case "parameters":
+				return ec.fieldContext_MlRun_parameters(ctx, field)
+			case "metrics":
+				return ec.fieldContext_MlRun_metrics(ctx, field)
+			case "datasetId":
+				return ec.fieldContext_MlRun_datasetId(ctx, field)
+			case "series":
+				return ec.fieldContext_MlRun_series(ctx, field)
+			case "source":
+				return ec.fieldContext_MlRun_source(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlRun_updatedAt(ctx, field)
+			case "syncedAt":
+				return ec.fieldContext_MlRun_syncedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlRun", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateMlRun_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteMlRun(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteMlRun(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteMlRun(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteMlRun(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteMlRun_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createMlDataset(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createMlDataset(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMlDataset(rctx, fc.Args["orgId"].(string), fc.Args["experimentId"].(string), fc.Args["input"].(model.CreateMlDatasetInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlDataset)
+	fc.Result = res
+	return ec.marshalNMlDataset2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlDataset(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createMlDataset(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlDataset_id(ctx, field)
+			case "experimentId":
+				return ec.fieldContext_MlDataset_experimentId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlDataset_name(ctx, field)
+			case "digest":
+				return ec.fieldContext_MlDataset_digest(ctx, field)
+			case "source":
+				return ec.fieldContext_MlDataset_source(ctx, field)
+			case "sourceType":
+				return ec.fieldContext_MlDataset_sourceType(ctx, field)
+			case "context":
+				return ec.fieldContext_MlDataset_context(ctx, field)
+			case "rowCount":
+				return ec.fieldContext_MlDataset_rowCount(ctx, field)
+			case "schema":
+				return ec.fieldContext_MlDataset_schema(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlDataset_tags(ctx, field)
+			case "origin":
+				return ec.fieldContext_MlDataset_origin(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlDataset", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createMlDataset_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateMlDataset(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateMlDataset(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMlDataset(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateMlDatasetInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlDataset)
+	fc.Result = res
+	return ec.marshalNMlDataset2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlDataset(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateMlDataset(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlDataset_id(ctx, field)
+			case "experimentId":
+				return ec.fieldContext_MlDataset_experimentId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlDataset_name(ctx, field)
+			case "digest":
+				return ec.fieldContext_MlDataset_digest(ctx, field)
+			case "source":
+				return ec.fieldContext_MlDataset_source(ctx, field)
+			case "sourceType":
+				return ec.fieldContext_MlDataset_sourceType(ctx, field)
+			case "context":
+				return ec.fieldContext_MlDataset_context(ctx, field)
+			case "rowCount":
+				return ec.fieldContext_MlDataset_rowCount(ctx, field)
+			case "schema":
+				return ec.fieldContext_MlDataset_schema(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlDataset_tags(ctx, field)
+			case "origin":
+				return ec.fieldContext_MlDataset_origin(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlDataset", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateMlDataset_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteMlDataset(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteMlDataset(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteMlDataset(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteMlDataset(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteMlDataset_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -70083,6 +71886,8 @@ func (ec *executionContext) fieldContext_Query_mlModels(ctx context.Context, fie
 				return ec.fieldContext_MlModel_caveats(ctx, field)
 			case "productionVersionId":
 				return ec.fieldContext_MlModel_productionVersionId(ctx, field)
+			case "origin":
+				return ec.fieldContext_MlModel_origin(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_MlModel_createdAt(ctx, field)
 			case "updatedAt":
@@ -70172,6 +71977,8 @@ func (ec *executionContext) fieldContext_Query_mlModel(ctx context.Context, fiel
 				return ec.fieldContext_MlModel_caveats(ctx, field)
 			case "productionVersionId":
 				return ec.fieldContext_MlModel_productionVersionId(ctx, field)
+			case "origin":
+				return ec.fieldContext_MlModel_origin(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_MlModel_createdAt(ctx, field)
 			case "updatedAt":
@@ -70387,6 +72194,8 @@ func (ec *executionContext) fieldContext_Query_mlExperiments(ctx context.Context
 				return ec.fieldContext_MlExperiment_status(ctx, field)
 			case "startedAt":
 				return ec.fieldContext_MlExperiment_startedAt(ctx, field)
+			case "source":
+				return ec.fieldContext_MlExperiment_source(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlExperiment", field.Name)
 		},
@@ -70456,6 +72265,8 @@ func (ec *executionContext) fieldContext_Query_mlExperiment(ctx context.Context,
 				return ec.fieldContext_MlExperiment_status(ctx, field)
 			case "startedAt":
 				return ec.fieldContext_MlExperiment_startedAt(ctx, field)
+			case "source":
+				return ec.fieldContext_MlExperiment_source(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlExperiment", field.Name)
 		},
@@ -70539,6 +72350,8 @@ func (ec *executionContext) fieldContext_Query_mlRuns(ctx context.Context, field
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
 			case "series":
 				return ec.fieldContext_MlRun_series(ctx, field)
+			case "source":
+				return ec.fieldContext_MlRun_source(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_MlRun_updatedAt(ctx, field)
 			case "syncedAt":
@@ -70687,6 +72500,8 @@ func (ec *executionContext) fieldContext_Query_mlRun(ctx context.Context, field 
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
 			case "series":
 				return ec.fieldContext_MlRun_series(ctx, field)
+			case "source":
+				return ec.fieldContext_MlRun_source(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_MlRun_updatedAt(ctx, field)
 			case "syncedAt":
@@ -70845,6 +72660,8 @@ func (ec *executionContext) fieldContext_Query_mlDatasets(ctx context.Context, f
 				return ec.fieldContext_MlDataset_schema(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlDataset_tags(ctx, field)
+			case "origin":
+				return ec.fieldContext_MlDataset_origin(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlDataset", field.Name)
 		},
@@ -70922,6 +72739,8 @@ func (ec *executionContext) fieldContext_Query_mlDataset(ctx context.Context, fi
 				return ec.fieldContext_MlDataset_schema(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlDataset_tags(ctx, field)
+			case "origin":
+				return ec.fieldContext_MlDataset_origin(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlDataset", field.Name)
 		},
@@ -91924,6 +93743,75 @@ func (ec *executionContext) unmarshalInputCreateMapInput(ctx context.Context, ob
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateMlDatasetInput(ctx context.Context, obj any) (model.CreateMlDatasetInput, error) {
+	var it model.CreateMlDatasetInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "digest", "source", "sourceType", "context", "rowCount", "tags"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "digest":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("digest"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Digest = data
+		case "source":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("source"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Source = data
+		case "sourceType":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sourceType"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SourceType = data
+		case "context":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("context"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Context = data
+		case "rowCount":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("rowCount"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RowCount = data
+		case "tags":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tags = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateMlDeploymentInput(ctx context.Context, obj any) (model.CreateMlDeploymentInput, error) {
 	var it model.CreateMlDeploymentInput
 	asMap := map[string]any{}
@@ -92007,6 +93895,61 @@ func (ec *executionContext) unmarshalInputCreateMlDeploymentInput(ctx context.Co
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateMlExperimentInput(ctx context.Context, obj any) (model.CreateMlExperimentInput, error) {
+	var it model.CreateMlExperimentInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"projectId", "name", "description", "status", "startedAt"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "projectId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+			data, err := ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ProjectID = data
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "status":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Status = data
+		case "startedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.StartedAt = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateMlFindingInput(ctx context.Context, obj any) (model.CreateMlFindingInput, error) {
 	var it model.CreateMlFindingInput
 	asMap := map[string]any{}
@@ -92069,6 +94012,68 @@ func (ec *executionContext) unmarshalInputCreateMlFindingInput(ctx context.Conte
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateMlModelInput(ctx context.Context, obj any) (model.CreateMlModelInput, error) {
+	var it model.CreateMlModelInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"projectId", "name", "description", "domain", "problemType", "tags"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "projectId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+			data, err := ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ProjectID = data
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "domain":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("domain"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Domain = data
+		case "problemType":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("problemType"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ProblemType = data
+		case "tags":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tags = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateMlProjectInput(ctx context.Context, obj any) (model.CreateMlProjectInput, error) {
 	var it model.CreateMlProjectInput
 	asMap := map[string]any{}
@@ -92111,6 +94116,96 @@ func (ec *executionContext) unmarshalInputCreateMlProjectInput(ctx context.Conte
 				return it, err
 			}
 			it.TeamID = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputCreateMlRunInput(ctx context.Context, obj any) (model.CreateMlRunInput, error) {
+	var it model.CreateMlRunInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "duration", "notes", "parameters", "metrics", "datasetId", "series"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "status":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Status = data
+		case "startedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.StartedAt = data
+		case "endedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EndedAt = data
+		case "duration":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("duration"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Duration = data
+		case "notes":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notes"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Notes = data
+		case "parameters":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parameters"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Parameters = data
+		case "metrics":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("metrics"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Metrics = data
+		case "datasetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("datasetId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DatasetID = data
+		case "series":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("series"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Series = data
 		}
 	}
 
@@ -94838,6 +96933,75 @@ func (ec *executionContext) unmarshalInputUpdateMemberInput(ctx context.Context,
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateMlDatasetInput(ctx context.Context, obj any) (model.UpdateMlDatasetInput, error) {
+	var it model.UpdateMlDatasetInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "digest", "source", "sourceType", "context", "rowCount", "tags"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "digest":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("digest"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Digest = data
+		case "source":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("source"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Source = data
+		case "sourceType":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sourceType"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SourceType = data
+		case "context":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("context"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Context = data
+		case "rowCount":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("rowCount"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RowCount = data
+		case "tags":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tags = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateMlDeploymentInput(ctx context.Context, obj any) (model.UpdateMlDeploymentInput, error) {
 	var it model.UpdateMlDeploymentInput
 	asMap := map[string]any{}
@@ -94907,6 +97071,61 @@ func (ec *executionContext) unmarshalInputUpdateMlDeploymentInput(ctx context.Co
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateMlExperimentInput(ctx context.Context, obj any) (model.UpdateMlExperimentInput, error) {
+	var it model.UpdateMlExperimentInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"projectId", "name", "description", "status", "startedAt"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "projectId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ProjectID = data
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "status":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Status = data
+		case "startedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.StartedAt = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateMlFindingInput(ctx context.Context, obj any) (model.UpdateMlFindingInput, error) {
 	var it model.UpdateMlFindingInput
 	asMap := map[string]any{}
@@ -94956,6 +97175,96 @@ func (ec *executionContext) unmarshalInputUpdateMlFindingInput(ctx context.Conte
 				return it, err
 			}
 			it.RunIds = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdateMlRunInput(ctx context.Context, obj any) (model.UpdateMlRunInput, error) {
+	var it model.UpdateMlRunInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "duration", "notes", "parameters", "metrics", "datasetId", "series"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "status":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Status = data
+		case "startedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.StartedAt = data
+		case "endedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EndedAt = data
+		case "duration":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("duration"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Duration = data
+		case "notes":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notes"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Notes = data
+		case "parameters":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parameters"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Parameters = data
+		case "metrics":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("metrics"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Metrics = data
+		case "datasetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("datasetId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DatasetID = data
+		case "series":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("series"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Series = data
 		}
 	}
 
@@ -100424,6 +102733,11 @@ func (ec *executionContext) _MlDataset(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "origin":
+			out.Values[i] = ec._MlDataset_origin(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -100560,6 +102874,11 @@ func (ec *executionContext) _MlExperiment(ctx context.Context, sel ast.Selection
 			}
 		case "startedAt":
 			out.Values[i] = ec._MlExperiment_startedAt(ctx, field, obj)
+		case "source":
+			out.Values[i] = ec._MlExperiment_source(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -100724,6 +103043,11 @@ func (ec *executionContext) _MlModel(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "productionVersionId":
 			out.Values[i] = ec._MlModel_productionVersionId(ctx, field, obj)
+		case "origin":
+			out.Values[i] = ec._MlModel_origin(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createdAt":
 			out.Values[i] = ec._MlModel_createdAt(ctx, field, obj)
 		case "updatedAt":
@@ -101031,6 +103355,11 @@ func (ec *executionContext) _MlRun(ctx context.Context, sel ast.SelectionSet, ob
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "source":
+			out.Values[i] = ec._MlRun_source(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		case "updatedAt":
 			out.Values[i] = ec._MlRun_updatedAt(ctx, field, obj)
 		case "syncedAt":
@@ -101829,6 +104158,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "createMlModel":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMlModel(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "updateMlModel":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateMlModel(ctx, field)
@@ -101839,6 +104175,69 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "createMlVersionDeploymentUpdate":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createMlVersionDeploymentUpdate(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createMlExperiment":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMlExperiment(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateMlExperiment":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateMlExperiment(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteMlExperiment":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteMlExperiment(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createMlRun":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMlRun(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateMlRun":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateMlRun(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteMlRun":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteMlRun(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createMlDataset":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMlDataset(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateMlDataset":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateMlDataset(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteMlDataset":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteMlDataset(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -108767,8 +111166,18 @@ func (ec *executionContext) unmarshalNCreateMapInput2githubᚗcomᚋuigraphᚋgr
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateMlDatasetInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlDatasetInput(ctx context.Context, v any) (model.CreateMlDatasetInput, error) {
+	res, err := ec.unmarshalInputCreateMlDatasetInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateMlDeploymentInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlDeploymentInput(ctx context.Context, v any) (model.CreateMlDeploymentInput, error) {
 	res, err := ec.unmarshalInputCreateMlDeploymentInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCreateMlExperimentInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlExperimentInput(ctx context.Context, v any) (model.CreateMlExperimentInput, error) {
+	res, err := ec.unmarshalInputCreateMlExperimentInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -108777,8 +111186,18 @@ func (ec *executionContext) unmarshalNCreateMlFindingInput2githubᚗcomᚋuigrap
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateMlModelInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlModelInput(ctx context.Context, v any) (model.CreateMlModelInput, error) {
+	res, err := ec.unmarshalInputCreateMlModelInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateMlProjectInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlProjectInput(ctx context.Context, v any) (model.CreateMlProjectInput, error) {
 	res, err := ec.unmarshalInputCreateMlProjectInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCreateMlRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlRunInput(ctx context.Context, v any) (model.CreateMlRunInput, error) {
+	res, err := ec.unmarshalInputCreateMlRunInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -112311,13 +114730,28 @@ func (ec *executionContext) unmarshalNUpdateMemberInput2githubᚗcomᚋuigraph�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNUpdateMlDatasetInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlDatasetInput(ctx context.Context, v any) (model.UpdateMlDatasetInput, error) {
+	res, err := ec.unmarshalInputUpdateMlDatasetInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNUpdateMlDeploymentInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlDeploymentInput(ctx context.Context, v any) (model.UpdateMlDeploymentInput, error) {
 	res, err := ec.unmarshalInputUpdateMlDeploymentInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNUpdateMlExperimentInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlExperimentInput(ctx context.Context, v any) (model.UpdateMlExperimentInput, error) {
+	res, err := ec.unmarshalInputUpdateMlExperimentInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNUpdateMlFindingInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlFindingInput(ctx context.Context, v any) (model.UpdateMlFindingInput, error) {
 	res, err := ec.unmarshalInputUpdateMlFindingInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateMlRunInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlRunInput(ctx context.Context, v any) (model.UpdateMlRunInput, error) {
+	res, err := ec.unmarshalInputUpdateMlRunInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

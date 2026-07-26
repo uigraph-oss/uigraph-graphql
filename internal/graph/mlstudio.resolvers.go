@@ -77,6 +77,15 @@ func (r *mutationResolver) DeleteMlFinding(ctx context.Context, orgID string, id
 	return true, r.MLStudio.DeleteMLFinding(ctx, orgID, id)
 }
 
+// CreateMlModel is the resolver for the createMlModel field.
+func (r *mutationResolver) CreateMlModel(ctx context.Context, orgID string, input model.CreateMlModelInput) (*model.MlModel, error) {
+	m, err := r.MLStudio.CreateMLModel(ctx, orgID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLModelToModel(m), nil
+}
+
 // UpdateMlModel is the resolver for the updateMlModel field.
 func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error) {
 	body := map[string]interface{}{
@@ -103,6 +112,75 @@ func (r *mutationResolver) CreateMlVersionDeploymentUpdate(ctx context.Context, 
 		return nil, err
 	}
 	return convert.MLVersionDeploymentUpdateToModel(u), nil
+}
+
+// CreateMlExperiment is the resolver for the createMlExperiment field.
+func (r *mutationResolver) CreateMlExperiment(ctx context.Context, orgID string, input model.CreateMlExperimentInput) (*model.MlExperiment, error) {
+	e, err := r.MLStudio.CreateMLExperiment(ctx, orgID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLExperimentToModel(e), nil
+}
+
+// UpdateMlExperiment is the resolver for the updateMlExperiment field.
+func (r *mutationResolver) UpdateMlExperiment(ctx context.Context, orgID string, id string, input model.UpdateMlExperimentInput) (*model.MlExperiment, error) {
+	e, err := r.MLStudio.UpdateMLExperiment(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLExperimentToModel(e), nil
+}
+
+// DeleteMlExperiment is the resolver for the deleteMlExperiment field.
+func (r *mutationResolver) DeleteMlExperiment(ctx context.Context, orgID string, id string) (bool, error) {
+	return true, r.MLStudio.DeleteMLExperiment(ctx, orgID, id)
+}
+
+// CreateMlRun is the resolver for the createMlRun field.
+func (r *mutationResolver) CreateMlRun(ctx context.Context, orgID string, experimentID string, input model.CreateMlRunInput) (*model.MlRun, error) {
+	run, err := r.MLStudio.CreateMLRun(ctx, orgID, experimentID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLRunToModel(run), nil
+}
+
+// UpdateMlRun is the resolver for the updateMlRun field.
+func (r *mutationResolver) UpdateMlRun(ctx context.Context, orgID string, id string, input model.UpdateMlRunInput) (*model.MlRun, error) {
+	run, err := r.MLStudio.UpdateMLRun(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLRunToModel(run), nil
+}
+
+// DeleteMlRun is the resolver for the deleteMlRun field.
+func (r *mutationResolver) DeleteMlRun(ctx context.Context, orgID string, id string) (bool, error) {
+	return true, r.MLStudio.DeleteMLRun(ctx, orgID, id)
+}
+
+// CreateMlDataset is the resolver for the createMlDataset field.
+func (r *mutationResolver) CreateMlDataset(ctx context.Context, orgID string, experimentID string, input model.CreateMlDatasetInput) (*model.MlDataset, error) {
+	ds, err := r.MLStudio.CreateMLDataset(ctx, orgID, experimentID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLDatasetToModel(ds), nil
+}
+
+// UpdateMlDataset is the resolver for the updateMlDataset field.
+func (r *mutationResolver) UpdateMlDataset(ctx context.Context, orgID string, id string, input model.UpdateMlDatasetInput) (*model.MlDataset, error) {
+	ds, err := r.MLStudio.UpdateMLDataset(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLDatasetToModel(ds), nil
+}
+
+// DeleteMlDataset is the resolver for the deleteMlDataset field.
+func (r *mutationResolver) DeleteMlDataset(ctx context.Context, orgID string, id string) (bool, error) {
+	return true, r.MLStudio.DeleteMLDataset(ctx, orgID, id)
 }
 
 // MlProjects is the resolver for the mlProjects field.

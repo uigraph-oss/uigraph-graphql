@@ -26,8 +26,18 @@ extend type Mutation {
     createMlFinding(orgId: ID!, input: CreateMlFindingInput!):                MlFinding!
     updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
     deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
+    createMlModel(orgId: ID!, input: CreateMlModelInput!):                    MlModel!
     updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
     createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
+    createMlExperiment(orgId: ID!, input: CreateMlExperimentInput!):          MlExperiment!
+    updateMlExperiment(orgId: ID!, id: ID!, input: UpdateMlExperimentInput!): MlExperiment!
+    deleteMlExperiment(orgId: ID!, id: ID!):                                  Boolean!
+    createMlRun(orgId: ID!, experimentId: ID!, input: CreateMlRunInput!):     MlRun!
+    updateMlRun(orgId: ID!, id: ID!, input: UpdateMlRunInput!):               MlRun!
+    deleteMlRun(orgId: ID!, id: ID!):                                        Boolean!
+    createMlDataset(orgId: ID!, experimentId: ID!, input: CreateMlDatasetInput!): MlDataset!
+    updateMlDataset(orgId: ID!, id: ID!, input: UpdateMlDatasetInput!):      MlDataset!
+    deleteMlDataset(orgId: ID!, id: ID!):                                    Boolean!
 }
 
 type MlProject {
@@ -63,6 +73,7 @@ type MlModel {
     ethicalConsiderations: String!
     caveats:               String!
     productionVersionId:   ID
+    origin:                String!
     createdAt:             Time
     updatedAt:             Time
 }
@@ -93,6 +104,7 @@ type MlExperiment {
     description: String!
     status:      String!
     startedAt:   Time
+    source:      String!
 }
 
 type MlRunPage {
@@ -114,6 +126,7 @@ type MlRun {
     metrics:      JSON!
     datasetId:    ID
     series:       JSON!
+    source:       String!
     updatedAt:    Time
     syncedAt:     Time
 }
@@ -148,6 +161,7 @@ type MlDataset {
     rowCount:     Int!
     schema:       [MlSchemaField!]!
     tags:         JSON!
+    origin:       String!
 }
 
 type MlDeployment {
@@ -195,6 +209,15 @@ input UpdateMlDeploymentInput {
     rolledBackAt: Time
 }
 
+input CreateMlModelInput {
+    projectId:   ID!
+    name:        String!
+    description: String
+    domain:      String
+    problemType: String
+    tags:        [String!]
+}
+
 input CreateMlProjectInput {
     name:        String!
     type:        String!
@@ -217,4 +240,66 @@ input UpdateMlFindingInput {
     summary:     String
     description: String
     runIds:      [ID!]
+}
+
+input CreateMlExperimentInput {
+    projectId:   ID!
+    name:        String!
+    description: String
+    status:      String
+    startedAt:   Time
+}
+
+input UpdateMlExperimentInput {
+    projectId:   ID
+    name:        String
+    description: String
+    status:      String
+    startedAt:   Time
+}
+
+input CreateMlRunInput {
+    name:       String!
+    status:     String
+    startedAt:  Time
+    endedAt:    Time
+    duration:   String
+    notes:      String
+    parameters: JSON
+    metrics:    JSON
+    datasetId:  ID
+    series:     JSON
+}
+
+input UpdateMlRunInput {
+    name:       String
+    status:     String
+    startedAt:  Time
+    endedAt:    Time
+    duration:   String
+    notes:      String
+    parameters: JSON
+    metrics:    JSON
+    datasetId:  ID
+    series:     JSON
+}
+
+input CreateMlDatasetInput {
+    name:       String!
+    digest:     String
+    source:     String
+    sourceType: String
+    context:    String
+    rowCount:   Int
+    tags:       JSON
+}
+
+input UpdateMlDatasetInput {
+    name:       String
+    digest:     String
+    source:     String
+    sourceType: String
+    context:    String
+    rowCount:   Int
+    tags:       JSON
 }
