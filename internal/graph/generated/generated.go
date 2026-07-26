@@ -47,7 +47,6 @@ type ResolverRoot interface {
 	DiagramVersion() DiagramVersionResolver
 	Doc() DocResolver
 	Frame() FrameResolver
-	MlRun() MlRunResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 	SavedQuery() SavedQueryResolver
@@ -744,16 +743,6 @@ type ComplexityRoot struct {
 		VersionID   func(childComplexity int) int
 	}
 
-	MlEvaluationMetric struct {
-		Category   func(childComplexity int) int
-		Direction  func(childComplexity int) int
-		ID         func(childComplexity int) int
-		MeasuredAt func(childComplexity int) int
-		Name       func(childComplexity int) int
-		Unit       func(childComplexity int) int
-		Value      func(childComplexity int) int
-	}
-
 	MlExperiment struct {
 		CreatedBy   func(childComplexity int) int
 		Description func(childComplexity int) int
@@ -834,7 +823,6 @@ type ComplexityRoot struct {
 		Notes        func(childComplexity int) int
 		OrgID        func(childComplexity int) int
 		Parameters   func(childComplexity int) int
-		Series       func(childComplexity int) int
 		Source       func(childComplexity int) int
 		StartedAt    func(childComplexity int) int
 		Status       func(childComplexity int) int
@@ -1641,9 +1629,6 @@ type FrameResolver interface {
 
 	CreatedByActor(ctx context.Context, obj *model.Frame) (*model.Actor, error)
 	UpdatedByActor(ctx context.Context, obj *model.Frame) (*model.Actor, error)
-}
-type MlRunResolver interface {
-	Series(ctx context.Context, obj *model.MlRun) (any, error)
 }
 type MutationResolver interface {
 	CreateServerOrg(ctx context.Context, input model.CreateServerOrgInput) (*model.Org, error)
@@ -5501,55 +5486,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlEvaluation.VersionID(childComplexity), true
 
-	case "MlEvaluationMetric.category":
-		if e.complexity.MlEvaluationMetric.Category == nil {
-			break
-		}
-
-		return e.complexity.MlEvaluationMetric.Category(childComplexity), true
-
-	case "MlEvaluationMetric.direction":
-		if e.complexity.MlEvaluationMetric.Direction == nil {
-			break
-		}
-
-		return e.complexity.MlEvaluationMetric.Direction(childComplexity), true
-
-	case "MlEvaluationMetric.id":
-		if e.complexity.MlEvaluationMetric.ID == nil {
-			break
-		}
-
-		return e.complexity.MlEvaluationMetric.ID(childComplexity), true
-
-	case "MlEvaluationMetric.measuredAt":
-		if e.complexity.MlEvaluationMetric.MeasuredAt == nil {
-			break
-		}
-
-		return e.complexity.MlEvaluationMetric.MeasuredAt(childComplexity), true
-
-	case "MlEvaluationMetric.name":
-		if e.complexity.MlEvaluationMetric.Name == nil {
-			break
-		}
-
-		return e.complexity.MlEvaluationMetric.Name(childComplexity), true
-
-	case "MlEvaluationMetric.unit":
-		if e.complexity.MlEvaluationMetric.Unit == nil {
-			break
-		}
-
-		return e.complexity.MlEvaluationMetric.Unit(childComplexity), true
-
-	case "MlEvaluationMetric.value":
-		if e.complexity.MlEvaluationMetric.Value == nil {
-			break
-		}
-
-		return e.complexity.MlEvaluationMetric.Value(childComplexity), true
-
 	case "MlExperiment.createdBy":
 		if e.complexity.MlExperiment.CreatedBy == nil {
 			break
@@ -5976,13 +5912,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlRun.Parameters(childComplexity), true
-
-	case "MlRun.series":
-		if e.complexity.MlRun.Series == nil {
-			break
-		}
-
-		return e.complexity.MlRun.Series(childComplexity), true
 
 	case "MlRun.source":
 		if e.complexity.MlRun.Source == nil {
@@ -13245,7 +13174,6 @@ type MlRun {
     parameters:   JSON!
     metrics:      JSON!
     datasetId:    ID
-    series:       JSON!
     source:       String!
     updatedAt:    Time
     syncedAt:     Time
@@ -13297,16 +13225,6 @@ type MlDeployment {
     rolledBackAt: Time
 }
 
-type MlEvaluationMetric {
-    id:         ID!
-    name:       String!
-    value:      Float!
-    unit:       String!
-    direction:  String!
-    category:   String!
-    measuredAt: Time
-}
-
 type MlEvaluation {
     id:          ID!
     versionId:   ID!
@@ -13318,7 +13236,7 @@ type MlEvaluation {
     evaluatedAt: Time
     evaluator:   String!
     parameters:  JSON!
-    metrics:     [MlEvaluationMetric!]!
+    metrics:     JSON!
 }
 
 type MlFinding {
@@ -53225,9 +53143,9 @@ func (ec *executionContext) _MlEvaluation_metrics(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.MlEvaluationMetric)
+	res := resTmp.(any)
 	fc.Result = res
-	return ec.marshalNMlEvaluationMetric2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationMetricᚄ(ctx, field.Selections, res)
+	return ec.marshalNJSON2interface(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MlEvaluation_metrics(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -53237,328 +53155,7 @@ func (ec *executionContext) fieldContext_MlEvaluation_metrics(_ context.Context,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_MlEvaluationMetric_id(ctx, field)
-			case "name":
-				return ec.fieldContext_MlEvaluationMetric_name(ctx, field)
-			case "value":
-				return ec.fieldContext_MlEvaluationMetric_value(ctx, field)
-			case "unit":
-				return ec.fieldContext_MlEvaluationMetric_unit(ctx, field)
-			case "direction":
-				return ec.fieldContext_MlEvaluationMetric_direction(ctx, field)
-			case "category":
-				return ec.fieldContext_MlEvaluationMetric_category(ctx, field)
-			case "measuredAt":
-				return ec.fieldContext_MlEvaluationMetric_measuredAt(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type MlEvaluationMetric", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _MlEvaluationMetric_id(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationMetric) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlEvaluationMetric_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlEvaluationMetric_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlEvaluationMetric",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _MlEvaluationMetric_name(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationMetric) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlEvaluationMetric_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlEvaluationMetric_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlEvaluationMetric",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _MlEvaluationMetric_value(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationMetric) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlEvaluationMetric_value(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Value, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(float64)
-	fc.Result = res
-	return ec.marshalNFloat2float64(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlEvaluationMetric_value(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlEvaluationMetric",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Float does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _MlEvaluationMetric_unit(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationMetric) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlEvaluationMetric_unit(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Unit, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlEvaluationMetric_unit(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlEvaluationMetric",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _MlEvaluationMetric_direction(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationMetric) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlEvaluationMetric_direction(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Direction, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlEvaluationMetric_direction(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlEvaluationMetric",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _MlEvaluationMetric_category(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationMetric) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlEvaluationMetric_category(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Category, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlEvaluationMetric_category(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlEvaluationMetric",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _MlEvaluationMetric_measuredAt(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluationMetric) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlEvaluationMetric_measuredAt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.MeasuredAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*time.Time)
-	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlEvaluationMetric_measuredAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlEvaluationMetric",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
+			return nil, errors.New("field of type JSON does not have child fields")
 		},
 	}
 	return fc, nil
@@ -56296,50 +55893,6 @@ func (ec *executionContext) fieldContext_MlRun_datasetId(_ context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _MlRun_series(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlRun_series(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.MlRun().Series(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(any)
-	fc.Result = res
-	return ec.marshalNJSON2interface(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_MlRun_series(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "MlRun",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type JSON does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _MlRun_source(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlRun_source(ctx, field)
 	if err != nil {
@@ -56527,8 +56080,6 @@ func (ec *executionContext) fieldContext_MlRunPage_runs(_ context.Context, field
 				return ec.fieldContext_MlRun_metrics(ctx, field)
 			case "datasetId":
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
-			case "series":
-				return ec.fieldContext_MlRun_series(ctx, field)
 			case "source":
 				return ec.fieldContext_MlRun_source(ctx, field)
 			case "updatedAt":
@@ -63414,8 +62965,6 @@ func (ec *executionContext) fieldContext_Mutation_createMlRun(ctx context.Contex
 				return ec.fieldContext_MlRun_metrics(ctx, field)
 			case "datasetId":
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
-			case "series":
-				return ec.fieldContext_MlRun_series(ctx, field)
 			case "source":
 				return ec.fieldContext_MlRun_source(ctx, field)
 			case "updatedAt":
@@ -63501,8 +63050,6 @@ func (ec *executionContext) fieldContext_Mutation_updateMlRun(ctx context.Contex
 				return ec.fieldContext_MlRun_metrics(ctx, field)
 			case "datasetId":
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
-			case "series":
-				return ec.fieldContext_MlRun_series(ctx, field)
 			case "source":
 				return ec.fieldContext_MlRun_source(ctx, field)
 			case "updatedAt":
@@ -74048,8 +73595,6 @@ func (ec *executionContext) fieldContext_Query_mlRuns(ctx context.Context, field
 				return ec.fieldContext_MlRun_metrics(ctx, field)
 			case "datasetId":
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
-			case "series":
-				return ec.fieldContext_MlRun_series(ctx, field)
 			case "source":
 				return ec.fieldContext_MlRun_source(ctx, field)
 			case "updatedAt":
@@ -74196,8 +73741,6 @@ func (ec *executionContext) fieldContext_Query_mlRun(ctx context.Context, field 
 				return ec.fieldContext_MlRun_metrics(ctx, field)
 			case "datasetId":
 				return ec.fieldContext_MlRun_datasetId(ctx, field)
-			case "series":
-				return ec.fieldContext_MlRun_series(ctx, field)
 			case "source":
 				return ec.fieldContext_MlRun_source(ctx, field)
 			case "updatedAt":
@@ -104802,72 +104345,6 @@ func (ec *executionContext) _MlEvaluation(ctx context.Context, sel ast.Selection
 	return out
 }
 
-var mlEvaluationMetricImplementors = []string{"MlEvaluationMetric"}
-
-func (ec *executionContext) _MlEvaluationMetric(ctx context.Context, sel ast.SelectionSet, obj *model.MlEvaluationMetric) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, mlEvaluationMetricImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("MlEvaluationMetric")
-		case "id":
-			out.Values[i] = ec._MlEvaluationMetric_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "name":
-			out.Values[i] = ec._MlEvaluationMetric_name(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "value":
-			out.Values[i] = ec._MlEvaluationMetric_value(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "unit":
-			out.Values[i] = ec._MlEvaluationMetric_unit(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "direction":
-			out.Values[i] = ec._MlEvaluationMetric_direction(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "category":
-			out.Values[i] = ec._MlEvaluationMetric_category(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "measuredAt":
-			out.Values[i] = ec._MlEvaluationMetric_measuredAt(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
 var mlExperimentImplementors = []string{"MlExperiment"}
 
 func (ec *executionContext) _MlExperiment(ctx context.Context, sel ast.SelectionSet, obj *model.MlExperiment) graphql.Marshaler {
@@ -105307,27 +104784,27 @@ func (ec *executionContext) _MlRun(ctx context.Context, sel ast.SelectionSet, ob
 		case "id":
 			out.Values[i] = ec._MlRun_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "orgId":
 			out.Values[i] = ec._MlRun_orgId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "experimentId":
 			out.Values[i] = ec._MlRun_experimentId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "name":
 			out.Values[i] = ec._MlRun_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "status":
 			out.Values[i] = ec._MlRun_status(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "startedAt":
 			out.Values[i] = ec._MlRun_startedAt(ctx, field, obj)
@@ -105336,60 +104813,24 @@ func (ec *executionContext) _MlRun(ctx context.Context, sel ast.SelectionSet, ob
 		case "notes":
 			out.Values[i] = ec._MlRun_notes(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "parameters":
 			out.Values[i] = ec._MlRun_parameters(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "metrics":
 			out.Values[i] = ec._MlRun_metrics(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "datasetId":
 			out.Values[i] = ec._MlRun_datasetId(ctx, field, obj)
-		case "series":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._MlRun_series(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
-			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "source":
 			out.Values[i] = ec._MlRun_source(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "updatedAt":
 			out.Values[i] = ec._MlRun_updatedAt(ctx, field, obj)
@@ -114783,60 +114224,6 @@ func (ec *executionContext) marshalNMlEvaluation2ᚖgithubᚗcomᚋuigraphᚋgra
 		return graphql.Null
 	}
 	return ec._MlEvaluation(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNMlEvaluationMetric2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationMetricᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MlEvaluationMetric) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNMlEvaluationMetric2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationMetric(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalNMlEvaluationMetric2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationMetric(ctx context.Context, sel ast.SelectionSet, v *model.MlEvaluationMetric) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._MlEvaluationMetric(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNMlExperiment2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlExperiment(ctx context.Context, sel ast.SelectionSet, v model.MlExperiment) graphql.Marshaler {

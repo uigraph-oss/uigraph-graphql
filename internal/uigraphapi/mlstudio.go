@@ -99,13 +99,6 @@ type MLRun struct {
 	SyncedAt     *time.Time     `json:"syncedAt,omitempty"`
 }
 
-type MLMetricPoint struct {
-	Key   string     `json:"key"`
-	Step  int64      `json:"step"`
-	Value float64    `json:"value"`
-	TS    *time.Time `json:"ts,omitempty"`
-}
-
 type MLArtifact struct {
 	ID          string     `json:"id"`
 	OrgID       string     `json:"orgId"`
@@ -166,30 +159,20 @@ type MLFinding struct {
 	RunIDs      []string `json:"runIds"`
 }
 
-type MLEvaluationMetric struct {
-	ID         string     `json:"id"`
-	Name       string     `json:"name"`
-	Value      float64    `json:"value"`
-	Unit       string     `json:"unit"`
-	Direction  string     `json:"direction"`
-	Category   string     `json:"category"`
-	MeasuredAt *time.Time `json:"measuredAt,omitempty"`
-}
-
 type MLEvaluation struct {
-	ID          string               `json:"id"`
-	OrgID       string               `json:"orgId"`
-	MLflowID    string               `json:"mlflowId"`
-	VersionID   string               `json:"versionId"`
-	DatasetID   *string              `json:"datasetId,omitempty"`
-	Name        string               `json:"name"`
-	Type        string               `json:"type"`
-	Description string               `json:"description"`
-	Summary     string               `json:"summary"`
-	EvaluatedAt *time.Time           `json:"evaluatedAt,omitempty"`
-	Evaluator   string               `json:"evaluator"`
-	Parameters  map[string]any       `json:"parameters"`
-	Metrics     []MLEvaluationMetric `json:"metrics"`
+	ID          string         `json:"id"`
+	OrgID       string         `json:"orgId"`
+	MLflowID    string         `json:"mlflowId"`
+	VersionID   string         `json:"versionId"`
+	DatasetID   *string        `json:"datasetId,omitempty"`
+	Name        string         `json:"name"`
+	Type        string         `json:"type"`
+	Description string         `json:"description"`
+	Summary     string         `json:"summary"`
+	EvaluatedAt *time.Time     `json:"evaluatedAt,omitempty"`
+	Evaluator   string         `json:"evaluator"`
+	Parameters  map[string]any `json:"parameters"`
+	Metrics     map[string]any `json:"metrics"`
 }
 
 func mlBase(orgID string) string {
@@ -371,13 +354,6 @@ func (c *Client) UpdateMLRun(ctx context.Context, orgID, id string, body map[str
 
 func (c *Client) DeleteMLRun(ctx context.Context, orgID, id string) error {
 	return c.del(ctx, mlBase(orgID)+"/runs/"+id)
-}
-
-func (c *Client) ListMLRunSeries(ctx context.Context, orgID, runID string) ([]MLMetricPoint, error) {
-	var out struct {
-		Points []MLMetricPoint `json:"points"`
-	}
-	return out.Points, c.get(ctx, fmt.Sprintf("%s/runs/%s/series", mlBase(orgID), runID), &out)
 }
 
 func (c *Client) ListMLArtifacts(ctx context.Context, orgID, runID string) ([]MLArtifact, error) {

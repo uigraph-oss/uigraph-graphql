@@ -119,18 +119,6 @@ func MLRunsToModel(in []uigraphapi.MLRun) []*model.MlRun {
 	return out
 }
 
-func MLRunSeriesToJSON(points []uigraphapi.MLMetricPoint) map[string]any {
-	series := map[string][]map[string]any{}
-	for _, p := range points {
-		series[p.Key] = append(series[p.Key], map[string]any{"step": p.Step, "value": p.Value})
-	}
-	out := map[string]any{}
-	for k, v := range series {
-		out[k] = v
-	}
-	return out
-}
-
 func MLArtifactToModel(a *uigraphapi.MLArtifact) *model.MlArtifact {
 	return &model.MlArtifact{
 		ID: a.ID, RunID: a.RunID, Name: a.Name, Type: a.Type,
@@ -190,17 +178,13 @@ func MLDeploymentsToModel(in []uigraphapi.MLDeployment) []*model.MlDeployment {
 }
 
 func MLEvaluationToModel(e *uigraphapi.MLEvaluation) *model.MlEvaluation {
-	metrics := make([]*model.MlEvaluationMetric, len(e.Metrics))
-	for i := range e.Metrics {
-		metrics[i] = &model.MlEvaluationMetric{
-			ID: e.Metrics[i].ID, Name: e.Metrics[i].Name, Value: e.Metrics[i].Value,
-			Unit: e.Metrics[i].Unit, Direction: e.Metrics[i].Direction,
-			Category: e.Metrics[i].Category, MeasuredAt: e.Metrics[i].MeasuredAt,
-		}
-	}
 	parameters := map[string]any{}
 	for k, v := range e.Parameters {
 		parameters[k] = v
+	}
+	metrics := map[string]any{}
+	for k, v := range e.Metrics {
+		metrics[k] = v
 	}
 	return &model.MlEvaluation{
 		ID: e.ID, VersionID: e.VersionID, DatasetID: e.DatasetID, Name: e.Name,

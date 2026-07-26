@@ -131,7 +131,6 @@ type MlRun {
     parameters:   JSON!
     metrics:      JSON!
     datasetId:    ID
-    series:       JSON!
     source:       String!
     updatedAt:    Time
     syncedAt:     Time
@@ -183,16 +182,6 @@ type MlDeployment {
     rolledBackAt: Time
 }
 
-type MlEvaluationMetric {
-    id:         ID!
-    name:       String!
-    value:      Float!
-    unit:       String!
-    direction:  String!
-    category:   String!
-    measuredAt: Time
-}
-
 type MlEvaluation {
     id:          ID!
     versionId:   ID!
@@ -204,7 +193,7 @@ type MlEvaluation {
     evaluatedAt: Time
     evaluator:   String!
     parameters:  JSON!
-    metrics:     [MlEvaluationMetric!]!
+    metrics:     JSON!
 }
 
 type MlFinding {
