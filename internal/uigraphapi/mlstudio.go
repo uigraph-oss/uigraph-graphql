@@ -155,8 +155,10 @@ type MLFinding struct {
 	VersionID   *string  `json:"versionId,omitempty"`
 	Title       string   `json:"title"`
 	Summary     string   `json:"summary"`
-	Description string   `json:"description"`
-	RunIDs      []string `json:"runIds"`
+	Description string     `json:"description"`
+	RunIDs      []string   `json:"runIds"`
+	CreatedBy   string     `json:"createdBy"`
+	CreatedAt   *time.Time `json:"createdAt,omitempty"`
 }
 
 type MLEvaluation struct {

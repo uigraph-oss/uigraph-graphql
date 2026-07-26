@@ -209,10 +209,15 @@ func MLFindingToModel(f *uigraphapi.MLFinding) *model.MlFinding {
 	if runIDs == nil {
 		runIDs = []string{}
 	}
-	return &model.MlFinding{
-		ID: f.ID, ModelID: f.ModelID, VersionID: f.VersionID, Title: f.Title,
+	out := &model.MlFinding{
+		ID: f.ID, OrgID: f.OrgID, ModelID: f.ModelID, VersionID: f.VersionID, Title: f.Title,
 		Summary: f.Summary, Description: f.Description, RunIds: runIDs,
+		CreatedAt: f.CreatedAt,
 	}
+	if f.CreatedBy != "" {
+		out.CreatedBy = &f.CreatedBy
+	}
+	return out
 }
 
 func MLFindingsToModel(in []uigraphapi.MLFinding) []*model.MlFinding {

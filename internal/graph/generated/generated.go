@@ -47,6 +47,7 @@ type ResolverRoot interface {
 	DiagramVersion() DiagramVersionResolver
 	Doc() DocResolver
 	Frame() FrameResolver
+	MlFinding() MlFindingResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 	SavedQuery() SavedQueryResolver
@@ -760,13 +761,17 @@ type ComplexityRoot struct {
 	}
 
 	MlFinding struct {
-		Description func(childComplexity int) int
-		ID          func(childComplexity int) int
-		ModelID     func(childComplexity int) int
-		RunIds      func(childComplexity int) int
-		Summary     func(childComplexity int) int
-		Title       func(childComplexity int) int
-		VersionID   func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		CreatedByActor func(childComplexity int) int
+		Description    func(childComplexity int) int
+		ID             func(childComplexity int) int
+		ModelID        func(childComplexity int) int
+		OrgID          func(childComplexity int) int
+		RunIds         func(childComplexity int) int
+		Summary        func(childComplexity int) int
+		Title          func(childComplexity int) int
+		VersionID      func(childComplexity int) int
 	}
 
 	MlModel struct {
@@ -1635,6 +1640,9 @@ type FrameResolver interface {
 
 	CreatedByActor(ctx context.Context, obj *model.Frame) (*model.Actor, error)
 	UpdatedByActor(ctx context.Context, obj *model.Frame) (*model.Actor, error)
+}
+type MlFindingResolver interface {
+	CreatedByActor(ctx context.Context, obj *model.MlFinding) (*model.Actor, error)
 }
 type MutationResolver interface {
 	CreateServerOrg(ctx context.Context, input model.CreateServerOrgInput) (*model.Org, error)
@@ -5585,6 +5593,27 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlExperiment.Tags(childComplexity), true
 
+	case "MlFinding.createdAt":
+		if e.complexity.MlFinding.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.MlFinding.CreatedAt(childComplexity), true
+
+	case "MlFinding.createdBy":
+		if e.complexity.MlFinding.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.MlFinding.CreatedBy(childComplexity), true
+
+	case "MlFinding.createdByActor":
+		if e.complexity.MlFinding.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.MlFinding.CreatedByActor(childComplexity), true
+
 	case "MlFinding.description":
 		if e.complexity.MlFinding.Description == nil {
 			break
@@ -5605,6 +5634,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlFinding.ModelID(childComplexity), true
+
+	case "MlFinding.orgId":
+		if e.complexity.MlFinding.OrgID == nil {
+			break
+		}
+
+		return e.complexity.MlFinding.OrgID(childComplexity), true
 
 	case "MlFinding.runIds":
 		if e.complexity.MlFinding.RunIds == nil {
@@ -13306,13 +13342,17 @@ type MlEvaluation {
 }
 
 type MlFinding {
-    id:          ID!
-    modelId:     ID!
-    versionId:   ID
-    title:       String!
-    summary:     String!
-    description: String!
-    runIds:      [ID!]!
+    id:             ID!
+    orgId:          ID!
+    modelId:        ID!
+    versionId:      ID
+    title:          String!
+    summary:        String!
+    description:    String!
+    runIds:         [ID!]!
+    createdBy:      ID
+    createdByActor: Actor @goField(forceResolver: true)
+    createdAt:      Time
 }
 
 input CreateMlDeploymentInput {
@@ -53933,6 +53973,50 @@ func (ec *executionContext) fieldContext_MlFinding_id(_ context.Context, field g
 	return fc, nil
 }
 
+func (ec *executionContext) _MlFinding_orgId(ctx context.Context, field graphql.CollectedField, obj *model.MlFinding) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlFinding_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlFinding_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlFinding",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlFinding_modelId(ctx context.Context, field graphql.CollectedField, obj *model.MlFinding) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlFinding_modelId(ctx, field)
 	if err != nil {
@@ -54189,6 +54273,143 @@ func (ec *executionContext) fieldContext_MlFinding_runIds(_ context.Context, fie
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlFinding_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.MlFinding) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlFinding_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlFinding_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlFinding",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlFinding_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.MlFinding) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlFinding_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.MlFinding().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlFinding_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlFinding",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlFinding_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.MlFinding) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlFinding_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlFinding_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlFinding",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -62487,6 +62708,8 @@ func (ec *executionContext) fieldContext_Mutation_createMlFinding(ctx context.Co
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_MlFinding_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlFinding_orgId(ctx, field)
 			case "modelId":
 				return ec.fieldContext_MlFinding_modelId(ctx, field)
 			case "versionId":
@@ -62499,6 +62722,12 @@ func (ec *executionContext) fieldContext_Mutation_createMlFinding(ctx context.Co
 				return ec.fieldContext_MlFinding_description(ctx, field)
 			case "runIds":
 				return ec.fieldContext_MlFinding_runIds(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlFinding_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_MlFinding_createdByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlFinding_createdAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlFinding", field.Name)
 		},
@@ -62558,6 +62787,8 @@ func (ec *executionContext) fieldContext_Mutation_updateMlFinding(ctx context.Co
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_MlFinding_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlFinding_orgId(ctx, field)
 			case "modelId":
 				return ec.fieldContext_MlFinding_modelId(ctx, field)
 			case "versionId":
@@ -62570,6 +62801,12 @@ func (ec *executionContext) fieldContext_Mutation_updateMlFinding(ctx context.Co
 				return ec.fieldContext_MlFinding_description(ctx, field)
 			case "runIds":
 				return ec.fieldContext_MlFinding_runIds(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlFinding_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_MlFinding_createdByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlFinding_createdAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlFinding", field.Name)
 		},
@@ -74459,6 +74696,8 @@ func (ec *executionContext) fieldContext_Query_mlFindings(ctx context.Context, f
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_MlFinding_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlFinding_orgId(ctx, field)
 			case "modelId":
 				return ec.fieldContext_MlFinding_modelId(ctx, field)
 			case "versionId":
@@ -74471,6 +74710,12 @@ func (ec *executionContext) fieldContext_Query_mlFindings(ctx context.Context, f
 				return ec.fieldContext_MlFinding_description(ctx, field)
 			case "runIds":
 				return ec.fieldContext_MlFinding_runIds(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlFinding_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_MlFinding_createdByActor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlFinding_createdAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlFinding", field.Name)
 		},
@@ -104969,35 +105214,77 @@ func (ec *executionContext) _MlFinding(ctx context.Context, sel ast.SelectionSet
 		case "id":
 			out.Values[i] = ec._MlFinding_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._MlFinding_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "modelId":
 			out.Values[i] = ec._MlFinding_modelId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "versionId":
 			out.Values[i] = ec._MlFinding_versionId(ctx, field, obj)
 		case "title":
 			out.Values[i] = ec._MlFinding_title(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "summary":
 			out.Values[i] = ec._MlFinding_summary(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "description":
 			out.Values[i] = ec._MlFinding_description(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "runIds":
 			out.Values[i] = ec._MlFinding_runIds(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdBy":
+			out.Values[i] = ec._MlFinding_createdBy(ctx, field, obj)
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._MlFinding_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "createdAt":
+			out.Values[i] = ec._MlFinding_createdAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

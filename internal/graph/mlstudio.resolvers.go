@@ -8,9 +8,18 @@ import (
 	"context"
 
 	"github.com/uigraph/graphql/internal/graph/convert"
+	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
+
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *mlFindingResolver) CreatedByActor(ctx context.Context, obj *model.MlFinding) (*model.Actor, error) {
+	if obj.CreatedBy == nil {
+		return nil, nil
+	}
+	return r.resolveActor(ctx, obj.OrgID, *obj.CreatedBy)
+}
 
 // CreateMlProject is the resolver for the createMlProject field.
 func (r *mutationResolver) CreateMlProject(ctx context.Context, orgID string, input model.CreateMlProjectInput) (*model.MlProject, error) {
@@ -409,3 +418,8 @@ func (r *queryResolver) MlEvaluation(ctx context.Context, orgID string, id strin
 	}
 	return convert.MLEvaluationToModel(evaluation), nil
 }
+
+// MlFinding returns generated.MlFindingResolver implementation.
+func (r *Resolver) MlFinding() generated.MlFindingResolver { return &mlFindingResolver{r} }
+
+type mlFindingResolver struct{ *Resolver }

@@ -1181,13 +1181,17 @@ type MlExperiment struct {
 }
 
 type MlFinding struct {
-	ID          string   `json:"id"`
-	ModelID     string   `json:"modelId"`
-	VersionID   *string  `json:"versionId,omitempty"`
-	Title       string   `json:"title"`
-	Summary     string   `json:"summary"`
-	Description string   `json:"description"`
-	RunIds      []string `json:"runIds"`
+	ID             string     `json:"id"`
+	OrgID          string     `json:"orgId"`
+	ModelID        string     `json:"modelId"`
+	VersionID      *string    `json:"versionId,omitempty"`
+	Title          string     `json:"title"`
+	Summary        string     `json:"summary"`
+	Description    string     `json:"description"`
+	RunIds         []string   `json:"runIds"`
+	CreatedBy      *string    `json:"createdBy,omitempty"`
+	CreatedByActor *Actor     `json:"createdByActor,omitempty"`
+	CreatedAt      *time.Time `json:"createdAt,omitempty"`
 }
 
 type MlModel struct {

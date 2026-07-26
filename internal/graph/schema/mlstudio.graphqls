@@ -203,13 +203,17 @@ type MlEvaluation {
 }
 
 type MlFinding {
-    id:          ID!
-    modelId:     ID!
-    versionId:   ID
-    title:       String!
-    summary:     String!
-    description: String!
-    runIds:      [ID!]!
+    id:             ID!
+    orgId:          ID!
+    modelId:        ID!
+    versionId:      ID
+    title:          String!
+    summary:        String!
+    description:    String!
+    runIds:         [ID!]!
+    createdBy:      ID
+    createdByActor: Actor @goField(forceResolver: true)
+    createdAt:      Time
 }
 
 input CreateMlDeploymentInput {
