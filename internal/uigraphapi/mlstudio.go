@@ -226,6 +226,15 @@ func (c *Client) UpdateMLModel(ctx context.Context, orgID, id string, body map[s
 	return &out, c.patch(ctx, mlBase(orgID)+"/models/"+id, body, &out)
 }
 
+func (c *Client) UpdateMLModelInfo(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLModel, error) {
+	var out MLModel
+	return &out, c.put(ctx, mlBase(orgID)+"/models/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLModel(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/models/"+id)
+}
+
 func (c *Client) ListMLModelVersions(ctx context.Context, orgID, modelID, projectID string) ([]MLModelVersion, error) {
 	q := url.Values{}
 	if modelID != "" {

@@ -30,6 +30,8 @@ extend type Mutation {
     deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
     createMlModel(orgId: ID!, input: CreateMlModelInput!):                    MlModel!
     updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, license: String, references: [String!], intendedUse: String, limitations: String, ethicalConsiderations: String, caveats: String):  MlModel!
+    updateMlModelInfo(orgId: ID!, id: ID!, input: UpdateMlModelInfoInput!):   MlModel!
+    deleteMlModel(orgId: ID!, id: ID!):                                      Boolean!
     createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
     createMlExperiment(orgId: ID!, input: CreateMlExperimentInput!):          MlExperiment!
     updateMlExperiment(orgId: ID!, id: ID!, input: UpdateMlExperimentInput!): MlExperiment!
@@ -215,6 +217,14 @@ input UpdateMlDeploymentInput {
 input CreateMlModelInput {
     projectId:   ID!
     name:        String!
+    description: String
+    domain:      String
+    problemType: String
+    tags:        [String!]
+}
+
+input UpdateMlModelInfoInput {
+    name:        String
     description: String
     domain:      String
     problemType: String

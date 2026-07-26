@@ -282,6 +282,8 @@ type mlStudioClient interface {
 	GetMLModel(ctx context.Context, orgID, id string) (*uigraphapi.MLModel, error)
 	CreateMLModel(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLModel, error)
 	UpdateMLModel(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLModel, error)
+	UpdateMLModelInfo(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLModel, error)
+	DeleteMLModel(ctx context.Context, orgID, id string) error
 	ListMLModelVersions(ctx context.Context, orgID, modelID, projectID string) ([]uigraphapi.MLModelVersion, error)
 	GetMLModelVersion(ctx context.Context, orgID, id string) (*uigraphapi.MLModelVersion, error)
 	ListMLExperiments(ctx context.Context, orgID, projectID string) ([]uigraphapi.MLExperiment, error)

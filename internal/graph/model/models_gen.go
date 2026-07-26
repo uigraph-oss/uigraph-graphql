@@ -1931,6 +1931,14 @@ type UpdateMlFindingInput struct {
 	RunIds      []string `json:"runIds,omitempty"`
 }
 
+type UpdateMlModelInfoInput struct {
+	Name        *string  `json:"name,omitempty"`
+	Description *string  `json:"description,omitempty"`
+	Domain      *string  `json:"domain,omitempty"`
+	ProblemType *string  `json:"problemType,omitempty"`
+	Tags        []string `json:"tags,omitempty"`
+}
+
 type UpdateMlProjectInput struct {
 	Name        *string `json:"name,omitempty"`
 	Type        *string `json:"type,omitempty"`

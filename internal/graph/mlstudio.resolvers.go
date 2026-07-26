@@ -119,6 +119,26 @@ func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id s
 	return convert.MLModelToModel(m), nil
 }
 
+// UpdateMlModelInfo is the resolver for the updateMlModelInfo field.
+func (r *mutationResolver) UpdateMlModelInfo(ctx context.Context, orgID string, id string, input model.UpdateMlModelInfoInput) (*model.MlModel, error) {
+	body := convert.ToMap(input)
+	// ToMap drops an empty tag list because of `omitempty`, which would make
+	// clearing every tag a no-op instead of an update.
+	if input.Tags != nil {
+		body["tags"] = input.Tags
+	}
+	m, err := r.MLStudio.UpdateMLModelInfo(ctx, orgID, id, body)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLModelToModel(m), nil
+}
+
+// DeleteMlModel is the resolver for the deleteMlModel field.
+func (r *mutationResolver) DeleteMlModel(ctx context.Context, orgID string, id string) (bool, error) {
+	return true, r.MLStudio.DeleteMLModel(ctx, orgID, id)
+}
+
 // CreateMlVersionDeploymentUpdate is the resolver for the createMlVersionDeploymentUpdate field.
 func (r *mutationResolver) CreateMlVersionDeploymentUpdate(ctx context.Context, orgID string, versionID string, toStatus string) (*model.MlVersionDeploymentUpdate, error) {
 	u, err := r.MLStudio.CreateVersionDeploymentUpdate(ctx, orgID, versionID, map[string]interface{}{"toStatus": toStatus})
