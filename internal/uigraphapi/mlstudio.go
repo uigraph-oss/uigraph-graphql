@@ -78,6 +78,7 @@ type MLExperiment struct {
 	Status      string     `json:"status"`
 	StartedAt   *time.Time `json:"startedAt,omitempty"`
 	Source      string     `json:"source"`
+	CreatedBy   *string    `json:"createdBy,omitempty"`
 }
 
 type MLRun struct {
@@ -184,6 +185,15 @@ func (c *Client) GetMLProject(ctx context.Context, orgID, id string) (*MLProject
 func (c *Client) CreateMLProject(ctx context.Context, orgID string, body map[string]interface{}) (*MLProject, error) {
 	var out MLProject
 	return &out, c.post(ctx, mlBase(orgID)+"/projects", body, &out)
+}
+
+func (c *Client) UpdateMLProject(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLProject, error) {
+	var out MLProject
+	return &out, c.put(ctx, mlBase(orgID)+"/projects/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLProject(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/projects/"+id)
 }
 
 func (c *Client) ListMLModels(ctx context.Context, orgID, projectID string) ([]MLModel, error) {

@@ -1158,6 +1158,7 @@ type MlExperiment struct {
 	Status      string     `json:"status"`
 	StartedAt   *time.Time `json:"startedAt,omitempty"`
 	Source      string     `json:"source"`
+	CreatedBy   *string    `json:"createdBy,omitempty"`
 }
 
 type MlFinding struct {
@@ -1927,6 +1928,13 @@ type UpdateMlFindingInput struct {
 	Summary     *string  `json:"summary,omitempty"`
 	Description *string  `json:"description,omitempty"`
 	RunIds      []string `json:"runIds,omitempty"`
+}
+
+type UpdateMlProjectInput struct {
+	Name        *string `json:"name,omitempty"`
+	Type        *string `json:"type,omitempty"`
+	Description *string `json:"description,omitempty"`
+	TeamID      *string `json:"teamId,omitempty"`
 }
 
 type UpdateMlRunInput struct {

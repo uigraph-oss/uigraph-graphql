@@ -20,6 +20,8 @@ extend type Query {
 
 extend type Mutation {
     createMlProject(orgId: ID!, input: CreateMlProjectInput!):                MlProject!
+    updateMlProject(orgId: ID!, id: ID!, input: UpdateMlProjectInput!):       MlProject!
+    deleteMlProject(orgId: ID!, id: ID!):                                     Boolean!
     createMlDeployment(orgId: ID!, input: CreateMlDeploymentInput!):          MlDeployment!
     updateMlDeployment(orgId: ID!, id: ID!, input: UpdateMlDeploymentInput!): MlDeployment!
     deleteMlDeployment(orgId: ID!, id: ID!):                                  Boolean!
@@ -105,6 +107,7 @@ type MlExperiment {
     status:      String!
     startedAt:   Time
     source:      String!
+    createdBy:   ID
 }
 
 type MlRunPage {
@@ -221,6 +224,13 @@ input CreateMlModelInput {
 input CreateMlProjectInput {
     name:        String!
     type:        String!
+    description: String
+    teamId:      ID
+}
+
+input UpdateMlProjectInput {
+    name:        String
+    type:        String
     description: String
     teamId:      ID
 }

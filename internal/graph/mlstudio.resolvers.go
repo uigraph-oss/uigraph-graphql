@@ -31,6 +31,20 @@ func (r *mutationResolver) CreateMlProject(ctx context.Context, orgID string, in
 	return convert.MLProjectToModel(p), nil
 }
 
+// UpdateMlProject is the resolver for the updateMlProject field.
+func (r *mutationResolver) UpdateMlProject(ctx context.Context, orgID string, id string, input model.UpdateMlProjectInput) (*model.MlProject, error) {
+	p, err := r.MLStudio.UpdateMLProject(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLProjectToModel(p), nil
+}
+
+// DeleteMlProject is the resolver for the deleteMlProject field.
+func (r *mutationResolver) DeleteMlProject(ctx context.Context, orgID string, id string) (bool, error) {
+	return true, r.MLStudio.DeleteMLProject(ctx, orgID, id)
+}
+
 // CreateMlDeployment is the resolver for the createMlDeployment field.
 func (r *mutationResolver) CreateMlDeployment(ctx context.Context, orgID string, input model.CreateMlDeploymentInput) (*model.MlDeployment, error) {
 	d, err := r.MLStudio.CreateMLDeployment(ctx, orgID, convert.ToMap(input))
