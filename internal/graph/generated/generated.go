@@ -1104,6 +1104,7 @@ type ComplexityRoot struct {
 		MlDataset                  func(childComplexity int, orgID string, id string) int
 		MlDatasets                 func(childComplexity int, orgID string, experimentID *string) int
 		MlDeployments              func(childComplexity int, orgID string, modelID *string, versionID *string) int
+		MlEvaluation               func(childComplexity int, orgID string, id string) int
 		MlExperiment               func(childComplexity int, orgID string, id string) int
 		MlExperiments              func(childComplexity int, orgID string, projectID *string) int
 		MlFindings                 func(childComplexity int, orgID string, modelID *string, projectID *string) int
@@ -1853,6 +1854,7 @@ type QueryResolver interface {
 	MlFindings(ctx context.Context, orgID string, modelID *string, projectID *string) ([]*model.MlFinding, error)
 	MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID *string, projectID *string) ([]*model.MlVersionDeploymentUpdate, error)
 	MlVersionEvaluations(ctx context.Context, orgID string, versionID string) ([]*model.MlEvaluation, error)
+	MlEvaluation(ctx context.Context, orgID string, id string) (*model.MlEvaluation, error)
 	Org(ctx context.Context, id string) (*model.Org, error)
 	Orgs(ctx context.Context) ([]*model.Org, error)
 	Members(ctx context.Context, orgID string) ([]*model.Member, error)
@@ -8661,6 +8663,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.MlDeployments(childComplexity, args["orgId"].(string), args["modelId"].(*string), args["versionId"].(*string)), true
 
+	case "Query.mlEvaluation":
+		if e.complexity.Query.MlEvaluation == nil {
+			break
+		}
+
+		args, err := ec.field_Query_mlEvaluation_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MlEvaluation(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
 	case "Query.mlExperiment":
 		if e.complexity.Query.MlExperiment == nil {
 			break
@@ -13060,6 +13074,7 @@ type UserSavings {
     mlFindings(orgId: ID!, modelId: ID, projectId: ID):         [MlFinding!]!
     mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
     mlVersionEvaluations(orgId: ID!, versionId: ID!):           [MlEvaluation!]!
+    mlEvaluation(orgId: ID!, id: ID!):                          MlEvaluation!
 }
 
 extend type Mutation {
@@ -27780,6 +27795,57 @@ func (ec *executionContext) field_Query_mlDeployments_argsVersionID(
 	}
 
 	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_mlEvaluation_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlEvaluation_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_mlEvaluation_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluation_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -74296,6 +74362,85 @@ func (ec *executionContext) fieldContext_Query_mlVersionEvaluations(ctx context.
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_mlEvaluation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_mlEvaluation(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().MlEvaluation(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlEvaluation)
+	fc.Result = res
+	return ec.marshalNMlEvaluation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluation(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_mlEvaluation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlEvaluation_id(ctx, field)
+			case "versionId":
+				return ec.fieldContext_MlEvaluation_versionId(ctx, field)
+			case "datasetId":
+				return ec.fieldContext_MlEvaluation_datasetId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlEvaluation_name(ctx, field)
+			case "type":
+				return ec.fieldContext_MlEvaluation_type(ctx, field)
+			case "description":
+				return ec.fieldContext_MlEvaluation_description(ctx, field)
+			case "summary":
+				return ec.fieldContext_MlEvaluation_summary(ctx, field)
+			case "evaluatedAt":
+				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "evaluator":
+				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "parameters":
+				return ec.fieldContext_MlEvaluation_parameters(ctx, field)
+			case "metrics":
+				return ec.fieldContext_MlEvaluation_metrics(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlEvaluation", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_mlEvaluation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_org(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_org(ctx, field)
 	if err != nil {
@@ -108031,6 +108176,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "mlEvaluation":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_mlEvaluation(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "org":
 			field := field
 
@@ -114170,6 +114337,10 @@ func (ec *executionContext) marshalNMlDeployment2ᚖgithubᚗcomᚋuigraphᚋgra
 		return graphql.Null
 	}
 	return ec._MlDeployment(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMlEvaluation2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluation(ctx context.Context, sel ast.SelectionSet, v model.MlEvaluation) graphql.Marshaler {
+	return ec._MlEvaluation(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNMlEvaluation2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MlEvaluation) graphql.Marshaler {

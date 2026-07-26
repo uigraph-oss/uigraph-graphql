@@ -306,3 +306,12 @@ func (r *queryResolver) MlVersionEvaluations(ctx context.Context, orgID string, 
 	}
 	return convert.MLEvaluationsToModel(evaluations), nil
 }
+
+// MlEvaluation is the resolver for the mlEvaluation field.
+func (r *queryResolver) MlEvaluation(ctx context.Context, orgID string, id string) (*model.MlEvaluation, error) {
+	evaluation, err := r.MLStudio.GetMLEvaluation(ctx, orgID, id)
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLEvaluationToModel(evaluation), nil
+}

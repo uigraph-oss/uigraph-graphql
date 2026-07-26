@@ -17,6 +17,7 @@ extend type Query {
     mlFindings(orgId: ID!, modelId: ID, projectId: ID):         [MlFinding!]!
     mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
     mlVersionEvaluations(orgId: ID!, versionId: ID!):           [MlEvaluation!]!
+    mlEvaluation(orgId: ID!, id: ID!):                          MlEvaluation!
 }
 
 extend type Mutation {

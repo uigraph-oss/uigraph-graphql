@@ -463,6 +463,11 @@ func (c *Client) ListMLVersionEvaluations(ctx context.Context, orgID, versionID 
 	return out.Evaluations, c.get(ctx, fmt.Sprintf("%s/versions/%s/evaluations", mlBase(orgID), versionID), &out)
 }
 
+func (c *Client) GetMLEvaluation(ctx context.Context, orgID, id string) (*MLEvaluation, error) {
+	var out MLEvaluation
+	return &out, c.get(ctx, mlBase(orgID)+"/evaluations/"+id, &out)
+}
+
 func (c *Client) CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*MLVersionDeploymentUpdate, error) {
 	var out MLVersionDeploymentUpdate
 	return &out, c.post(ctx, fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID), body, &out)
