@@ -101,16 +101,16 @@ func (r *mutationResolver) CreateMlModel(ctx context.Context, orgID string, inpu
 }
 
 // UpdateMlModel is the resolver for the updateMlModel field.
-func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, ethicalConsiderations *string, caveats *string) (*model.MlModel, error) {
+func (r *mutationResolver) UpdateMlModel(ctx context.Context, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, considerations *string, recommendations *string) (*model.MlModel, error) {
 	body := map[string]interface{}{
-		"domain":                derefStr(domain),
-		"problemType":           derefStr(problemType),
-		"license":               derefStr(license),
-		"references":            references,
-		"intendedUse":           derefStr(intendedUse),
-		"limitations":           derefStr(limitations),
-		"ethicalConsiderations": derefStr(ethicalConsiderations),
-		"caveats":               derefStr(caveats),
+		"domain":          derefStr(domain),
+		"problemType":     derefStr(problemType),
+		"license":         derefStr(license),
+		"references":      references,
+		"intendedUse":     derefStr(intendedUse),
+		"limitations":     derefStr(limitations),
+		"considerations":  derefStr(considerations),
+		"recommendations": derefStr(recommendations),
 	}
 	m, err := r.MLStudio.UpdateMLModel(ctx, orgID, id, body)
 	if err != nil {

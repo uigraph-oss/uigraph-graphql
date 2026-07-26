@@ -28,24 +28,24 @@ type MLProjectStats struct {
 }
 
 type MLModel struct {
-	ID                    string     `json:"id"`
-	OrgID                 string     `json:"orgId"`
-	ProjectID             *string    `json:"projectId,omitempty"`
-	Name                  string     `json:"name"`
-	Description           string     `json:"description"`
-	Domain                string     `json:"domain"`
-	ProblemType           string     `json:"problemType"`
-	Tags                  []string   `json:"tags"`
-	License               string     `json:"license"`
-	References            []string   `json:"references"`
-	IntendedUse           string     `json:"intendedUse"`
-	Limitations           string     `json:"limitations"`
-	EthicalConsiderations string     `json:"ethicalConsiderations"`
-	Caveats               string     `json:"caveats"`
-	ProductionVersionID   *string    `json:"productionVersionId,omitempty"`
-	Origin                string     `json:"origin"`
-	CreatedAt             *time.Time `json:"createdAt,omitempty"`
-	UpdatedAt             *time.Time `json:"updatedAt,omitempty"`
+	ID                  string     `json:"id"`
+	OrgID               string     `json:"orgId"`
+	ProjectID           *string    `json:"projectId,omitempty"`
+	Name                string     `json:"name"`
+	Description         string     `json:"description"`
+	Domain              string     `json:"domain"`
+	ProblemType         string     `json:"problemType"`
+	Tags                []string   `json:"tags"`
+	License             string     `json:"license"`
+	References          []string   `json:"references"`
+	IntendedUse         string     `json:"intendedUse"`
+	Limitations         string     `json:"limitations"`
+	Considerations      string     `json:"considerations"`
+	Recommendations     string     `json:"recommendations"`
+	ProductionVersionID *string    `json:"productionVersionId,omitempty"`
+	Origin              string     `json:"origin"`
+	CreatedAt           *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt           *time.Time `json:"updatedAt,omitempty"`
 }
 
 type MLModelVersion struct {

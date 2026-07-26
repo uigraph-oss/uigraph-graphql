@@ -35,7 +35,7 @@ func MLModelToModel(m *uigraphapi.MLModel) *model.MlModel {
 		Domain: m.Domain, ProblemType: m.ProblemType, Tags: m.Tags,
 		License: m.License, References: m.References,
 		IntendedUse: m.IntendedUse, Limitations: m.Limitations,
-		EthicalConsiderations: m.EthicalConsiderations, Caveats: m.Caveats,
+		Considerations: m.Considerations, Recommendations: m.Recommendations,
 		ProductionVersionID: m.ProductionVersionID, Origin: m.Origin, CreatedAt: m.CreatedAt, UpdatedAt: m.UpdatedAt,
 	}
 }
