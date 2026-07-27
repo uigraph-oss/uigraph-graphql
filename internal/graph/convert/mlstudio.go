@@ -56,6 +56,30 @@ func MLModelVersionToModel(v *uigraphapi.MLModelVersion) *model.MlModelVersion {
 	}
 }
 
+func MLModelVersionExploreItemToModel(it *uigraphapi.MLModelVersionExploreItem) *model.MlModelVersionExploreItem {
+	out := &model.MlModelVersionExploreItem{
+		ID: it.ID, Version: it.Version, Description: it.Description,
+		DeploymentStatus: it.DeploymentStatus, RunID: it.RunID,
+		Source: it.Source, CreatedAt: it.CreatedAt,
+		Model: MLModelToModel(&it.Model),
+	}
+	if it.Project != nil {
+		out.Project = MLProjectToModel(it.Project)
+	}
+	if it.Team != nil {
+		out.Team = &model.MlTeamRef{ID: it.Team.ID, Name: it.Team.Name}
+	}
+	return out
+}
+
+func MLModelVersionExploreItemsToModel(in []uigraphapi.MLModelVersionExploreItem) []*model.MlModelVersionExploreItem {
+	out := make([]*model.MlModelVersionExploreItem, len(in))
+	for i := range in {
+		out[i] = MLModelVersionExploreItemToModel(&in[i])
+	}
+	return out
+}
+
 func MLModelVersionsToModel(in []uigraphapi.MLModelVersion) []*model.MlModelVersion {
 	out := make([]*model.MlModelVersion, len(in))
 	for i := range in {

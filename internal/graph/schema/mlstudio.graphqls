@@ -5,6 +5,7 @@ extend type Query {
     mlModel(orgId: ID!, id: ID!):                               MlModel!
     mlModelVersions(orgId: ID!, modelId: ID, projectId: ID):    [MlModelVersion!]!
     mlModelVersion(orgId: ID!, id: ID!):                        MlModelVersion!
+    mlModelVersionsExplore(orgId: ID!, teamId: ID, projectId: ID, modelId: ID, search: String, limit: Int, offset: Int): MlModelVersionExplorePage!
     mlExperiments(orgId: ID!, projectId: ID):                   [MlExperiment!]!
     mlExperiment(orgId: ID!, id: ID!):                          MlExperiment!
     mlRuns(orgId: ID!, experimentId: ID, projectId: ID):        [MlRun!]!
@@ -102,6 +103,29 @@ type MlModelVersion {
     runId:            ID
     source:           String!
     createdAt:        Time
+}
+
+type MlTeamRef {
+    id:   ID!
+    name: String!
+}
+
+type MlModelVersionExploreItem {
+    id:               ID!
+    version:          String!
+    description:      String!
+    deploymentStatus: String!
+    runId:            ID
+    source:           String!
+    createdAt:        Time
+    model:            MlModel!
+    project:          MlProject
+    team:             MlTeamRef
+}
+
+type MlModelVersionExplorePage {
+    items: [MlModelVersionExploreItem!]!
+    total: Int!
 }
 
 type MlVersionDeploymentUpdate {

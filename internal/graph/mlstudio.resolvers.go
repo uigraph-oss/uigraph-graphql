@@ -317,6 +317,30 @@ func (r *queryResolver) MlModelVersion(ctx context.Context, orgID string, id str
 	return convert.MLModelVersionToModel(v), nil
 }
 
+// MlModelVersionsExplore is the resolver for the mlModelVersionsExplore field.
+func (r *queryResolver) MlModelVersionsExplore(ctx context.Context, orgID string, teamID *string, projectID *string, modelID *string, search *string, limit *int, offset *int) (*model.MlModelVersionExplorePage, error) {
+	query := uigraphapi.MLModelVersionQuery{
+		TeamID:    derefStr(teamID),
+		ProjectID: derefStr(projectID),
+		ModelID:   derefStr(modelID),
+		Search:    derefStr(search),
+	}
+	if limit != nil {
+		query.Limit = *limit
+	}
+	if offset != nil {
+		query.Offset = *offset
+	}
+	items, total, err := r.MLStudio.ListMLModelVersionsExplore(ctx, orgID, query)
+	if err != nil {
+		return nil, err
+	}
+	return &model.MlModelVersionExplorePage{
+		Items: convert.MLModelVersionExploreItemsToModel(items),
+		Total: total,
+	}, nil
+}
+
 // MlExperiments is the resolver for the mlExperiments field.
 func (r *queryResolver) MlExperiments(ctx context.Context, orgID string, projectID *string) ([]*model.MlExperiment, error) {
 	experiments, err := r.MLStudio.ListMLExperiments(ctx, orgID, derefStr(projectID))

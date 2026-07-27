@@ -1246,6 +1246,24 @@ type MlModelVersion struct {
 	CreatedAt        *time.Time `json:"createdAt,omitempty"`
 }
 
+type MlModelVersionExploreItem struct {
+	ID               string     `json:"id"`
+	Version          string     `json:"version"`
+	Description      string     `json:"description"`
+	DeploymentStatus string     `json:"deploymentStatus"`
+	RunID            *string    `json:"runId,omitempty"`
+	Source           string     `json:"source"`
+	CreatedAt        *time.Time `json:"createdAt,omitempty"`
+	Model            *MlModel   `json:"model"`
+	Project          *MlProject `json:"project,omitempty"`
+	Team             *MlTeamRef `json:"team,omitempty"`
+}
+
+type MlModelVersionExplorePage struct {
+	Items []*MlModelVersionExploreItem `json:"items"`
+	Total int                          `json:"total"`
+}
+
 type MlProject struct {
 	ID          string          `json:"id"`
 	Name        string          `json:"name"`
@@ -1290,6 +1308,11 @@ type MlSchemaField struct {
 	Name        string `json:"name"`
 	Type        string `json:"type"`
 	Description string `json:"description"`
+}
+
+type MlTeamRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 type MlVersionDeploymentUpdate struct {

@@ -271,6 +271,62 @@ func (c *Client) ListMLModelVersions(ctx context.Context, orgID, modelID, projec
 	return out.Versions, c.get(ctx, path, &out)
 }
 
+type MLTeamRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type MLModelVersionExploreItem struct {
+	MLModelVersion
+	Model   MLModel    `json:"model"`
+	Project *MLProject `json:"project,omitempty"`
+	Team    *MLTeamRef `json:"team,omitempty"`
+}
+
+type MLModelVersionQuery struct {
+	TeamID    string
+	ProjectID string
+	ModelID   string
+	Search    string
+	Limit     int
+	Offset    int
+}
+
+func (q MLModelVersionQuery) encode() string {
+	v := url.Values{}
+	if q.TeamID != "" {
+		v.Set("teamId", q.TeamID)
+	}
+	if q.ProjectID != "" {
+		v.Set("projectId", q.ProjectID)
+	}
+	if q.ModelID != "" {
+		v.Set("modelId", q.ModelID)
+	}
+	if q.Search != "" {
+		v.Set("search", q.Search)
+	}
+	if q.Limit > 0 {
+		v.Set("limit", strconv.Itoa(q.Limit))
+	}
+	if q.Offset > 0 {
+		v.Set("offset", strconv.Itoa(q.Offset))
+	}
+	if len(v) == 0 {
+		return ""
+	}
+	return "?" + v.Encode()
+}
+
+func (c *Client) ListMLModelVersionsExplore(ctx context.Context, orgID string, query MLModelVersionQuery) ([]MLModelVersionExploreItem, int, error) {
+	var out struct {
+		Items []MLModelVersionExploreItem `json:"items"`
+		Total int                         `json:"total"`
+	}
+	path := mlBase(orgID) + "/versions/explore" + query.encode()
+	return out.Items, out.Total, c.get(ctx, path, &out)
+}
+
 func (c *Client) GetMLModelVersion(ctx context.Context, orgID, id string) (*MLModelVersion, error) {
 	var out MLModelVersion
 	return &out, c.get(ctx, mlBase(orgID)+"/versions/"+id, &out)

@@ -812,6 +812,24 @@ type ComplexityRoot struct {
 		Version          func(childComplexity int) int
 	}
 
+	MlModelVersionExploreItem struct {
+		CreatedAt        func(childComplexity int) int
+		DeploymentStatus func(childComplexity int) int
+		Description      func(childComplexity int) int
+		ID               func(childComplexity int) int
+		Model            func(childComplexity int) int
+		Project          func(childComplexity int) int
+		RunID            func(childComplexity int) int
+		Source           func(childComplexity int) int
+		Team             func(childComplexity int) int
+		Version          func(childComplexity int) int
+	}
+
+	MlModelVersionExplorePage struct {
+		Items func(childComplexity int) int
+		Total func(childComplexity int) int
+	}
+
 	MlProject struct {
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
@@ -856,6 +874,11 @@ type ComplexityRoot struct {
 		Description func(childComplexity int) int
 		Name        func(childComplexity int) int
 		Type        func(childComplexity int) int
+	}
+
+	MlTeamRef struct {
+		ID   func(childComplexity int) int
+		Name func(childComplexity int) int
 	}
 
 	MlVersionDeploymentUpdate struct {
@@ -1136,6 +1159,7 @@ type ComplexityRoot struct {
 		MlModel                     func(childComplexity int, orgID string, id string) int
 		MlModelVersion              func(childComplexity int, orgID string, id string) int
 		MlModelVersions             func(childComplexity int, orgID string, modelID *string, projectID *string) int
+		MlModelVersionsExplore      func(childComplexity int, orgID string, teamID *string, projectID *string, modelID *string, search *string, limit *int, offset *int) int
 		MlModels                    func(childComplexity int, orgID string, projectID *string) int
 		MlProject                   func(childComplexity int, orgID string, id string) int
 		MlProjects                  func(childComplexity int, orgID string) int
@@ -1876,6 +1900,7 @@ type QueryResolver interface {
 	MlModel(ctx context.Context, orgID string, id string) (*model.MlModel, error)
 	MlModelVersions(ctx context.Context, orgID string, modelID *string, projectID *string) ([]*model.MlModelVersion, error)
 	MlModelVersion(ctx context.Context, orgID string, id string) (*model.MlModelVersion, error)
+	MlModelVersionsExplore(ctx context.Context, orgID string, teamID *string, projectID *string, modelID *string, search *string, limit *int, offset *int) (*model.MlModelVersionExplorePage, error)
 	MlExperiments(ctx context.Context, orgID string, projectID *string) ([]*model.MlExperiment, error)
 	MlExperiment(ctx context.Context, orgID string, id string) (*model.MlExperiment, error)
 	MlRuns(ctx context.Context, orgID string, experimentID *string, projectID *string) ([]*model.MlRun, error)
@@ -5897,6 +5922,90 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlModelVersion.Version(childComplexity), true
 
+	case "MlModelVersionExploreItem.createdAt":
+		if e.complexity.MlModelVersionExploreItem.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.CreatedAt(childComplexity), true
+
+	case "MlModelVersionExploreItem.deploymentStatus":
+		if e.complexity.MlModelVersionExploreItem.DeploymentStatus == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.DeploymentStatus(childComplexity), true
+
+	case "MlModelVersionExploreItem.description":
+		if e.complexity.MlModelVersionExploreItem.Description == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.Description(childComplexity), true
+
+	case "MlModelVersionExploreItem.id":
+		if e.complexity.MlModelVersionExploreItem.ID == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.ID(childComplexity), true
+
+	case "MlModelVersionExploreItem.model":
+		if e.complexity.MlModelVersionExploreItem.Model == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.Model(childComplexity), true
+
+	case "MlModelVersionExploreItem.project":
+		if e.complexity.MlModelVersionExploreItem.Project == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.Project(childComplexity), true
+
+	case "MlModelVersionExploreItem.runId":
+		if e.complexity.MlModelVersionExploreItem.RunID == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.RunID(childComplexity), true
+
+	case "MlModelVersionExploreItem.source":
+		if e.complexity.MlModelVersionExploreItem.Source == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.Source(childComplexity), true
+
+	case "MlModelVersionExploreItem.team":
+		if e.complexity.MlModelVersionExploreItem.Team == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.Team(childComplexity), true
+
+	case "MlModelVersionExploreItem.version":
+		if e.complexity.MlModelVersionExploreItem.Version == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.Version(childComplexity), true
+
+	case "MlModelVersionExplorePage.items":
+		if e.complexity.MlModelVersionExplorePage.Items == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExplorePage.Items(childComplexity), true
+
+	case "MlModelVersionExplorePage.total":
+		if e.complexity.MlModelVersionExplorePage.Total == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExplorePage.Total(childComplexity), true
+
 	case "MlProject.description":
 		if e.complexity.MlProject.Description == nil {
 			break
@@ -6113,6 +6222,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlSchemaField.Type(childComplexity), true
+
+	case "MlTeamRef.id":
+		if e.complexity.MlTeamRef.ID == nil {
+			break
+		}
+
+		return e.complexity.MlTeamRef.ID(childComplexity), true
+
+	case "MlTeamRef.name":
+		if e.complexity.MlTeamRef.Name == nil {
+			break
+		}
+
+		return e.complexity.MlTeamRef.Name(childComplexity), true
 
 	case "MlVersionDeploymentUpdate.changedAt":
 		if e.complexity.MlVersionDeploymentUpdate.ChangedAt == nil {
@@ -8971,6 +9094,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.MlModelVersions(childComplexity, args["orgId"].(string), args["modelId"].(*string), args["projectId"].(*string)), true
+
+	case "Query.mlModelVersionsExplore":
+		if e.complexity.Query.MlModelVersionsExplore == nil {
+			break
+		}
+
+		args, err := ec.field_Query_mlModelVersionsExplore_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MlModelVersionsExplore(childComplexity, args["orgId"].(string), args["teamId"].(*string), args["projectId"].(*string), args["modelId"].(*string), args["search"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.mlModels":
 		if e.complexity.Query.MlModels == nil {
@@ -13301,6 +13436,7 @@ type UserSavings {
     mlModel(orgId: ID!, id: ID!):                               MlModel!
     mlModelVersions(orgId: ID!, modelId: ID, projectId: ID):    [MlModelVersion!]!
     mlModelVersion(orgId: ID!, id: ID!):                        MlModelVersion!
+    mlModelVersionsExplore(orgId: ID!, teamId: ID, projectId: ID, modelId: ID, search: String, limit: Int, offset: Int): MlModelVersionExplorePage!
     mlExperiments(orgId: ID!, projectId: ID):                   [MlExperiment!]!
     mlExperiment(orgId: ID!, id: ID!):                          MlExperiment!
     mlRuns(orgId: ID!, experimentId: ID, projectId: ID):        [MlRun!]!
@@ -13398,6 +13534,29 @@ type MlModelVersion {
     runId:            ID
     source:           String!
     createdAt:        Time
+}
+
+type MlTeamRef {
+    id:   ID!
+    name: String!
+}
+
+type MlModelVersionExploreItem {
+    id:               ID!
+    version:          String!
+    description:      String!
+    deploymentStatus: String!
+    runId:            ID
+    source:           String!
+    createdAt:        Time
+    model:            MlModel!
+    project:          MlProject
+    team:             MlTeamRef
+}
+
+type MlModelVersionExplorePage {
+    items: [MlModelVersionExploreItem!]!
+    total: Int!
 }
 
 type MlVersionDeploymentUpdate {
@@ -29025,6 +29184,172 @@ func (ec *executionContext) field_Query_mlModelVersion_argsID(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlModelVersionsExplore_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_mlModelVersionsExplore_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlModelVersionsExplore_argsTeamID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["teamId"] = arg1
+	arg2, err := ec.field_Query_mlModelVersionsExplore_argsProjectID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["projectId"] = arg2
+	arg3, err := ec.field_Query_mlModelVersionsExplore_argsModelID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["modelId"] = arg3
+	arg4, err := ec.field_Query_mlModelVersionsExplore_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg4
+	arg5, err := ec.field_Query_mlModelVersionsExplore_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg5
+	arg6, err := ec.field_Query_mlModelVersionsExplore_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg6
+	return args, nil
+}
+func (ec *executionContext) field_Query_mlModelVersionsExplore_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlModelVersionsExplore_argsTeamID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["teamId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("teamId"))
+	if tmp, ok := rawArgs["teamId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlModelVersionsExplore_argsProjectID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["projectId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+	if tmp, ok := rawArgs["projectId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlModelVersionsExplore_argsModelID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["modelId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("modelId"))
+	if tmp, ok := rawArgs["modelId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlModelVersionsExplore_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlModelVersionsExplore_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlModelVersionsExplore_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -56637,6 +56962,606 @@ func (ec *executionContext) fieldContext_MlModelVersion_createdAt(_ context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _MlModelVersionExploreItem_id(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_version(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_version(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Version, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_version(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_description(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_deploymentStatus(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_deploymentStatus(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeploymentStatus, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_deploymentStatus(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_runId(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_runId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RunID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_runId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_source(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_source(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Source, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_source(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_model(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_model(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Model, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlModel)
+	fc.Result = res
+	return ec.marshalNMlModel2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModel(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_model(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlModel_id(ctx, field)
+			case "projectId":
+				return ec.fieldContext_MlModel_projectId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlModel_name(ctx, field)
+			case "description":
+				return ec.fieldContext_MlModel_description(ctx, field)
+			case "domain":
+				return ec.fieldContext_MlModel_domain(ctx, field)
+			case "problemType":
+				return ec.fieldContext_MlModel_problemType(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlModel_tags(ctx, field)
+			case "license":
+				return ec.fieldContext_MlModel_license(ctx, field)
+			case "references":
+				return ec.fieldContext_MlModel_references(ctx, field)
+			case "intendedUse":
+				return ec.fieldContext_MlModel_intendedUse(ctx, field)
+			case "limitations":
+				return ec.fieldContext_MlModel_limitations(ctx, field)
+			case "considerations":
+				return ec.fieldContext_MlModel_considerations(ctx, field)
+			case "recommendations":
+				return ec.fieldContext_MlModel_recommendations(ctx, field)
+			case "productionVersionId":
+				return ec.fieldContext_MlModel_productionVersionId(ctx, field)
+			case "origin":
+				return ec.fieldContext_MlModel_origin(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlModel_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlModel_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlModel", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_project(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_project(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Project, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlProject)
+	fc.Result = res
+	return ec.marshalOMlProject2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlProject(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_project(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlProject_id(ctx, field)
+			case "name":
+				return ec.fieldContext_MlProject_name(ctx, field)
+			case "type":
+				return ec.fieldContext_MlProject_type(ctx, field)
+			case "description":
+				return ec.fieldContext_MlProject_description(ctx, field)
+			case "sourceType":
+				return ec.fieldContext_MlProject_sourceType(ctx, field)
+			case "sourceUrl":
+				return ec.fieldContext_MlProject_sourceUrl(ctx, field)
+			case "teamId":
+				return ec.fieldContext_MlProject_teamId(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlProject_updatedAt(ctx, field)
+			case "stats":
+				return ec.fieldContext_MlProject_stats(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlProject", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_team(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_team(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Team, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlTeamRef)
+	fc.Result = res
+	return ec.marshalOMlTeamRef2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlTeamRef(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_team(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlTeamRef_id(ctx, field)
+			case "name":
+				return ec.fieldContext_MlTeamRef_name(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlTeamRef", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExplorePage_items(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExplorePage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExplorePage_items(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Items, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.MlModelVersionExploreItem)
+	fc.Result = res
+	return ec.marshalNMlModelVersionExploreItem2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModelVersionExploreItemᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExplorePage_items(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExplorePage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlModelVersionExploreItem_id(ctx, field)
+			case "version":
+				return ec.fieldContext_MlModelVersionExploreItem_version(ctx, field)
+			case "description":
+				return ec.fieldContext_MlModelVersionExploreItem_description(ctx, field)
+			case "deploymentStatus":
+				return ec.fieldContext_MlModelVersionExploreItem_deploymentStatus(ctx, field)
+			case "runId":
+				return ec.fieldContext_MlModelVersionExploreItem_runId(ctx, field)
+			case "source":
+				return ec.fieldContext_MlModelVersionExploreItem_source(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlModelVersionExploreItem_createdAt(ctx, field)
+			case "model":
+				return ec.fieldContext_MlModelVersionExploreItem_model(ctx, field)
+			case "project":
+				return ec.fieldContext_MlModelVersionExploreItem_project(ctx, field)
+			case "team":
+				return ec.fieldContext_MlModelVersionExploreItem_team(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlModelVersionExploreItem", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExplorePage_total(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExplorePage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExplorePage_total(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Total, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExplorePage_total(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExplorePage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlProject_id(ctx context.Context, field graphql.CollectedField, obj *model.MlProject) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlProject_id(ctx, field)
 	if err != nil {
@@ -58005,6 +58930,94 @@ func (ec *executionContext) _MlSchemaField_description(ctx context.Context, fiel
 func (ec *executionContext) fieldContext_MlSchemaField_description(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "MlSchemaField",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlTeamRef_id(ctx context.Context, field graphql.CollectedField, obj *model.MlTeamRef) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlTeamRef_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlTeamRef_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlTeamRef",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlTeamRef_name(ctx context.Context, field graphql.CollectedField, obj *model.MlTeamRef) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlTeamRef_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlTeamRef_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlTeamRef",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -75543,6 +76556,67 @@ func (ec *executionContext) fieldContext_Query_mlModelVersion(ctx context.Contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_mlModelVersion_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_mlModelVersionsExplore(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_mlModelVersionsExplore(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().MlModelVersionsExplore(rctx, fc.Args["orgId"].(string), fc.Args["teamId"].(*string), fc.Args["projectId"].(*string), fc.Args["modelId"].(*string), fc.Args["search"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlModelVersionExplorePage)
+	fc.Result = res
+	return ec.marshalNMlModelVersionExplorePage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModelVersionExplorePage(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_mlModelVersionsExplore(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "items":
+				return ec.fieldContext_MlModelVersionExplorePage_items(ctx, field)
+			case "total":
+				return ec.fieldContext_MlModelVersionExplorePage_total(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlModelVersionExplorePage", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_mlModelVersionsExplore_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -107502,6 +108576,122 @@ func (ec *executionContext) _MlModelVersion(ctx context.Context, sel ast.Selecti
 	return out
 }
 
+var mlModelVersionExploreItemImplementors = []string{"MlModelVersionExploreItem"}
+
+func (ec *executionContext) _MlModelVersionExploreItem(ctx context.Context, sel ast.SelectionSet, obj *model.MlModelVersionExploreItem) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mlModelVersionExploreItemImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MlModelVersionExploreItem")
+		case "id":
+			out.Values[i] = ec._MlModelVersionExploreItem_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "version":
+			out.Values[i] = ec._MlModelVersionExploreItem_version(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._MlModelVersionExploreItem_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deploymentStatus":
+			out.Values[i] = ec._MlModelVersionExploreItem_deploymentStatus(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "runId":
+			out.Values[i] = ec._MlModelVersionExploreItem_runId(ctx, field, obj)
+		case "source":
+			out.Values[i] = ec._MlModelVersionExploreItem_source(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._MlModelVersionExploreItem_createdAt(ctx, field, obj)
+		case "model":
+			out.Values[i] = ec._MlModelVersionExploreItem_model(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "project":
+			out.Values[i] = ec._MlModelVersionExploreItem_project(ctx, field, obj)
+		case "team":
+			out.Values[i] = ec._MlModelVersionExploreItem_team(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var mlModelVersionExplorePageImplementors = []string{"MlModelVersionExplorePage"}
+
+func (ec *executionContext) _MlModelVersionExplorePage(ctx context.Context, sel ast.SelectionSet, obj *model.MlModelVersionExplorePage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mlModelVersionExplorePageImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MlModelVersionExplorePage")
+		case "items":
+			out.Values[i] = ec._MlModelVersionExplorePage_items(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "total":
+			out.Values[i] = ec._MlModelVersionExplorePage_total(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var mlProjectImplementors = []string{"MlProject"}
 
 func (ec *executionContext) _MlProject(ctx context.Context, sel ast.SelectionSet, obj *model.MlProject) graphql.Marshaler {
@@ -107777,6 +108967,50 @@ func (ec *executionContext) _MlSchemaField(ctx context.Context, sel ast.Selectio
 			}
 		case "description":
 			out.Values[i] = ec._MlSchemaField_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var mlTeamRefImplementors = []string{"MlTeamRef"}
+
+func (ec *executionContext) _MlTeamRef(ctx context.Context, sel ast.SelectionSet, obj *model.MlTeamRef) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mlTeamRefImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MlTeamRef")
+		case "id":
+			out.Values[i] = ec._MlTeamRef_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._MlTeamRef_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -110641,6 +111875,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_mlModelVersion(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "mlModelVersionsExplore":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_mlModelVersionsExplore(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -117477,6 +118733,74 @@ func (ec *executionContext) marshalNMlModelVersion2ᚖgithubᚗcomᚋuigraphᚋg
 	return ec._MlModelVersion(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNMlModelVersionExploreItem2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModelVersionExploreItemᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MlModelVersionExploreItem) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNMlModelVersionExploreItem2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModelVersionExploreItem(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNMlModelVersionExploreItem2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModelVersionExploreItem(ctx context.Context, sel ast.SelectionSet, v *model.MlModelVersionExploreItem) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MlModelVersionExploreItem(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMlModelVersionExplorePage2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModelVersionExplorePage(ctx context.Context, sel ast.SelectionSet, v model.MlModelVersionExplorePage) graphql.Marshaler {
+	return ec._MlModelVersionExplorePage(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNMlModelVersionExplorePage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlModelVersionExplorePage(ctx context.Context, sel ast.SelectionSet, v *model.MlModelVersionExplorePage) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MlModelVersionExplorePage(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNMlProject2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlProject(ctx context.Context, sel ast.SelectionSet, v model.MlProject) graphql.Marshaler {
 	return ec._MlProject(ctx, sel, &v)
 }
@@ -120367,11 +121691,25 @@ func (ec *executionContext) unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigr
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) marshalOMlProject2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlProject(ctx context.Context, sel ast.SelectionSet, v *model.MlProject) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._MlProject(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalOMlProjectStats2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlProjectStats(ctx context.Context, sel ast.SelectionSet, v *model.MlProjectStats) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._MlProjectStats(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOMlTeamRef2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlTeamRef(ctx context.Context, sel ast.SelectionSet, v *model.MlTeamRef) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._MlTeamRef(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOSAMLConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐSAMLConfig(ctx context.Context, sel ast.SelectionSet, v *model.SAMLConfig) graphql.Marshaler {
