@@ -49,19 +49,26 @@ func MLModelsToModel(in []uigraphapi.MLModel) []*model.MlModel {
 }
 
 func MLModelVersionToModel(v *uigraphapi.MLModelVersion) *model.MlModelVersion {
-	return &model.MlModelVersion{
-		ID: v.ID, ModelID: v.ModelID, Version: v.Version,
+	out := &model.MlModelVersion{
+		ID: v.ID, OrgID: v.OrgID, ModelID: v.ModelID, Version: v.Version,
 		Description: v.Description, DeploymentStatus: v.DeploymentStatus, RunID: v.RunID,
 		Source: v.Source, CreatedAt: v.CreatedAt,
 	}
+	if v.CreatedBy != "" {
+		out.CreatedBy = &v.CreatedBy
+	}
+	return out
 }
 
 func MLModelVersionExploreItemToModel(it *uigraphapi.MLModelVersionExploreItem) *model.MlModelVersionExploreItem {
 	out := &model.MlModelVersionExploreItem{
-		ID: it.ID, Version: it.Version, Description: it.Description,
+		ID: it.ID, OrgID: it.OrgID, Version: it.Version, Description: it.Description,
 		DeploymentStatus: it.DeploymentStatus, RunID: it.RunID,
 		Source: it.Source, CreatedAt: it.CreatedAt,
 		Model: MLModelToModel(&it.Model),
+	}
+	if it.CreatedBy != "" {
+		out.CreatedBy = &it.CreatedBy
 	}
 	if it.Project != nil {
 		out.Project = MLProjectToModel(it.Project)

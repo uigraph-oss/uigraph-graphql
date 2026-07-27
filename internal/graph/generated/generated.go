@@ -48,6 +48,8 @@ type ResolverRoot interface {
 	Doc() DocResolver
 	Frame() FrameResolver
 	MlFinding() MlFindingResolver
+	MlModelVersion() MlModelVersionResolver
+	MlModelVersionExploreItem() MlModelVersionExploreItemResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 	SavedQuery() SavedQueryResolver
@@ -809,10 +811,13 @@ type ComplexityRoot struct {
 
 	MlModelVersion struct {
 		CreatedAt        func(childComplexity int) int
+		CreatedBy        func(childComplexity int) int
+		CreatedByActor   func(childComplexity int) int
 		DeploymentStatus func(childComplexity int) int
 		Description      func(childComplexity int) int
 		ID               func(childComplexity int) int
 		ModelID          func(childComplexity int) int
+		OrgID            func(childComplexity int) int
 		RunID            func(childComplexity int) int
 		Source           func(childComplexity int) int
 		Version          func(childComplexity int) int
@@ -820,10 +825,13 @@ type ComplexityRoot struct {
 
 	MlModelVersionExploreItem struct {
 		CreatedAt        func(childComplexity int) int
+		CreatedBy        func(childComplexity int) int
+		CreatedByActor   func(childComplexity int) int
 		DeploymentStatus func(childComplexity int) int
 		Description      func(childComplexity int) int
 		ID               func(childComplexity int) int
 		Model            func(childComplexity int) int
+		OrgID            func(childComplexity int) int
 		Project          func(childComplexity int) int
 		RunID            func(childComplexity int) int
 		Source           func(childComplexity int) int
@@ -1693,6 +1701,12 @@ type FrameResolver interface {
 }
 type MlFindingResolver interface {
 	CreatedByActor(ctx context.Context, obj *model.MlFinding) (*model.Actor, error)
+}
+type MlModelVersionResolver interface {
+	CreatedByActor(ctx context.Context, obj *model.MlModelVersion) (*model.Actor, error)
+}
+type MlModelVersionExploreItemResolver interface {
+	CreatedByActor(ctx context.Context, obj *model.MlModelVersionExploreItem) (*model.Actor, error)
 }
 type MutationResolver interface {
 	CreateServerOrg(ctx context.Context, input model.CreateServerOrgInput) (*model.Org, error)
@@ -5928,6 +5942,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlModelVersion.CreatedAt(childComplexity), true
 
+	case "MlModelVersion.createdBy":
+		if e.complexity.MlModelVersion.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersion.CreatedBy(childComplexity), true
+
+	case "MlModelVersion.createdByActor":
+		if e.complexity.MlModelVersion.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersion.CreatedByActor(childComplexity), true
+
 	case "MlModelVersion.deploymentStatus":
 		if e.complexity.MlModelVersion.DeploymentStatus == nil {
 			break
@@ -5955,6 +5983,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlModelVersion.ModelID(childComplexity), true
+
+	case "MlModelVersion.orgId":
+		if e.complexity.MlModelVersion.OrgID == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersion.OrgID(childComplexity), true
 
 	case "MlModelVersion.runId":
 		if e.complexity.MlModelVersion.RunID == nil {
@@ -5984,6 +6019,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlModelVersionExploreItem.CreatedAt(childComplexity), true
 
+	case "MlModelVersionExploreItem.createdBy":
+		if e.complexity.MlModelVersionExploreItem.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.CreatedBy(childComplexity), true
+
+	case "MlModelVersionExploreItem.createdByActor":
+		if e.complexity.MlModelVersionExploreItem.CreatedByActor == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.CreatedByActor(childComplexity), true
+
 	case "MlModelVersionExploreItem.deploymentStatus":
 		if e.complexity.MlModelVersionExploreItem.DeploymentStatus == nil {
 			break
@@ -6011,6 +6060,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlModelVersionExploreItem.Model(childComplexity), true
+
+	case "MlModelVersionExploreItem.orgId":
+		if e.complexity.MlModelVersionExploreItem.OrgID == nil {
+			break
+		}
+
+		return e.complexity.MlModelVersionExploreItem.OrgID(childComplexity), true
 
 	case "MlModelVersionExploreItem.project":
 		if e.complexity.MlModelVersionExploreItem.Project == nil {
@@ -13630,12 +13686,15 @@ type MlModel {
 
 type MlModelVersion {
     id:               ID!
+    orgId:            ID!
     modelId:          ID!
     version:          String!
     description:      String!
     deploymentStatus: String!
     runId:            ID
     source:           String!
+    createdBy:        ID
+    createdByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time
 }
 
@@ -13646,11 +13705,14 @@ type MlTeamRef {
 
 type MlModelVersionExploreItem {
     id:               ID!
+    orgId:            ID!
     version:          String!
     description:      String!
     deploymentStatus: String!
     runId:            ID
     source:           String!
+    createdBy:        ID
+    createdByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time
     model:            MlModel!
     project:          MlProject
@@ -57255,6 +57317,50 @@ func (ec *executionContext) fieldContext_MlModelVersion_id(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _MlModelVersion_orgId(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersion_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersion_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlModelVersion_modelId(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlModelVersion_modelId(ctx, field)
 	if err != nil {
@@ -57516,6 +57622,102 @@ func (ec *executionContext) fieldContext_MlModelVersion_source(_ context.Context
 	return fc, nil
 }
 
+func (ec *executionContext) _MlModelVersion_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersion_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersion_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersion",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersion_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersion_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.MlModelVersion().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersion_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersion",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlModelVersion_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersion) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlModelVersion_createdAt(ctx, field)
 	if err != nil {
@@ -57589,6 +57791,50 @@ func (ec *executionContext) _MlModelVersionExploreItem_id(ctx context.Context, f
 }
 
 func (ec *executionContext) fieldContext_MlModelVersionExploreItem_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_orgId(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "MlModelVersionExploreItem",
 		Field:      field,
@@ -57813,6 +58059,102 @@ func (ec *executionContext) fieldContext_MlModelVersionExploreItem_source(_ cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlModelVersionExploreItem_createdByActor(ctx context.Context, field graphql.CollectedField, obj *model.MlModelVersionExploreItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlModelVersionExploreItem_createdByActor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.MlModelVersionExploreItem().CreatedByActor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Actor)
+	fc.Result = res
+	return ec.marshalOActor2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐActor(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlModelVersionExploreItem_createdByActor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlModelVersionExploreItem",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Actor_id(ctx, field)
+			case "type":
+				return ec.fieldContext_Actor_type(ctx, field)
+			case "name":
+				return ec.fieldContext_Actor_name(ctx, field)
+			case "email":
+				return ec.fieldContext_Actor_email(ctx, field)
+			case "disabled":
+				return ec.fieldContext_Actor_disabled(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_Actor_avatarUrl(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
 		},
 	}
 	return fc, nil
@@ -58088,6 +58430,8 @@ func (ec *executionContext) fieldContext_MlModelVersionExplorePage_items(_ conte
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_MlModelVersionExploreItem_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlModelVersionExploreItem_orgId(ctx, field)
 			case "version":
 				return ec.fieldContext_MlModelVersionExploreItem_version(ctx, field)
 			case "description":
@@ -58098,6 +58442,10 @@ func (ec *executionContext) fieldContext_MlModelVersionExplorePage_items(_ conte
 				return ec.fieldContext_MlModelVersionExploreItem_runId(ctx, field)
 			case "source":
 				return ec.fieldContext_MlModelVersionExploreItem_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlModelVersionExploreItem_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_MlModelVersionExploreItem_createdByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_MlModelVersionExploreItem_createdAt(ctx, field)
 			case "model":
@@ -66163,6 +66511,8 @@ func (ec *executionContext) fieldContext_Mutation_setMlModelVersionRun(ctx conte
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_MlModelVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlModelVersion_orgId(ctx, field)
 			case "modelId":
 				return ec.fieldContext_MlModelVersion_modelId(ctx, field)
 			case "version":
@@ -66175,6 +66525,10 @@ func (ec *executionContext) fieldContext_Mutation_setMlModelVersionRun(ctx conte
 				return ec.fieldContext_MlModelVersion_runId(ctx, field)
 			case "source":
 				return ec.fieldContext_MlModelVersion_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlModelVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_MlModelVersion_createdByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_MlModelVersion_createdAt(ctx, field)
 			}
@@ -77342,6 +77696,8 @@ func (ec *executionContext) fieldContext_Query_mlModelVersions(ctx context.Conte
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_MlModelVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlModelVersion_orgId(ctx, field)
 			case "modelId":
 				return ec.fieldContext_MlModelVersion_modelId(ctx, field)
 			case "version":
@@ -77354,6 +77710,10 @@ func (ec *executionContext) fieldContext_Query_mlModelVersions(ctx context.Conte
 				return ec.fieldContext_MlModelVersion_runId(ctx, field)
 			case "source":
 				return ec.fieldContext_MlModelVersion_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlModelVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_MlModelVersion_createdByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_MlModelVersion_createdAt(ctx, field)
 			}
@@ -77415,6 +77775,8 @@ func (ec *executionContext) fieldContext_Query_mlModelVersion(ctx context.Contex
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_MlModelVersion_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_MlModelVersion_orgId(ctx, field)
 			case "modelId":
 				return ec.fieldContext_MlModelVersion_modelId(ctx, field)
 			case "version":
@@ -77427,6 +77789,10 @@ func (ec *executionContext) fieldContext_Query_mlModelVersion(ctx context.Contex
 				return ec.fieldContext_MlModelVersion_runId(ctx, field)
 			case "source":
 				return ec.fieldContext_MlModelVersion_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlModelVersion_createdBy(ctx, field)
+			case "createdByActor":
+				return ec.fieldContext_MlModelVersion_createdByActor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_MlModelVersion_createdAt(ctx, field)
 			}
@@ -109623,35 +109989,75 @@ func (ec *executionContext) _MlModelVersion(ctx context.Context, sel ast.Selecti
 		case "id":
 			out.Values[i] = ec._MlModelVersion_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._MlModelVersion_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "modelId":
 			out.Values[i] = ec._MlModelVersion_modelId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "version":
 			out.Values[i] = ec._MlModelVersion_version(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "description":
 			out.Values[i] = ec._MlModelVersion_description(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "deploymentStatus":
 			out.Values[i] = ec._MlModelVersion_deploymentStatus(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "runId":
 			out.Values[i] = ec._MlModelVersion_runId(ctx, field, obj)
 		case "source":
 			out.Values[i] = ec._MlModelVersion_source(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdBy":
+			out.Values[i] = ec._MlModelVersion_createdBy(ctx, field, obj)
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._MlModelVersion_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._MlModelVersion_createdAt(ctx, field, obj)
 		default:
@@ -109691,36 +110097,76 @@ func (ec *executionContext) _MlModelVersionExploreItem(ctx context.Context, sel 
 		case "id":
 			out.Values[i] = ec._MlModelVersionExploreItem_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "orgId":
+			out.Values[i] = ec._MlModelVersionExploreItem_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "version":
 			out.Values[i] = ec._MlModelVersionExploreItem_version(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "description":
 			out.Values[i] = ec._MlModelVersionExploreItem_description(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "deploymentStatus":
 			out.Values[i] = ec._MlModelVersionExploreItem_deploymentStatus(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "runId":
 			out.Values[i] = ec._MlModelVersionExploreItem_runId(ctx, field, obj)
 		case "source":
 			out.Values[i] = ec._MlModelVersionExploreItem_source(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "createdBy":
+			out.Values[i] = ec._MlModelVersionExploreItem_createdBy(ctx, field, obj)
+		case "createdByActor":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._MlModelVersionExploreItem_createdByActor(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._MlModelVersionExploreItem_createdAt(ctx, field, obj)
 		case "model":
 			out.Values[i] = ec._MlModelVersionExploreItem_model(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "project":
 			out.Values[i] = ec._MlModelVersionExploreItem_project(ctx, field, obj)

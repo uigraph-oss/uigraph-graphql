@@ -1256,22 +1256,28 @@ type MlModel struct {
 
 type MlModelVersion struct {
 	ID               string     `json:"id"`
+	OrgID            string     `json:"orgId"`
 	ModelID          string     `json:"modelId"`
 	Version          string     `json:"version"`
 	Description      string     `json:"description"`
 	DeploymentStatus string     `json:"deploymentStatus"`
 	RunID            *string    `json:"runId,omitempty"`
 	Source           string     `json:"source"`
+	CreatedBy        *string    `json:"createdBy,omitempty"`
+	CreatedByActor   *Actor     `json:"createdByActor,omitempty"`
 	CreatedAt        *time.Time `json:"createdAt,omitempty"`
 }
 
 type MlModelVersionExploreItem struct {
 	ID               string     `json:"id"`
+	OrgID            string     `json:"orgId"`
 	Version          string     `json:"version"`
 	Description      string     `json:"description"`
 	DeploymentStatus string     `json:"deploymentStatus"`
 	RunID            *string    `json:"runId,omitempty"`
 	Source           string     `json:"source"`
+	CreatedBy        *string    `json:"createdBy,omitempty"`
+	CreatedByActor   *Actor     `json:"createdByActor,omitempty"`
 	CreatedAt        *time.Time `json:"createdAt,omitempty"`
 	Model            *MlModel   `json:"model"`
 	Project          *MlProject `json:"project,omitempty"`

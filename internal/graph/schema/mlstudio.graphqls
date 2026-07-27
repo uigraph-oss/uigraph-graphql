@@ -99,12 +99,15 @@ type MlModel {
 
 type MlModelVersion {
     id:               ID!
+    orgId:            ID!
     modelId:          ID!
     version:          String!
     description:      String!
     deploymentStatus: String!
     runId:            ID
     source:           String!
+    createdBy:        ID
+    createdByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time
 }
 
@@ -115,11 +118,14 @@ type MlTeamRef {
 
 type MlModelVersionExploreItem {
     id:               ID!
+    orgId:            ID!
     version:          String!
     description:      String!
     deploymentStatus: String!
     runId:            ID
     source:           String!
+    createdBy:        ID
+    createdByActor:   Actor @goField(forceResolver: true)
     createdAt:        Time
     model:            MlModel!
     project:          MlProject

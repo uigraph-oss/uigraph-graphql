@@ -21,6 +21,22 @@ func (r *mlFindingResolver) CreatedByActor(ctx context.Context, obj *model.MlFin
 	return r.resolveActor(ctx, obj.OrgID, *obj.CreatedBy)
 }
 
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *mlModelVersionResolver) CreatedByActor(ctx context.Context, obj *model.MlModelVersion) (*model.Actor, error) {
+	if obj.CreatedBy == nil {
+		return nil, nil
+	}
+	return r.resolveActor(ctx, obj.OrgID, *obj.CreatedBy)
+}
+
+// CreatedByActor is the resolver for the createdByActor field.
+func (r *mlModelVersionExploreItemResolver) CreatedByActor(ctx context.Context, obj *model.MlModelVersionExploreItem) (*model.Actor, error) {
+	if obj.CreatedBy == nil {
+		return nil, nil
+	}
+	return r.resolveActor(ctx, obj.OrgID, *obj.CreatedBy)
+}
+
 // CreateMlProject is the resolver for the createMlProject field.
 func (r *mutationResolver) CreateMlProject(ctx context.Context, orgID string, input model.CreateMlProjectInput) (*model.MlProject, error) {
 	p, err := r.MLStudio.CreateMLProject(ctx, orgID, convert.ToMap(input))
@@ -571,4 +587,16 @@ func (r *queryResolver) MlEvaluation(ctx context.Context, orgID string, id strin
 // MlFinding returns generated.MlFindingResolver implementation.
 func (r *Resolver) MlFinding() generated.MlFindingResolver { return &mlFindingResolver{r} }
 
+// MlModelVersion returns generated.MlModelVersionResolver implementation.
+func (r *Resolver) MlModelVersion() generated.MlModelVersionResolver {
+	return &mlModelVersionResolver{r}
+}
+
+// MlModelVersionExploreItem returns generated.MlModelVersionExploreItemResolver implementation.
+func (r *Resolver) MlModelVersionExploreItem() generated.MlModelVersionExploreItemResolver {
+	return &mlModelVersionExploreItemResolver{r}
+}
+
 type mlFindingResolver struct{ *Resolver }
+type mlModelVersionResolver struct{ *Resolver }
+type mlModelVersionExploreItemResolver struct{ *Resolver }

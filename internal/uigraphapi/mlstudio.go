@@ -57,6 +57,7 @@ type MLModelVersion struct {
 	DeploymentStatus string     `json:"deploymentStatus"`
 	RunID            *string    `json:"runId,omitempty"`
 	Source           string     `json:"source"`
+	CreatedBy        string     `json:"createdBy"`
 	CreatedAt        *time.Time `json:"createdAt,omitempty"`
 }
 
