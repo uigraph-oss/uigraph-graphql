@@ -128,9 +128,13 @@ func MLRunToModel(run *uigraphapi.MLRun) *model.MlRun {
 	if run.Metrics != nil {
 		metrics = run.Metrics
 	}
+	tags := run.Tags
+	if tags == nil {
+		tags = []string{}
+	}
 	return &model.MlRun{
 		ID: run.ID, OrgID: run.OrgID, ExperimentID: run.ExperimentID, Name: run.Name, Status: run.Status,
-		StartedAt: run.StartedAt, EndedAt: run.EndedAt, Notes: run.Notes,
+		StartedAt: run.StartedAt, EndedAt: run.EndedAt, Notes: run.Notes, Tags: tags,
 		Parameters: params, Metrics: metrics, DatasetID: run.DatasetID, Source: run.Source,
 		UpdatedAt: run.UpdatedAt, SyncedAt: run.SyncedAt,
 	}
@@ -167,9 +171,9 @@ func MLDatasetToModel(ds *uigraphapi.MLDataset) *model.MlDataset {
 			Name: ds.Schema[i].Name, Type: ds.Schema[i].Type, Description: ds.Schema[i].Description,
 		}
 	}
-	tags := map[string]any{}
-	for k, v := range ds.Tags {
-		tags[k] = v
+	tags := ds.Tags
+	if tags == nil {
+		tags = []string{}
 	}
 	return &model.MlDataset{
 		ID: ds.ID, ExperimentID: ds.ExperimentID, Name: ds.Name, Digest: ds.Digest,
@@ -211,12 +215,16 @@ func MLEvaluationToModel(e *uigraphapi.MLEvaluation) *model.MlEvaluation {
 	for k, v := range e.Metrics {
 		metrics[k] = v
 	}
+	tags := e.Tags
+	if tags == nil {
+		tags = []string{}
+	}
 	return &model.MlEvaluation{
 		ID: e.ID, VersionID: e.VersionID, ExperimentID: e.ExperimentID,
 		ModelName: e.ModelName, Version: e.Version,
 		DatasetID: e.DatasetID, Name: e.Name,
 		Type: e.Type, Description: e.Description, Summary: e.Summary,
-		StartedAt: e.StartedAt, EndedAt: e.EndedAt, Evaluator: e.Evaluator, Source: e.Source,
+		StartedAt: e.StartedAt, EndedAt: e.EndedAt, Evaluator: e.Evaluator, Tags: tags, Source: e.Source,
 		CreatedBy:  e.CreatedBy,
 		Parameters: parameters, Metrics: metrics,
 	}

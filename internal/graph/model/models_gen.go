@@ -407,13 +407,13 @@ type CreateMapInput struct {
 }
 
 type CreateMlDatasetInput struct {
-	Name       string  `json:"name"`
-	Digest     *string `json:"digest,omitempty"`
-	Source     *string `json:"source,omitempty"`
-	SourceType *string `json:"sourceType,omitempty"`
-	Context    *string `json:"context,omitempty"`
-	RowCount   *int    `json:"rowCount,omitempty"`
-	Tags       any     `json:"tags,omitempty"`
+	Name       string   `json:"name"`
+	Digest     *string  `json:"digest,omitempty"`
+	Source     *string  `json:"source,omitempty"`
+	SourceType *string  `json:"sourceType,omitempty"`
+	Context    *string  `json:"context,omitempty"`
+	RowCount   *int     `json:"rowCount,omitempty"`
+	Tags       []string `json:"tags,omitempty"`
 }
 
 type CreateMlDeploymentInput struct {
@@ -438,6 +438,7 @@ type CreateMlEvaluationInput struct {
 	StartedAt   time.Time  `json:"startedAt"`
 	EndedAt     *time.Time `json:"endedAt,omitempty"`
 	Evaluator   *string    `json:"evaluator,omitempty"`
+	Tags        []string   `json:"tags,omitempty"`
 	Parameters  any        `json:"parameters,omitempty"`
 	Metrics     any        `json:"metrics,omitempty"`
 }
@@ -482,6 +483,7 @@ type CreateMlRunInput struct {
 	StartedAt  time.Time  `json:"startedAt"`
 	EndedAt    *time.Time `json:"endedAt,omitempty"`
 	Notes      *string    `json:"notes,omitempty"`
+	Tags       []string   `json:"tags,omitempty"`
 	Parameters any        `json:"parameters,omitempty"`
 	Metrics    any        `json:"metrics,omitempty"`
 	DatasetID  *string    `json:"datasetId,omitempty"`
@@ -1147,7 +1149,7 @@ type MlDataset struct {
 	Context      string           `json:"context"`
 	RowCount     int              `json:"rowCount"`
 	Schema       []*MlSchemaField `json:"schema"`
-	Tags         any              `json:"tags"`
+	Tags         []string         `json:"tags"`
 	Origin       string           `json:"origin"`
 }
 
@@ -1178,6 +1180,7 @@ type MlEvaluation struct {
 	StartedAt    time.Time  `json:"startedAt"`
 	EndedAt      *time.Time `json:"endedAt,omitempty"`
 	Evaluator    string     `json:"evaluator"`
+	Tags         []string   `json:"tags"`
 	Source       string     `json:"source"`
 	CreatedBy    *string    `json:"createdBy,omitempty"`
 	Parameters   any        `json:"parameters"`
@@ -1293,6 +1296,7 @@ type MlRun struct {
 	StartedAt    time.Time  `json:"startedAt"`
 	EndedAt      *time.Time `json:"endedAt,omitempty"`
 	Notes        string     `json:"notes"`
+	Tags         []string   `json:"tags"`
 	Parameters   any        `json:"parameters"`
 	Metrics      any        `json:"metrics"`
 	DatasetID    *string    `json:"datasetId,omitempty"`
@@ -1963,13 +1967,13 @@ type UpdateMemberInput struct {
 }
 
 type UpdateMlDatasetInput struct {
-	Name       *string `json:"name,omitempty"`
-	Digest     *string `json:"digest,omitempty"`
-	Source     *string `json:"source,omitempty"`
-	SourceType *string `json:"sourceType,omitempty"`
-	Context    *string `json:"context,omitempty"`
-	RowCount   *int    `json:"rowCount,omitempty"`
-	Tags       any     `json:"tags,omitempty"`
+	Name       *string  `json:"name,omitempty"`
+	Digest     *string  `json:"digest,omitempty"`
+	Source     *string  `json:"source,omitempty"`
+	SourceType *string  `json:"sourceType,omitempty"`
+	Context    *string  `json:"context,omitempty"`
+	RowCount   *int     `json:"rowCount,omitempty"`
+	Tags       []string `json:"tags,omitempty"`
 }
 
 type UpdateMlDeploymentInput struct {
@@ -1991,6 +1995,7 @@ type UpdateMlEvaluationInput struct {
 	StartedAt   time.Time  `json:"startedAt"`
 	EndedAt     *time.Time `json:"endedAt,omitempty"`
 	Evaluator   *string    `json:"evaluator,omitempty"`
+	Tags        []string   `json:"tags,omitempty"`
 	Parameters  any        `json:"parameters,omitempty"`
 	Metrics     any        `json:"metrics,omitempty"`
 }
@@ -2033,6 +2038,7 @@ type UpdateMlRunInput struct {
 	StartedAt  time.Time  `json:"startedAt"`
 	EndedAt    *time.Time `json:"endedAt,omitempty"`
 	Notes      *string    `json:"notes,omitempty"`
+	Tags       []string   `json:"tags,omitempty"`
 	Parameters any        `json:"parameters,omitempty"`
 	Metrics    any        `json:"metrics,omitempty"`
 	DatasetID  *string    `json:"datasetId,omitempty"`

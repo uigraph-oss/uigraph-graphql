@@ -164,6 +164,7 @@ type MlRun {
     startedAt:    Time!
     endedAt:      Time
     notes:        String!
+    tags:         [String!]!
     parameters:   JSON!
     metrics:      JSON!
     datasetId:    ID
@@ -201,7 +202,7 @@ type MlDataset {
     context:      String!
     rowCount:     Int!
     schema:       [MlSchemaField!]!
-    tags:         JSON!
+    tags:         [String!]!
     origin:       String!
 }
 
@@ -237,6 +238,7 @@ type MlEvaluation {
     startedAt:   Time!
     endedAt:     Time
     evaluator:   String!
+    tags:        [String!]!
     source:      String!
     createdBy:   ID
     parameters:  JSON!
@@ -352,6 +354,7 @@ input CreateMlRunInput {
     startedAt:  Time!
     endedAt:    Time
     notes:      String
+    tags:       [String!]
     parameters: JSON
     metrics:    JSON
     datasetId:  ID
@@ -364,6 +367,7 @@ input UpdateMlRunInput {
     startedAt:  Time!
     endedAt:    Time
     notes:      String
+    tags:       [String!]
     parameters: JSON
     metrics:    JSON
     datasetId:  ID
@@ -377,7 +381,7 @@ input CreateMlDatasetInput {
     sourceType: String
     context:    String
     rowCount:   Int
-    tags:       JSON
+    tags:       [String!]
 }
 
 input UpdateMlDatasetInput {
@@ -387,7 +391,7 @@ input UpdateMlDatasetInput {
     sourceType: String
     context:    String
     rowCount:   Int
-    tags:       JSON
+    tags:       [String!]
 }
 
 input CreateMlEvaluationInput {
@@ -400,6 +404,7 @@ input CreateMlEvaluationInput {
     startedAt:   Time!
     endedAt:     Time
     evaluator:   String
+    tags:        [String!]
     parameters:  JSON
     metrics:     JSON
 }
@@ -413,6 +418,7 @@ input UpdateMlEvaluationInput {
     startedAt:   Time!
     endedAt:     Time
     evaluator:   String
+    tags:        [String!]
     parameters:  JSON
     metrics:     JSON
 }

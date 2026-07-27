@@ -745,6 +745,7 @@ type ComplexityRoot struct {
 		Source       func(childComplexity int) int
 		StartedAt    func(childComplexity int) int
 		Summary      func(childComplexity int) int
+		Tags         func(childComplexity int) int
 		Type         func(childComplexity int) int
 		Version      func(childComplexity int) int
 		VersionID    func(childComplexity int) int
@@ -864,6 +865,7 @@ type ComplexityRoot struct {
 		StartedAt    func(childComplexity int) int
 		Status       func(childComplexity int) int
 		SyncedAt     func(childComplexity int) int
+		Tags         func(childComplexity int) int
 		UpdatedAt    func(childComplexity int) int
 	}
 
@@ -5574,6 +5576,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlEvaluation.Summary(childComplexity), true
 
+	case "MlEvaluation.tags":
+		if e.complexity.MlEvaluation.Tags == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluation.Tags(childComplexity), true
+
 	case "MlEvaluation.type":
 		if e.complexity.MlEvaluation.Type == nil {
 			break
@@ -6196,6 +6205,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlRun.SyncedAt(childComplexity), true
+
+	case "MlRun.tags":
+		if e.complexity.MlRun.Tags == nil {
+			break
+		}
+
+		return e.complexity.MlRun.Tags(childComplexity), true
 
 	case "MlRun.updatedAt":
 		if e.complexity.MlRun.UpdatedAt == nil {
@@ -13611,6 +13627,7 @@ type MlRun {
     startedAt:    Time!
     endedAt:      Time
     notes:        String!
+    tags:         [String!]!
     parameters:   JSON!
     metrics:      JSON!
     datasetId:    ID
@@ -13648,7 +13665,7 @@ type MlDataset {
     context:      String!
     rowCount:     Int!
     schema:       [MlSchemaField!]!
-    tags:         JSON!
+    tags:         [String!]!
     origin:       String!
 }
 
@@ -13684,6 +13701,7 @@ type MlEvaluation {
     startedAt:   Time!
     endedAt:     Time
     evaluator:   String!
+    tags:        [String!]!
     source:      String!
     createdBy:   ID
     parameters:  JSON!
@@ -13799,6 +13817,7 @@ input CreateMlRunInput {
     startedAt:  Time!
     endedAt:    Time
     notes:      String
+    tags:       [String!]
     parameters: JSON
     metrics:    JSON
     datasetId:  ID
@@ -13811,6 +13830,7 @@ input UpdateMlRunInput {
     startedAt:  Time!
     endedAt:    Time
     notes:      String
+    tags:       [String!]
     parameters: JSON
     metrics:    JSON
     datasetId:  ID
@@ -13824,7 +13844,7 @@ input CreateMlDatasetInput {
     sourceType: String
     context:    String
     rowCount:   Int
-    tags:       JSON
+    tags:       [String!]
 }
 
 input UpdateMlDatasetInput {
@@ -13834,7 +13854,7 @@ input UpdateMlDatasetInput {
     sourceType: String
     context:    String
     rowCount:   Int
-    tags:       JSON
+    tags:       [String!]
 }
 
 input CreateMlEvaluationInput {
@@ -13847,6 +13867,7 @@ input CreateMlEvaluationInput {
     startedAt:   Time!
     endedAt:     Time
     evaluator:   String
+    tags:        [String!]
     parameters:  JSON
     metrics:     JSON
 }
@@ -13860,6 +13881,7 @@ input UpdateMlEvaluationInput {
     startedAt:   Time!
     endedAt:     Time
     evaluator:   String
+    tags:        [String!]
     parameters:  JSON
     metrics:     JSON
 }
@@ -53668,9 +53690,9 @@ func (ec *executionContext) _MlDataset_tags(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(any)
+	res := resTmp.([]string)
 	fc.Result = res
-	return ec.marshalNJSON2interface(ctx, field.Selections, res)
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MlDataset_tags(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -53680,7 +53702,7 @@ func (ec *executionContext) fieldContext_MlDataset_tags(_ context.Context, field
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type JSON does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -54730,6 +54752,50 @@ func (ec *executionContext) fieldContext_MlEvaluation_evaluator(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _MlEvaluation_tags(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluation) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluation_tags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Tags, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluation_tags(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluation",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlEvaluation_source(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluation) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlEvaluation_source(ctx, field)
 	if err != nil {
@@ -54968,6 +55034,8 @@ func (ec *executionContext) fieldContext_MlEvaluationPage_evaluations(_ context.
 				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlEvaluation_tags(ctx, field)
 			case "source":
 				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
@@ -58543,6 +58611,50 @@ func (ec *executionContext) fieldContext_MlRun_notes(_ context.Context, field gr
 	return fc, nil
 }
 
+func (ec *executionContext) _MlRun_tags(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlRun_tags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Tags, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlRun_tags(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlRun",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlRun_parameters(ctx context.Context, field graphql.CollectedField, obj *model.MlRun) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlRun_parameters(ctx, field)
 	if err != nil {
@@ -58853,6 +58965,8 @@ func (ec *executionContext) fieldContext_MlRunPage_runs(_ context.Context, field
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlRun_tags(ctx, field)
 			case "parameters":
 				return ec.fieldContext_MlRun_parameters(ctx, field)
 			case "metrics":
@@ -65724,6 +65838,8 @@ func (ec *executionContext) fieldContext_Mutation_linkMlVersionEvaluations(ctx c
 				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlEvaluation_tags(ctx, field)
 			case "source":
 				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
@@ -66014,6 +66130,8 @@ func (ec *executionContext) fieldContext_Mutation_createMlRun(ctx context.Contex
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlRun_tags(ctx, field)
 			case "parameters":
 				return ec.fieldContext_MlRun_parameters(ctx, field)
 			case "metrics":
@@ -66099,6 +66217,8 @@ func (ec *executionContext) fieldContext_Mutation_updateMlRun(ctx context.Contex
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlRun_tags(ctx, field)
 			case "parameters":
 				return ec.fieldContext_MlRun_parameters(ctx, field)
 			case "metrics":
@@ -66462,6 +66582,8 @@ func (ec *executionContext) fieldContext_Mutation_createMlEvaluation(ctx context
 				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlEvaluation_tags(ctx, field)
 			case "source":
 				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
@@ -66553,6 +66675,8 @@ func (ec *executionContext) fieldContext_Mutation_updateMlEvaluation(ctx context
 				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlEvaluation_tags(ctx, field)
 			case "source":
 				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
@@ -76950,6 +77074,8 @@ func (ec *executionContext) fieldContext_Query_mlRuns(ctx context.Context, field
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlRun_tags(ctx, field)
 			case "parameters":
 				return ec.fieldContext_MlRun_parameters(ctx, field)
 			case "metrics":
@@ -77096,6 +77222,8 @@ func (ec *executionContext) fieldContext_Query_mlRun(ctx context.Context, field 
 				return ec.fieldContext_MlRun_endedAt(ctx, field)
 			case "notes":
 				return ec.fieldContext_MlRun_notes(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlRun_tags(ctx, field)
 			case "parameters":
 				return ec.fieldContext_MlRun_parameters(ctx, field)
 			case "metrics":
@@ -77714,6 +77842,8 @@ func (ec *executionContext) fieldContext_Query_mlVersionEvaluations(ctx context.
 				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlEvaluation_tags(ctx, field)
 			case "source":
 				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
@@ -77805,6 +77935,8 @@ func (ec *executionContext) fieldContext_Query_mlExperimentEvaluations(ctx conte
 				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlEvaluation_tags(ctx, field)
 			case "source":
 				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
@@ -78018,6 +78150,8 @@ func (ec *executionContext) fieldContext_Query_mlEvaluation(ctx context.Context,
 				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "tags":
+				return ec.fieldContext_MlEvaluation_tags(ctx, field)
 			case "source":
 				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
@@ -98869,7 +99003,7 @@ func (ec *executionContext) unmarshalInputCreateMlDatasetInput(ctx context.Conte
 			it.RowCount = data
 		case "tags":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
-			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -98970,7 +99104,7 @@ func (ec *executionContext) unmarshalInputCreateMlEvaluationInput(ctx context.Co
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"versionId", "name", "type", "datasetId", "description", "summary", "startedAt", "endedAt", "evaluator", "parameters", "metrics"}
+	fieldsInOrder := [...]string{"versionId", "name", "type", "datasetId", "description", "summary", "startedAt", "endedAt", "evaluator", "tags", "parameters", "metrics"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -99040,6 +99174,13 @@ func (ec *executionContext) unmarshalInputCreateMlEvaluationInput(ctx context.Co
 				return it, err
 			}
 			it.Evaluator = data
+		case "tags":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tags = data
 		case "parameters":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parameters"))
 			data, err := ec.unmarshalOJSON2interface(ctx, v)
@@ -99301,7 +99442,7 @@ func (ec *executionContext) unmarshalInputCreateMlRunInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "notes", "parameters", "metrics", "datasetId", "series"}
+	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "notes", "tags", "parameters", "metrics", "datasetId", "series"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -99343,6 +99484,13 @@ func (ec *executionContext) unmarshalInputCreateMlRunInput(ctx context.Context, 
 				return it, err
 			}
 			it.Notes = data
+		case "tags":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tags = data
 		case "parameters":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parameters"))
 			data, err := ec.unmarshalOJSON2interface(ctx, v)
@@ -102156,7 +102304,7 @@ func (ec *executionContext) unmarshalInputUpdateMlDatasetInput(ctx context.Conte
 			it.RowCount = data
 		case "tags":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
-			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -102243,7 +102391,7 @@ func (ec *executionContext) unmarshalInputUpdateMlEvaluationInput(ctx context.Co
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "type", "datasetId", "description", "summary", "startedAt", "endedAt", "evaluator", "parameters", "metrics"}
+	fieldsInOrder := [...]string{"name", "type", "datasetId", "description", "summary", "startedAt", "endedAt", "evaluator", "tags", "parameters", "metrics"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -102306,6 +102454,13 @@ func (ec *executionContext) unmarshalInputUpdateMlEvaluationInput(ctx context.Co
 				return it, err
 			}
 			it.Evaluator = data
+		case "tags":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tags = data
 		case "parameters":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parameters"))
 			data, err := ec.unmarshalOJSON2interface(ctx, v)
@@ -102553,7 +102708,7 @@ func (ec *executionContext) unmarshalInputUpdateMlRunInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "notes", "parameters", "metrics", "datasetId", "series"}
+	fieldsInOrder := [...]string{"name", "status", "startedAt", "endedAt", "notes", "tags", "parameters", "metrics", "datasetId", "series"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -102595,6 +102750,13 @@ func (ec *executionContext) unmarshalInputUpdateMlRunInput(ctx context.Context, 
 				return it, err
 			}
 			it.Notes = data
+		case "tags":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Tags = data
 		case "parameters":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parameters"))
 			data, err := ec.unmarshalOJSON2interface(ctx, v)
@@ -108267,6 +108429,11 @@ func (ec *executionContext) _MlEvaluation(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "tags":
+			out.Values[i] = ec._MlEvaluation_tags(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "source":
 			out.Values[i] = ec._MlEvaluation_source(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -108991,6 +109158,11 @@ func (ec *executionContext) _MlRun(ctx context.Context, sel ast.SelectionSet, ob
 			out.Values[i] = ec._MlRun_endedAt(ctx, field, obj)
 		case "notes":
 			out.Values[i] = ec._MlRun_notes(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "tags":
+			out.Values[i] = ec._MlRun_tags(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}

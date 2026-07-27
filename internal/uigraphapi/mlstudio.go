@@ -93,6 +93,7 @@ type MLRun struct {
 	StartedAt    time.Time      `json:"startedAt"`
 	EndedAt      *time.Time     `json:"endedAt,omitempty"`
 	Notes        string         `json:"notes"`
+	Tags         []string       `json:"tags"`
 	Parameters   map[string]any `json:"parameters"`
 	Metrics      map[string]any `json:"metrics"`
 	DatasetID    *string        `json:"datasetId,omitempty"`
@@ -122,18 +123,18 @@ type MLSchemaField struct {
 }
 
 type MLDataset struct {
-	ID           string            `json:"id"`
-	OrgID        string            `json:"orgId"`
-	ExperimentID string            `json:"experimentId"`
-	Name         string            `json:"name"`
-	Digest       string            `json:"digest"`
-	Source       string            `json:"source"`
-	SourceType   string            `json:"sourceType"`
-	Context      string            `json:"context"`
-	RowCount     int64             `json:"rowCount"`
-	Schema       []MLSchemaField   `json:"schema"`
-	Tags         map[string]string `json:"tags"`
-	Origin       string            `json:"origin"`
+	ID           string          `json:"id"`
+	OrgID        string          `json:"orgId"`
+	ExperimentID string          `json:"experimentId"`
+	Name         string          `json:"name"`
+	Digest       string          `json:"digest"`
+	Source       string          `json:"source"`
+	SourceType   string          `json:"sourceType"`
+	Context      string          `json:"context"`
+	RowCount     int64           `json:"rowCount"`
+	Schema       []MLSchemaField `json:"schema"`
+	Tags         []string        `json:"tags"`
+	Origin       string          `json:"origin"`
 }
 
 type MLDeployment struct {
@@ -180,6 +181,7 @@ type MLEvaluation struct {
 	StartedAt    time.Time      `json:"startedAt"`
 	EndedAt      *time.Time     `json:"endedAt,omitempty"`
 	Evaluator    string         `json:"evaluator"`
+	Tags         []string       `json:"tags"`
 	Source       string         `json:"source"`
 	CreatedBy    *string        `json:"createdBy,omitempty"`
 	Parameters   map[string]any `json:"parameters"`
