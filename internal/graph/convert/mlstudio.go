@@ -215,7 +215,7 @@ func MLEvaluationToModel(e *uigraphapi.MLEvaluation) *model.MlEvaluation {
 		ModelName: e.ModelName, Version: e.Version,
 		DatasetID: e.DatasetID, Name: e.Name,
 		Type: e.Type, Description: e.Description, Summary: e.Summary,
-		EvaluatedAt: e.EvaluatedAt, Evaluator: e.Evaluator, Source: e.Source,
+		StartedAt: e.StartedAt, EndedAt: e.EndedAt, Evaluator: e.Evaluator, Source: e.Source,
 		CreatedBy:  e.CreatedBy,
 		Parameters: parameters, Metrics: metrics,
 	}

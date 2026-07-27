@@ -429,16 +429,17 @@ type CreateMlDeploymentInput struct {
 }
 
 type CreateMlEvaluationInput struct {
-	VersionID   string     `json:"versionId"`
-	Name        string     `json:"name"`
-	Type        string     `json:"type"`
-	DatasetID   *string    `json:"datasetId,omitempty"`
-	Description *string    `json:"description,omitempty"`
-	Summary     *string    `json:"summary,omitempty"`
-	EvaluatedAt *time.Time `json:"evaluatedAt,omitempty"`
-	Evaluator   *string    `json:"evaluator,omitempty"`
-	Parameters  any        `json:"parameters,omitempty"`
-	Metrics     any        `json:"metrics,omitempty"`
+	VersionID   string    `json:"versionId"`
+	Name        string    `json:"name"`
+	Type        string    `json:"type"`
+	DatasetID   *string   `json:"datasetId,omitempty"`
+	Description *string   `json:"description,omitempty"`
+	Summary     *string   `json:"summary,omitempty"`
+	StartedAt   time.Time `json:"startedAt"`
+	EndedAt     time.Time `json:"endedAt"`
+	Evaluator   *string   `json:"evaluator,omitempty"`
+	Parameters  any       `json:"parameters,omitempty"`
+	Metrics     any       `json:"metrics,omitempty"`
 }
 
 type CreateMlExperimentInput struct {
@@ -477,15 +478,15 @@ type CreateMlProjectInput struct {
 }
 
 type CreateMlRunInput struct {
-	Name       string     `json:"name"`
-	Status     *string    `json:"status,omitempty"`
-	StartedAt  *time.Time `json:"startedAt,omitempty"`
-	EndedAt    *time.Time `json:"endedAt,omitempty"`
-	Notes      *string    `json:"notes,omitempty"`
-	Parameters any        `json:"parameters,omitempty"`
-	Metrics    any        `json:"metrics,omitempty"`
-	DatasetID  *string    `json:"datasetId,omitempty"`
-	Series     any        `json:"series,omitempty"`
+	Name       string    `json:"name"`
+	Status     *string   `json:"status,omitempty"`
+	StartedAt  time.Time `json:"startedAt"`
+	EndedAt    time.Time `json:"endedAt"`
+	Notes      *string   `json:"notes,omitempty"`
+	Parameters any       `json:"parameters,omitempty"`
+	Metrics    any       `json:"metrics,omitempty"`
+	DatasetID  *string   `json:"datasetId,omitempty"`
+	Series     any       `json:"series,omitempty"`
 }
 
 type CreateOrgInput struct {
@@ -1165,22 +1166,23 @@ type MlDeployment struct {
 }
 
 type MlEvaluation struct {
-	ID           string     `json:"id"`
-	VersionID    string     `json:"versionId"`
-	ExperimentID string     `json:"experimentId"`
-	ModelName    string     `json:"modelName"`
-	Version      string     `json:"version"`
-	DatasetID    *string    `json:"datasetId,omitempty"`
-	Name         string     `json:"name"`
-	Type         string     `json:"type"`
-	Description  string     `json:"description"`
-	Summary      string     `json:"summary"`
-	EvaluatedAt  *time.Time `json:"evaluatedAt,omitempty"`
-	Evaluator    string     `json:"evaluator"`
-	Source       string     `json:"source"`
-	CreatedBy    *string    `json:"createdBy,omitempty"`
-	Parameters   any        `json:"parameters"`
-	Metrics      any        `json:"metrics"`
+	ID           string    `json:"id"`
+	VersionID    string    `json:"versionId"`
+	ExperimentID string    `json:"experimentId"`
+	ModelName    string    `json:"modelName"`
+	Version      string    `json:"version"`
+	DatasetID    *string   `json:"datasetId,omitempty"`
+	Name         string    `json:"name"`
+	Type         string    `json:"type"`
+	Description  string    `json:"description"`
+	Summary      string    `json:"summary"`
+	StartedAt    time.Time `json:"startedAt"`
+	EndedAt      time.Time `json:"endedAt"`
+	Evaluator    string    `json:"evaluator"`
+	Source       string    `json:"source"`
+	CreatedBy    *string   `json:"createdBy,omitempty"`
+	Parameters   any       `json:"parameters"`
+	Metrics      any       `json:"metrics"`
 }
 
 type MlEvaluationPage struct {
@@ -1288,8 +1290,8 @@ type MlRun struct {
 	ExperimentID string     `json:"experimentId"`
 	Name         string     `json:"name"`
 	Status       string     `json:"status"`
-	StartedAt    *time.Time `json:"startedAt,omitempty"`
-	EndedAt      *time.Time `json:"endedAt,omitempty"`
+	StartedAt    time.Time  `json:"startedAt"`
+	EndedAt      time.Time  `json:"endedAt"`
 	Notes        string     `json:"notes"`
 	Parameters   any        `json:"parameters"`
 	Metrics      any        `json:"metrics"`
@@ -1981,15 +1983,16 @@ type UpdateMlDeploymentInput struct {
 }
 
 type UpdateMlEvaluationInput struct {
-	Name        *string    `json:"name,omitempty"`
-	Type        *string    `json:"type,omitempty"`
-	DatasetID   *string    `json:"datasetId,omitempty"`
-	Description *string    `json:"description,omitempty"`
-	Summary     *string    `json:"summary,omitempty"`
-	EvaluatedAt *time.Time `json:"evaluatedAt,omitempty"`
-	Evaluator   *string    `json:"evaluator,omitempty"`
-	Parameters  any        `json:"parameters,omitempty"`
-	Metrics     any        `json:"metrics,omitempty"`
+	Name        *string   `json:"name,omitempty"`
+	Type        *string   `json:"type,omitempty"`
+	DatasetID   *string   `json:"datasetId,omitempty"`
+	Description *string   `json:"description,omitempty"`
+	Summary     *string   `json:"summary,omitempty"`
+	StartedAt   time.Time `json:"startedAt"`
+	EndedAt     time.Time `json:"endedAt"`
+	Evaluator   *string   `json:"evaluator,omitempty"`
+	Parameters  any       `json:"parameters,omitempty"`
+	Metrics     any       `json:"metrics,omitempty"`
 }
 
 type UpdateMlExperimentInput struct {
@@ -2026,15 +2029,15 @@ type UpdateMlProjectInput struct {
 }
 
 type UpdateMlRunInput struct {
-	Name       *string    `json:"name,omitempty"`
-	Status     *string    `json:"status,omitempty"`
-	StartedAt  *time.Time `json:"startedAt,omitempty"`
-	EndedAt    *time.Time `json:"endedAt,omitempty"`
-	Notes      *string    `json:"notes,omitempty"`
-	Parameters any        `json:"parameters,omitempty"`
-	Metrics    any        `json:"metrics,omitempty"`
-	DatasetID  *string    `json:"datasetId,omitempty"`
-	Series     any        `json:"series,omitempty"`
+	Name       *string   `json:"name,omitempty"`
+	Status     *string   `json:"status,omitempty"`
+	StartedAt  time.Time `json:"startedAt"`
+	EndedAt    time.Time `json:"endedAt"`
+	Notes      *string   `json:"notes,omitempty"`
+	Parameters any       `json:"parameters,omitempty"`
+	Metrics    any       `json:"metrics,omitempty"`
+	DatasetID  *string   `json:"datasetId,omitempty"`
+	Series     any       `json:"series,omitempty"`
 }
 
 type UpdateOrgInput struct {

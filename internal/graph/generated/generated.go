@@ -734,7 +734,7 @@ type ComplexityRoot struct {
 		CreatedBy    func(childComplexity int) int
 		DatasetID    func(childComplexity int) int
 		Description  func(childComplexity int) int
-		EvaluatedAt  func(childComplexity int) int
+		EndedAt      func(childComplexity int) int
 		Evaluator    func(childComplexity int) int
 		ExperimentID func(childComplexity int) int
 		ID           func(childComplexity int) int
@@ -743,6 +743,7 @@ type ComplexityRoot struct {
 		Name         func(childComplexity int) int
 		Parameters   func(childComplexity int) int
 		Source       func(childComplexity int) int
+		StartedAt    func(childComplexity int) int
 		Summary      func(childComplexity int) int
 		Type         func(childComplexity int) int
 		Version      func(childComplexity int) int
@@ -5495,12 +5496,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlEvaluation.Description(childComplexity), true
 
-	case "MlEvaluation.evaluatedAt":
-		if e.complexity.MlEvaluation.EvaluatedAt == nil {
+	case "MlEvaluation.endedAt":
+		if e.complexity.MlEvaluation.EndedAt == nil {
 			break
 		}
 
-		return e.complexity.MlEvaluation.EvaluatedAt(childComplexity), true
+		return e.complexity.MlEvaluation.EndedAt(childComplexity), true
 
 	case "MlEvaluation.evaluator":
 		if e.complexity.MlEvaluation.Evaluator == nil {
@@ -5557,6 +5558,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlEvaluation.Source(childComplexity), true
+
+	case "MlEvaluation.startedAt":
+		if e.complexity.MlEvaluation.StartedAt == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluation.StartedAt(childComplexity), true
 
 	case "MlEvaluation.summary":
 		if e.complexity.MlEvaluation.Summary == nil {
@@ -13591,8 +13599,8 @@ type MlRun {
     experimentId: ID!
     name:         String!
     status:       String!
-    startedAt:    Time
-    endedAt:      Time
+    startedAt:    Time!
+    endedAt:      Time!
     notes:        String!
     parameters:   JSON!
     metrics:      JSON!
@@ -13664,7 +13672,8 @@ type MlEvaluation {
     type:        String!
     description: String!
     summary:     String!
-    evaluatedAt: Time
+    startedAt:   Time!
+    endedAt:     Time!
     evaluator:   String!
     source:      String!
     createdBy:   ID
@@ -13780,8 +13789,8 @@ input UpdateMlExperimentInput {
 input CreateMlRunInput {
     name:       String!
     status:     String
-    startedAt:  Time
-    endedAt:    Time
+    startedAt:  Time!
+    endedAt:    Time!
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -13792,8 +13801,8 @@ input CreateMlRunInput {
 input UpdateMlRunInput {
     name:       String
     status:     String
-    startedAt:  Time
-    endedAt:    Time
+    startedAt:  Time!
+    endedAt:    Time!
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -13828,7 +13837,8 @@ input CreateMlEvaluationInput {
     datasetId:   ID
     description: String
     summary:     String
-    evaluatedAt: Time
+    startedAt:   Time!
+    endedAt:     Time!
     evaluator:   String
     parameters:  JSON
     metrics:     JSON
@@ -13840,7 +13850,8 @@ input UpdateMlEvaluationInput {
     datasetId:   ID
     description: String
     summary:     String
-    evaluatedAt: Time
+    startedAt:   Time!
+    endedAt:     Time!
     evaluator:   String
     parameters:  JSON
     metrics:     JSON
@@ -54583,8 +54594,8 @@ func (ec *executionContext) fieldContext_MlEvaluation_summary(_ context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _MlEvaluation_evaluatedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluation) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+func (ec *executionContext) _MlEvaluation_startedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluation) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluation_startedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -54597,21 +54608,68 @@ func (ec *executionContext) _MlEvaluation_evaluatedAt(ctx context.Context, field
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.EvaluatedAt, nil
+		return obj.StartedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*time.Time)
+	res := resTmp.(time.Time)
 	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_MlEvaluation_evaluatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_MlEvaluation_startedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluation",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlEvaluation_endedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluation) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluation_endedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EndedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluation_endedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "MlEvaluation",
 		Field:      field,
@@ -54900,8 +54958,10 @@ func (ec *executionContext) fieldContext_MlEvaluationPage_evaluations(_ context.
 				return ec.fieldContext_MlEvaluation_description(ctx, field)
 			case "summary":
 				return ec.fieldContext_MlEvaluation_summary(ctx, field)
-			case "evaluatedAt":
-				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlEvaluation_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
 			case "source":
@@ -58330,11 +58390,14 @@ func (ec *executionContext) _MlRun_startedAt(ctx context.Context, field graphql.
 		return graphql.Null
 	}
 	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*time.Time)
+	res := resTmp.(time.Time)
 	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MlRun_startedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -58371,11 +58434,14 @@ func (ec *executionContext) _MlRun_endedAt(ctx context.Context, field graphql.Co
 		return graphql.Null
 	}
 	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*time.Time)
+	res := resTmp.(time.Time)
 	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MlRun_endedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -65610,8 +65676,10 @@ func (ec *executionContext) fieldContext_Mutation_linkMlVersionEvaluations(ctx c
 				return ec.fieldContext_MlEvaluation_description(ctx, field)
 			case "summary":
 				return ec.fieldContext_MlEvaluation_summary(ctx, field)
-			case "evaluatedAt":
-				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlEvaluation_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
 			case "source":
@@ -66342,8 +66410,10 @@ func (ec *executionContext) fieldContext_Mutation_createMlEvaluation(ctx context
 				return ec.fieldContext_MlEvaluation_description(ctx, field)
 			case "summary":
 				return ec.fieldContext_MlEvaluation_summary(ctx, field)
-			case "evaluatedAt":
-				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlEvaluation_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
 			case "source":
@@ -66431,8 +66501,10 @@ func (ec *executionContext) fieldContext_Mutation_updateMlEvaluation(ctx context
 				return ec.fieldContext_MlEvaluation_description(ctx, field)
 			case "summary":
 				return ec.fieldContext_MlEvaluation_summary(ctx, field)
-			case "evaluatedAt":
-				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlEvaluation_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
 			case "source":
@@ -77586,8 +77658,10 @@ func (ec *executionContext) fieldContext_Query_mlVersionEvaluations(ctx context.
 				return ec.fieldContext_MlEvaluation_description(ctx, field)
 			case "summary":
 				return ec.fieldContext_MlEvaluation_summary(ctx, field)
-			case "evaluatedAt":
-				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlEvaluation_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
 			case "source":
@@ -77675,8 +77749,10 @@ func (ec *executionContext) fieldContext_Query_mlExperimentEvaluations(ctx conte
 				return ec.fieldContext_MlEvaluation_description(ctx, field)
 			case "summary":
 				return ec.fieldContext_MlEvaluation_summary(ctx, field)
-			case "evaluatedAt":
-				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlEvaluation_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
 			case "source":
@@ -77886,8 +77962,10 @@ func (ec *executionContext) fieldContext_Query_mlEvaluation(ctx context.Context,
 				return ec.fieldContext_MlEvaluation_description(ctx, field)
 			case "summary":
 				return ec.fieldContext_MlEvaluation_summary(ctx, field)
-			case "evaluatedAt":
-				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "startedAt":
+				return ec.fieldContext_MlEvaluation_startedAt(ctx, field)
+			case "endedAt":
+				return ec.fieldContext_MlEvaluation_endedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
 			case "source":
@@ -98842,7 +98920,7 @@ func (ec *executionContext) unmarshalInputCreateMlEvaluationInput(ctx context.Co
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"versionId", "name", "type", "datasetId", "description", "summary", "evaluatedAt", "evaluator", "parameters", "metrics"}
+	fieldsInOrder := [...]string{"versionId", "name", "type", "datasetId", "description", "summary", "startedAt", "endedAt", "evaluator", "parameters", "metrics"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -98891,13 +98969,20 @@ func (ec *executionContext) unmarshalInputCreateMlEvaluationInput(ctx context.Co
 				return it, err
 			}
 			it.Summary = data
-		case "evaluatedAt":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluatedAt"))
-			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+		case "startedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.EvaluatedAt = data
+			it.StartedAt = data
+		case "endedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EndedAt = data
 		case "evaluator":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluator"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -99196,14 +99281,14 @@ func (ec *executionContext) unmarshalInputCreateMlRunInput(ctx context.Context, 
 			it.Status = data
 		case "startedAt":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
-			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.StartedAt = data
 		case "endedAt":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
-			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -102115,7 +102200,7 @@ func (ec *executionContext) unmarshalInputUpdateMlEvaluationInput(ctx context.Co
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "type", "datasetId", "description", "summary", "evaluatedAt", "evaluator", "parameters", "metrics"}
+	fieldsInOrder := [...]string{"name", "type", "datasetId", "description", "summary", "startedAt", "endedAt", "evaluator", "parameters", "metrics"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -102157,13 +102242,20 @@ func (ec *executionContext) unmarshalInputUpdateMlEvaluationInput(ctx context.Co
 				return it, err
 			}
 			it.Summary = data
-		case "evaluatedAt":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluatedAt"))
-			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+		case "startedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.EvaluatedAt = data
+			it.StartedAt = data
+		case "endedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EndedAt = data
 		case "evaluator":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluator"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -102448,14 +102540,14 @@ func (ec *executionContext) unmarshalInputUpdateMlRunInput(ctx context.Context, 
 			it.Status = data
 		case "startedAt":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
-			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.StartedAt = data
 		case "endedAt":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
-			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -108127,8 +108219,16 @@ func (ec *executionContext) _MlEvaluation(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "evaluatedAt":
-			out.Values[i] = ec._MlEvaluation_evaluatedAt(ctx, field, obj)
+		case "startedAt":
+			out.Values[i] = ec._MlEvaluation_startedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "endedAt":
+			out.Values[i] = ec._MlEvaluation_endedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "evaluator":
 			out.Values[i] = ec._MlEvaluation_evaluator(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -108849,8 +108949,14 @@ func (ec *executionContext) _MlRun(ctx context.Context, sel ast.SelectionSet, ob
 			}
 		case "startedAt":
 			out.Values[i] = ec._MlRun_startedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "endedAt":
 			out.Values[i] = ec._MlRun_endedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "notes":
 			out.Values[i] = ec._MlRun_notes(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

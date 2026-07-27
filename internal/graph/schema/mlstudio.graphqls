@@ -160,8 +160,8 @@ type MlRun {
     experimentId: ID!
     name:         String!
     status:       String!
-    startedAt:    Time
-    endedAt:      Time
+    startedAt:    Time!
+    endedAt:      Time!
     notes:        String!
     parameters:   JSON!
     metrics:      JSON!
@@ -233,7 +233,8 @@ type MlEvaluation {
     type:        String!
     description: String!
     summary:     String!
-    evaluatedAt: Time
+    startedAt:   Time!
+    endedAt:     Time!
     evaluator:   String!
     source:      String!
     createdBy:   ID
@@ -349,8 +350,8 @@ input UpdateMlExperimentInput {
 input CreateMlRunInput {
     name:       String!
     status:     String
-    startedAt:  Time
-    endedAt:    Time
+    startedAt:  Time!
+    endedAt:    Time!
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -361,8 +362,8 @@ input CreateMlRunInput {
 input UpdateMlRunInput {
     name:       String
     status:     String
-    startedAt:  Time
-    endedAt:    Time
+    startedAt:  Time!
+    endedAt:    Time!
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -397,7 +398,8 @@ input CreateMlEvaluationInput {
     datasetId:   ID
     description: String
     summary:     String
-    evaluatedAt: Time
+    startedAt:   Time!
+    endedAt:     Time!
     evaluator:   String
     parameters:  JSON
     metrics:     JSON
@@ -409,7 +411,8 @@ input UpdateMlEvaluationInput {
     datasetId:   ID
     description: String
     summary:     String
-    evaluatedAt: Time
+    startedAt:   Time!
+    endedAt:     Time!
     evaluator:   String
     parameters:  JSON
     metrics:     JSON

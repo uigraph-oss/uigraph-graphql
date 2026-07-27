@@ -89,8 +89,8 @@ type MLRun struct {
 	ExperimentID string         `json:"experimentId"`
 	Name         string         `json:"name"`
 	Status       string         `json:"status"`
-	StartedAt    *time.Time     `json:"startedAt,omitempty"`
-	EndedAt      *time.Time     `json:"endedAt,omitempty"`
+	StartedAt    time.Time      `json:"startedAt"`
+	EndedAt      time.Time      `json:"endedAt"`
 	Notes        string         `json:"notes"`
 	Parameters   map[string]any `json:"parameters"`
 	Metrics      map[string]any `json:"metrics"`
@@ -176,7 +176,8 @@ type MLEvaluation struct {
 	Type         string         `json:"type"`
 	Description  string         `json:"description"`
 	Summary      string         `json:"summary"`
-	EvaluatedAt  *time.Time     `json:"evaluatedAt,omitempty"`
+	StartedAt    time.Time      `json:"startedAt"`
+	EndedAt      time.Time      `json:"endedAt"`
 	Evaluator    string         `json:"evaluator"`
 	Source       string         `json:"source"`
 	CreatedBy    *string        `json:"createdBy,omitempty"`
