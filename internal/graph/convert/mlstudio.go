@@ -107,6 +107,7 @@ func MLExperimentToModel(e *uigraphapi.MLExperiment) *model.MlExperiment {
 	return &model.MlExperiment{
 		ID: e.ID, ProjectID: e.ProjectID, Name: e.Name, Description: e.Description, Status: e.Status,
 		Tags: e.Tags, CreatedAt: e.CreatedAt, Source: e.Source, CreatedBy: e.CreatedBy,
+		UpdatedBy: e.UpdatedBy,
 	}
 }
 

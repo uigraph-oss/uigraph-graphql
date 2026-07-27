@@ -765,6 +765,7 @@ type ComplexityRoot struct {
 		Source      func(childComplexity int) int
 		Status      func(childComplexity int) int
 		Tags        func(childComplexity int) int
+		UpdatedBy   func(childComplexity int) int
 	}
 
 	MlFinding struct {
@@ -5670,6 +5671,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlExperiment.Tags(childComplexity), true
+
+	case "MlExperiment.updatedBy":
+		if e.complexity.MlExperiment.UpdatedBy == nil {
+			break
+		}
+
+		return e.complexity.MlExperiment.UpdatedBy(childComplexity), true
 
 	case "MlFinding.createdAt":
 		if e.complexity.MlFinding.CreatedAt == nil {
@@ -13586,6 +13594,7 @@ type MlExperiment {
     createdAt:   Time
     source:      String!
     createdBy:   ID
+    updatedBy:   ID
 }
 
 type MlRunPage {
@@ -55405,6 +55414,47 @@ func (ec *executionContext) fieldContext_MlExperiment_createdBy(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _MlExperiment_updatedBy(ctx context.Context, field graphql.CollectedField, obj *model.MlExperiment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlExperiment_updatedBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlExperiment_updatedBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlExperiment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlFinding_id(ctx context.Context, field graphql.CollectedField, obj *model.MlFinding) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlFinding_id(ctx, field)
 	if err != nil {
@@ -65757,6 +65807,8 @@ func (ec *executionContext) fieldContext_Mutation_createMlExperiment(ctx context
 				return ec.fieldContext_MlExperiment_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlExperiment_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_MlExperiment_updatedBy(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlExperiment", field.Name)
 		},
@@ -65832,6 +65884,8 @@ func (ec *executionContext) fieldContext_Mutation_updateMlExperiment(ctx context
 				return ec.fieldContext_MlExperiment_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlExperiment_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_MlExperiment_updatedBy(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlExperiment", field.Name)
 		},
@@ -76744,6 +76798,8 @@ func (ec *executionContext) fieldContext_Query_mlExperiments(ctx context.Context
 				return ec.fieldContext_MlExperiment_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlExperiment_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_MlExperiment_updatedBy(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlExperiment", field.Name)
 		},
@@ -76819,6 +76875,8 @@ func (ec *executionContext) fieldContext_Query_mlExperiment(ctx context.Context,
 				return ec.fieldContext_MlExperiment_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlExperiment_createdBy(ctx, field)
+			case "updatedBy":
+				return ec.fieldContext_MlExperiment_updatedBy(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type MlExperiment", field.Name)
 		},
@@ -108340,6 +108398,8 @@ func (ec *executionContext) _MlExperiment(ctx context.Context, sel ast.Selection
 			}
 		case "createdBy":
 			out.Values[i] = ec._MlExperiment_createdBy(ctx, field, obj)
+		case "updatedBy":
+			out.Values[i] = ec._MlExperiment_updatedBy(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

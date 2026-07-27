@@ -147,6 +147,7 @@ type MlExperiment {
     createdAt:   Time
     source:      String!
     createdBy:   ID
+    updatedBy:   ID
 }
 
 type MlRunPage {

@@ -81,6 +81,7 @@ type MLExperiment struct {
 	CreatedAt   *time.Time `json:"createdAt,omitempty"`
 	Source      string     `json:"source"`
 	CreatedBy   *string    `json:"createdBy,omitempty"`
+	UpdatedBy   *string    `json:"updatedBy,omitempty"`
 }
 
 type MLRun struct {

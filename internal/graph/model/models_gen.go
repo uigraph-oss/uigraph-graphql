@@ -1199,6 +1199,7 @@ type MlExperiment struct {
 	CreatedAt   *time.Time `json:"createdAt,omitempty"`
 	Source      string     `json:"source"`
 	CreatedBy   *string    `json:"createdBy,omitempty"`
+	UpdatedBy   *string    `json:"updatedBy,omitempty"`
 }
 
 type MlFinding struct {
