@@ -756,13 +756,13 @@ type ComplexityRoot struct {
 	}
 
 	MlExperiment struct {
+		CreatedAt   func(childComplexity int) int
 		CreatedBy   func(childComplexity int) int
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
 		Name        func(childComplexity int) int
 		ProjectID   func(childComplexity int) int
 		Source      func(childComplexity int) int
-		StartedAt   func(childComplexity int) int
 		Status      func(childComplexity int) int
 		Tags        func(childComplexity int) int
 	}
@@ -5608,6 +5608,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlEvaluationPage.Total(childComplexity), true
 
+	case "MlExperiment.createdAt":
+		if e.complexity.MlExperiment.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.MlExperiment.CreatedAt(childComplexity), true
+
 	case "MlExperiment.createdBy":
 		if e.complexity.MlExperiment.CreatedBy == nil {
 			break
@@ -5649,13 +5656,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlExperiment.Source(childComplexity), true
-
-	case "MlExperiment.startedAt":
-		if e.complexity.MlExperiment.StartedAt == nil {
-			break
-		}
-
-		return e.complexity.MlExperiment.StartedAt(childComplexity), true
 
 	case "MlExperiment.status":
 		if e.complexity.MlExperiment.Status == nil {
@@ -13583,7 +13583,7 @@ type MlExperiment {
     description: String!
     status:      String!
     tags:        [String!]!
-    startedAt:   Time
+    createdAt:   Time
     source:      String!
     createdBy:   ID
 }
@@ -13600,7 +13600,7 @@ type MlRun {
     name:         String!
     status:       String!
     startedAt:    Time!
-    endedAt:      Time!
+    endedAt:      Time
     notes:        String!
     parameters:   JSON!
     metrics:      JSON!
@@ -13673,7 +13673,7 @@ type MlEvaluation {
     description: String!
     summary:     String!
     startedAt:   Time!
-    endedAt:     Time!
+    endedAt:     Time
     evaluator:   String!
     source:      String!
     createdBy:   ID
@@ -13774,7 +13774,6 @@ input CreateMlExperimentInput {
     description: String
     status:      String
     tags:        [String!]
-    startedAt:   Time
 }
 
 input UpdateMlExperimentInput {
@@ -13783,14 +13782,13 @@ input UpdateMlExperimentInput {
     description: String
     status:      String
     tags:        [String!]
-    startedAt:   Time
 }
 
 input CreateMlRunInput {
     name:       String!
     status:     String
     startedAt:  Time!
-    endedAt:    Time!
+    endedAt:    Time
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -13802,7 +13800,7 @@ input UpdateMlRunInput {
     name:       String
     status:     String
     startedAt:  Time!
-    endedAt:    Time!
+    endedAt:    Time
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -13838,7 +13836,7 @@ input CreateMlEvaluationInput {
     description: String
     summary:     String
     startedAt:   Time!
-    endedAt:     Time!
+    endedAt:     Time
     evaluator:   String
     parameters:  JSON
     metrics:     JSON
@@ -13851,7 +13849,7 @@ input UpdateMlEvaluationInput {
     description: String
     summary:     String
     startedAt:   Time!
-    endedAt:     Time!
+    endedAt:     Time
     evaluator:   String
     parameters:  JSON
     metrics:     JSON
@@ -54659,14 +54657,11 @@ func (ec *executionContext) _MlEvaluation_endedAt(ctx context.Context, field gra
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(time.Time)
+	res := resTmp.(*time.Time)
 	fc.Result = res
-	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MlEvaluation_endedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -55284,8 +55279,8 @@ func (ec *executionContext) fieldContext_MlExperiment_tags(_ context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _MlExperiment_startedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlExperiment) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_MlExperiment_startedAt(ctx, field)
+func (ec *executionContext) _MlExperiment_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.MlExperiment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlExperiment_createdAt(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -55298,7 +55293,7 @@ func (ec *executionContext) _MlExperiment_startedAt(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.StartedAt, nil
+		return obj.CreatedAt, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -55312,7 +55307,7 @@ func (ec *executionContext) _MlExperiment_startedAt(ctx context.Context, field g
 	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_MlExperiment_startedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_MlExperiment_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "MlExperiment",
 		Field:      field,
@@ -58434,14 +58429,11 @@ func (ec *executionContext) _MlRun_endedAt(ctx context.Context, field graphql.Co
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(time.Time)
+	res := resTmp.(*time.Time)
 	fc.Result = res
-	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_MlRun_endedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -65759,8 +65751,8 @@ func (ec *executionContext) fieldContext_Mutation_createMlExperiment(ctx context
 				return ec.fieldContext_MlExperiment_status(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlExperiment_tags(ctx, field)
-			case "startedAt":
-				return ec.fieldContext_MlExperiment_startedAt(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlExperiment_createdAt(ctx, field)
 			case "source":
 				return ec.fieldContext_MlExperiment_source(ctx, field)
 			case "createdBy":
@@ -65834,8 +65826,8 @@ func (ec *executionContext) fieldContext_Mutation_updateMlExperiment(ctx context
 				return ec.fieldContext_MlExperiment_status(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlExperiment_tags(ctx, field)
-			case "startedAt":
-				return ec.fieldContext_MlExperiment_startedAt(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlExperiment_createdAt(ctx, field)
 			case "source":
 				return ec.fieldContext_MlExperiment_source(ctx, field)
 			case "createdBy":
@@ -76746,8 +76738,8 @@ func (ec *executionContext) fieldContext_Query_mlExperiments(ctx context.Context
 				return ec.fieldContext_MlExperiment_status(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlExperiment_tags(ctx, field)
-			case "startedAt":
-				return ec.fieldContext_MlExperiment_startedAt(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlExperiment_createdAt(ctx, field)
 			case "source":
 				return ec.fieldContext_MlExperiment_source(ctx, field)
 			case "createdBy":
@@ -76821,8 +76813,8 @@ func (ec *executionContext) fieldContext_Query_mlExperiment(ctx context.Context,
 				return ec.fieldContext_MlExperiment_status(ctx, field)
 			case "tags":
 				return ec.fieldContext_MlExperiment_tags(ctx, field)
-			case "startedAt":
-				return ec.fieldContext_MlExperiment_startedAt(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_MlExperiment_createdAt(ctx, field)
 			case "source":
 				return ec.fieldContext_MlExperiment_source(ctx, field)
 			case "createdBy":
@@ -98978,7 +98970,7 @@ func (ec *executionContext) unmarshalInputCreateMlEvaluationInput(ctx context.Co
 			it.StartedAt = data
 		case "endedAt":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
-			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -99017,7 +99009,7 @@ func (ec *executionContext) unmarshalInputCreateMlExperimentInput(ctx context.Co
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"projectId", "name", "description", "status", "tags", "startedAt"}
+	fieldsInOrder := [...]string{"projectId", "name", "description", "status", "tags"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -99059,13 +99051,6 @@ func (ec *executionContext) unmarshalInputCreateMlExperimentInput(ctx context.Co
 				return it, err
 			}
 			it.Tags = data
-		case "startedAt":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
-			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.StartedAt = data
 		}
 	}
 
@@ -99288,7 +99273,7 @@ func (ec *executionContext) unmarshalInputCreateMlRunInput(ctx context.Context, 
 			it.StartedAt = data
 		case "endedAt":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
-			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -102251,7 +102236,7 @@ func (ec *executionContext) unmarshalInputUpdateMlEvaluationInput(ctx context.Co
 			it.StartedAt = data
 		case "endedAt":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
-			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -102290,7 +102275,7 @@ func (ec *executionContext) unmarshalInputUpdateMlExperimentInput(ctx context.Co
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"projectId", "name", "description", "status", "tags", "startedAt"}
+	fieldsInOrder := [...]string{"projectId", "name", "description", "status", "tags"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -102332,13 +102317,6 @@ func (ec *executionContext) unmarshalInputUpdateMlExperimentInput(ctx context.Co
 				return it, err
 			}
 			it.Tags = data
-		case "startedAt":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startedAt"))
-			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.StartedAt = data
 		}
 	}
 
@@ -102547,7 +102525,7 @@ func (ec *executionContext) unmarshalInputUpdateMlRunInput(ctx context.Context, 
 			it.StartedAt = data
 		case "endedAt":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endedAt"))
-			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -108226,9 +108204,6 @@ func (ec *executionContext) _MlEvaluation(ctx context.Context, sel ast.Selection
 			}
 		case "endedAt":
 			out.Values[i] = ec._MlEvaluation_endedAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "evaluator":
 			out.Values[i] = ec._MlEvaluation_evaluator(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -108356,8 +108331,8 @@ func (ec *executionContext) _MlExperiment(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "startedAt":
-			out.Values[i] = ec._MlExperiment_startedAt(ctx, field, obj)
+		case "createdAt":
+			out.Values[i] = ec._MlExperiment_createdAt(ctx, field, obj)
 		case "source":
 			out.Values[i] = ec._MlExperiment_source(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -108954,9 +108929,6 @@ func (ec *executionContext) _MlRun(ctx context.Context, sel ast.SelectionSet, ob
 			}
 		case "endedAt":
 			out.Values[i] = ec._MlRun_endedAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "notes":
 			out.Values[i] = ec._MlRun_notes(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

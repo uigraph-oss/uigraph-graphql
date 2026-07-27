@@ -144,7 +144,7 @@ type MlExperiment {
     description: String!
     status:      String!
     tags:        [String!]!
-    startedAt:   Time
+    createdAt:   Time
     source:      String!
     createdBy:   ID
 }
@@ -161,7 +161,7 @@ type MlRun {
     name:         String!
     status:       String!
     startedAt:    Time!
-    endedAt:      Time!
+    endedAt:      Time
     notes:        String!
     parameters:   JSON!
     metrics:      JSON!
@@ -234,7 +234,7 @@ type MlEvaluation {
     description: String!
     summary:     String!
     startedAt:   Time!
-    endedAt:     Time!
+    endedAt:     Time
     evaluator:   String!
     source:      String!
     createdBy:   ID
@@ -335,7 +335,6 @@ input CreateMlExperimentInput {
     description: String
     status:      String
     tags:        [String!]
-    startedAt:   Time
 }
 
 input UpdateMlExperimentInput {
@@ -344,14 +343,13 @@ input UpdateMlExperimentInput {
     description: String
     status:      String
     tags:        [String!]
-    startedAt:   Time
 }
 
 input CreateMlRunInput {
     name:       String!
     status:     String
     startedAt:  Time!
-    endedAt:    Time!
+    endedAt:    Time
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -363,7 +361,7 @@ input UpdateMlRunInput {
     name:       String
     status:     String
     startedAt:  Time!
-    endedAt:    Time!
+    endedAt:    Time
     notes:      String
     parameters: JSON
     metrics:    JSON
@@ -399,7 +397,7 @@ input CreateMlEvaluationInput {
     description: String
     summary:     String
     startedAt:   Time!
-    endedAt:     Time!
+    endedAt:     Time
     evaluator:   String
     parameters:  JSON
     metrics:     JSON
@@ -412,7 +410,7 @@ input UpdateMlEvaluationInput {
     description: String
     summary:     String
     startedAt:   Time!
-    endedAt:     Time!
+    endedAt:     Time
     evaluator:   String
     parameters:  JSON
     metrics:     JSON

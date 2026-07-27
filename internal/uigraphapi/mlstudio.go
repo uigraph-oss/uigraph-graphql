@@ -78,7 +78,7 @@ type MLExperiment struct {
 	Description string     `json:"description"`
 	Status      string     `json:"status"`
 	Tags        []string   `json:"tags"`
-	StartedAt   *time.Time `json:"startedAt,omitempty"`
+	CreatedAt   *time.Time `json:"createdAt,omitempty"`
 	Source      string     `json:"source"`
 	CreatedBy   *string    `json:"createdBy,omitempty"`
 }
@@ -90,7 +90,7 @@ type MLRun struct {
 	Name         string         `json:"name"`
 	Status       string         `json:"status"`
 	StartedAt    time.Time      `json:"startedAt"`
-	EndedAt      time.Time      `json:"endedAt"`
+	EndedAt      *time.Time     `json:"endedAt,omitempty"`
 	Notes        string         `json:"notes"`
 	Parameters   map[string]any `json:"parameters"`
 	Metrics      map[string]any `json:"metrics"`
@@ -177,7 +177,7 @@ type MLEvaluation struct {
 	Description  string         `json:"description"`
 	Summary      string         `json:"summary"`
 	StartedAt    time.Time      `json:"startedAt"`
-	EndedAt      time.Time      `json:"endedAt"`
+	EndedAt      *time.Time     `json:"endedAt,omitempty"`
 	Evaluator    string         `json:"evaluator"`
 	Source       string         `json:"source"`
 	CreatedBy    *string        `json:"createdBy,omitempty"`
