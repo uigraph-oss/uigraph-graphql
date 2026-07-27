@@ -191,7 +191,8 @@ func MLEvaluationToModel(e *uigraphapi.MLEvaluation) *model.MlEvaluation {
 		ModelName: e.ModelName, Version: e.Version,
 		DatasetID: e.DatasetID, Name: e.Name,
 		Type: e.Type, Description: e.Description, Summary: e.Summary,
-		EvaluatedAt: e.EvaluatedAt, Evaluator: e.Evaluator, CreatedBy: e.CreatedBy,
+		EvaluatedAt: e.EvaluatedAt, Evaluator: e.Evaluator, Source: e.Source,
+		CreatedBy:  e.CreatedBy,
 		Parameters: parameters, Metrics: metrics,
 	}
 }
@@ -209,9 +210,13 @@ func MLFindingToModel(f *uigraphapi.MLFinding) *model.MlFinding {
 	if runIDs == nil {
 		runIDs = []string{}
 	}
+	evaluationIDs := f.EvaluationIDs
+	if evaluationIDs == nil {
+		evaluationIDs = []string{}
+	}
 	out := &model.MlFinding{
 		ID: f.ID, OrgID: f.OrgID, ModelID: f.ModelID, VersionID: f.VersionID, Title: f.Title,
-		Summary: f.Summary, Description: f.Description, RunIds: runIDs,
+		Summary: f.Summary, Description: f.Description, RunIds: runIDs, EvaluationIds: evaluationIDs,
 		CreatedAt: f.CreatedAt,
 	}
 	if f.CreatedBy != "" {

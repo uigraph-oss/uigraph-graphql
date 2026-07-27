@@ -240,6 +240,29 @@ func (r *mutationResolver) DeleteMlDataset(ctx context.Context, orgID string, id
 	return true, r.MLStudio.DeleteMLDataset(ctx, orgID, id)
 }
 
+// CreateMlEvaluation is the resolver for the createMlEvaluation field.
+func (r *mutationResolver) CreateMlEvaluation(ctx context.Context, orgID string, experimentID string, input model.CreateMlEvaluationInput) (*model.MlEvaluation, error) {
+	e, err := r.MLStudio.CreateMLEvaluation(ctx, orgID, experimentID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLEvaluationToModel(e), nil
+}
+
+// UpdateMlEvaluation is the resolver for the updateMlEvaluation field.
+func (r *mutationResolver) UpdateMlEvaluation(ctx context.Context, orgID string, id string, input model.UpdateMlEvaluationInput) (*model.MlEvaluation, error) {
+	e, err := r.MLStudio.UpdateMLEvaluation(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLEvaluationToModel(e), nil
+}
+
+// DeleteMlEvaluation is the resolver for the deleteMlEvaluation field.
+func (r *mutationResolver) DeleteMlEvaluation(ctx context.Context, orgID string, id string) (bool, error) {
+	return true, r.MLStudio.DeleteMLEvaluation(ctx, orgID, id)
+}
+
 // MlProjects is the resolver for the mlProjects field.
 func (r *queryResolver) MlProjects(ctx context.Context, orgID string) ([]*model.MlProject, error) {
 	projects, err := r.MLStudio.ListMLProjects(ctx, orgID)
@@ -408,6 +431,29 @@ func (r *queryResolver) MlVersionDeploymentUpdates(ctx context.Context, orgID st
 		return nil, err
 	}
 	return convert.MLVersionDeploymentUpdatesToModel(updates), nil
+}
+
+// MlEvaluations is the resolver for the mlEvaluations field.
+func (r *queryResolver) MlEvaluations(ctx context.Context, orgID string, experimentID *string, projectID *string, search *string, limit *int, offset *int) (*model.MlEvaluationPage, error) {
+	query := uigraphapi.MLEvaluationQuery{
+		ExperimentID: derefStr(experimentID),
+		ProjectID:    derefStr(projectID),
+		Search:       derefStr(search),
+	}
+	if limit != nil {
+		query.Limit = *limit
+	}
+	if offset != nil {
+		query.Offset = *offset
+	}
+	evaluations, total, err := r.MLStudio.ListMLEvaluations(ctx, orgID, query)
+	if err != nil {
+		return nil, err
+	}
+	return &model.MlEvaluationPage{
+		Evaluations: convert.MLEvaluationsToModel(evaluations),
+		Total:       total,
+	}, nil
 }
 
 // MlVersionEvaluations is the resolver for the mlVersionEvaluations field.

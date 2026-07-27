@@ -16,6 +16,7 @@ extend type Query {
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
     mlFindings(orgId: ID!, modelId: ID, projectId: ID):         [MlFinding!]!
     mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
+    mlEvaluations(orgId: ID!, experimentId: ID, projectId: ID, search: String, limit: Int, offset: Int): MlEvaluationPage!
     mlVersionEvaluations(orgId: ID!, versionId: ID!):           [MlEvaluation!]!
     mlExperimentEvaluations(orgId: ID!, experimentId: ID!):     [MlEvaluation!]!
     mlVersionEvaluationsPage(orgId: ID!, versionId: ID!, search: String, limit: Int, offset: Int):          MlEvaluationPage!
@@ -49,6 +50,9 @@ extend type Mutation {
     createMlDataset(orgId: ID!, experimentId: ID!, input: CreateMlDatasetInput!): MlDataset!
     updateMlDataset(orgId: ID!, id: ID!, input: UpdateMlDatasetInput!):      MlDataset!
     deleteMlDataset(orgId: ID!, id: ID!):                                    Boolean!
+    createMlEvaluation(orgId: ID!, experimentId: ID!, input: CreateMlEvaluationInput!): MlEvaluation!
+    updateMlEvaluation(orgId: ID!, id: ID!, input: UpdateMlEvaluationInput!): MlEvaluation!
+    deleteMlEvaluation(orgId: ID!, id: ID!):                                  Boolean!
 }
 
 type MlProject {
@@ -207,6 +211,7 @@ type MlEvaluation {
     summary:     String!
     evaluatedAt: Time
     evaluator:   String!
+    source:      String!
     createdBy:   ID
     parameters:  JSON!
     metrics:     JSON!
@@ -221,6 +226,7 @@ type MlFinding {
     summary:        String!
     description:    String!
     runIds:         [ID!]!
+    evaluationIds:  [ID!]!
     createdBy:      ID
     createdByActor: Actor @goField(forceResolver: true)
     createdAt:      Time
@@ -286,6 +292,7 @@ input CreateMlFindingInput {
     summary:     String
     description: String
     runIds:      [ID!]
+    evaluationIds: [ID!]
 }
 
 input UpdateMlFindingInput {
@@ -294,6 +301,7 @@ input UpdateMlFindingInput {
     summary:     String
     description: String
     runIds:      [ID!]
+    evaluationIds: [ID!]
 }
 
 input CreateMlExperimentInput {
@@ -356,4 +364,29 @@ input UpdateMlDatasetInput {
     context:    String
     rowCount:   Int
     tags:       JSON
+}
+
+input CreateMlEvaluationInput {
+    versionId:   ID!
+    name:        String!
+    type:        String!
+    datasetId:   ID
+    description: String
+    summary:     String
+    evaluatedAt: Time
+    evaluator:   String
+    parameters:  JSON
+    metrics:     JSON
+}
+
+input UpdateMlEvaluationInput {
+    name:        String
+    type:        String
+    datasetId:   ID
+    description: String
+    summary:     String
+    evaluatedAt: Time
+    evaluator:   String
+    parameters:  JSON
+    metrics:     JSON
 }

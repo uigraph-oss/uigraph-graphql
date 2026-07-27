@@ -742,6 +742,7 @@ type ComplexityRoot struct {
 		ModelName    func(childComplexity int) int
 		Name         func(childComplexity int) int
 		Parameters   func(childComplexity int) int
+		Source       func(childComplexity int) int
 		Summary      func(childComplexity int) int
 		Type         func(childComplexity int) int
 		Version      func(childComplexity int) int
@@ -770,6 +771,7 @@ type ComplexityRoot struct {
 		CreatedBy      func(childComplexity int) int
 		CreatedByActor func(childComplexity int) int
 		Description    func(childComplexity int) int
+		EvaluationIds  func(childComplexity int) int
 		ID             func(childComplexity int) int
 		ModelID        func(childComplexity int) int
 		OrgID          func(childComplexity int) int
@@ -900,6 +902,7 @@ type ComplexityRoot struct {
 		CreateMap                         func(childComplexity int, orgID string, input model.CreateMapInput) int
 		CreateMlDataset                   func(childComplexity int, orgID string, experimentID string, input model.CreateMlDatasetInput) int
 		CreateMlDeployment                func(childComplexity int, orgID string, input model.CreateMlDeploymentInput) int
+		CreateMlEvaluation                func(childComplexity int, orgID string, experimentID string, input model.CreateMlEvaluationInput) int
 		CreateMlExperiment                func(childComplexity int, orgID string, input model.CreateMlExperimentInput) int
 		CreateMlFinding                   func(childComplexity int, orgID string, input model.CreateMlFindingInput) int
 		CreateMlModel                     func(childComplexity int, orgID string, input model.CreateMlModelInput) int
@@ -941,6 +944,7 @@ type ComplexityRoot struct {
 		DeleteMap                         func(childComplexity int, orgID string, id string) int
 		DeleteMlDataset                   func(childComplexity int, orgID string, id string) int
 		DeleteMlDeployment                func(childComplexity int, orgID string, id string) int
+		DeleteMlEvaluation                func(childComplexity int, orgID string, id string) int
 		DeleteMlExperiment                func(childComplexity int, orgID string, id string) int
 		DeleteMlFinding                   func(childComplexity int, orgID string, id string) int
 		DeleteMlModel                     func(childComplexity int, orgID string, id string) int
@@ -1001,6 +1005,7 @@ type ComplexityRoot struct {
 		UpdateMember                      func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
 		UpdateMlDataset                   func(childComplexity int, orgID string, id string, input model.UpdateMlDatasetInput) int
 		UpdateMlDeployment                func(childComplexity int, orgID string, id string, input model.UpdateMlDeploymentInput) int
+		UpdateMlEvaluation                func(childComplexity int, orgID string, id string, input model.UpdateMlEvaluationInput) int
 		UpdateMlExperiment                func(childComplexity int, orgID string, id string, input model.UpdateMlExperimentInput) int
 		UpdateMlFinding                   func(childComplexity int, orgID string, id string, input model.UpdateMlFindingInput) int
 		UpdateMlModel                     func(childComplexity int, orgID string, id string, domain *string, problemType *string, license *string, references []string, intendedUse *string, limitations *string, considerations *string, recommendations *string) int
@@ -1122,6 +1127,7 @@ type ComplexityRoot struct {
 		MlDatasets                  func(childComplexity int, orgID string, experimentID *string) int
 		MlDeployments               func(childComplexity int, orgID string, modelID *string, versionID *string) int
 		MlEvaluation                func(childComplexity int, orgID string, id string) int
+		MlEvaluations               func(childComplexity int, orgID string, experimentID *string, projectID *string, search *string, limit *int, offset *int) int
 		MlExperiment                func(childComplexity int, orgID string, id string) int
 		MlExperimentEvaluations     func(childComplexity int, orgID string, experimentID string) int
 		MlExperimentEvaluationsPage func(childComplexity int, orgID string, experimentID string, search *string, limit *int, offset *int) int
@@ -1749,6 +1755,9 @@ type MutationResolver interface {
 	CreateMlDataset(ctx context.Context, orgID string, experimentID string, input model.CreateMlDatasetInput) (*model.MlDataset, error)
 	UpdateMlDataset(ctx context.Context, orgID string, id string, input model.UpdateMlDatasetInput) (*model.MlDataset, error)
 	DeleteMlDataset(ctx context.Context, orgID string, id string) (bool, error)
+	CreateMlEvaluation(ctx context.Context, orgID string, experimentID string, input model.CreateMlEvaluationInput) (*model.MlEvaluation, error)
+	UpdateMlEvaluation(ctx context.Context, orgID string, id string, input model.UpdateMlEvaluationInput) (*model.MlEvaluation, error)
+	DeleteMlEvaluation(ctx context.Context, orgID string, id string) (bool, error)
 	CreateOrg(ctx context.Context, input model.CreateOrgInput) (*model.Org, error)
 	UpdateOrg(ctx context.Context, id string, input model.UpdateOrgInput) (*model.Org, error)
 	DeleteOrg(ctx context.Context, id string) (bool, error)
@@ -1878,6 +1887,7 @@ type QueryResolver interface {
 	MlDeployments(ctx context.Context, orgID string, modelID *string, versionID *string) ([]*model.MlDeployment, error)
 	MlFindings(ctx context.Context, orgID string, modelID *string, projectID *string) ([]*model.MlFinding, error)
 	MlVersionDeploymentUpdates(ctx context.Context, orgID string, versionID *string, projectID *string) ([]*model.MlVersionDeploymentUpdate, error)
+	MlEvaluations(ctx context.Context, orgID string, experimentID *string, projectID *string, search *string, limit *int, offset *int) (*model.MlEvaluationPage, error)
 	MlVersionEvaluations(ctx context.Context, orgID string, versionID string) ([]*model.MlEvaluation, error)
 	MlExperimentEvaluations(ctx context.Context, orgID string, experimentID string) ([]*model.MlEvaluation, error)
 	MlVersionEvaluationsPage(ctx context.Context, orgID string, versionID string, search *string, limit *int, offset *int) (*model.MlEvaluationPage, error)
@@ -5516,6 +5526,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlEvaluation.Parameters(childComplexity), true
 
+	case "MlEvaluation.source":
+		if e.complexity.MlEvaluation.Source == nil {
+			break
+		}
+
+		return e.complexity.MlEvaluation.Source(childComplexity), true
+
 	case "MlEvaluation.summary":
 		if e.complexity.MlEvaluation.Summary == nil {
 			break
@@ -5648,6 +5665,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlFinding.Description(childComplexity), true
+
+	case "MlFinding.evaluationIds":
+		if e.complexity.MlFinding.EvaluationIds == nil {
+			break
+		}
+
+		return e.complexity.MlFinding.EvaluationIds(childComplexity), true
 
 	case "MlFinding.id":
 		if e.complexity.MlFinding.ID == nil {
@@ -6469,6 +6493,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateMlDeployment(childComplexity, args["orgId"].(string), args["input"].(model.CreateMlDeploymentInput)), true
 
+	case "Mutation.createMlEvaluation":
+		if e.complexity.Mutation.CreateMlEvaluation == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMlEvaluation_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMlEvaluation(childComplexity, args["orgId"].(string), args["experimentId"].(string), args["input"].(model.CreateMlEvaluationInput)), true
+
 	case "Mutation.createMlExperiment":
 		if e.complexity.Mutation.CreateMlExperiment == nil {
 			break
@@ -6955,6 +6991,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteMlDeployment(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
+	case "Mutation.deleteMlEvaluation":
+		if e.complexity.Mutation.DeleteMlEvaluation == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteMlEvaluation_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteMlEvaluation(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
 	case "Mutation.deleteMlExperiment":
 		if e.complexity.Mutation.DeleteMlExperiment == nil {
@@ -7665,6 +7713,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateMlDeployment(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateMlDeploymentInput)), true
+
+	case "Mutation.updateMlEvaluation":
+		if e.complexity.Mutation.UpdateMlEvaluation == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateMlEvaluation_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateMlEvaluation(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateMlEvaluationInput)), true
 
 	case "Mutation.updateMlExperiment":
 		if e.complexity.Mutation.UpdateMlExperiment == nil {
@@ -8803,6 +8863,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.MlEvaluation(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
+	case "Query.mlEvaluations":
+		if e.complexity.Query.MlEvaluations == nil {
+			break
+		}
+
+		args, err := ec.field_Query_mlEvaluations_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.MlEvaluations(childComplexity, args["orgId"].(string), args["experimentId"].(*string), args["projectId"].(*string), args["search"].(*string), args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.mlExperiment":
 		if e.complexity.Query.MlExperiment == nil {
@@ -11817,6 +11889,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateMapInput,
 		ec.unmarshalInputCreateMlDatasetInput,
 		ec.unmarshalInputCreateMlDeploymentInput,
+		ec.unmarshalInputCreateMlEvaluationInput,
 		ec.unmarshalInputCreateMlExperimentInput,
 		ec.unmarshalInputCreateMlFindingInput,
 		ec.unmarshalInputCreateMlModelInput,
@@ -11868,6 +11941,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateMemberInput,
 		ec.unmarshalInputUpdateMlDatasetInput,
 		ec.unmarshalInputUpdateMlDeploymentInput,
+		ec.unmarshalInputUpdateMlEvaluationInput,
 		ec.unmarshalInputUpdateMlExperimentInput,
 		ec.unmarshalInputUpdateMlFindingInput,
 		ec.unmarshalInputUpdateMlModelInfoInput,
@@ -13238,6 +13312,7 @@ type UserSavings {
     mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
     mlFindings(orgId: ID!, modelId: ID, projectId: ID):         [MlFinding!]!
     mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
+    mlEvaluations(orgId: ID!, experimentId: ID, projectId: ID, search: String, limit: Int, offset: Int): MlEvaluationPage!
     mlVersionEvaluations(orgId: ID!, versionId: ID!):           [MlEvaluation!]!
     mlExperimentEvaluations(orgId: ID!, experimentId: ID!):     [MlEvaluation!]!
     mlVersionEvaluationsPage(orgId: ID!, versionId: ID!, search: String, limit: Int, offset: Int):          MlEvaluationPage!
@@ -13271,6 +13346,9 @@ extend type Mutation {
     createMlDataset(orgId: ID!, experimentId: ID!, input: CreateMlDatasetInput!): MlDataset!
     updateMlDataset(orgId: ID!, id: ID!, input: UpdateMlDatasetInput!):      MlDataset!
     deleteMlDataset(orgId: ID!, id: ID!):                                    Boolean!
+    createMlEvaluation(orgId: ID!, experimentId: ID!, input: CreateMlEvaluationInput!): MlEvaluation!
+    updateMlEvaluation(orgId: ID!, id: ID!, input: UpdateMlEvaluationInput!): MlEvaluation!
+    deleteMlEvaluation(orgId: ID!, id: ID!):                                  Boolean!
 }
 
 type MlProject {
@@ -13429,6 +13507,7 @@ type MlEvaluation {
     summary:     String!
     evaluatedAt: Time
     evaluator:   String!
+    source:      String!
     createdBy:   ID
     parameters:  JSON!
     metrics:     JSON!
@@ -13443,6 +13522,7 @@ type MlFinding {
     summary:        String!
     description:    String!
     runIds:         [ID!]!
+    evaluationIds:  [ID!]!
     createdBy:      ID
     createdByActor: Actor @goField(forceResolver: true)
     createdAt:      Time
@@ -13508,6 +13588,7 @@ input CreateMlFindingInput {
     summary:     String
     description: String
     runIds:      [ID!]
+    evaluationIds: [ID!]
 }
 
 input UpdateMlFindingInput {
@@ -13516,6 +13597,7 @@ input UpdateMlFindingInput {
     summary:     String
     description: String
     runIds:      [ID!]
+    evaluationIds: [ID!]
 }
 
 input CreateMlExperimentInput {
@@ -13578,6 +13660,31 @@ input UpdateMlDatasetInput {
     context:    String
     rowCount:   Int
     tags:       JSON
+}
+
+input CreateMlEvaluationInput {
+    versionId:   ID!
+    name:        String!
+    type:        String!
+    datasetId:   ID
+    description: String
+    summary:     String
+    evaluatedAt: Time
+    evaluator:   String
+    parameters:  JSON
+    metrics:     JSON
+}
+
+input UpdateMlEvaluationInput {
+    name:        String
+    type:        String
+    datasetId:   ID
+    description: String
+    summary:     String
+    evaluatedAt: Time
+    evaluator:   String
+    parameters:  JSON
+    metrics:     JSON
 }
 `, BuiltIn: false},
 	{Name: "../schema/org.graphqls", Input: `extend type Query {
@@ -16225,6 +16332,80 @@ func (ec *executionContext) field_Mutation_createMlDeployment_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_createMlEvaluation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createMlEvaluation_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createMlEvaluation_argsExperimentID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["experimentId"] = arg1
+	arg2, err := ec.field_Mutation_createMlEvaluation_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createMlEvaluation_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlEvaluation_argsExperimentID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["experimentId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("experimentId"))
+	if tmp, ok := rawArgs["experimentId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlEvaluation_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateMlEvaluationInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateMlEvaluationInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateMlEvaluationInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlEvaluationInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateMlEvaluationInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_createMlExperiment_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -18823,6 +19004,57 @@ func (ec *executionContext) field_Mutation_deleteMlDeployment_argsOrgID(
 }
 
 func (ec *executionContext) field_Mutation_deleteMlDeployment_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteMlEvaluation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteMlEvaluation_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteMlEvaluation_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteMlEvaluation_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteMlEvaluation_argsID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
@@ -22669,6 +22901,80 @@ func (ec *executionContext) field_Mutation_updateMlDeployment_argsInput(
 	}
 
 	var zeroVal model.UpdateMlDeploymentInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlEvaluation_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateMlEvaluation_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateMlEvaluation_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	arg2, err := ec.field_Mutation_updateMlEvaluation_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateMlEvaluation_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlEvaluation_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlEvaluation_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateMlEvaluationInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateMlEvaluationInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateMlEvaluationInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlEvaluationInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateMlEvaluationInput
 	return zeroVal, nil
 }
 
@@ -28178,6 +28484,149 @@ func (ec *executionContext) field_Query_mlEvaluation_argsID(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluations_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_mlEvaluations_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_mlEvaluations_argsExperimentID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["experimentId"] = arg1
+	arg2, err := ec.field_Query_mlEvaluations_argsProjectID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["projectId"] = arg2
+	arg3, err := ec.field_Query_mlEvaluations_argsSearch(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["search"] = arg3
+	arg4, err := ec.field_Query_mlEvaluations_argsLimit(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["limit"] = arg4
+	arg5, err := ec.field_Query_mlEvaluations_argsOffset(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["offset"] = arg5
+	return args, nil
+}
+func (ec *executionContext) field_Query_mlEvaluations_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluations_argsExperimentID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["experimentId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("experimentId"))
+	if tmp, ok := rawArgs["experimentId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluations_argsProjectID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["projectId"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("projectId"))
+	if tmp, ok := rawArgs["projectId"]; ok {
+		return ec.unmarshalOID2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluations_argsSearch(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*string, error) {
+	if _, ok := rawArgs["search"]; !ok {
+		var zeroVal *string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("search"))
+	if tmp, ok := rawArgs["search"]; ok {
+		return ec.unmarshalOString2ᚖstring(ctx, tmp)
+	}
+
+	var zeroVal *string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluations_argsLimit(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["limit"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_mlEvaluations_argsOffset(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["offset"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+	if tmp, ok := rawArgs["offset"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -53894,6 +54343,50 @@ func (ec *executionContext) fieldContext_MlEvaluation_evaluator(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _MlEvaluation_source(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluation) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlEvaluation_source(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Source, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlEvaluation_source(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlEvaluation",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlEvaluation_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.MlEvaluation) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlEvaluation_createdBy(ctx, field)
 	if err != nil {
@@ -54086,6 +54579,8 @@ func (ec *executionContext) fieldContext_MlEvaluationPage_evaluations(_ context.
 				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "source":
+				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
 			case "parameters":
@@ -54867,6 +55362,50 @@ func (ec *executionContext) _MlFinding_runIds(ctx context.Context, field graphql
 }
 
 func (ec *executionContext) fieldContext_MlFinding_runIds(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlFinding",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlFinding_evaluationIds(ctx context.Context, field graphql.CollectedField, obj *model.MlFinding) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlFinding_evaluationIds(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.EvaluationIds, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlFinding_evaluationIds(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "MlFinding",
 		Field:      field,
@@ -63367,6 +63906,8 @@ func (ec *executionContext) fieldContext_Mutation_createMlFinding(ctx context.Co
 				return ec.fieldContext_MlFinding_description(ctx, field)
 			case "runIds":
 				return ec.fieldContext_MlFinding_runIds(ctx, field)
+			case "evaluationIds":
+				return ec.fieldContext_MlFinding_evaluationIds(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlFinding_createdBy(ctx, field)
 			case "createdByActor":
@@ -63446,6 +63987,8 @@ func (ec *executionContext) fieldContext_Mutation_updateMlFinding(ctx context.Co
 				return ec.fieldContext_MlFinding_description(ctx, field)
 			case "runIds":
 				return ec.fieldContext_MlFinding_runIds(ctx, field)
+			case "evaluationIds":
+				return ec.fieldContext_MlFinding_evaluationIds(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlFinding_createdBy(ctx, field)
 			case "createdByActor":
@@ -64058,6 +64601,8 @@ func (ec *executionContext) fieldContext_Mutation_linkMlVersionEvaluations(ctx c
 				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "source":
+				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
 			case "parameters":
@@ -64719,6 +65264,239 @@ func (ec *executionContext) fieldContext_Mutation_deleteMlDataset(ctx context.Co
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteMlDataset_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createMlEvaluation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createMlEvaluation(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMlEvaluation(rctx, fc.Args["orgId"].(string), fc.Args["experimentId"].(string), fc.Args["input"].(model.CreateMlEvaluationInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlEvaluation)
+	fc.Result = res
+	return ec.marshalNMlEvaluation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluation(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createMlEvaluation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlEvaluation_id(ctx, field)
+			case "versionId":
+				return ec.fieldContext_MlEvaluation_versionId(ctx, field)
+			case "experimentId":
+				return ec.fieldContext_MlEvaluation_experimentId(ctx, field)
+			case "modelName":
+				return ec.fieldContext_MlEvaluation_modelName(ctx, field)
+			case "version":
+				return ec.fieldContext_MlEvaluation_version(ctx, field)
+			case "datasetId":
+				return ec.fieldContext_MlEvaluation_datasetId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlEvaluation_name(ctx, field)
+			case "type":
+				return ec.fieldContext_MlEvaluation_type(ctx, field)
+			case "description":
+				return ec.fieldContext_MlEvaluation_description(ctx, field)
+			case "summary":
+				return ec.fieldContext_MlEvaluation_summary(ctx, field)
+			case "evaluatedAt":
+				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "evaluator":
+				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "source":
+				return ec.fieldContext_MlEvaluation_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
+			case "parameters":
+				return ec.fieldContext_MlEvaluation_parameters(ctx, field)
+			case "metrics":
+				return ec.fieldContext_MlEvaluation_metrics(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlEvaluation", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createMlEvaluation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateMlEvaluation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateMlEvaluation(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMlEvaluation(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateMlEvaluationInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlEvaluation)
+	fc.Result = res
+	return ec.marshalNMlEvaluation2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluation(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateMlEvaluation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlEvaluation_id(ctx, field)
+			case "versionId":
+				return ec.fieldContext_MlEvaluation_versionId(ctx, field)
+			case "experimentId":
+				return ec.fieldContext_MlEvaluation_experimentId(ctx, field)
+			case "modelName":
+				return ec.fieldContext_MlEvaluation_modelName(ctx, field)
+			case "version":
+				return ec.fieldContext_MlEvaluation_version(ctx, field)
+			case "datasetId":
+				return ec.fieldContext_MlEvaluation_datasetId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlEvaluation_name(ctx, field)
+			case "type":
+				return ec.fieldContext_MlEvaluation_type(ctx, field)
+			case "description":
+				return ec.fieldContext_MlEvaluation_description(ctx, field)
+			case "summary":
+				return ec.fieldContext_MlEvaluation_summary(ctx, field)
+			case "evaluatedAt":
+				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
+			case "evaluator":
+				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "source":
+				return ec.fieldContext_MlEvaluation_source(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
+			case "parameters":
+				return ec.fieldContext_MlEvaluation_parameters(ctx, field)
+			case "metrics":
+				return ec.fieldContext_MlEvaluation_metrics(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlEvaluation", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateMlEvaluation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteMlEvaluation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteMlEvaluation(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteMlEvaluation(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteMlEvaluation(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteMlEvaluation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -75519,6 +76297,8 @@ func (ec *executionContext) fieldContext_Query_mlFindings(ctx context.Context, f
 				return ec.fieldContext_MlFinding_description(ctx, field)
 			case "runIds":
 				return ec.fieldContext_MlFinding_runIds(ctx, field)
+			case "evaluationIds":
+				return ec.fieldContext_MlFinding_evaluationIds(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlFinding_createdBy(ctx, field)
 			case "createdByActor":
@@ -75612,6 +76392,67 @@ func (ec *executionContext) fieldContext_Query_mlVersionDeploymentUpdates(ctx co
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_mlEvaluations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_mlEvaluations(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().MlEvaluations(rctx, fc.Args["orgId"].(string), fc.Args["experimentId"].(*string), fc.Args["projectId"].(*string), fc.Args["search"].(*string), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlEvaluationPage)
+	fc.Result = res
+	return ec.marshalNMlEvaluationPage2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlEvaluationPage(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_mlEvaluations(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "evaluations":
+				return ec.fieldContext_MlEvaluationPage_evaluations(ctx, field)
+			case "total":
+				return ec.fieldContext_MlEvaluationPage_total(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlEvaluationPage", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_mlEvaluations_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_mlVersionEvaluations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_mlVersionEvaluations(ctx, field)
 	if err != nil {
@@ -75675,6 +76516,8 @@ func (ec *executionContext) fieldContext_Query_mlVersionEvaluations(ctx context.
 				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "source":
+				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
 			case "parameters":
@@ -75762,6 +76605,8 @@ func (ec *executionContext) fieldContext_Query_mlExperimentEvaluations(ctx conte
 				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "source":
+				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
 			case "parameters":
@@ -75971,6 +76816,8 @@ func (ec *executionContext) fieldContext_Query_mlEvaluation(ctx context.Context,
 				return ec.fieldContext_MlEvaluation_evaluatedAt(ctx, field)
 			case "evaluator":
 				return ec.fieldContext_MlEvaluation_evaluator(ctx, field)
+			case "source":
+				return ec.fieldContext_MlEvaluation_source(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_MlEvaluation_createdBy(ctx, field)
 			case "parameters":
@@ -96914,6 +97761,96 @@ func (ec *executionContext) unmarshalInputCreateMlDeploymentInput(ctx context.Co
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateMlEvaluationInput(ctx context.Context, obj any) (model.CreateMlEvaluationInput, error) {
+	var it model.CreateMlEvaluationInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"versionId", "name", "type", "datasetId", "description", "summary", "evaluatedAt", "evaluator", "parameters", "metrics"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "versionId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("versionId"))
+			data, err := ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.VersionID = data
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "type":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("type"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Type = data
+		case "datasetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("datasetId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DatasetID = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "summary":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("summary"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Summary = data
+		case "evaluatedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluatedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EvaluatedAt = data
+		case "evaluator":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluator"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Evaluator = data
+		case "parameters":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parameters"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Parameters = data
+		case "metrics":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("metrics"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Metrics = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateMlExperimentInput(ctx context.Context, obj any) (model.CreateMlExperimentInput, error) {
 	var it model.CreateMlExperimentInput
 	asMap := map[string]any{}
@@ -96983,7 +97920,7 @@ func (ec *executionContext) unmarshalInputCreateMlFindingInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"modelId", "versionId", "title", "summary", "description", "runIds"}
+	fieldsInOrder := [...]string{"modelId", "versionId", "title", "summary", "description", "runIds", "evaluationIds"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -97032,6 +97969,13 @@ func (ec *executionContext) unmarshalInputCreateMlFindingInput(ctx context.Conte
 				return it, err
 			}
 			it.RunIds = data
+		case "evaluationIds":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluationIds"))
+			data, err := ec.unmarshalOID2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EvaluationIds = data
 		}
 	}
 
@@ -100090,6 +101034,89 @@ func (ec *executionContext) unmarshalInputUpdateMlDeploymentInput(ctx context.Co
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateMlEvaluationInput(ctx context.Context, obj any) (model.UpdateMlEvaluationInput, error) {
+	var it model.UpdateMlEvaluationInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "type", "datasetId", "description", "summary", "evaluatedAt", "evaluator", "parameters", "metrics"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "type":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("type"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Type = data
+		case "datasetId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("datasetId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DatasetID = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "summary":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("summary"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Summary = data
+		case "evaluatedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluatedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EvaluatedAt = data
+		case "evaluator":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluator"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Evaluator = data
+		case "parameters":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parameters"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Parameters = data
+		case "metrics":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("metrics"))
+			data, err := ec.unmarshalOJSON2interface(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Metrics = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateMlExperimentInput(ctx context.Context, obj any) (model.UpdateMlExperimentInput, error) {
 	var it model.UpdateMlExperimentInput
 	asMap := map[string]any{}
@@ -100159,7 +101186,7 @@ func (ec *executionContext) unmarshalInputUpdateMlFindingInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"versionId", "title", "summary", "description", "runIds"}
+	fieldsInOrder := [...]string{"versionId", "title", "summary", "description", "runIds", "evaluationIds"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -100201,6 +101228,13 @@ func (ec *executionContext) unmarshalInputUpdateMlFindingInput(ctx context.Conte
 				return it, err
 			}
 			it.RunIds = data
+		case "evaluationIds":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("evaluationIds"))
+			data, err := ec.unmarshalOID2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EvaluationIds = data
 		}
 	}
 
@@ -106026,6 +107060,11 @@ func (ec *executionContext) _MlEvaluation(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "source":
+			out.Values[i] = ec._MlEvaluation_source(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "createdBy":
 			out.Values[i] = ec._MlEvaluation_createdBy(ctx, field, obj)
 		case "parameters":
@@ -106220,6 +107259,11 @@ func (ec *executionContext) _MlFinding(ctx context.Context, sel ast.SelectionSet
 			}
 		case "runIds":
 			out.Values[i] = ec._MlFinding_runIds(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "evaluationIds":
+			out.Values[i] = ec._MlFinding_evaluationIds(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
@@ -107559,6 +108603,27 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteMlDataset":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteMlDataset(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createMlEvaluation":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMlEvaluation(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateMlEvaluation":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateMlEvaluation(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteMlEvaluation":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteMlEvaluation(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -109818,6 +110883,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_mlVersionDeploymentUpdates(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "mlEvaluations":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_mlEvaluations(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -114607,6 +115694,11 @@ func (ec *executionContext) unmarshalNCreateMlDeploymentInput2githubᚗcomᚋuig
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateMlEvaluationInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlEvaluationInput(ctx context.Context, v any) (model.CreateMlEvaluationInput, error) {
+	res, err := ec.unmarshalInputCreateMlEvaluationInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateMlExperimentInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlExperimentInput(ctx context.Context, v any) (model.CreateMlExperimentInput, error) {
 	res, err := ec.unmarshalInputCreateMlExperimentInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -118240,6 +119332,11 @@ func (ec *executionContext) unmarshalNUpdateMlDatasetInput2githubᚗcomᚋuigrap
 
 func (ec *executionContext) unmarshalNUpdateMlDeploymentInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlDeploymentInput(ctx context.Context, v any) (model.UpdateMlDeploymentInput, error) {
 	res, err := ec.unmarshalInputUpdateMlDeploymentInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateMlEvaluationInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlEvaluationInput(ctx context.Context, v any) (model.UpdateMlEvaluationInput, error) {
+	res, err := ec.unmarshalInputUpdateMlEvaluationInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

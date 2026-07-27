@@ -428,6 +428,19 @@ type CreateMlDeploymentInput struct {
 	RolledBackAt *time.Time `json:"rolledBackAt,omitempty"`
 }
 
+type CreateMlEvaluationInput struct {
+	VersionID   string     `json:"versionId"`
+	Name        string     `json:"name"`
+	Type        string     `json:"type"`
+	DatasetID   *string    `json:"datasetId,omitempty"`
+	Description *string    `json:"description,omitempty"`
+	Summary     *string    `json:"summary,omitempty"`
+	EvaluatedAt *time.Time `json:"evaluatedAt,omitempty"`
+	Evaluator   *string    `json:"evaluator,omitempty"`
+	Parameters  any        `json:"parameters,omitempty"`
+	Metrics     any        `json:"metrics,omitempty"`
+}
+
 type CreateMlExperimentInput struct {
 	ProjectID   string     `json:"projectId"`
 	Name        string     `json:"name"`
@@ -438,12 +451,13 @@ type CreateMlExperimentInput struct {
 }
 
 type CreateMlFindingInput struct {
-	ModelID     string   `json:"modelId"`
-	VersionID   *string  `json:"versionId,omitempty"`
-	Title       string   `json:"title"`
-	Summary     *string  `json:"summary,omitempty"`
-	Description *string  `json:"description,omitempty"`
-	RunIds      []string `json:"runIds,omitempty"`
+	ModelID       string   `json:"modelId"`
+	VersionID     *string  `json:"versionId,omitempty"`
+	Title         string   `json:"title"`
+	Summary       *string  `json:"summary,omitempty"`
+	Description   *string  `json:"description,omitempty"`
+	RunIds        []string `json:"runIds,omitempty"`
+	EvaluationIds []string `json:"evaluationIds,omitempty"`
 }
 
 type CreateMlModelInput struct {
@@ -1163,6 +1177,7 @@ type MlEvaluation struct {
 	Summary      string     `json:"summary"`
 	EvaluatedAt  *time.Time `json:"evaluatedAt,omitempty"`
 	Evaluator    string     `json:"evaluator"`
+	Source       string     `json:"source"`
 	CreatedBy    *string    `json:"createdBy,omitempty"`
 	Parameters   any        `json:"parameters"`
 	Metrics      any        `json:"metrics"`
@@ -1194,6 +1209,7 @@ type MlFinding struct {
 	Summary        string     `json:"summary"`
 	Description    string     `json:"description"`
 	RunIds         []string   `json:"runIds"`
+	EvaluationIds  []string   `json:"evaluationIds"`
 	CreatedBy      *string    `json:"createdBy,omitempty"`
 	CreatedByActor *Actor     `json:"createdByActor,omitempty"`
 	CreatedAt      *time.Time `json:"createdAt,omitempty"`
@@ -1941,6 +1957,18 @@ type UpdateMlDeploymentInput struct {
 	RolledBackAt *time.Time `json:"rolledBackAt,omitempty"`
 }
 
+type UpdateMlEvaluationInput struct {
+	Name        *string    `json:"name,omitempty"`
+	Type        *string    `json:"type,omitempty"`
+	DatasetID   *string    `json:"datasetId,omitempty"`
+	Description *string    `json:"description,omitempty"`
+	Summary     *string    `json:"summary,omitempty"`
+	EvaluatedAt *time.Time `json:"evaluatedAt,omitempty"`
+	Evaluator   *string    `json:"evaluator,omitempty"`
+	Parameters  any        `json:"parameters,omitempty"`
+	Metrics     any        `json:"metrics,omitempty"`
+}
+
 type UpdateMlExperimentInput struct {
 	ProjectID   *string    `json:"projectId,omitempty"`
 	Name        *string    `json:"name,omitempty"`
@@ -1951,11 +1979,12 @@ type UpdateMlExperimentInput struct {
 }
 
 type UpdateMlFindingInput struct {
-	VersionID   *string  `json:"versionId,omitempty"`
-	Title       *string  `json:"title,omitempty"`
-	Summary     *string  `json:"summary,omitempty"`
-	Description *string  `json:"description,omitempty"`
-	RunIds      []string `json:"runIds,omitempty"`
+	VersionID     *string  `json:"versionId,omitempty"`
+	Title         *string  `json:"title,omitempty"`
+	Summary       *string  `json:"summary,omitempty"`
+	Description   *string  `json:"description,omitempty"`
+	RunIds        []string `json:"runIds,omitempty"`
+	EvaluationIds []string `json:"evaluationIds,omitempty"`
 }
 
 type UpdateMlModelInfoInput struct {

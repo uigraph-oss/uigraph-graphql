@@ -150,16 +150,17 @@ type MLDeployment struct {
 }
 
 type MLFinding struct {
-	ID          string     `json:"id"`
-	OrgID       string     `json:"orgId"`
-	ModelID     string     `json:"modelId"`
-	VersionID   *string    `json:"versionId,omitempty"`
-	Title       string     `json:"title"`
-	Summary     string     `json:"summary"`
-	Description string     `json:"description"`
-	RunIDs      []string   `json:"runIds"`
-	CreatedBy   string     `json:"createdBy"`
-	CreatedAt   *time.Time `json:"createdAt,omitempty"`
+	ID            string     `json:"id"`
+	OrgID         string     `json:"orgId"`
+	ModelID       string     `json:"modelId"`
+	VersionID     *string    `json:"versionId,omitempty"`
+	Title         string     `json:"title"`
+	Summary       string     `json:"summary"`
+	Description   string     `json:"description"`
+	RunIDs        []string   `json:"runIds"`
+	EvaluationIDs []string   `json:"evaluationIds"`
+	CreatedBy     string     `json:"createdBy"`
+	CreatedAt     *time.Time `json:"createdAt,omitempty"`
 }
 
 type MLEvaluation struct {
@@ -177,6 +178,7 @@ type MLEvaluation struct {
 	Summary      string         `json:"summary"`
 	EvaluatedAt  *time.Time     `json:"evaluatedAt,omitempty"`
 	Evaluator    string         `json:"evaluator"`
+	Source       string         `json:"source"`
 	CreatedBy    *string        `json:"createdBy,omitempty"`
 	Parameters   map[string]any `json:"parameters"`
 	Metrics      map[string]any `json:"metrics"`
@@ -464,13 +466,21 @@ func (c *Client) ListVersionDeploymentUpdates(ctx context.Context, orgID, versio
 }
 
 type MLEvaluationQuery struct {
-	Search string
-	Limit  int
-	Offset int
+	ExperimentID string
+	ProjectID    string
+	Search       string
+	Limit        int
+	Offset       int
 }
 
 func (q MLEvaluationQuery) encode() string {
 	v := url.Values{}
+	if q.ExperimentID != "" {
+		v.Set("experimentId", q.ExperimentID)
+	}
+	if q.ProjectID != "" {
+		v.Set("projectId", q.ProjectID)
+	}
 	if q.Search != "" {
 		v.Set("search", q.Search)
 	}
@@ -484,6 +494,15 @@ func (q MLEvaluationQuery) encode() string {
 		return ""
 	}
 	return "?" + v.Encode()
+}
+
+func (c *Client) ListMLEvaluations(ctx context.Context, orgID string, query MLEvaluationQuery) ([]MLEvaluation, int, error) {
+	var out struct {
+		Evaluations []MLEvaluation `json:"evaluations"`
+		Total       int            `json:"total"`
+	}
+	path := mlBase(orgID) + "/evaluations" + query.encode()
+	return out.Evaluations, out.Total, c.get(ctx, path, &out)
 }
 
 func (c *Client) ListMLVersionEvaluations(ctx context.Context, orgID, versionID string, query MLEvaluationQuery) ([]MLEvaluation, int, error) {
@@ -507,6 +526,20 @@ func (c *Client) ListMLExperimentEvaluations(ctx context.Context, orgID, experim
 func (c *Client) GetMLEvaluation(ctx context.Context, orgID, id string) (*MLEvaluation, error) {
 	var out MLEvaluation
 	return &out, c.get(ctx, mlBase(orgID)+"/evaluations/"+id, &out)
+}
+
+func (c *Client) CreateMLEvaluation(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*MLEvaluation, error) {
+	var out MLEvaluation
+	return &out, c.post(ctx, fmt.Sprintf("%s/experiments/%s/evaluations", mlBase(orgID), experimentID), body, &out)
+}
+
+func (c *Client) UpdateMLEvaluation(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLEvaluation, error) {
+	var out MLEvaluation
+	return &out, c.put(ctx, mlBase(orgID)+"/evaluations/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLEvaluation(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/evaluations/"+id)
 }
 
 func (c *Client) CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*MLVersionDeploymentUpdate, error) {
