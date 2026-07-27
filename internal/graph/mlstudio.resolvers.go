@@ -217,6 +217,29 @@ func (r *mutationResolver) DeleteMlRun(ctx context.Context, orgID string, id str
 	return true, r.MLStudio.DeleteMLRun(ctx, orgID, id)
 }
 
+// CreateMlArtifact is the resolver for the createMlArtifact field.
+func (r *mutationResolver) CreateMlArtifact(ctx context.Context, orgID string, runID string, input model.CreateMlArtifactInput) (*model.MlArtifact, error) {
+	a, err := r.MLStudio.CreateMLArtifact(ctx, orgID, runID, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLArtifactToModel(a), nil
+}
+
+// UpdateMlArtifact is the resolver for the updateMlArtifact field.
+func (r *mutationResolver) UpdateMlArtifact(ctx context.Context, orgID string, id string, input model.UpdateMlArtifactInput) (*model.MlArtifact, error) {
+	a, err := r.MLStudio.UpdateMLArtifact(ctx, orgID, id, convert.ToMap(input))
+	if err != nil {
+		return nil, err
+	}
+	return convert.MLArtifactToModel(a), nil
+}
+
+// DeleteMlArtifact is the resolver for the deleteMlArtifact field.
+func (r *mutationResolver) DeleteMlArtifact(ctx context.Context, orgID string, id string) (bool, error) {
+	return true, r.MLStudio.DeleteMLArtifact(ctx, orgID, id)
+}
+
 // CreateMlDataset is the resolver for the createMlDataset field.
 func (r *mutationResolver) CreateMlDataset(ctx context.Context, orgID string, experimentID string, input model.CreateMlDatasetInput) (*model.MlDataset, error) {
 	ds, err := r.MLStudio.CreateMLDataset(ctx, orgID, experimentID, convert.ToMap(input))

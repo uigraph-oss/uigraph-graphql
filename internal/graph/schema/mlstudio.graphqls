@@ -48,6 +48,9 @@ extend type Mutation {
     createMlRun(orgId: ID!, experimentId: ID!, input: CreateMlRunInput!):     MlRun!
     updateMlRun(orgId: ID!, id: ID!, input: UpdateMlRunInput!):               MlRun!
     deleteMlRun(orgId: ID!, id: ID!):                                        Boolean!
+    createMlArtifact(orgId: ID!, runId: ID!, input: CreateMlArtifactInput!):  MlArtifact!
+    updateMlArtifact(orgId: ID!, id: ID!, input: UpdateMlArtifactInput!):     MlArtifact!
+    deleteMlArtifact(orgId: ID!, id: ID!):                                    Boolean!
     createMlDataset(orgId: ID!, experimentId: ID!, input: CreateMlDatasetInput!): MlDataset!
     updateMlDataset(orgId: ID!, id: ID!, input: UpdateMlDatasetInput!):      MlDataset!
     deleteMlDataset(orgId: ID!, id: ID!):                                    Boolean!
@@ -182,6 +185,9 @@ type MlArtifact {
     downloadUri: String!
     size:   String!
     format: String!
+    source: String!
+    mimeType: String!
+    sizeBytes: Int
     updatedAt: Time
     syncedAt:  Time
 }
@@ -372,6 +378,26 @@ input UpdateMlRunInput {
     metrics:    JSON
     datasetId:  ID
     series:     JSON
+}
+
+input CreateMlArtifactInput {
+    name:        String!
+    type:        String!
+    uri:         String
+    downloadUri: String
+    size:        String
+    format:      String
+    mimeType:    String
+    sizeBytes:   Int
+}
+
+input UpdateMlArtifactInput {
+    name:        String
+    type:        String
+    uri:         String
+    downloadUri: String
+    size:        String
+    format:      String
 }
 
 input CreateMlDatasetInput {

@@ -149,9 +149,15 @@ func MLRunsToModel(in []uigraphapi.MLRun) []*model.MlRun {
 }
 
 func MLArtifactToModel(a *uigraphapi.MLArtifact) *model.MlArtifact {
+	var sizeBytes *int
+	if a.SizeBytes != nil {
+		n := int(*a.SizeBytes)
+		sizeBytes = &n
+	}
 	return &model.MlArtifact{
 		ID: a.ID, RunID: a.RunID, Name: a.Name, Type: a.Type,
 		URI: a.URI, DownloadURI: a.DownloadURI, Size: a.Size, Format: a.Format,
+		Source: a.Source, MimeType: a.MimeType, SizeBytes: sizeBytes,
 		UpdatedAt: a.UpdatedAt, SyncedAt: a.SyncedAt,
 	}
 }

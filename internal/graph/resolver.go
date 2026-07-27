@@ -298,6 +298,9 @@ type mlStudioClient interface {
 	UpdateMLRun(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLRun, error)
 	DeleteMLRun(ctx context.Context, orgID, id string) error
 	ListMLArtifacts(ctx context.Context, orgID, runID string) ([]uigraphapi.MLArtifact, error)
+	CreateMLArtifact(ctx context.Context, orgID, runID string, body map[string]interface{}) (*uigraphapi.MLArtifact, error)
+	UpdateMLArtifact(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLArtifact, error)
+	DeleteMLArtifact(ctx context.Context, orgID, id string) error
 	ListMLDatasets(ctx context.Context, orgID, experimentID string) ([]uigraphapi.MLDataset, error)
 	GetMLDataset(ctx context.Context, orgID, id string) (*uigraphapi.MLDataset, error)
 	CreateMLDataset(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*uigraphapi.MLDataset, error)

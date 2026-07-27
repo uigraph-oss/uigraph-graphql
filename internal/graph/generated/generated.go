@@ -694,9 +694,12 @@ type ComplexityRoot struct {
 		DownloadURI func(childComplexity int) int
 		Format      func(childComplexity int) int
 		ID          func(childComplexity int) int
+		MimeType    func(childComplexity int) int
 		Name        func(childComplexity int) int
 		RunID       func(childComplexity int) int
 		Size        func(childComplexity int) int
+		SizeBytes   func(childComplexity int) int
+		Source      func(childComplexity int) int
 		SyncedAt    func(childComplexity int) int
 		Type        func(childComplexity int) int
 		URI         func(childComplexity int) int
@@ -927,6 +930,7 @@ type ComplexityRoot struct {
 		CreateFrameGroup                  func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameGroupInput) int
 		CreateFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, input model.CreateFrameLinkInput) int
 		CreateMap                         func(childComplexity int, orgID string, input model.CreateMapInput) int
+		CreateMlArtifact                  func(childComplexity int, orgID string, runID string, input model.CreateMlArtifactInput) int
 		CreateMlDataset                   func(childComplexity int, orgID string, experimentID string, input model.CreateMlDatasetInput) int
 		CreateMlDeployment                func(childComplexity int, orgID string, input model.CreateMlDeploymentInput) int
 		CreateMlEvaluation                func(childComplexity int, orgID string, experimentID string, input model.CreateMlEvaluationInput) int
@@ -969,6 +973,7 @@ type ComplexityRoot struct {
 		DeleteFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, id string) int
 		DeleteLdap                        func(childComplexity int) int
 		DeleteMap                         func(childComplexity int, orgID string, id string) int
+		DeleteMlArtifact                  func(childComplexity int, orgID string, id string) int
 		DeleteMlDataset                   func(childComplexity int, orgID string, id string) int
 		DeleteMlDeployment                func(childComplexity int, orgID string, id string) int
 		DeleteMlEvaluation                func(childComplexity int, orgID string, id string) int
@@ -1030,6 +1035,7 @@ type ComplexityRoot struct {
 		UpdateFrameLink                   func(childComplexity int, orgID string, mapID string, frameID string, id string, input model.UpdateFrameLinkInput) int
 		UpdateMap                         func(childComplexity int, orgID string, id string, input model.UpdateMapInput) int
 		UpdateMember                      func(childComplexity int, orgID string, userID string, input model.UpdateMemberInput) int
+		UpdateMlArtifact                  func(childComplexity int, orgID string, id string, input model.UpdateMlArtifactInput) int
 		UpdateMlDataset                   func(childComplexity int, orgID string, id string, input model.UpdateMlDatasetInput) int
 		UpdateMlDeployment                func(childComplexity int, orgID string, id string, input model.UpdateMlDeploymentInput) int
 		UpdateMlEvaluation                func(childComplexity int, orgID string, id string, input model.UpdateMlEvaluationInput) int
@@ -1780,6 +1786,9 @@ type MutationResolver interface {
 	CreateMlRun(ctx context.Context, orgID string, experimentID string, input model.CreateMlRunInput) (*model.MlRun, error)
 	UpdateMlRun(ctx context.Context, orgID string, id string, input model.UpdateMlRunInput) (*model.MlRun, error)
 	DeleteMlRun(ctx context.Context, orgID string, id string) (bool, error)
+	CreateMlArtifact(ctx context.Context, orgID string, runID string, input model.CreateMlArtifactInput) (*model.MlArtifact, error)
+	UpdateMlArtifact(ctx context.Context, orgID string, id string, input model.UpdateMlArtifactInput) (*model.MlArtifact, error)
+	DeleteMlArtifact(ctx context.Context, orgID string, id string) (bool, error)
 	CreateMlDataset(ctx context.Context, orgID string, experimentID string, input model.CreateMlDatasetInput) (*model.MlDataset, error)
 	UpdateMlDataset(ctx context.Context, orgID string, id string, input model.UpdateMlDatasetInput) (*model.MlDataset, error)
 	DeleteMlDataset(ctx context.Context, orgID string, id string) (bool, error)
@@ -5282,6 +5291,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.MlArtifact.ID(childComplexity), true
 
+	case "MlArtifact.mimeType":
+		if e.complexity.MlArtifact.MimeType == nil {
+			break
+		}
+
+		return e.complexity.MlArtifact.MimeType(childComplexity), true
+
 	case "MlArtifact.name":
 		if e.complexity.MlArtifact.Name == nil {
 			break
@@ -5302,6 +5318,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.MlArtifact.Size(childComplexity), true
+
+	case "MlArtifact.sizeBytes":
+		if e.complexity.MlArtifact.SizeBytes == nil {
+			break
+		}
+
+		return e.complexity.MlArtifact.SizeBytes(childComplexity), true
+
+	case "MlArtifact.source":
+		if e.complexity.MlArtifact.Source == nil {
+			break
+		}
+
+		return e.complexity.MlArtifact.Source(childComplexity), true
 
 	case "MlArtifact.syncedAt":
 		if e.complexity.MlArtifact.SyncedAt == nil {
@@ -6624,6 +6654,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateMap(childComplexity, args["orgId"].(string), args["input"].(model.CreateMapInput)), true
 
+	case "Mutation.createMlArtifact":
+		if e.complexity.Mutation.CreateMlArtifact == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createMlArtifact_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateMlArtifact(childComplexity, args["orgId"].(string), args["runId"].(string), args["input"].(model.CreateMlArtifactInput)), true
+
 	case "Mutation.createMlDataset":
 		if e.complexity.Mutation.CreateMlDataset == nil {
 			break
@@ -7122,6 +7164,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteMap(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
+	case "Mutation.deleteMlArtifact":
+		if e.complexity.Mutation.DeleteMlArtifact == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteMlArtifact_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteMlArtifact(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
 	case "Mutation.deleteMlDataset":
 		if e.complexity.Mutation.DeleteMlDataset == nil {
@@ -7844,6 +7898,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.UpdateMember(childComplexity, args["orgId"].(string), args["userId"].(string), args["input"].(model.UpdateMemberInput)), true
+
+	case "Mutation.updateMlArtifact":
+		if e.complexity.Mutation.UpdateMlArtifact == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateMlArtifact_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateMlArtifact(childComplexity, args["orgId"].(string), args["id"].(string), args["input"].(model.UpdateMlArtifactInput)), true
 
 	case "Mutation.updateMlDataset":
 		if e.complexity.Mutation.UpdateMlDataset == nil {
@@ -12054,6 +12120,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateFrameInput,
 		ec.unmarshalInputCreateFrameLinkInput,
 		ec.unmarshalInputCreateMapInput,
+		ec.unmarshalInputCreateMlArtifactInput,
 		ec.unmarshalInputCreateMlDatasetInput,
 		ec.unmarshalInputCreateMlDeploymentInput,
 		ec.unmarshalInputCreateMlEvaluationInput,
@@ -12106,6 +12173,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateFrameLinkInput,
 		ec.unmarshalInputUpdateMapInput,
 		ec.unmarshalInputUpdateMemberInput,
+		ec.unmarshalInputUpdateMlArtifactInput,
 		ec.unmarshalInputUpdateMlDatasetInput,
 		ec.unmarshalInputUpdateMlDeploymentInput,
 		ec.unmarshalInputUpdateMlEvaluationInput,
@@ -13511,6 +13579,9 @@ extend type Mutation {
     createMlRun(orgId: ID!, experimentId: ID!, input: CreateMlRunInput!):     MlRun!
     updateMlRun(orgId: ID!, id: ID!, input: UpdateMlRunInput!):               MlRun!
     deleteMlRun(orgId: ID!, id: ID!):                                        Boolean!
+    createMlArtifact(orgId: ID!, runId: ID!, input: CreateMlArtifactInput!):  MlArtifact!
+    updateMlArtifact(orgId: ID!, id: ID!, input: UpdateMlArtifactInput!):     MlArtifact!
+    deleteMlArtifact(orgId: ID!, id: ID!):                                    Boolean!
     createMlDataset(orgId: ID!, experimentId: ID!, input: CreateMlDatasetInput!): MlDataset!
     updateMlDataset(orgId: ID!, id: ID!, input: UpdateMlDatasetInput!):      MlDataset!
     deleteMlDataset(orgId: ID!, id: ID!):                                    Boolean!
@@ -13645,6 +13716,9 @@ type MlArtifact {
     downloadUri: String!
     size:   String!
     format: String!
+    source: String!
+    mimeType: String!
+    sizeBytes: Int
     updatedAt: Time
     syncedAt:  Time
 }
@@ -13835,6 +13909,26 @@ input UpdateMlRunInput {
     metrics:    JSON
     datasetId:  ID
     series:     JSON
+}
+
+input CreateMlArtifactInput {
+    name:        String!
+    type:        String!
+    uri:         String
+    downloadUri: String
+    size:        String
+    format:      String
+    mimeType:    String
+    sizeBytes:   Int
+}
+
+input UpdateMlArtifactInput {
+    name:        String
+    type:        String
+    uri:         String
+    downloadUri: String
+    size:        String
+    format:      String
 }
 
 input CreateMlDatasetInput {
@@ -16403,6 +16497,80 @@ func (ec *executionContext) field_Mutation_createMap_argsInput(
 	}
 
 	var zeroVal model.CreateMapInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlArtifact_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createMlArtifact_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createMlArtifact_argsRunID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["runId"] = arg1
+	arg2, err := ec.field_Mutation_createMlArtifact_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createMlArtifact_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlArtifact_argsRunID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["runId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("runId"))
+	if tmp, ok := rawArgs["runId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createMlArtifact_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateMlArtifactInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateMlArtifactInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateMlArtifactInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlArtifactInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateMlArtifactInput
 	return zeroVal, nil
 }
 
@@ -19101,6 +19269,57 @@ func (ec *executionContext) field_Mutation_deleteMap_argsOrgID(
 }
 
 func (ec *executionContext) field_Mutation_deleteMap_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteMlArtifact_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteMlArtifact_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteMlArtifact_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteMlArtifact_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteMlArtifact_argsID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
@@ -22952,6 +23171,80 @@ func (ec *executionContext) field_Mutation_updateMember_argsInput(
 	}
 
 	var zeroVal model.UpdateMemberInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlArtifact_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_updateMlArtifact_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_updateMlArtifact_argsID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["id"] = arg1
+	arg2, err := ec.field_Mutation_updateMlArtifact_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_updateMlArtifact_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlArtifact_argsID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["id"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMlArtifact_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.UpdateMlArtifactInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.UpdateMlArtifactInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNUpdateMlArtifactInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlArtifactInput(ctx, tmp)
+	}
+
+	var zeroVal model.UpdateMlArtifactInput
 	return zeroVal, nil
 }
 
@@ -53178,6 +53471,135 @@ func (ec *executionContext) fieldContext_MlArtifact_format(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _MlArtifact_source(ctx context.Context, field graphql.CollectedField, obj *model.MlArtifact) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlArtifact_source(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Source, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlArtifact_source(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlArtifact",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlArtifact_mimeType(ctx context.Context, field graphql.CollectedField, obj *model.MlArtifact) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlArtifact_mimeType(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MimeType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlArtifact_mimeType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlArtifact",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MlArtifact_sizeBytes(ctx context.Context, field graphql.CollectedField, obj *model.MlArtifact) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MlArtifact_sizeBytes(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SizeBytes, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MlArtifact_sizeBytes(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MlArtifact",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _MlArtifact_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.MlArtifact) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_MlArtifact_updatedAt(ctx, field)
 	if err != nil {
@@ -66304,6 +66726,227 @@ func (ec *executionContext) fieldContext_Mutation_deleteMlRun(ctx context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createMlArtifact(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createMlArtifact(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateMlArtifact(rctx, fc.Args["orgId"].(string), fc.Args["runId"].(string), fc.Args["input"].(model.CreateMlArtifactInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlArtifact)
+	fc.Result = res
+	return ec.marshalNMlArtifact2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlArtifact(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createMlArtifact(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlArtifact_id(ctx, field)
+			case "runId":
+				return ec.fieldContext_MlArtifact_runId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlArtifact_name(ctx, field)
+			case "type":
+				return ec.fieldContext_MlArtifact_type(ctx, field)
+			case "uri":
+				return ec.fieldContext_MlArtifact_uri(ctx, field)
+			case "downloadUri":
+				return ec.fieldContext_MlArtifact_downloadUri(ctx, field)
+			case "size":
+				return ec.fieldContext_MlArtifact_size(ctx, field)
+			case "format":
+				return ec.fieldContext_MlArtifact_format(ctx, field)
+			case "source":
+				return ec.fieldContext_MlArtifact_source(ctx, field)
+			case "mimeType":
+				return ec.fieldContext_MlArtifact_mimeType(ctx, field)
+			case "sizeBytes":
+				return ec.fieldContext_MlArtifact_sizeBytes(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlArtifact_updatedAt(ctx, field)
+			case "syncedAt":
+				return ec.fieldContext_MlArtifact_syncedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlArtifact", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createMlArtifact_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateMlArtifact(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateMlArtifact(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMlArtifact(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string), fc.Args["input"].(model.UpdateMlArtifactInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.MlArtifact)
+	fc.Result = res
+	return ec.marshalNMlArtifact2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlArtifact(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateMlArtifact(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MlArtifact_id(ctx, field)
+			case "runId":
+				return ec.fieldContext_MlArtifact_runId(ctx, field)
+			case "name":
+				return ec.fieldContext_MlArtifact_name(ctx, field)
+			case "type":
+				return ec.fieldContext_MlArtifact_type(ctx, field)
+			case "uri":
+				return ec.fieldContext_MlArtifact_uri(ctx, field)
+			case "downloadUri":
+				return ec.fieldContext_MlArtifact_downloadUri(ctx, field)
+			case "size":
+				return ec.fieldContext_MlArtifact_size(ctx, field)
+			case "format":
+				return ec.fieldContext_MlArtifact_format(ctx, field)
+			case "source":
+				return ec.fieldContext_MlArtifact_source(ctx, field)
+			case "mimeType":
+				return ec.fieldContext_MlArtifact_mimeType(ctx, field)
+			case "sizeBytes":
+				return ec.fieldContext_MlArtifact_sizeBytes(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MlArtifact_updatedAt(ctx, field)
+			case "syncedAt":
+				return ec.fieldContext_MlArtifact_syncedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MlArtifact", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateMlArtifact_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteMlArtifact(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteMlArtifact(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteMlArtifact(rctx, fc.Args["orgId"].(string), fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteMlArtifact(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteMlArtifact_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createMlDataset(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createMlDataset(ctx, field)
 	if err != nil {
@@ -77309,6 +77952,12 @@ func (ec *executionContext) fieldContext_Query_mlArtifacts(ctx context.Context, 
 				return ec.fieldContext_MlArtifact_size(ctx, field)
 			case "format":
 				return ec.fieldContext_MlArtifact_format(ctx, field)
+			case "source":
+				return ec.fieldContext_MlArtifact_source(ctx, field)
+			case "mimeType":
+				return ec.fieldContext_MlArtifact_mimeType(ctx, field)
+			case "sizeBytes":
+				return ec.fieldContext_MlArtifact_sizeBytes(ctx, field)
 			case "updatedAt":
 				return ec.fieldContext_MlArtifact_updatedAt(ctx, field)
 			case "syncedAt":
@@ -98945,6 +99594,82 @@ func (ec *executionContext) unmarshalInputCreateMapInput(ctx context.Context, ob
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCreateMlArtifactInput(ctx context.Context, obj any) (model.CreateMlArtifactInput, error) {
+	var it model.CreateMlArtifactInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "type", "uri", "downloadUri", "size", "format", "mimeType", "sizeBytes"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "type":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("type"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Type = data
+		case "uri":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("uri"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.URI = data
+		case "downloadUri":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("downloadUri"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DownloadURI = data
+		case "size":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("size"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Size = data
+		case "format":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("format"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Format = data
+		case "mimeType":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("mimeType"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MimeType = data
+		case "sizeBytes":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sizeBytes"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SizeBytes = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputCreateMlDatasetInput(ctx context.Context, obj any) (model.CreateMlDatasetInput, error) {
 	var it model.CreateMlDatasetInput
 	asMap := map[string]any{}
@@ -102240,6 +102965,68 @@ func (ec *executionContext) unmarshalInputUpdateMemberInput(ctx context.Context,
 				return it, err
 			}
 			it.TeamID = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdateMlArtifactInput(ctx context.Context, obj any) (model.UpdateMlArtifactInput, error) {
+	var it model.UpdateMlArtifactInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "type", "uri", "downloadUri", "size", "format"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "type":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("type"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Type = data
+		case "uri":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("uri"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.URI = data
+		case "downloadUri":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("downloadUri"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DownloadURI = data
+		case "size":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("size"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Size = data
+		case "format":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("format"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Format = data
 		}
 	}
 
@@ -108165,6 +108952,18 @@ func (ec *executionContext) _MlArtifact(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "source":
+			out.Values[i] = ec._MlArtifact_source(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "mimeType":
+			out.Values[i] = ec._MlArtifact_mimeType(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "sizeBytes":
+			out.Values[i] = ec._MlArtifact_sizeBytes(ctx, field, obj)
 		case "updatedAt":
 			out.Values[i] = ec._MlArtifact_updatedAt(ctx, field, obj)
 		case "syncedAt":
@@ -110126,6 +110925,27 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteMlRun":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteMlRun(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createMlArtifact":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createMlArtifact(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateMlArtifact":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateMlArtifact(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteMlArtifact":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteMlArtifact(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -117250,6 +118070,11 @@ func (ec *executionContext) unmarshalNCreateMapInput2githubᚗcomᚋuigraphᚋgr
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateMlArtifactInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlArtifactInput(ctx context.Context, v any) (model.CreateMlArtifactInput, error) {
+	res, err := ec.unmarshalInputCreateMlArtifactInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateMlDatasetInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateMlDatasetInput(ctx context.Context, v any) (model.CreateMlDatasetInput, error) {
 	res, err := ec.unmarshalInputCreateMlDatasetInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -118567,6 +119392,10 @@ func (ec *executionContext) marshalNMember2ᚖgithubᚗcomᚋuigraphᚋgraphql�
 		return graphql.Null
 	}
 	return ec._Member(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNMlArtifact2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlArtifact(ctx context.Context, sel ast.SelectionSet, v model.MlArtifact) graphql.Marshaler {
+	return ec._MlArtifact(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNMlArtifact2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐMlArtifactᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MlArtifact) graphql.Marshaler {
@@ -120956,6 +121785,11 @@ func (ec *executionContext) unmarshalNUpdateMapInput2githubᚗcomᚋuigraphᚋgr
 
 func (ec *executionContext) unmarshalNUpdateMemberInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMemberInput(ctx context.Context, v any) (model.UpdateMemberInput, error) {
 	res, err := ec.unmarshalInputUpdateMemberInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateMlArtifactInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐUpdateMlArtifactInput(ctx context.Context, v any) (model.UpdateMlArtifactInput, error) {
+	res, err := ec.unmarshalInputUpdateMlArtifactInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

@@ -112,6 +112,9 @@ type MLArtifact struct {
 	DownloadURI string     `json:"downloadUri"`
 	Size        string     `json:"size"`
 	Format      string     `json:"format"`
+	Source      string     `json:"source"`
+	MimeType    string     `json:"mimeType"`
+	SizeBytes   *int64     `json:"sizeBytes,omitempty"`
 	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	SyncedAt    *time.Time `json:"syncedAt,omitempty"`
 }
@@ -438,6 +441,20 @@ func (c *Client) ListMLArtifacts(ctx context.Context, orgID, runID string) ([]ML
 		Artifacts []MLArtifact `json:"artifacts"`
 	}
 	return out.Artifacts, c.get(ctx, path, &out)
+}
+
+func (c *Client) CreateMLArtifact(ctx context.Context, orgID, runID string, body map[string]interface{}) (*MLArtifact, error) {
+	var out MLArtifact
+	return &out, c.post(ctx, fmt.Sprintf("%s/runs/%s/artifacts", mlBase(orgID), runID), body, &out)
+}
+
+func (c *Client) UpdateMLArtifact(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLArtifact, error) {
+	var out MLArtifact
+	return &out, c.put(ctx, mlBase(orgID)+"/artifacts/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLArtifact(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/artifacts/"+id)
 }
 
 func (c *Client) ListMLDatasets(ctx context.Context, orgID, experimentID string) ([]MLDataset, error) {

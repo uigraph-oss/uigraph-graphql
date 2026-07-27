@@ -406,6 +406,17 @@ type CreateMapInput struct {
 	TeamID      *string `json:"teamId,omitempty"`
 }
 
+type CreateMlArtifactInput struct {
+	Name        string  `json:"name"`
+	Type        string  `json:"type"`
+	URI         *string `json:"uri,omitempty"`
+	DownloadURI *string `json:"downloadUri,omitempty"`
+	Size        *string `json:"size,omitempty"`
+	Format      *string `json:"format,omitempty"`
+	MimeType    *string `json:"mimeType,omitempty"`
+	SizeBytes   *int    `json:"sizeBytes,omitempty"`
+}
+
 type CreateMlDatasetInput struct {
 	Name       string   `json:"name"`
 	Digest     *string  `json:"digest,omitempty"`
@@ -1135,6 +1146,9 @@ type MlArtifact struct {
 	DownloadURI string     `json:"downloadUri"`
 	Size        string     `json:"size"`
 	Format      string     `json:"format"`
+	Source      string     `json:"source"`
+	MimeType    string     `json:"mimeType"`
+	SizeBytes   *int       `json:"sizeBytes,omitempty"`
 	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	SyncedAt    *time.Time `json:"syncedAt,omitempty"`
 }
@@ -1964,6 +1978,15 @@ type UpdateMemberInput struct {
 	Email  string  `json:"email"`
 	Role   string  `json:"role"`
 	TeamID *string `json:"teamId,omitempty"`
+}
+
+type UpdateMlArtifactInput struct {
+	Name        *string `json:"name,omitempty"`
+	Type        *string `json:"type,omitempty"`
+	URI         *string `json:"uri,omitempty"`
+	DownloadURI *string `json:"downloadUri,omitempty"`
+	Size        *string `json:"size,omitempty"`
+	Format      *string `json:"format,omitempty"`
 }
 
 type UpdateMlDatasetInput struct {
