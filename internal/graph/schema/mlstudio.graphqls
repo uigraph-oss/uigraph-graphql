@@ -1,0 +1,456 @@
+extend type Query {
+    mlProjects(orgId: ID!):                                     [MlProject!]!
+    mlProject(orgId: ID!, id: ID!):                             MlProject!
+    mlModels(orgId: ID!, projectId: ID):                        [MlModel!]!
+    mlModel(orgId: ID!, id: ID!):                               MlModel!
+    mlModelVersions(orgId: ID!, modelId: ID, projectId: ID):    [MlModelVersion!]!
+    mlModelVersion(orgId: ID!, id: ID!):                        MlModelVersion!
+    mlModelVersionsExplore(orgId: ID!, teamId: ID, projectId: ID, modelId: ID, search: String, limit: Int, offset: Int): MlModelVersionExplorePage!
+    mlExperiments(orgId: ID!, projectId: ID):                   [MlExperiment!]!
+    mlExperiment(orgId: ID!, id: ID!):                          MlExperiment!
+    mlRuns(orgId: ID!, experimentId: ID, projectId: ID):        [MlRun!]!
+    mlRunsPage(orgId: ID!, experimentId: ID, projectId: ID, search: String, limit: Int, offset: Int): MlRunPage!
+    mlRun(orgId: ID!, id: ID!):                                 MlRun!
+    mlArtifacts(orgId: ID!, runId: ID):                         [MlArtifact!]!
+    mlDatasets(orgId: ID!, experimentId: ID):                   [MlDataset!]!
+    mlDataset(orgId: ID!, id: ID!):                             MlDataset!
+    mlDeployments(orgId: ID!, modelId: ID, versionId: ID):      [MlDeployment!]!
+    mlFindings(orgId: ID!, modelId: ID, projectId: ID):         [MlFinding!]!
+    mlVersionDeploymentUpdates(orgId: ID!, versionId: ID, projectId: ID): [MlVersionDeploymentUpdate!]!
+    mlEvaluations(orgId: ID!, experimentId: ID, projectId: ID, search: String, limit: Int, offset: Int): MlEvaluationPage!
+    mlVersionEvaluations(orgId: ID!, versionId: ID!):           [MlEvaluation!]!
+    mlExperimentEvaluations(orgId: ID!, experimentId: ID!):     [MlEvaluation!]!
+    mlVersionEvaluationsPage(orgId: ID!, versionId: ID!, search: String, limit: Int, offset: Int):          MlEvaluationPage!
+    mlExperimentEvaluationsPage(orgId: ID!, experimentId: ID!, search: String, limit: Int, offset: Int):    MlEvaluationPage!
+    mlEvaluation(orgId: ID!, id: ID!):                          MlEvaluation!
+}
+
+extend type Mutation {
+    createMlProject(orgId: ID!, input: CreateMlProjectInput!):                MlProject!
+    updateMlProject(orgId: ID!, id: ID!, input: UpdateMlProjectInput!):       MlProject!
+    deleteMlProject(orgId: ID!, id: ID!):                                     Boolean!
+    createMlDeployment(orgId: ID!, input: CreateMlDeploymentInput!):          MlDeployment!
+    updateMlDeployment(orgId: ID!, id: ID!, input: UpdateMlDeploymentInput!): MlDeployment!
+    deleteMlDeployment(orgId: ID!, id: ID!):                                  Boolean!
+    createMlFinding(orgId: ID!, input: CreateMlFindingInput!):                MlFinding!
+    updateMlFinding(orgId: ID!, id: ID!, input: UpdateMlFindingInput!):       MlFinding!
+    deleteMlFinding(orgId: ID!, id: ID!):                                     Boolean!
+    createMlModel(orgId: ID!, input: CreateMlModelInput!):                    MlModel!
+    updateMlModel(orgId: ID!, id: ID!, domain: String, problemType: String, license: String, references: [String!], intendedUse: String, limitations: String, considerations: String, recommendations: String):  MlModel!
+    updateMlModelInfo(orgId: ID!, id: ID!, input: UpdateMlModelInfoInput!):   MlModel!
+    deleteMlModel(orgId: ID!, id: ID!):                                      Boolean!
+    createMlVersionDeploymentUpdate(orgId: ID!, versionId: ID!, toStatus: String!):                                     MlVersionDeploymentUpdate!
+    setMlModelVersionRun(orgId: ID!, versionId: ID!, runId: ID):              MlModelVersion!
+    linkMlVersionEvaluations(orgId: ID!, versionId: ID!, evaluationIds: [ID!]!): [MlEvaluation!]!
+    createMlExperiment(orgId: ID!, input: CreateMlExperimentInput!):          MlExperiment!
+    updateMlExperiment(orgId: ID!, id: ID!, input: UpdateMlExperimentInput!): MlExperiment!
+    deleteMlExperiment(orgId: ID!, id: ID!):                                  Boolean!
+    createMlRun(orgId: ID!, experimentId: ID!, input: CreateMlRunInput!):     MlRun!
+    updateMlRun(orgId: ID!, id: ID!, input: UpdateMlRunInput!):               MlRun!
+    deleteMlRun(orgId: ID!, id: ID!):                                        Boolean!
+    createMlArtifact(orgId: ID!, runId: ID!, input: CreateMlArtifactInput!):  MlArtifact!
+    updateMlArtifact(orgId: ID!, id: ID!, input: UpdateMlArtifactInput!):     MlArtifact!
+    deleteMlArtifact(orgId: ID!, id: ID!):                                    Boolean!
+    createMlDataset(orgId: ID!, experimentId: ID!, input: CreateMlDatasetInput!): MlDataset!
+    updateMlDataset(orgId: ID!, id: ID!, input: UpdateMlDatasetInput!):      MlDataset!
+    deleteMlDataset(orgId: ID!, id: ID!):                                    Boolean!
+    createMlEvaluation(orgId: ID!, experimentId: ID!, input: CreateMlEvaluationInput!): MlEvaluation!
+    updateMlEvaluation(orgId: ID!, id: ID!, input: UpdateMlEvaluationInput!): MlEvaluation!
+    deleteMlEvaluation(orgId: ID!, id: ID!):                                  Boolean!
+}
+
+type MlProject {
+    id:          ID!
+    name:        String!
+    type:        String!
+    description: String!
+    sourceType:  String!
+    sourceUrl:   String!
+    teamId:      ID
+    updatedAt:   Time
+    stats:       MlProjectStats
+}
+
+type MlProjectStats {
+    modelCount:      Int!
+    experimentCount: Int!
+    runCount:        Int!
+}
+
+type MlModel {
+    id:                    ID!
+    projectId:             ID
+    name:                  String!
+    description:           String!
+    domain:                String!
+    problemType:           String!
+    tags:                  [String!]!
+    license:               String!
+    references:            [String!]!
+    intendedUse:           String!
+    limitations:           String!
+    considerations:        String!
+    recommendations:       String!
+    productionVersionId:   ID
+    origin:                String!
+    createdAt:             Time
+    updatedAt:             Time
+}
+
+type MlModelVersion {
+    id:               ID!
+    orgId:            ID!
+    modelId:          ID!
+    version:          String!
+    description:      String!
+    deploymentStatus: String!
+    runId:            ID
+    source:           String!
+    createdBy:        ID
+    createdByActor:   Actor @goField(forceResolver: true)
+    createdAt:        Time
+}
+
+type MlTeamRef {
+    id:   ID!
+    name: String!
+}
+
+type MlModelVersionExploreItem {
+    id:               ID!
+    orgId:            ID!
+    version:          String!
+    description:      String!
+    deploymentStatus: String!
+    runId:            ID
+    source:           String!
+    createdBy:        ID
+    createdByActor:   Actor @goField(forceResolver: true)
+    createdAt:        Time
+    model:            MlModel!
+    project:          MlProject
+    team:             MlTeamRef
+}
+
+type MlModelVersionExplorePage {
+    items: [MlModelVersionExploreItem!]!
+    total: Int!
+}
+
+type MlVersionDeploymentUpdate {
+    id:         ID!
+    versionId:  ID!
+    fromStatus: String
+    toStatus:   String!
+    changedBy:  ID!
+    changedAt:  Time
+}
+
+type MlExperiment {
+    id:          ID!
+    projectId:   ID
+    name:        String!
+    description: String!
+    status:      String!
+    tags:        [String!]!
+    createdAt:   Time
+    source:      String!
+    createdBy:   ID
+    updatedBy:   ID
+}
+
+type MlRunPage {
+    runs:  [MlRun!]!
+    total: Int!
+}
+
+type MlRun {
+    id:           ID!
+    orgId:        ID!
+    experimentId: ID!
+    name:         String!
+    status:       String!
+    startedAt:    Time!
+    endedAt:      Time
+    notes:        String!
+    tags:         [String!]!
+    parameters:   JSON!
+    metrics:      JSON!
+    datasetId:    ID
+    source:       String!
+    updatedAt:    Time
+    syncedAt:     Time
+}
+
+type MlArtifact {
+    id:     ID!
+    runId:  ID!
+    name:   String!
+    type:   String!
+    uri:    String!
+    downloadUri: String!
+    size:   String!
+    format: String!
+    source: String!
+    mimeType: String!
+    sizeBytes: Int
+    updatedAt: Time
+    syncedAt:  Time
+}
+
+type MlSchemaField {
+    name:        String!
+    type:        String!
+    description: String!
+}
+
+type MlDataset {
+    id:           ID!
+    experimentId: ID!
+    name:         String!
+    digest:       String!
+    source:       String!
+    sourceType:   String!
+    context:      String!
+    rowCount:     Int!
+    schema:       [MlSchemaField!]!
+    tags:         [String!]!
+    origin:       String!
+}
+
+type MlDeployment {
+    id:           ID!
+    modelId:      ID!
+    versionId:    ID!
+    name:         String!
+    environment:  String!
+    status:       String!
+    endpoint:     String!
+    region:       String!
+    deployedAt:   Time
+    rolledBackAt: Time
+}
+
+type MlEvaluationPage {
+    evaluations: [MlEvaluation!]!
+    total:       Int!
+}
+
+type MlEvaluation {
+    id:           ID!
+    versionId:    ID!
+    experimentId: ID!
+    modelName:    String!
+    version:      String!
+    datasetId:   ID
+    name:        String!
+    type:        String!
+    description: String!
+    summary:     String!
+    startedAt:   Time!
+    endedAt:     Time
+    evaluator:   String!
+    tags:        [String!]!
+    source:      String!
+    createdBy:   ID
+    parameters:  JSON!
+    metrics:     JSON!
+}
+
+type MlFinding {
+    id:             ID!
+    orgId:          ID!
+    modelId:        ID!
+    versionId:      ID
+    title:          String!
+    summary:        String!
+    description:    String!
+    runIds:         [ID!]!
+    evaluationIds:  [ID!]!
+    createdBy:      ID
+    createdByActor: Actor @goField(forceResolver: true)
+    createdAt:      Time
+}
+
+input CreateMlDeploymentInput {
+    modelId:      ID!
+    versionId:    ID!
+    name:         String!
+    environment:  String
+    status:       String
+    endpoint:     String
+    region:       String
+    deployedAt:   Time
+    rolledBackAt: Time
+}
+
+input UpdateMlDeploymentInput {
+    name:         String
+    environment:  String
+    status:       String
+    endpoint:     String
+    region:       String
+    deployedAt:   Time
+    rolledBackAt: Time
+}
+
+input CreateMlModelInput {
+    projectId:   ID!
+    name:        String!
+    description: String
+    domain:      String
+    problemType: String
+    tags:        [String!]
+}
+
+input UpdateMlModelInfoInput {
+    name:        String
+    description: String
+    domain:      String
+    problemType: String
+    tags:        [String!]
+}
+
+input CreateMlProjectInput {
+    name:        String!
+    type:        String!
+    description: String
+    teamId:      ID
+}
+
+input UpdateMlProjectInput {
+    name:        String
+    type:        String
+    description: String
+    teamId:      ID
+}
+
+input CreateMlFindingInput {
+    modelId:     ID!
+    versionId:   ID
+    title:       String!
+    summary:     String
+    description: String
+    runIds:      [ID!]
+    evaluationIds: [ID!]
+}
+
+input UpdateMlFindingInput {
+    versionId:   ID
+    title:       String
+    summary:     String
+    description: String
+    runIds:      [ID!]
+    evaluationIds: [ID!]
+}
+
+input CreateMlExperimentInput {
+    projectId:   ID!
+    name:        String!
+    description: String
+    status:      String
+    tags:        [String!]
+}
+
+input UpdateMlExperimentInput {
+    projectId:   ID
+    name:        String
+    description: String
+    status:      String
+    tags:        [String!]
+}
+
+input CreateMlRunInput {
+    name:       String!
+    status:     String
+    startedAt:  Time!
+    endedAt:    Time
+    notes:      String
+    tags:       [String!]
+    parameters: JSON
+    metrics:    JSON
+    datasetId:  ID
+    series:     JSON
+}
+
+input UpdateMlRunInput {
+    name:       String
+    status:     String
+    startedAt:  Time!
+    endedAt:    Time
+    notes:      String
+    tags:       [String!]
+    parameters: JSON
+    metrics:    JSON
+    datasetId:  ID
+    series:     JSON
+}
+
+input CreateMlArtifactInput {
+    name:        String!
+    type:        String!
+    uri:         String
+    downloadUri: String
+    size:        String
+    format:      String
+    mimeType:    String
+    sizeBytes:   Int
+}
+
+input UpdateMlArtifactInput {
+    name:        String
+    type:        String
+    uri:         String
+    downloadUri: String
+    size:        String
+    format:      String
+}
+
+input CreateMlDatasetInput {
+    name:       String!
+    digest:     String
+    source:     String
+    sourceType: String
+    context:    String
+    rowCount:   Int
+    tags:       [String!]
+}
+
+input UpdateMlDatasetInput {
+    name:       String
+    digest:     String
+    source:     String
+    sourceType: String
+    context:    String
+    rowCount:   Int
+    tags:       [String!]
+}
+
+input CreateMlEvaluationInput {
+    versionId:   ID!
+    name:        String!
+    type:        String!
+    datasetId:   ID
+    description: String
+    summary:     String
+    startedAt:   Time!
+    endedAt:     Time
+    evaluator:   String
+    tags:        [String!]
+    parameters:  JSON
+    metrics:     JSON
+}
+
+input UpdateMlEvaluationInput {
+    name:        String
+    type:        String
+    datasetId:   ID
+    description: String
+    summary:     String
+    startedAt:   Time!
+    endedAt:     Time
+    evaluator:   String
+    tags:        [String!]
+    parameters:  JSON
+    metrics:     JSON
+}

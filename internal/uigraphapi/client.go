@@ -78,6 +78,10 @@ func (c *Client) put(ctx context.Context, path string, body, out interface{}) er
 	return c.do(ctx, http.MethodPut, path, body, out)
 }
 
+func (c *Client) patch(ctx context.Context, path string, body, out interface{}) error {
+	return c.do(ctx, http.MethodPatch, path, body, out)
+}
+
 func (c *Client) del(ctx context.Context, path string) error {
 	return c.do(ctx, http.MethodDelete, path, nil, nil)
 }

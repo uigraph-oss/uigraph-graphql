@@ -272,6 +272,61 @@ type costSavingsClient interface {
 	GetSavingsByUser(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.UserSavings, error)
 }
 
+type mlStudioClient interface {
+	ListMLProjects(ctx context.Context, orgID string) ([]uigraphapi.MLProject, error)
+	GetMLProject(ctx context.Context, orgID, id string) (*uigraphapi.MLProject, error)
+	CreateMLProject(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLProject, error)
+	UpdateMLProject(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLProject, error)
+	DeleteMLProject(ctx context.Context, orgID, id string) error
+	ListMLModels(ctx context.Context, orgID, projectID string) ([]uigraphapi.MLModel, error)
+	GetMLModel(ctx context.Context, orgID, id string) (*uigraphapi.MLModel, error)
+	CreateMLModel(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLModel, error)
+	UpdateMLModel(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLModel, error)
+	UpdateMLModelInfo(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLModel, error)
+	DeleteMLModel(ctx context.Context, orgID, id string) error
+	ListMLModelVersions(ctx context.Context, orgID, modelID, projectID string) ([]uigraphapi.MLModelVersion, error)
+	ListMLModelVersionsExplore(ctx context.Context, orgID string, query uigraphapi.MLModelVersionQuery) ([]uigraphapi.MLModelVersionExploreItem, int, error)
+	GetMLModelVersion(ctx context.Context, orgID, id string) (*uigraphapi.MLModelVersion, error)
+	ListMLExperiments(ctx context.Context, orgID, projectID string) ([]uigraphapi.MLExperiment, error)
+	GetMLExperiment(ctx context.Context, orgID, id string) (*uigraphapi.MLExperiment, error)
+	CreateMLExperiment(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLExperiment, error)
+	UpdateMLExperiment(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLExperiment, error)
+	DeleteMLExperiment(ctx context.Context, orgID, id string) error
+	ListMLRuns(ctx context.Context, orgID string, query uigraphapi.MLRunQuery) ([]uigraphapi.MLRun, int, error)
+	GetMLRun(ctx context.Context, orgID, id string) (*uigraphapi.MLRun, error)
+	CreateMLRun(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*uigraphapi.MLRun, error)
+	UpdateMLRun(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLRun, error)
+	DeleteMLRun(ctx context.Context, orgID, id string) error
+	ListMLArtifacts(ctx context.Context, orgID, runID string) ([]uigraphapi.MLArtifact, error)
+	CreateMLArtifact(ctx context.Context, orgID, runID string, body map[string]interface{}) (*uigraphapi.MLArtifact, error)
+	UpdateMLArtifact(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLArtifact, error)
+	DeleteMLArtifact(ctx context.Context, orgID, id string) error
+	ListMLDatasets(ctx context.Context, orgID, experimentID string) ([]uigraphapi.MLDataset, error)
+	GetMLDataset(ctx context.Context, orgID, id string) (*uigraphapi.MLDataset, error)
+	CreateMLDataset(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*uigraphapi.MLDataset, error)
+	UpdateMLDataset(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLDataset, error)
+	DeleteMLDataset(ctx context.Context, orgID, id string) error
+	ListMLDeployments(ctx context.Context, orgID, modelID, versionID string) ([]uigraphapi.MLDeployment, error)
+	CreateMLDeployment(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLDeployment, error)
+	UpdateMLDeployment(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLDeployment, error)
+	DeleteMLDeployment(ctx context.Context, orgID, id string) error
+	ListMLFindings(ctx context.Context, orgID, modelID, projectID string) ([]uigraphapi.MLFinding, error)
+	CreateMLFinding(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.MLFinding, error)
+	UpdateMLFinding(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLFinding, error)
+	DeleteMLFinding(ctx context.Context, orgID, id string) error
+	ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID, projectID string) ([]uigraphapi.MLVersionDeploymentUpdate, error)
+	CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*uigraphapi.MLVersionDeploymentUpdate, error)
+	SetMLModelVersionRun(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*uigraphapi.MLModelVersion, error)
+	LinkMLVersionEvaluations(ctx context.Context, orgID, versionID string, body map[string]interface{}) ([]uigraphapi.MLEvaluation, error)
+	ListMLEvaluations(ctx context.Context, orgID string, query uigraphapi.MLEvaluationQuery) ([]uigraphapi.MLEvaluation, int, error)
+	ListMLVersionEvaluations(ctx context.Context, orgID, versionID string, query uigraphapi.MLEvaluationQuery) ([]uigraphapi.MLEvaluation, int, error)
+	ListMLExperimentEvaluations(ctx context.Context, orgID, experimentID string, query uigraphapi.MLEvaluationQuery) ([]uigraphapi.MLEvaluation, int, error)
+	GetMLEvaluation(ctx context.Context, orgID, id string) (*uigraphapi.MLEvaluation, error)
+	CreateMLEvaluation(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*uigraphapi.MLEvaluation, error)
+	UpdateMLEvaluation(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.MLEvaluation, error)
+	DeleteMLEvaluation(ctx context.Context, orgID, id string) error
+}
+
 type Resolver struct {
 	Auth        authClient
 	OrgAPI      orgClient
@@ -288,4 +343,5 @@ type Resolver struct {
 	Actor       actorClient
 	CommentAPI  commentClient
 	CostSavings costSavingsClient
+	MLStudio    mlStudioClient
 }

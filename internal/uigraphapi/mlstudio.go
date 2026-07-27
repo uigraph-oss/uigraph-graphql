@@ -1,0 +1,675 @@
+package uigraphapi
+
+import (
+	"context"
+	"fmt"
+	"net/url"
+	"strconv"
+	"time"
+)
+
+type MLProject struct {
+	ID          string          `json:"id"`
+	OrgID       string          `json:"orgId"`
+	Name        string          `json:"name"`
+	Type        string          `json:"type"`
+	Description string          `json:"description"`
+	SourceType  string          `json:"sourceType"`
+	SourceURL   string          `json:"sourceUrl"`
+	TeamID      *string         `json:"teamId,omitempty"`
+	UpdatedAt   *time.Time      `json:"updatedAt,omitempty"`
+	Stats       *MLProjectStats `json:"stats,omitempty"`
+}
+
+type MLProjectStats struct {
+	ModelCount      int `json:"modelCount"`
+	ExperimentCount int `json:"experimentCount"`
+	RunCount        int `json:"runCount"`
+}
+
+type MLModel struct {
+	ID                  string     `json:"id"`
+	OrgID               string     `json:"orgId"`
+	ProjectID           *string    `json:"projectId,omitempty"`
+	Name                string     `json:"name"`
+	Description         string     `json:"description"`
+	Domain              string     `json:"domain"`
+	ProblemType         string     `json:"problemType"`
+	Tags                []string   `json:"tags"`
+	License             string     `json:"license"`
+	References          []string   `json:"references"`
+	IntendedUse         string     `json:"intendedUse"`
+	Limitations         string     `json:"limitations"`
+	Considerations      string     `json:"considerations"`
+	Recommendations     string     `json:"recommendations"`
+	ProductionVersionID *string    `json:"productionVersionId,omitempty"`
+	Origin              string     `json:"origin"`
+	CreatedAt           *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt           *time.Time `json:"updatedAt,omitempty"`
+}
+
+type MLModelVersion struct {
+	ID               string     `json:"id"`
+	OrgID            string     `json:"orgId"`
+	ModelID          string     `json:"modelId"`
+	Version          string     `json:"version"`
+	Description      string     `json:"description"`
+	DeploymentStatus string     `json:"deploymentStatus"`
+	RunID            *string    `json:"runId,omitempty"`
+	Source           string     `json:"source"`
+	CreatedBy        string     `json:"createdBy"`
+	CreatedAt        *time.Time `json:"createdAt,omitempty"`
+}
+
+type MLVersionDeploymentUpdate struct {
+	ID         string     `json:"id"`
+	OrgID      string     `json:"orgId"`
+	VersionID  string     `json:"versionId"`
+	FromStatus *string    `json:"fromStatus,omitempty"`
+	ToStatus   string     `json:"toStatus"`
+	ChangedBy  string     `json:"changedBy"`
+	ChangedAt  *time.Time `json:"changedAt,omitempty"`
+}
+
+type MLExperiment struct {
+	ID          string     `json:"id"`
+	OrgID       string     `json:"orgId"`
+	ProjectID   *string    `json:"projectId,omitempty"`
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	Status      string     `json:"status"`
+	Tags        []string   `json:"tags"`
+	CreatedAt   *time.Time `json:"createdAt,omitempty"`
+	Source      string     `json:"source"`
+	CreatedBy   *string    `json:"createdBy,omitempty"`
+	UpdatedBy   *string    `json:"updatedBy,omitempty"`
+}
+
+type MLRun struct {
+	ID           string         `json:"id"`
+	OrgID        string         `json:"orgId"`
+	ExperimentID string         `json:"experimentId"`
+	Name         string         `json:"name"`
+	Status       string         `json:"status"`
+	StartedAt    time.Time      `json:"startedAt"`
+	EndedAt      *time.Time     `json:"endedAt,omitempty"`
+	Notes        string         `json:"notes"`
+	Tags         []string       `json:"tags"`
+	Parameters   map[string]any `json:"parameters"`
+	Metrics      map[string]any `json:"metrics"`
+	DatasetID    *string        `json:"datasetId,omitempty"`
+	Source       string         `json:"source"`
+	UpdatedAt    *time.Time     `json:"updatedAt,omitempty"`
+	SyncedAt     *time.Time     `json:"syncedAt,omitempty"`
+}
+
+type MLArtifact struct {
+	ID          string     `json:"id"`
+	OrgID       string     `json:"orgId"`
+	RunID       string     `json:"runId"`
+	Name        string     `json:"name"`
+	Type        string     `json:"type"`
+	URI         string     `json:"uri"`
+	DownloadURI string     `json:"downloadUri"`
+	Size        string     `json:"size"`
+	Format      string     `json:"format"`
+	Source      string     `json:"source"`
+	MimeType    string     `json:"mimeType"`
+	SizeBytes   *int64     `json:"sizeBytes,omitempty"`
+	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
+	SyncedAt    *time.Time `json:"syncedAt,omitempty"`
+}
+
+type MLSchemaField struct {
+	Name        string `json:"name"`
+	Type        string `json:"type"`
+	Description string `json:"description"`
+}
+
+type MLDataset struct {
+	ID           string          `json:"id"`
+	OrgID        string          `json:"orgId"`
+	ExperimentID string          `json:"experimentId"`
+	Name         string          `json:"name"`
+	Digest       string          `json:"digest"`
+	Source       string          `json:"source"`
+	SourceType   string          `json:"sourceType"`
+	Context      string          `json:"context"`
+	RowCount     int64           `json:"rowCount"`
+	Schema       []MLSchemaField `json:"schema"`
+	Tags         []string        `json:"tags"`
+	Origin       string          `json:"origin"`
+}
+
+type MLDeployment struct {
+	ID           string     `json:"id"`
+	OrgID        string     `json:"orgId"`
+	ModelID      string     `json:"modelId"`
+	VersionID    string     `json:"versionId"`
+	Name         string     `json:"name"`
+	Environment  string     `json:"environment"`
+	Status       string     `json:"status"`
+	Endpoint     string     `json:"endpoint"`
+	Region       string     `json:"region"`
+	DeployedAt   *time.Time `json:"deployedAt,omitempty"`
+	RolledBackAt *time.Time `json:"rolledBackAt,omitempty"`
+}
+
+type MLFinding struct {
+	ID            string     `json:"id"`
+	OrgID         string     `json:"orgId"`
+	ModelID       string     `json:"modelId"`
+	VersionID     *string    `json:"versionId,omitempty"`
+	Title         string     `json:"title"`
+	Summary       string     `json:"summary"`
+	Description   string     `json:"description"`
+	RunIDs        []string   `json:"runIds"`
+	EvaluationIDs []string   `json:"evaluationIds"`
+	CreatedBy     string     `json:"createdBy"`
+	CreatedAt     *time.Time `json:"createdAt,omitempty"`
+}
+
+type MLEvaluation struct {
+	ID           string         `json:"id"`
+	OrgID        string         `json:"orgId"`
+	MLflowID     string         `json:"mlflowId"`
+	VersionID    string         `json:"versionId"`
+	ExperimentID string         `json:"experimentId"`
+	ModelName    string         `json:"modelName"`
+	Version      string         `json:"version"`
+	DatasetID    *string        `json:"datasetId,omitempty"`
+	Name         string         `json:"name"`
+	Type         string         `json:"type"`
+	Description  string         `json:"description"`
+	Summary      string         `json:"summary"`
+	StartedAt    time.Time      `json:"startedAt"`
+	EndedAt      *time.Time     `json:"endedAt,omitempty"`
+	Evaluator    string         `json:"evaluator"`
+	Tags         []string       `json:"tags"`
+	Source       string         `json:"source"`
+	CreatedBy    *string        `json:"createdBy,omitempty"`
+	Parameters   map[string]any `json:"parameters"`
+	Metrics      map[string]any `json:"metrics"`
+}
+
+func mlBase(orgID string) string {
+	return "/api/v1/orgs/" + orgID + "/ml"
+}
+
+func (c *Client) ListMLProjects(ctx context.Context, orgID string) ([]MLProject, error) {
+	var out struct {
+		Projects []MLProject `json:"projects"`
+	}
+	return out.Projects, c.get(ctx, mlBase(orgID)+"/projects", &out)
+}
+
+func (c *Client) GetMLProject(ctx context.Context, orgID, id string) (*MLProject, error) {
+	var out MLProject
+	return &out, c.get(ctx, mlBase(orgID)+"/projects/"+id, &out)
+}
+
+func (c *Client) CreateMLProject(ctx context.Context, orgID string, body map[string]interface{}) (*MLProject, error) {
+	var out MLProject
+	return &out, c.post(ctx, mlBase(orgID)+"/projects", body, &out)
+}
+
+func (c *Client) UpdateMLProject(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLProject, error) {
+	var out MLProject
+	return &out, c.put(ctx, mlBase(orgID)+"/projects/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLProject(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/projects/"+id)
+}
+
+func (c *Client) ListMLModels(ctx context.Context, orgID, projectID string) ([]MLModel, error) {
+	q := url.Values{}
+	if projectID != "" {
+		q.Set("projectId", projectID)
+	}
+	path := mlBase(orgID) + "/models"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var out struct {
+		Models []MLModel `json:"models"`
+	}
+	return out.Models, c.get(ctx, path, &out)
+}
+
+func (c *Client) GetMLModel(ctx context.Context, orgID, id string) (*MLModel, error) {
+	var out MLModel
+	return &out, c.get(ctx, mlBase(orgID)+"/models/"+id, &out)
+}
+
+func (c *Client) CreateMLModel(ctx context.Context, orgID string, body map[string]interface{}) (*MLModel, error) {
+	var out MLModel
+	return &out, c.post(ctx, mlBase(orgID)+"/models", body, &out)
+}
+
+func (c *Client) UpdateMLModel(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLModel, error) {
+	var out MLModel
+	return &out, c.patch(ctx, mlBase(orgID)+"/models/"+id, body, &out)
+}
+
+func (c *Client) UpdateMLModelInfo(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLModel, error) {
+	var out MLModel
+	return &out, c.put(ctx, mlBase(orgID)+"/models/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLModel(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/models/"+id)
+}
+
+func (c *Client) ListMLModelVersions(ctx context.Context, orgID, modelID, projectID string) ([]MLModelVersion, error) {
+	q := url.Values{}
+	if modelID != "" {
+		q.Set("modelId", modelID)
+	}
+	if projectID != "" {
+		q.Set("projectId", projectID)
+	}
+	path := mlBase(orgID) + "/versions"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var out struct {
+		Versions []MLModelVersion `json:"versions"`
+	}
+	return out.Versions, c.get(ctx, path, &out)
+}
+
+type MLTeamRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type MLModelVersionExploreItem struct {
+	MLModelVersion
+	Model   MLModel    `json:"model"`
+	Project *MLProject `json:"project,omitempty"`
+	Team    *MLTeamRef `json:"team,omitempty"`
+}
+
+type MLModelVersionQuery struct {
+	TeamID    string
+	ProjectID string
+	ModelID   string
+	Search    string
+	Limit     int
+	Offset    int
+}
+
+func (q MLModelVersionQuery) encode() string {
+	v := url.Values{}
+	if q.TeamID != "" {
+		v.Set("teamId", q.TeamID)
+	}
+	if q.ProjectID != "" {
+		v.Set("projectId", q.ProjectID)
+	}
+	if q.ModelID != "" {
+		v.Set("modelId", q.ModelID)
+	}
+	if q.Search != "" {
+		v.Set("search", q.Search)
+	}
+	if q.Limit > 0 {
+		v.Set("limit", strconv.Itoa(q.Limit))
+	}
+	if q.Offset > 0 {
+		v.Set("offset", strconv.Itoa(q.Offset))
+	}
+	if len(v) == 0 {
+		return ""
+	}
+	return "?" + v.Encode()
+}
+
+func (c *Client) ListMLModelVersionsExplore(ctx context.Context, orgID string, query MLModelVersionQuery) ([]MLModelVersionExploreItem, int, error) {
+	var out struct {
+		Items []MLModelVersionExploreItem `json:"items"`
+		Total int                         `json:"total"`
+	}
+	path := mlBase(orgID) + "/versions/explore" + query.encode()
+	return out.Items, out.Total, c.get(ctx, path, &out)
+}
+
+func (c *Client) GetMLModelVersion(ctx context.Context, orgID, id string) (*MLModelVersion, error) {
+	var out MLModelVersion
+	return &out, c.get(ctx, mlBase(orgID)+"/versions/"+id, &out)
+}
+
+func (c *Client) ListMLExperiments(ctx context.Context, orgID, projectID string) ([]MLExperiment, error) {
+	q := url.Values{}
+	if projectID != "" {
+		q.Set("projectId", projectID)
+	}
+	path := mlBase(orgID) + "/experiments"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var out struct {
+		Experiments []MLExperiment `json:"experiments"`
+	}
+	return out.Experiments, c.get(ctx, path, &out)
+}
+
+func (c *Client) GetMLExperiment(ctx context.Context, orgID, id string) (*MLExperiment, error) {
+	var out MLExperiment
+	return &out, c.get(ctx, mlBase(orgID)+"/experiments/"+id, &out)
+}
+
+func (c *Client) CreateMLExperiment(ctx context.Context, orgID string, body map[string]interface{}) (*MLExperiment, error) {
+	var out MLExperiment
+	return &out, c.post(ctx, mlBase(orgID)+"/experiments", body, &out)
+}
+
+func (c *Client) UpdateMLExperiment(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLExperiment, error) {
+	var out MLExperiment
+	return &out, c.put(ctx, mlBase(orgID)+"/experiments/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLExperiment(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/experiments/"+id)
+}
+
+type MLRunQuery struct {
+	ExperimentID string
+	ProjectID    string
+	Search       string
+	Limit        int
+	Offset       int
+}
+
+func (c *Client) ListMLRuns(ctx context.Context, orgID string, query MLRunQuery) ([]MLRun, int, error) {
+	q := url.Values{}
+	if query.ExperimentID != "" {
+		q.Set("experimentId", query.ExperimentID)
+	}
+	if query.ProjectID != "" {
+		q.Set("projectId", query.ProjectID)
+	}
+	if query.Search != "" {
+		q.Set("search", query.Search)
+	}
+	if query.Limit > 0 {
+		q.Set("limit", strconv.Itoa(query.Limit))
+	}
+	if query.Offset > 0 {
+		q.Set("offset", strconv.Itoa(query.Offset))
+	}
+	path := mlBase(orgID) + "/runs"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var out struct {
+		Runs  []MLRun `json:"runs"`
+		Total int     `json:"total"`
+	}
+	return out.Runs, out.Total, c.get(ctx, path, &out)
+}
+
+func (c *Client) GetMLRun(ctx context.Context, orgID, id string) (*MLRun, error) {
+	var out MLRun
+	return &out, c.get(ctx, mlBase(orgID)+"/runs/"+id, &out)
+}
+
+func (c *Client) CreateMLRun(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*MLRun, error) {
+	var out MLRun
+	return &out, c.post(ctx, fmt.Sprintf("%s/experiments/%s/runs", mlBase(orgID), experimentID), body, &out)
+}
+
+func (c *Client) UpdateMLRun(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLRun, error) {
+	var out MLRun
+	return &out, c.put(ctx, mlBase(orgID)+"/runs/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLRun(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/runs/"+id)
+}
+
+func (c *Client) ListMLArtifacts(ctx context.Context, orgID, runID string) ([]MLArtifact, error) {
+	q := url.Values{}
+	if runID != "" {
+		q.Set("runId", runID)
+	}
+	path := mlBase(orgID) + "/artifacts"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var out struct {
+		Artifacts []MLArtifact `json:"artifacts"`
+	}
+	return out.Artifacts, c.get(ctx, path, &out)
+}
+
+func (c *Client) CreateMLArtifact(ctx context.Context, orgID, runID string, body map[string]interface{}) (*MLArtifact, error) {
+	var out MLArtifact
+	return &out, c.post(ctx, fmt.Sprintf("%s/runs/%s/artifacts", mlBase(orgID), runID), body, &out)
+}
+
+func (c *Client) UpdateMLArtifact(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLArtifact, error) {
+	var out MLArtifact
+	return &out, c.put(ctx, mlBase(orgID)+"/artifacts/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLArtifact(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/artifacts/"+id)
+}
+
+func (c *Client) ListMLDatasets(ctx context.Context, orgID, experimentID string) ([]MLDataset, error) {
+	q := url.Values{}
+	if experimentID != "" {
+		q.Set("experimentId", experimentID)
+	}
+	path := mlBase(orgID) + "/datasets"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var out struct {
+		Datasets []MLDataset `json:"datasets"`
+	}
+	return out.Datasets, c.get(ctx, path, &out)
+}
+
+func (c *Client) GetMLDataset(ctx context.Context, orgID, id string) (*MLDataset, error) {
+	var out MLDataset
+	return &out, c.get(ctx, mlBase(orgID)+"/datasets/"+id, &out)
+}
+
+func (c *Client) CreateMLDataset(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*MLDataset, error) {
+	var out MLDataset
+	return &out, c.post(ctx, fmt.Sprintf("%s/experiments/%s/datasets", mlBase(orgID), experimentID), body, &out)
+}
+
+func (c *Client) UpdateMLDataset(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLDataset, error) {
+	var out MLDataset
+	return &out, c.put(ctx, mlBase(orgID)+"/datasets/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLDataset(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/datasets/"+id)
+}
+
+func (c *Client) ListMLDeployments(ctx context.Context, orgID, modelID, versionID string) ([]MLDeployment, error) {
+	q := url.Values{}
+	if modelID != "" {
+		q.Set("modelId", modelID)
+	}
+	if versionID != "" {
+		q.Set("versionId", versionID)
+	}
+	path := mlBase(orgID) + "/deployments"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var out struct {
+		Deployments []MLDeployment `json:"deployments"`
+	}
+	return out.Deployments, c.get(ctx, path, &out)
+}
+
+func (c *Client) GetMLDeployment(ctx context.Context, orgID, id string) (*MLDeployment, error) {
+	var out MLDeployment
+	return &out, c.get(ctx, mlBase(orgID)+"/deployments/"+id, &out)
+}
+
+func (c *Client) CreateMLDeployment(ctx context.Context, orgID string, body map[string]interface{}) (*MLDeployment, error) {
+	var out MLDeployment
+	return &out, c.post(ctx, mlBase(orgID)+"/deployments", body, &out)
+}
+
+func (c *Client) UpdateMLDeployment(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLDeployment, error) {
+	var out MLDeployment
+	return &out, c.put(ctx, mlBase(orgID)+"/deployments/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLDeployment(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/deployments/"+id)
+}
+
+func (c *Client) ListVersionDeploymentUpdates(ctx context.Context, orgID, versionID, projectID string) ([]MLVersionDeploymentUpdate, error) {
+	path := mlBase(orgID) + "/deployment-updates"
+	if versionID != "" {
+		path = fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID)
+	}
+	if projectID != "" {
+		path += "?" + url.Values{"projectId": {projectID}}.Encode()
+	}
+	var out struct {
+		Updates []MLVersionDeploymentUpdate `json:"updates"`
+	}
+	return out.Updates, c.get(ctx, path, &out)
+}
+
+type MLEvaluationQuery struct {
+	ExperimentID string
+	ProjectID    string
+	Search       string
+	Limit        int
+	Offset       int
+}
+
+func (q MLEvaluationQuery) encode() string {
+	v := url.Values{}
+	if q.ExperimentID != "" {
+		v.Set("experimentId", q.ExperimentID)
+	}
+	if q.ProjectID != "" {
+		v.Set("projectId", q.ProjectID)
+	}
+	if q.Search != "" {
+		v.Set("search", q.Search)
+	}
+	if q.Limit > 0 {
+		v.Set("limit", strconv.Itoa(q.Limit))
+	}
+	if q.Offset > 0 {
+		v.Set("offset", strconv.Itoa(q.Offset))
+	}
+	if len(v) == 0 {
+		return ""
+	}
+	return "?" + v.Encode()
+}
+
+func (c *Client) ListMLEvaluations(ctx context.Context, orgID string, query MLEvaluationQuery) ([]MLEvaluation, int, error) {
+	var out struct {
+		Evaluations []MLEvaluation `json:"evaluations"`
+		Total       int            `json:"total"`
+	}
+	path := mlBase(orgID) + "/evaluations" + query.encode()
+	return out.Evaluations, out.Total, c.get(ctx, path, &out)
+}
+
+func (c *Client) ListMLVersionEvaluations(ctx context.Context, orgID, versionID string, query MLEvaluationQuery) ([]MLEvaluation, int, error) {
+	var out struct {
+		Evaluations []MLEvaluation `json:"evaluations"`
+		Total       int            `json:"total"`
+	}
+	path := fmt.Sprintf("%s/versions/%s/evaluations", mlBase(orgID), versionID) + query.encode()
+	return out.Evaluations, out.Total, c.get(ctx, path, &out)
+}
+
+func (c *Client) ListMLExperimentEvaluations(ctx context.Context, orgID, experimentID string, query MLEvaluationQuery) ([]MLEvaluation, int, error) {
+	var out struct {
+		Evaluations []MLEvaluation `json:"evaluations"`
+		Total       int            `json:"total"`
+	}
+	path := fmt.Sprintf("%s/experiments/%s/evaluations", mlBase(orgID), experimentID) + query.encode()
+	return out.Evaluations, out.Total, c.get(ctx, path, &out)
+}
+
+func (c *Client) GetMLEvaluation(ctx context.Context, orgID, id string) (*MLEvaluation, error) {
+	var out MLEvaluation
+	return &out, c.get(ctx, mlBase(orgID)+"/evaluations/"+id, &out)
+}
+
+func (c *Client) CreateMLEvaluation(ctx context.Context, orgID, experimentID string, body map[string]interface{}) (*MLEvaluation, error) {
+	var out MLEvaluation
+	return &out, c.post(ctx, fmt.Sprintf("%s/experiments/%s/evaluations", mlBase(orgID), experimentID), body, &out)
+}
+
+func (c *Client) UpdateMLEvaluation(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLEvaluation, error) {
+	var out MLEvaluation
+	return &out, c.put(ctx, mlBase(orgID)+"/evaluations/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLEvaluation(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/evaluations/"+id)
+}
+
+func (c *Client) CreateVersionDeploymentUpdate(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*MLVersionDeploymentUpdate, error) {
+	var out MLVersionDeploymentUpdate
+	return &out, c.post(ctx, fmt.Sprintf("%s/versions/%s/deployment-updates", mlBase(orgID), versionID), body, &out)
+}
+
+func (c *Client) LinkMLVersionEvaluations(ctx context.Context, orgID, versionID string, body map[string]interface{}) ([]MLEvaluation, error) {
+	var out struct {
+		Evaluations []MLEvaluation `json:"evaluations"`
+	}
+	return out.Evaluations, c.put(ctx, fmt.Sprintf("%s/versions/%s/evaluations", mlBase(orgID), versionID), body, &out)
+}
+
+func (c *Client) SetMLModelVersionRun(ctx context.Context, orgID, versionID string, body map[string]interface{}) (*MLModelVersion, error) {
+	var out MLModelVersion
+	return &out, c.put(ctx, fmt.Sprintf("%s/versions/%s/run", mlBase(orgID), versionID), body, &out)
+}
+
+func (c *Client) ListMLFindings(ctx context.Context, orgID, modelID, projectID string) ([]MLFinding, error) {
+	q := url.Values{}
+	if modelID != "" {
+		q.Set("modelId", modelID)
+	}
+	if projectID != "" {
+		q.Set("projectId", projectID)
+	}
+	path := mlBase(orgID) + "/findings"
+	if len(q) > 0 {
+		path += "?" + q.Encode()
+	}
+	var out struct {
+		Findings []MLFinding `json:"findings"`
+	}
+	return out.Findings, c.get(ctx, path, &out)
+}
+
+func (c *Client) GetMLFinding(ctx context.Context, orgID, id string) (*MLFinding, error) {
+	var out MLFinding
+	return &out, c.get(ctx, mlBase(orgID)+"/findings/"+id, &out)
+}
+
+func (c *Client) CreateMLFinding(ctx context.Context, orgID string, body map[string]interface{}) (*MLFinding, error) {
+	var out MLFinding
+	return &out, c.post(ctx, mlBase(orgID)+"/findings", body, &out)
+}
+
+func (c *Client) UpdateMLFinding(ctx context.Context, orgID, id string, body map[string]interface{}) (*MLFinding, error) {
+	var out MLFinding
+	return &out, c.put(ctx, mlBase(orgID)+"/findings/"+id, body, &out)
+}
+
+func (c *Client) DeleteMLFinding(ctx context.Context, orgID, id string) error {
+	return c.del(ctx, mlBase(orgID)+"/findings/"+id)
+}
