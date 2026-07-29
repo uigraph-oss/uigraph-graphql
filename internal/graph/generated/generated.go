@@ -1005,6 +1005,7 @@ type ComplexityRoot struct {
 		DeleteTestCase                    func(childComplexity int, orgID string, serviceID string, id string) int
 		DeleteTestPack                    func(childComplexity int, orgID string, serviceID string, id string) int
 		DisableUser                       func(childComplexity int, id string) int
+		GenerateDiagramThumbnail          func(childComplexity int, orgID string, diagramID string) int
 		LinkMlVersionEvaluations          func(childComplexity int, orgID string, versionID string, evaluationIds []string) int
 		PrepareDiagramThumbnailUpload     func(childComplexity int, orgID string, diagramID string) int
 		PrepareOAuthProviderIconUpload    func(childComplexity int, provider string) int
@@ -1771,6 +1772,7 @@ type MutationResolver interface {
 	RestoreDiagramVersion(ctx context.Context, orgID string, diagramID string, versionID string) (*model.Diagram, error)
 	PrepareDiagramThumbnailUpload(ctx context.Context, orgID string, diagramID string) (*model.DiagramThumbnailUpload, error)
 	ConfirmDiagramThumbnailUpload(ctx context.Context, orgID string, diagramID string, contentHash string) (bool, error)
+	GenerateDiagramThumbnail(ctx context.Context, orgID string, diagramID string) (bool, error)
 	CreateDiagramImage(ctx context.Context, orgID string, diagramID string, input model.CreateDiagramImageInput) (*model.DiagramImage, error)
 	CreateDoc(ctx context.Context, orgID string, input model.CreateDocInput) (*model.Doc, error)
 	UpdateDoc(ctx context.Context, orgID string, id string, input model.UpdateDocInput) (*model.Doc, error)
@@ -7508,6 +7510,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DisableUser(childComplexity, args["id"].(string)), true
+
+	case "Mutation.generateDiagramThumbnail":
+		if e.complexity.Mutation.GenerateDiagramThumbnail == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_generateDiagramThumbnail_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.GenerateDiagramThumbnail(childComplexity, args["orgId"].(string), args["diagramId"].(string)), true
 
 	case "Mutation.linkMlVersionEvaluations":
 		if e.complexity.Mutation.LinkMlVersionEvaluations == nil {
@@ -13306,6 +13320,7 @@ extend type Mutation {
     restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
     prepareDiagramThumbnailUpload(orgId: ID!, diagramId: ID!): DiagramThumbnailUpload!
     confirmDiagramThumbnailUpload(orgId: ID!, diagramId: ID!, contentHash: String!): Boolean!
+    generateDiagramThumbnail(orgId: ID!, diagramId: ID!): Boolean!
     createDiagramImage(orgId: ID!, diagramId: ID!, input: CreateDiagramImageInput!): DiagramImage!
 }
 
@@ -20657,6 +20672,57 @@ func (ec *executionContext) field_Mutation_disableUser_argsID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_generateDiagramThumbnail_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_generateDiagramThumbnail_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_generateDiagramThumbnail_argsDiagramID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["diagramId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_generateDiagramThumbnail_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_generateDiagramThumbnail_argsDiagramID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["diagramId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("diagramId"))
+	if tmp, ok := rawArgs["diagramId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -64919,6 +64985,61 @@ func (ec *executionContext) fieldContext_Mutation_confirmDiagramThumbnailUpload(
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_confirmDiagramThumbnailUpload_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_generateDiagramThumbnail(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_generateDiagramThumbnail(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().GenerateDiagramThumbnail(rctx, fc.Args["orgId"].(string), fc.Args["diagramId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_generateDiagramThumbnail(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_generateDiagramThumbnail_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -111168,6 +111289,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "confirmDiagramThumbnailUpload":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_confirmDiagramThumbnailUpload(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "generateDiagramThumbnail":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_generateDiagramThumbnail(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++

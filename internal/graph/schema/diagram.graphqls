@@ -21,6 +21,7 @@ extend type Mutation {
     restoreDiagramVersion(orgId: ID!, diagramId: ID!, versionId: ID!): Diagram!
     prepareDiagramThumbnailUpload(orgId: ID!, diagramId: ID!): DiagramThumbnailUpload!
     confirmDiagramThumbnailUpload(orgId: ID!, diagramId: ID!, contentHash: String!): Boolean!
+    generateDiagramThumbnail(orgId: ID!, diagramId: ID!): Boolean!
     createDiagramImage(orgId: ID!, diagramId: ID!, input: CreateDiagramImageInput!): DiagramImage!
 }
 

@@ -242,8 +242,9 @@ func TestDependencyQueries(t *testing.T) {
 }
 
 type fakeDiagramClient struct {
-	prepareThumbnailFn func(ctx context.Context, orgID, diagramID string) (*uigraphapi.DiagramThumbnailUpload, error)
-	confirmThumbnailFn func(ctx context.Context, orgID, diagramID, hash string) error
+	prepareThumbnailFn  func(ctx context.Context, orgID, diagramID string) (*uigraphapi.DiagramThumbnailUpload, error)
+	confirmThumbnailFn  func(ctx context.Context, orgID, diagramID, hash string) error
+	generateThumbnailFn func(ctx context.Context, orgID, diagramID string) error
 }
 
 func (f *fakeDiagramClient) ListDiagrams(_ context.Context, _ string, _ uigraphapi.ListParams) ([]uigraphapi.Diagram, int, error) {
@@ -292,6 +293,12 @@ func (f *fakeDiagramClient) PrepareDiagramThumbnailUpload(ctx context.Context, o
 func (f *fakeDiagramClient) ConfirmDiagramThumbnailUpload(ctx context.Context, orgID, diagramID, hash string) error {
 	if f.confirmThumbnailFn != nil {
 		return f.confirmThumbnailFn(ctx, orgID, diagramID, hash)
+	}
+	return nil
+}
+func (f *fakeDiagramClient) GenerateDiagramThumbnail(ctx context.Context, orgID, diagramID string) error {
+	if f.generateThumbnailFn != nil {
+		return f.generateThumbnailFn(ctx, orgID, diagramID)
 	}
 	return nil
 }
@@ -356,5 +363,72 @@ func TestConfirmDiagramThumbnailUpload_returnsTrue(t *testing.T) {
 	}
 	if !result.Data.ConfirmDiagramThumbnailUpload {
 		t.Fatal("expected true")
+	}
+}
+
+func TestGenerateDiagramThumbnail_forwardsToAPI(t *testing.T) {
+	var gotOrgID, gotDiagramID string
+	dc := &fakeDiagramClient{
+		generateThumbnailFn: func(_ context.Context, orgID, diagramID string) error {
+			gotOrgID, gotDiagramID = orgID, diagramID
+			return nil
+		},
+	}
+	r := &graph.Resolver{DiagramAPI: dc}
+	srv := newTestServer(r)
+	defer srv.Close()
+
+	body := `{"query":"mutation { generateDiagramThumbnail(orgId:\"org-1\", diagramId:\"d1\") }"}`
+	resp, err := http.Post(srv.URL+"/query", "application/json", strings.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	var result struct {
+		Data struct {
+			GenerateDiagramThumbnail bool `json:"generateDiagramThumbnail"`
+		} `json:"data"`
+		Errors []struct{ Message string } `json:"errors"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		t.Fatal(err)
+	}
+	if len(result.Errors) > 0 {
+		t.Fatalf("graphql errors: %v", result.Errors)
+	}
+	if !result.Data.GenerateDiagramThumbnail {
+		t.Fatal("expected true")
+	}
+	if gotOrgID != "org-1" || gotDiagramID != "d1" {
+		t.Fatalf("expected org-1/d1, got %s/%s", gotOrgID, gotDiagramID)
+	}
+}
+
+func TestGenerateDiagramThumbnail_propagatesError(t *testing.T) {
+	dc := &fakeDiagramClient{
+		generateThumbnailFn: func(_ context.Context, _, _ string) error {
+			return errors.New("queue unavailable")
+		},
+	}
+	r := &graph.Resolver{DiagramAPI: dc}
+	srv := newTestServer(r)
+	defer srv.Close()
+
+	body := `{"query":"mutation { generateDiagramThumbnail(orgId:\"org-1\", diagramId:\"d1\") }"}`
+	resp, err := http.Post(srv.URL+"/query", "application/json", strings.NewReader(body))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	var result struct {
+		Errors []struct{ Message string } `json:"errors"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		t.Fatal(err)
+	}
+	if len(result.Errors) == 0 {
+		t.Fatal("expected a graphql error")
 	}
 }
