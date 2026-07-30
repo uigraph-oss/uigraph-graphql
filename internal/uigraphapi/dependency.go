@@ -24,16 +24,16 @@ type DependencyService struct {
 type Dependency struct {
 	ID               string             `json:"id"`
 	Name             string             `json:"name"`
-	ConsumerService  DependencyService  `json:"consumer"`
-	ProviderService  *DependencyService `json:"provider,omitempty"`
-	ProviderName     *string            `json:"providerName,omitempty"`
+	Service          *DependencyService `json:"service,omitempty"`
+	Dependency       *DependencyService `json:"dependency,omitempty"`
+	DependencyName   string             `json:"dependencyName"`
+	Direction        string             `json:"direction"`
 	Type             *string            `json:"type,omitempty"`
 	Criticality      *string            `json:"criticality,omitempty"`
 	Description      *string            `json:"description,omitempty"`
 	APIGroupName     *string            `json:"apiGroupName,omitempty"`
 	APIEndpointNames []string           `json:"apiEndpointNames,omitempty"`
 	DatabaseName     *string            `json:"databaseName,omitempty"`
-	Direction        *string            `json:"direction,omitempty"`
 }
 
 func (c *Client) ListDependencies(ctx context.Context, orgID, serviceID string, direction, criticality *string) ([]Dependency, error) {
@@ -51,14 +51,20 @@ func (c *Client) ListDependencies(ctx context.Context, orgID, serviceID string, 
 	var out struct {
 		Dependencies []Dependency `json:"edges"`
 	}
-	return out.Dependencies, c.get(ctx, path, &out)
+	if err := c.get(ctx, path, &out); err != nil {
+		return nil, err
+	}
+	return out.Dependencies, nil
 }
 
 func (c *Client) GetServiceDependencyGraph(ctx context.Context, orgID, serviceID string) ([]Dependency, error) {
 	var out struct {
 		Edges []Dependency `json:"edges"`
 	}
-	return out.Edges, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/dependency-graph", orgID, serviceID), &out)
+	if err := c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/dependency-graph", orgID, serviceID), &out); err != nil {
+		return nil, err
+	}
+	return out.Edges, nil
 }
 
 func (c *Client) UpdateServiceDependencies(ctx context.Context, orgID, serviceID string, body map[string]interface{}) ([]Dependency, error) {
@@ -72,7 +78,10 @@ func (c *Client) GetDependencyGraph(ctx context.Context, orgID string) ([]Depend
 	var out struct {
 		Edges []Dependency `json:"edges"`
 	}
-	return out.Edges, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/dependency-graph", orgID), &out)
+	if err := c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/dependency-graph", orgID), &out); err != nil {
+		return nil, err
+	}
+	return out.Edges, nil
 }
 
 func (c *Client) GetServiceImpact(ctx context.Context, orgID, serviceID string, direction *string, maxDepth *int) ([]Dependency, error) {
@@ -90,5 +99,8 @@ func (c *Client) GetServiceImpact(ctx context.Context, orgID, serviceID string, 
 	var out struct {
 		Edges []Dependency `json:"edges"`
 	}
-	return out.Edges, c.get(ctx, path, &out)
+	if err := c.get(ctx, path, &out); err != nil {
+		return nil, err
+	}
+	return out.Edges, nil
 }

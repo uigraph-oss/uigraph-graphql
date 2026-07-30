@@ -17,6 +17,7 @@ input UpdateServiceDependenciesInput {
 input ServiceDependencyInput {
     name:        String!
     service:     String!
+    direction:   String!
     type:        String
     criticality: String!
     description: String
@@ -28,16 +29,16 @@ input ServiceDependencyInput {
 type Dependency {
     id:               ID!
     name:             String!
-    consumerService:  DependencyService!
-    providerService:  DependencyService
-    providerName:     String
+    service:          DependencyService
+    dependency:       DependencyService
+    dependencyName:   String!
+    direction:        String!
     type:             String
     criticality:      String
     description:      String
     apiGroupName:     String
     apiEndpointNames: [String!]
     databaseName:     String
-    direction:        String
 }
 
 type DependencyService {

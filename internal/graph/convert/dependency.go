@@ -29,9 +29,9 @@ func DependencyToModel(dependency uigraphapi.Dependency) *model.Dependency {
 	return &model.Dependency{
 		ID:               dependency.ID,
 		Name:             dependency.Name,
-		ConsumerService:  DependencyServiceToModel(&dependency.ConsumerService),
-		ProviderService:  DependencyServiceToModel(dependency.ProviderService),
-		ProviderName:     dependency.ProviderName,
+		Service:          DependencyServiceToModel(dependency.Service),
+		Dependency:       DependencyServiceToModel(dependency.Dependency),
+		DependencyName:   dependency.DependencyName,
 		Type:             dependency.Type,
 		Criticality:      dependency.Criticality,
 		Description:      dependency.Description,

@@ -750,16 +750,16 @@ type DbTable struct {
 type Dependency struct {
 	ID               string             `json:"id"`
 	Name             string             `json:"name"`
-	ConsumerService  *DependencyService `json:"consumerService"`
-	ProviderService  *DependencyService `json:"providerService,omitempty"`
-	ProviderName     *string            `json:"providerName,omitempty"`
+	Service          *DependencyService `json:"service,omitempty"`
+	Dependency       *DependencyService `json:"dependency,omitempty"`
+	DependencyName   string             `json:"dependencyName"`
+	Direction        string             `json:"direction"`
 	Type             *string            `json:"type,omitempty"`
 	Criticality      *string            `json:"criticality,omitempty"`
 	Description      *string            `json:"description,omitempty"`
 	APIGroupName     *string            `json:"apiGroupName,omitempty"`
 	APIEndpointNames []string           `json:"apiEndpointNames,omitempty"`
 	DatabaseName     *string            `json:"databaseName,omitempty"`
-	Direction        *string            `json:"direction,omitempty"`
 }
 
 type DependencyService struct {
@@ -1608,6 +1608,7 @@ type ServiceDBVersion struct {
 type ServiceDependencyInput struct {
 	Name             string   `json:"name"`
 	Service          string   `json:"service"`
+	Direction        string   `json:"direction"`
 	Type             *string  `json:"type,omitempty"`
 	Criticality      string   `json:"criticality"`
 	Description      *string  `json:"description,omitempty"`
