@@ -154,3 +154,7 @@ func (c *Client) ConfirmDiagramThumbnailUpload(ctx context.Context, orgID, diagr
 	return c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/thumbnail/confirm", orgID, diagramID),
 		map[string]any{"contentHash": contentHash}, nil)
 }
+
+func (c *Client) GenerateDiagramThumbnail(ctx context.Context, orgID, diagramID string) error {
+	return c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s/thumbnail/generate", orgID, diagramID), nil, nil)
+}

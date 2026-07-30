@@ -119,6 +119,11 @@ func (r *mutationResolver) ConfirmDiagramThumbnailUpload(ctx context.Context, or
 	return true, r.DiagramAPI.ConfirmDiagramThumbnailUpload(ctx, orgID, diagramID, contentHash)
 }
 
+// GenerateDiagramThumbnail is the resolver for the generateDiagramThumbnail field.
+func (r *mutationResolver) GenerateDiagramThumbnail(ctx context.Context, orgID string, diagramID string) (bool, error) {
+	return true, r.DiagramAPI.GenerateDiagramThumbnail(ctx, orgID, diagramID)
+}
+
 // CreateDiagramImage is the resolver for the createDiagramImage field.
 func (r *mutationResolver) CreateDiagramImage(ctx context.Context, orgID string, diagramID string, input model.CreateDiagramImageInput) (*model.DiagramImage, error) {
 	img, err := r.DiagramAPI.CreateDiagramImage(ctx, orgID, diagramID, convert.ToMap(input))

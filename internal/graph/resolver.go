@@ -112,6 +112,7 @@ type diagramClient interface {
 	RestoreDiagramVersion(ctx context.Context, orgID, diagramID, versionID string) (*uigraphapi.Diagram, error)
 	PrepareDiagramThumbnailUpload(ctx context.Context, orgID, diagramID string) (*uigraphapi.DiagramThumbnailUpload, error)
 	ConfirmDiagramThumbnailUpload(ctx context.Context, orgID, diagramID, contentHash string) error
+	GenerateDiagramThumbnail(ctx context.Context, orgID, diagramID string) error
 }
 
 type docsClient interface {
