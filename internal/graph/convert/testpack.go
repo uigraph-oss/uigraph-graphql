@@ -231,7 +231,7 @@ func TestCaseToModel(tc *uigraphapi.TestCase) *model.TestCase {
 		Labels: tc.Labels, LinkedTicket: tc.LinkedTicket, EstimatedDurationMins: tc.EstimatedDurationMins,
 		TestOwner: tc.TestOwner, LinkedMapNodeID: tc.LinkedMapNodeID, IsCritical: tc.IsCritical, EvidenceRequired: tc.EvidenceRequired,
 		ScreenshotUrls: tc.ScreenshotURLs,
-		Manual: ManualTestCaseToModel(tc.Manual), API: APITestCaseToModel(tc.API),
+		Manual:         ManualTestCaseToModel(tc.Manual), API: APITestCaseToModel(tc.API),
 		Graphql: GraphQLTestCaseToModel(tc.GraphQL), Database: DatabaseTestCaseToModel(tc.Database), Grpc: GRPCTestCaseToModel(tc.GRPC),
 		Status: tc.Status, Version: tc.Version, BaselineRunResultID: tc.BaselineRunResultID, Dependencies: tc.Dependencies,
 		CreatedBy: tc.CreatedBy, UpdatedBy: tc.UpdatedBy, DeletedBy: tc.DeletedBy,
