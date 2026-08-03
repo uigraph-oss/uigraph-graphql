@@ -216,6 +216,19 @@ type ComplexityRoot struct {
 		TotalDurationMs func(childComplexity int) int
 	}
 
+	CloudConnection struct {
+		CreatedAt      func(childComplexity int) int
+		CreatedBy      func(childComplexity int) int
+		DisplayName    func(childComplexity int) int
+		ID             func(childComplexity int) int
+		LastVerifiedAt func(childComplexity int) int
+		OrgID          func(childComplexity int) int
+		Provider       func(childComplexity int) int
+		Status         func(childComplexity int) int
+		StatusMessage  func(childComplexity int) int
+		UpdatedAt      func(childComplexity int) int
+	}
+
 	Comment struct {
 		CreatedAt       func(childComplexity int) int
 		CreatedBy       func(childComplexity int) int
@@ -285,6 +298,14 @@ type ComplexityRoot struct {
 	Components struct {
 		Components       func(childComplexity int) int
 		CustomComponents func(childComplexity int) int
+	}
+
+	CostTrendPoint struct {
+		AWSUsd   func(childComplexity int) int
+		AzureUsd func(childComplexity int) int
+		Date     func(childComplexity int) int
+		GCPUsd   func(childComplexity int) int
+		TotalUsd func(childComplexity int) int
 	}
 
 	CreatedToken struct {
@@ -657,6 +678,21 @@ type ComplexityRoot struct {
 		Variables     func(childComplexity int) int
 	}
 
+	InfraResource struct {
+		Environment        func(childComplexity int) int
+		ExternalResourceID func(childComplexity int) int
+		ID                 func(childComplexity int) int
+		LastSyncedAt       func(childComplexity int) int
+		MatchedTags        func(childComplexity int) int
+		MonthlyCostUsd     func(childComplexity int) int
+		Name               func(childComplexity int) int
+		Provider           func(childComplexity int) int
+		Region             func(childComplexity int) int
+		ResourceType       func(childComplexity int) int
+		Status             func(childComplexity int) int
+		Tags               func(childComplexity int) int
+	}
+
 	KeyValue struct {
 		Key   func(childComplexity int) int
 		Value func(childComplexity int) int
@@ -1002,6 +1038,7 @@ type ComplexityRoot struct {
 		CreateAssetUpload                 func(childComplexity int, orgID string) int
 		CreateChatMessage                 func(childComplexity int, orgID string, sessionID string, input model.CreateChatMessageInput) int
 		CreateChatSession                 func(childComplexity int, orgID string, input model.CreateChatSessionInput) int
+		CreateCloudConnection             func(childComplexity int, orgID string, input model.CreateCloudConnectionInput) int
 		CreateComment                     func(childComplexity int, orgID string, input model.CreateCommentInput) int
 		CreateCustomComponent             func(childComplexity int, orgID string, input model.CustomComponentInput) int
 		CreateDiagram                     func(childComplexity int, orgID string, input model.CreateDiagramInput) int
@@ -1033,6 +1070,7 @@ type ComplexityRoot struct {
 		CreateService                     func(childComplexity int, orgID string, input model.CreateServiceInput) int
 		CreateServiceAccount              func(childComplexity int, orgID string, input model.CreateServiceAccountInput) int
 		CreateServiceAccountToken         func(childComplexity int, orgID string, saID string, input model.CreateTokenInput) int
+		CreateServiceCostTagRule          func(childComplexity int, orgID string, serviceID string, tagKey string, tagValue string) int
 		CreateServiceDBVersion            func(childComplexity int, orgID string, serviceID string, serviceDbID string, input model.CreateServiceDBVersionInput) int
 		CreateServiceDb                   func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDBInput) int
 		CreateServiceDiagram              func(childComplexity int, orgID string, serviceID string, input model.CreateServiceDiagramInput) int
@@ -1046,6 +1084,7 @@ type ComplexityRoot struct {
 		DeleteAPIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string) int
 		DeleteAPIGroup                    func(childComplexity int, orgID string, serviceID string, id string) int
 		DeleteChatSession                 func(childComplexity int, orgID string, id string) int
+		DeleteCloudConnection             func(childComplexity int, orgID string, connectionID string) int
 		DeleteComment                     func(childComplexity int, orgID string, id string) int
 		DeleteCustomComponent             func(childComplexity int, orgID string, id string) int
 		DeleteDiagram                     func(childComplexity int, orgID string, id string) int
@@ -1075,6 +1114,7 @@ type ComplexityRoot struct {
 		DeleteServerOrg                   func(childComplexity int, id string) int
 		DeleteService                     func(childComplexity int, orgID string, id string) int
 		DeleteServiceAccount              func(childComplexity int, orgID string, id string) int
+		DeleteServiceCostTagRule          func(childComplexity int, orgID string, serviceID string, ruleID string) int
 		DeleteServiceDb                   func(childComplexity int, orgID string, serviceID string, id string) int
 		DeleteServiceDiagram              func(childComplexity int, orgID string, serviceID string, diagramID string) int
 		DeleteServiceDoc                  func(childComplexity int, orgID string, serviceID string, docID string) int
@@ -1104,8 +1144,10 @@ type ComplexityRoot struct {
 		SetServiceAccountAvatar           func(childComplexity int, orgID string, saID string) int
 		SwitchOrg                         func(childComplexity int, orgID string) int
 		SyncAPIGroup                      func(childComplexity int, orgID string, serviceID string, input model.SyncAPIGroupInput) int
+		SyncCloudConnection               func(childComplexity int, orgID string, connectionID string) int
 		SyncDiagram                       func(childComplexity int, orgID string, input model.SyncDiagramInput) int
 		SyncFrame                         func(childComplexity int, orgID string, mapID string, input model.SyncFrameInput) int
+		TestCloudConnection               func(childComplexity int, orgID string, connectionID string) int
 		UpdateAPIEndpoint                 func(childComplexity int, orgID string, serviceID string, apiGroupID string, id string, input model.UpdateAPIEndpointInput) int
 		UpdateAPIGroup                    func(childComplexity int, orgID string, serviceID string, id string, input model.UpdateAPIGroupInput) int
 		UpdateChatSession                 func(childComplexity int, orgID string, id string, input model.UpdateChatSessionInput) int
@@ -1206,6 +1248,8 @@ type ComplexityRoot struct {
 		ChatMessages                func(childComplexity int, orgID string, sessionID string) int
 		ChatSession                 func(childComplexity int, orgID string, id string) int
 		ChatSessions                func(childComplexity int, orgID string) int
+		CloudConnection             func(childComplexity int, orgID string, connectionID string) int
+		CloudConnections            func(childComplexity int, orgID string) int
 		Comments                    func(childComplexity int, orgID string, resourceID string) int
 		ComponentLinkUsages         func(childComplexity int, orgID string, linkID string) int
 		Components                  func(childComplexity int, orgID string) int
@@ -1282,6 +1326,10 @@ type ComplexityRoot struct {
 		ServiceAccountScopes        func(childComplexity int, orgID string) int
 		ServiceAccountTokens        func(childComplexity int, orgID string, saID string) int
 		ServiceAccounts             func(childComplexity int, orgID string) int
+		ServiceCostResources        func(childComplexity int, orgID string, serviceID string) int
+		ServiceCostSummary          func(childComplexity int, orgID string, serviceID string) int
+		ServiceCostTagRules         func(childComplexity int, orgID string, serviceID string) int
+		ServiceCostTrend            func(childComplexity int, orgID string, serviceID string, days *int) int
 		ServiceDBVersions           func(childComplexity int, orgID string, serviceID string, serviceDbID string) int
 		ServiceDBs                  func(childComplexity int, orgID string, serviceID string) int
 		ServiceDb                   func(childComplexity int, orgID string, serviceID string, id string) int
@@ -1460,6 +1508,24 @@ type ComplexityRoot struct {
 		ServiceAccountID func(childComplexity int) int
 	}
 
+	ServiceCostSummary struct {
+		MomChangePct        func(childComplexity int) int
+		ProviderCount       func(childComplexity int) int
+		ResourceCount       func(childComplexity int) int
+		TopCostDriverLabel  func(childComplexity int) int
+		TopCostDriverUsd    func(childComplexity int) int
+		TotalMonthlyCostUsd func(childComplexity int) int
+	}
+
+	ServiceCostTagRule struct {
+		CreatedAt func(childComplexity int) int
+		CreatedBy func(childComplexity int) int
+		ID        func(childComplexity int) int
+		ServiceID func(childComplexity int) int
+		TagKey    func(childComplexity int) int
+		TagValue  func(childComplexity int) int
+	}
+
 	ServiceDB struct {
 		CreatedAt           func(childComplexity int) int
 		CreatedBy           func(childComplexity int) int
@@ -1619,6 +1685,11 @@ type ComplexityRoot struct {
 		Action         func(childComplexity int) int
 		ExpectedResult func(childComplexity int) int
 		Order          func(childComplexity int) int
+	}
+
+	TestCloudConnectionResult struct {
+		Error func(childComplexity int) int
+		Ok    func(childComplexity int) int
 	}
 
 	TestPack struct {
@@ -1845,6 +1916,12 @@ type MutationResolver interface {
 	CreateCustomComponent(ctx context.Context, orgID string, input model.CustomComponentInput) (*model.Component, error)
 	UpdateCustomComponent(ctx context.Context, orgID string, id string, input model.CustomComponentInput) (*model.Component, error)
 	DeleteCustomComponent(ctx context.Context, orgID string, id string) (bool, error)
+	CreateCloudConnection(ctx context.Context, orgID string, input model.CreateCloudConnectionInput) (*model.CloudConnection, error)
+	DeleteCloudConnection(ctx context.Context, orgID string, connectionID string) (bool, error)
+	TestCloudConnection(ctx context.Context, orgID string, connectionID string) (*model.TestCloudConnectionResult, error)
+	SyncCloudConnection(ctx context.Context, orgID string, connectionID string) (int, error)
+	CreateServiceCostTagRule(ctx context.Context, orgID string, serviceID string, tagKey string, tagValue string) (*model.ServiceCostTagRule, error)
+	DeleteServiceCostTagRule(ctx context.Context, orgID string, serviceID string, ruleID string) (bool, error)
 	UpdateServiceDependencies(ctx context.Context, orgID string, serviceID string, input model.UpdateServiceDependenciesInput) ([]*model.Dependency, error)
 	CreateDiagram(ctx context.Context, orgID string, input model.CreateDiagramInput) (*model.Diagram, error)
 	UpdateDiagram(ctx context.Context, orgID string, id string, input model.UpdateDiagramInput) (*model.Diagram, error)
@@ -1985,6 +2062,12 @@ type QueryResolver interface {
 	Comments(ctx context.Context, orgID string, resourceID string) ([]*model.Comment, error)
 	FlowDiagramComponents(ctx context.Context, orgID string) (*model.FlowDiagramComponents, error)
 	Components(ctx context.Context, orgID string) (*model.Components, error)
+	CloudConnections(ctx context.Context, orgID string) ([]*model.CloudConnection, error)
+	CloudConnection(ctx context.Context, orgID string, connectionID string) (*model.CloudConnection, error)
+	ServiceCostSummary(ctx context.Context, orgID string, serviceID string) (*model.ServiceCostSummary, error)
+	ServiceCostResources(ctx context.Context, orgID string, serviceID string) ([]*model.InfraResource, error)
+	ServiceCostTrend(ctx context.Context, orgID string, serviceID string, days *int) ([]*model.CostTrendPoint, error)
+	ServiceCostTagRules(ctx context.Context, orgID string, serviceID string) ([]*model.ServiceCostTagRule, error)
 	Dependencies(ctx context.Context, orgID string, serviceID string, direction *string, criticality *string) ([]*model.Dependency, error)
 	ServiceDependencyGraph(ctx context.Context, orgID string, serviceID string) ([]*model.Dependency, error)
 	DependencyGraph(ctx context.Context, orgID string) ([]*model.Dependency, error)
@@ -2876,6 +2959,76 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ClientSavings.TotalDurationMs(childComplexity), true
 
+	case "CloudConnection.createdAt":
+		if e.complexity.CloudConnection.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.CreatedAt(childComplexity), true
+
+	case "CloudConnection.createdBy":
+		if e.complexity.CloudConnection.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.CreatedBy(childComplexity), true
+
+	case "CloudConnection.displayName":
+		if e.complexity.CloudConnection.DisplayName == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.DisplayName(childComplexity), true
+
+	case "CloudConnection.id":
+		if e.complexity.CloudConnection.ID == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.ID(childComplexity), true
+
+	case "CloudConnection.lastVerifiedAt":
+		if e.complexity.CloudConnection.LastVerifiedAt == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.LastVerifiedAt(childComplexity), true
+
+	case "CloudConnection.orgId":
+		if e.complexity.CloudConnection.OrgID == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.OrgID(childComplexity), true
+
+	case "CloudConnection.provider":
+		if e.complexity.CloudConnection.Provider == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.Provider(childComplexity), true
+
+	case "CloudConnection.status":
+		if e.complexity.CloudConnection.Status == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.Status(childComplexity), true
+
+	case "CloudConnection.statusMessage":
+		if e.complexity.CloudConnection.StatusMessage == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.StatusMessage(childComplexity), true
+
+	case "CloudConnection.updatedAt":
+		if e.complexity.CloudConnection.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.CloudConnection.UpdatedAt(childComplexity), true
+
 	case "Comment.createdAt":
 		if e.complexity.Comment.CreatedAt == nil {
 			break
@@ -3246,6 +3399,41 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Components.CustomComponents(childComplexity), true
+
+	case "CostTrendPoint.awsUsd":
+		if e.complexity.CostTrendPoint.AWSUsd == nil {
+			break
+		}
+
+		return e.complexity.CostTrendPoint.AWSUsd(childComplexity), true
+
+	case "CostTrendPoint.azureUsd":
+		if e.complexity.CostTrendPoint.AzureUsd == nil {
+			break
+		}
+
+		return e.complexity.CostTrendPoint.AzureUsd(childComplexity), true
+
+	case "CostTrendPoint.date":
+		if e.complexity.CostTrendPoint.Date == nil {
+			break
+		}
+
+		return e.complexity.CostTrendPoint.Date(childComplexity), true
+
+	case "CostTrendPoint.gcpUsd":
+		if e.complexity.CostTrendPoint.GCPUsd == nil {
+			break
+		}
+
+		return e.complexity.CostTrendPoint.GCPUsd(childComplexity), true
+
+	case "CostTrendPoint.totalUsd":
+		if e.complexity.CostTrendPoint.TotalUsd == nil {
+			break
+		}
+
+		return e.complexity.CostTrendPoint.TotalUsd(childComplexity), true
 
 	case "CreatedToken.createdAt":
 		if e.complexity.CreatedToken.CreatedAt == nil {
@@ -5144,6 +5332,90 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.GraphQLTestCase.Variables(childComplexity), true
 
+	case "InfraResource.environment":
+		if e.complexity.InfraResource.Environment == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.Environment(childComplexity), true
+
+	case "InfraResource.externalResourceId":
+		if e.complexity.InfraResource.ExternalResourceID == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.ExternalResourceID(childComplexity), true
+
+	case "InfraResource.id":
+		if e.complexity.InfraResource.ID == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.ID(childComplexity), true
+
+	case "InfraResource.lastSyncedAt":
+		if e.complexity.InfraResource.LastSyncedAt == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.LastSyncedAt(childComplexity), true
+
+	case "InfraResource.matchedTags":
+		if e.complexity.InfraResource.MatchedTags == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.MatchedTags(childComplexity), true
+
+	case "InfraResource.monthlyCostUsd":
+		if e.complexity.InfraResource.MonthlyCostUsd == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.MonthlyCostUsd(childComplexity), true
+
+	case "InfraResource.name":
+		if e.complexity.InfraResource.Name == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.Name(childComplexity), true
+
+	case "InfraResource.provider":
+		if e.complexity.InfraResource.Provider == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.Provider(childComplexity), true
+
+	case "InfraResource.region":
+		if e.complexity.InfraResource.Region == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.Region(childComplexity), true
+
+	case "InfraResource.resourceType":
+		if e.complexity.InfraResource.ResourceType == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.ResourceType(childComplexity), true
+
+	case "InfraResource.status":
+		if e.complexity.InfraResource.Status == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.Status(childComplexity), true
+
+	case "InfraResource.tags":
+		if e.complexity.InfraResource.Tags == nil {
+			break
+		}
+
+		return e.complexity.InfraResource.Tags(childComplexity), true
+
 	case "KeyValue.key":
 		if e.complexity.KeyValue.Key == nil {
 			break
@@ -6988,6 +7260,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateChatSession(childComplexity, args["orgId"].(string), args["input"].(model.CreateChatSessionInput)), true
 
+	case "Mutation.createCloudConnection":
+		if e.complexity.Mutation.CreateCloudConnection == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createCloudConnection_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateCloudConnection(childComplexity, args["orgId"].(string), args["input"].(model.CreateCloudConnectionInput)), true
+
 	case "Mutation.createComment":
 		if e.complexity.Mutation.CreateComment == nil {
 			break
@@ -7360,6 +7644,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateServiceAccountToken(childComplexity, args["orgId"].(string), args["saId"].(string), args["input"].(model.CreateTokenInput)), true
 
+	case "Mutation.createServiceCostTagRule":
+		if e.complexity.Mutation.CreateServiceCostTagRule == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createServiceCostTagRule_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateServiceCostTagRule(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["tagKey"].(string), args["tagValue"].(string)), true
+
 	case "Mutation.createServiceDBVersion":
 		if e.complexity.Mutation.CreateServiceDBVersion == nil {
 			break
@@ -7515,6 +7811,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.DeleteChatSession(childComplexity, args["orgId"].(string), args["id"].(string)), true
+
+	case "Mutation.deleteCloudConnection":
+		if e.complexity.Mutation.DeleteCloudConnection == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteCloudConnection_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteCloudConnection(childComplexity, args["orgId"].(string), args["connectionId"].(string)), true
 
 	case "Mutation.deleteComment":
 		if e.complexity.Mutation.DeleteComment == nil {
@@ -7859,6 +8167,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.DeleteServiceAccount(childComplexity, args["orgId"].(string), args["id"].(string)), true
 
+	case "Mutation.deleteServiceCostTagRule":
+		if e.complexity.Mutation.DeleteServiceCostTagRule == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteServiceCostTagRule_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteServiceCostTagRule(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["ruleId"].(string)), true
+
 	case "Mutation.deleteServiceDB":
 		if e.complexity.Mutation.DeleteServiceDb == nil {
 			break
@@ -8197,6 +8517,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.SyncAPIGroup(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["input"].(model.SyncAPIGroupInput)), true
 
+	case "Mutation.syncCloudConnection":
+		if e.complexity.Mutation.SyncCloudConnection == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_syncCloudConnection_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SyncCloudConnection(childComplexity, args["orgId"].(string), args["connectionId"].(string)), true
+
 	case "Mutation.syncDiagram":
 		if e.complexity.Mutation.SyncDiagram == nil {
 			break
@@ -8220,6 +8552,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.SyncFrame(childComplexity, args["orgId"].(string), args["mapId"].(string), args["input"].(model.SyncFrameInput)), true
+
+	case "Mutation.testCloudConnection":
+		if e.complexity.Mutation.TestCloudConnection == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_testCloudConnection_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.TestCloudConnection(childComplexity, args["orgId"].(string), args["connectionId"].(string)), true
 
 	case "Mutation.updateAPIEndpoint":
 		if e.complexity.Mutation.UpdateAPIEndpoint == nil {
@@ -9117,6 +9461,30 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.ChatSessions(childComplexity, args["orgId"].(string)), true
 
+	case "Query.cloudConnection":
+		if e.complexity.Query.CloudConnection == nil {
+			break
+		}
+
+		args, err := ec.field_Query_cloudConnection_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.CloudConnection(childComplexity, args["orgId"].(string), args["connectionId"].(string)), true
+
+	case "Query.cloudConnections":
+		if e.complexity.Query.CloudConnections == nil {
+			break
+		}
+
+		args, err := ec.field_Query_cloudConnections_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.CloudConnections(childComplexity, args["orgId"].(string)), true
+
 	case "Query.comments":
 		if e.complexity.Query.Comments == nil {
 			break
@@ -9973,6 +10341,54 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.ServiceAccounts(childComplexity, args["orgId"].(string)), true
+
+	case "Query.serviceCostResources":
+		if e.complexity.Query.ServiceCostResources == nil {
+			break
+		}
+
+		args, err := ec.field_Query_serviceCostResources_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.ServiceCostResources(childComplexity, args["orgId"].(string), args["serviceId"].(string)), true
+
+	case "Query.serviceCostSummary":
+		if e.complexity.Query.ServiceCostSummary == nil {
+			break
+		}
+
+		args, err := ec.field_Query_serviceCostSummary_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.ServiceCostSummary(childComplexity, args["orgId"].(string), args["serviceId"].(string)), true
+
+	case "Query.serviceCostTagRules":
+		if e.complexity.Query.ServiceCostTagRules == nil {
+			break
+		}
+
+		args, err := ec.field_Query_serviceCostTagRules_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.ServiceCostTagRules(childComplexity, args["orgId"].(string), args["serviceId"].(string)), true
+
+	case "Query.serviceCostTrend":
+		if e.complexity.Query.ServiceCostTrend == nil {
+			break
+		}
+
+		args, err := ec.field_Query_serviceCostTrend_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.ServiceCostTrend(childComplexity, args["orgId"].(string), args["serviceId"].(string), args["days"].(*int)), true
 
 	case "Query.serviceDBVersions":
 		if e.complexity.Query.ServiceDBVersions == nil {
@@ -11075,6 +11491,90 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.ServiceAccountToken.ServiceAccountID(childComplexity), true
 
+	case "ServiceCostSummary.momChangePct":
+		if e.complexity.ServiceCostSummary.MomChangePct == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostSummary.MomChangePct(childComplexity), true
+
+	case "ServiceCostSummary.providerCount":
+		if e.complexity.ServiceCostSummary.ProviderCount == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostSummary.ProviderCount(childComplexity), true
+
+	case "ServiceCostSummary.resourceCount":
+		if e.complexity.ServiceCostSummary.ResourceCount == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostSummary.ResourceCount(childComplexity), true
+
+	case "ServiceCostSummary.topCostDriverLabel":
+		if e.complexity.ServiceCostSummary.TopCostDriverLabel == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostSummary.TopCostDriverLabel(childComplexity), true
+
+	case "ServiceCostSummary.topCostDriverUsd":
+		if e.complexity.ServiceCostSummary.TopCostDriverUsd == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostSummary.TopCostDriverUsd(childComplexity), true
+
+	case "ServiceCostSummary.totalMonthlyCostUsd":
+		if e.complexity.ServiceCostSummary.TotalMonthlyCostUsd == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostSummary.TotalMonthlyCostUsd(childComplexity), true
+
+	case "ServiceCostTagRule.createdAt":
+		if e.complexity.ServiceCostTagRule.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostTagRule.CreatedAt(childComplexity), true
+
+	case "ServiceCostTagRule.createdBy":
+		if e.complexity.ServiceCostTagRule.CreatedBy == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostTagRule.CreatedBy(childComplexity), true
+
+	case "ServiceCostTagRule.id":
+		if e.complexity.ServiceCostTagRule.ID == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostTagRule.ID(childComplexity), true
+
+	case "ServiceCostTagRule.serviceId":
+		if e.complexity.ServiceCostTagRule.ServiceID == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostTagRule.ServiceID(childComplexity), true
+
+	case "ServiceCostTagRule.tagKey":
+		if e.complexity.ServiceCostTagRule.TagKey == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostTagRule.TagKey(childComplexity), true
+
+	case "ServiceCostTagRule.tagValue":
+		if e.complexity.ServiceCostTagRule.TagValue == nil {
+			break
+		}
+
+		return e.complexity.ServiceCostTagRule.TagValue(childComplexity), true
+
 	case "ServiceDB.createdAt":
 		if e.complexity.ServiceDB.CreatedAt == nil {
 			break
@@ -11929,6 +12429,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.TestCaseStep.Order(childComplexity), true
 
+	case "TestCloudConnectionResult.error":
+		if e.complexity.TestCloudConnectionResult.Error == nil {
+			break
+		}
+
+		return e.complexity.TestCloudConnectionResult.Error(childComplexity), true
+
+	case "TestCloudConnectionResult.ok":
+		if e.complexity.TestCloudConnectionResult.Ok == nil {
+			break
+		}
+
+		return e.complexity.TestCloudConnectionResult.Ok(childComplexity), true
+
 	case "TestPack.baselineRunId":
 		if e.complexity.TestPack.BaselineRunID == nil {
 			break
@@ -12646,6 +13160,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateAPIGroupInput,
 		ec.unmarshalInputCreateChatMessageInput,
 		ec.unmarshalInputCreateChatSessionInput,
+		ec.unmarshalInputCreateCloudConnectionInput,
 		ec.unmarshalInputCreateCommentInput,
 		ec.unmarshalInputCreateDiagramImageInput,
 		ec.unmarshalInputCreateDiagramInput,
@@ -13744,6 +14259,122 @@ type Component {
 type Components {
     components:       [Component!]!
     customComponents: [Component!]!
+}
+`, BuiltIn: false},
+	{Name: "../schema/costs.graphqls", Input: `enum CloudProvider {
+    AWS
+    AZURE
+    GCP
+}
+
+enum CloudConnectionStatus {
+    PENDING
+    CONNECTED
+    ERROR
+}
+
+enum InfraResourceStatus {
+    RUNNING
+    STOPPED
+    DEGRADED
+}
+
+type CloudConnection {
+    id: ID!
+    orgId: ID!
+    provider: CloudProvider!
+    displayName: String!
+    status: CloudConnectionStatus!
+    statusMessage: String!
+    lastVerifiedAt: Time
+    createdBy: ID!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+type ServiceCostTagRule {
+    id: ID!
+    serviceId: ID!
+    tagKey: String!
+    tagValue: String!
+    createdBy: ID!
+    createdAt: Time!
+}
+
+type InfraResource {
+    id: ID!
+    externalResourceId: String!
+    name: String!
+    resourceType: String!
+    provider: CloudProvider!
+    region: String!
+    environment: String!
+    status: InfraResourceStatus!
+    monthlyCostUsd: Float!
+    tags: [String!]!
+    matchedTags: [String!]!
+    lastSyncedAt: Time!
+}
+
+type CostTrendPoint {
+    date: String!
+    totalUsd: Float!
+    awsUsd: Float!
+    azureUsd: Float!
+    gcpUsd: Float!
+}
+
+type ServiceCostSummary {
+    totalMonthlyCostUsd: Float!
+    momChangePct: Float!
+    resourceCount: Int!
+    providerCount: Int!
+    topCostDriverLabel: String!
+    topCostDriverUsd: Float!
+}
+
+type TestCloudConnectionResult {
+    ok: Boolean!
+    error: String
+}
+
+input CreateCloudConnectionInput {
+    provider: CloudProvider!
+    displayName: String!
+
+    "AWS"
+    roleArn: String
+    externalId: String
+
+    "GCP"
+    serviceAccountJson: String
+    billingDataset: String
+
+    "Azure"
+    tenantId: String
+    clientId: String
+    clientSecret: String
+    subscriptionId: String
+}
+
+extend type Query {
+    cloudConnections(orgId: ID!): [CloudConnection!]!
+    cloudConnection(orgId: ID!, connectionId: ID!): CloudConnection!
+
+    serviceCostSummary(orgId: ID!, serviceId: ID!): ServiceCostSummary!
+    serviceCostResources(orgId: ID!, serviceId: ID!): [InfraResource!]!
+    serviceCostTrend(orgId: ID!, serviceId: ID!, days: Int): [CostTrendPoint!]!
+    serviceCostTagRules(orgId: ID!, serviceId: ID!): [ServiceCostTagRule!]!
+}
+
+extend type Mutation {
+    createCloudConnection(orgId: ID!, input: CreateCloudConnectionInput!): CloudConnection!
+    deleteCloudConnection(orgId: ID!, connectionId: ID!): Boolean!
+    testCloudConnection(orgId: ID!, connectionId: ID!): TestCloudConnectionResult!
+    syncCloudConnection(orgId: ID!, connectionId: ID!): Int!
+
+    createServiceCostTagRule(orgId: ID!, serviceId: ID!, tagKey: String!, tagValue: String!): ServiceCostTagRule!
+    deleteServiceCostTagRule(orgId: ID!, serviceId: ID!, ruleId: ID!): Boolean!
 }
 `, BuiltIn: false},
 	{Name: "../schema/dependency.graphqls", Input: `extend type Query {
@@ -16287,6 +16918,57 @@ func (ec *executionContext) field_Mutation_createChatSession_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_createCloudConnection_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createCloudConnection_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createCloudConnection_argsInput(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createCloudConnection_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createCloudConnection_argsInput(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (model.CreateCloudConnectionInput, error) {
+	if _, ok := rawArgs["input"]; !ok {
+		var zeroVal model.CreateCloudConnectionInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["input"]; ok {
+		return ec.unmarshalNCreateCloudConnectionInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateCloudConnectionInput(ctx, tmp)
+	}
+
+	var zeroVal model.CreateCloudConnectionInput
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_createComment_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -18254,6 +18936,103 @@ func (ec *executionContext) field_Mutation_createServiceAccount_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_createServiceCostTagRule_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createServiceCostTagRule_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_createServiceCostTagRule_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Mutation_createServiceCostTagRule_argsTagKey(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["tagKey"] = arg2
+	arg3, err := ec.field_Mutation_createServiceCostTagRule_argsTagValue(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["tagValue"] = arg3
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createServiceCostTagRule_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createServiceCostTagRule_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createServiceCostTagRule_argsTagKey(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["tagKey"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("tagKey"))
+	if tmp, ok := rawArgs["tagKey"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createServiceCostTagRule_argsTagValue(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["tagValue"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("tagValue"))
+	if tmp, ok := rawArgs["tagValue"]; ok {
+		return ec.unmarshalNString2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_createServiceDBVersion_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -19214,6 +19993,57 @@ func (ec *executionContext) field_Mutation_deleteChatSession_argsID(
 
 	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 	if tmp, ok := rawArgs["id"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteCloudConnection_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteCloudConnection_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteCloudConnection_argsConnectionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["connectionId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteCloudConnection_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteCloudConnection_argsConnectionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["connectionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("connectionId"))
+	if tmp, ok := rawArgs["connectionId"]; ok {
 		return ec.unmarshalNID2string(ctx, tmp)
 	}
 
@@ -20828,6 +21658,80 @@ func (ec *executionContext) field_Mutation_deleteServiceAccount_argsID(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_deleteServiceCostTagRule_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_deleteServiceCostTagRule_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_deleteServiceCostTagRule_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Mutation_deleteServiceCostTagRule_argsRuleID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["ruleId"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_deleteServiceCostTagRule_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteServiceCostTagRule_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteServiceCostTagRule_argsRuleID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["ruleId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("ruleId"))
+	if tmp, ok := rawArgs["ruleId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_deleteServiceDB_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -22417,6 +23321,57 @@ func (ec *executionContext) field_Mutation_syncAPIGroup_argsInput(
 	return zeroVal, nil
 }
 
+func (ec *executionContext) field_Mutation_syncCloudConnection_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_syncCloudConnection_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_syncCloudConnection_argsConnectionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["connectionId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_syncCloudConnection_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_syncCloudConnection_argsConnectionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["connectionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("connectionId"))
+	if tmp, ok := rawArgs["connectionId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
 func (ec *executionContext) field_Mutation_syncDiagram_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -22539,6 +23494,57 @@ func (ec *executionContext) field_Mutation_syncFrame_argsInput(
 	}
 
 	var zeroVal model.SyncFrameInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_testCloudConnection_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_testCloudConnection_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Mutation_testCloudConnection_argsConnectionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["connectionId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_testCloudConnection_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_testCloudConnection_argsConnectionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["connectionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("connectionId"))
+	if tmp, ok := rawArgs["connectionId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
 	return zeroVal, nil
 }
 
@@ -26973,6 +27979,85 @@ func (ec *executionContext) field_Query_chatSessions_args(ctx context.Context, r
 	return args, nil
 }
 func (ec *executionContext) field_Query_chatSessions_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_cloudConnection_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_cloudConnection_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_cloudConnection_argsConnectionID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["connectionId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_cloudConnection_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_cloudConnection_argsConnectionID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["connectionId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("connectionId"))
+	if tmp, ok := rawArgs["connectionId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_cloudConnections_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_cloudConnections_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Query_cloudConnections_argsOrgID(
 	ctx context.Context,
 	rawArgs map[string]any,
 ) (string, error) {
@@ -31608,6 +32693,233 @@ func (ec *executionContext) field_Query_serviceAccounts_argsOrgID(
 	}
 
 	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_serviceCostResources_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_serviceCostResources_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_serviceCostResources_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_serviceCostResources_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_serviceCostResources_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_serviceCostSummary_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_serviceCostSummary_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_serviceCostSummary_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_serviceCostSummary_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_serviceCostSummary_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_serviceCostTagRules_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_serviceCostTagRules_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_serviceCostTagRules_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	return args, nil
+}
+func (ec *executionContext) field_Query_serviceCostTagRules_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_serviceCostTagRules_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_serviceCostTrend_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Query_serviceCostTrend_argsOrgID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["orgId"] = arg0
+	arg1, err := ec.field_Query_serviceCostTrend_argsServiceID(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["serviceId"] = arg1
+	arg2, err := ec.field_Query_serviceCostTrend_argsDays(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["days"] = arg2
+	return args, nil
+}
+func (ec *executionContext) field_Query_serviceCostTrend_argsOrgID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["orgId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("orgId"))
+	if tmp, ok := rawArgs["orgId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_serviceCostTrend_argsServiceID(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (string, error) {
+	if _, ok := rawArgs["serviceId"]; !ok {
+		var zeroVal string
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceId"))
+	if tmp, ok := rawArgs["serviceId"]; ok {
+		return ec.unmarshalNID2string(ctx, tmp)
+	}
+
+	var zeroVal string
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Query_serviceCostTrend_argsDays(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (*int, error) {
+	if _, ok := rawArgs["days"]; !ok {
+		var zeroVal *int
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("days"))
+	if tmp, ok := rawArgs["days"]; ok {
+		return ec.unmarshalOInt2ᚖint(ctx, tmp)
+	}
+
+	var zeroVal *int
 	return zeroVal, nil
 }
 
@@ -38094,6 +39406,443 @@ func (ec *executionContext) fieldContext_ClientSavings_totalDurationMs(_ context
 	return fc, nil
 }
 
+func (ec *executionContext) _CloudConnection_id(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CloudConnection_orgId(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_orgId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OrgID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_orgId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CloudConnection_provider(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_provider(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Provider, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.CloudProvider)
+	fc.Result = res
+	return ec.marshalNCloudProvider2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudProvider(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_provider(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type CloudProvider does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CloudConnection_displayName(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_displayName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DisplayName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_displayName(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CloudConnection_status(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_status(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Status, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.CloudConnectionStatus)
+	fc.Result = res
+	return ec.marshalNCloudConnectionStatus2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnectionStatus(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_status(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type CloudConnectionStatus does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CloudConnection_statusMessage(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_statusMessage(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.StatusMessage, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_statusMessage(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CloudConnection_lastVerifiedAt(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_lastVerifiedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LastVerifiedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_lastVerifiedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CloudConnection_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CloudConnection_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CloudConnection_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.CloudConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CloudConnection_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CloudConnection_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CloudConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Comment_id(ctx context.Context, field graphql.CollectedField, obj *model.Comment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Comment_id(ctx, field)
 	if err != nil {
@@ -40462,6 +42211,226 @@ func (ec *executionContext) fieldContext_Components_customComponents(_ context.C
 				return ec.fieldContext_Component_updatedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Component", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CostTrendPoint_date(ctx context.Context, field graphql.CollectedField, obj *model.CostTrendPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CostTrendPoint_date(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Date, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CostTrendPoint_date(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CostTrendPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CostTrendPoint_totalUsd(ctx context.Context, field graphql.CollectedField, obj *model.CostTrendPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CostTrendPoint_totalUsd(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalUsd, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CostTrendPoint_totalUsd(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CostTrendPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CostTrendPoint_awsUsd(ctx context.Context, field graphql.CollectedField, obj *model.CostTrendPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CostTrendPoint_awsUsd(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AWSUsd, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CostTrendPoint_awsUsd(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CostTrendPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CostTrendPoint_azureUsd(ctx context.Context, field graphql.CollectedField, obj *model.CostTrendPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CostTrendPoint_azureUsd(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AzureUsd, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CostTrendPoint_azureUsd(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CostTrendPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CostTrendPoint_gcpUsd(ctx context.Context, field graphql.CollectedField, obj *model.CostTrendPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CostTrendPoint_gcpUsd(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.GCPUsd, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CostTrendPoint_gcpUsd(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CostTrendPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
 		},
 	}
 	return fc, nil
@@ -52507,6 +54476,534 @@ func (ec *executionContext) fieldContext_GraphQLTestCase_expectError(_ context.C
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_id(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_externalResourceId(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_externalResourceId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ExternalResourceID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_externalResourceId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_name(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_resourceType(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_resourceType(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ResourceType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_resourceType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_provider(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_provider(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Provider, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.CloudProvider)
+	fc.Result = res
+	return ec.marshalNCloudProvider2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudProvider(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_provider(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type CloudProvider does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_region(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_region(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Region, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_region(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_environment(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_environment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Environment, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_environment(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_status(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_status(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Status, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.InfraResourceStatus)
+	fc.Result = res
+	return ec.marshalNInfraResourceStatus2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInfraResourceStatus(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_status(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type InfraResourceStatus does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_monthlyCostUsd(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_monthlyCostUsd(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MonthlyCostUsd, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_monthlyCostUsd(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_tags(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_tags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Tags, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_tags(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_matchedTags(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_matchedTags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MatchedTags, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_matchedTags(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _InfraResource_lastSyncedAt(ctx context.Context, field graphql.CollectedField, obj *model.InfraResource) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_InfraResource_lastSyncedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LastSyncedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_InfraResource_lastSyncedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "InfraResource",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -67201,6 +69698,378 @@ func (ec *executionContext) fieldContext_Mutation_deleteCustomComponent(ctx cont
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createCloudConnection(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createCloudConnection(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateCloudConnection(rctx, fc.Args["orgId"].(string), fc.Args["input"].(model.CreateCloudConnectionInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CloudConnection)
+	fc.Result = res
+	return ec.marshalNCloudConnection2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnection(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createCloudConnection(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_CloudConnection_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_CloudConnection_orgId(ctx, field)
+			case "provider":
+				return ec.fieldContext_CloudConnection_provider(ctx, field)
+			case "displayName":
+				return ec.fieldContext_CloudConnection_displayName(ctx, field)
+			case "status":
+				return ec.fieldContext_CloudConnection_status(ctx, field)
+			case "statusMessage":
+				return ec.fieldContext_CloudConnection_statusMessage(ctx, field)
+			case "lastVerifiedAt":
+				return ec.fieldContext_CloudConnection_lastVerifiedAt(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_CloudConnection_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_CloudConnection_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_CloudConnection_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CloudConnection", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createCloudConnection_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteCloudConnection(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteCloudConnection(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteCloudConnection(rctx, fc.Args["orgId"].(string), fc.Args["connectionId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteCloudConnection(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteCloudConnection_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_testCloudConnection(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_testCloudConnection(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().TestCloudConnection(rctx, fc.Args["orgId"].(string), fc.Args["connectionId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.TestCloudConnectionResult)
+	fc.Result = res
+	return ec.marshalNTestCloudConnectionResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCloudConnectionResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_testCloudConnection(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "ok":
+				return ec.fieldContext_TestCloudConnectionResult_ok(ctx, field)
+			case "error":
+				return ec.fieldContext_TestCloudConnectionResult_error(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type TestCloudConnectionResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_testCloudConnection_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_syncCloudConnection(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_syncCloudConnection(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SyncCloudConnection(rctx, fc.Args["orgId"].(string), fc.Args["connectionId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_syncCloudConnection(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_syncCloudConnection_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createServiceCostTagRule(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createServiceCostTagRule(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateServiceCostTagRule(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["tagKey"].(string), fc.Args["tagValue"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ServiceCostTagRule)
+	fc.Result = res
+	return ec.marshalNServiceCostTagRule2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceCostTagRule(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createServiceCostTagRule(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ServiceCostTagRule_id(ctx, field)
+			case "serviceId":
+				return ec.fieldContext_ServiceCostTagRule_serviceId(ctx, field)
+			case "tagKey":
+				return ec.fieldContext_ServiceCostTagRule_tagKey(ctx, field)
+			case "tagValue":
+				return ec.fieldContext_ServiceCostTagRule_tagValue(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_ServiceCostTagRule_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ServiceCostTagRule_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServiceCostTagRule", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createServiceCostTagRule_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteServiceCostTagRule(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteServiceCostTagRule(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteServiceCostTagRule(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["ruleId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteServiceCostTagRule(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteServiceCostTagRule_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_updateServiceDependencies(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_updateServiceDependencies(ctx, field)
 	if err != nil {
@@ -78859,6 +81728,446 @@ func (ec *executionContext) fieldContext_Query_components(ctx context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_cloudConnections(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_cloudConnections(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().CloudConnections(rctx, fc.Args["orgId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.CloudConnection)
+	fc.Result = res
+	return ec.marshalNCloudConnection2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnectionᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_cloudConnections(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_CloudConnection_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_CloudConnection_orgId(ctx, field)
+			case "provider":
+				return ec.fieldContext_CloudConnection_provider(ctx, field)
+			case "displayName":
+				return ec.fieldContext_CloudConnection_displayName(ctx, field)
+			case "status":
+				return ec.fieldContext_CloudConnection_status(ctx, field)
+			case "statusMessage":
+				return ec.fieldContext_CloudConnection_statusMessage(ctx, field)
+			case "lastVerifiedAt":
+				return ec.fieldContext_CloudConnection_lastVerifiedAt(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_CloudConnection_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_CloudConnection_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_CloudConnection_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CloudConnection", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_cloudConnections_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_cloudConnection(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_cloudConnection(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().CloudConnection(rctx, fc.Args["orgId"].(string), fc.Args["connectionId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.CloudConnection)
+	fc.Result = res
+	return ec.marshalNCloudConnection2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnection(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_cloudConnection(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_CloudConnection_id(ctx, field)
+			case "orgId":
+				return ec.fieldContext_CloudConnection_orgId(ctx, field)
+			case "provider":
+				return ec.fieldContext_CloudConnection_provider(ctx, field)
+			case "displayName":
+				return ec.fieldContext_CloudConnection_displayName(ctx, field)
+			case "status":
+				return ec.fieldContext_CloudConnection_status(ctx, field)
+			case "statusMessage":
+				return ec.fieldContext_CloudConnection_statusMessage(ctx, field)
+			case "lastVerifiedAt":
+				return ec.fieldContext_CloudConnection_lastVerifiedAt(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_CloudConnection_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_CloudConnection_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_CloudConnection_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CloudConnection", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_cloudConnection_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_serviceCostSummary(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serviceCostSummary(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServiceCostSummary(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ServiceCostSummary)
+	fc.Result = res
+	return ec.marshalNServiceCostSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceCostSummary(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serviceCostSummary(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "totalMonthlyCostUsd":
+				return ec.fieldContext_ServiceCostSummary_totalMonthlyCostUsd(ctx, field)
+			case "momChangePct":
+				return ec.fieldContext_ServiceCostSummary_momChangePct(ctx, field)
+			case "resourceCount":
+				return ec.fieldContext_ServiceCostSummary_resourceCount(ctx, field)
+			case "providerCount":
+				return ec.fieldContext_ServiceCostSummary_providerCount(ctx, field)
+			case "topCostDriverLabel":
+				return ec.fieldContext_ServiceCostSummary_topCostDriverLabel(ctx, field)
+			case "topCostDriverUsd":
+				return ec.fieldContext_ServiceCostSummary_topCostDriverUsd(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServiceCostSummary", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_serviceCostSummary_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_serviceCostResources(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serviceCostResources(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServiceCostResources(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.InfraResource)
+	fc.Result = res
+	return ec.marshalNInfraResource2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInfraResourceᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serviceCostResources(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_InfraResource_id(ctx, field)
+			case "externalResourceId":
+				return ec.fieldContext_InfraResource_externalResourceId(ctx, field)
+			case "name":
+				return ec.fieldContext_InfraResource_name(ctx, field)
+			case "resourceType":
+				return ec.fieldContext_InfraResource_resourceType(ctx, field)
+			case "provider":
+				return ec.fieldContext_InfraResource_provider(ctx, field)
+			case "region":
+				return ec.fieldContext_InfraResource_region(ctx, field)
+			case "environment":
+				return ec.fieldContext_InfraResource_environment(ctx, field)
+			case "status":
+				return ec.fieldContext_InfraResource_status(ctx, field)
+			case "monthlyCostUsd":
+				return ec.fieldContext_InfraResource_monthlyCostUsd(ctx, field)
+			case "tags":
+				return ec.fieldContext_InfraResource_tags(ctx, field)
+			case "matchedTags":
+				return ec.fieldContext_InfraResource_matchedTags(ctx, field)
+			case "lastSyncedAt":
+				return ec.fieldContext_InfraResource_lastSyncedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type InfraResource", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_serviceCostResources_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_serviceCostTrend(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serviceCostTrend(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServiceCostTrend(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string), fc.Args["days"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.CostTrendPoint)
+	fc.Result = res
+	return ec.marshalNCostTrendPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCostTrendPointᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serviceCostTrend(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "date":
+				return ec.fieldContext_CostTrendPoint_date(ctx, field)
+			case "totalUsd":
+				return ec.fieldContext_CostTrendPoint_totalUsd(ctx, field)
+			case "awsUsd":
+				return ec.fieldContext_CostTrendPoint_awsUsd(ctx, field)
+			case "azureUsd":
+				return ec.fieldContext_CostTrendPoint_azureUsd(ctx, field)
+			case "gcpUsd":
+				return ec.fieldContext_CostTrendPoint_gcpUsd(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CostTrendPoint", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_serviceCostTrend_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_serviceCostTagRules(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_serviceCostTagRules(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ServiceCostTagRules(rctx, fc.Args["orgId"].(string), fc.Args["serviceId"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.ServiceCostTagRule)
+	fc.Result = res
+	return ec.marshalNServiceCostTagRule2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceCostTagRuleᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_serviceCostTagRules(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ServiceCostTagRule_id(ctx, field)
+			case "serviceId":
+				return ec.fieldContext_ServiceCostTagRule_serviceId(ctx, field)
+			case "tagKey":
+				return ec.fieldContext_ServiceCostTagRule_tagKey(ctx, field)
+			case "tagValue":
+				return ec.fieldContext_ServiceCostTagRule_tagValue(ctx, field)
+			case "createdBy":
+				return ec.fieldContext_ServiceCostTagRule_createdBy(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ServiceCostTagRule_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ServiceCostTagRule", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_serviceCostTagRules_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_dependencies(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_dependencies(ctx, field)
 	if err != nil {
@@ -90243,6 +93552,534 @@ func (ec *executionContext) fieldContext_ServiceAccountToken_createdAt(_ context
 	return fc, nil
 }
 
+func (ec *executionContext) _ServiceCostSummary_totalMonthlyCostUsd(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostSummary_totalMonthlyCostUsd(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalMonthlyCostUsd, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostSummary_totalMonthlyCostUsd(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostSummary_momChangePct(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostSummary_momChangePct(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MomChangePct, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostSummary_momChangePct(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostSummary_resourceCount(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostSummary_resourceCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ResourceCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostSummary_resourceCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostSummary_providerCount(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostSummary_providerCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ProviderCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostSummary_providerCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostSummary_topCostDriverLabel(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostSummary_topCostDriverLabel(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TopCostDriverLabel, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostSummary_topCostDriverLabel(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostSummary_topCostDriverUsd(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostSummary) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostSummary_topCostDriverUsd(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TopCostDriverUsd, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostSummary_topCostDriverUsd(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostSummary",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostTagRule_id(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostTagRule) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostTagRule_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostTagRule_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostTagRule",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostTagRule_serviceId(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostTagRule) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostTagRule_serviceId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ServiceID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostTagRule_serviceId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostTagRule",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostTagRule_tagKey(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostTagRule) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostTagRule_tagKey(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TagKey, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostTagRule_tagKey(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostTagRule",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostTagRule_tagValue(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostTagRule) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostTagRule_tagValue(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TagValue, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostTagRule_tagValue(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostTagRule",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostTagRule_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostTagRule) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostTagRule_createdBy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedBy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostTagRule_createdBy(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostTagRule",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ServiceCostTagRule_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.ServiceCostTagRule) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ServiceCostTagRule_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ServiceCostTagRule_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ServiceCostTagRule",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ServiceDB_id(ctx context.Context, field graphql.CollectedField, obj *model.ServiceDb) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ServiceDB_id(ctx, field)
 	if err != nil {
@@ -95742,6 +99579,91 @@ func (ec *executionContext) _TestCaseStep_expectedResult(ctx context.Context, fi
 func (ec *executionContext) fieldContext_TestCaseStep_expectedResult(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "TestCaseStep",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestCloudConnectionResult_ok(ctx context.Context, field graphql.CollectedField, obj *model.TestCloudConnectionResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestCloudConnectionResult_ok(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Ok, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestCloudConnectionResult_ok(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestCloudConnectionResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestCloudConnectionResult_error(ctx context.Context, field graphql.CollectedField, obj *model.TestCloudConnectionResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestCloudConnectionResult_error(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Error, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestCloudConnectionResult_error(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestCloudConnectionResult",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -102634,6 +106556,96 @@ func (ec *executionContext) unmarshalInputCreateChatSessionInput(ctx context.Con
 				return it, err
 			}
 			it.Title = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputCreateCloudConnectionInput(ctx context.Context, obj any) (model.CreateCloudConnectionInput, error) {
+	var it model.CreateCloudConnectionInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"provider", "displayName", "roleArn", "externalId", "serviceAccountJson", "billingDataset", "tenantId", "clientId", "clientSecret", "subscriptionId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "provider":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("provider"))
+			data, err := ec.unmarshalNCloudProvider2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudProvider(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Provider = data
+		case "displayName":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("displayName"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DisplayName = data
+		case "roleArn":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("roleArn"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RoleArn = data
+		case "externalId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("externalId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ExternalID = data
+		case "serviceAccountJson":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("serviceAccountJson"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ServiceAccountJSON = data
+		case "billingDataset":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("billingDataset"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.BillingDataset = data
+		case "tenantId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tenantId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TenantID = data
+		case "clientId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("clientId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ClientID = data
+		case "clientSecret":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("clientSecret"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ClientSecret = data
+		case "subscriptionId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("subscriptionId"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SubscriptionID = data
 		}
 	}
 
@@ -110004,6 +114016,87 @@ func (ec *executionContext) _ClientSavings(ctx context.Context, sel ast.Selectio
 	return out
 }
 
+var cloudConnectionImplementors = []string{"CloudConnection"}
+
+func (ec *executionContext) _CloudConnection(ctx context.Context, sel ast.SelectionSet, obj *model.CloudConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, cloudConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CloudConnection")
+		case "id":
+			out.Values[i] = ec._CloudConnection_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "orgId":
+			out.Values[i] = ec._CloudConnection_orgId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "provider":
+			out.Values[i] = ec._CloudConnection_provider(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "displayName":
+			out.Values[i] = ec._CloudConnection_displayName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "status":
+			out.Values[i] = ec._CloudConnection_status(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "statusMessage":
+			out.Values[i] = ec._CloudConnection_statusMessage(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "lastVerifiedAt":
+			out.Values[i] = ec._CloudConnection_lastVerifiedAt(ctx, field, obj)
+		case "createdBy":
+			out.Values[i] = ec._CloudConnection_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._CloudConnection_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._CloudConnection_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var commentImplementors = []string{"Comment"}
 
 func (ec *executionContext) _Comment(ctx context.Context, sel ast.SelectionSet, obj *model.Comment) graphql.Marshaler {
@@ -110464,6 +114557,65 @@ func (ec *executionContext) _Components(ctx context.Context, sel ast.SelectionSe
 			}
 		case "customComponents":
 			out.Values[i] = ec._Components_customComponents(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var costTrendPointImplementors = []string{"CostTrendPoint"}
+
+func (ec *executionContext) _CostTrendPoint(ctx context.Context, sel ast.SelectionSet, obj *model.CostTrendPoint) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, costTrendPointImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CostTrendPoint")
+		case "date":
+			out.Values[i] = ec._CostTrendPoint_date(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalUsd":
+			out.Values[i] = ec._CostTrendPoint_totalUsd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "awsUsd":
+			out.Values[i] = ec._CostTrendPoint_awsUsd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "azureUsd":
+			out.Values[i] = ec._CostTrendPoint_azureUsd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "gcpUsd":
+			out.Values[i] = ec._CostTrendPoint_gcpUsd(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -112979,6 +117131,100 @@ func (ec *executionContext) _GraphQLTestCase(ctx context.Context, sel ast.Select
 			out.Values[i] = ec._GraphQLTestCase_assertions(ctx, field, obj)
 		case "expectError":
 			out.Values[i] = ec._GraphQLTestCase_expectError(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var infraResourceImplementors = []string{"InfraResource"}
+
+func (ec *executionContext) _InfraResource(ctx context.Context, sel ast.SelectionSet, obj *model.InfraResource) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, infraResourceImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("InfraResource")
+		case "id":
+			out.Values[i] = ec._InfraResource_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "externalResourceId":
+			out.Values[i] = ec._InfraResource_externalResourceId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._InfraResource_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "resourceType":
+			out.Values[i] = ec._InfraResource_resourceType(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "provider":
+			out.Values[i] = ec._InfraResource_provider(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "region":
+			out.Values[i] = ec._InfraResource_region(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "environment":
+			out.Values[i] = ec._InfraResource_environment(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "status":
+			out.Values[i] = ec._InfraResource_status(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "monthlyCostUsd":
+			out.Values[i] = ec._InfraResource_monthlyCostUsd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "tags":
+			out.Values[i] = ec._InfraResource_tags(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "matchedTags":
+			out.Values[i] = ec._InfraResource_matchedTags(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "lastSyncedAt":
+			out.Values[i] = ec._InfraResource_lastSyncedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -115549,6 +119795,48 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "createCloudConnection":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createCloudConnection(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteCloudConnection":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteCloudConnection(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "testCloudConnection":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_testCloudConnection(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "syncCloudConnection":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_syncCloudConnection(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createServiceCostTagRule":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createServiceCostTagRule(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "deleteServiceCostTagRule":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteServiceCostTagRule(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "updateServiceDependencies":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateServiceDependencies(ctx, field)
@@ -117326,6 +121614,138 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_components(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "cloudConnections":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_cloudConnections(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "cloudConnection":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_cloudConnection(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "serviceCostSummary":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_serviceCostSummary(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "serviceCostResources":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_serviceCostResources(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "serviceCostTrend":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_serviceCostTrend(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "serviceCostTagRules":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_serviceCostTagRules(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -120046,6 +124466,134 @@ func (ec *executionContext) _ServiceAccountToken(ctx context.Context, sel ast.Se
 	return out
 }
 
+var serviceCostSummaryImplementors = []string{"ServiceCostSummary"}
+
+func (ec *executionContext) _ServiceCostSummary(ctx context.Context, sel ast.SelectionSet, obj *model.ServiceCostSummary) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, serviceCostSummaryImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ServiceCostSummary")
+		case "totalMonthlyCostUsd":
+			out.Values[i] = ec._ServiceCostSummary_totalMonthlyCostUsd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "momChangePct":
+			out.Values[i] = ec._ServiceCostSummary_momChangePct(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "resourceCount":
+			out.Values[i] = ec._ServiceCostSummary_resourceCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "providerCount":
+			out.Values[i] = ec._ServiceCostSummary_providerCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "topCostDriverLabel":
+			out.Values[i] = ec._ServiceCostSummary_topCostDriverLabel(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "topCostDriverUsd":
+			out.Values[i] = ec._ServiceCostSummary_topCostDriverUsd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var serviceCostTagRuleImplementors = []string{"ServiceCostTagRule"}
+
+func (ec *executionContext) _ServiceCostTagRule(ctx context.Context, sel ast.SelectionSet, obj *model.ServiceCostTagRule) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, serviceCostTagRuleImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ServiceCostTagRule")
+		case "id":
+			out.Values[i] = ec._ServiceCostTagRule_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "serviceId":
+			out.Values[i] = ec._ServiceCostTagRule_serviceId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "tagKey":
+			out.Values[i] = ec._ServiceCostTagRule_tagKey(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "tagValue":
+			out.Values[i] = ec._ServiceCostTagRule_tagValue(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdBy":
+			out.Values[i] = ec._ServiceCostTagRule_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._ServiceCostTagRule_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var serviceDBImplementors = []string{"ServiceDB"}
 
 func (ec *executionContext) _ServiceDB(ctx context.Context, sel ast.SelectionSet, obj *model.ServiceDb) graphql.Marshaler {
@@ -121027,6 +125575,47 @@ func (ec *executionContext) _TestCaseStep(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var testCloudConnectionResultImplementors = []string{"TestCloudConnectionResult"}
+
+func (ec *executionContext) _TestCloudConnectionResult(ctx context.Context, sel ast.SelectionSet, obj *model.TestCloudConnectionResult) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, testCloudConnectionResultImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("TestCloudConnectionResult")
+		case "ok":
+			out.Values[i] = ec._TestCloudConnectionResult_ok(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "error":
+			out.Values[i] = ec._TestCloudConnectionResult_error(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -122601,6 +127190,84 @@ func (ec *executionContext) marshalNClientSavings2ᚖgithubᚗcomᚋuigraphᚋgr
 	return ec._ClientSavings(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNCloudConnection2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnection(ctx context.Context, sel ast.SelectionSet, v model.CloudConnection) graphql.Marshaler {
+	return ec._CloudConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCloudConnection2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnectionᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.CloudConnection) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNCloudConnection2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnection(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNCloudConnection2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnection(ctx context.Context, sel ast.SelectionSet, v *model.CloudConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._CloudConnection(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNCloudConnectionStatus2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnectionStatus(ctx context.Context, v any) (model.CloudConnectionStatus, error) {
+	var res model.CloudConnectionStatus
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNCloudConnectionStatus2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudConnectionStatus(ctx context.Context, sel ast.SelectionSet, v model.CloudConnectionStatus) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalNCloudProvider2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudProvider(ctx context.Context, v any) (model.CloudProvider, error) {
+	var res model.CloudProvider
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNCloudProvider2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCloudProvider(ctx context.Context, sel ast.SelectionSet, v model.CloudProvider) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) marshalNComment2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐComment(ctx context.Context, sel ast.SelectionSet, v model.Comment) graphql.Marshaler {
 	return ec._Comment(ctx, sel, &v)
 }
@@ -122898,6 +127565,60 @@ func (ec *executionContext) marshalNComponents2ᚖgithubᚗcomᚋuigraphᚋgraph
 	return ec._Components(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNCostTrendPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCostTrendPointᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.CostTrendPoint) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNCostTrendPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCostTrendPoint(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNCostTrendPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCostTrendPoint(ctx context.Context, sel ast.SelectionSet, v *model.CostTrendPoint) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._CostTrendPoint(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNCreateAPIEndpointInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateAPIEndpointInput(ctx context.Context, v any) (model.CreateAPIEndpointInput, error) {
 	res, err := ec.unmarshalInputCreateAPIEndpointInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -122915,6 +127636,11 @@ func (ec *executionContext) unmarshalNCreateChatMessageInput2githubᚗcomᚋuigr
 
 func (ec *executionContext) unmarshalNCreateChatSessionInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateChatSessionInput(ctx context.Context, v any) (model.CreateChatSessionInput, error) {
 	res, err := ec.unmarshalInputCreateChatSessionInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCreateCloudConnectionInput2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCreateCloudConnectionInput(ctx context.Context, v any) (model.CreateCloudConnectionInput, error) {
+	res, err := ec.unmarshalInputCreateCloudConnectionInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -124205,6 +128931,70 @@ func (ec *executionContext) marshalNID2ᚕstringᚄ(ctx context.Context, sel ast
 	}
 
 	return ret
+}
+
+func (ec *executionContext) marshalNInfraResource2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInfraResourceᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.InfraResource) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNInfraResource2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInfraResource(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNInfraResource2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInfraResource(ctx context.Context, sel ast.SelectionSet, v *model.InfraResource) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._InfraResource(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNInfraResourceStatus2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInfraResourceStatus(ctx context.Context, v any) (model.InfraResourceStatus, error) {
+	var res model.InfraResourceStatus
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNInfraResourceStatus2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐInfraResourceStatus(ctx context.Context, sel ast.SelectionSet, v model.InfraResourceStatus) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v any) (int, error) {
@@ -125777,6 +130567,78 @@ func (ec *executionContext) marshalNServiceAccountToken2ᚖgithubᚗcomᚋuigrap
 	return ec._ServiceAccountToken(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNServiceCostSummary2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceCostSummary(ctx context.Context, sel ast.SelectionSet, v model.ServiceCostSummary) graphql.Marshaler {
+	return ec._ServiceCostSummary(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNServiceCostSummary2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceCostSummary(ctx context.Context, sel ast.SelectionSet, v *model.ServiceCostSummary) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ServiceCostSummary(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNServiceCostTagRule2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceCostTagRule(ctx context.Context, sel ast.SelectionSet, v model.ServiceCostTagRule) graphql.Marshaler {
+	return ec._ServiceCostTagRule(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNServiceCostTagRule2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceCostTagRuleᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ServiceCostTagRule) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNServiceCostTagRule2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceCostTagRule(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNServiceCostTagRule2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceCostTagRule(ctx context.Context, sel ast.SelectionSet, v *model.ServiceCostTagRule) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ServiceCostTagRule(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNServiceDB2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐServiceDb(ctx context.Context, sel ast.SelectionSet, v model.ServiceDb) graphql.Marshaler {
 	return ec._ServiceDB(ctx, sel, &v)
 }
@@ -126329,6 +131191,20 @@ func (ec *executionContext) marshalNTestCaseStep2ᚖgithubᚗcomᚋuigraphᚋgra
 func (ec *executionContext) unmarshalNTestCaseStepInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCaseStepInput(ctx context.Context, v any) (*model.TestCaseStepInput, error) {
 	res, err := ec.unmarshalInputTestCaseStepInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNTestCloudConnectionResult2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCloudConnectionResult(ctx context.Context, sel ast.SelectionSet, v model.TestCloudConnectionResult) graphql.Marshaler {
+	return ec._TestCloudConnectionResult(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNTestCloudConnectionResult2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestCloudConnectionResult(ctx context.Context, sel ast.SelectionSet, v *model.TestCloudConnectionResult) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._TestCloudConnectionResult(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNTestPack2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐTestPack(ctx context.Context, sel ast.SelectionSet, v model.TestPack) graphql.Marshaler {

@@ -328,6 +328,21 @@ type mlStudioClient interface {
 	DeleteMLEvaluation(ctx context.Context, orgID, id string) error
 }
 
+type billingClient interface {
+	ListCloudConnections(ctx context.Context, orgID string) ([]uigraphapi.CloudConnection, error)
+	GetCloudConnection(ctx context.Context, orgID, connectionID string) (*uigraphapi.CloudConnection, error)
+	CreateCloudConnection(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.CloudConnection, error)
+	DeleteCloudConnection(ctx context.Context, orgID, connectionID string) error
+	TestCloudConnection(ctx context.Context, orgID, connectionID string) (*uigraphapi.TestCloudConnectionResult, error)
+	SyncCloudConnection(ctx context.Context, orgID, connectionID string) (int, error)
+	GetServiceCostSummary(ctx context.Context, orgID, serviceID string) (*uigraphapi.ServiceCostSummary, error)
+	ListServiceCostResources(ctx context.Context, orgID, serviceID string) ([]uigraphapi.InfraResource, error)
+	GetServiceCostTrend(ctx context.Context, orgID, serviceID string, days *int) ([]uigraphapi.CostTrendPoint, error)
+	ListServiceCostTagRules(ctx context.Context, orgID, serviceID string) ([]uigraphapi.ServiceCostTagRule, error)
+	CreateServiceCostTagRule(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.ServiceCostTagRule, error)
+	DeleteServiceCostTagRule(ctx context.Context, orgID, serviceID, ruleID string) error
+}
+
 type Resolver struct {
 	Auth        authClient
 	OrgAPI      orgClient
@@ -345,4 +360,5 @@ type Resolver struct {
 	CommentAPI  commentClient
 	CostSavings costSavingsClient
 	MLStudio    mlStudioClient
+	Billing     billingClient
 }

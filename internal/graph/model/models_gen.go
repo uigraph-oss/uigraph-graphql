@@ -199,6 +199,19 @@ type ClientSavings struct {
 	TotalDurationMs int     `json:"totalDurationMs"`
 }
 
+type CloudConnection struct {
+	ID             string                `json:"id"`
+	OrgID          string                `json:"orgId"`
+	Provider       CloudProvider         `json:"provider"`
+	DisplayName    string                `json:"displayName"`
+	Status         CloudConnectionStatus `json:"status"`
+	StatusMessage  string                `json:"statusMessage"`
+	LastVerifiedAt *time.Time            `json:"lastVerifiedAt,omitempty"`
+	CreatedBy      string                `json:"createdBy"`
+	CreatedAt      time.Time             `json:"createdAt"`
+	UpdatedAt      time.Time             `json:"updatedAt"`
+}
+
 type Comment struct {
 	ID              string    `json:"id"`
 	OrgID           string    `json:"orgId"`
@@ -281,6 +294,14 @@ type Components struct {
 	CustomComponents []*Component `json:"customComponents"`
 }
 
+type CostTrendPoint struct {
+	Date     string  `json:"date"`
+	TotalUsd float64 `json:"totalUsd"`
+	AWSUsd   float64 `json:"awsUsd"`
+	AzureUsd float64 `json:"azureUsd"`
+	GCPUsd   float64 `json:"gcpUsd"`
+}
+
 type CreateAPIEndpointInput struct {
 	OperationID      *string           `json:"operationId,omitempty"`
 	Method           string            `json:"method"`
@@ -313,6 +334,22 @@ type CreateChatMessageInput struct {
 
 type CreateChatSessionInput struct {
 	Title *string `json:"title,omitempty"`
+}
+
+type CreateCloudConnectionInput struct {
+	Provider    CloudProvider `json:"provider"`
+	DisplayName string        `json:"displayName"`
+	// AWS
+	RoleArn    *string `json:"roleArn,omitempty"`
+	ExternalID *string `json:"externalId,omitempty"`
+	// GCP
+	ServiceAccountJSON *string `json:"serviceAccountJson,omitempty"`
+	BillingDataset     *string `json:"billingDataset,omitempty"`
+	// Azure
+	TenantID       *string `json:"tenantId,omitempty"`
+	ClientID       *string `json:"clientId,omitempty"`
+	ClientSecret   *string `json:"clientSecret,omitempty"`
+	SubscriptionID *string `json:"subscriptionId,omitempty"`
 }
 
 type CreateCommentInput struct {
@@ -1116,6 +1153,21 @@ type GraphQLTestCaseInput struct {
 	ExpectError   bool              `json:"expectError"`
 }
 
+type InfraResource struct {
+	ID                 string              `json:"id"`
+	ExternalResourceID string              `json:"externalResourceId"`
+	Name               string              `json:"name"`
+	ResourceType       string              `json:"resourceType"`
+	Provider           CloudProvider       `json:"provider"`
+	Region             string              `json:"region"`
+	Environment        string              `json:"environment"`
+	Status             InfraResourceStatus `json:"status"`
+	MonthlyCostUsd     float64             `json:"monthlyCostUsd"`
+	Tags               []string            `json:"tags"`
+	MatchedTags        []string            `json:"matchedTags"`
+	LastSyncedAt       time.Time           `json:"lastSyncedAt"`
+}
+
 type KeyValue struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
@@ -1720,6 +1772,24 @@ type ServiceAccountToken struct {
 	CreatedAt        time.Time  `json:"createdAt"`
 }
 
+type ServiceCostSummary struct {
+	TotalMonthlyCostUsd float64 `json:"totalMonthlyCostUsd"`
+	MomChangePct        float64 `json:"momChangePct"`
+	ResourceCount       int     `json:"resourceCount"`
+	ProviderCount       int     `json:"providerCount"`
+	TopCostDriverLabel  string  `json:"topCostDriverLabel"`
+	TopCostDriverUsd    float64 `json:"topCostDriverUsd"`
+}
+
+type ServiceCostTagRule struct {
+	ID        string    `json:"id"`
+	ServiceID string    `json:"serviceId"`
+	TagKey    string    `json:"tagKey"`
+	TagValue  string    `json:"tagValue"`
+	CreatedBy string    `json:"createdBy"`
+	CreatedAt time.Time `json:"createdAt"`
+}
+
 type ServiceDb struct {
 	ID                  string     `json:"id"`
 	ServiceID           string     `json:"serviceId"`
@@ -1924,6 +1994,11 @@ type TestCaseStepInput struct {
 	Order          int    `json:"order"`
 	Action         string `json:"action"`
 	ExpectedResult string `json:"expectedResult"`
+}
+
+type TestCloudConnectionResult struct {
+	Ok    bool    `json:"ok"`
+	Error *string `json:"error,omitempty"`
 }
 
 type TestPack struct {
@@ -2435,6 +2510,177 @@ type UserSavings struct {
 	TokensSaved      int     `json:"tokensSaved"`
 	CostSavedUsd     float64 `json:"costSavedUsd"`
 	TotalDurationMs  int     `json:"totalDurationMs"`
+}
+
+type CloudConnectionStatus string
+
+const (
+	CloudConnectionStatusPending   CloudConnectionStatus = "PENDING"
+	CloudConnectionStatusConnected CloudConnectionStatus = "CONNECTED"
+	CloudConnectionStatusError     CloudConnectionStatus = "ERROR"
+)
+
+var AllCloudConnectionStatus = []CloudConnectionStatus{
+	CloudConnectionStatusPending,
+	CloudConnectionStatusConnected,
+	CloudConnectionStatusError,
+}
+
+func (e CloudConnectionStatus) IsValid() bool {
+	switch e {
+	case CloudConnectionStatusPending, CloudConnectionStatusConnected, CloudConnectionStatusError:
+		return true
+	}
+	return false
+}
+
+func (e CloudConnectionStatus) String() string {
+	return string(e)
+}
+
+func (e *CloudConnectionStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CloudConnectionStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CloudConnectionStatus", str)
+	}
+	return nil
+}
+
+func (e CloudConnectionStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CloudConnectionStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CloudConnectionStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type CloudProvider string
+
+const (
+	CloudProviderAWS   CloudProvider = "AWS"
+	CloudProviderAzure CloudProvider = "AZURE"
+	CloudProviderGCP   CloudProvider = "GCP"
+)
+
+var AllCloudProvider = []CloudProvider{
+	CloudProviderAWS,
+	CloudProviderAzure,
+	CloudProviderGCP,
+}
+
+func (e CloudProvider) IsValid() bool {
+	switch e {
+	case CloudProviderAWS, CloudProviderAzure, CloudProviderGCP:
+		return true
+	}
+	return false
+}
+
+func (e CloudProvider) String() string {
+	return string(e)
+}
+
+func (e *CloudProvider) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CloudProvider(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CloudProvider", str)
+	}
+	return nil
+}
+
+func (e CloudProvider) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CloudProvider) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CloudProvider) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type InfraResourceStatus string
+
+const (
+	InfraResourceStatusRunning  InfraResourceStatus = "RUNNING"
+	InfraResourceStatusStopped  InfraResourceStatus = "STOPPED"
+	InfraResourceStatusDegraded InfraResourceStatus = "DEGRADED"
+)
+
+var AllInfraResourceStatus = []InfraResourceStatus{
+	InfraResourceStatusRunning,
+	InfraResourceStatusStopped,
+	InfraResourceStatusDegraded,
+}
+
+func (e InfraResourceStatus) IsValid() bool {
+	switch e {
+	case InfraResourceStatusRunning, InfraResourceStatusStopped, InfraResourceStatusDegraded:
+		return true
+	}
+	return false
+}
+
+func (e InfraResourceStatus) String() string {
+	return string(e)
+}
+
+func (e *InfraResourceStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = InfraResourceStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid InfraResourceStatus", str)
+	}
+	return nil
+}
+
+func (e InfraResourceStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *InfraResourceStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e InfraResourceStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SavedQueryScope string
