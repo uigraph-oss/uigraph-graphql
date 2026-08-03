@@ -273,6 +273,12 @@ type costSavingsClient interface {
 	GetSavingsByUser(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.UserSavings, error)
 }
 
+type agentSessionClient interface {
+	GetAgentSessions(ctx context.Context, orgID string, sessionType, status, period *string, limit, offset *int) (*uigraphapi.AgentSessionPage, error)
+	GetAgentSession(ctx context.Context, orgID, id string) (*uigraphapi.AgentSessionDetail, error)
+	GetAgentSessionSummary(ctx context.Context, orgID string, period, sessionType *string) (*uigraphapi.AgentSessionSummary, error)
+}
+
 type mlStudioClient interface {
 	ListMLProjects(ctx context.Context, orgID string) ([]uigraphapi.MLProject, error)
 	GetMLProject(ctx context.Context, orgID, id string) (*uigraphapi.MLProject, error)
@@ -345,4 +351,5 @@ type Resolver struct {
 	CommentAPI  commentClient
 	CostSavings costSavingsClient
 	MLStudio    mlStudioClient
+	AgentAPI    agentSessionClient
 }
