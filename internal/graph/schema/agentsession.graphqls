@@ -1,0 +1,95 @@
+extend type Query {
+    agentSessions(orgId: ID!, type: String, status: String, period: String, limit: Int, offset: Int): AgentSessionPage!
+    agentSession(orgId: ID!, id: ID!): AgentSessionDetail!
+    agentSessionSummary(orgId: ID!, period: String, type: String): AgentSessionSummary!
+}
+
+type AgentSession {
+    id:               ID!
+    orgId:            ID!
+    type:             String!
+    status:           String!
+    userId:           ID
+    serviceAccountId: ID
+    actorName:        String
+    actorAvatarUrl:   String
+    title:            String
+    modelName:        String
+    metadata:         JSON
+    report:           String
+    error:            String
+    startedAt:        Time!
+    updatedAt:        Time!
+    completedAt:      Time
+    durationMs:       Int
+    totals:           AgentSessionTotals!
+}
+
+type AgentSessionTotals {
+    stepCount:          Int!
+    inputTokens:        Int!
+    outputTokens:       Int!
+    reasoningTokens:    Int!
+    cachedInputTokens:  Int!
+    cachedOutputTokens: Int!
+    costUsd:            Float
+    unpricedSteps:      Int!
+    stepDurationMs:     Int!
+}
+
+type AgentSessionStep {
+    id:                 ID!
+    sessionId:          ID!
+    seq:                Int!
+    kind:               String!
+    name:               String
+    modelName:          String
+    input:              JSON
+    output:             JSON
+    text:               String
+    finishReason:       String
+    error:              String
+    inputTokens:        Int
+    outputTokens:       Int
+    reasoningTokens:    Int
+    cachedInputTokens:  Int
+    cachedOutputTokens: Int
+    costUsd:            Float
+    startedAt:          Time!
+    completedAt:        Time!
+    durationMs:         Int!
+}
+
+type AgentSessionPage {
+    sessions: [AgentSession!]!
+    total:    Int!
+    period:   String!
+    limit:    Int!
+    offset:   Int!
+}
+
+type AgentSessionDetail {
+    session: AgentSession!
+    steps:   [AgentSessionStep!]!
+}
+
+type AgentSessionSummary {
+    period:            String!
+    totalSessions:     Int!
+    completedSessions: Int!
+    failedSessions:    Int!
+    runningSessions:   Int!
+    totalDurationMs:   Int!
+    totals:            AgentSessionTotals!
+    byType:            [AgentSessionTypeSummary!]!
+}
+
+type AgentSessionTypeSummary {
+    type:              String!
+    totalSessions:     Int!
+    completedSessions: Int!
+    failedSessions:    Int!
+    runningSessions:   Int!
+    totalDurationMs:   Int!
+    totals:            AgentSessionTotals!
+}

@@ -113,6 +113,96 @@ type AddMemberInput struct {
 	Role     string `json:"role"`
 }
 
+type AgentSession struct {
+	ID               string              `json:"id"`
+	OrgID            string              `json:"orgId"`
+	Type             string              `json:"type"`
+	Status           string              `json:"status"`
+	UserID           *string             `json:"userId,omitempty"`
+	ServiceAccountID *string             `json:"serviceAccountId,omitempty"`
+	ActorName        *string             `json:"actorName,omitempty"`
+	ActorAvatarURL   *string             `json:"actorAvatarUrl,omitempty"`
+	Title            *string             `json:"title,omitempty"`
+	ModelName        *string             `json:"modelName,omitempty"`
+	Metadata         any                 `json:"metadata,omitempty"`
+	Report           *string             `json:"report,omitempty"`
+	Error            *string             `json:"error,omitempty"`
+	StartedAt        time.Time           `json:"startedAt"`
+	UpdatedAt        time.Time           `json:"updatedAt"`
+	CompletedAt      *time.Time          `json:"completedAt,omitempty"`
+	DurationMs       *int                `json:"durationMs,omitempty"`
+	Totals           *AgentSessionTotals `json:"totals"`
+}
+
+type AgentSessionDetail struct {
+	Session *AgentSession       `json:"session"`
+	Steps   []*AgentSessionStep `json:"steps"`
+}
+
+type AgentSessionPage struct {
+	Sessions []*AgentSession `json:"sessions"`
+	Total    int             `json:"total"`
+	Period   string          `json:"period"`
+	Limit    int             `json:"limit"`
+	Offset   int             `json:"offset"`
+}
+
+type AgentSessionStep struct {
+	ID                 string    `json:"id"`
+	SessionID          string    `json:"sessionId"`
+	Seq                int       `json:"seq"`
+	Kind               string    `json:"kind"`
+	Name               *string   `json:"name,omitempty"`
+	ModelName          *string   `json:"modelName,omitempty"`
+	Input              any       `json:"input,omitempty"`
+	Output             any       `json:"output,omitempty"`
+	Text               *string   `json:"text,omitempty"`
+	FinishReason       *string   `json:"finishReason,omitempty"`
+	Error              *string   `json:"error,omitempty"`
+	InputTokens        *int      `json:"inputTokens,omitempty"`
+	OutputTokens       *int      `json:"outputTokens,omitempty"`
+	ReasoningTokens    *int      `json:"reasoningTokens,omitempty"`
+	CachedInputTokens  *int      `json:"cachedInputTokens,omitempty"`
+	CachedOutputTokens *int      `json:"cachedOutputTokens,omitempty"`
+	CostUsd            *float64  `json:"costUsd,omitempty"`
+	StartedAt          time.Time `json:"startedAt"`
+	CompletedAt        time.Time `json:"completedAt"`
+	DurationMs         int       `json:"durationMs"`
+}
+
+type AgentSessionSummary struct {
+	Period            string                     `json:"period"`
+	TotalSessions     int                        `json:"totalSessions"`
+	CompletedSessions int                        `json:"completedSessions"`
+	FailedSessions    int                        `json:"failedSessions"`
+	RunningSessions   int                        `json:"runningSessions"`
+	TotalDurationMs   int                        `json:"totalDurationMs"`
+	Totals            *AgentSessionTotals        `json:"totals"`
+	ByType            []*AgentSessionTypeSummary `json:"byType"`
+}
+
+type AgentSessionTotals struct {
+	StepCount          int      `json:"stepCount"`
+	InputTokens        int      `json:"inputTokens"`
+	OutputTokens       int      `json:"outputTokens"`
+	ReasoningTokens    int      `json:"reasoningTokens"`
+	CachedInputTokens  int      `json:"cachedInputTokens"`
+	CachedOutputTokens int      `json:"cachedOutputTokens"`
+	CostUsd            *float64 `json:"costUsd,omitempty"`
+	UnpricedSteps      int      `json:"unpricedSteps"`
+	StepDurationMs     int      `json:"stepDurationMs"`
+}
+
+type AgentSessionTypeSummary struct {
+	Type              string              `json:"type"`
+	TotalSessions     int                 `json:"totalSessions"`
+	CompletedSessions int                 `json:"completedSessions"`
+	FailedSessions    int                 `json:"failedSessions"`
+	RunningSessions   int                 `json:"runningSessions"`
+	TotalDurationMs   int                 `json:"totalDurationMs"`
+	Totals            *AgentSessionTotals `json:"totals"`
+}
+
 type Assertion struct {
 	Field string `json:"field"`
 	Type  string `json:"type"`

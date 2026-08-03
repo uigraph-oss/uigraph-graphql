@@ -16,6 +16,21 @@ func derefStr(s *string) string {
 	return *s
 }
 
+func (r *queryResolver) resolveSessionActors(ctx context.Context, orgID string, sessions []uigraphapi.AgentSession) (map[string]*uigraphapi.Actor, error) {
+	ids := make([]string, 0, len(sessions))
+	for _, s := range sessions {
+		if s.UserID != nil {
+			ids = append(ids, *s.UserID)
+		} else if s.ServiceAccountID != nil {
+			ids = append(ids, *s.ServiceAccountID)
+		}
+	}
+	if len(ids) == 0 {
+		return map[string]*uigraphapi.Actor{}, nil
+	}
+	return r.Resolver.Actor.ResolveActors(ctx, orgID, ids)
+}
+
 type authClient interface {
 	Me(ctx context.Context) (*uigraphapi.MeResponse, error)
 	MyOrgs(ctx context.Context) ([]uigraphapi.OrgSummary, error)
@@ -273,6 +288,12 @@ type costSavingsClient interface {
 	GetSavingsByUser(ctx context.Context, orgID string, period, modelID *string) ([]uigraphapi.UserSavings, error)
 }
 
+type agentSessionClient interface {
+	GetAgentSessions(ctx context.Context, orgID string, sessionType, status, period *string, limit, offset *int) (*uigraphapi.AgentSessionPage, error)
+	GetAgentSession(ctx context.Context, orgID, id string) (*uigraphapi.AgentSessionDetail, error)
+	GetAgentSessionSummary(ctx context.Context, orgID string, period, sessionType *string) (*uigraphapi.AgentSessionSummary, error)
+}
+
 type mlStudioClient interface {
 	ListMLProjects(ctx context.Context, orgID string) ([]uigraphapi.MLProject, error)
 	GetMLProject(ctx context.Context, orgID, id string) (*uigraphapi.MLProject, error)
@@ -361,4 +382,5 @@ type Resolver struct {
 	CostSavings costSavingsClient
 	MLStudio    mlStudioClient
 	Billing     billingClient
+	AgentAPI    agentSessionClient
 }

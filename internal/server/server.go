@@ -51,6 +51,7 @@ func Run(cfg *config.Config) error {
 		CostSavings: c,
 		MLStudio:    c,
 		Billing:     c,
+		AgentAPI:    c,
 	}
 	schema := generated.NewExecutableSchema(generated.Config{Resolvers: resolver})
 	gqlSrv := newGraphQLServer(schema, cfg.Env)
