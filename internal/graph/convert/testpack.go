@@ -145,10 +145,79 @@ func GRPCTestCaseToModel(g *uigraphapi.GRPCTestCase) *model.GRPCTestCase {
 	}
 }
 
+func LoadTestThresholdToModel(t uigraphapi.LoadTestThreshold) *model.LoadTestThreshold {
+	return &model.LoadTestThreshold{ID: t.ID, Metric: t.Metric, Comparator: t.Comparator, Value: t.Value}
+}
+
+func LoadPackConfigToModel(c *uigraphapi.LoadPackConfig) *model.LoadPackConfig {
+	if c == nil {
+		return nil
+	}
+	thresholds := make([]*model.LoadTestThreshold, len(c.Thresholds))
+	for i, t := range c.Thresholds {
+		thresholds[i] = LoadTestThresholdToModel(t)
+	}
+	return &model.LoadPackConfig{TargetEndpoints: c.TargetEndpoints, Thresholds: thresholds}
+}
+
+func LoadTestTimeSeriesPointToModel(pt uigraphapi.LoadTestTimeSeriesPoint) *model.LoadTestTimeSeriesPoint {
+	return &model.LoadTestTimeSeriesPoint{
+		TSec: pt.TSec, Rps: pt.RPS, ErrorRate: pt.ErrorRate, P95LatencyMs: pt.P95LatencyMs, ActiveVUs: pt.ActiveVUs,
+	}
+}
+
+func LoadTestEndpointBreakdownToModel(e uigraphapi.LoadTestEndpointBreakdown) *model.LoadTestEndpointBreakdown {
+	return &model.LoadTestEndpointBreakdown{
+		Endpoint: e.Endpoint, Method: e.Method, RequestCount: e.RequestCount, RequestsPerSec: e.RequestsPerSec, ErrorRate: e.ErrorRate,
+		AvgLatencyMs: e.AvgLatencyMs, P50LatencyMs: e.P50LatencyMs, P90LatencyMs: e.P90LatencyMs, P95LatencyMs: e.P95LatencyMs, P99LatencyMs: e.P99LatencyMs,
+		APIEndpointID: e.APIEndpointID,
+	}
+}
+
+func CustomMetricPointToModel(pt uigraphapi.CustomMetricPoint) *model.CustomMetricPoint {
+	return &model.CustomMetricPoint{T: pt.T, V: pt.V}
+}
+
+func CustomMetricToModel(m uigraphapi.CustomMetric) *model.CustomMetric {
+	timeSeries := make([]*model.CustomMetricPoint, len(m.TimeSeries))
+	for i, pt := range m.TimeSeries {
+		timeSeries[i] = CustomMetricPointToModel(pt)
+	}
+	return &model.CustomMetric{
+		Name: m.Name, Value: m.Value, Unit: m.Unit, TimeSeries: timeSeries,
+	}
+}
+
+func LoadTestMetricsToModel(m *uigraphapi.LoadTestMetrics) *model.LoadTestMetrics {
+	if m == nil {
+		return nil
+	}
+	timeSeries := make([]*model.LoadTestTimeSeriesPoint, len(m.TimeSeries))
+	for i, pt := range m.TimeSeries {
+		timeSeries[i] = LoadTestTimeSeriesPointToModel(pt)
+	}
+	perEndpoint := make([]*model.LoadTestEndpointBreakdown, len(m.PerEndpoint))
+	for i, e := range m.PerEndpoint {
+		perEndpoint[i] = LoadTestEndpointBreakdownToModel(e)
+	}
+	customMetrics := make([]*model.CustomMetric, len(m.CustomMetrics))
+	for i, cm := range m.CustomMetrics {
+		customMetrics[i] = CustomMetricToModel(cm)
+	}
+	return &model.LoadTestMetrics{
+		DurationSec: m.DurationSec, TotalRequests: m.TotalRequests, RequestsPerSec: m.RequestsPerSec, ErrorRate: m.ErrorRate,
+		MinLatencyMs: m.MinLatencyMs, AvgLatencyMs: m.AvgLatencyMs, MaxLatencyMs: m.MaxLatencyMs,
+		P50LatencyMs: m.P50LatencyMs, P90LatencyMs: m.P90LatencyMs, P95LatencyMs: m.P95LatencyMs, P99LatencyMs: m.P99LatencyMs,
+		VirtualUsers: m.VirtualUsers, TimeSeries: timeSeries, PerEndpoint: perEndpoint,
+		CustomMetrics: customMetrics, Notes: m.Notes, ScreenshotUrls: m.ScreenshotURLs,
+	}
+}
+
 func TestPackToModel(p *uigraphapi.TestPack) *model.TestPack {
 	return &model.TestPack{
 		TestPackID: p.TestPackID, ServiceID: p.ServiceID, OrgID: p.OrgID,
 		Name: p.Name, Type: p.Type,
+		LoadConfig: LoadPackConfigToModel(p.LoadConfig), BaselineRunID: p.BaselineRunID,
 		CreatedBy: p.CreatedBy, UpdatedBy: p.UpdatedBy, DeletedBy: p.DeletedBy,
 		CreatedByCommitHash: p.CreatedByCommitHash, UpdatedByCommitHash: p.UpdatedByCommitHash,
 		CreatedAt: p.CreatedAt, UpdatedAt: p.UpdatedAt, DeletedAt: p.DeletedAt,
@@ -161,7 +230,8 @@ func TestCaseToModel(tc *uigraphapi.TestCase) *model.TestCase {
 		Title: tc.Title, Order: tc.Order, Type: tc.Type, Description: tc.Description, Priority: tc.Priority,
 		Labels: tc.Labels, LinkedTicket: tc.LinkedTicket, EstimatedDurationMins: tc.EstimatedDurationMins,
 		TestOwner: tc.TestOwner, LinkedMapNodeID: tc.LinkedMapNodeID, IsCritical: tc.IsCritical, EvidenceRequired: tc.EvidenceRequired,
-		Manual: ManualTestCaseToModel(tc.Manual), API: APITestCaseToModel(tc.API),
+		ScreenshotUrls: tc.ScreenshotURLs,
+		Manual:         ManualTestCaseToModel(tc.Manual), API: APITestCaseToModel(tc.API),
 		Graphql: GraphQLTestCaseToModel(tc.GraphQL), Database: DatabaseTestCaseToModel(tc.Database), Grpc: GRPCTestCaseToModel(tc.GRPC),
 		Status: tc.Status, Version: tc.Version, BaselineRunResultID: tc.BaselineRunResultID, Dependencies: tc.Dependencies,
 		CreatedBy: tc.CreatedBy, UpdatedBy: tc.UpdatedBy, DeletedBy: tc.DeletedBy,
@@ -175,6 +245,7 @@ func TestRunToModel(tr *uigraphapi.TestRun) *model.TestRun {
 		TestRunID: tr.TestRunID, TestPackID: tr.TestPackID, ServiceID: tr.ServiceID, OrgID: tr.OrgID,
 		Environment: tr.Environment, ReleaseLabel: tr.ReleaseLabel, StartedAt: tr.StartedAt, CompletedAt: tr.CompletedAt,
 		Status: tr.Status, StartedBy: tr.StartedBy, ExecutedBy: tr.ExecutedBy, ExecutedAt: tr.ExecutedAt, OverallStatus: tr.OverallStatus,
+		LoadMetrics: LoadTestMetricsToModel(tr.LoadMetrics),
 	}
 }
 

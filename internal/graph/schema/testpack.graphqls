@@ -113,12 +113,80 @@ type GRPCTestCase {
     expectError:    Boolean!
 }
 
+type LoadTestThreshold {
+    id:         ID!
+    metric:     String!
+    comparator: String!
+    value:      Float!
+}
+
+type LoadPackConfig {
+    targetEndpoints: [String!]
+    thresholds:      [LoadTestThreshold!]
+}
+
+type LoadTestTimeSeriesPoint {
+    tSec:         Int!
+    rps:          Float!
+    errorRate:    Float!
+    p95LatencyMs: Float!
+    activeVUs:    Int!
+}
+
+type LoadTestEndpointBreakdown {
+    endpoint:       String!
+    method:         String!
+    requestCount:   Int!
+    requestsPerSec: Float!
+    errorRate:      Float!
+    avgLatencyMs:   Float!
+    p50LatencyMs:   Float!
+    p90LatencyMs:   Float!
+    p95LatencyMs:   Float!
+    p99LatencyMs:   Float!
+    apiEndpointId:  ID
+}
+
+type CustomMetricPoint {
+    t: Float!
+    v: Float!
+}
+
+type CustomMetric {
+    name:       String!
+    value:      Float
+    unit:       String
+    timeSeries: [CustomMetricPoint!]
+}
+
+type LoadTestMetrics {
+    durationSec:    Float!
+    totalRequests:  Int!
+    requestsPerSec: Float!
+    errorRate:      Float!
+    minLatencyMs:   Float!
+    avgLatencyMs:   Float!
+    maxLatencyMs:   Float!
+    p50LatencyMs:   Float!
+    p90LatencyMs:   Float!
+    p95LatencyMs:   Float!
+    p99LatencyMs:   Float!
+    virtualUsers:   Int!
+    timeSeries:     [LoadTestTimeSeriesPoint!]
+    perEndpoint:    [LoadTestEndpointBreakdown!]
+    customMetrics:  [CustomMetric!]
+    notes:          String
+    screenshotUrls: [String!]
+}
+
 type TestPack {
     testPackId: ID!
     serviceId:  ID!
     orgId:      ID!
     name:       String!
     type:       String!
+    loadConfig:    LoadPackConfig
+    baselineRunId: ID
     createdBy:  ID!
     updatedBy:  ID
     createdByCommitHash: String
@@ -146,6 +214,7 @@ type TestCase {
     linkedMapNodeId:        ID
     isCritical:             Boolean!
     evidenceRequired:       Boolean!
+    screenshotUrls:         [String!]
     manual:                 ManualTestCase
     api:                    APITestCase
     graphql:                GraphQLTestCase
@@ -179,6 +248,7 @@ type TestRun {
     executedBy:    ID!
     executedAt:    Time!
     overallStatus: String!
+    loadMetrics:   LoadTestMetrics
 }
 
 type TestRunSummary {
@@ -300,14 +370,83 @@ input GRPCTestCaseInput {
     expectError:    Boolean!
 }
 
+input LoadTestThresholdInput {
+    id:         ID!
+    metric:     String!
+    comparator: String!
+    value:      Float!
+}
+
+input LoadPackConfigInput {
+    targetEndpoints: [String!]
+    thresholds:      [LoadTestThresholdInput!]
+}
+
+input LoadTestTimeSeriesPointInput {
+    tSec:         Int!
+    rps:          Float!
+    errorRate:    Float!
+    p95LatencyMs: Float!
+    activeVUs:    Int!
+}
+
+input LoadTestEndpointBreakdownInput {
+    endpoint:       String!
+    method:         String!
+    requestCount:   Int!
+    requestsPerSec: Float!
+    errorRate:      Float!
+    avgLatencyMs:   Float!
+    p50LatencyMs:   Float!
+    p90LatencyMs:   Float!
+    p95LatencyMs:   Float!
+    p99LatencyMs:   Float!
+    apiEndpointId:  ID
+}
+
+input CustomMetricPointInput {
+    t: Float!
+    v: Float!
+}
+
+input CustomMetricInput {
+    name:       String!
+    value:      Float
+    unit:       String
+    timeSeries: [CustomMetricPointInput!]
+}
+
+input LoadTestMetricsInput {
+    durationSec:    Float!
+    totalRequests:  Int!
+    requestsPerSec: Float!
+    errorRate:      Float!
+    minLatencyMs:   Float!
+    avgLatencyMs:   Float!
+    maxLatencyMs:   Float!
+    p50LatencyMs:   Float!
+    p90LatencyMs:   Float!
+    p95LatencyMs:   Float!
+    p99LatencyMs:   Float!
+    virtualUsers:   Int!
+    timeSeries:     [LoadTestTimeSeriesPointInput!]
+    perEndpoint:    [LoadTestEndpointBreakdownInput!]
+    customMetrics:  [CustomMetricInput!]
+    notes:          String
+    screenshotUrls: [String!]
+}
+
 input CreateTestPackInput {
     name: String!
     type: String
+    loadConfig: LoadPackConfigInput
 }
 
 input UpdateTestPackInput {
     name: String
     type: String
+    loadConfig:    LoadPackConfigInput
+    baselineRunId: ID
 }
 
 input CreateTestCaseInput {
@@ -324,6 +463,7 @@ input CreateTestCaseInput {
     linkedMapNodeId:       ID
     isCritical:            Boolean
     evidenceRequired:      Boolean
+    screenshotUrls:        [String!]
     manual:                ManualTestCaseInput
     api:                   APITestCaseInput
     graphql:               GraphQLTestCaseInput
@@ -349,6 +489,7 @@ input UpdateTestCaseInput {
     linkedMapNodeId:       ID
     isCritical:            Boolean
     evidenceRequired:      Boolean
+    screenshotUrls:        [String!]
     manual:                ManualTestCaseInput
     api:                   APITestCaseInput
     graphql:               GraphQLTestCaseInput
@@ -369,12 +510,14 @@ input CreateTestRunInput {
     status:        String
     startedBy:     ID
     overallStatus: String
+    loadMetrics:   LoadTestMetricsInput
 }
 
 input UpdateTestRunInput {
     overallStatus: String
     completedAt:   Time
     status:        String
+    loadMetrics:   LoadTestMetricsInput
 }
 
 input CreateTestRunResultInput {

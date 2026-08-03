@@ -33,7 +33,15 @@ func parseServiceDBSchema(b json.RawMessage) parsedServiceDBSchema {
 	return p
 }
 
+func DocLinkToModel(d uigraphapi.DocLink) *model.DocLink {
+	return &model.DocLink{ID: d.ID, Label: d.Label, URL: d.URL}
+}
+
 func ServiceToModel(s *uigraphapi.Service) *model.Service {
+	docLinks := make([]*model.DocLink, len(s.DocLinks))
+	for i, d := range s.DocLinks {
+		docLinks[i] = DocLinkToModel(d)
+	}
 	return &model.Service{
 		ID: s.ID, OrgID: s.OrgID, FolderID: s.FolderID, TeamID: s.TeamID,
 		Name: s.Name, Description: s.Description,
@@ -42,6 +50,7 @@ func ServiceToModel(s *uigraphapi.Service) *model.Service {
 		SlackChannelURL: s.SlackChannelURL, LastCommitSha: s.LastCommitSha,
 		Labels:    s.Labels,
 		Metadata:  RawStr(s.Metadata),
+		DocLinks:  docLinks,
 		CreatedBy: s.CreatedBy, UpdatedBy: s.UpdatedBy,
 		CreatedByCommitHash: s.CreatedByCommitHash, UpdatedByCommitHash: s.UpdatedByCommitHash,
 		CreatedAt: s.CreatedAt, UpdatedAt: s.UpdatedAt,
@@ -147,6 +156,17 @@ func ServiceDBVersionToModel(orgID string, v uigraphapi.ServiceDBVersion) *model
 	}
 }
 
+func EndpointSLAToModel(s *uigraphapi.EndpointSLA) *model.EndpointSLA {
+	if s == nil {
+		return nil
+	}
+	thresholds := make([]*model.LoadTestThreshold, len(s.Thresholds))
+	for i, t := range s.Thresholds {
+		thresholds[i] = LoadTestThresholdToModel(t)
+	}
+	return &model.EndpointSLA{Thresholds: thresholds}
+}
+
 func APIEndpointToModel(e *uigraphapi.APIEndpoint) *model.APIEndpoint {
 	return &model.APIEndpoint{
 		ID: e.ID, APIGroupID: e.APIGroupID, ServiceID: e.ServiceID, OrgID: e.OrgID,
@@ -158,6 +178,7 @@ func APIEndpointToModel(e *uigraphapi.APIEndpoint) *model.APIEndpoint {
 		ExampleRequests:  RawArrStr(e.ExampleRequests),
 		ExampleResponses: RawArrStr(e.ExampleResponses),
 		Order:            e.Order,
+		SLA:              EndpointSLAToModel(e.SLA),
 		CreatedBy:        e.CreatedBy, UpdatedBy: e.UpdatedBy,
 		CreatedByCommitHash: e.CreatedByCommitHash, UpdatedByCommitHash: e.UpdatedByCommitHash,
 		CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt,

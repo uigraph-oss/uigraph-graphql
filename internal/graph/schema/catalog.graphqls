@@ -52,6 +52,21 @@ type ServicePage {
     totalCount: Int!
 }
 
+# A pasted reference to a doc that lives outside UIGraph (a Confluence page,
+# a Notion doc, a Google Doc, a one-pager) — just a label and a URL, no
+# file upload. Distinct from Doc/ServiceDoc, which model uploaded assets.
+type DocLink {
+    id:    ID!
+    label: String!
+    url:   String!
+}
+
+input DocLinkInput {
+    id:    ID!
+    label: String!
+    url:   String!
+}
+
 type Service {
     id:               ID!
     orgId:            ID!
@@ -69,6 +84,7 @@ type Service {
     lastCommitSha:    String
     labels:           [String!]!
     metadata:         String!
+    docLinks:         [DocLink!]
     createdBy:        ID!
     updatedBy:        ID
     createdByCommitHash: String
@@ -216,6 +232,14 @@ type ServiceDBVersion {
     createdAt:     Time!
 }
 
+type EndpointSLA {
+    thresholds: [LoadTestThreshold!]
+}
+
+input EndpointSLAInput {
+    thresholds: [LoadTestThresholdInput!]
+}
+
 type APIEndpoint {
     id:          ID!
     apiGroupId:  ID!
@@ -233,6 +257,7 @@ type APIEndpoint {
     exampleRequests:  String!
     exampleResponses: String!
     order:       Float!
+    sla:         EndpointSLA
     createdBy:   ID!
     updatedBy:   ID
     createdByCommitHash: String
@@ -260,6 +285,7 @@ input CreateServiceInput {
     slackChannelUrl:  String
     labels:           [String!]
     metadata:         String
+    docLinks:         [DocLinkInput!]
 }
 
 input UpdateServiceInput {
@@ -277,6 +303,7 @@ input UpdateServiceInput {
     lastCommitSha:    String
     labels:           [String!]
     metadata:         String
+    docLinks:         [DocLinkInput!]
 }
 
 input CreateAPIGroupInput {
@@ -368,6 +395,7 @@ input CreateAPIEndpointInput {
     exampleRequests:  String
     exampleResponses: String
     order:       Float
+    sla:         EndpointSLAInput
 }
 
 input UpdateAPIEndpointInput {
@@ -383,4 +411,5 @@ input UpdateAPIEndpointInput {
     exampleRequests:  String
     exampleResponses: String
     order:       Float
+    sla:         EndpointSLAInput
 }
