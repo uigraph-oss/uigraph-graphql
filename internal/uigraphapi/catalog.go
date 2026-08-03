@@ -8,6 +8,12 @@ import (
 	"time"
 )
 
+type DocLink struct {
+	ID    string `json:"id"`
+	Label string `json:"label"`
+	URL   string `json:"url"`
+}
+
 type Service struct {
 	ID                  string          `json:"id"`
 	OrgID               string          `json:"orgId"`
@@ -25,6 +31,7 @@ type Service struct {
 	LastCommitSha       *string         `json:"lastCommitSha,omitempty"`
 	Labels              []string        `json:"labels"`
 	Metadata            json.RawMessage `json:"metadata,omitempty"`
+	DocLinks            []DocLink       `json:"docLinks,omitempty"`
 	CreatedBy           string          `json:"createdBy"`
 	UpdatedBy           *string         `json:"updatedBy,omitempty"`
 	CreatedByCommitHash *string         `json:"createdByCommitHash,omitempty"`
@@ -131,6 +138,10 @@ type ServiceDBVersion struct {
 	CreatedAt           time.Time       `json:"createdAt"`
 }
 
+type EndpointSLA struct {
+	Thresholds []LoadTestThreshold `json:"thresholds,omitempty"`
+}
+
 type APIEndpoint struct {
 	ID                  string          `json:"id"`
 	APIGroupID          string          `json:"apiGroupId"`
@@ -148,6 +159,7 @@ type APIEndpoint struct {
 	ExampleRequests     json.RawMessage `json:"exampleRequests"`
 	ExampleResponses    json.RawMessage `json:"exampleResponses"`
 	Order               float64         `json:"order"`
+	SLA                 *EndpointSLA    `json:"sla,omitempty"`
 	CreatedBy           string          `json:"createdBy"`
 	UpdatedBy           *string         `json:"updatedBy,omitempty"`
 	CreatedByCommitHash *string         `json:"createdByCommitHash,omitempty"`

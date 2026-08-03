@@ -90,20 +90,88 @@ type GRPCTestCase struct {
 	ExpectError    bool        `json:"expectError"`
 }
 
+type LoadTestThreshold struct {
+	ID         string  `json:"id"`
+	Metric     string  `json:"metric"`
+	Comparator string  `json:"comparator"`
+	Value      float64 `json:"value"`
+}
+
+type LoadPackConfig struct {
+	TargetEndpoints []string            `json:"targetEndpoints,omitempty"`
+	Thresholds      []LoadTestThreshold `json:"thresholds,omitempty"`
+}
+
+type LoadTestTimeSeriesPoint struct {
+	TSec         int     `json:"tSec"`
+	RPS          float64 `json:"rps"`
+	ErrorRate    float64 `json:"errorRate"`
+	P95LatencyMs float64 `json:"p95LatencyMs"`
+	ActiveVUs    int     `json:"activeVUs"`
+}
+
+type LoadTestEndpointBreakdown struct {
+	Endpoint       string  `json:"endpoint"`
+	Method         string  `json:"method"`
+	RequestCount   int     `json:"requestCount"`
+	RequestsPerSec float64 `json:"requestsPerSec"`
+	ErrorRate      float64 `json:"errorRate"`
+	AvgLatencyMs   float64 `json:"avgLatencyMs"`
+	P50LatencyMs   float64 `json:"p50LatencyMs"`
+	P90LatencyMs   float64 `json:"p90LatencyMs"`
+	P95LatencyMs   float64 `json:"p95LatencyMs"`
+	P99LatencyMs   float64 `json:"p99LatencyMs"`
+	APIEndpointID  *string `json:"apiEndpointId,omitempty"`
+}
+
+type CustomMetricPoint struct {
+	T float64 `json:"t"`
+	V float64 `json:"v"`
+}
+
+type CustomMetric struct {
+	Name       string              `json:"name"`
+	Value      *float64            `json:"value,omitempty"`
+	Unit       *string             `json:"unit,omitempty"`
+	TimeSeries []CustomMetricPoint `json:"timeSeries,omitempty"`
+}
+
+type LoadTestMetrics struct {
+	DurationSec    float64                     `json:"durationSec"`
+	TotalRequests  int                         `json:"totalRequests"`
+	RequestsPerSec float64                     `json:"requestsPerSec"`
+	ErrorRate      float64                     `json:"errorRate"`
+	MinLatencyMs   float64                     `json:"minLatencyMs"`
+	AvgLatencyMs   float64                     `json:"avgLatencyMs"`
+	MaxLatencyMs   float64                     `json:"maxLatencyMs"`
+	P50LatencyMs   float64                     `json:"p50LatencyMs"`
+	P90LatencyMs   float64                     `json:"p90LatencyMs"`
+	P95LatencyMs   float64                     `json:"p95LatencyMs"`
+	P99LatencyMs   float64                     `json:"p99LatencyMs"`
+	VirtualUsers   int                         `json:"virtualUsers"`
+	TimeSeries     []LoadTestTimeSeriesPoint   `json:"timeSeries,omitempty"`
+	PerEndpoint    []LoadTestEndpointBreakdown `json:"perEndpoint,omitempty"`
+	CustomMetrics  []CustomMetric              `json:"customMetrics,omitempty"`
+	Notes          *string                     `json:"notes,omitempty"`
+	ScreenshotURLs []string                    `json:"screenshotUrls,omitempty"`
+}
+
 type TestPack struct {
-	TestPackID          string     `json:"testPackId"`
-	ServiceID           string     `json:"serviceId"`
-	OrgID               string     `json:"orgId"`
-	Name                string     `json:"name"`
-	Type                string     `json:"type"`
-	CreatedBy           string     `json:"createdBy"`
-	UpdatedBy           *string    `json:"updatedBy,omitempty"`
-	CreatedByCommitHash *string    `json:"createdByCommitHash,omitempty"`
-	UpdatedByCommitHash *string    `json:"updatedByCommitHash,omitempty"`
-	DeletedBy           *string    `json:"deletedBy,omitempty"`
-	CreatedAt           time.Time  `json:"createdAt"`
-	UpdatedAt           time.Time  `json:"updatedAt"`
-	DeletedAt           *time.Time `json:"deletedAt,omitempty"`
+	TestPackID          string          `json:"testPackId"`
+	ServiceID           string          `json:"serviceId"`
+	OrgID               string          `json:"orgId"`
+	Name                string          `json:"name"`
+	Type                string          `json:"type"`
+	LoadConfig          *LoadPackConfig `json:"loadConfig,omitempty"`
+	BaselineRunID       *string         `json:"baselineRunId,omitempty"`
+	CreatedBy           string          `json:"createdBy"`
+	UpdatedBy           *string         `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string         `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string         `json:"updatedByCommitHash,omitempty"`
+	DeletedBy           *string         `json:"deletedBy,omitempty"`
+	CreatedAt           time.Time       `json:"createdAt"`
+	UpdatedAt           time.Time       `json:"updatedAt"`
+	DeletedAt           *time.Time      `json:"deletedAt,omitempty"`
 }
 
 type TestCase struct {
@@ -123,6 +191,7 @@ type TestCase struct {
 	LinkedMapNodeID       *string           `json:"linkedMapNodeId,omitempty"`
 	IsCritical            bool              `json:"isCritical"`
 	EvidenceRequired      bool              `json:"evidenceRequired"`
+	ScreenshotURLs        []string          `json:"screenshotUrls,omitempty"`
 	Manual                *ManualTestCase   `json:"manual,omitempty"`
 	API                   *APITestCase      `json:"api,omitempty"`
 	GraphQL               *GraphQLTestCase  `json:"graphql,omitempty"`
@@ -143,19 +212,20 @@ type TestCase struct {
 }
 
 type TestRun struct {
-	TestRunID     string     `json:"testRunId"`
-	TestPackID    string     `json:"testPackId"`
-	ServiceID     string     `json:"serviceId"`
-	OrgID         string     `json:"orgId"`
-	Environment   string     `json:"environment"`
-	ReleaseLabel  *string    `json:"releaseLabel,omitempty"`
-	StartedAt     *time.Time `json:"startedAt,omitempty"`
-	CompletedAt   *time.Time `json:"completedAt,omitempty"`
-	Status        string     `json:"status"`
-	StartedBy     *string    `json:"startedBy,omitempty"`
-	ExecutedBy    string     `json:"executedBy"`
-	ExecutedAt    time.Time  `json:"executedAt"`
-	OverallStatus string     `json:"overallStatus"`
+	TestRunID     string           `json:"testRunId"`
+	TestPackID    string           `json:"testPackId"`
+	ServiceID     string           `json:"serviceId"`
+	OrgID         string           `json:"orgId"`
+	Environment   string           `json:"environment"`
+	ReleaseLabel  *string          `json:"releaseLabel,omitempty"`
+	StartedAt     *time.Time       `json:"startedAt,omitempty"`
+	CompletedAt   *time.Time       `json:"completedAt,omitempty"`
+	Status        string           `json:"status"`
+	StartedBy     *string          `json:"startedBy,omitempty"`
+	ExecutedBy    string           `json:"executedBy"`
+	ExecutedAt    time.Time        `json:"executedAt"`
+	OverallStatus string           `json:"overallStatus"`
+	LoadMetrics   *LoadTestMetrics `json:"loadMetrics,omitempty"`
 }
 
 type TestRunSummary struct {

@@ -11,28 +11,29 @@ import (
 )
 
 type APIEndpoint struct {
-	ID                  string    `json:"id"`
-	APIGroupID          string    `json:"apiGroupId"`
-	ServiceID           string    `json:"serviceId"`
-	OrgID               string    `json:"orgId"`
-	OperationID         string    `json:"operationId"`
-	Method              string    `json:"method"`
-	Path                string    `json:"path"`
-	Summary             string    `json:"summary"`
-	Description         string    `json:"description"`
-	Tags                []string  `json:"tags"`
-	Parameters          string    `json:"parameters"`
-	RequestBody         string    `json:"requestBody"`
-	Responses           string    `json:"responses"`
-	ExampleRequests     string    `json:"exampleRequests"`
-	ExampleResponses    string    `json:"exampleResponses"`
-	Order               float64   `json:"order"`
-	CreatedBy           string    `json:"createdBy"`
-	UpdatedBy           *string   `json:"updatedBy,omitempty"`
-	CreatedByCommitHash *string   `json:"createdByCommitHash,omitempty"`
-	UpdatedByCommitHash *string   `json:"updatedByCommitHash,omitempty"`
-	CreatedAt           time.Time `json:"createdAt"`
-	UpdatedAt           time.Time `json:"updatedAt"`
+	ID                  string       `json:"id"`
+	APIGroupID          string       `json:"apiGroupId"`
+	ServiceID           string       `json:"serviceId"`
+	OrgID               string       `json:"orgId"`
+	OperationID         string       `json:"operationId"`
+	Method              string       `json:"method"`
+	Path                string       `json:"path"`
+	Summary             string       `json:"summary"`
+	Description         string       `json:"description"`
+	Tags                []string     `json:"tags"`
+	Parameters          string       `json:"parameters"`
+	RequestBody         string       `json:"requestBody"`
+	Responses           string       `json:"responses"`
+	ExampleRequests     string       `json:"exampleRequests"`
+	ExampleResponses    string       `json:"exampleResponses"`
+	Order               float64      `json:"order"`
+	SLA                 *EndpointSLA `json:"sla,omitempty"`
+	CreatedBy           string       `json:"createdBy"`
+	UpdatedBy           *string      `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string      `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string      `json:"updatedByCommitHash,omitempty"`
+	CreatedAt           time.Time    `json:"createdAt"`
+	UpdatedAt           time.Time    `json:"updatedAt"`
 }
 
 type APIGroup struct {
@@ -281,18 +282,19 @@ type Components struct {
 }
 
 type CreateAPIEndpointInput struct {
-	OperationID      *string  `json:"operationId,omitempty"`
-	Method           string   `json:"method"`
-	Path             string   `json:"path"`
-	Summary          *string  `json:"summary,omitempty"`
-	Description      *string  `json:"description,omitempty"`
-	Tags             []string `json:"tags,omitempty"`
-	Parameters       *string  `json:"parameters,omitempty"`
-	RequestBody      *string  `json:"requestBody,omitempty"`
-	Responses        *string  `json:"responses,omitempty"`
-	ExampleRequests  *string  `json:"exampleRequests,omitempty"`
-	ExampleResponses *string  `json:"exampleResponses,omitempty"`
-	Order            *float64 `json:"order,omitempty"`
+	OperationID      *string           `json:"operationId,omitempty"`
+	Method           string            `json:"method"`
+	Path             string            `json:"path"`
+	Summary          *string           `json:"summary,omitempty"`
+	Description      *string           `json:"description,omitempty"`
+	Tags             []string          `json:"tags,omitempty"`
+	Parameters       *string           `json:"parameters,omitempty"`
+	RequestBody      *string           `json:"requestBody,omitempty"`
+	Responses        *string           `json:"responses,omitempty"`
+	ExampleRequests  *string           `json:"exampleRequests,omitempty"`
+	ExampleResponses *string           `json:"exampleResponses,omitempty"`
+	Order            *float64          `json:"order,omitempty"`
+	SLA              *EndpointSLAInput `json:"sla,omitempty"`
 }
 
 type CreateAPIGroupInput struct {
@@ -580,19 +582,20 @@ type CreateServiceDocInput struct {
 }
 
 type CreateServiceInput struct {
-	Name            string   `json:"name"`
-	Description     *string  `json:"description,omitempty"`
-	Status          *string  `json:"status,omitempty"`
-	Tier            *string  `json:"tier,omitempty"`
-	Category        *string  `json:"category,omitempty"`
-	Language        *string  `json:"language,omitempty"`
-	FolderID        *string  `json:"folderId,omitempty"`
-	TeamID          *string  `json:"teamId,omitempty"`
-	GitRepoURL      *string  `json:"gitRepoUrl,omitempty"`
-	JiraProjectURL  *string  `json:"jiraProjectUrl,omitempty"`
-	SlackChannelURL *string  `json:"slackChannelUrl,omitempty"`
-	Labels          []string `json:"labels,omitempty"`
-	Metadata        *string  `json:"metadata,omitempty"`
+	Name            string          `json:"name"`
+	Description     *string         `json:"description,omitempty"`
+	Status          *string         `json:"status,omitempty"`
+	Tier            *string         `json:"tier,omitempty"`
+	Category        *string         `json:"category,omitempty"`
+	Language        *string         `json:"language,omitempty"`
+	FolderID        *string         `json:"folderId,omitempty"`
+	TeamID          *string         `json:"teamId,omitempty"`
+	GitRepoURL      *string         `json:"gitRepoUrl,omitempty"`
+	JiraProjectURL  *string         `json:"jiraProjectUrl,omitempty"`
+	SlackChannelURL *string         `json:"slackChannelUrl,omitempty"`
+	Labels          []string        `json:"labels,omitempty"`
+	Metadata        *string         `json:"metadata,omitempty"`
+	DocLinks        []*DocLinkInput `json:"docLinks,omitempty"`
 }
 
 type CreateTeamInput struct {
@@ -614,6 +617,7 @@ type CreateTestCaseInput struct {
 	LinkedMapNodeID       *string                `json:"linkedMapNodeId,omitempty"`
 	IsCritical            *bool                  `json:"isCritical,omitempty"`
 	EvidenceRequired      *bool                  `json:"evidenceRequired,omitempty"`
+	ScreenshotUrls        []string               `json:"screenshotUrls,omitempty"`
 	Manual                *ManualTestCaseInput   `json:"manual,omitempty"`
 	API                   *APITestCaseInput      `json:"api,omitempty"`
 	Graphql               *GraphQLTestCaseInput  `json:"graphql,omitempty"`
@@ -626,19 +630,21 @@ type CreateTestCaseInput struct {
 }
 
 type CreateTestPackInput struct {
-	Name string  `json:"name"`
-	Type *string `json:"type,omitempty"`
+	Name       string               `json:"name"`
+	Type       *string              `json:"type,omitempty"`
+	LoadConfig *LoadPackConfigInput `json:"loadConfig,omitempty"`
 }
 
 type CreateTestRunInput struct {
-	TestPackID    string     `json:"testPackId"`
-	Environment   string     `json:"environment"`
-	ReleaseLabel  *string    `json:"releaseLabel,omitempty"`
-	StartedAt     *time.Time `json:"startedAt,omitempty"`
-	CompletedAt   *time.Time `json:"completedAt,omitempty"`
-	Status        *string    `json:"status,omitempty"`
-	StartedBy     *string    `json:"startedBy,omitempty"`
-	OverallStatus *string    `json:"overallStatus,omitempty"`
+	TestPackID    string                `json:"testPackId"`
+	Environment   string                `json:"environment"`
+	ReleaseLabel  *string               `json:"releaseLabel,omitempty"`
+	StartedAt     *time.Time            `json:"startedAt,omitempty"`
+	CompletedAt   *time.Time            `json:"completedAt,omitempty"`
+	Status        *string               `json:"status,omitempty"`
+	StartedBy     *string               `json:"startedBy,omitempty"`
+	OverallStatus *string               `json:"overallStatus,omitempty"`
+	LoadMetrics   *LoadTestMetricsInput `json:"loadMetrics,omitempty"`
 }
 
 type CreateTestRunResultInput struct {
@@ -690,6 +696,30 @@ type CustomComponentInput struct {
 	Description     *string                      `json:"description,omitempty"`
 	IsActive        *bool                        `json:"isActive,omitempty"`
 	ComponentFields []*CustomComponentFieldInput `json:"componentFields,omitempty"`
+}
+
+type CustomMetric struct {
+	Name       string               `json:"name"`
+	Value      *float64             `json:"value,omitempty"`
+	Unit       *string              `json:"unit,omitempty"`
+	TimeSeries []*CustomMetricPoint `json:"timeSeries,omitempty"`
+}
+
+type CustomMetricInput struct {
+	Name       string                    `json:"name"`
+	Value      *float64                  `json:"value,omitempty"`
+	Unit       *string                   `json:"unit,omitempty"`
+	TimeSeries []*CustomMetricPointInput `json:"timeSeries,omitempty"`
+}
+
+type CustomMetricPoint struct {
+	T float64 `json:"t"`
+	V float64 `json:"v"`
+}
+
+type CustomMetricPointInput struct {
+	T float64 `json:"t"`
+	V float64 `json:"v"`
 }
 
 type DailySavings struct {
@@ -859,9 +889,29 @@ type Doc struct {
 	UpdatedAt      time.Time `json:"updatedAt"`
 }
 
+type DocLink struct {
+	ID    string `json:"id"`
+	Label string `json:"label"`
+	URL   string `json:"url"`
+}
+
+type DocLinkInput struct {
+	ID    string `json:"id"`
+	Label string `json:"label"`
+	URL   string `json:"url"`
+}
+
 type DocPage struct {
 	Items      []*Doc `json:"items"`
 	TotalCount int    `json:"totalCount"`
+}
+
+type EndpointSLA struct {
+	Thresholds []*LoadTestThreshold `json:"thresholds,omitempty"`
+}
+
+type EndpointSLAInput struct {
+	Thresholds []*LoadTestThresholdInput `json:"thresholds,omitempty"`
 }
 
 type FileDownload struct {
@@ -1094,6 +1144,114 @@ type LDAPConfig struct {
 	AllowSignUp       bool      `json:"allowSignUp"`
 	CreatedAt         time.Time `json:"createdAt"`
 	UpdatedAt         time.Time `json:"updatedAt"`
+}
+
+type LoadPackConfig struct {
+	TargetEndpoints []string             `json:"targetEndpoints,omitempty"`
+	Thresholds      []*LoadTestThreshold `json:"thresholds,omitempty"`
+}
+
+type LoadPackConfigInput struct {
+	TargetEndpoints []string                  `json:"targetEndpoints,omitempty"`
+	Thresholds      []*LoadTestThresholdInput `json:"thresholds,omitempty"`
+}
+
+type LoadTestEndpointBreakdown struct {
+	Endpoint       string  `json:"endpoint"`
+	Method         string  `json:"method"`
+	RequestCount   int     `json:"requestCount"`
+	RequestsPerSec float64 `json:"requestsPerSec"`
+	ErrorRate      float64 `json:"errorRate"`
+	AvgLatencyMs   float64 `json:"avgLatencyMs"`
+	P50LatencyMs   float64 `json:"p50LatencyMs"`
+	P90LatencyMs   float64 `json:"p90LatencyMs"`
+	P95LatencyMs   float64 `json:"p95LatencyMs"`
+	P99LatencyMs   float64 `json:"p99LatencyMs"`
+	APIEndpointID  *string `json:"apiEndpointId,omitempty"`
+}
+
+type LoadTestEndpointBreakdownInput struct {
+	Endpoint       string  `json:"endpoint"`
+	Method         string  `json:"method"`
+	RequestCount   int     `json:"requestCount"`
+	RequestsPerSec float64 `json:"requestsPerSec"`
+	ErrorRate      float64 `json:"errorRate"`
+	AvgLatencyMs   float64 `json:"avgLatencyMs"`
+	P50LatencyMs   float64 `json:"p50LatencyMs"`
+	P90LatencyMs   float64 `json:"p90LatencyMs"`
+	P95LatencyMs   float64 `json:"p95LatencyMs"`
+	P99LatencyMs   float64 `json:"p99LatencyMs"`
+	APIEndpointID  *string `json:"apiEndpointId,omitempty"`
+}
+
+type LoadTestMetrics struct {
+	DurationSec    float64                      `json:"durationSec"`
+	TotalRequests  int                          `json:"totalRequests"`
+	RequestsPerSec float64                      `json:"requestsPerSec"`
+	ErrorRate      float64                      `json:"errorRate"`
+	MinLatencyMs   float64                      `json:"minLatencyMs"`
+	AvgLatencyMs   float64                      `json:"avgLatencyMs"`
+	MaxLatencyMs   float64                      `json:"maxLatencyMs"`
+	P50LatencyMs   float64                      `json:"p50LatencyMs"`
+	P90LatencyMs   float64                      `json:"p90LatencyMs"`
+	P95LatencyMs   float64                      `json:"p95LatencyMs"`
+	P99LatencyMs   float64                      `json:"p99LatencyMs"`
+	VirtualUsers   int                          `json:"virtualUsers"`
+	TimeSeries     []*LoadTestTimeSeriesPoint   `json:"timeSeries,omitempty"`
+	PerEndpoint    []*LoadTestEndpointBreakdown `json:"perEndpoint,omitempty"`
+	CustomMetrics  []*CustomMetric              `json:"customMetrics,omitempty"`
+	Notes          *string                      `json:"notes,omitempty"`
+	ScreenshotUrls []string                     `json:"screenshotUrls,omitempty"`
+}
+
+type LoadTestMetricsInput struct {
+	DurationSec    float64                           `json:"durationSec"`
+	TotalRequests  int                               `json:"totalRequests"`
+	RequestsPerSec float64                           `json:"requestsPerSec"`
+	ErrorRate      float64                           `json:"errorRate"`
+	MinLatencyMs   float64                           `json:"minLatencyMs"`
+	AvgLatencyMs   float64                           `json:"avgLatencyMs"`
+	MaxLatencyMs   float64                           `json:"maxLatencyMs"`
+	P50LatencyMs   float64                           `json:"p50LatencyMs"`
+	P90LatencyMs   float64                           `json:"p90LatencyMs"`
+	P95LatencyMs   float64                           `json:"p95LatencyMs"`
+	P99LatencyMs   float64                           `json:"p99LatencyMs"`
+	VirtualUsers   int                               `json:"virtualUsers"`
+	TimeSeries     []*LoadTestTimeSeriesPointInput   `json:"timeSeries,omitempty"`
+	PerEndpoint    []*LoadTestEndpointBreakdownInput `json:"perEndpoint,omitempty"`
+	CustomMetrics  []*CustomMetricInput              `json:"customMetrics,omitempty"`
+	Notes          *string                           `json:"notes,omitempty"`
+	ScreenshotUrls []string                          `json:"screenshotUrls,omitempty"`
+}
+
+type LoadTestThreshold struct {
+	ID         string  `json:"id"`
+	Metric     string  `json:"metric"`
+	Comparator string  `json:"comparator"`
+	Value      float64 `json:"value"`
+}
+
+type LoadTestThresholdInput struct {
+	ID         string  `json:"id"`
+	Metric     string  `json:"metric"`
+	Comparator string  `json:"comparator"`
+	Value      float64 `json:"value"`
+}
+
+type LoadTestTimeSeriesPoint struct {
+	TSec         int     `json:"tSec"`
+	Rps          float64 `json:"rps"`
+	ErrorRate    float64 `json:"errorRate"`
+	P95LatencyMs float64 `json:"p95LatencyMs"`
+	ActiveVUs    int     `json:"activeVUs"`
+}
+
+type LoadTestTimeSeriesPointInput struct {
+	TSec         int     `json:"tSec"`
+	Rps          float64 `json:"rps"`
+	ErrorRate    float64 `json:"errorRate"`
+	P95LatencyMs float64 `json:"p95LatencyMs"`
+	ActiveVUs    int     `json:"activeVUs"`
 }
 
 type ManualTestCase struct {
@@ -1527,6 +1685,7 @@ type Service struct {
 	LastCommitSha       *string       `json:"lastCommitSha,omitempty"`
 	Labels              []string      `json:"labels"`
 	Metadata            string        `json:"metadata"`
+	DocLinks            []*DocLink    `json:"docLinks,omitempty"`
 	CreatedBy           string        `json:"createdBy"`
 	UpdatedBy           *string       `json:"updatedBy,omitempty"`
 	CreatedByCommitHash *string       `json:"createdByCommitHash,omitempty"`
@@ -1734,6 +1893,7 @@ type TestCase struct {
 	LinkedMapNodeID       *string           `json:"linkedMapNodeId,omitempty"`
 	IsCritical            bool              `json:"isCritical"`
 	EvidenceRequired      bool              `json:"evidenceRequired"`
+	ScreenshotUrls        []string          `json:"screenshotUrls,omitempty"`
 	Manual                *ManualTestCase   `json:"manual,omitempty"`
 	API                   *APITestCase      `json:"api,omitempty"`
 	Graphql               *GraphQLTestCase  `json:"graphql,omitempty"`
@@ -1766,35 +1926,38 @@ type TestCaseStepInput struct {
 }
 
 type TestPack struct {
-	TestPackID          string     `json:"testPackId"`
-	ServiceID           string     `json:"serviceId"`
-	OrgID               string     `json:"orgId"`
-	Name                string     `json:"name"`
-	Type                string     `json:"type"`
-	CreatedBy           string     `json:"createdBy"`
-	UpdatedBy           *string    `json:"updatedBy,omitempty"`
-	CreatedByCommitHash *string    `json:"createdByCommitHash,omitempty"`
-	UpdatedByCommitHash *string    `json:"updatedByCommitHash,omitempty"`
-	DeletedBy           *string    `json:"deletedBy,omitempty"`
-	CreatedAt           time.Time  `json:"createdAt"`
-	UpdatedAt           time.Time  `json:"updatedAt"`
-	DeletedAt           *time.Time `json:"deletedAt,omitempty"`
+	TestPackID          string          `json:"testPackId"`
+	ServiceID           string          `json:"serviceId"`
+	OrgID               string          `json:"orgId"`
+	Name                string          `json:"name"`
+	Type                string          `json:"type"`
+	LoadConfig          *LoadPackConfig `json:"loadConfig,omitempty"`
+	BaselineRunID       *string         `json:"baselineRunId,omitempty"`
+	CreatedBy           string          `json:"createdBy"`
+	UpdatedBy           *string         `json:"updatedBy,omitempty"`
+	CreatedByCommitHash *string         `json:"createdByCommitHash,omitempty"`
+	UpdatedByCommitHash *string         `json:"updatedByCommitHash,omitempty"`
+	DeletedBy           *string         `json:"deletedBy,omitempty"`
+	CreatedAt           time.Time       `json:"createdAt"`
+	UpdatedAt           time.Time       `json:"updatedAt"`
+	DeletedAt           *time.Time      `json:"deletedAt,omitempty"`
 }
 
 type TestRun struct {
-	TestRunID     string     `json:"testRunId"`
-	TestPackID    string     `json:"testPackId"`
-	ServiceID     string     `json:"serviceId"`
-	OrgID         string     `json:"orgId"`
-	Environment   string     `json:"environment"`
-	ReleaseLabel  *string    `json:"releaseLabel,omitempty"`
-	StartedAt     *time.Time `json:"startedAt,omitempty"`
-	CompletedAt   *time.Time `json:"completedAt,omitempty"`
-	Status        string     `json:"status"`
-	StartedBy     *string    `json:"startedBy,omitempty"`
-	ExecutedBy    string     `json:"executedBy"`
-	ExecutedAt    time.Time  `json:"executedAt"`
-	OverallStatus string     `json:"overallStatus"`
+	TestRunID     string           `json:"testRunId"`
+	TestPackID    string           `json:"testPackId"`
+	ServiceID     string           `json:"serviceId"`
+	OrgID         string           `json:"orgId"`
+	Environment   string           `json:"environment"`
+	ReleaseLabel  *string          `json:"releaseLabel,omitempty"`
+	StartedAt     *time.Time       `json:"startedAt,omitempty"`
+	CompletedAt   *time.Time       `json:"completedAt,omitempty"`
+	Status        string           `json:"status"`
+	StartedBy     *string          `json:"startedBy,omitempty"`
+	ExecutedBy    string           `json:"executedBy"`
+	ExecutedAt    time.Time        `json:"executedAt"`
+	OverallStatus string           `json:"overallStatus"`
+	LoadMetrics   *LoadTestMetrics `json:"loadMetrics,omitempty"`
 }
 
 type TestRunResult struct {
@@ -1866,18 +2029,19 @@ type UIMapPage struct {
 }
 
 type UpdateAPIEndpointInput struct {
-	OperationID      *string  `json:"operationId,omitempty"`
-	Method           *string  `json:"method,omitempty"`
-	Path             *string  `json:"path,omitempty"`
-	Summary          *string  `json:"summary,omitempty"`
-	Description      *string  `json:"description,omitempty"`
-	Tags             []string `json:"tags,omitempty"`
-	Parameters       *string  `json:"parameters,omitempty"`
-	RequestBody      *string  `json:"requestBody,omitempty"`
-	Responses        *string  `json:"responses,omitempty"`
-	ExampleRequests  *string  `json:"exampleRequests,omitempty"`
-	ExampleResponses *string  `json:"exampleResponses,omitempty"`
-	Order            *float64 `json:"order,omitempty"`
+	OperationID      *string           `json:"operationId,omitempty"`
+	Method           *string           `json:"method,omitempty"`
+	Path             *string           `json:"path,omitempty"`
+	Summary          *string           `json:"summary,omitempty"`
+	Description      *string           `json:"description,omitempty"`
+	Tags             []string          `json:"tags,omitempty"`
+	Parameters       *string           `json:"parameters,omitempty"`
+	RequestBody      *string           `json:"requestBody,omitempty"`
+	Responses        *string           `json:"responses,omitempty"`
+	ExampleRequests  *string           `json:"exampleRequests,omitempty"`
+	ExampleResponses *string           `json:"exampleResponses,omitempty"`
+	Order            *float64          `json:"order,omitempty"`
+	SLA              *EndpointSLAInput `json:"sla,omitempty"`
 }
 
 type UpdateAPIGroupInput struct {
@@ -2115,20 +2279,21 @@ type UpdateServiceDependenciesInput struct {
 }
 
 type UpdateServiceInput struct {
-	Name            *string  `json:"name,omitempty"`
-	Description     *string  `json:"description,omitempty"`
-	Status          *string  `json:"status,omitempty"`
-	Tier            *string  `json:"tier,omitempty"`
-	Category        *string  `json:"category,omitempty"`
-	Language        *string  `json:"language,omitempty"`
-	FolderID        *string  `json:"folderId,omitempty"`
-	TeamID          *string  `json:"teamId,omitempty"`
-	GitRepoURL      *string  `json:"gitRepoUrl,omitempty"`
-	JiraProjectURL  *string  `json:"jiraProjectUrl,omitempty"`
-	SlackChannelURL *string  `json:"slackChannelUrl,omitempty"`
-	LastCommitSha   *string  `json:"lastCommitSha,omitempty"`
-	Labels          []string `json:"labels,omitempty"`
-	Metadata        *string  `json:"metadata,omitempty"`
+	Name            *string         `json:"name,omitempty"`
+	Description     *string         `json:"description,omitempty"`
+	Status          *string         `json:"status,omitempty"`
+	Tier            *string         `json:"tier,omitempty"`
+	Category        *string         `json:"category,omitempty"`
+	Language        *string         `json:"language,omitempty"`
+	FolderID        *string         `json:"folderId,omitempty"`
+	TeamID          *string         `json:"teamId,omitempty"`
+	GitRepoURL      *string         `json:"gitRepoUrl,omitempty"`
+	JiraProjectURL  *string         `json:"jiraProjectUrl,omitempty"`
+	SlackChannelURL *string         `json:"slackChannelUrl,omitempty"`
+	LastCommitSha   *string         `json:"lastCommitSha,omitempty"`
+	Labels          []string        `json:"labels,omitempty"`
+	Metadata        *string         `json:"metadata,omitempty"`
+	DocLinks        []*DocLinkInput `json:"docLinks,omitempty"`
 }
 
 type UpdateTeamInput struct {
@@ -2150,6 +2315,7 @@ type UpdateTestCaseInput struct {
 	LinkedMapNodeID       *string                `json:"linkedMapNodeId,omitempty"`
 	IsCritical            *bool                  `json:"isCritical,omitempty"`
 	EvidenceRequired      *bool                  `json:"evidenceRequired,omitempty"`
+	ScreenshotUrls        []string               `json:"screenshotUrls,omitempty"`
 	Manual                *ManualTestCaseInput   `json:"manual,omitempty"`
 	API                   *APITestCaseInput      `json:"api,omitempty"`
 	Graphql               *GraphQLTestCaseInput  `json:"graphql,omitempty"`
@@ -2162,14 +2328,17 @@ type UpdateTestCaseInput struct {
 }
 
 type UpdateTestPackInput struct {
-	Name *string `json:"name,omitempty"`
-	Type *string `json:"type,omitempty"`
+	Name          *string              `json:"name,omitempty"`
+	Type          *string              `json:"type,omitempty"`
+	LoadConfig    *LoadPackConfigInput `json:"loadConfig,omitempty"`
+	BaselineRunID *string              `json:"baselineRunId,omitempty"`
 }
 
 type UpdateTestRunInput struct {
-	OverallStatus *string    `json:"overallStatus,omitempty"`
-	CompletedAt   *time.Time `json:"completedAt,omitempty"`
-	Status        *string    `json:"status,omitempty"`
+	OverallStatus *string               `json:"overallStatus,omitempty"`
+	CompletedAt   *time.Time            `json:"completedAt,omitempty"`
+	Status        *string               `json:"status,omitempty"`
+	LoadMetrics   *LoadTestMetricsInput `json:"loadMetrics,omitempty"`
 }
 
 type UpdateTestRunResultInput struct {

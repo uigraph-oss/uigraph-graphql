@@ -80,6 +80,7 @@ type ComplexityRoot struct {
 		Path                func(childComplexity int) int
 		RequestBody         func(childComplexity int) int
 		Responses           func(childComplexity int) int
+		SLA                 func(childComplexity int) int
 		ServiceID           func(childComplexity int) int
 		Summary             func(childComplexity int) int
 		Tags                func(childComplexity int) int
@@ -295,6 +296,18 @@ type ComplexityRoot struct {
 		Token            func(childComplexity int) int
 	}
 
+	CustomMetric struct {
+		Name       func(childComplexity int) int
+		TimeSeries func(childComplexity int) int
+		Unit       func(childComplexity int) int
+		Value      func(childComplexity int) int
+	}
+
+	CustomMetricPoint struct {
+		T func(childComplexity int) int
+		V func(childComplexity int) int
+	}
+
 	DailySavings struct {
 		CostRawUsd        func(childComplexity int) int
 		CostSavedUsd      func(childComplexity int) int
@@ -453,9 +466,19 @@ type ComplexityRoot struct {
 		UpdatedByActor func(childComplexity int) int
 	}
 
+	DocLink struct {
+		ID    func(childComplexity int) int
+		Label func(childComplexity int) int
+		URL   func(childComplexity int) int
+	}
+
 	DocPage struct {
 		Items      func(childComplexity int) int
 		TotalCount func(childComplexity int) int
+	}
+
+	EndpointSLA struct {
+		Thresholds func(childComplexity int) int
 	}
 
 	FileDownload struct {
@@ -657,6 +680,60 @@ type ComplexityRoot struct {
 		UpdatedAt         func(childComplexity int) int
 		UseSsl            func(childComplexity int) int
 		UsernameAttribute func(childComplexity int) int
+	}
+
+	LoadPackConfig struct {
+		TargetEndpoints func(childComplexity int) int
+		Thresholds      func(childComplexity int) int
+	}
+
+	LoadTestEndpointBreakdown struct {
+		APIEndpointID  func(childComplexity int) int
+		AvgLatencyMs   func(childComplexity int) int
+		Endpoint       func(childComplexity int) int
+		ErrorRate      func(childComplexity int) int
+		Method         func(childComplexity int) int
+		P50LatencyMs   func(childComplexity int) int
+		P90LatencyMs   func(childComplexity int) int
+		P95LatencyMs   func(childComplexity int) int
+		P99LatencyMs   func(childComplexity int) int
+		RequestCount   func(childComplexity int) int
+		RequestsPerSec func(childComplexity int) int
+	}
+
+	LoadTestMetrics struct {
+		AvgLatencyMs   func(childComplexity int) int
+		CustomMetrics  func(childComplexity int) int
+		DurationSec    func(childComplexity int) int
+		ErrorRate      func(childComplexity int) int
+		MaxLatencyMs   func(childComplexity int) int
+		MinLatencyMs   func(childComplexity int) int
+		Notes          func(childComplexity int) int
+		P50LatencyMs   func(childComplexity int) int
+		P90LatencyMs   func(childComplexity int) int
+		P95LatencyMs   func(childComplexity int) int
+		P99LatencyMs   func(childComplexity int) int
+		PerEndpoint    func(childComplexity int) int
+		RequestsPerSec func(childComplexity int) int
+		ScreenshotUrls func(childComplexity int) int
+		TimeSeries     func(childComplexity int) int
+		TotalRequests  func(childComplexity int) int
+		VirtualUsers   func(childComplexity int) int
+	}
+
+	LoadTestThreshold struct {
+		Comparator func(childComplexity int) int
+		ID         func(childComplexity int) int
+		Metric     func(childComplexity int) int
+		Value      func(childComplexity int) int
+	}
+
+	LoadTestTimeSeriesPoint struct {
+		ActiveVUs    func(childComplexity int) int
+		ErrorRate    func(childComplexity int) int
+		P95LatencyMs func(childComplexity int) int
+		Rps          func(childComplexity int) int
+		TSec         func(childComplexity int) int
 	}
 
 	ManualTestCase struct {
@@ -1338,6 +1415,7 @@ type ComplexityRoot struct {
 		CreatedByActor      func(childComplexity int) int
 		CreatedByCommitHash func(childComplexity int) int
 		Description         func(childComplexity int) int
+		DocLinks            func(childComplexity int) int
 		FolderID            func(childComplexity int) int
 		GitRepoURL          func(childComplexity int) int
 		ID                  func(childComplexity int) int
@@ -1523,6 +1601,7 @@ type ComplexityRoot struct {
 		Order                 func(childComplexity int) int
 		OrgID                 func(childComplexity int) int
 		Priority              func(childComplexity int) int
+		ScreenshotUrls        func(childComplexity int) int
 		ServiceID             func(childComplexity int) int
 		Status                func(childComplexity int) int
 		TestCaseID            func(childComplexity int) int
@@ -1543,11 +1622,13 @@ type ComplexityRoot struct {
 	}
 
 	TestPack struct {
+		BaselineRunID       func(childComplexity int) int
 		CreatedAt           func(childComplexity int) int
 		CreatedBy           func(childComplexity int) int
 		CreatedByCommitHash func(childComplexity int) int
 		DeletedAt           func(childComplexity int) int
 		DeletedBy           func(childComplexity int) int
+		LoadConfig          func(childComplexity int) int
 		Name                func(childComplexity int) int
 		OrgID               func(childComplexity int) int
 		ServiceID           func(childComplexity int) int
@@ -1563,6 +1644,7 @@ type ComplexityRoot struct {
 		Environment   func(childComplexity int) int
 		ExecutedAt    func(childComplexity int) int
 		ExecutedBy    func(childComplexity int) int
+		LoadMetrics   func(childComplexity int) int
 		OrgID         func(childComplexity int) int
 		OverallStatus func(childComplexity int) int
 		ReleaseLabel  func(childComplexity int) int
@@ -2128,6 +2210,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.APIEndpoint.Responses(childComplexity), true
+
+	case "APIEndpoint.sla":
+		if e.complexity.APIEndpoint.SLA == nil {
+			break
+		}
+
+		return e.complexity.APIEndpoint.SLA(childComplexity), true
 
 	case "APIEndpoint.serviceId":
 		if e.complexity.APIEndpoint.ServiceID == nil {
@@ -3200,6 +3289,48 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.CreatedToken.Token(childComplexity), true
 
+	case "CustomMetric.name":
+		if e.complexity.CustomMetric.Name == nil {
+			break
+		}
+
+		return e.complexity.CustomMetric.Name(childComplexity), true
+
+	case "CustomMetric.timeSeries":
+		if e.complexity.CustomMetric.TimeSeries == nil {
+			break
+		}
+
+		return e.complexity.CustomMetric.TimeSeries(childComplexity), true
+
+	case "CustomMetric.unit":
+		if e.complexity.CustomMetric.Unit == nil {
+			break
+		}
+
+		return e.complexity.CustomMetric.Unit(childComplexity), true
+
+	case "CustomMetric.value":
+		if e.complexity.CustomMetric.Value == nil {
+			break
+		}
+
+		return e.complexity.CustomMetric.Value(childComplexity), true
+
+	case "CustomMetricPoint.t":
+		if e.complexity.CustomMetricPoint.T == nil {
+			break
+		}
+
+		return e.complexity.CustomMetricPoint.T(childComplexity), true
+
+	case "CustomMetricPoint.v":
+		if e.complexity.CustomMetricPoint.V == nil {
+			break
+		}
+
+		return e.complexity.CustomMetricPoint.V(childComplexity), true
+
 	case "DailySavings.costRawUsd":
 		if e.complexity.DailySavings.CostRawUsd == nil {
 			break
@@ -4012,6 +4143,27 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Doc.UpdatedByActor(childComplexity), true
 
+	case "DocLink.id":
+		if e.complexity.DocLink.ID == nil {
+			break
+		}
+
+		return e.complexity.DocLink.ID(childComplexity), true
+
+	case "DocLink.label":
+		if e.complexity.DocLink.Label == nil {
+			break
+		}
+
+		return e.complexity.DocLink.Label(childComplexity), true
+
+	case "DocLink.url":
+		if e.complexity.DocLink.URL == nil {
+			break
+		}
+
+		return e.complexity.DocLink.URL(childComplexity), true
+
 	case "DocPage.items":
 		if e.complexity.DocPage.Items == nil {
 			break
@@ -4025,6 +4177,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.DocPage.TotalCount(childComplexity), true
+
+	case "EndpointSLA.thresholds":
+		if e.complexity.EndpointSLA.Thresholds == nil {
+			break
+		}
+
+		return e.complexity.EndpointSLA.Thresholds(childComplexity), true
 
 	case "FileDownload.apiGroupId":
 		if e.complexity.FileDownload.APIGroupID == nil {
@@ -5117,6 +5276,279 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.LDAPConfig.UsernameAttribute(childComplexity), true
+
+	case "LoadPackConfig.targetEndpoints":
+		if e.complexity.LoadPackConfig.TargetEndpoints == nil {
+			break
+		}
+
+		return e.complexity.LoadPackConfig.TargetEndpoints(childComplexity), true
+
+	case "LoadPackConfig.thresholds":
+		if e.complexity.LoadPackConfig.Thresholds == nil {
+			break
+		}
+
+		return e.complexity.LoadPackConfig.Thresholds(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.apiEndpointId":
+		if e.complexity.LoadTestEndpointBreakdown.APIEndpointID == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.APIEndpointID(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.avgLatencyMs":
+		if e.complexity.LoadTestEndpointBreakdown.AvgLatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.AvgLatencyMs(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.endpoint":
+		if e.complexity.LoadTestEndpointBreakdown.Endpoint == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.Endpoint(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.errorRate":
+		if e.complexity.LoadTestEndpointBreakdown.ErrorRate == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.ErrorRate(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.method":
+		if e.complexity.LoadTestEndpointBreakdown.Method == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.Method(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.p50LatencyMs":
+		if e.complexity.LoadTestEndpointBreakdown.P50LatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.P50LatencyMs(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.p90LatencyMs":
+		if e.complexity.LoadTestEndpointBreakdown.P90LatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.P90LatencyMs(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.p95LatencyMs":
+		if e.complexity.LoadTestEndpointBreakdown.P95LatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.P95LatencyMs(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.p99LatencyMs":
+		if e.complexity.LoadTestEndpointBreakdown.P99LatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.P99LatencyMs(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.requestCount":
+		if e.complexity.LoadTestEndpointBreakdown.RequestCount == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.RequestCount(childComplexity), true
+
+	case "LoadTestEndpointBreakdown.requestsPerSec":
+		if e.complexity.LoadTestEndpointBreakdown.RequestsPerSec == nil {
+			break
+		}
+
+		return e.complexity.LoadTestEndpointBreakdown.RequestsPerSec(childComplexity), true
+
+	case "LoadTestMetrics.avgLatencyMs":
+		if e.complexity.LoadTestMetrics.AvgLatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.AvgLatencyMs(childComplexity), true
+
+	case "LoadTestMetrics.customMetrics":
+		if e.complexity.LoadTestMetrics.CustomMetrics == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.CustomMetrics(childComplexity), true
+
+	case "LoadTestMetrics.durationSec":
+		if e.complexity.LoadTestMetrics.DurationSec == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.DurationSec(childComplexity), true
+
+	case "LoadTestMetrics.errorRate":
+		if e.complexity.LoadTestMetrics.ErrorRate == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.ErrorRate(childComplexity), true
+
+	case "LoadTestMetrics.maxLatencyMs":
+		if e.complexity.LoadTestMetrics.MaxLatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.MaxLatencyMs(childComplexity), true
+
+	case "LoadTestMetrics.minLatencyMs":
+		if e.complexity.LoadTestMetrics.MinLatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.MinLatencyMs(childComplexity), true
+
+	case "LoadTestMetrics.notes":
+		if e.complexity.LoadTestMetrics.Notes == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.Notes(childComplexity), true
+
+	case "LoadTestMetrics.p50LatencyMs":
+		if e.complexity.LoadTestMetrics.P50LatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.P50LatencyMs(childComplexity), true
+
+	case "LoadTestMetrics.p90LatencyMs":
+		if e.complexity.LoadTestMetrics.P90LatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.P90LatencyMs(childComplexity), true
+
+	case "LoadTestMetrics.p95LatencyMs":
+		if e.complexity.LoadTestMetrics.P95LatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.P95LatencyMs(childComplexity), true
+
+	case "LoadTestMetrics.p99LatencyMs":
+		if e.complexity.LoadTestMetrics.P99LatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.P99LatencyMs(childComplexity), true
+
+	case "LoadTestMetrics.perEndpoint":
+		if e.complexity.LoadTestMetrics.PerEndpoint == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.PerEndpoint(childComplexity), true
+
+	case "LoadTestMetrics.requestsPerSec":
+		if e.complexity.LoadTestMetrics.RequestsPerSec == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.RequestsPerSec(childComplexity), true
+
+	case "LoadTestMetrics.screenshotUrls":
+		if e.complexity.LoadTestMetrics.ScreenshotUrls == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.ScreenshotUrls(childComplexity), true
+
+	case "LoadTestMetrics.timeSeries":
+		if e.complexity.LoadTestMetrics.TimeSeries == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.TimeSeries(childComplexity), true
+
+	case "LoadTestMetrics.totalRequests":
+		if e.complexity.LoadTestMetrics.TotalRequests == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.TotalRequests(childComplexity), true
+
+	case "LoadTestMetrics.virtualUsers":
+		if e.complexity.LoadTestMetrics.VirtualUsers == nil {
+			break
+		}
+
+		return e.complexity.LoadTestMetrics.VirtualUsers(childComplexity), true
+
+	case "LoadTestThreshold.comparator":
+		if e.complexity.LoadTestThreshold.Comparator == nil {
+			break
+		}
+
+		return e.complexity.LoadTestThreshold.Comparator(childComplexity), true
+
+	case "LoadTestThreshold.id":
+		if e.complexity.LoadTestThreshold.ID == nil {
+			break
+		}
+
+		return e.complexity.LoadTestThreshold.ID(childComplexity), true
+
+	case "LoadTestThreshold.metric":
+		if e.complexity.LoadTestThreshold.Metric == nil {
+			break
+		}
+
+		return e.complexity.LoadTestThreshold.Metric(childComplexity), true
+
+	case "LoadTestThreshold.value":
+		if e.complexity.LoadTestThreshold.Value == nil {
+			break
+		}
+
+		return e.complexity.LoadTestThreshold.Value(childComplexity), true
+
+	case "LoadTestTimeSeriesPoint.activeVUs":
+		if e.complexity.LoadTestTimeSeriesPoint.ActiveVUs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestTimeSeriesPoint.ActiveVUs(childComplexity), true
+
+	case "LoadTestTimeSeriesPoint.errorRate":
+		if e.complexity.LoadTestTimeSeriesPoint.ErrorRate == nil {
+			break
+		}
+
+		return e.complexity.LoadTestTimeSeriesPoint.ErrorRate(childComplexity), true
+
+	case "LoadTestTimeSeriesPoint.p95LatencyMs":
+		if e.complexity.LoadTestTimeSeriesPoint.P95LatencyMs == nil {
+			break
+		}
+
+		return e.complexity.LoadTestTimeSeriesPoint.P95LatencyMs(childComplexity), true
+
+	case "LoadTestTimeSeriesPoint.rps":
+		if e.complexity.LoadTestTimeSeriesPoint.Rps == nil {
+			break
+		}
+
+		return e.complexity.LoadTestTimeSeriesPoint.Rps(childComplexity), true
+
+	case "LoadTestTimeSeriesPoint.tSec":
+		if e.complexity.LoadTestTimeSeriesPoint.TSec == nil {
+			break
+		}
+
+		return e.complexity.LoadTestTimeSeriesPoint.TSec(childComplexity), true
 
 	case "ManualTestCase.expectedOutcome":
 		if e.complexity.ManualTestCase.ExpectedOutcome == nil {
@@ -10384,6 +10816,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Service.Description(childComplexity), true
 
+	case "Service.docLinks":
+		if e.complexity.Service.DocLinks == nil {
+			break
+		}
+
+		return e.complexity.Service.DocLinks(childComplexity), true
+
 	case "Service.folderId":
 		if e.complexity.Service.FolderID == nil {
 			break
@@ -11385,6 +11824,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.TestCase.Priority(childComplexity), true
 
+	case "TestCase.screenshotUrls":
+		if e.complexity.TestCase.ScreenshotUrls == nil {
+			break
+		}
+
+		return e.complexity.TestCase.ScreenshotUrls(childComplexity), true
+
 	case "TestCase.serviceId":
 		if e.complexity.TestCase.ServiceID == nil {
 			break
@@ -11483,6 +11929,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.TestCaseStep.Order(childComplexity), true
 
+	case "TestPack.baselineRunId":
+		if e.complexity.TestPack.BaselineRunID == nil {
+			break
+		}
+
+		return e.complexity.TestPack.BaselineRunID(childComplexity), true
+
 	case "TestPack.createdAt":
 		if e.complexity.TestPack.CreatedAt == nil {
 			break
@@ -11517,6 +11970,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.TestPack.DeletedBy(childComplexity), true
+
+	case "TestPack.loadConfig":
+		if e.complexity.TestPack.LoadConfig == nil {
+			break
+		}
+
+		return e.complexity.TestPack.LoadConfig(childComplexity), true
 
 	case "TestPack.name":
 		if e.complexity.TestPack.Name == nil {
@@ -11601,6 +12061,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.TestRun.ExecutedBy(childComplexity), true
+
+	case "TestRun.loadMetrics":
+		if e.complexity.TestRun.LoadMetrics == nil {
+			break
+		}
+
+		return e.complexity.TestRun.LoadMetrics(childComplexity), true
 
 	case "TestRun.orgId":
 		if e.complexity.TestRun.OrgID == nil {
@@ -12219,10 +12686,19 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCreateUserInput,
 		ec.unmarshalInputCustomComponentFieldInput,
 		ec.unmarshalInputCustomComponentInput,
+		ec.unmarshalInputCustomMetricInput,
+		ec.unmarshalInputCustomMetricPointInput,
 		ec.unmarshalInputDatabaseTestCaseInput,
+		ec.unmarshalInputDocLinkInput,
+		ec.unmarshalInputEndpointSLAInput,
 		ec.unmarshalInputGRPCTestCaseInput,
 		ec.unmarshalInputGraphQLTestCaseInput,
 		ec.unmarshalInputKeyValueInput,
+		ec.unmarshalInputLoadPackConfigInput,
+		ec.unmarshalInputLoadTestEndpointBreakdownInput,
+		ec.unmarshalInputLoadTestMetricsInput,
+		ec.unmarshalInputLoadTestThresholdInput,
+		ec.unmarshalInputLoadTestTimeSeriesPointInput,
 		ec.unmarshalInputManualTestCaseInput,
 		ec.unmarshalInputServiceDependencyInput,
 		ec.unmarshalInputSyncAPIGroupInput,
@@ -12728,6 +13204,21 @@ type ServicePage {
     totalCount: Int!
 }
 
+# A pasted reference to a doc that lives outside UIGraph (a Confluence page,
+# a Notion doc, a Google Doc, a one-pager) — just a label and a URL, no
+# file upload. Distinct from Doc/ServiceDoc, which model uploaded assets.
+type DocLink {
+    id:    ID!
+    label: String!
+    url:   String!
+}
+
+input DocLinkInput {
+    id:    ID!
+    label: String!
+    url:   String!
+}
+
 type Service {
     id:               ID!
     orgId:            ID!
@@ -12745,6 +13236,7 @@ type Service {
     lastCommitSha:    String
     labels:           [String!]!
     metadata:         String!
+    docLinks:         [DocLink!]
     createdBy:        ID!
     updatedBy:        ID
     createdByCommitHash: String
@@ -12892,6 +13384,14 @@ type ServiceDBVersion {
     createdAt:     Time!
 }
 
+type EndpointSLA {
+    thresholds: [LoadTestThreshold!]
+}
+
+input EndpointSLAInput {
+    thresholds: [LoadTestThresholdInput!]
+}
+
 type APIEndpoint {
     id:          ID!
     apiGroupId:  ID!
@@ -12909,6 +13409,7 @@ type APIEndpoint {
     exampleRequests:  String!
     exampleResponses: String!
     order:       Float!
+    sla:         EndpointSLA
     createdBy:   ID!
     updatedBy:   ID
     createdByCommitHash: String
@@ -12936,6 +13437,7 @@ input CreateServiceInput {
     slackChannelUrl:  String
     labels:           [String!]
     metadata:         String
+    docLinks:         [DocLinkInput!]
 }
 
 input UpdateServiceInput {
@@ -12953,6 +13455,7 @@ input UpdateServiceInput {
     lastCommitSha:    String
     labels:           [String!]
     metadata:         String
+    docLinks:         [DocLinkInput!]
 }
 
 input CreateAPIGroupInput {
@@ -13044,6 +13547,7 @@ input CreateAPIEndpointInput {
     exampleRequests:  String
     exampleResponses: String
     order:       Float
+    sla:         EndpointSLAInput
 }
 
 input UpdateAPIEndpointInput {
@@ -13059,6 +13563,7 @@ input UpdateAPIEndpointInput {
     exampleRequests:  String
     exampleResponses: String
     order:       Float
+    sla:         EndpointSLAInput
 }
 `, BuiltIn: false},
 	{Name: "../schema/chat.graphqls", Input: `extend type Query {
@@ -14422,12 +14927,80 @@ type GRPCTestCase {
     expectError:    Boolean!
 }
 
+type LoadTestThreshold {
+    id:         ID!
+    metric:     String!
+    comparator: String!
+    value:      Float!
+}
+
+type LoadPackConfig {
+    targetEndpoints: [String!]
+    thresholds:      [LoadTestThreshold!]
+}
+
+type LoadTestTimeSeriesPoint {
+    tSec:         Int!
+    rps:          Float!
+    errorRate:    Float!
+    p95LatencyMs: Float!
+    activeVUs:    Int!
+}
+
+type LoadTestEndpointBreakdown {
+    endpoint:       String!
+    method:         String!
+    requestCount:   Int!
+    requestsPerSec: Float!
+    errorRate:      Float!
+    avgLatencyMs:   Float!
+    p50LatencyMs:   Float!
+    p90LatencyMs:   Float!
+    p95LatencyMs:   Float!
+    p99LatencyMs:   Float!
+    apiEndpointId:  ID
+}
+
+type CustomMetricPoint {
+    t: Float!
+    v: Float!
+}
+
+type CustomMetric {
+    name:       String!
+    value:      Float
+    unit:       String
+    timeSeries: [CustomMetricPoint!]
+}
+
+type LoadTestMetrics {
+    durationSec:    Float!
+    totalRequests:  Int!
+    requestsPerSec: Float!
+    errorRate:      Float!
+    minLatencyMs:   Float!
+    avgLatencyMs:   Float!
+    maxLatencyMs:   Float!
+    p50LatencyMs:   Float!
+    p90LatencyMs:   Float!
+    p95LatencyMs:   Float!
+    p99LatencyMs:   Float!
+    virtualUsers:   Int!
+    timeSeries:     [LoadTestTimeSeriesPoint!]
+    perEndpoint:    [LoadTestEndpointBreakdown!]
+    customMetrics:  [CustomMetric!]
+    notes:          String
+    screenshotUrls: [String!]
+}
+
 type TestPack {
     testPackId: ID!
     serviceId:  ID!
     orgId:      ID!
     name:       String!
     type:       String!
+    loadConfig:    LoadPackConfig
+    baselineRunId: ID
     createdBy:  ID!
     updatedBy:  ID
     createdByCommitHash: String
@@ -14455,6 +15028,7 @@ type TestCase {
     linkedMapNodeId:        ID
     isCritical:             Boolean!
     evidenceRequired:       Boolean!
+    screenshotUrls:         [String!]
     manual:                 ManualTestCase
     api:                    APITestCase
     graphql:                GraphQLTestCase
@@ -14488,6 +15062,7 @@ type TestRun {
     executedBy:    ID!
     executedAt:    Time!
     overallStatus: String!
+    loadMetrics:   LoadTestMetrics
 }
 
 type TestRunSummary {
@@ -14609,14 +15184,83 @@ input GRPCTestCaseInput {
     expectError:    Boolean!
 }
 
+input LoadTestThresholdInput {
+    id:         ID!
+    metric:     String!
+    comparator: String!
+    value:      Float!
+}
+
+input LoadPackConfigInput {
+    targetEndpoints: [String!]
+    thresholds:      [LoadTestThresholdInput!]
+}
+
+input LoadTestTimeSeriesPointInput {
+    tSec:         Int!
+    rps:          Float!
+    errorRate:    Float!
+    p95LatencyMs: Float!
+    activeVUs:    Int!
+}
+
+input LoadTestEndpointBreakdownInput {
+    endpoint:       String!
+    method:         String!
+    requestCount:   Int!
+    requestsPerSec: Float!
+    errorRate:      Float!
+    avgLatencyMs:   Float!
+    p50LatencyMs:   Float!
+    p90LatencyMs:   Float!
+    p95LatencyMs:   Float!
+    p99LatencyMs:   Float!
+    apiEndpointId:  ID
+}
+
+input CustomMetricPointInput {
+    t: Float!
+    v: Float!
+}
+
+input CustomMetricInput {
+    name:       String!
+    value:      Float
+    unit:       String
+    timeSeries: [CustomMetricPointInput!]
+}
+
+input LoadTestMetricsInput {
+    durationSec:    Float!
+    totalRequests:  Int!
+    requestsPerSec: Float!
+    errorRate:      Float!
+    minLatencyMs:   Float!
+    avgLatencyMs:   Float!
+    maxLatencyMs:   Float!
+    p50LatencyMs:   Float!
+    p90LatencyMs:   Float!
+    p95LatencyMs:   Float!
+    p99LatencyMs:   Float!
+    virtualUsers:   Int!
+    timeSeries:     [LoadTestTimeSeriesPointInput!]
+    perEndpoint:    [LoadTestEndpointBreakdownInput!]
+    customMetrics:  [CustomMetricInput!]
+    notes:          String
+    screenshotUrls: [String!]
+}
+
 input CreateTestPackInput {
     name: String!
     type: String
+    loadConfig: LoadPackConfigInput
 }
 
 input UpdateTestPackInput {
     name: String
     type: String
+    loadConfig:    LoadPackConfigInput
+    baselineRunId: ID
 }
 
 input CreateTestCaseInput {
@@ -14633,6 +15277,7 @@ input CreateTestCaseInput {
     linkedMapNodeId:       ID
     isCritical:            Boolean
     evidenceRequired:      Boolean
+    screenshotUrls:        [String!]
     manual:                ManualTestCaseInput
     api:                   APITestCaseInput
     graphql:               GraphQLTestCaseInput
@@ -14658,6 +15303,7 @@ input UpdateTestCaseInput {
     linkedMapNodeId:       ID
     isCritical:            Boolean
     evidenceRequired:      Boolean
+    screenshotUrls:        [String!]
     manual:                ManualTestCaseInput
     api:                   APITestCaseInput
     graphql:               GraphQLTestCaseInput
@@ -14678,12 +15324,14 @@ input CreateTestRunInput {
     status:        String
     startedBy:     ID
     overallStatus: String
+    loadMetrics:   LoadTestMetricsInput
 }
 
 input UpdateTestRunInput {
     overallStatus: String
     completedAt:   Time
     status:        String
+    loadMetrics:   LoadTestMetricsInput
 }
 
 input CreateTestRunResultInput {
@@ -33271,6 +33919,51 @@ func (ec *executionContext) fieldContext_APIEndpoint_order(_ context.Context, fi
 	return fc, nil
 }
 
+func (ec *executionContext) _APIEndpoint_sla(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_APIEndpoint_sla(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SLA, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.EndpointSLA)
+	fc.Result = res
+	return ec.marshalOEndpointSLA2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐEndpointSLA(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_APIEndpoint_sla(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "APIEndpoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "thresholds":
+				return ec.fieldContext_EndpointSLA_thresholds(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type EndpointSLA", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _APIEndpoint_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.APIEndpoint) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 	if err != nil {
@@ -40037,6 +40730,267 @@ func (ec *executionContext) fieldContext_CreatedToken_createdAt(_ context.Contex
 	return fc, nil
 }
 
+func (ec *executionContext) _CustomMetric_name(ctx context.Context, field graphql.CollectedField, obj *model.CustomMetric) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CustomMetric_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CustomMetric_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CustomMetric",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CustomMetric_value(ctx context.Context, field graphql.CollectedField, obj *model.CustomMetric) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CustomMetric_value(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Value, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*float64)
+	fc.Result = res
+	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CustomMetric_value(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CustomMetric",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CustomMetric_unit(ctx context.Context, field graphql.CollectedField, obj *model.CustomMetric) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CustomMetric_unit(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Unit, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CustomMetric_unit(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CustomMetric",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CustomMetric_timeSeries(ctx context.Context, field graphql.CollectedField, obj *model.CustomMetric) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CustomMetric_timeSeries(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TimeSeries, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.CustomMetricPoint)
+	fc.Result = res
+	return ec.marshalOCustomMetricPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricPointᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CustomMetric_timeSeries(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CustomMetric",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "t":
+				return ec.fieldContext_CustomMetricPoint_t(ctx, field)
+			case "v":
+				return ec.fieldContext_CustomMetricPoint_v(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CustomMetricPoint", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CustomMetricPoint_t(ctx context.Context, field graphql.CollectedField, obj *model.CustomMetricPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CustomMetricPoint_t(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.T, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CustomMetricPoint_t(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CustomMetricPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CustomMetricPoint_v(ctx context.Context, field graphql.CollectedField, obj *model.CustomMetricPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CustomMetricPoint_v(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.V, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CustomMetricPoint_v(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CustomMetricPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _DailySavings_date(ctx context.Context, field graphql.CollectedField, obj *model.DailySavings) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DailySavings_date(ctx, field)
 	if err != nil {
@@ -45159,6 +46113,138 @@ func (ec *executionContext) fieldContext_Doc_updatedAt(_ context.Context, field 
 	return fc, nil
 }
 
+func (ec *executionContext) _DocLink_id(ctx context.Context, field graphql.CollectedField, obj *model.DocLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DocLink_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DocLink_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DocLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DocLink_label(ctx context.Context, field graphql.CollectedField, obj *model.DocLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DocLink_label(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Label, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DocLink_label(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DocLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DocLink_url(ctx context.Context, field graphql.CollectedField, obj *model.DocLink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DocLink_url(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.URL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DocLink_url(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DocLink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _DocPage_items(ctx context.Context, field graphql.CollectedField, obj *model.DocPage) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DocPage_items(ctx, field)
 	if err != nil {
@@ -45276,6 +46362,57 @@ func (ec *executionContext) fieldContext_DocPage_totalCount(_ context.Context, f
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _EndpointSLA_thresholds(ctx context.Context, field graphql.CollectedField, obj *model.EndpointSLA) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_EndpointSLA_thresholds(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Thresholds, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.LoadTestThreshold)
+	fc.Result = res
+	return ec.marshalOLoadTestThreshold2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThresholdᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_EndpointSLA_thresholds(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "EndpointSLA",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_LoadTestThreshold_id(ctx, field)
+			case "metric":
+				return ec.fieldContext_LoadTestThreshold_metric(ctx, field)
+			case "comparator":
+				return ec.fieldContext_LoadTestThreshold_comparator(ctx, field)
+			case "value":
+				return ec.fieldContext_LoadTestThreshold_value(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LoadTestThreshold", field.Name)
 		},
 	}
 	return fc, nil
@@ -52202,6 +53339,1754 @@ func (ec *executionContext) fieldContext_LDAPConfig_updatedAt(_ context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadPackConfig_targetEndpoints(ctx context.Context, field graphql.CollectedField, obj *model.LoadPackConfig) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadPackConfig_targetEndpoints(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TargetEndpoints, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadPackConfig_targetEndpoints(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadPackConfig",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadPackConfig_thresholds(ctx context.Context, field graphql.CollectedField, obj *model.LoadPackConfig) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadPackConfig_thresholds(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Thresholds, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.LoadTestThreshold)
+	fc.Result = res
+	return ec.marshalOLoadTestThreshold2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThresholdᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadPackConfig_thresholds(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadPackConfig",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_LoadTestThreshold_id(ctx, field)
+			case "metric":
+				return ec.fieldContext_LoadTestThreshold_metric(ctx, field)
+			case "comparator":
+				return ec.fieldContext_LoadTestThreshold_comparator(ctx, field)
+			case "value":
+				return ec.fieldContext_LoadTestThreshold_value(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LoadTestThreshold", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_endpoint(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_endpoint(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Endpoint, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_endpoint(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_method(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_method(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Method, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_method(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_requestCount(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_requestCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RequestCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_requestCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_requestsPerSec(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_requestsPerSec(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RequestsPerSec, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_requestsPerSec(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_errorRate(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_errorRate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ErrorRate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_errorRate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_avgLatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_avgLatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvgLatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_avgLatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_p50LatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_p50LatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.P50LatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_p50LatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_p90LatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_p90LatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.P90LatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_p90LatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_p95LatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_p95LatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.P95LatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_p95LatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_p99LatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_p99LatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.P99LatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_p99LatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown_apiEndpointId(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestEndpointBreakdown) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestEndpointBreakdown_apiEndpointId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.APIEndpointID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestEndpointBreakdown_apiEndpointId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestEndpointBreakdown",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_durationSec(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_durationSec(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DurationSec, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_durationSec(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_totalRequests(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_totalRequests(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalRequests, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_totalRequests(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_requestsPerSec(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_requestsPerSec(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RequestsPerSec, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_requestsPerSec(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_errorRate(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_errorRate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ErrorRate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_errorRate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_minLatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_minLatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MinLatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_minLatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_avgLatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_avgLatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvgLatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_avgLatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_maxLatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_maxLatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MaxLatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_maxLatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_p50LatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_p50LatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.P50LatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_p50LatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_p90LatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_p90LatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.P90LatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_p90LatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_p95LatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_p95LatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.P95LatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_p95LatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_p99LatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_p99LatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.P99LatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_p99LatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_virtualUsers(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_virtualUsers(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.VirtualUsers, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_virtualUsers(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_timeSeries(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_timeSeries(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TimeSeries, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.LoadTestTimeSeriesPoint)
+	fc.Result = res
+	return ec.marshalOLoadTestTimeSeriesPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestTimeSeriesPointᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_timeSeries(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "tSec":
+				return ec.fieldContext_LoadTestTimeSeriesPoint_tSec(ctx, field)
+			case "rps":
+				return ec.fieldContext_LoadTestTimeSeriesPoint_rps(ctx, field)
+			case "errorRate":
+				return ec.fieldContext_LoadTestTimeSeriesPoint_errorRate(ctx, field)
+			case "p95LatencyMs":
+				return ec.fieldContext_LoadTestTimeSeriesPoint_p95LatencyMs(ctx, field)
+			case "activeVUs":
+				return ec.fieldContext_LoadTestTimeSeriesPoint_activeVUs(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LoadTestTimeSeriesPoint", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_perEndpoint(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_perEndpoint(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PerEndpoint, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.LoadTestEndpointBreakdown)
+	fc.Result = res
+	return ec.marshalOLoadTestEndpointBreakdown2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestEndpointBreakdownᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_perEndpoint(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "endpoint":
+				return ec.fieldContext_LoadTestEndpointBreakdown_endpoint(ctx, field)
+			case "method":
+				return ec.fieldContext_LoadTestEndpointBreakdown_method(ctx, field)
+			case "requestCount":
+				return ec.fieldContext_LoadTestEndpointBreakdown_requestCount(ctx, field)
+			case "requestsPerSec":
+				return ec.fieldContext_LoadTestEndpointBreakdown_requestsPerSec(ctx, field)
+			case "errorRate":
+				return ec.fieldContext_LoadTestEndpointBreakdown_errorRate(ctx, field)
+			case "avgLatencyMs":
+				return ec.fieldContext_LoadTestEndpointBreakdown_avgLatencyMs(ctx, field)
+			case "p50LatencyMs":
+				return ec.fieldContext_LoadTestEndpointBreakdown_p50LatencyMs(ctx, field)
+			case "p90LatencyMs":
+				return ec.fieldContext_LoadTestEndpointBreakdown_p90LatencyMs(ctx, field)
+			case "p95LatencyMs":
+				return ec.fieldContext_LoadTestEndpointBreakdown_p95LatencyMs(ctx, field)
+			case "p99LatencyMs":
+				return ec.fieldContext_LoadTestEndpointBreakdown_p99LatencyMs(ctx, field)
+			case "apiEndpointId":
+				return ec.fieldContext_LoadTestEndpointBreakdown_apiEndpointId(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LoadTestEndpointBreakdown", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_customMetrics(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_customMetrics(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CustomMetrics, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.CustomMetric)
+	fc.Result = res
+	return ec.marshalOCustomMetric2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_customMetrics(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "name":
+				return ec.fieldContext_CustomMetric_name(ctx, field)
+			case "value":
+				return ec.fieldContext_CustomMetric_value(ctx, field)
+			case "unit":
+				return ec.fieldContext_CustomMetric_unit(ctx, field)
+			case "timeSeries":
+				return ec.fieldContext_CustomMetric_timeSeries(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type CustomMetric", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_notes(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_notes(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Notes, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_notes(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestMetrics_screenshotUrls(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestMetrics) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestMetrics_screenshotUrls(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ScreenshotUrls, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestMetrics_screenshotUrls(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestMetrics",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestThreshold_id(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestThreshold) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestThreshold_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestThreshold_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestThreshold",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestThreshold_metric(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestThreshold) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestThreshold_metric(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Metric, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestThreshold_metric(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestThreshold",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestThreshold_comparator(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestThreshold) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestThreshold_comparator(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Comparator, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestThreshold_comparator(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestThreshold",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestThreshold_value(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestThreshold) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestThreshold_value(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Value, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestThreshold_value(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestThreshold",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestTimeSeriesPoint_tSec(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestTimeSeriesPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestTimeSeriesPoint_tSec(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TSec, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestTimeSeriesPoint_tSec(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestTimeSeriesPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestTimeSeriesPoint_rps(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestTimeSeriesPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestTimeSeriesPoint_rps(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Rps, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestTimeSeriesPoint_rps(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestTimeSeriesPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestTimeSeriesPoint_errorRate(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestTimeSeriesPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestTimeSeriesPoint_errorRate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ErrorRate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestTimeSeriesPoint_errorRate(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestTimeSeriesPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestTimeSeriesPoint_p95LatencyMs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestTimeSeriesPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestTimeSeriesPoint_p95LatencyMs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.P95LatencyMs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestTimeSeriesPoint_p95LatencyMs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestTimeSeriesPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LoadTestTimeSeriesPoint_activeVUs(ctx context.Context, field graphql.CollectedField, obj *model.LoadTestTimeSeriesPoint) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LoadTestTimeSeriesPoint_activeVUs(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ActiveVUs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LoadTestTimeSeriesPoint_activeVUs(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LoadTestTimeSeriesPoint",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -62055,6 +64940,8 @@ func (ec *executionContext) fieldContext_Mutation_createService(ctx context.Cont
 				return ec.fieldContext_Service_labels(ctx, field)
 			case "metadata":
 				return ec.fieldContext_Service_metadata(ctx, field)
+			case "docLinks":
+				return ec.fieldContext_Service_docLinks(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
@@ -62162,6 +65049,8 @@ func (ec *executionContext) fieldContext_Mutation_updateService(ctx context.Cont
 				return ec.fieldContext_Service_labels(ctx, field)
 			case "metadata":
 				return ec.fieldContext_Service_metadata(ctx, field)
+			case "docLinks":
+				return ec.fieldContext_Service_docLinks(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
@@ -63408,6 +66297,8 @@ func (ec *executionContext) fieldContext_Mutation_createAPIEndpoint(ctx context.
 				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
+			case "sla":
+				return ec.fieldContext_APIEndpoint_sla(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
@@ -63509,6 +66400,8 @@ func (ec *executionContext) fieldContext_Mutation_updateAPIEndpoint(ctx context.
 				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
+			case "sla":
+				return ec.fieldContext_APIEndpoint_sla(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
@@ -69523,6 +72416,10 @@ func (ec *executionContext) fieldContext_Mutation_createTestPack(ctx context.Con
 				return ec.fieldContext_TestPack_name(ctx, field)
 			case "type":
 				return ec.fieldContext_TestPack_type(ctx, field)
+			case "loadConfig":
+				return ec.fieldContext_TestPack_loadConfig(ctx, field)
+			case "baselineRunId":
+				return ec.fieldContext_TestPack_baselineRunId(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
@@ -69606,6 +72503,10 @@ func (ec *executionContext) fieldContext_Mutation_updateTestPack(ctx context.Con
 				return ec.fieldContext_TestPack_name(ctx, field)
 			case "type":
 				return ec.fieldContext_TestPack_type(ctx, field)
+			case "loadConfig":
+				return ec.fieldContext_TestPack_loadConfig(ctx, field)
+			case "baselineRunId":
+				return ec.fieldContext_TestPack_baselineRunId(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
@@ -69766,6 +72667,8 @@ func (ec *executionContext) fieldContext_Mutation_createTestCase(ctx context.Con
 				return ec.fieldContext_TestCase_isCritical(ctx, field)
 			case "evidenceRequired":
 				return ec.fieldContext_TestCase_evidenceRequired(ctx, field)
+			case "screenshotUrls":
+				return ec.fieldContext_TestCase_screenshotUrls(ctx, field)
 			case "manual":
 				return ec.fieldContext_TestCase_manual(ctx, field)
 			case "api":
@@ -69889,6 +72792,8 @@ func (ec *executionContext) fieldContext_Mutation_updateTestCase(ctx context.Con
 				return ec.fieldContext_TestCase_isCritical(ctx, field)
 			case "evidenceRequired":
 				return ec.fieldContext_TestCase_evidenceRequired(ctx, field)
+			case "screenshotUrls":
+				return ec.fieldContext_TestCase_screenshotUrls(ctx, field)
 			case "manual":
 				return ec.fieldContext_TestCase_manual(ctx, field)
 			case "api":
@@ -70061,6 +72966,8 @@ func (ec *executionContext) fieldContext_Mutation_createTestRun(ctx context.Cont
 				return ec.fieldContext_TestRun_executedAt(ctx, field)
 			case "overallStatus":
 				return ec.fieldContext_TestRun_overallStatus(ctx, field)
+			case "loadMetrics":
+				return ec.fieldContext_TestRun_loadMetrics(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type TestRun", field.Name)
 		},
@@ -70144,6 +73051,8 @@ func (ec *executionContext) fieldContext_Mutation_updateTestRun(ctx context.Cont
 				return ec.fieldContext_TestRun_executedAt(ctx, field)
 			case "overallStatus":
 				return ec.fieldContext_TestRun_overallStatus(ctx, field)
+			case "loadMetrics":
+				return ec.fieldContext_TestRun_loadMetrics(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type TestRun", field.Name)
 		},
@@ -74353,6 +77262,8 @@ func (ec *executionContext) fieldContext_Query_service(ctx context.Context, fiel
 				return ec.fieldContext_Service_labels(ctx, field)
 			case "metadata":
 				return ec.fieldContext_Service_metadata(ctx, field)
+			case "docLinks":
+				return ec.fieldContext_Service_docLinks(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
@@ -75158,6 +78069,8 @@ func (ec *executionContext) fieldContext_Query_apiEndpoints(ctx context.Context,
 				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
+			case "sla":
+				return ec.fieldContext_APIEndpoint_sla(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
@@ -75259,6 +78172,8 @@ func (ec *executionContext) fieldContext_Query_apiEndpoint(ctx context.Context, 
 				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
+			case "sla":
+				return ec.fieldContext_APIEndpoint_sla(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
@@ -75360,6 +78275,8 @@ func (ec *executionContext) fieldContext_Query_apiEndpointById(ctx context.Conte
 				return ec.fieldContext_APIEndpoint_exampleResponses(ctx, field)
 			case "order":
 				return ec.fieldContext_APIEndpoint_order(ctx, field)
+			case "sla":
+				return ec.fieldContext_APIEndpoint_sla(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_APIEndpoint_createdBy(ctx, field)
 			case "updatedBy":
@@ -80234,6 +83151,10 @@ func (ec *executionContext) fieldContext_Query_testPacks(ctx context.Context, fi
 				return ec.fieldContext_TestPack_name(ctx, field)
 			case "type":
 				return ec.fieldContext_TestPack_type(ctx, field)
+			case "loadConfig":
+				return ec.fieldContext_TestPack_loadConfig(ctx, field)
+			case "baselineRunId":
+				return ec.fieldContext_TestPack_baselineRunId(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
@@ -80317,6 +83238,10 @@ func (ec *executionContext) fieldContext_Query_testPackById(ctx context.Context,
 				return ec.fieldContext_TestPack_name(ctx, field)
 			case "type":
 				return ec.fieldContext_TestPack_type(ctx, field)
+			case "loadConfig":
+				return ec.fieldContext_TestPack_loadConfig(ctx, field)
+			case "baselineRunId":
+				return ec.fieldContext_TestPack_baselineRunId(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_TestPack_createdBy(ctx, field)
 			case "updatedBy":
@@ -80422,6 +83347,8 @@ func (ec *executionContext) fieldContext_Query_testCases(ctx context.Context, fi
 				return ec.fieldContext_TestCase_isCritical(ctx, field)
 			case "evidenceRequired":
 				return ec.fieldContext_TestCase_evidenceRequired(ctx, field)
+			case "screenshotUrls":
+				return ec.fieldContext_TestCase_screenshotUrls(ctx, field)
 			case "manual":
 				return ec.fieldContext_TestCase_manual(ctx, field)
 			case "api":
@@ -80539,6 +83466,8 @@ func (ec *executionContext) fieldContext_Query_testRun(ctx context.Context, fiel
 				return ec.fieldContext_TestRun_executedAt(ctx, field)
 			case "overallStatus":
 				return ec.fieldContext_TestRun_overallStatus(ctx, field)
+			case "loadMetrics":
+				return ec.fieldContext_TestRun_loadMetrics(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type TestRun", field.Name)
 		},
@@ -80622,6 +83551,8 @@ func (ec *executionContext) fieldContext_Query_testRuns(ctx context.Context, fie
 				return ec.fieldContext_TestRun_executedAt(ctx, field)
 			case "overallStatus":
 				return ec.fieldContext_TestRun_overallStatus(ctx, field)
+			case "loadMetrics":
+				return ec.fieldContext_TestRun_loadMetrics(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type TestRun", field.Name)
 		},
@@ -86097,6 +89028,55 @@ func (ec *executionContext) fieldContext_Service_metadata(_ context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _Service_docLinks(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Service_docLinks(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DocLinks, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.DocLink)
+	fc.Result = res
+	return ec.marshalODocLink2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocLinkᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Service_docLinks(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Service",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_DocLink_id(ctx, field)
+			case "label":
+				return ec.fieldContext_DocLink_label(ctx, field)
+			case "url":
+				return ec.fieldContext_DocLink_url(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DocLink", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Service_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.Service) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Service_createdBy(ctx, field)
 	if err != nil {
@@ -89938,6 +92918,8 @@ func (ec *executionContext) fieldContext_ServicePage_items(_ context.Context, fi
 				return ec.fieldContext_Service_labels(ctx, field)
 			case "metadata":
 				return ec.fieldContext_Service_metadata(ctx, field)
+			case "docLinks":
+				return ec.fieldContext_Service_docLinks(ctx, field)
 			case "createdBy":
 				return ec.fieldContext_Service_createdBy(ctx, field)
 			case "updatedBy":
@@ -91784,6 +94766,47 @@ func (ec *executionContext) fieldContext_TestCase_evidenceRequired(_ context.Con
 	return fc, nil
 }
 
+func (ec *executionContext) _TestCase_screenshotUrls(ctx context.Context, field graphql.CollectedField, obj *model.TestCase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestCase_screenshotUrls(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ScreenshotUrls, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestCase_screenshotUrls(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestCase",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _TestCase_manual(ctx context.Context, field graphql.CollectedField, obj *model.TestCase) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TestCase_manual(ctx, field)
 	if err != nil {
@@ -92945,6 +95968,94 @@ func (ec *executionContext) fieldContext_TestPack_type(_ context.Context, field 
 	return fc, nil
 }
 
+func (ec *executionContext) _TestPack_loadConfig(ctx context.Context, field graphql.CollectedField, obj *model.TestPack) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestPack_loadConfig(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LoadConfig, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.LoadPackConfig)
+	fc.Result = res
+	return ec.marshalOLoadPackConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadPackConfig(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestPack_loadConfig(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestPack",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "targetEndpoints":
+				return ec.fieldContext_LoadPackConfig_targetEndpoints(ctx, field)
+			case "thresholds":
+				return ec.fieldContext_LoadPackConfig_thresholds(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LoadPackConfig", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestPack_baselineRunId(ctx context.Context, field graphql.CollectedField, obj *model.TestPack) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestPack_baselineRunId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BaselineRunID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestPack_baselineRunId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestPack",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _TestPack_createdBy(ctx context.Context, field graphql.CollectedField, obj *model.TestPack) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TestPack_createdBy(ctx, field)
 	if err != nil {
@@ -93837,6 +96948,83 @@ func (ec *executionContext) fieldContext_TestRun_overallStatus(_ context.Context
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _TestRun_loadMetrics(ctx context.Context, field graphql.CollectedField, obj *model.TestRun) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_TestRun_loadMetrics(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LoadMetrics, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.LoadTestMetrics)
+	fc.Result = res
+	return ec.marshalOLoadTestMetrics2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestMetrics(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_TestRun_loadMetrics(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "TestRun",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "durationSec":
+				return ec.fieldContext_LoadTestMetrics_durationSec(ctx, field)
+			case "totalRequests":
+				return ec.fieldContext_LoadTestMetrics_totalRequests(ctx, field)
+			case "requestsPerSec":
+				return ec.fieldContext_LoadTestMetrics_requestsPerSec(ctx, field)
+			case "errorRate":
+				return ec.fieldContext_LoadTestMetrics_errorRate(ctx, field)
+			case "minLatencyMs":
+				return ec.fieldContext_LoadTestMetrics_minLatencyMs(ctx, field)
+			case "avgLatencyMs":
+				return ec.fieldContext_LoadTestMetrics_avgLatencyMs(ctx, field)
+			case "maxLatencyMs":
+				return ec.fieldContext_LoadTestMetrics_maxLatencyMs(ctx, field)
+			case "p50LatencyMs":
+				return ec.fieldContext_LoadTestMetrics_p50LatencyMs(ctx, field)
+			case "p90LatencyMs":
+				return ec.fieldContext_LoadTestMetrics_p90LatencyMs(ctx, field)
+			case "p95LatencyMs":
+				return ec.fieldContext_LoadTestMetrics_p95LatencyMs(ctx, field)
+			case "p99LatencyMs":
+				return ec.fieldContext_LoadTestMetrics_p99LatencyMs(ctx, field)
+			case "virtualUsers":
+				return ec.fieldContext_LoadTestMetrics_virtualUsers(ctx, field)
+			case "timeSeries":
+				return ec.fieldContext_LoadTestMetrics_timeSeries(ctx, field)
+			case "perEndpoint":
+				return ec.fieldContext_LoadTestMetrics_perEndpoint(ctx, field)
+			case "customMetrics":
+				return ec.fieldContext_LoadTestMetrics_customMetrics(ctx, field)
+			case "notes":
+				return ec.fieldContext_LoadTestMetrics_notes(ctx, field)
+			case "screenshotUrls":
+				return ec.fieldContext_LoadTestMetrics_screenshotUrls(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LoadTestMetrics", field.Name)
 		},
 	}
 	return fc, nil
@@ -99221,7 +102409,7 @@ func (ec *executionContext) unmarshalInputCreateAPIEndpointInput(ctx context.Con
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"operationId", "method", "path", "summary", "description", "tags", "parameters", "requestBody", "responses", "exampleRequests", "exampleResponses", "order"}
+	fieldsInOrder := [...]string{"operationId", "method", "path", "summary", "description", "tags", "parameters", "requestBody", "responses", "exampleRequests", "exampleResponses", "order", "sla"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -99312,6 +102500,13 @@ func (ec *executionContext) unmarshalInputCreateAPIEndpointInput(ctx context.Con
 				return it, err
 			}
 			it.Order = data
+		case "sla":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sla"))
+			data, err := ec.unmarshalOEndpointSLAInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐEndpointSLAInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SLA = data
 		}
 	}
 
@@ -101280,7 +104475,7 @@ func (ec *executionContext) unmarshalInputCreateServiceInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "status", "tier", "category", "language", "folderId", "teamId", "gitRepoUrl", "jiraProjectUrl", "slackChannelUrl", "labels", "metadata"}
+	fieldsInOrder := [...]string{"name", "description", "status", "tier", "category", "language", "folderId", "teamId", "gitRepoUrl", "jiraProjectUrl", "slackChannelUrl", "labels", "metadata", "docLinks"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -101378,6 +104573,13 @@ func (ec *executionContext) unmarshalInputCreateServiceInput(ctx context.Context
 				return it, err
 			}
 			it.Metadata = data
+		case "docLinks":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("docLinks"))
+			data, err := ec.unmarshalODocLinkInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocLinkInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DocLinks = data
 		}
 	}
 
@@ -101425,7 +104627,7 @@ func (ec *executionContext) unmarshalInputCreateTestCaseInput(ctx context.Contex
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"testPackId", "title", "order", "type", "description", "priority", "labels", "linkedTicket", "estimatedDurationMins", "testOwner", "linkedMapNodeId", "isCritical", "evidenceRequired", "manual", "api", "graphql", "database", "grpc", "status", "version", "baselineRunResultId", "dependencies"}
+	fieldsInOrder := [...]string{"testPackId", "title", "order", "type", "description", "priority", "labels", "linkedTicket", "estimatedDurationMins", "testOwner", "linkedMapNodeId", "isCritical", "evidenceRequired", "screenshotUrls", "manual", "api", "graphql", "database", "grpc", "status", "version", "baselineRunResultId", "dependencies"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -101523,6 +104725,13 @@ func (ec *executionContext) unmarshalInputCreateTestCaseInput(ctx context.Contex
 				return it, err
 			}
 			it.EvidenceRequired = data
+		case "screenshotUrls":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("screenshotUrls"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ScreenshotUrls = data
 		case "manual":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("manual"))
 			data, err := ec.unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐManualTestCaseInput(ctx, v)
@@ -101599,7 +104808,7 @@ func (ec *executionContext) unmarshalInputCreateTestPackInput(ctx context.Contex
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "type"}
+	fieldsInOrder := [...]string{"name", "type", "loadConfig"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -101620,6 +104829,13 @@ func (ec *executionContext) unmarshalInputCreateTestPackInput(ctx context.Contex
 				return it, err
 			}
 			it.Type = data
+		case "loadConfig":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("loadConfig"))
+			data, err := ec.unmarshalOLoadPackConfigInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadPackConfigInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LoadConfig = data
 		}
 	}
 
@@ -101633,7 +104849,7 @@ func (ec *executionContext) unmarshalInputCreateTestRunInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"testPackId", "environment", "releaseLabel", "startedAt", "completedAt", "status", "startedBy", "overallStatus"}
+	fieldsInOrder := [...]string{"testPackId", "environment", "releaseLabel", "startedAt", "completedAt", "status", "startedBy", "overallStatus", "loadMetrics"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -101696,6 +104912,13 @@ func (ec *executionContext) unmarshalInputCreateTestRunInput(ctx context.Context
 				return it, err
 			}
 			it.OverallStatus = data
+		case "loadMetrics":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("loadMetrics"))
+			data, err := ec.unmarshalOLoadTestMetricsInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestMetricsInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LoadMetrics = data
 		}
 	}
 
@@ -101991,6 +105214,88 @@ func (ec *executionContext) unmarshalInputCustomComponentInput(ctx context.Conte
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCustomMetricInput(ctx context.Context, obj any) (model.CustomMetricInput, error) {
+	var it model.CustomMetricInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "value", "unit", "timeSeries"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "value":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("value"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Value = data
+		case "unit":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("unit"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Unit = data
+		case "timeSeries":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("timeSeries"))
+			data, err := ec.unmarshalOCustomMetricPointInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricPointInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TimeSeries = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputCustomMetricPointInput(ctx context.Context, obj any) (model.CustomMetricPointInput, error) {
+	var it model.CustomMetricPointInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"t", "v"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "t":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("t"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.T = data
+		case "v":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("v"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.V = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputDatabaseTestCaseInput(ctx context.Context, obj any) (model.DatabaseTestCaseInput, error) {
 	var it model.DatabaseTestCaseInput
 	asMap := map[string]any{}
@@ -102047,6 +105352,74 @@ func (ec *executionContext) unmarshalInputDatabaseTestCaseInput(ctx context.Cont
 				return it, err
 			}
 			it.TeardownQuery = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputDocLinkInput(ctx context.Context, obj any) (model.DocLinkInput, error) {
+	var it model.DocLinkInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"id", "label", "url"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
+		case "label":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("label"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Label = data
+		case "url":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("url"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.URL = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputEndpointSLAInput(ctx context.Context, obj any) (model.EndpointSLAInput, error) {
+	var it model.EndpointSLAInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"thresholds"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "thresholds":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("thresholds"))
+			data, err := ec.unmarshalOLoadTestThresholdInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThresholdInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Thresholds = data
 		}
 	}
 
@@ -102261,6 +105634,379 @@ func (ec *executionContext) unmarshalInputKeyValueInput(ctx context.Context, obj
 				return it, err
 			}
 			it.Value = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputLoadPackConfigInput(ctx context.Context, obj any) (model.LoadPackConfigInput, error) {
+	var it model.LoadPackConfigInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"targetEndpoints", "thresholds"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "targetEndpoints":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("targetEndpoints"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TargetEndpoints = data
+		case "thresholds":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("thresholds"))
+			data, err := ec.unmarshalOLoadTestThresholdInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThresholdInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Thresholds = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputLoadTestEndpointBreakdownInput(ctx context.Context, obj any) (model.LoadTestEndpointBreakdownInput, error) {
+	var it model.LoadTestEndpointBreakdownInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"endpoint", "method", "requestCount", "requestsPerSec", "errorRate", "avgLatencyMs", "p50LatencyMs", "p90LatencyMs", "p95LatencyMs", "p99LatencyMs", "apiEndpointId"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "endpoint":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endpoint"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Endpoint = data
+		case "method":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("method"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Method = data
+		case "requestCount":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requestCount"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RequestCount = data
+		case "requestsPerSec":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requestsPerSec"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RequestsPerSec = data
+		case "errorRate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("errorRate"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ErrorRate = data
+		case "avgLatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("avgLatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AvgLatencyMs = data
+		case "p50LatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("p50LatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.P50LatencyMs = data
+		case "p90LatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("p90LatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.P90LatencyMs = data
+		case "p95LatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("p95LatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.P95LatencyMs = data
+		case "p99LatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("p99LatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.P99LatencyMs = data
+		case "apiEndpointId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("apiEndpointId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.APIEndpointID = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputLoadTestMetricsInput(ctx context.Context, obj any) (model.LoadTestMetricsInput, error) {
+	var it model.LoadTestMetricsInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"durationSec", "totalRequests", "requestsPerSec", "errorRate", "minLatencyMs", "avgLatencyMs", "maxLatencyMs", "p50LatencyMs", "p90LatencyMs", "p95LatencyMs", "p99LatencyMs", "virtualUsers", "timeSeries", "perEndpoint", "customMetrics", "notes", "screenshotUrls"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "durationSec":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("durationSec"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DurationSec = data
+		case "totalRequests":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("totalRequests"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TotalRequests = data
+		case "requestsPerSec":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("requestsPerSec"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.RequestsPerSec = data
+		case "errorRate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("errorRate"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ErrorRate = data
+		case "minLatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("minLatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MinLatencyMs = data
+		case "avgLatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("avgLatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AvgLatencyMs = data
+		case "maxLatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("maxLatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.MaxLatencyMs = data
+		case "p50LatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("p50LatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.P50LatencyMs = data
+		case "p90LatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("p90LatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.P90LatencyMs = data
+		case "p95LatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("p95LatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.P95LatencyMs = data
+		case "p99LatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("p99LatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.P99LatencyMs = data
+		case "virtualUsers":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("virtualUsers"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.VirtualUsers = data
+		case "timeSeries":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("timeSeries"))
+			data, err := ec.unmarshalOLoadTestTimeSeriesPointInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestTimeSeriesPointInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TimeSeries = data
+		case "perEndpoint":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("perEndpoint"))
+			data, err := ec.unmarshalOLoadTestEndpointBreakdownInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestEndpointBreakdownInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.PerEndpoint = data
+		case "customMetrics":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("customMetrics"))
+			data, err := ec.unmarshalOCustomMetricInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CustomMetrics = data
+		case "notes":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notes"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Notes = data
+		case "screenshotUrls":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("screenshotUrls"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ScreenshotUrls = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputLoadTestThresholdInput(ctx context.Context, obj any) (model.LoadTestThresholdInput, error) {
+	var it model.LoadTestThresholdInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"id", "metric", "comparator", "value"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
+		case "metric":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("metric"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Metric = data
+		case "comparator":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("comparator"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Comparator = data
+		case "value":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("value"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Value = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputLoadTestTimeSeriesPointInput(ctx context.Context, obj any) (model.LoadTestTimeSeriesPointInput, error) {
+	var it model.LoadTestTimeSeriesPointInput
+	asMap := map[string]any{}
+	for k, v := range obj.(map[string]any) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"tSec", "rps", "errorRate", "p95LatencyMs", "activeVUs"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "tSec":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tSec"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.TSec = data
+		case "rps":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("rps"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Rps = data
+		case "errorRate":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("errorRate"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ErrorRate = data
+		case "p95LatencyMs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("p95LatencyMs"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.P95LatencyMs = data
+		case "activeVUs":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("activeVUs"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ActiveVUs = data
 		}
 	}
 
@@ -102632,7 +106378,7 @@ func (ec *executionContext) unmarshalInputUpdateAPIEndpointInput(ctx context.Con
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"operationId", "method", "path", "summary", "description", "tags", "parameters", "requestBody", "responses", "exampleRequests", "exampleResponses", "order"}
+	fieldsInOrder := [...]string{"operationId", "method", "path", "summary", "description", "tags", "parameters", "requestBody", "responses", "exampleRequests", "exampleResponses", "order", "sla"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -102723,6 +106469,13 @@ func (ec *executionContext) unmarshalInputUpdateAPIEndpointInput(ctx context.Con
 				return it, err
 			}
 			it.Order = data
+		case "sla":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("sla"))
+			data, err := ec.unmarshalOEndpointSLAInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐEndpointSLAInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.SLA = data
 		}
 	}
 
@@ -104346,7 +108099,7 @@ func (ec *executionContext) unmarshalInputUpdateServiceInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "status", "tier", "category", "language", "folderId", "teamId", "gitRepoUrl", "jiraProjectUrl", "slackChannelUrl", "lastCommitSha", "labels", "metadata"}
+	fieldsInOrder := [...]string{"name", "description", "status", "tier", "category", "language", "folderId", "teamId", "gitRepoUrl", "jiraProjectUrl", "slackChannelUrl", "lastCommitSha", "labels", "metadata", "docLinks"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -104451,6 +108204,13 @@ func (ec *executionContext) unmarshalInputUpdateServiceInput(ctx context.Context
 				return it, err
 			}
 			it.Metadata = data
+		case "docLinks":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("docLinks"))
+			data, err := ec.unmarshalODocLinkInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocLinkInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.DocLinks = data
 		}
 	}
 
@@ -104498,7 +108258,7 @@ func (ec *executionContext) unmarshalInputUpdateTestCaseInput(ctx context.Contex
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"testPackId", "title", "order", "type", "description", "priority", "labels", "linkedTicket", "estimatedDurationMins", "testOwner", "linkedMapNodeId", "isCritical", "evidenceRequired", "manual", "api", "graphql", "database", "grpc", "status", "version", "baselineRunResultId", "dependencies"}
+	fieldsInOrder := [...]string{"testPackId", "title", "order", "type", "description", "priority", "labels", "linkedTicket", "estimatedDurationMins", "testOwner", "linkedMapNodeId", "isCritical", "evidenceRequired", "screenshotUrls", "manual", "api", "graphql", "database", "grpc", "status", "version", "baselineRunResultId", "dependencies"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -104596,6 +108356,13 @@ func (ec *executionContext) unmarshalInputUpdateTestCaseInput(ctx context.Contex
 				return it, err
 			}
 			it.EvidenceRequired = data
+		case "screenshotUrls":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("screenshotUrls"))
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ScreenshotUrls = data
 		case "manual":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("manual"))
 			data, err := ec.unmarshalOManualTestCaseInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐManualTestCaseInput(ctx, v)
@@ -104672,7 +108439,7 @@ func (ec *executionContext) unmarshalInputUpdateTestPackInput(ctx context.Contex
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "type"}
+	fieldsInOrder := [...]string{"name", "type", "loadConfig", "baselineRunId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -104693,6 +108460,20 @@ func (ec *executionContext) unmarshalInputUpdateTestPackInput(ctx context.Contex
 				return it, err
 			}
 			it.Type = data
+		case "loadConfig":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("loadConfig"))
+			data, err := ec.unmarshalOLoadPackConfigInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadPackConfigInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LoadConfig = data
+		case "baselineRunId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("baselineRunId"))
+			data, err := ec.unmarshalOID2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.BaselineRunID = data
 		}
 	}
 
@@ -104706,7 +108487,7 @@ func (ec *executionContext) unmarshalInputUpdateTestRunInput(ctx context.Context
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"overallStatus", "completedAt", "status"}
+	fieldsInOrder := [...]string{"overallStatus", "completedAt", "status", "loadMetrics"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -104734,6 +108515,13 @@ func (ec *executionContext) unmarshalInputUpdateTestRunInput(ctx context.Context
 				return it, err
 			}
 			it.Status = data
+		case "loadMetrics":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("loadMetrics"))
+			data, err := ec.unmarshalOLoadTestMetricsInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestMetricsInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LoadMetrics = data
 		}
 	}
 
@@ -105330,6 +109118,8 @@ func (ec *executionContext) _APIEndpoint(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "sla":
+			out.Values[i] = ec._APIEndpoint_sla(ctx, field, obj)
 		case "createdBy":
 			out.Values[i] = ec._APIEndpoint_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -106753,6 +110543,95 @@ func (ec *executionContext) _CreatedToken(ctx context.Context, sel ast.Selection
 	return out
 }
 
+var customMetricImplementors = []string{"CustomMetric"}
+
+func (ec *executionContext) _CustomMetric(ctx context.Context, sel ast.SelectionSet, obj *model.CustomMetric) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, customMetricImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CustomMetric")
+		case "name":
+			out.Values[i] = ec._CustomMetric_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "value":
+			out.Values[i] = ec._CustomMetric_value(ctx, field, obj)
+		case "unit":
+			out.Values[i] = ec._CustomMetric_unit(ctx, field, obj)
+		case "timeSeries":
+			out.Values[i] = ec._CustomMetric_timeSeries(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var customMetricPointImplementors = []string{"CustomMetricPoint"}
+
+func (ec *executionContext) _CustomMetricPoint(ctx context.Context, sel ast.SelectionSet, obj *model.CustomMetricPoint) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, customMetricPointImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("CustomMetricPoint")
+		case "t":
+			out.Values[i] = ec._CustomMetricPoint_t(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "v":
+			out.Values[i] = ec._CustomMetricPoint_v(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var dailySavingsImplementors = []string{"DailySavings"}
 
 func (ec *executionContext) _DailySavings(ctx context.Context, sel ast.SelectionSet, obj *model.DailySavings) graphql.Marshaler {
@@ -107883,6 +111762,55 @@ func (ec *executionContext) _Doc(ctx context.Context, sel ast.SelectionSet, obj 
 	return out
 }
 
+var docLinkImplementors = []string{"DocLink"}
+
+func (ec *executionContext) _DocLink(ctx context.Context, sel ast.SelectionSet, obj *model.DocLink) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, docLinkImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("DocLink")
+		case "id":
+			out.Values[i] = ec._DocLink_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "label":
+			out.Values[i] = ec._DocLink_label(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "url":
+			out.Values[i] = ec._DocLink_url(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var docPageImplementors = []string{"DocPage"}
 
 func (ec *executionContext) _DocPage(ctx context.Context, sel ast.SelectionSet, obj *model.DocPage) graphql.Marshaler {
@@ -107904,6 +111832,42 @@ func (ec *executionContext) _DocPage(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var endpointSLAImplementors = []string{"EndpointSLA"}
+
+func (ec *executionContext) _EndpointSLA(ctx context.Context, sel ast.SelectionSet, obj *model.EndpointSLA) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, endpointSLAImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("EndpointSLA")
+		case "thresholds":
+			out.Values[i] = ec._EndpointSLA_thresholds(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -109164,6 +113128,347 @@ func (ec *executionContext) _LDAPConfig(ctx context.Context, sel ast.SelectionSe
 			}
 		case "updatedAt":
 			out.Values[i] = ec._LDAPConfig_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var loadPackConfigImplementors = []string{"LoadPackConfig"}
+
+func (ec *executionContext) _LoadPackConfig(ctx context.Context, sel ast.SelectionSet, obj *model.LoadPackConfig) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, loadPackConfigImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LoadPackConfig")
+		case "targetEndpoints":
+			out.Values[i] = ec._LoadPackConfig_targetEndpoints(ctx, field, obj)
+		case "thresholds":
+			out.Values[i] = ec._LoadPackConfig_thresholds(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var loadTestEndpointBreakdownImplementors = []string{"LoadTestEndpointBreakdown"}
+
+func (ec *executionContext) _LoadTestEndpointBreakdown(ctx context.Context, sel ast.SelectionSet, obj *model.LoadTestEndpointBreakdown) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, loadTestEndpointBreakdownImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LoadTestEndpointBreakdown")
+		case "endpoint":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_endpoint(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "method":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_method(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "requestCount":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_requestCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "requestsPerSec":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_requestsPerSec(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "errorRate":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_errorRate(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "avgLatencyMs":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_avgLatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "p50LatencyMs":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_p50LatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "p90LatencyMs":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_p90LatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "p95LatencyMs":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_p95LatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "p99LatencyMs":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_p99LatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "apiEndpointId":
+			out.Values[i] = ec._LoadTestEndpointBreakdown_apiEndpointId(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var loadTestMetricsImplementors = []string{"LoadTestMetrics"}
+
+func (ec *executionContext) _LoadTestMetrics(ctx context.Context, sel ast.SelectionSet, obj *model.LoadTestMetrics) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, loadTestMetricsImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LoadTestMetrics")
+		case "durationSec":
+			out.Values[i] = ec._LoadTestMetrics_durationSec(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalRequests":
+			out.Values[i] = ec._LoadTestMetrics_totalRequests(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "requestsPerSec":
+			out.Values[i] = ec._LoadTestMetrics_requestsPerSec(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "errorRate":
+			out.Values[i] = ec._LoadTestMetrics_errorRate(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "minLatencyMs":
+			out.Values[i] = ec._LoadTestMetrics_minLatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "avgLatencyMs":
+			out.Values[i] = ec._LoadTestMetrics_avgLatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "maxLatencyMs":
+			out.Values[i] = ec._LoadTestMetrics_maxLatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "p50LatencyMs":
+			out.Values[i] = ec._LoadTestMetrics_p50LatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "p90LatencyMs":
+			out.Values[i] = ec._LoadTestMetrics_p90LatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "p95LatencyMs":
+			out.Values[i] = ec._LoadTestMetrics_p95LatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "p99LatencyMs":
+			out.Values[i] = ec._LoadTestMetrics_p99LatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "virtualUsers":
+			out.Values[i] = ec._LoadTestMetrics_virtualUsers(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "timeSeries":
+			out.Values[i] = ec._LoadTestMetrics_timeSeries(ctx, field, obj)
+		case "perEndpoint":
+			out.Values[i] = ec._LoadTestMetrics_perEndpoint(ctx, field, obj)
+		case "customMetrics":
+			out.Values[i] = ec._LoadTestMetrics_customMetrics(ctx, field, obj)
+		case "notes":
+			out.Values[i] = ec._LoadTestMetrics_notes(ctx, field, obj)
+		case "screenshotUrls":
+			out.Values[i] = ec._LoadTestMetrics_screenshotUrls(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var loadTestThresholdImplementors = []string{"LoadTestThreshold"}
+
+func (ec *executionContext) _LoadTestThreshold(ctx context.Context, sel ast.SelectionSet, obj *model.LoadTestThreshold) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, loadTestThresholdImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LoadTestThreshold")
+		case "id":
+			out.Values[i] = ec._LoadTestThreshold_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "metric":
+			out.Values[i] = ec._LoadTestThreshold_metric(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "comparator":
+			out.Values[i] = ec._LoadTestThreshold_comparator(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "value":
+			out.Values[i] = ec._LoadTestThreshold_value(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var loadTestTimeSeriesPointImplementors = []string{"LoadTestTimeSeriesPoint"}
+
+func (ec *executionContext) _LoadTestTimeSeriesPoint(ctx context.Context, sel ast.SelectionSet, obj *model.LoadTestTimeSeriesPoint) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, loadTestTimeSeriesPointImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LoadTestTimeSeriesPoint")
+		case "tSec":
+			out.Values[i] = ec._LoadTestTimeSeriesPoint_tSec(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "rps":
+			out.Values[i] = ec._LoadTestTimeSeriesPoint_rps(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "errorRate":
+			out.Values[i] = ec._LoadTestTimeSeriesPoint_errorRate(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "p95LatencyMs":
+			out.Values[i] = ec._LoadTestTimeSeriesPoint_p95LatencyMs(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "activeVUs":
+			out.Values[i] = ec._LoadTestTimeSeriesPoint_activeVUs(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -115466,6 +119771,8 @@ func (ec *executionContext) _Service(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "docLinks":
+			out.Values[i] = ec._Service_docLinks(ctx, field, obj)
 		case "createdBy":
 			out.Values[i] = ec._Service_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -116603,6 +120910,8 @@ func (ec *executionContext) _TestCase(ctx context.Context, sel ast.SelectionSet,
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "screenshotUrls":
+			out.Values[i] = ec._TestCase_screenshotUrls(ctx, field, obj)
 		case "manual":
 			out.Values[i] = ec._TestCase_manual(ctx, field, obj)
 		case "api":
@@ -116763,6 +121072,10 @@ func (ec *executionContext) _TestPack(ctx context.Context, sel ast.SelectionSet,
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "loadConfig":
+			out.Values[i] = ec._TestPack_loadConfig(ctx, field, obj)
+		case "baselineRunId":
+			out.Values[i] = ec._TestPack_baselineRunId(ctx, field, obj)
 		case "createdBy":
 			out.Values[i] = ec._TestPack_createdBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -116875,6 +121188,8 @@ func (ec *executionContext) _TestRun(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "loadMetrics":
+			out.Values[i] = ec._TestRun_loadMetrics(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -118803,6 +123118,36 @@ func (ec *executionContext) unmarshalNCustomComponentInput2githubᚗcomᚋuigrap
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) marshalNCustomMetric2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetric(ctx context.Context, sel ast.SelectionSet, v *model.CustomMetric) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._CustomMetric(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNCustomMetricInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricInput(ctx context.Context, v any) (*model.CustomMetricInput, error) {
+	res, err := ec.unmarshalInputCustomMetricInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNCustomMetricPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricPoint(ctx context.Context, sel ast.SelectionSet, v *model.CustomMetricPoint) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._CustomMetricPoint(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNCustomMetricPointInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricPointInput(ctx context.Context, v any) (*model.CustomMetricPointInput, error) {
+	res, err := ec.unmarshalInputCustomMetricPointInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalNDailySavings2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDailySavingsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DailySavings) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -119267,6 +123612,21 @@ func (ec *executionContext) marshalNDoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋin
 		return graphql.Null
 	}
 	return ec._Doc(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNDocLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocLink(ctx context.Context, sel ast.SelectionSet, v *model.DocLink) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._DocLink(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNDocLinkInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocLinkInput(ctx context.Context, v any) (*model.DocLinkInput, error) {
+	res, err := ec.unmarshalInputDocLinkInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNDocPage2githubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocPage(ctx context.Context, sel ast.SelectionSet, v model.DocPage) graphql.Marshaler {
@@ -119893,6 +124253,51 @@ func (ec *executionContext) marshalNKeyValue2ᚖgithubᚗcomᚋuigraphᚋgraphql
 
 func (ec *executionContext) unmarshalNKeyValueInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐKeyValueInput(ctx context.Context, v any) (*model.KeyValueInput, error) {
 	res, err := ec.unmarshalInputKeyValueInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNLoadTestEndpointBreakdown2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestEndpointBreakdown(ctx context.Context, sel ast.SelectionSet, v *model.LoadTestEndpointBreakdown) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._LoadTestEndpointBreakdown(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNLoadTestEndpointBreakdownInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestEndpointBreakdownInput(ctx context.Context, v any) (*model.LoadTestEndpointBreakdownInput, error) {
+	res, err := ec.unmarshalInputLoadTestEndpointBreakdownInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNLoadTestThreshold2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThreshold(ctx context.Context, sel ast.SelectionSet, v *model.LoadTestThreshold) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._LoadTestThreshold(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNLoadTestThresholdInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThresholdInput(ctx context.Context, v any) (*model.LoadTestThresholdInput, error) {
+	res, err := ec.unmarshalInputLoadTestThresholdInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNLoadTestTimeSeriesPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestTimeSeriesPoint(ctx context.Context, sel ast.SelectionSet, v *model.LoadTestTimeSeriesPoint) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._LoadTestTimeSeriesPoint(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNLoadTestTimeSeriesPointInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestTimeSeriesPointInput(ctx context.Context, v any) (*model.LoadTestTimeSeriesPointInput, error) {
+	res, err := ec.unmarshalInputLoadTestTimeSeriesPointInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -123025,6 +127430,136 @@ func (ec *executionContext) unmarshalOCustomComponentFieldInput2ᚕᚖgithubᚗc
 	return res, nil
 }
 
+func (ec *executionContext) marshalOCustomMetric2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.CustomMetric) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNCustomMetric2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetric(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOCustomMetricInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricInputᚄ(ctx context.Context, v any) ([]*model.CustomMetricInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*model.CustomMetricInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNCustomMetricInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOCustomMetricPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricPointᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.CustomMetricPoint) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNCustomMetricPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricPoint(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOCustomMetricPointInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricPointInputᚄ(ctx context.Context, v any) ([]*model.CustomMetricPointInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*model.CustomMetricPointInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNCustomMetricPointInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐCustomMetricPointInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) marshalODatabaseTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDatabaseTestCase(ctx context.Context, sel ast.SelectionSet, v *model.DatabaseTestCase) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -123153,6 +127688,86 @@ func (ec *executionContext) marshalODoc2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋin
 		return graphql.Null
 	}
 	return ec._Doc(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalODocLink2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocLinkᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.DocLink) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNDocLink2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocLink(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalODocLinkInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocLinkInputᚄ(ctx context.Context, v any) ([]*model.DocLinkInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*model.DocLinkInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNDocLinkInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐDocLinkInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOEndpointSLA2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐEndpointSLA(ctx context.Context, sel ast.SelectionSet, v *model.EndpointSLA) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._EndpointSLA(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOEndpointSLAInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐEndpointSLAInput(ctx context.Context, v any) (*model.EndpointSLAInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputEndpointSLAInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOFloat2ᚖfloat64(ctx context.Context, v any) (*float64, error) {
@@ -123392,6 +128007,231 @@ func (ec *executionContext) marshalOLDAPConfig2ᚖgithubᚗcomᚋuigraphᚋgraph
 		return graphql.Null
 	}
 	return ec._LDAPConfig(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOLoadPackConfig2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadPackConfig(ctx context.Context, sel ast.SelectionSet, v *model.LoadPackConfig) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._LoadPackConfig(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOLoadPackConfigInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadPackConfigInput(ctx context.Context, v any) (*model.LoadPackConfigInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputLoadPackConfigInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOLoadTestEndpointBreakdown2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestEndpointBreakdownᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.LoadTestEndpointBreakdown) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNLoadTestEndpointBreakdown2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestEndpointBreakdown(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOLoadTestEndpointBreakdownInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestEndpointBreakdownInputᚄ(ctx context.Context, v any) ([]*model.LoadTestEndpointBreakdownInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*model.LoadTestEndpointBreakdownInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNLoadTestEndpointBreakdownInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestEndpointBreakdownInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOLoadTestMetrics2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestMetrics(ctx context.Context, sel ast.SelectionSet, v *model.LoadTestMetrics) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._LoadTestMetrics(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOLoadTestMetricsInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestMetricsInput(ctx context.Context, v any) (*model.LoadTestMetricsInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputLoadTestMetricsInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOLoadTestThreshold2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThresholdᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.LoadTestThreshold) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNLoadTestThreshold2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThreshold(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOLoadTestThresholdInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThresholdInputᚄ(ctx context.Context, v any) ([]*model.LoadTestThresholdInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*model.LoadTestThresholdInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNLoadTestThresholdInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestThresholdInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOLoadTestTimeSeriesPoint2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestTimeSeriesPointᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.LoadTestTimeSeriesPoint) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNLoadTestTimeSeriesPoint2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestTimeSeriesPoint(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOLoadTestTimeSeriesPointInput2ᚕᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestTimeSeriesPointInputᚄ(ctx context.Context, v any) ([]*model.LoadTestTimeSeriesPointInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*model.LoadTestTimeSeriesPointInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNLoadTestTimeSeriesPointInput2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐLoadTestTimeSeriesPointInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) marshalOManualTestCase2ᚖgithubᚗcomᚋuigraphᚋgraphqlᚋinternalᚋgraphᚋmodelᚐManualTestCase(ctx context.Context, sel ast.SelectionSet, v *model.ManualTestCase) graphql.Marshaler {
