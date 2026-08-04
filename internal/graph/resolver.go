@@ -365,6 +365,13 @@ type billingClient interface {
 	GetResourceDailyCosts(ctx context.Context, orgID, resourceID string, days *int) ([]uigraphapi.ResourceDailyCost, error)
 }
 
+type timelineClient interface {
+	ListServiceTimelineEvents(ctx context.Context, orgID, serviceID string) ([]uigraphapi.TimelineEvent, error)
+	CreateTimelineEvent(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.TimelineEvent, error)
+	UpdateTimelineEvent(ctx context.Context, orgID, serviceID, eventID string, body map[string]interface{}) (*uigraphapi.TimelineEvent, error)
+	DeleteTimelineEvent(ctx context.Context, orgID, serviceID, eventID string) error
+}
+
 type Resolver struct {
 	Auth        authClient
 	OrgAPI      orgClient
@@ -384,4 +391,5 @@ type Resolver struct {
 	MLStudio    mlStudioClient
 	Billing     billingClient
 	AgentAPI    agentSessionClient
+	Timeline    timelineClient
 }
