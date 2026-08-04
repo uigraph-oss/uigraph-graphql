@@ -786,6 +786,23 @@ type CreateTestRunResultInput struct {
 	ScreenshotUrls []string `json:"screenshotUrls,omitempty"`
 }
 
+type CreateTimelineEventInput struct {
+	Type               string                `json:"type"`
+	Title              string                `json:"title"`
+	Summary            string                `json:"summary"`
+	EventDate          time.Time             `json:"eventDate"`
+	Version            *string               `json:"version,omitempty"`
+	AdrNumber          *string               `json:"adrNumber,omitempty"`
+	DecisionStatus     *string               `json:"decisionStatus,omitempty"`
+	SourceLabel        *string               `json:"sourceLabel,omitempty"`
+	SourceURL          *string               `json:"sourceUrl,omitempty"`
+	IsAgentSummarized  *bool                 `json:"isAgentSummarized,omitempty"`
+	Touches            []*TimelineTouchInput `json:"touches,omitempty"`
+	AttachmentAssetID  *string               `json:"attachmentAssetId,omitempty"`
+	AttachmentFileName *string               `json:"attachmentFileName,omitempty"`
+	AttachmentFileType *string               `json:"attachmentFileType,omitempty"`
+}
+
 type CreateTokenInput struct {
 	Name      string  `json:"name"`
 	ExpiresAt *string `json:"expiresAt,omitempty"`
@@ -2167,6 +2184,42 @@ type TestRunSummary struct {
 	BlockedCount  int        `json:"blockedCount"`
 }
 
+type TimelineEvent struct {
+	ID                 string           `json:"id"`
+	OrgID              string           `json:"orgId"`
+	ServiceID          string           `json:"serviceId"`
+	Type               string           `json:"type"`
+	Title              string           `json:"title"`
+	Summary            string           `json:"summary"`
+	EventDate          time.Time        `json:"eventDate"`
+	Version            *string          `json:"version,omitempty"`
+	AdrNumber          *string          `json:"adrNumber,omitempty"`
+	DecisionStatus     *string          `json:"decisionStatus,omitempty"`
+	SourceLabel        *string          `json:"sourceLabel,omitempty"`
+	SourceURL          *string          `json:"sourceUrl,omitempty"`
+	IsAgentSummarized  bool             `json:"isAgentSummarized"`
+	Origin             string           `json:"origin"`
+	Touches            []*TimelineTouch `json:"touches"`
+	AttachmentAssetID  *string          `json:"attachmentAssetId,omitempty"`
+	AttachmentFileName *string          `json:"attachmentFileName,omitempty"`
+	AttachmentFileType *string          `json:"attachmentFileType,omitempty"`
+	AttachmentURL      *string          `json:"attachmentUrl,omitempty"`
+	CreatedAt          time.Time        `json:"createdAt"`
+	UpdatedAt          time.Time        `json:"updatedAt"`
+}
+
+type TimelineTouch struct {
+	ID    string `json:"id"`
+	Label string `json:"label"`
+	Kind  string `json:"kind"`
+}
+
+type TimelineTouchInput struct {
+	ID    string `json:"id"`
+	Label string `json:"label"`
+	Kind  string `json:"kind"`
+}
+
 type ToolSavings struct {
 	ToolName        string  `json:"toolName"`
 	TotalCalls      int     `json:"totalCalls"`
@@ -2520,6 +2573,23 @@ type UpdateTestRunResultInput struct {
 	ResponseTimeMs *int     `json:"responseTimeMs,omitempty"`
 	Notes          *string  `json:"notes,omitempty"`
 	ScreenshotUrls []string `json:"screenshotUrls,omitempty"`
+}
+
+type UpdateTimelineEventInput struct {
+	Type               string                `json:"type"`
+	Title              string                `json:"title"`
+	Summary            string                `json:"summary"`
+	EventDate          time.Time             `json:"eventDate"`
+	Version            *string               `json:"version,omitempty"`
+	AdrNumber          *string               `json:"adrNumber,omitempty"`
+	DecisionStatus     *string               `json:"decisionStatus,omitempty"`
+	SourceLabel        *string               `json:"sourceLabel,omitempty"`
+	SourceURL          *string               `json:"sourceUrl,omitempty"`
+	IsAgentSummarized  *bool                 `json:"isAgentSummarized,omitempty"`
+	Touches            []*TimelineTouchInput `json:"touches,omitempty"`
+	AttachmentAssetID  *string               `json:"attachmentAssetId,omitempty"`
+	AttachmentFileName *string               `json:"attachmentFileName,omitempty"`
+	AttachmentFileType *string               `json:"attachmentFileType,omitempty"`
 }
 
 type UpdateUserInput struct {

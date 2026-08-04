@@ -1,0 +1,79 @@
+type TimelineTouch {
+    id: ID!
+    label: String!
+    kind: String!
+}
+
+type TimelineEvent {
+    id: ID!
+    orgId: ID!
+    serviceId: ID!
+    type: String!
+    title: String!
+    summary: String!
+    eventDate: Time!
+    version: String
+    adrNumber: String
+    decisionStatus: String
+    sourceLabel: String
+    sourceUrl: String
+    isAgentSummarized: Boolean!
+    origin: String!
+    touches: [TimelineTouch!]!
+    attachmentAssetId: String
+    attachmentFileName: String
+    attachmentFileType: String
+    attachmentUrl: String @goField(forceResolver: true)
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+input TimelineTouchInput {
+    id: ID!
+    label: String!
+    kind: String!
+}
+
+input CreateTimelineEventInput {
+    type: String!
+    title: String!
+    summary: String!
+    eventDate: Time!
+    version: String
+    adrNumber: String
+    decisionStatus: String
+    sourceLabel: String
+    sourceUrl: String
+    isAgentSummarized: Boolean
+    touches: [TimelineTouchInput!]
+    attachmentAssetId: String
+    attachmentFileName: String
+    attachmentFileType: String
+}
+
+input UpdateTimelineEventInput {
+    type: String!
+    title: String!
+    summary: String!
+    eventDate: Time!
+    version: String
+    adrNumber: String
+    decisionStatus: String
+    sourceLabel: String
+    sourceUrl: String
+    isAgentSummarized: Boolean
+    touches: [TimelineTouchInput!]
+    attachmentAssetId: String
+    attachmentFileName: String
+    attachmentFileType: String
+}
+
+extend type Query {
+    serviceTimelineEvents(orgId: ID!, serviceId: ID!): [TimelineEvent!]!
+}
+
+extend type Mutation {
+    createTimelineEvent(orgId: ID!, serviceId: ID!, input: CreateTimelineEventInput!): TimelineEvent!
+    updateTimelineEvent(orgId: ID!, serviceId: ID!, eventId: ID!, input: UpdateTimelineEventInput!): TimelineEvent!
+    deleteTimelineEvent(orgId: ID!, serviceId: ID!, eventId: ID!): Boolean!
+}
