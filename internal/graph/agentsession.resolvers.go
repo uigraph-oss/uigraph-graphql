@@ -59,20 +59,3 @@ func (r *queryResolver) AgentSessionSummary(ctx context.Context, orgID string, p
 	}
 	return convert.AgentSessionSummaryToModel(*s), nil
 }
-
-// resolveSessionActors looks up the human or service account behind each run so
-// the UI can show who triggered it.
-func (r *queryResolver) resolveSessionActors(ctx context.Context, orgID string, sessions []uigraphapi.AgentSession) (map[string]*uigraphapi.Actor, error) {
-	ids := make([]string, 0, len(sessions))
-	for _, s := range sessions {
-		if s.UserID != nil {
-			ids = append(ids, *s.UserID)
-		} else if s.ServiceAccountID != nil {
-			ids = append(ids, *s.ServiceAccountID)
-		}
-	}
-	if len(ids) == 0 {
-		return map[string]*uigraphapi.Actor{}, nil
-	}
-	return r.Resolver.Actor.ResolveActors(ctx, orgID, ids)
-}
