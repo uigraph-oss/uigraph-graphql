@@ -1,0 +1,123 @@
+enum CloudProvider {
+    AWS
+    AZURE
+    GCP
+}
+
+enum CloudConnectionStatus {
+    PENDING
+    CONNECTED
+    SYNCING
+    ERROR
+}
+
+enum InfraResourceStatus {
+    RUNNING
+    STOPPED
+    DEGRADED
+}
+
+type CloudConnection {
+    id: ID!
+    orgId: ID!
+    provider: CloudProvider!
+    displayName: String!
+    status: CloudConnectionStatus!
+    statusMessage: String!
+    lastVerifiedAt: Time
+    createdBy: ID!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+type ServiceCostTagRule {
+    id: ID!
+    serviceId: ID!
+    tagKey: String!
+    tagValue: String!
+    createdBy: ID!
+    createdAt: Time!
+}
+
+type InfraResource {
+    id: ID!
+    externalResourceId: String!
+    name: String!
+    resourceType: String!
+    provider: CloudProvider!
+    region: String!
+    environment: String!
+    status: InfraResourceStatus!
+    monthlyCostUsd: Float!
+    tags: [String!]!
+    matchedTags: [String!]!
+    lastSyncedAt: Time!
+}
+
+type CostTrendPoint {
+    date: String!
+    totalUsd: Float!
+    awsUsd: Float!
+    azureUsd: Float!
+    gcpUsd: Float!
+}
+
+type ServiceCostSummary {
+    totalMonthlyCostUsd: Float!
+    momChangePct: Float!
+    resourceCount: Int!
+    providerCount: Int!
+    topCostDriverLabel: String!
+    topCostDriverUsd: Float!
+}
+
+type TestCloudConnectionResult {
+    ok: Boolean!
+    error: String
+}
+
+type ResourceDailyCost {
+    date: String!
+    costUsd: Float!
+}
+
+input CreateCloudConnectionInput {
+    provider: CloudProvider!
+    displayName: String!
+
+    "AWS"
+    roleArn: String
+    externalId: String
+
+    "GCP"
+    serviceAccountJson: String
+    billingDataset: String
+
+    "Azure"
+    tenantId: String
+    clientId: String
+    clientSecret: String
+    subscriptionId: String
+}
+
+extend type Query {
+    cloudConnections(orgId: ID!): [CloudConnection!]!
+    cloudConnection(orgId: ID!, connectionId: ID!): CloudConnection!
+
+    serviceCostSummary(orgId: ID!, serviceId: ID!): ServiceCostSummary!
+    serviceCostResources(orgId: ID!, serviceId: ID!): [InfraResource!]!
+    serviceCostTrend(orgId: ID!, serviceId: ID!, days: Int): [CostTrendPoint!]!
+    serviceCostTagRules(orgId: ID!, serviceId: ID!): [ServiceCostTagRule!]!
+    resourceDailyCosts(orgId: ID!, resourceId: ID!, days: Int): [ResourceDailyCost!]!
+}
+
+extend type Mutation {
+    createCloudConnection(orgId: ID!, input: CreateCloudConnectionInput!): CloudConnection!
+    deleteCloudConnection(orgId: ID!, connectionId: ID!): Boolean!
+    testCloudConnection(orgId: ID!, connectionId: ID!): TestCloudConnectionResult!
+    "Kicks off an async sync and returns immediately (true = started) — a full multi-region scan can take too long for a synchronous request. Watch the connection's status field for progress."
+    syncCloudConnection(orgId: ID!, connectionId: ID!): Boolean!
+
+    createServiceCostTagRule(orgId: ID!, serviceId: ID!, tagKey: String!, tagValue: String!): ServiceCostTagRule!
+    deleteServiceCostTagRule(orgId: ID!, serviceId: ID!, ruleId: ID!): Boolean!
+}
