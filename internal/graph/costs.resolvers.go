@@ -38,7 +38,7 @@ func (r *mutationResolver) TestCloudConnection(ctx context.Context, orgID string
 }
 
 // SyncCloudConnection is the resolver for the syncCloudConnection field.
-func (r *mutationResolver) SyncCloudConnection(ctx context.Context, orgID string, connectionID string) (int, error) {
+func (r *mutationResolver) SyncCloudConnection(ctx context.Context, orgID string, connectionID string) (bool, error) {
 	return r.Billing.SyncCloudConnection(ctx, orgID, connectionID)
 }
 

@@ -355,7 +355,7 @@ type billingClient interface {
 	CreateCloudConnection(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.CloudConnection, error)
 	DeleteCloudConnection(ctx context.Context, orgID, connectionID string) error
 	TestCloudConnection(ctx context.Context, orgID, connectionID string) (*uigraphapi.TestCloudConnectionResult, error)
-	SyncCloudConnection(ctx context.Context, orgID, connectionID string) (int, error)
+	SyncCloudConnection(ctx context.Context, orgID, connectionID string) (bool, error)
 	GetServiceCostSummary(ctx context.Context, orgID, serviceID string) (*uigraphapi.ServiceCostSummary, error)
 	ListServiceCostResources(ctx context.Context, orgID, serviceID string) ([]uigraphapi.InfraResource, error)
 	GetServiceCostTrend(ctx context.Context, orgID, serviceID string, days *int) ([]uigraphapi.CostTrendPoint, error)

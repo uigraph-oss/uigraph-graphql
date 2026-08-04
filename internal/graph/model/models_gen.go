@@ -2607,18 +2607,20 @@ type CloudConnectionStatus string
 const (
 	CloudConnectionStatusPending   CloudConnectionStatus = "PENDING"
 	CloudConnectionStatusConnected CloudConnectionStatus = "CONNECTED"
+	CloudConnectionStatusSyncing   CloudConnectionStatus = "SYNCING"
 	CloudConnectionStatusError     CloudConnectionStatus = "ERROR"
 )
 
 var AllCloudConnectionStatus = []CloudConnectionStatus{
 	CloudConnectionStatusPending,
 	CloudConnectionStatusConnected,
+	CloudConnectionStatusSyncing,
 	CloudConnectionStatusError,
 }
 
 func (e CloudConnectionStatus) IsValid() bool {
 	switch e {
-	case CloudConnectionStatusPending, CloudConnectionStatusConnected, CloudConnectionStatusError:
+	case CloudConnectionStatusPending, CloudConnectionStatusConnected, CloudConnectionStatusSyncing, CloudConnectionStatusError:
 		return true
 	}
 	return false

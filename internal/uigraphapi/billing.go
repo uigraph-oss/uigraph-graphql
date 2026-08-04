@@ -91,11 +91,13 @@ func (c *Client) TestCloudConnection(ctx context.Context, orgID, connectionID st
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/billing/connections/%s/test", orgID, connectionID), nil, &out)
 }
 
-func (c *Client) SyncCloudConnection(ctx context.Context, orgID, connectionID string) (int, error) {
+// SyncCloudConnection kicks off an async sync; the REST endpoint returns as
+// soon as the sync is started, not once it finishes.
+func (c *Client) SyncCloudConnection(ctx context.Context, orgID, connectionID string) (bool, error) {
 	var out struct {
-		ResourceCount int `json:"resourceCount"`
+		Started bool `json:"started"`
 	}
-	return out.ResourceCount, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/billing/connections/%s/sync", orgID, connectionID), nil, &out)
+	return out.Started, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/billing/connections/%s/sync", orgID, connectionID), nil, &out)
 }
 
 func (c *Client) GetServiceCostSummary(ctx context.Context, orgID, serviceID string) (*ServiceCostSummary, error) {

@@ -7,6 +7,7 @@ enum CloudProvider {
 enum CloudConnectionStatus {
     PENDING
     CONNECTED
+    SYNCING
     ERROR
 }
 
@@ -108,7 +109,8 @@ extend type Mutation {
     createCloudConnection(orgId: ID!, input: CreateCloudConnectionInput!): CloudConnection!
     deleteCloudConnection(orgId: ID!, connectionId: ID!): Boolean!
     testCloudConnection(orgId: ID!, connectionId: ID!): TestCloudConnectionResult!
-    syncCloudConnection(orgId: ID!, connectionId: ID!): Int!
+    "Kicks off an async sync and returns immediately (true = started) — a full multi-region scan can take too long for a synchronous request. Watch the connection's status field for progress."
+    syncCloudConnection(orgId: ID!, connectionId: ID!): Boolean!
 
     createServiceCostTagRule(orgId: ID!, serviceId: ID!, tagKey: String!, tagValue: String!): ServiceCostTagRule!
     deleteServiceCostTagRule(orgId: ID!, serviceId: ID!, ruleId: ID!): Boolean!
