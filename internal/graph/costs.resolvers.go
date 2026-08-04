@@ -115,3 +115,12 @@ func (r *queryResolver) ServiceCostTagRules(ctx context.Context, orgID string, s
 	}
 	return convert.ServiceCostTagRuleListToModel(rows), nil
 }
+
+// ResourceDailyCosts is the resolver for the resourceDailyCosts field.
+func (r *queryResolver) ResourceDailyCosts(ctx context.Context, orgID string, resourceID string, days *int) ([]*model.ResourceDailyCost, error) {
+	rows, err := r.Billing.GetResourceDailyCosts(ctx, orgID, resourceID, days)
+	if err != nil {
+		return nil, err
+	}
+	return convert.ResourceDailyCostListToModel(rows), nil
+}

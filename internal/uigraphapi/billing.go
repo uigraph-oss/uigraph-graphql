@@ -65,6 +65,11 @@ type TestCloudConnectionResult struct {
 	Error string `json:"error,omitempty"`
 }
 
+type ResourceDailyCost struct {
+	Date    string  `json:"date"`
+	CostUSD float64 `json:"costUsd"`
+}
+
 func (c *Client) ListCloudConnections(ctx context.Context, orgID string) ([]CloudConnection, error) {
 	var out struct {
 		Connections []CloudConnection `json:"connections"`
@@ -133,6 +138,17 @@ func (c *Client) ListServiceCostTagRules(ctx context.Context, orgID, serviceID s
 func (c *Client) CreateServiceCostTagRule(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*ServiceCostTagRule, error) {
 	var out ServiceCostTagRule
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/services/%s/costs/tag-rules", orgID, serviceID), body, &out)
+}
+
+func (c *Client) GetResourceDailyCosts(ctx context.Context, orgID, resourceID string, days *int) ([]ResourceDailyCost, error) {
+	path := fmt.Sprintf("/api/v1/orgs/%s/billing/resources/%s/daily-costs", orgID, resourceID)
+	if days != nil {
+		path = fmt.Sprintf("%s?days=%d", path, *days)
+	}
+	var out struct {
+		DailyCosts []ResourceDailyCost `json:"dailyCosts"`
+	}
+	return out.DailyCosts, c.get(ctx, path, &out)
 }
 
 func (c *Client) DeleteServiceCostTagRule(ctx context.Context, orgID, serviceID, ruleID string) error {

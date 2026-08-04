@@ -1707,6 +1707,11 @@ type OrgSummary struct {
 type Query struct {
 }
 
+type ResourceDailyCost struct {
+	Date    string  `json:"date"`
+	CostUsd float64 `json:"costUsd"`
+}
+
 type RoleMapping struct {
 	ID             string `json:"id"`
 	OrganizationID string `json:"organizationId"`

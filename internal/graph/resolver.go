@@ -362,6 +362,7 @@ type billingClient interface {
 	ListServiceCostTagRules(ctx context.Context, orgID, serviceID string) ([]uigraphapi.ServiceCostTagRule, error)
 	CreateServiceCostTagRule(ctx context.Context, orgID, serviceID string, body map[string]interface{}) (*uigraphapi.ServiceCostTagRule, error)
 	DeleteServiceCostTagRule(ctx context.Context, orgID, serviceID, ruleID string) error
+	GetResourceDailyCosts(ctx context.Context, orgID, resourceID string, days *int) ([]uigraphapi.ResourceDailyCost, error)
 }
 
 type Resolver struct {

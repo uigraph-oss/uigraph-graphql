@@ -101,6 +101,14 @@ func CostTrendPointListToModel(rows []uigraphapi.CostTrendPoint) []*model.CostTr
 	return out
 }
 
+func ResourceDailyCostListToModel(rows []uigraphapi.ResourceDailyCost) []*model.ResourceDailyCost {
+	out := make([]*model.ResourceDailyCost, len(rows))
+	for i, r := range rows {
+		out[i] = &model.ResourceDailyCost{Date: r.Date, CostUsd: r.CostUSD}
+	}
+	return out
+}
+
 func ServiceCostSummaryToModel(s *uigraphapi.ServiceCostSummary) *model.ServiceCostSummary {
 	if s == nil {
 		return nil

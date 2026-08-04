@@ -76,6 +76,11 @@ type TestCloudConnectionResult {
     error: String
 }
 
+type ResourceDailyCost {
+    date: String!
+    costUsd: Float!
+}
+
 input CreateCloudConnectionInput {
     provider: CloudProvider!
     displayName: String!
@@ -103,6 +108,7 @@ extend type Query {
     serviceCostResources(orgId: ID!, serviceId: ID!): [InfraResource!]!
     serviceCostTrend(orgId: ID!, serviceId: ID!, days: Int): [CostTrendPoint!]!
     serviceCostTagRules(orgId: ID!, serviceId: ID!): [ServiceCostTagRule!]!
+    resourceDailyCosts(orgId: ID!, resourceId: ID!, days: Int): [ResourceDailyCost!]!
 }
 
 extend type Mutation {
