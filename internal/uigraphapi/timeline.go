@@ -27,6 +27,7 @@ type TimelineEvent struct {
 	SourceURL         *string         `json:"sourceUrl,omitempty"`
 	IsAgentSummarized bool            `json:"isAgentSummarized"`
 	Origin            string          `json:"origin"`
+	SourceRef         *string         `json:"sourceRef,omitempty"`
 	Touches           []TimelineTouch `json:"touches"`
 
 	AttachmentAssetID  *string `json:"attachmentAssetId,omitempty"`

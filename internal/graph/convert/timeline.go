@@ -30,6 +30,7 @@ func TimelineEventToModel(e *uigraphapi.TimelineEvent) *model.TimelineEvent {
 		SourceURL:          e.SourceURL,
 		IsAgentSummarized:  e.IsAgentSummarized,
 		Origin:             e.Origin,
+		SourceRef:          e.SourceRef,
 		Touches:            touches,
 		AttachmentAssetID:  e.AttachmentAssetID,
 		AttachmentFileName: e.AttachmentFileName,

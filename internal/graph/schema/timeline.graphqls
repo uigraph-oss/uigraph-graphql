@@ -19,6 +19,7 @@ type TimelineEvent {
     sourceUrl: String
     isAgentSummarized: Boolean!
     origin: String!
+    sourceRef: String
     touches: [TimelineTouch!]!
     attachmentAssetId: String
     attachmentFileName: String
