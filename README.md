@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/badge/license-BUSL--1.1-blue)](LICENSE)
 
-GraphQL BFF (backend-for-frontend) for [UiGraph](https://github.com/uigraph-oss). Sits in front of [`uigraph-api`](https://github.com/uigraph-oss/uigraph-api) and translates GraphQL queries and mutations into REST calls, and REST DTOs into GraphQL models. It has no database and no business logic of its own beyond that translation.
+GraphQL BFF (backend-for-frontend) for [UIGraph](https://github.com/uigraph-oss). Sits in front of [`uigraph-api`](https://github.com/uigraph-oss/uigraph-api) and translates GraphQL queries and mutations into REST calls, and REST DTOs into GraphQL models. It has no database and no business logic of its own beyond that translation.
 
 ## Architecture
 
