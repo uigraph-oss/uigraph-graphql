@@ -24,13 +24,7 @@ extend type Mutation {
     deleteOrgDomain(orgId: ID!, domainId: ID!):   Boolean!
 }
 
-# ── Types ─────────────────────────────────────────────────────────────────────
 
-# AuthProvider carries both kinds; the fields of the other kind are empty.
-# kind is "oidc" or "saml". clientSecret and spKey read back as "***" when set.
-#
-# slug addresses the provider everywhere: in the login, callback, ACS and admin
-# URLs. id is kept only as a cache key and is never put in a URL.
 type AuthProvider {
     id:             ID!
     slug:           String!
@@ -74,7 +68,6 @@ type AuthProvider {
     updatedAt: Time!
 }
 
-# SamlSpMetadata is what an admin pastes into their IdP console.
 type SamlSpMetadata {
     entityId:    String!
     acsUrl:      String!
@@ -100,13 +93,11 @@ type OrgDomain {
     updatedAt: Time!
 }
 
-# takesValue is false for operators like "exists" that ignore attributeValue.
 type MappingOperator {
     name:       String!
     takesValue: Boolean!
 }
 
-# ── Inputs ────────────────────────────────────────────────────────────────────
 
 input AuthProviderInput {
     slug:           String!
