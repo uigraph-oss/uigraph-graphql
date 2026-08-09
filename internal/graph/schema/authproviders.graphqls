@@ -1,0 +1,151 @@
+extend type Query {
+    authProviders(orgId: ID!):                           [AuthProvider!]!
+    authProvider(orgId: ID!, slug: String!):             AuthProvider!
+    authProviderSamlMetadata(orgId: ID!, slug: String!): SamlSpMetadata!
+    authRoleMappings(orgId: ID!, providerSlug: String!): [AuthRoleMapping!]!
+    orgDomains(orgId: ID!):                              [OrgDomain!]!
+    mappingOperators:                                    [MappingOperator!]!
+}
+
+extend type Mutation {
+    createAuthProvider(orgId: ID!, input: AuthProviderInput!):                AuthProvider!
+    updateAuthProvider(orgId: ID!, slug: String!, input: AuthProviderInput!): AuthProvider!
+    deleteAuthProvider(orgId: ID!, slug: String!):                            Boolean!
+
+    prepareAuthProviderIconUpload(orgId: ID!, slug: String!): AssetUpload!
+    setAuthProviderIcon(orgId: ID!, slug: String!):           Boolean!
+    removeAuthProviderIcon(orgId: ID!, slug: String!):        Boolean!
+
+    createAuthRoleMapping(orgId: ID!, providerSlug: String!, input: AuthRoleMappingInput!):                   AuthRoleMapping!
+    updateAuthRoleMapping(orgId: ID!, providerSlug: String!, mappingId: ID!, input: AuthRoleMappingInput!):   AuthRoleMapping!
+    deleteAuthRoleMapping(orgId: ID!, providerSlug: String!, mappingId: ID!):                                 Boolean!
+
+    createOrgDomain(orgId: ID!, domain: String!): OrgDomain!
+    deleteOrgDomain(orgId: ID!, domainId: ID!):   Boolean!
+}
+
+# ── Types ─────────────────────────────────────────────────────────────────────
+
+# AuthProvider carries both kinds; the fields of the other kind are empty.
+# kind is "oidc" or "saml". clientSecret and spKey read back as "***" when set.
+#
+# slug addresses the provider everywhere: in the login, callback, ACS and admin
+# URLs. id is kept only as a cache key and is never put in a URL.
+type AuthProvider {
+    id:             ID!
+    slug:           String!
+    orgId:          ID!
+    kind:           String!
+    type:           String!
+    displayName:    String!
+    iconUrl:        String!
+    enabled:        Boolean!
+    allowSignUp:    Boolean!
+    allowedDomains: String!
+    defaultRole:    String!
+
+    clientId:     String!
+    clientSecret: String!
+    authUrl:      String!
+    tokenUrl:     String!
+    userinfoUrl:  String!
+    apiUrl:       String!
+    scopes:       String!
+    emailClaim:   String!
+    nameClaim:    String!
+    subClaim:     String!
+    groupsClaim:  String!
+
+    idpMetadataUrl:  String!
+    idpMetadataXml:  String!
+    idpEntityId:     String!
+    idpSsoUrl:       String!
+    idpCert:         String!
+    spEntityId:      String!
+    spCert:          String!
+    spKey:           String!
+    signRequests:    Boolean!
+    nameIdFormat:    String!
+    emailAttribute:  String!
+    nameAttribute:   String!
+    groupsAttribute: String!
+
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+# SamlSpMetadata is what an admin pastes into their IdP console.
+type SamlSpMetadata {
+    entityId:    String!
+    acsUrl:      String!
+    metadataUrl: String!
+    metadata:    String!
+}
+
+type AuthRoleMapping {
+    id:             ID!
+    providerId:     ID!
+    priority:       Int!
+    attributeKey:   String!
+    operator:       String!
+    attributeValue: String!
+    role:           String!
+}
+
+type OrgDomain {
+    id:        ID!
+    orgId:     ID!
+    domain:    String!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+# takesValue is false for operators like "exists" that ignore attributeValue.
+type MappingOperator {
+    name:       String!
+    takesValue: Boolean!
+}
+
+# ── Inputs ────────────────────────────────────────────────────────────────────
+
+input AuthProviderInput {
+    slug:           String!
+    kind:           String!
+    type:           String
+    displayName:    String!
+    enabled:        Boolean!
+    allowSignUp:    Boolean!
+    allowedDomains: String
+    defaultRole:    String!
+
+    clientId:     String
+    clientSecret: String
+    authUrl:      String
+    tokenUrl:     String
+    userinfoUrl:  String
+    apiUrl:       String
+    scopes:       String
+    emailClaim:   String
+    nameClaim:    String
+    subClaim:     String
+    groupsClaim:  String
+
+    idpMetadataUrl:  String
+    idpMetadataXml:  String
+    idpEntityId:     String
+    idpSsoUrl:       String
+    idpCert:         String
+    signRequests:    Boolean
+    nameIdFormat:    String
+    emailAttribute:  String
+    nameAttribute:   String
+    groupsAttribute: String
+}
+
+input AuthRoleMappingInput {
+    priority:       Int!
+    attributeKey:   String!
+    operator:       String!
+    attributeValue: String
+    role:           String!
+}

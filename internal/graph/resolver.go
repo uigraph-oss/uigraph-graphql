@@ -86,21 +86,30 @@ type adminClient interface {
 	CreateUser(ctx context.Context, body map[string]interface{}) (*uigraphapi.User, error)
 	UpdateUser(ctx context.Context, id string, body map[string]interface{}) (*uigraphapi.User, error)
 	DisableUser(ctx context.Context, id string) error
-	ListOAuthProviders(ctx context.Context) ([]uigraphapi.OAuthProvider, error)
-	UpsertOAuthProvider(ctx context.Context, provider string, body map[string]interface{}) error
-	DeleteOAuthProvider(ctx context.Context, provider string) error
-	PrepareOAuthProviderIconUpload(ctx context.Context, provider string) (*uigraphapi.AssetUpload, error)
-	SetOAuthProviderIcon(ctx context.Context, provider string) error
-	RemoveOAuthProviderIcon(ctx context.Context, provider string) error
-	ListRoleMappings(ctx context.Context) ([]uigraphapi.RoleMapping, error)
-	CreateRoleMapping(ctx context.Context, body map[string]interface{}) error
-	DeleteRoleMapping(ctx context.Context, id string) error
 	GetLDAP(ctx context.Context) (*uigraphapi.LDAPConfig, error)
 	UpsertLDAP(ctx context.Context, body map[string]interface{}) error
 	DeleteLDAP(ctx context.Context) error
-	GetSAML(ctx context.Context) (*uigraphapi.SAMLConfig, error)
-	UpsertSAML(ctx context.Context, body map[string]interface{}) error
 	GetSCIM(ctx context.Context) (*uigraphapi.SCIMConfig, error)
+}
+
+type authProviderClient interface {
+	ListAuthProviders(ctx context.Context, orgID string) ([]uigraphapi.AuthProvider, error)
+	GetAuthProvider(ctx context.Context, orgID, slug string) (*uigraphapi.AuthProvider, error)
+	CreateAuthProvider(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.AuthProvider, error)
+	UpdateAuthProvider(ctx context.Context, orgID, slug string, body map[string]interface{}) (*uigraphapi.AuthProvider, error)
+	DeleteAuthProvider(ctx context.Context, orgID, slug string) error
+	PrepareAuthProviderIconUpload(ctx context.Context, orgID, slug string) (*uigraphapi.AssetUpload, error)
+	SetAuthProviderIcon(ctx context.Context, orgID, slug string) error
+	RemoveAuthProviderIcon(ctx context.Context, orgID, slug string) error
+	GetAuthProviderSAMLMetadata(ctx context.Context, orgID, slug string) (*uigraphapi.SamlSpMetadata, error)
+	ListAuthRoleMappings(ctx context.Context, orgID, providerSlug string) ([]uigraphapi.AuthRoleMapping, error)
+	CreateAuthRoleMapping(ctx context.Context, orgID, providerSlug string, body map[string]interface{}) (*uigraphapi.AuthRoleMapping, error)
+	UpdateAuthRoleMapping(ctx context.Context, orgID, providerSlug, mappingID string, body map[string]interface{}) (*uigraphapi.AuthRoleMapping, error)
+	DeleteAuthRoleMapping(ctx context.Context, orgID, providerSlug, mappingID string) error
+	ListOrgDomains(ctx context.Context, orgID string) ([]uigraphapi.OrgDomain, error)
+	CreateOrgDomain(ctx context.Context, orgID, domain string) (*uigraphapi.OrgDomain, error)
+	DeleteOrgDomain(ctx context.Context, orgID, domainID string) error
+	ListMappingOperators(ctx context.Context) ([]uigraphapi.MappingOperator, error)
 }
 
 type folderClient interface {
@@ -376,6 +385,7 @@ type Resolver struct {
 	Auth        authClient
 	OrgAPI      orgClient
 	Admin       adminClient
+	AuthAPI     authProviderClient
 	FolderAPI   folderClient
 	DiagramAPI  diagramClient
 	DocAPI      docsClient

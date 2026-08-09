@@ -77,45 +77,6 @@ func (r *mutationResolver) DisableUser(ctx context.Context, id string) (bool, er
 	return true, r.Admin.DisableUser(ctx, id)
 }
 
-// UpsertOAuthProvider is the resolver for the upsertOAuthProvider field.
-func (r *mutationResolver) UpsertOAuthProvider(ctx context.Context, provider string, input model.UpsertOAuthInput) (bool, error) {
-	return true, r.Admin.UpsertOAuthProvider(ctx, provider, convert.ToMap(input))
-}
-
-// DeleteOAuthProvider is the resolver for the deleteOAuthProvider field.
-func (r *mutationResolver) DeleteOAuthProvider(ctx context.Context, provider string) (bool, error) {
-	return true, r.Admin.DeleteOAuthProvider(ctx, provider)
-}
-
-// PrepareOAuthProviderIconUpload is the resolver for the prepareOAuthProviderIconUpload field.
-func (r *mutationResolver) PrepareOAuthProviderIconUpload(ctx context.Context, provider string) (*model.AssetUpload, error) {
-	u, err := r.Admin.PrepareOAuthProviderIconUpload(ctx, provider)
-	if err != nil {
-		return nil, err
-	}
-	return &model.AssetUpload{AssetID: u.AssetID, UploadURL: u.UploadURL}, nil
-}
-
-// SetOAuthProviderIcon is the resolver for the setOAuthProviderIcon field.
-func (r *mutationResolver) SetOAuthProviderIcon(ctx context.Context, provider string) (bool, error) {
-	return true, r.Admin.SetOAuthProviderIcon(ctx, provider)
-}
-
-// RemoveOAuthProviderIcon is the resolver for the removeOAuthProviderIcon field.
-func (r *mutationResolver) RemoveOAuthProviderIcon(ctx context.Context, provider string) (bool, error) {
-	return true, r.Admin.RemoveOAuthProviderIcon(ctx, provider)
-}
-
-// CreateRoleMapping is the resolver for the createRoleMapping field.
-func (r *mutationResolver) CreateRoleMapping(ctx context.Context, input model.CreateRoleMappingInput) (bool, error) {
-	return true, r.Admin.CreateRoleMapping(ctx, convert.ToMap(input))
-}
-
-// DeleteRoleMapping is the resolver for the deleteRoleMapping field.
-func (r *mutationResolver) DeleteRoleMapping(ctx context.Context, id string) (bool, error) {
-	return true, r.Admin.DeleteRoleMapping(ctx, id)
-}
-
 // UpsertLdap is the resolver for the upsertLDAP field.
 func (r *mutationResolver) UpsertLdap(ctx context.Context, input model.UpsertLDAPInput) (bool, error) {
 	return true, r.Admin.UpsertLDAP(ctx, convert.ToMap(input))
@@ -124,11 +85,6 @@ func (r *mutationResolver) UpsertLdap(ctx context.Context, input model.UpsertLDA
 // DeleteLdap is the resolver for the deleteLDAP field.
 func (r *mutationResolver) DeleteLdap(ctx context.Context) (bool, error) {
 	return true, r.Admin.DeleteLDAP(ctx)
-}
-
-// UpsertSaml is the resolver for the upsertSAML field.
-func (r *mutationResolver) UpsertSaml(ctx context.Context, input model.UpsertSAMLInput) (bool, error) {
-	return true, r.Admin.UpsertSAML(ctx, convert.ToMap(input))
 }
 
 // ServerOverview is the resolver for the serverOverview field.
@@ -180,24 +136,6 @@ func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error
 	return convert.UserToModel(u), nil
 }
 
-// OauthProviders is the resolver for the oauthProviders field.
-func (r *queryResolver) OauthProviders(ctx context.Context) ([]*model.OAuthProvider, error) {
-	providers, err := r.Admin.ListOAuthProviders(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return convert.OAuthProvidersToModel(providers), nil
-}
-
-// RoleMappings is the resolver for the roleMappings field.
-func (r *queryResolver) RoleMappings(ctx context.Context) ([]*model.RoleMapping, error) {
-	mappings, err := r.Admin.ListRoleMappings(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return convert.RoleMappingsToModel(mappings), nil
-}
-
 // Ldap is the resolver for the ldap field.
 func (r *queryResolver) Ldap(ctx context.Context) (*model.LDAPConfig, error) {
 	l, err := r.Admin.GetLDAP(ctx)
@@ -208,18 +146,6 @@ func (r *queryResolver) Ldap(ctx context.Context) (*model.LDAPConfig, error) {
 		return nil, err
 	}
 	return convert.LDAPToModel(l), nil
-}
-
-// Saml is the resolver for the saml field.
-func (r *queryResolver) Saml(ctx context.Context) (*model.SAMLConfig, error) {
-	s, err := r.Admin.GetSAML(ctx)
-	if err != nil {
-		if uigraphapi.IsNotFound(err) {
-			return nil, nil
-		}
-		return nil, err
-	}
-	return convert.SAMLToModel(s), nil
 }
 
 // Scim is the resolver for the scim field.

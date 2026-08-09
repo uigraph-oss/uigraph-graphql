@@ -37,6 +37,7 @@ func Run(cfg *config.Config) error {
 		Auth:        c,
 		OrgAPI:      c,
 		Admin:       c,
+		AuthAPI:     c,
 		FolderAPI:   c,
 		DiagramAPI:  c,
 		DocAPI:      c,
