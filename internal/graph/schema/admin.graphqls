@@ -7,10 +7,7 @@ extend type Query {
     users:               [User!]!
     user(id: ID!):       User!
 
-    oauthProviders:      [OAuthProvider!]!
-    roleMappings:        [RoleMapping!]!
     ldap:                LDAPConfig
-    saml:                SAMLConfig
     scim:                SCIMConfig
 }
 
@@ -27,20 +24,8 @@ extend type Mutation {
     updateUser(id: ID!, input: UpdateUserInput!):     User!
     disableUser(id: ID!):                             Boolean!
 
-    upsertOAuthProvider(provider: String!, input: UpsertOAuthInput!): Boolean!
-    deleteOAuthProvider(provider: String!):                          Boolean!
-
-    prepareOAuthProviderIconUpload(provider: String!): AssetUpload!
-    setOAuthProviderIcon(provider: String!):           Boolean!
-    removeOAuthProviderIcon(provider: String!):        Boolean!
-
-    createRoleMapping(input: CreateRoleMappingInput!): Boolean!
-    deleteRoleMapping(id: ID!):                        Boolean!
-
     upsertLDAP(input: UpsertLDAPInput!): Boolean!
     deleteLDAP:                          Boolean!
-
-    upsertSAML(input: UpsertSAMLInput!): Boolean!
 }
 
 # ── Types ─────────────────────────────────────────────────────────────────────
@@ -73,39 +58,6 @@ type User {
     updatedAt:  Time!
 }
 
-type OAuthProvider {
-    id:             ID!
-    providerName:   String!
-    type:           String!
-    displayName:    String!
-    iconUrl:        String!
-    clientId:       String!
-    clientSecret:   String!
-    authUrl:        String!
-    tokenUrl:       String!
-    userinfoUrl:    String!
-    apiUrl:         String!
-    scopes:         String!
-    allowedDomains: String!
-    allowSignUp:    Boolean!
-    emailClaim:     String!
-    nameClaim:      String!
-    subClaim:       String!
-    createdAt:      Time!
-    updatedAt:      Time!
-}
-
-type RoleMapping {
-    id:             ID!
-    organizationId: ID!
-    claimKey:       String!
-    claimValue:     String!
-    role:           String!
-    scope:          String!
-    resourceType:   String!
-    resourceId:     String!
-}
-
 type LDAPConfig {
     id:                ID!
     host:              String!
@@ -124,27 +76,6 @@ type LDAPConfig {
     allowSignUp:       Boolean!
     createdAt:         Time!
     updatedAt:         Time!
-}
-
-type SAMLConfig {
-    id:              ID!
-    idpMetadataUrl:  String!
-    idpMetadataXml:  String!
-    idpEntityId:     String!
-    idpSsoUrl:       String!
-    idpCert:         String!
-    spEntityId:      String!
-    spCert:          String!
-    spKey:           String!
-    signRequests:    Boolean!
-    nameIdFormat:    String!
-    emailAttribute:  String!
-    nameAttribute:   String!
-    loginAttribute:  String!
-    groupsAttribute: String!
-    allowSignUp:     Boolean!
-    createdAt:       Time!
-    updatedAt:       Time!
 }
 
 type SCIMConfig {
@@ -177,33 +108,6 @@ input UpdateUserInput {
     disabled: Boolean
 }
 
-input UpsertOAuthInput {
-    type:           String!
-    displayName:    String!
-    iconUrl:        String
-    clientId:       String!
-    clientSecret:   String
-    authUrl:        String
-    tokenUrl:       String
-    userinfoUrl:    String
-    apiUrl:         String
-    scopes:         String!
-    allowedDomains: String
-    allowSignUp:    Boolean!
-    emailClaim:     String!
-    nameClaim:      String!
-    subClaim:       String!
-}
-
-input CreateRoleMappingInput {
-    claimKey:     String!
-    claimValue:   String!
-    role:         String!
-    scope:        String!
-    resourceType: String
-    resourceId:   String
-}
-
 input UpsertLDAPInput {
     host:              String!
     port:              Int!
@@ -219,17 +123,4 @@ input UpsertLDAPInput {
     usernameAttribute: String!
     memberOfAttribute: String!
     allowSignUp:       Boolean!
-}
-
-input UpsertSAMLInput {
-    idpMetadataUrl:  String
-    idpMetadataXml:  String
-    spEntityId:      String!
-    signRequests:    Boolean!
-    nameIdFormat:    String!
-    emailAttribute:  String!
-    nameAttribute:   String!
-    loginAttribute:  String!
-    groupsAttribute: String
-    allowSignUp:     Boolean!
 }

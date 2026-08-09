@@ -243,6 +243,96 @@ type AuthConfigInput struct {
 	BasicPassword *string `json:"basicPassword,omitempty"`
 }
 
+type AuthProvider struct {
+	ID              string    `json:"id"`
+	Slug            string    `json:"slug"`
+	OrgID           string    `json:"orgId"`
+	Kind            string    `json:"kind"`
+	Type            string    `json:"type"`
+	DisplayName     string    `json:"displayName"`
+	IconURL         string    `json:"iconUrl"`
+	Enabled         bool      `json:"enabled"`
+	AllowSignUp     bool      `json:"allowSignUp"`
+	AllowedDomains  string    `json:"allowedDomains"`
+	DefaultRole     string    `json:"defaultRole"`
+	ClientID        string    `json:"clientId"`
+	ClientSecret    string    `json:"clientSecret"`
+	AuthURL         string    `json:"authUrl"`
+	TokenURL        string    `json:"tokenUrl"`
+	UserinfoURL     string    `json:"userinfoUrl"`
+	APIURL          string    `json:"apiUrl"`
+	Scopes          string    `json:"scopes"`
+	EmailClaim      string    `json:"emailClaim"`
+	NameClaim       string    `json:"nameClaim"`
+	SubClaim        string    `json:"subClaim"`
+	GroupsClaim     string    `json:"groupsClaim"`
+	IdpMetadataURL  string    `json:"idpMetadataUrl"`
+	IdpMetadataXML  string    `json:"idpMetadataXml"`
+	IdpEntityID     string    `json:"idpEntityId"`
+	IdpSsoURL       string    `json:"idpSsoUrl"`
+	IdpCert         string    `json:"idpCert"`
+	SpEntityID      string    `json:"spEntityId"`
+	SpCert          string    `json:"spCert"`
+	SpKey           string    `json:"spKey"`
+	SignRequests    bool      `json:"signRequests"`
+	NameIDFormat    string    `json:"nameIdFormat"`
+	EmailAttribute  string    `json:"emailAttribute"`
+	NameAttribute   string    `json:"nameAttribute"`
+	GroupsAttribute string    `json:"groupsAttribute"`
+	CreatedAt       time.Time `json:"createdAt"`
+	UpdatedAt       time.Time `json:"updatedAt"`
+}
+
+type AuthProviderInput struct {
+	Slug            string  `json:"slug"`
+	Kind            string  `json:"kind"`
+	Type            *string `json:"type,omitempty"`
+	DisplayName     string  `json:"displayName"`
+	Enabled         bool    `json:"enabled"`
+	AllowSignUp     bool    `json:"allowSignUp"`
+	AllowedDomains  *string `json:"allowedDomains,omitempty"`
+	DefaultRole     string  `json:"defaultRole"`
+	ClientID        *string `json:"clientId,omitempty"`
+	ClientSecret    *string `json:"clientSecret,omitempty"`
+	AuthURL         *string `json:"authUrl,omitempty"`
+	TokenURL        *string `json:"tokenUrl,omitempty"`
+	UserinfoURL     *string `json:"userinfoUrl,omitempty"`
+	APIURL          *string `json:"apiUrl,omitempty"`
+	Scopes          *string `json:"scopes,omitempty"`
+	EmailClaim      *string `json:"emailClaim,omitempty"`
+	NameClaim       *string `json:"nameClaim,omitempty"`
+	SubClaim        *string `json:"subClaim,omitempty"`
+	GroupsClaim     *string `json:"groupsClaim,omitempty"`
+	IdpMetadataURL  *string `json:"idpMetadataUrl,omitempty"`
+	IdpMetadataXML  *string `json:"idpMetadataXml,omitempty"`
+	IdpEntityID     *string `json:"idpEntityId,omitempty"`
+	IdpSsoURL       *string `json:"idpSsoUrl,omitempty"`
+	IdpCert         *string `json:"idpCert,omitempty"`
+	SignRequests    *bool   `json:"signRequests,omitempty"`
+	NameIDFormat    *string `json:"nameIdFormat,omitempty"`
+	EmailAttribute  *string `json:"emailAttribute,omitempty"`
+	NameAttribute   *string `json:"nameAttribute,omitempty"`
+	GroupsAttribute *string `json:"groupsAttribute,omitempty"`
+}
+
+type AuthRoleMapping struct {
+	ID             string `json:"id"`
+	ProviderID     string `json:"providerId"`
+	Priority       int    `json:"priority"`
+	AttributeKey   string `json:"attributeKey"`
+	Operator       string `json:"operator"`
+	AttributeValue string `json:"attributeValue"`
+	Role           string `json:"role"`
+}
+
+type AuthRoleMappingInput struct {
+	Priority       int     `json:"priority"`
+	AttributeKey   string  `json:"attributeKey"`
+	Operator       string  `json:"operator"`
+	AttributeValue *string `json:"attributeValue,omitempty"`
+	Role           string  `json:"role"`
+}
+
 type Canvas struct {
 	MapID          string    `json:"mapId"`
 	OrgID          string    `json:"orgId"`
@@ -632,15 +722,6 @@ type CreateMlRunInput struct {
 
 type CreateOrgInput struct {
 	Name string `json:"name"`
-}
-
-type CreateRoleMappingInput struct {
-	ClaimKey     string  `json:"claimKey"`
-	ClaimValue   string  `json:"claimValue"`
-	Role         string  `json:"role"`
-	Scope        string  `json:"scope"`
-	ResourceType *string `json:"resourceType,omitempty"`
-	ResourceID   *string `json:"resourceId,omitempty"`
 }
 
 type CreateSavedQueryFolderInput struct {
@@ -1429,6 +1510,11 @@ type ManualTestCaseInput struct {
 	Postconditions  *string              `json:"postconditions,omitempty"`
 }
 
+type MappingOperator struct {
+	Name       string `json:"name"`
+	TakesValue bool   `json:"takesValue"`
+}
+
 type Me struct {
 	UserID        string  `json:"userId"`
 	OrgID         string  `json:"orgId"`
@@ -1680,34 +1766,20 @@ type ModelSavings struct {
 type Mutation struct {
 }
 
-type OAuthProvider struct {
-	ID             string    `json:"id"`
-	ProviderName   string    `json:"providerName"`
-	Type           string    `json:"type"`
-	DisplayName    string    `json:"displayName"`
-	IconURL        string    `json:"iconUrl"`
-	ClientID       string    `json:"clientId"`
-	ClientSecret   string    `json:"clientSecret"`
-	AuthURL        string    `json:"authUrl"`
-	TokenURL       string    `json:"tokenUrl"`
-	UserinfoURL    string    `json:"userinfoUrl"`
-	APIURL         string    `json:"apiUrl"`
-	Scopes         string    `json:"scopes"`
-	AllowedDomains string    `json:"allowedDomains"`
-	AllowSignUp    bool      `json:"allowSignUp"`
-	EmailClaim     string    `json:"emailClaim"`
-	NameClaim      string    `json:"nameClaim"`
-	SubClaim       string    `json:"subClaim"`
-	CreatedAt      time.Time `json:"createdAt"`
-	UpdatedAt      time.Time `json:"updatedAt"`
-}
-
 type Org struct {
 	ID        string    `json:"id"`
 	Name      string    `json:"name"`
 	LogoURL   *string   `json:"logoUrl,omitempty"`
 	Disabled  bool      `json:"disabled"`
 	AutoJoin  bool      `json:"autoJoin"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
+
+type OrgDomain struct {
+	ID        string    `json:"id"`
+	OrgID     string    `json:"orgId"`
+	Domain    string    `json:"domain"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
@@ -1729,40 +1801,15 @@ type ResourceDailyCost struct {
 	CostUsd float64 `json:"costUsd"`
 }
 
-type RoleMapping struct {
-	ID             string `json:"id"`
-	OrganizationID string `json:"organizationId"`
-	ClaimKey       string `json:"claimKey"`
-	ClaimValue     string `json:"claimValue"`
-	Role           string `json:"role"`
-	Scope          string `json:"scope"`
-	ResourceType   string `json:"resourceType"`
-	ResourceID     string `json:"resourceId"`
-}
-
-type SAMLConfig struct {
-	ID              string    `json:"id"`
-	IdpMetadataURL  string    `json:"idpMetadataUrl"`
-	IdpMetadataXML  string    `json:"idpMetadataXml"`
-	IdpEntityID     string    `json:"idpEntityId"`
-	IdpSsoURL       string    `json:"idpSsoUrl"`
-	IdpCert         string    `json:"idpCert"`
-	SpEntityID      string    `json:"spEntityId"`
-	SpCert          string    `json:"spCert"`
-	SpKey           string    `json:"spKey"`
-	SignRequests    bool      `json:"signRequests"`
-	NameIDFormat    string    `json:"nameIdFormat"`
-	EmailAttribute  string    `json:"emailAttribute"`
-	NameAttribute   string    `json:"nameAttribute"`
-	LoginAttribute  string    `json:"loginAttribute"`
-	GroupsAttribute string    `json:"groupsAttribute"`
-	AllowSignUp     bool      `json:"allowSignUp"`
-	CreatedAt       time.Time `json:"createdAt"`
-	UpdatedAt       time.Time `json:"updatedAt"`
-}
-
 type SCIMConfig struct {
 	ID string `json:"id"`
+}
+
+type SamlSpMetadata struct {
+	EntityID    string `json:"entityId"`
+	AcsURL      string `json:"acsUrl"`
+	MetadataURL string `json:"metadataUrl"`
+	Metadata    string `json:"metadata"`
 }
 
 type SavedQuery struct {
@@ -2621,37 +2668,6 @@ type UpsertLDAPInput struct {
 	UsernameAttribute string  `json:"usernameAttribute"`
 	MemberOfAttribute string  `json:"memberOfAttribute"`
 	AllowSignUp       bool    `json:"allowSignUp"`
-}
-
-type UpsertOAuthInput struct {
-	Type           string  `json:"type"`
-	DisplayName    string  `json:"displayName"`
-	IconURL        *string `json:"iconUrl,omitempty"`
-	ClientID       string  `json:"clientId"`
-	ClientSecret   *string `json:"clientSecret,omitempty"`
-	AuthURL        *string `json:"authUrl,omitempty"`
-	TokenURL       *string `json:"tokenUrl,omitempty"`
-	UserinfoURL    *string `json:"userinfoUrl,omitempty"`
-	APIURL         *string `json:"apiUrl,omitempty"`
-	Scopes         string  `json:"scopes"`
-	AllowedDomains *string `json:"allowedDomains,omitempty"`
-	AllowSignUp    bool    `json:"allowSignUp"`
-	EmailClaim     string  `json:"emailClaim"`
-	NameClaim      string  `json:"nameClaim"`
-	SubClaim       string  `json:"subClaim"`
-}
-
-type UpsertSAMLInput struct {
-	IdpMetadataURL  *string `json:"idpMetadataUrl,omitempty"`
-	IdpMetadataXML  *string `json:"idpMetadataXml,omitempty"`
-	SpEntityID      string  `json:"spEntityId"`
-	SignRequests    bool    `json:"signRequests"`
-	NameIDFormat    string  `json:"nameIdFormat"`
-	EmailAttribute  string  `json:"emailAttribute"`
-	NameAttribute   string  `json:"nameAttribute"`
-	LoginAttribute  string  `json:"loginAttribute"`
-	GroupsAttribute *string `json:"groupsAttribute,omitempty"`
-	AllowSignUp     bool    `json:"allowSignUp"`
 }
 
 type User struct {
