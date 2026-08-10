@@ -111,6 +111,7 @@ type authProviderClient interface {
 	DeleteAuthRoleMapping(ctx context.Context, orgID, providerSlug, mappingID string) error
 	ListOrgDomains(ctx context.Context, orgID string) ([]uigraphapi.OrgDomain, error)
 	CreateOrgDomain(ctx context.Context, orgID, domain string) (*uigraphapi.OrgDomain, error)
+	UpdateOrgDomain(ctx context.Context, orgID, domainID, domain string) (*uigraphapi.OrgDomain, error)
 	DeleteOrgDomain(ctx context.Context, orgID, domainID string) error
 	ListMappingOperators(ctx context.Context) ([]uigraphapi.MappingOperator, error)
 }

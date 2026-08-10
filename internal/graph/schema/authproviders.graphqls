@@ -21,6 +21,7 @@ extend type Mutation {
     deleteAuthRoleMapping(orgId: ID!, providerSlug: String!, mappingId: ID!):                                 Boolean!
 
     createOrgDomain(orgId: ID!, domain: String!): OrgDomain!
+    updateOrgDomain(orgId: ID!, domainId: ID!, domain: String!): OrgDomain!
     deleteOrgDomain(orgId: ID!, domainId: ID!):   Boolean!
 }
 
