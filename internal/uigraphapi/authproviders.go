@@ -160,6 +160,12 @@ func (c *Client) CreateOrgDomain(ctx context.Context, orgID, domain string) (*Or
 	return &out, c.post(ctx, "/api/v1/orgs/"+orgID+"/auth/domains", body, &out)
 }
 
+func (c *Client) UpdateOrgDomain(ctx context.Context, orgID, domainID, domain string) (*OrgDomain, error) {
+	var out OrgDomain
+	body := map[string]interface{}{"domain": domain}
+	return &out, c.put(ctx, "/api/v1/orgs/"+orgID+"/auth/domains/"+domainID, body, &out)
+}
+
 func (c *Client) DeleteOrgDomain(ctx context.Context, orgID, domainID string) error {
 	return c.del(ctx, "/api/v1/orgs/"+orgID+"/auth/domains/"+domainID)
 }

@@ -40,6 +40,25 @@ func (r *mutationResolver) CompleteOnboarding(ctx context.Context, orgID string)
 	return true, r.OrgAPI.CompleteOnboarding(ctx, orgID)
 }
 
+// PrepareOrgLogoUpload is the resolver for the prepareOrgLogoUpload field.
+func (r *mutationResolver) PrepareOrgLogoUpload(ctx context.Context, orgID string) (*model.AssetUpload, error) {
+	u, err := r.OrgAPI.PrepareOrgLogoUpload(ctx, orgID)
+	if err != nil {
+		return nil, err
+	}
+	return &model.AssetUpload{AssetID: u.AssetID, UploadURL: u.UploadURL}, nil
+}
+
+// SetOrgLogo is the resolver for the setOrgLogo field.
+func (r *mutationResolver) SetOrgLogo(ctx context.Context, orgID string) (bool, error) {
+	return true, r.OrgAPI.SetOrgLogo(ctx, orgID)
+}
+
+// RemoveOrgLogo is the resolver for the removeOrgLogo field.
+func (r *mutationResolver) RemoveOrgLogo(ctx context.Context, orgID string) (bool, error) {
+	return true, r.OrgAPI.RemoveOrgLogo(ctx, orgID)
+}
+
 // AddMember is the resolver for the addMember field.
 func (r *mutationResolver) AddMember(ctx context.Context, orgID string, input model.AddMemberInput) (*model.Member, error) {
 	m, err := r.OrgAPI.AddMember(ctx, orgID, convert.ToMap(input))

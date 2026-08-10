@@ -85,6 +85,15 @@ func (r *mutationResolver) CreateOrgDomain(ctx context.Context, orgID string, do
 	return convert.OrgDomainToModel(d), nil
 }
 
+// UpdateOrgDomain is the resolver for the updateOrgDomain field.
+func (r *mutationResolver) UpdateOrgDomain(ctx context.Context, orgID string, domainID string, domain string) (*model.OrgDomain, error) {
+	d, err := r.AuthAPI.UpdateOrgDomain(ctx, orgID, domainID, domain)
+	if err != nil {
+		return nil, err
+	}
+	return convert.OrgDomainToModel(d), nil
+}
+
 // DeleteOrgDomain is the resolver for the deleteOrgDomain field.
 func (r *mutationResolver) DeleteOrgDomain(ctx context.Context, orgID string, domainID string) (bool, error) {
 	return true, r.AuthAPI.DeleteOrgDomain(ctx, orgID, domainID)

@@ -246,6 +246,19 @@ func (c *Client) SetServiceAccountAvatar(ctx context.Context, orgID, saID string
 	return c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/service-accounts/%s/avatar", orgID, saID), nil, nil)
 }
 
+func (c *Client) PrepareOrgLogoUpload(ctx context.Context, orgID string) (*AssetUpload, error) {
+	var out AssetUpload
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/logo/prepare", orgID), nil, &out)
+}
+
+func (c *Client) SetOrgLogo(ctx context.Context, orgID string) error {
+	return c.put(ctx, fmt.Sprintf("/api/v1/orgs/%s/logo", orgID), nil, nil)
+}
+
+func (c *Client) RemoveOrgLogo(ctx context.Context, orgID string) error {
+	return c.del(ctx, fmt.Sprintf("/api/v1/orgs/%s/logo", orgID))
+}
+
 func (c *Client) PrepareServerOrgLogoUpload(ctx context.Context, orgID string) (*AssetUpload, error) {
 	var out AssetUpload
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/server/orgs/%s/logo/prepare", orgID), nil, &out)

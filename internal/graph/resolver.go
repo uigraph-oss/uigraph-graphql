@@ -46,6 +46,9 @@ type orgClient interface {
 	UpdateOrg(ctx context.Context, id string, body map[string]interface{}) (*uigraphapi.Org, error)
 	DeleteOrg(ctx context.Context, id string) error
 	CompleteOnboarding(ctx context.Context, orgID string) error
+	PrepareOrgLogoUpload(ctx context.Context, orgID string) (*uigraphapi.AssetUpload, error)
+	SetOrgLogo(ctx context.Context, orgID string) error
+	RemoveOrgLogo(ctx context.Context, orgID string) error
 	ListMembers(ctx context.Context, orgID string) ([]uigraphapi.Member, error)
 	AddMember(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Member, error)
 	UpdateMember(ctx context.Context, orgID, userID string, body map[string]interface{}) (*uigraphapi.Member, error)
@@ -108,6 +111,7 @@ type authProviderClient interface {
 	DeleteAuthRoleMapping(ctx context.Context, orgID, providerSlug, mappingID string) error
 	ListOrgDomains(ctx context.Context, orgID string) ([]uigraphapi.OrgDomain, error)
 	CreateOrgDomain(ctx context.Context, orgID, domain string) (*uigraphapi.OrgDomain, error)
+	UpdateOrgDomain(ctx context.Context, orgID, domainID, domain string) (*uigraphapi.OrgDomain, error)
 	DeleteOrgDomain(ctx context.Context, orgID, domainID string) error
 	ListMappingOperators(ctx context.Context) ([]uigraphapi.MappingOperator, error)
 }
