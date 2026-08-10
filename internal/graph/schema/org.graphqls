@@ -16,6 +16,9 @@ extend type Mutation {
     updateOrg(id: ID!, input: UpdateOrgInput!):       Org!
     deleteOrg(id: ID!):                               Boolean!
     completeOnboarding(orgId: ID!):                   Boolean!
+    prepareOrgLogoUpload(orgId: ID!):                 AssetUpload!
+    setOrgLogo(orgId: ID!):                           Boolean!
+    removeOrgLogo(orgId: ID!):                        Boolean!
 
     addMember(orgId: ID!, input: AddMemberInput!):                       Member!
     updateMember(orgId: ID!, userId: ID!, input: UpdateMemberInput!):    Member!
