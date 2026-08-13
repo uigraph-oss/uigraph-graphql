@@ -9,6 +9,7 @@ func DiagramToModel(d *uigraphapi.Diagram) *model.Diagram {
 	return &model.Diagram{
 		ID: d.ID, OrgID: d.OrgID, FolderID: d.FolderID, TeamID: d.TeamID,
 		Name: d.Name, ContentKey: d.ContentKey, ContentHash: d.ContentHash,
+		Content:        d.Content,
 		PreviewAssetID: d.PreviewAssetID, PreviewContentHash: d.PreviewContentHash,
 		PreviewStatus: d.PreviewStatus,
 		Source:        d.Source, CreatedBy: d.CreatedBy, UpdatedBy: d.UpdatedBy,

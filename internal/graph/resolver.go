@@ -126,7 +126,7 @@ type folderClient interface {
 
 type diagramClient interface {
 	ListDiagrams(ctx context.Context, orgID string, p uigraphapi.ListParams) ([]uigraphapi.Diagram, int, error)
-	GetDiagram(ctx context.Context, orgID, id string) (*uigraphapi.Diagram, error)
+	GetDiagram(ctx context.Context, orgID, id string, includeContent bool) (*uigraphapi.Diagram, error)
 	GetDiagramContent(ctx context.Context, orgID, id string) (string, error)
 	CreateDiagram(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.Diagram, error)
 	UpdateDiagram(ctx context.Context, orgID, id string, body map[string]interface{}) (*uigraphapi.Diagram, error)

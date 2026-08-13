@@ -14,6 +14,7 @@ type Diagram struct {
 	Name                string     `json:"name"`
 	ContentKey          string     `json:"contentKey"`
 	ContentHash         string     `json:"contentHash"`
+	Content             *string    `json:"content,omitempty"`
 	PreviewAssetID      *string    `json:"previewAssetId,omitempty"`
 	PreviewContentHash  *string    `json:"previewContentHash,omitempty"`
 	PreviewStatus       string     `json:"previewStatus"`
@@ -71,9 +72,13 @@ func (c *Client) ListDiagrams(ctx context.Context, orgID string, p ListParams) (
 	return out.Diagrams, out.Total, c.get(ctx, path, &out)
 }
 
-func (c *Client) GetDiagram(ctx context.Context, orgID, id string) (*Diagram, error) {
+func (c *Client) GetDiagram(ctx context.Context, orgID, id string, includeContent bool) (*Diagram, error) {
+	path := fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s", orgID, id)
+	if includeContent {
+		path += "?includeContent=true"
+	}
 	var out Diagram
-	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/diagrams/%s", orgID, id), &out)
+	return &out, c.get(ctx, path, &out)
 }
 
 func (c *Client) GetDiagramContent(ctx context.Context, orgID, id string) (string, error) {

@@ -6,7 +6,6 @@ type DiagramThumbnailUpload {
 extend type Query {
     diagrams(orgId: ID!, folderId: ID, teamId: ID, serviceId: ID, search: String, sortBy: String, sortDir: String, limit: Int, offset: Int): DiagramPage!
     diagram(orgId: ID!, id: ID!):                             Diagram!
-    diagramContent(orgId: ID!, id: ID!):                      DiagramContent!
     diagramVersions(orgId: ID!, diagramId: ID!):              [DiagramVersion!]!
     diagramVersionContent(orgId: ID!, diagramId: ID!, versionId: ID!): DiagramContent!
     diagramImages(orgId: ID!, diagramId: ID!):               [DiagramImage!]!
@@ -33,6 +32,7 @@ type Diagram {
     name:               String!
     contentKey:         String!
     contentHash:        String!
+    content:            String @goField(forceResolver: true)
     previewAssetId:     String
     previewImageUrl:    String @goField(forceResolver: true)
     previewContentHash: String
