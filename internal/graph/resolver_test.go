@@ -252,7 +252,7 @@ type fakeDiagramClient struct {
 func (f *fakeDiagramClient) ListDiagrams(_ context.Context, _ string, _ uigraphapi.ListParams) ([]uigraphapi.Diagram, int, error) {
 	return nil, 0, nil
 }
-func (f *fakeDiagramClient) GetDiagram(_ context.Context, _, _ string) (*uigraphapi.Diagram, error) {
+func (f *fakeDiagramClient) GetDiagram(_ context.Context, _, _ string, _ bool) (*uigraphapi.Diagram, error) {
 	return nil, nil
 }
 func (f *fakeDiagramClient) GetDiagramContent(_ context.Context, _, _ string) (string, error) {

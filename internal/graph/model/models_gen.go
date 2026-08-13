@@ -1038,6 +1038,7 @@ type Diagram struct {
 	Name                string    `json:"name"`
 	ContentKey          string    `json:"contentKey"`
 	ContentHash         string    `json:"contentHash"`
+	Content             *string   `json:"content,omitempty"`
 	PreviewAssetID      *string   `json:"previewAssetId,omitempty"`
 	PreviewImageURL     *string   `json:"previewImageUrl,omitempty"`
 	PreviewContentHash  *string   `json:"previewContentHash,omitempty"`

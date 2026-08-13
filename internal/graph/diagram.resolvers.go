@@ -7,11 +7,24 @@ package graph
 import (
 	"context"
 
+	"github.com/99designs/gqlgen/graphql"
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/generated"
 	"github.com/uigraph/graphql/internal/graph/model"
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
+
+// Content is the resolver for the content field.
+func (r *diagramResolver) Content(ctx context.Context, obj *model.Diagram) (*string, error) {
+	if obj.Content != nil {
+		return obj.Content, nil
+	}
+	content, err := r.DiagramAPI.GetDiagramContent(ctx, obj.OrgID, obj.ID)
+	if err != nil {
+		return nil, err
+	}
+	return &content, nil
+}
 
 // PreviewImageURL is the resolver for the previewImageUrl field.
 func (r *diagramResolver) PreviewImageURL(ctx context.Context, obj *model.Diagram) (*string, error) {
@@ -154,20 +167,17 @@ func (r *queryResolver) Diagrams(ctx context.Context, orgID string, folderID *st
 
 // Diagram is the resolver for the diagram field.
 func (r *queryResolver) Diagram(ctx context.Context, orgID string, id string) (*model.Diagram, error) {
-	d, err := r.DiagramAPI.GetDiagram(ctx, orgID, id)
+	includeContent := false
+	for _, f := range graphql.CollectFieldsCtx(ctx, nil) {
+		if f.Name == "content" {
+			includeContent = true
+		}
+	}
+	d, err := r.DiagramAPI.GetDiagram(ctx, orgID, id, includeContent)
 	if err != nil {
 		return nil, err
 	}
 	return convert.DiagramToModel(d), nil
-}
-
-// DiagramContent is the resolver for the diagramContent field.
-func (r *queryResolver) DiagramContent(ctx context.Context, orgID string, id string) (*model.DiagramContent, error) {
-	content, err := r.DiagramAPI.GetDiagramContent(ctx, orgID, id)
-	if err != nil {
-		return nil, err
-	}
-	return &model.DiagramContent{DiagramID: id, Content: content}, nil
 }
 
 // DiagramVersions is the resolver for the diagramVersions field.
