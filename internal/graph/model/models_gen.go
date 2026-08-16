@@ -1322,6 +1322,24 @@ type GRPCTestCaseInput struct {
 	ExpectError    bool              `json:"expectError"`
 }
 
+type GitHubAppInstallation struct {
+	ID           string `json:"id"`
+	AccountLogin string `json:"accountLogin"`
+	AccountType  string `json:"accountType"`
+	Status       string `json:"status"`
+}
+
+type GitHubRepository struct {
+	ID            string `json:"id"`
+	GithubID      string `json:"githubId"`
+	Name          string `json:"name"`
+	FullName      string `json:"fullName"`
+	URL           string `json:"url"`
+	DefaultBranch string `json:"defaultBranch"`
+	Private       bool   `json:"private"`
+	Archived      bool   `json:"archived"`
+}
+
 type GraphQLTestCase struct {
 	OperationType string       `json:"operationType"`
 	OperationName *string      `json:"operationName,omitempty"`
@@ -1797,6 +1815,27 @@ type OrgSummary struct {
 type Query struct {
 }
 
+type RepositoryOnboarding struct {
+	ID                      string                     `json:"id"`
+	Repository              *GitHubRepository          `json:"repository"`
+	Status                  RepositoryOnboardingStatus `json:"status"`
+	SetupPullRequestURL     *string                    `json:"setupPullRequestUrl,omitempty"`
+	GenerationRunURL        *string                    `json:"generationRunUrl,omitempty"`
+	ArtifactsPullRequestURL *string                    `json:"artifactsPullRequestUrl,omitempty"`
+	SyncRunURL              *string                    `json:"syncRunUrl,omitempty"`
+	MissingAIConfiguration  []string                   `json:"missingAIConfiguration"`
+	Error                   *string                    `json:"error,omitempty"`
+	ServiceID               *string                    `json:"serviceId,omitempty"`
+}
+
+type RepositoryOnboardingBatch struct {
+	ID           string                     `json:"id"`
+	Status       RepositoryOnboardingStatus `json:"status"`
+	TeamID       string                     `json:"teamId"`
+	TeamName     *string                    `json:"teamName,omitempty"`
+	Repositories []*RepositoryOnboarding    `json:"repositories"`
+}
+
 type ResourceDailyCost struct {
 	Date    string  `json:"date"`
 	CostUsd float64 `json:"costUsd"`
@@ -2044,6 +2083,12 @@ type ServiceStats struct {
 	DocCount      int    `json:"docCount"`
 	DbTableCount  int    `json:"dbTableCount"`
 	TestCaseCount int    `json:"testCaseCount"`
+}
+
+type StartRepositoryOnboardingInput struct {
+	OrgID         string   `json:"orgId"`
+	TeamID        string   `json:"teamId"`
+	RepositoryIds []string `json:"repositoryIds"`
 }
 
 type SyncAPIGroupInput struct {
@@ -2863,6 +2908,89 @@ func (e *InfraResourceStatus) UnmarshalJSON(b []byte) error {
 }
 
 func (e InfraResourceStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type RepositoryOnboardingStatus string
+
+const (
+	RepositoryOnboardingStatusRunning                 RepositoryOnboardingStatus = "RUNNING"
+	RepositoryOnboardingStatusSelected                RepositoryOnboardingStatus = "SELECTED"
+	RepositoryOnboardingStatusSetupPrCreating         RepositoryOnboardingStatus = "SETUP_PR_CREATING"
+	RepositoryOnboardingStatusSetupPrOpen             RepositoryOnboardingStatus = "SETUP_PR_OPEN"
+	RepositoryOnboardingStatusWaitingSetupMerge       RepositoryOnboardingStatus = "WAITING_SETUP_MERGE"
+	RepositoryOnboardingStatusCheckingAiConfiguration RepositoryOnboardingStatus = "CHECKING_AI_CONFIGURATION"
+	RepositoryOnboardingStatusWaitingAiConfiguration  RepositoryOnboardingStatus = "WAITING_AI_CONFIGURATION"
+	RepositoryOnboardingStatusGenerationQueued        RepositoryOnboardingStatus = "GENERATION_QUEUED"
+	RepositoryOnboardingStatusGenerationRunning       RepositoryOnboardingStatus = "GENERATION_RUNNING"
+	RepositoryOnboardingStatusArtifactsPrOpen         RepositoryOnboardingStatus = "ARTIFACTS_PR_OPEN"
+	RepositoryOnboardingStatusWaitingArtifactsMerge   RepositoryOnboardingStatus = "WAITING_ARTIFACTS_MERGE"
+	RepositoryOnboardingStatusSyncQueued              RepositoryOnboardingStatus = "SYNC_QUEUED"
+	RepositoryOnboardingStatusSyncRunning             RepositoryOnboardingStatus = "SYNC_RUNNING"
+	RepositoryOnboardingStatusCompleted               RepositoryOnboardingStatus = "COMPLETED"
+	RepositoryOnboardingStatusFailed                  RepositoryOnboardingStatus = "FAILED"
+	RepositoryOnboardingStatusCancelled               RepositoryOnboardingStatus = "CANCELLED"
+)
+
+var AllRepositoryOnboardingStatus = []RepositoryOnboardingStatus{
+	RepositoryOnboardingStatusRunning,
+	RepositoryOnboardingStatusSelected,
+	RepositoryOnboardingStatusSetupPrCreating,
+	RepositoryOnboardingStatusSetupPrOpen,
+	RepositoryOnboardingStatusWaitingSetupMerge,
+	RepositoryOnboardingStatusCheckingAiConfiguration,
+	RepositoryOnboardingStatusWaitingAiConfiguration,
+	RepositoryOnboardingStatusGenerationQueued,
+	RepositoryOnboardingStatusGenerationRunning,
+	RepositoryOnboardingStatusArtifactsPrOpen,
+	RepositoryOnboardingStatusWaitingArtifactsMerge,
+	RepositoryOnboardingStatusSyncQueued,
+	RepositoryOnboardingStatusSyncRunning,
+	RepositoryOnboardingStatusCompleted,
+	RepositoryOnboardingStatusFailed,
+	RepositoryOnboardingStatusCancelled,
+}
+
+func (e RepositoryOnboardingStatus) IsValid() bool {
+	switch e {
+	case RepositoryOnboardingStatusRunning, RepositoryOnboardingStatusSelected, RepositoryOnboardingStatusSetupPrCreating, RepositoryOnboardingStatusSetupPrOpen, RepositoryOnboardingStatusWaitingSetupMerge, RepositoryOnboardingStatusCheckingAiConfiguration, RepositoryOnboardingStatusWaitingAiConfiguration, RepositoryOnboardingStatusGenerationQueued, RepositoryOnboardingStatusGenerationRunning, RepositoryOnboardingStatusArtifactsPrOpen, RepositoryOnboardingStatusWaitingArtifactsMerge, RepositoryOnboardingStatusSyncQueued, RepositoryOnboardingStatusSyncRunning, RepositoryOnboardingStatusCompleted, RepositoryOnboardingStatusFailed, RepositoryOnboardingStatusCancelled:
+		return true
+	}
+	return false
+}
+
+func (e RepositoryOnboardingStatus) String() string {
+	return string(e)
+}
+
+func (e *RepositoryOnboardingStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RepositoryOnboardingStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RepositoryOnboardingStatus", str)
+	}
+	return nil
+}
+
+func (e RepositoryOnboardingStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RepositoryOnboardingStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RepositoryOnboardingStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

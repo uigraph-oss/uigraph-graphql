@@ -1,0 +1,77 @@
+extend type Query {
+    githubApp(orgId: ID!): GitHubAppInstallation
+    githubRepositories(orgId: ID!): [GitHubRepository!]!
+    repositoryOnboarding(orgId: ID!, batchId: ID!): RepositoryOnboardingBatch!
+}
+
+extend type Mutation {
+    githubAppInstallURL(orgId: ID!): String!
+    disconnectGitHubApp(orgId: ID!): Boolean!
+    startRepositoryOnboarding(input: StartRepositoryOnboardingInput!): RepositoryOnboardingBatch!
+    recheckRepositoryOnboarding(orgId: ID!, batchId: ID!, onboardingId: ID!): RepositoryOnboarding!
+    retryRepositoryOnboarding(orgId: ID!, batchId: ID!, onboardingId: ID!): RepositoryOnboarding!
+}
+
+type GitHubAppInstallation {
+    id: ID!
+    accountLogin: String!
+    accountType: String!
+    status: String!
+}
+
+type GitHubRepository {
+    id: ID!
+    githubId: ID!
+    name: String!
+    fullName: String!
+    url: String!
+    defaultBranch: String!
+    private: Boolean!
+    archived: Boolean!
+}
+
+type RepositoryOnboardingBatch {
+    id: ID!
+    status: RepositoryOnboardingStatus!
+    teamId: ID!
+    teamName: String
+    repositories: [RepositoryOnboarding!]!
+}
+
+type RepositoryOnboarding {
+    id: ID!
+    repository: GitHubRepository!
+    status: RepositoryOnboardingStatus!
+    setupPullRequestUrl: String
+    generationRunUrl: String
+    artifactsPullRequestUrl: String
+    syncRunUrl: String
+    missingAIConfiguration: [String!]!
+    error: String
+    serviceId: ID
+}
+
+enum RepositoryOnboardingStatus {
+    RUNNING
+    SELECTED
+    SETUP_PR_CREATING
+    SETUP_PR_OPEN
+    WAITING_SETUP_MERGE
+    CHECKING_AI_CONFIGURATION
+    WAITING_AI_CONFIGURATION
+    GENERATION_QUEUED
+    GENERATION_RUNNING
+    ARTIFACTS_PR_OPEN
+    WAITING_ARTIFACTS_MERGE
+    SYNC_QUEUED
+    SYNC_RUNNING
+    COMPLETED
+    FAILED
+    CANCELLED
+}
+
+input StartRepositoryOnboardingInput {
+    orgId: ID!
+    teamId: ID!
+    repositoryIds: [ID!]!
+}
