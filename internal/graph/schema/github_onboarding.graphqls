@@ -42,10 +42,9 @@ type RepositoryOnboarding {
     id: ID!
     repository: GitHubRepository!
     status: RepositoryOnboardingStatus!
-    setupPullRequestUrl: String
-    generationRunUrl: String
-    artifactsPullRequestUrl: String
-    syncRunUrl: String
+    branch: String!
+    runUrl: String
+    pullRequestUrl: String
     missingAIConfiguration: [String!]!
     error: String
     serviceId: ID
@@ -54,17 +53,10 @@ type RepositoryOnboarding {
 enum RepositoryOnboardingStatus {
     RUNNING
     SELECTED
-    SETUP_PR_CREATING
-    SETUP_PR_OPEN
-    WAITING_SETUP_MERGE
     CHECKING_AI_CONFIGURATION
     WAITING_AI_CONFIGURATION
-    GENERATION_QUEUED
-    GENERATION_RUNNING
-    ARTIFACTS_PR_OPEN
-    WAITING_ARTIFACTS_MERGE
-    SYNC_QUEUED
-    SYNC_RUNNING
+    RUN_QUEUED
+    RUN_RUNNING
     COMPLETED
     FAILED
     CANCELLED

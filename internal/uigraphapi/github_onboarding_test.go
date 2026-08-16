@@ -148,7 +148,8 @@ func TestGetRepositoryOnboardingDecodesNullableFields(t *testing.T) {
 				"id":"onboarding-1",
 				"repository":{"id":"repo-node-1","githubId":100,"name":"api","fullName":"acme/api","url":"https://github.com/acme/api","defaultBranch":"main","private":true,"archived":false},
 				"status":"waiting_ai_configuration",
-				"setupPrUrl":null,
+				"branch":"uigraph/onboarding/onboarding-1",
+				"runUrl":null,
 				"missingAIConfiguration":["OPENAI_API_KEY"],
 				"error":null
 			}]
@@ -164,7 +165,7 @@ func TestGetRepositoryOnboardingDecodesNullableFields(t *testing.T) {
 		t.Errorf("TeamName = %q, want nil", *batch.TeamName)
 	}
 	onboarding := batch.Repositories[0]
-	if onboarding.SetupPullRequestURL != nil || onboarding.Error != nil || onboarding.ServiceID != nil {
+	if onboarding.RunURL != nil || onboarding.PullRequestURL != nil || onboarding.Error != nil || onboarding.ServiceID != nil {
 		t.Fatalf("nullable fields = %#v, want nil", onboarding)
 	}
 	if !reflect.DeepEqual(onboarding.MissingAIConfiguration, []string{"OPENAI_API_KEY"}) {
@@ -175,4 +176,4 @@ func TestGetRepositoryOnboardingDecodesNullableFields(t *testing.T) {
 	}
 }
 
-const onboardingResponseJSON = `{"id":"onboarding-1","repository":{"id":"repo-node-1","githubId":100,"name":"api","fullName":"acme/api","url":"https://github.com/acme/api","defaultBranch":"main","private":true,"archived":false},"status":"generation_running","missingAIConfiguration":[]}`
+const onboardingResponseJSON = `{"id":"onboarding-1","repository":{"id":"repo-node-1","githubId":100,"name":"api","fullName":"acme/api","url":"https://github.com/acme/api","defaultBranch":"main","private":true,"archived":false},"status":"run_running","missingAIConfiguration":[]}`

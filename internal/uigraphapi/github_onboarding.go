@@ -26,22 +26,15 @@ type GitHubRepository struct {
 type RepositoryOnboardingStatus string
 
 const (
-	RepositoryOnboardingStatusRunning               RepositoryOnboardingStatus = "running"
-	RepositoryOnboardingStatusSelected              RepositoryOnboardingStatus = "selected"
-	RepositoryOnboardingStatusSetupPRCreating       RepositoryOnboardingStatus = "setup_pr_creating"
-	RepositoryOnboardingStatusSetupPROpen           RepositoryOnboardingStatus = "setup_pr_open"
-	RepositoryOnboardingStatusWaitingSetupMerge     RepositoryOnboardingStatus = "waiting_setup_merge"
-	RepositoryOnboardingStatusCheckingAI            RepositoryOnboardingStatus = "checking_ai_configuration"
-	RepositoryOnboardingStatusWaitingAI             RepositoryOnboardingStatus = "waiting_ai_configuration"
-	RepositoryOnboardingStatusGenerationQueued      RepositoryOnboardingStatus = "generation_queued"
-	RepositoryOnboardingStatusGenerationRunning     RepositoryOnboardingStatus = "generation_running"
-	RepositoryOnboardingStatusArtifactsPROpen       RepositoryOnboardingStatus = "artifacts_pr_open"
-	RepositoryOnboardingStatusWaitingArtifactsMerge RepositoryOnboardingStatus = "waiting_artifacts_merge"
-	RepositoryOnboardingStatusSyncQueued            RepositoryOnboardingStatus = "sync_queued"
-	RepositoryOnboardingStatusSyncRunning           RepositoryOnboardingStatus = "sync_running"
-	RepositoryOnboardingStatusCompleted             RepositoryOnboardingStatus = "completed"
-	RepositoryOnboardingStatusFailed                RepositoryOnboardingStatus = "failed"
-	RepositoryOnboardingStatusCancelled             RepositoryOnboardingStatus = "cancelled"
+	RepositoryOnboardingStatusRunning    RepositoryOnboardingStatus = "running"
+	RepositoryOnboardingStatusSelected   RepositoryOnboardingStatus = "selected"
+	RepositoryOnboardingStatusCheckingAI RepositoryOnboardingStatus = "checking_ai_configuration"
+	RepositoryOnboardingStatusWaitingAI  RepositoryOnboardingStatus = "waiting_ai_configuration"
+	RepositoryOnboardingStatusRunQueued  RepositoryOnboardingStatus = "run_queued"
+	RepositoryOnboardingStatusRunRunning RepositoryOnboardingStatus = "run_running"
+	RepositoryOnboardingStatusCompleted  RepositoryOnboardingStatus = "completed"
+	RepositoryOnboardingStatusFailed     RepositoryOnboardingStatus = "failed"
+	RepositoryOnboardingStatusCancelled  RepositoryOnboardingStatus = "cancelled"
 )
 
 type RepositoryOnboardingBatch struct {
@@ -53,16 +46,15 @@ type RepositoryOnboardingBatch struct {
 }
 
 type RepositoryOnboarding struct {
-	ID                      string                     `json:"id"`
-	Repository              GitHubRepository           `json:"repository"`
-	Status                  RepositoryOnboardingStatus `json:"status"`
-	SetupPullRequestURL     *string                    `json:"setupPrUrl,omitempty"`
-	GenerationRunURL        *string                    `json:"generationRunUrl,omitempty"`
-	ArtifactsPullRequestURL *string                    `json:"artifactsPrUrl,omitempty"`
-	SyncRunURL              *string                    `json:"syncRunUrl,omitempty"`
-	MissingAIConfiguration  []string                   `json:"missingAIConfiguration,omitempty"`
-	Error                   *string                    `json:"error,omitempty"`
-	ServiceID               *string                    `json:"serviceId,omitempty"`
+	ID                     string                     `json:"id"`
+	Repository             GitHubRepository           `json:"repository"`
+	Status                 RepositoryOnboardingStatus `json:"status"`
+	Branch                 string                     `json:"branch"`
+	RunURL                 *string                    `json:"runUrl,omitempty"`
+	PullRequestURL         *string                    `json:"prUrl,omitempty"`
+	MissingAIConfiguration []string                   `json:"missingAIConfiguration,omitempty"`
+	Error                  *string                    `json:"error,omitempty"`
+	ServiceID              *string                    `json:"serviceId,omitempty"`
 }
 
 type StartRepositoryOnboardingInput struct {

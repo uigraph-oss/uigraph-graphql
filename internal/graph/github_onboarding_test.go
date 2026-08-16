@@ -69,6 +69,7 @@ func TestRepositoryOnboardingQuery(t *testing.T) {
 				URL:           "https://github.com/acme/api",
 				DefaultBranch: "main",
 			},
+			Branch:                 "uigraph/onboarding/onboarding-1",
 			MissingAIConfiguration: []string{"OPENAI_API_KEY"},
 		}},
 	}}
@@ -79,7 +80,7 @@ func TestRepositoryOnboardingQuery(t *testing.T) {
 		repositoryOnboarding(orgId: "org-1", batchId: "batch-1") {
 			id status teamId teamName
 			repositories {
-				id status setupPullRequestUrl generationRunUrl artifactsPullRequestUrl syncRunUrl error serviceId missingAIConfiguration
+				id status branch runUrl pullRequestUrl error serviceId missingAIConfiguration
 				repository { id githubId name fullName }
 			}
 		}
@@ -89,7 +90,7 @@ func TestRepositoryOnboardingQuery(t *testing.T) {
 		t.Fatalf("repositoryOnboarding = %#v", batch)
 	}
 	onboarding := batch["repositories"].([]interface{})[0].(map[string]interface{})
-	if onboarding["setupPullRequestUrl"] != nil || onboarding["serviceId"] != nil {
+	if onboarding["runUrl"] != nil || onboarding["pullRequestUrl"] != nil || onboarding["serviceId"] != nil {
 		t.Fatalf("nullable onboarding fields = %#v", onboarding)
 	}
 	if onboarding["status"] != "WAITING_AI_CONFIGURATION" {

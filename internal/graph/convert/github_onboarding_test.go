@@ -14,17 +14,10 @@ func TestRepositoryOnboardingStatusToModel(t *testing.T) {
 	}{
 		{uigraphapi.RepositoryOnboardingStatusRunning, model.RepositoryOnboardingStatusRunning},
 		{uigraphapi.RepositoryOnboardingStatusSelected, model.RepositoryOnboardingStatusSelected},
-		{uigraphapi.RepositoryOnboardingStatusSetupPRCreating, model.RepositoryOnboardingStatusSetupPrCreating},
-		{uigraphapi.RepositoryOnboardingStatusSetupPROpen, model.RepositoryOnboardingStatusSetupPrOpen},
-		{uigraphapi.RepositoryOnboardingStatusWaitingSetupMerge, model.RepositoryOnboardingStatusWaitingSetupMerge},
 		{uigraphapi.RepositoryOnboardingStatusCheckingAI, model.RepositoryOnboardingStatusCheckingAiConfiguration},
 		{uigraphapi.RepositoryOnboardingStatusWaitingAI, model.RepositoryOnboardingStatusWaitingAiConfiguration},
-		{uigraphapi.RepositoryOnboardingStatusGenerationQueued, model.RepositoryOnboardingStatusGenerationQueued},
-		{uigraphapi.RepositoryOnboardingStatusGenerationRunning, model.RepositoryOnboardingStatusGenerationRunning},
-		{uigraphapi.RepositoryOnboardingStatusArtifactsPROpen, model.RepositoryOnboardingStatusArtifactsPrOpen},
-		{uigraphapi.RepositoryOnboardingStatusWaitingArtifactsMerge, model.RepositoryOnboardingStatusWaitingArtifactsMerge},
-		{uigraphapi.RepositoryOnboardingStatusSyncQueued, model.RepositoryOnboardingStatusSyncQueued},
-		{uigraphapi.RepositoryOnboardingStatusSyncRunning, model.RepositoryOnboardingStatusSyncRunning},
+		{uigraphapi.RepositoryOnboardingStatusRunQueued, model.RepositoryOnboardingStatusRunQueued},
+		{uigraphapi.RepositoryOnboardingStatusRunRunning, model.RepositoryOnboardingStatusRunRunning},
 		{uigraphapi.RepositoryOnboardingStatusCompleted, model.RepositoryOnboardingStatusCompleted},
 		{uigraphapi.RepositoryOnboardingStatusFailed, model.RepositoryOnboardingStatusFailed},
 		{uigraphapi.RepositoryOnboardingStatusCancelled, model.RepositoryOnboardingStatusCancelled},
@@ -58,7 +51,7 @@ func TestRepositoryOnboardingToModelPreservesNullableFields(t *testing.T) {
 	if err != nil {
 		t.Fatalf("RepositoryOnboardingToModel() error = %v", err)
 	}
-	if got.SetupPullRequestURL != nil || got.GenerationRunURL != nil || got.Error != nil || got.ServiceID != nil {
+	if got.RunURL != nil || got.PullRequestURL != nil || got.Error != nil || got.ServiceID != nil {
 		t.Fatalf("nullable fields were not nil: %#v", got)
 	}
 	if got.MissingAIConfiguration == nil || len(got.MissingAIConfiguration) != 0 {

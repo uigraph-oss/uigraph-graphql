@@ -1816,16 +1816,15 @@ type Query struct {
 }
 
 type RepositoryOnboarding struct {
-	ID                      string                     `json:"id"`
-	Repository              *GitHubRepository          `json:"repository"`
-	Status                  RepositoryOnboardingStatus `json:"status"`
-	SetupPullRequestURL     *string                    `json:"setupPullRequestUrl,omitempty"`
-	GenerationRunURL        *string                    `json:"generationRunUrl,omitempty"`
-	ArtifactsPullRequestURL *string                    `json:"artifactsPullRequestUrl,omitempty"`
-	SyncRunURL              *string                    `json:"syncRunUrl,omitempty"`
-	MissingAIConfiguration  []string                   `json:"missingAIConfiguration"`
-	Error                   *string                    `json:"error,omitempty"`
-	ServiceID               *string                    `json:"serviceId,omitempty"`
+	ID                     string                     `json:"id"`
+	Repository             *GitHubRepository          `json:"repository"`
+	Status                 RepositoryOnboardingStatus `json:"status"`
+	Branch                 string                     `json:"branch"`
+	RunURL                 *string                    `json:"runUrl,omitempty"`
+	PullRequestURL         *string                    `json:"pullRequestUrl,omitempty"`
+	MissingAIConfiguration []string                   `json:"missingAIConfiguration"`
+	Error                  *string                    `json:"error,omitempty"`
+	ServiceID              *string                    `json:"serviceId,omitempty"`
 }
 
 type RepositoryOnboardingBatch struct {
@@ -2918,17 +2917,10 @@ type RepositoryOnboardingStatus string
 const (
 	RepositoryOnboardingStatusRunning                 RepositoryOnboardingStatus = "RUNNING"
 	RepositoryOnboardingStatusSelected                RepositoryOnboardingStatus = "SELECTED"
-	RepositoryOnboardingStatusSetupPrCreating         RepositoryOnboardingStatus = "SETUP_PR_CREATING"
-	RepositoryOnboardingStatusSetupPrOpen             RepositoryOnboardingStatus = "SETUP_PR_OPEN"
-	RepositoryOnboardingStatusWaitingSetupMerge       RepositoryOnboardingStatus = "WAITING_SETUP_MERGE"
 	RepositoryOnboardingStatusCheckingAiConfiguration RepositoryOnboardingStatus = "CHECKING_AI_CONFIGURATION"
 	RepositoryOnboardingStatusWaitingAiConfiguration  RepositoryOnboardingStatus = "WAITING_AI_CONFIGURATION"
-	RepositoryOnboardingStatusGenerationQueued        RepositoryOnboardingStatus = "GENERATION_QUEUED"
-	RepositoryOnboardingStatusGenerationRunning       RepositoryOnboardingStatus = "GENERATION_RUNNING"
-	RepositoryOnboardingStatusArtifactsPrOpen         RepositoryOnboardingStatus = "ARTIFACTS_PR_OPEN"
-	RepositoryOnboardingStatusWaitingArtifactsMerge   RepositoryOnboardingStatus = "WAITING_ARTIFACTS_MERGE"
-	RepositoryOnboardingStatusSyncQueued              RepositoryOnboardingStatus = "SYNC_QUEUED"
-	RepositoryOnboardingStatusSyncRunning             RepositoryOnboardingStatus = "SYNC_RUNNING"
+	RepositoryOnboardingStatusRunQueued               RepositoryOnboardingStatus = "RUN_QUEUED"
+	RepositoryOnboardingStatusRunRunning              RepositoryOnboardingStatus = "RUN_RUNNING"
 	RepositoryOnboardingStatusCompleted               RepositoryOnboardingStatus = "COMPLETED"
 	RepositoryOnboardingStatusFailed                  RepositoryOnboardingStatus = "FAILED"
 	RepositoryOnboardingStatusCancelled               RepositoryOnboardingStatus = "CANCELLED"
@@ -2937,17 +2929,10 @@ const (
 var AllRepositoryOnboardingStatus = []RepositoryOnboardingStatus{
 	RepositoryOnboardingStatusRunning,
 	RepositoryOnboardingStatusSelected,
-	RepositoryOnboardingStatusSetupPrCreating,
-	RepositoryOnboardingStatusSetupPrOpen,
-	RepositoryOnboardingStatusWaitingSetupMerge,
 	RepositoryOnboardingStatusCheckingAiConfiguration,
 	RepositoryOnboardingStatusWaitingAiConfiguration,
-	RepositoryOnboardingStatusGenerationQueued,
-	RepositoryOnboardingStatusGenerationRunning,
-	RepositoryOnboardingStatusArtifactsPrOpen,
-	RepositoryOnboardingStatusWaitingArtifactsMerge,
-	RepositoryOnboardingStatusSyncQueued,
-	RepositoryOnboardingStatusSyncRunning,
+	RepositoryOnboardingStatusRunQueued,
+	RepositoryOnboardingStatusRunRunning,
 	RepositoryOnboardingStatusCompleted,
 	RepositoryOnboardingStatusFailed,
 	RepositoryOnboardingStatusCancelled,
@@ -2955,7 +2940,7 @@ var AllRepositoryOnboardingStatus = []RepositoryOnboardingStatus{
 
 func (e RepositoryOnboardingStatus) IsValid() bool {
 	switch e {
-	case RepositoryOnboardingStatusRunning, RepositoryOnboardingStatusSelected, RepositoryOnboardingStatusSetupPrCreating, RepositoryOnboardingStatusSetupPrOpen, RepositoryOnboardingStatusWaitingSetupMerge, RepositoryOnboardingStatusCheckingAiConfiguration, RepositoryOnboardingStatusWaitingAiConfiguration, RepositoryOnboardingStatusGenerationQueued, RepositoryOnboardingStatusGenerationRunning, RepositoryOnboardingStatusArtifactsPrOpen, RepositoryOnboardingStatusWaitingArtifactsMerge, RepositoryOnboardingStatusSyncQueued, RepositoryOnboardingStatusSyncRunning, RepositoryOnboardingStatusCompleted, RepositoryOnboardingStatusFailed, RepositoryOnboardingStatusCancelled:
+	case RepositoryOnboardingStatusRunning, RepositoryOnboardingStatusSelected, RepositoryOnboardingStatusCheckingAiConfiguration, RepositoryOnboardingStatusWaitingAiConfiguration, RepositoryOnboardingStatusRunQueued, RepositoryOnboardingStatusRunRunning, RepositoryOnboardingStatusCompleted, RepositoryOnboardingStatusFailed, RepositoryOnboardingStatusCancelled:
 		return true
 	}
 	return false

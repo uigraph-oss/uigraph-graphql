@@ -44,28 +44,14 @@ func RepositoryOnboardingStatusToModel(status uigraphapi.RepositoryOnboardingSta
 		return model.RepositoryOnboardingStatusRunning, nil
 	case uigraphapi.RepositoryOnboardingStatusSelected:
 		return model.RepositoryOnboardingStatusSelected, nil
-	case uigraphapi.RepositoryOnboardingStatusSetupPRCreating:
-		return model.RepositoryOnboardingStatusSetupPrCreating, nil
-	case uigraphapi.RepositoryOnboardingStatusSetupPROpen:
-		return model.RepositoryOnboardingStatusSetupPrOpen, nil
-	case uigraphapi.RepositoryOnboardingStatusWaitingSetupMerge:
-		return model.RepositoryOnboardingStatusWaitingSetupMerge, nil
 	case uigraphapi.RepositoryOnboardingStatusCheckingAI:
 		return model.RepositoryOnboardingStatusCheckingAiConfiguration, nil
 	case uigraphapi.RepositoryOnboardingStatusWaitingAI:
 		return model.RepositoryOnboardingStatusWaitingAiConfiguration, nil
-	case uigraphapi.RepositoryOnboardingStatusGenerationQueued:
-		return model.RepositoryOnboardingStatusGenerationQueued, nil
-	case uigraphapi.RepositoryOnboardingStatusGenerationRunning:
-		return model.RepositoryOnboardingStatusGenerationRunning, nil
-	case uigraphapi.RepositoryOnboardingStatusArtifactsPROpen:
-		return model.RepositoryOnboardingStatusArtifactsPrOpen, nil
-	case uigraphapi.RepositoryOnboardingStatusWaitingArtifactsMerge:
-		return model.RepositoryOnboardingStatusWaitingArtifactsMerge, nil
-	case uigraphapi.RepositoryOnboardingStatusSyncQueued:
-		return model.RepositoryOnboardingStatusSyncQueued, nil
-	case uigraphapi.RepositoryOnboardingStatusSyncRunning:
-		return model.RepositoryOnboardingStatusSyncRunning, nil
+	case uigraphapi.RepositoryOnboardingStatusRunQueued:
+		return model.RepositoryOnboardingStatusRunQueued, nil
+	case uigraphapi.RepositoryOnboardingStatusRunRunning:
+		return model.RepositoryOnboardingStatusRunRunning, nil
 	case uigraphapi.RepositoryOnboardingStatusCompleted:
 		return model.RepositoryOnboardingStatusCompleted, nil
 	case uigraphapi.RepositoryOnboardingStatusFailed:
@@ -87,16 +73,15 @@ func RepositoryOnboardingToModel(onboarding uigraphapi.RepositoryOnboarding) (*m
 		missingAIConfiguration = []string{}
 	}
 	return &model.RepositoryOnboarding{
-		ID:                      onboarding.ID,
-		Repository:              GitHubRepositoryToModel(onboarding.Repository),
-		Status:                  status,
-		SetupPullRequestURL:     onboarding.SetupPullRequestURL,
-		GenerationRunURL:        onboarding.GenerationRunURL,
-		ArtifactsPullRequestURL: onboarding.ArtifactsPullRequestURL,
-		SyncRunURL:              onboarding.SyncRunURL,
-		MissingAIConfiguration:  missingAIConfiguration,
-		Error:                   onboarding.Error,
-		ServiceID:               onboarding.ServiceID,
+		ID:                     onboarding.ID,
+		Repository:             GitHubRepositoryToModel(onboarding.Repository),
+		Status:                 status,
+		Branch:                 onboarding.Branch,
+		RunURL:                 onboarding.RunURL,
+		PullRequestURL:         onboarding.PullRequestURL,
+		MissingAIConfiguration: missingAIConfiguration,
+		Error:                  onboarding.Error,
+		ServiceID:              onboarding.ServiceID,
 	}, nil
 }
 
