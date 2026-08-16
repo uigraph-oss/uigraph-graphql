@@ -392,6 +392,7 @@ type githubOnboardingClient interface {
 	ListGitHubRepositories(ctx context.Context, orgID string) ([]uigraphapi.GitHubRepository, error)
 	StartRepositoryOnboarding(ctx context.Context, orgID string, input uigraphapi.StartRepositoryOnboardingInput) (*uigraphapi.RepositoryOnboardingBatch, error)
 	GetRepositoryOnboarding(ctx context.Context, orgID, batchID string) (*uigraphapi.RepositoryOnboardingBatch, error)
+	GetLatestRepositoryOnboarding(ctx context.Context, orgID string) (*uigraphapi.RepositoryOnboardingBatch, error)
 	RecheckRepositoryOnboarding(ctx context.Context, orgID, batchID, onboardingID string) (*uigraphapi.RepositoryOnboarding, error)
 	RetryRepositoryOnboarding(ctx context.Context, orgID, batchID, onboardingID string) (*uigraphapi.RepositoryOnboarding, error)
 }

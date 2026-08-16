@@ -2,6 +2,7 @@ extend type Query {
     githubApp(orgId: ID!): GitHubAppInstallation
     githubRepositories(orgId: ID!): [GitHubRepository!]!
     repositoryOnboarding(orgId: ID!, batchId: ID!): RepositoryOnboardingBatch!
+    latestRepositoryOnboarding(orgId: ID!): RepositoryOnboardingBatch
 }
 
 extend type Mutation {

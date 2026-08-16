@@ -84,3 +84,18 @@ func (r *queryResolver) RepositoryOnboarding(ctx context.Context, orgID string, 
 	}
 	return convert.RepositoryOnboardingBatchToModel(batch)
 }
+
+// LatestRepositoryOnboarding is the resolver for the latestRepositoryOnboarding field.
+func (r *queryResolver) LatestRepositoryOnboarding(ctx context.Context, orgID string) (*model.RepositoryOnboardingBatch, error) {
+	batch, err := r.GitHubAPI.GetLatestRepositoryOnboarding(ctx, orgID)
+	if uigraphapi.IsNotFound(err) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	if batch == nil {
+		return nil, nil
+	}
+	return convert.RepositoryOnboardingBatchToModel(batch)
+}

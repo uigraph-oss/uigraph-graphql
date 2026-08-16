@@ -100,6 +100,16 @@ func (c *Client) GetRepositoryOnboarding(ctx context.Context, orgID, batchID str
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-onboarding/%s", orgID, batchID), &out)
 }
 
+func (c *Client) GetLatestRepositoryOnboarding(ctx context.Context, orgID string) (*RepositoryOnboardingBatch, error) {
+	var out struct {
+		Batch *RepositoryOnboardingBatch `json:"batch"`
+	}
+	if err := c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-onboarding", orgID), &out); err != nil {
+		return nil, err
+	}
+	return out.Batch, nil
+}
+
 func (c *Client) RecheckRepositoryOnboarding(ctx context.Context, orgID, batchID, onboardingID string) (*RepositoryOnboarding, error) {
 	var out RepositoryOnboarding
 	path := fmt.Sprintf("/api/v1/orgs/%s/repository-onboarding/%s/repositories/%s/recheck", orgID, batchID, onboardingID)
