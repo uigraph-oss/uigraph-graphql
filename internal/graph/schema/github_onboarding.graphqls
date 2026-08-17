@@ -1,5 +1,4 @@
 extend type Query {
-    githubAppEnabled(orgId: ID!): Boolean!
     githubApp(orgId: ID!): GitHubAppInstallation
     githubRepositories(orgId: ID!): [GitHubRepository!]!
     repositoryImport(orgId: ID!, importId: ID!): RepositoryImport!

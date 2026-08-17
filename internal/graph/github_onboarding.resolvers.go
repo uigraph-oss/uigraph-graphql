@@ -48,15 +48,6 @@ func (r *mutationResolver) RetryRepositoryImport(ctx context.Context, orgID stri
 	return convert.RepositoryImportToModel(*value)
 }
 
-// GithubAppEnabled is the resolver for the githubAppEnabled field.
-func (r *queryResolver) GithubAppEnabled(ctx context.Context, orgID string) (bool, error) {
-	enabled, _, err := r.GitHubAPI.GetGitHubApp(ctx, orgID)
-	if err != nil {
-		return false, err
-	}
-	return enabled, nil
-}
-
 // GithubApp is the resolver for the githubApp field.
 func (r *queryResolver) GithubApp(ctx context.Context, orgID string) (*model.GitHubAppInstallation, error) {
 	_, installation, err := r.GitHubAPI.GetGitHubApp(ctx, orgID)

@@ -420,4 +420,9 @@ type Resolver struct {
 	AgentAPI    agentSessionClient
 	Timeline    timelineClient
 	GitHubAPI   githubImportClient
+	FeaturesAPI featuresClient
+}
+
+type featuresClient interface {
+	GetFeatures(ctx context.Context) (*uigraphapi.Features, error)
 }

@@ -1140,6 +1140,12 @@ type EndpointSLAInput struct {
 	Thresholds []*LoadTestThresholdInput `json:"thresholds,omitempty"`
 }
 
+type Features struct {
+	Github     bool    `json:"github"`
+	Enterprise bool    `json:"enterprise"`
+	BillingURL *string `json:"billingUrl,omitempty"`
+}
+
 type FileDownload struct {
 	APIGroupID string `json:"apiGroupId"`
 	FileName   string `json:"fileName"`
