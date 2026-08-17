@@ -1,0 +1,70 @@
+extend type Query {
+    githubApp(orgId: ID!): GitHubAppInstallation
+    githubRepositories(orgId: ID!): [GitHubRepository!]!
+    repositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
+    latestRepositoryImport(orgId: ID!): RepositoryImport
+}
+
+extend type Mutation {
+    githubAppInstallURL(orgId: ID!): String!
+    disconnectGitHubApp(orgId: ID!): Boolean!
+    startRepositoryImport(orgId: ID!, teamId: ID!, owner: String!, repo: String!): RepositoryImport!
+    recheckRepositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
+    retryRepositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
+}
+
+type GitHubAppInstallation {
+    installationId: ID!
+    accountLogin: String!
+    accountType: String!
+    suspended: Boolean!
+}
+
+type GitHubRepository {
+    githubId: ID!
+    owner: String!
+    name: String!
+    fullName: String!
+    url: String!
+    defaultBranch: String!
+    private: Boolean!
+    archived: Boolean!
+}
+
+type RepositoryImport {
+    id: ID!
+    githubOwnerId: ID!
+    githubRepo: String!
+    status: RepositoryImportStatus!
+    steps: [RepositoryImportStep!]!
+    teamId: ID!
+    teamName: String
+    branch: String!
+    runUrl: String
+    pullRequestUrl: String
+    missingAIConfiguration: [String!]!
+    error: String
+    serviceId: ID
+    createdAt: Time!
+    runStartedAt: Time
+    runCompletedAt: Time
+}
+
+type RepositoryImportStep {
+    number: Int!
+    name: String!
+    status: String!
+    conclusion: String
+    startedAt: Time
+    completedAt: Time
+}
+
+enum RepositoryImportStatus {
+    SELECTED
+    CHECKING_AI_CONFIGURATION
+    WAITING_AI_CONFIGURATION
+    RUN_QUEUED
+    RUN_RUNNING
+    COMPLETED
+    FAILED
+}

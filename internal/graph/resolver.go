@@ -385,6 +385,18 @@ type timelineClient interface {
 	DeleteTimelineEvent(ctx context.Context, orgID, serviceID, eventID string) error
 }
 
+type githubImportClient interface {
+	GetGitHubApp(ctx context.Context, orgID string) (bool, *uigraphapi.GitHubAppInstallation, error)
+	GetGitHubAppInstallURL(ctx context.Context, orgID string) (string, error)
+	DisconnectGitHubApp(ctx context.Context, orgID string) error
+	ListGitHubRepositories(ctx context.Context, orgID string) ([]uigraphapi.GitHubRepository, error)
+	StartRepositoryImport(ctx context.Context, orgID, teamID, owner, repo string) (*uigraphapi.RepositoryImport, error)
+	GetRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
+	GetLatestRepositoryImport(ctx context.Context, orgID string) (*uigraphapi.RepositoryImport, error)
+	RecheckRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
+	RetryRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
+}
+
 type Resolver struct {
 	Auth        authClient
 	OrgAPI      orgClient
@@ -406,4 +418,10 @@ type Resolver struct {
 	Billing     billingClient
 	AgentAPI    agentSessionClient
 	Timeline    timelineClient
+	GitHubAPI   githubImportClient
+	FeaturesAPI featuresClient
+}
+
+type featuresClient interface {
+	GetFeatures(ctx context.Context) (*uigraphapi.Features, error)
 }

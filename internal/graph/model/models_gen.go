@@ -1140,6 +1140,12 @@ type EndpointSLAInput struct {
 	Thresholds []*LoadTestThresholdInput `json:"thresholds,omitempty"`
 }
 
+type Features struct {
+	Github     bool    `json:"github"`
+	Enterprise bool    `json:"enterprise"`
+	BillingURL *string `json:"billingUrl,omitempty"`
+}
+
 type FileDownload struct {
 	APIGroupID string `json:"apiGroupId"`
 	FileName   string `json:"fileName"`
@@ -1320,6 +1326,24 @@ type GRPCTestCaseInput struct {
 	Assertions     []*AssertionInput `json:"assertions,omitempty"`
 	UseTLS         bool              `json:"useTLS"`
 	ExpectError    bool              `json:"expectError"`
+}
+
+type GitHubAppInstallation struct {
+	InstallationID string `json:"installationId"`
+	AccountLogin   string `json:"accountLogin"`
+	AccountType    string `json:"accountType"`
+	Suspended      bool   `json:"suspended"`
+}
+
+type GitHubRepository struct {
+	GithubID      string `json:"githubId"`
+	Owner         string `json:"owner"`
+	Name          string `json:"name"`
+	FullName      string `json:"fullName"`
+	URL           string `json:"url"`
+	DefaultBranch string `json:"defaultBranch"`
+	Private       bool   `json:"private"`
+	Archived      bool   `json:"archived"`
 }
 
 type GraphQLTestCase struct {
@@ -1795,6 +1819,34 @@ type OrgSummary struct {
 }
 
 type Query struct {
+}
+
+type RepositoryImport struct {
+	ID                     string                  `json:"id"`
+	GithubOwnerID          string                  `json:"githubOwnerId"`
+	GithubRepo             string                  `json:"githubRepo"`
+	Status                 RepositoryImportStatus  `json:"status"`
+	Steps                  []*RepositoryImportStep `json:"steps"`
+	TeamID                 string                  `json:"teamId"`
+	TeamName               *string                 `json:"teamName,omitempty"`
+	Branch                 string                  `json:"branch"`
+	RunURL                 *string                 `json:"runUrl,omitempty"`
+	PullRequestURL         *string                 `json:"pullRequestUrl,omitempty"`
+	MissingAIConfiguration []string                `json:"missingAIConfiguration"`
+	Error                  *string                 `json:"error,omitempty"`
+	ServiceID              *string                 `json:"serviceId,omitempty"`
+	CreatedAt              time.Time               `json:"createdAt"`
+	RunStartedAt           *time.Time              `json:"runStartedAt,omitempty"`
+	RunCompletedAt         *time.Time              `json:"runCompletedAt,omitempty"`
+}
+
+type RepositoryImportStep struct {
+	Number      int        `json:"number"`
+	Name        string     `json:"name"`
+	Status      string     `json:"status"`
+	Conclusion  *string    `json:"conclusion,omitempty"`
+	StartedAt   *time.Time `json:"startedAt,omitempty"`
+	CompletedAt *time.Time `json:"completedAt,omitempty"`
 }
 
 type ResourceDailyCost struct {
@@ -2863,6 +2915,71 @@ func (e *InfraResourceStatus) UnmarshalJSON(b []byte) error {
 }
 
 func (e InfraResourceStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type RepositoryImportStatus string
+
+const (
+	RepositoryImportStatusSelected                RepositoryImportStatus = "SELECTED"
+	RepositoryImportStatusCheckingAiConfiguration RepositoryImportStatus = "CHECKING_AI_CONFIGURATION"
+	RepositoryImportStatusWaitingAiConfiguration  RepositoryImportStatus = "WAITING_AI_CONFIGURATION"
+	RepositoryImportStatusRunQueued               RepositoryImportStatus = "RUN_QUEUED"
+	RepositoryImportStatusRunRunning              RepositoryImportStatus = "RUN_RUNNING"
+	RepositoryImportStatusCompleted               RepositoryImportStatus = "COMPLETED"
+	RepositoryImportStatusFailed                  RepositoryImportStatus = "FAILED"
+)
+
+var AllRepositoryImportStatus = []RepositoryImportStatus{
+	RepositoryImportStatusSelected,
+	RepositoryImportStatusCheckingAiConfiguration,
+	RepositoryImportStatusWaitingAiConfiguration,
+	RepositoryImportStatusRunQueued,
+	RepositoryImportStatusRunRunning,
+	RepositoryImportStatusCompleted,
+	RepositoryImportStatusFailed,
+}
+
+func (e RepositoryImportStatus) IsValid() bool {
+	switch e {
+	case RepositoryImportStatusSelected, RepositoryImportStatusCheckingAiConfiguration, RepositoryImportStatusWaitingAiConfiguration, RepositoryImportStatusRunQueued, RepositoryImportStatusRunRunning, RepositoryImportStatusCompleted, RepositoryImportStatusFailed:
+		return true
+	}
+	return false
+}
+
+func (e RepositoryImportStatus) String() string {
+	return string(e)
+}
+
+func (e *RepositoryImportStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RepositoryImportStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RepositoryImportStatus", str)
+	}
+	return nil
+}
+
+func (e RepositoryImportStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RepositoryImportStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RepositoryImportStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

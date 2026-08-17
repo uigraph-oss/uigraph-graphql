@@ -54,6 +54,8 @@ func Run(cfg *config.Config) error {
 		Billing:     c,
 		AgentAPI:    c,
 		Timeline:    c,
+		GitHubAPI:   c,
+		FeaturesAPI: c,
 	}
 	schema := generated.NewExecutableSchema(generated.Config{Resolvers: resolver})
 	gqlSrv := newGraphQLServer(schema, cfg.Env)
