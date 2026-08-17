@@ -9,7 +9,6 @@ import (
 
 	"github.com/uigraph/graphql/internal/graph/convert"
 	"github.com/uigraph/graphql/internal/graph/model"
-	"github.com/uigraph/graphql/internal/uigraphapi"
 )
 
 // GithubAppInstallURL is the resolver for the githubAppInstallURL field.
@@ -24,10 +23,7 @@ func (r *mutationResolver) DisconnectGitHubApp(ctx context.Context, orgID string
 
 // StartRepositoryImport is the resolver for the startRepositoryImport field.
 func (r *mutationResolver) StartRepositoryImport(ctx context.Context, orgID string, teamID string, repositoryID string) (*model.RepositoryImport, error) {
-	value, err := r.GitHubAPI.StartRepositoryImport(ctx, orgID, uigraphapi.StartRepositoryImportInput{
-		TeamID:       teamID,
-		RepositoryID: repositoryID,
-	})
+	value, err := r.GitHubAPI.StartRepositoryImport(ctx, orgID, teamID, repositoryID)
 	if err != nil {
 		return nil, err
 	}
@@ -55,9 +51,6 @@ func (r *mutationResolver) RetryRepositoryImport(ctx context.Context, orgID stri
 // GithubAppEnabled is the resolver for the githubAppEnabled field.
 func (r *queryResolver) GithubAppEnabled(ctx context.Context, orgID string) (bool, error) {
 	enabled, _, err := r.GitHubAPI.GetGitHubApp(ctx, orgID)
-	if uigraphapi.IsNotFound(err) {
-		return false, nil
-	}
 	if err != nil {
 		return false, err
 	}
@@ -67,9 +60,6 @@ func (r *queryResolver) GithubAppEnabled(ctx context.Context, orgID string) (boo
 // GithubApp is the resolver for the githubApp field.
 func (r *queryResolver) GithubApp(ctx context.Context, orgID string) (*model.GitHubAppInstallation, error) {
 	_, installation, err := r.GitHubAPI.GetGitHubApp(ctx, orgID)
-	if uigraphapi.IsNotFound(err) {
-		return nil, nil
-	}
 	if err != nil {
 		return nil, err
 	}
@@ -109,9 +99,6 @@ func (r *queryResolver) RepositoryImports(ctx context.Context, orgID string) ([]
 // LatestRepositoryImport is the resolver for the latestRepositoryImport field.
 func (r *queryResolver) LatestRepositoryImport(ctx context.Context, orgID string) (*model.RepositoryImport, error) {
 	value, err := r.GitHubAPI.GetLatestRepositoryImport(ctx, orgID)
-	if uigraphapi.IsNotFound(err) {
-		return nil, nil
-	}
 	if err != nil {
 		return nil, err
 	}

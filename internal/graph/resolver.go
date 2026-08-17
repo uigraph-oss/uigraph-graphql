@@ -385,12 +385,12 @@ type timelineClient interface {
 	DeleteTimelineEvent(ctx context.Context, orgID, serviceID, eventID string) error
 }
 
-type githubOnboardingClient interface {
+type githubImportClient interface {
 	GetGitHubApp(ctx context.Context, orgID string) (bool, *uigraphapi.GitHubAppInstallation, error)
 	GetGitHubAppInstallURL(ctx context.Context, orgID string) (string, error)
 	DisconnectGitHubApp(ctx context.Context, orgID string) error
 	ListGitHubRepositories(ctx context.Context, orgID string) ([]uigraphapi.GitHubRepository, error)
-	StartRepositoryImport(ctx context.Context, orgID string, input uigraphapi.StartRepositoryImportInput) (*uigraphapi.RepositoryImport, error)
+	StartRepositoryImport(ctx context.Context, orgID, teamID, repositoryID string) (*uigraphapi.RepositoryImport, error)
 	GetRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
 	ListRepositoryImports(ctx context.Context, orgID string) ([]uigraphapi.RepositoryImport, error)
 	GetLatestRepositoryImport(ctx context.Context, orgID string) (*uigraphapi.RepositoryImport, error)
@@ -419,5 +419,5 @@ type Resolver struct {
 	Billing     billingClient
 	AgentAPI    agentSessionClient
 	Timeline    timelineClient
-	GitHubAPI   githubOnboardingClient
+	GitHubAPI   githubImportClient
 }

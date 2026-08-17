@@ -68,5 +68,4 @@ enum RepositoryImportStatus {
     RUN_RUNNING
     COMPLETED
     FAILED
-    CANCELLED
 }

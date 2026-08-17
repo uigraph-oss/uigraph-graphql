@@ -2923,7 +2923,6 @@ const (
 	RepositoryImportStatusRunRunning              RepositoryImportStatus = "RUN_RUNNING"
 	RepositoryImportStatusCompleted               RepositoryImportStatus = "COMPLETED"
 	RepositoryImportStatusFailed                  RepositoryImportStatus = "FAILED"
-	RepositoryImportStatusCancelled               RepositoryImportStatus = "CANCELLED"
 )
 
 var AllRepositoryImportStatus = []RepositoryImportStatus{
@@ -2934,12 +2933,11 @@ var AllRepositoryImportStatus = []RepositoryImportStatus{
 	RepositoryImportStatusRunRunning,
 	RepositoryImportStatusCompleted,
 	RepositoryImportStatusFailed,
-	RepositoryImportStatusCancelled,
 }
 
 func (e RepositoryImportStatus) IsValid() bool {
 	switch e {
-	case RepositoryImportStatusSelected, RepositoryImportStatusCheckingAiConfiguration, RepositoryImportStatusWaitingAiConfiguration, RepositoryImportStatusRunQueued, RepositoryImportStatusRunRunning, RepositoryImportStatusCompleted, RepositoryImportStatusFailed, RepositoryImportStatusCancelled:
+	case RepositoryImportStatusSelected, RepositoryImportStatusCheckingAiConfiguration, RepositoryImportStatusWaitingAiConfiguration, RepositoryImportStatusRunQueued, RepositoryImportStatusRunRunning, RepositoryImportStatusCompleted, RepositoryImportStatusFailed:
 		return true
 	}
 	return false

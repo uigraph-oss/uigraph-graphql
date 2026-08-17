@@ -38,7 +38,7 @@ func GitHubRepositoriesToModel(repositories []uigraphapi.GitHubRepository) []*mo
 	return out
 }
 
-func RepositoryImportStatusToModel(status uigraphapi.RepositoryImportStatus) (model.RepositoryImportStatus, error) {
+func repositoryImportStatusToModel(status uigraphapi.RepositoryImportStatus) (model.RepositoryImportStatus, error) {
 	switch status {
 	case uigraphapi.RepositoryImportStatusSelected:
 		return model.RepositoryImportStatusSelected, nil
@@ -54,25 +54,18 @@ func RepositoryImportStatusToModel(status uigraphapi.RepositoryImportStatus) (mo
 		return model.RepositoryImportStatusCompleted, nil
 	case uigraphapi.RepositoryImportStatusFailed:
 		return model.RepositoryImportStatusFailed, nil
-	case uigraphapi.RepositoryImportStatusCancelled:
-		return model.RepositoryImportStatusCancelled, nil
 	default:
 		return "", fmt.Errorf("unsupported repository import status %q", status)
 	}
 }
 
 func RepositoryImportToModel(value uigraphapi.RepositoryImport) (*model.RepositoryImport, error) {
-	status, err := RepositoryImportStatusToModel(value.Status)
+	status, err := repositoryImportStatusToModel(value.Status)
 	if err != nil {
 		return nil, err
 	}
-	missingAIConfiguration := value.MissingAIConfiguration
-	if missingAIConfiguration == nil {
-		missingAIConfiguration = []string{}
-	}
 	steps := make([]*model.RepositoryImportStep, len(value.Steps))
 	for i, step := range value.Steps {
-		conclusion := step.Conclusion
 		steps[i] = &model.RepositoryImportStep{
 			Number:      step.Number,
 			Name:        step.Name,
@@ -80,8 +73,8 @@ func RepositoryImportToModel(value uigraphapi.RepositoryImport) (*model.Reposito
 			StartedAt:   step.StartedAt,
 			CompletedAt: step.CompletedAt,
 		}
-		if conclusion != "" {
-			steps[i].Conclusion = &conclusion
+		if step.Conclusion != "" {
+			steps[i].Conclusion = &step.Conclusion
 		}
 	}
 	return &model.RepositoryImport{
@@ -94,7 +87,7 @@ func RepositoryImportToModel(value uigraphapi.RepositoryImport) (*model.Reposito
 		Branch:                 value.Branch,
 		RunURL:                 value.RunURL,
 		PullRequestURL:         value.PullRequestURL,
-		MissingAIConfiguration: missingAIConfiguration,
+		MissingAIConfiguration: value.MissingAIConfiguration,
 		Error:                  value.Error,
 		ServiceID:              value.ServiceID,
 		CreatedAt:              value.CreatedAt,

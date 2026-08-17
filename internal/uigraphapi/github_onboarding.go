@@ -34,16 +34,15 @@ const (
 	RepositoryImportStatusRunRunning RepositoryImportStatus = "run_running"
 	RepositoryImportStatusCompleted  RepositoryImportStatus = "completed"
 	RepositoryImportStatusFailed     RepositoryImportStatus = "failed"
-	RepositoryImportStatusCancelled  RepositoryImportStatus = "cancelled"
 )
 
 type RepositoryImportStep struct {
 	Number      int        `json:"number"`
 	Name        string     `json:"name"`
 	Status      string     `json:"status"`
-	Conclusion  string     `json:"conclusion,omitempty"`
-	StartedAt   *time.Time `json:"startedAt,omitempty"`
-	CompletedAt *time.Time `json:"completedAt,omitempty"`
+	Conclusion  string     `json:"conclusion"`
+	StartedAt   *time.Time `json:"startedAt"`
+	CompletedAt *time.Time `json:"completedAt"`
 }
 
 type RepositoryImport struct {
@@ -52,21 +51,16 @@ type RepositoryImport struct {
 	Status                 RepositoryImportStatus `json:"status"`
 	Steps                  []RepositoryImportStep `json:"steps"`
 	TeamID                 string                 `json:"teamId"`
-	TeamName               *string                `json:"team,omitempty"`
+	TeamName               *string                `json:"team"`
 	Branch                 string                 `json:"branch"`
-	RunURL                 *string                `json:"runUrl,omitempty"`
-	PullRequestURL         *string                `json:"prUrl,omitempty"`
-	MissingAIConfiguration []string               `json:"missingAIConfiguration,omitempty"`
-	Error                  *string                `json:"error,omitempty"`
-	ServiceID              *string                `json:"serviceId,omitempty"`
+	RunURL                 *string                `json:"runUrl"`
+	PullRequestURL         *string                `json:"prUrl"`
+	MissingAIConfiguration []string               `json:"missingAIConfiguration"`
+	Error                  *string                `json:"error"`
+	ServiceID              *string                `json:"serviceId"`
 	CreatedAt              time.Time              `json:"createdAt"`
-	RunStartedAt           *time.Time             `json:"runStartedAt,omitempty"`
-	RunCompletedAt         *time.Time             `json:"runCompletedAt,omitempty"`
-}
-
-type StartRepositoryImportInput struct {
-	TeamID       string `json:"teamId"`
-	RepositoryID string `json:"repositoryId"`
+	RunStartedAt           *time.Time             `json:"runStartedAt"`
+	RunCompletedAt         *time.Time             `json:"runCompletedAt"`
 }
 
 func (c *Client) GetGitHubApp(ctx context.Context, orgID string) (enabled bool, installation *GitHubAppInstallation, err error) {
@@ -98,9 +92,9 @@ func (c *Client) ListGitHubRepositories(ctx context.Context, orgID string) ([]Gi
 	return out.Repositories, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/github-app/repositories", orgID), &out)
 }
 
-func (c *Client) StartRepositoryImport(ctx context.Context, orgID string, input StartRepositoryImportInput) (*RepositoryImport, error) {
+func (c *Client) StartRepositoryImport(ctx context.Context, orgID, teamID, repositoryID string) (*RepositoryImport, error) {
 	var out RepositoryImport
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports", orgID), input, &out)
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports", orgID), map[string]string{"teamId": teamID, "repositoryId": repositoryID}, &out)
 }
 
 func (c *Client) GetRepositoryImport(ctx context.Context, orgID, importID string) (*RepositoryImport, error) {
