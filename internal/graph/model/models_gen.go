@@ -1329,15 +1329,15 @@ type GRPCTestCaseInput struct {
 }
 
 type GitHubAppInstallation struct {
-	ID           string `json:"id"`
-	AccountLogin string `json:"accountLogin"`
-	AccountType  string `json:"accountType"`
-	Status       string `json:"status"`
+	InstallationID string `json:"installationId"`
+	AccountLogin   string `json:"accountLogin"`
+	AccountType    string `json:"accountType"`
+	Suspended      bool   `json:"suspended"`
 }
 
 type GitHubRepository struct {
-	ID            string `json:"id"`
 	GithubID      string `json:"githubId"`
+	Owner         string `json:"owner"`
 	Name          string `json:"name"`
 	FullName      string `json:"fullName"`
 	URL           string `json:"url"`
@@ -1823,7 +1823,8 @@ type Query struct {
 
 type RepositoryImport struct {
 	ID                     string                  `json:"id"`
-	Repository             *GitHubRepository       `json:"repository"`
+	GithubOwnerID          string                  `json:"githubOwnerId"`
+	GithubRepo             string                  `json:"githubRepo"`
 	Status                 RepositoryImportStatus  `json:"status"`
 	Steps                  []*RepositoryImportStep `json:"steps"`
 	TeamID                 string                  `json:"teamId"`

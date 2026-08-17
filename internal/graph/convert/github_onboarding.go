@@ -10,17 +10,17 @@ import (
 
 func GitHubAppInstallationToModel(installation *uigraphapi.GitHubAppInstallation) *model.GitHubAppInstallation {
 	return &model.GitHubAppInstallation{
-		ID:           installation.ID,
-		AccountLogin: installation.AccountLogin,
-		AccountType:  installation.AccountType,
-		Status:       installation.Status,
+		InstallationID: strconv.FormatInt(installation.InstallationID, 10),
+		AccountLogin:   installation.AccountLogin,
+		AccountType:    installation.AccountType,
+		Suspended:      installation.Suspended,
 	}
 }
 
 func GitHubRepositoryToModel(repository uigraphapi.GitHubRepository) *model.GitHubRepository {
 	return &model.GitHubRepository{
-		ID:            repository.ID,
 		GithubID:      strconv.FormatInt(repository.GitHubID, 10),
+		Owner:         repository.Owner,
 		Name:          repository.Name,
 		FullName:      repository.FullName,
 		URL:           repository.URL,
@@ -79,7 +79,8 @@ func RepositoryImportToModel(value uigraphapi.RepositoryImport) (*model.Reposito
 	}
 	return &model.RepositoryImport{
 		ID:                     value.ID,
-		Repository:             GitHubRepositoryToModel(value.Repository),
+		GithubOwnerID:          strconv.FormatInt(value.GitHubOwnerID, 10),
+		GithubRepo:             value.GitHubRepo,
 		Status:                 status,
 		Steps:                  steps,
 		TeamID:                 value.TeamID,
@@ -94,16 +95,4 @@ func RepositoryImportToModel(value uigraphapi.RepositoryImport) (*model.Reposito
 		RunStartedAt:           value.RunStartedAt,
 		RunCompletedAt:         value.RunCompletedAt,
 	}, nil
-}
-
-func RepositoryImportsToModel(values []uigraphapi.RepositoryImport) ([]*model.RepositoryImport, error) {
-	out := make([]*model.RepositoryImport, len(values))
-	for i, value := range values {
-		converted, err := RepositoryImportToModel(value)
-		if err != nil {
-			return nil, err
-		}
-		out[i] = converted
-	}
-	return out, nil
 }

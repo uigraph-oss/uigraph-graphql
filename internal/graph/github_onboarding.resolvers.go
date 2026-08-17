@@ -22,8 +22,8 @@ func (r *mutationResolver) DisconnectGitHubApp(ctx context.Context, orgID string
 }
 
 // StartRepositoryImport is the resolver for the startRepositoryImport field.
-func (r *mutationResolver) StartRepositoryImport(ctx context.Context, orgID string, teamID string, repositoryID string) (*model.RepositoryImport, error) {
-	value, err := r.GitHubAPI.StartRepositoryImport(ctx, orgID, teamID, repositoryID)
+func (r *mutationResolver) StartRepositoryImport(ctx context.Context, orgID string, teamID string, owner string, repo string) (*model.RepositoryImport, error) {
+	value, err := r.GitHubAPI.StartRepositoryImport(ctx, orgID, teamID, owner, repo)
 	if err != nil {
 		return nil, err
 	}
@@ -76,15 +76,6 @@ func (r *queryResolver) RepositoryImport(ctx context.Context, orgID string, impo
 		return nil, err
 	}
 	return convert.RepositoryImportToModel(*value)
-}
-
-// RepositoryImports is the resolver for the repositoryImports field.
-func (r *queryResolver) RepositoryImports(ctx context.Context, orgID string) ([]*model.RepositoryImport, error) {
-	values, err := r.GitHubAPI.ListRepositoryImports(ctx, orgID)
-	if err != nil {
-		return nil, err
-	}
-	return convert.RepositoryImportsToModel(values)
 }
 
 // LatestRepositoryImport is the resolver for the latestRepositoryImport field.

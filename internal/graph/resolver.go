@@ -390,9 +390,8 @@ type githubImportClient interface {
 	GetGitHubAppInstallURL(ctx context.Context, orgID string) (string, error)
 	DisconnectGitHubApp(ctx context.Context, orgID string) error
 	ListGitHubRepositories(ctx context.Context, orgID string) ([]uigraphapi.GitHubRepository, error)
-	StartRepositoryImport(ctx context.Context, orgID, teamID, repositoryID string) (*uigraphapi.RepositoryImport, error)
+	StartRepositoryImport(ctx context.Context, orgID, teamID, owner, repo string) (*uigraphapi.RepositoryImport, error)
 	GetRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
-	ListRepositoryImports(ctx context.Context, orgID string) ([]uigraphapi.RepositoryImport, error)
 	GetLatestRepositoryImport(ctx context.Context, orgID string) (*uigraphapi.RepositoryImport, error)
 	RecheckRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
 	RetryRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)

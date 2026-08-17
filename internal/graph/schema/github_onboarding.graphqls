@@ -2,28 +2,27 @@ extend type Query {
     githubApp(orgId: ID!): GitHubAppInstallation
     githubRepositories(orgId: ID!): [GitHubRepository!]!
     repositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
-    repositoryImports(orgId: ID!): [RepositoryImport!]!
     latestRepositoryImport(orgId: ID!): RepositoryImport
 }
 
 extend type Mutation {
     githubAppInstallURL(orgId: ID!): String!
     disconnectGitHubApp(orgId: ID!): Boolean!
-    startRepositoryImport(orgId: ID!, teamId: ID!, repositoryId: ID!): RepositoryImport!
+    startRepositoryImport(orgId: ID!, teamId: ID!, owner: String!, repo: String!): RepositoryImport!
     recheckRepositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
     retryRepositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
 }
 
 type GitHubAppInstallation {
-    id: ID!
+    installationId: ID!
     accountLogin: String!
     accountType: String!
-    status: String!
+    suspended: Boolean!
 }
 
 type GitHubRepository {
-    id: ID!
     githubId: ID!
+    owner: String!
     name: String!
     fullName: String!
     url: String!
@@ -34,7 +33,8 @@ type GitHubRepository {
 
 type RepositoryImport {
     id: ID!
-    repository: GitHubRepository!
+    githubOwnerId: ID!
+    githubRepo: String!
     status: RepositoryImportStatus!
     steps: [RepositoryImportStep!]!
     teamId: ID!

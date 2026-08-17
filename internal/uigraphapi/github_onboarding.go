@@ -7,15 +7,15 @@ import (
 )
 
 type GitHubAppInstallation struct {
-	ID           string `json:"id"`
-	AccountLogin string `json:"account"`
-	AccountType  string `json:"accountType"`
-	Status       string `json:"status"`
+	InstallationID int64  `json:"installationId"`
+	AccountLogin   string `json:"account"`
+	AccountType    string `json:"accountType"`
+	Suspended      bool   `json:"suspended"`
 }
 
 type GitHubRepository struct {
-	ID            string `json:"id"`
 	GitHubID      int64  `json:"githubId"`
+	Owner         string `json:"owner"`
 	Name          string `json:"name"`
 	FullName      string `json:"fullName"`
 	URL           string `json:"url"`
@@ -47,7 +47,8 @@ type RepositoryImportStep struct {
 
 type RepositoryImport struct {
 	ID                     string                 `json:"id"`
-	Repository             GitHubRepository       `json:"repository"`
+	GitHubOwnerID          int64                  `json:"githubOwnerId"`
+	GitHubRepo             string                 `json:"githubRepo"`
 	Status                 RepositoryImportStatus `json:"status"`
 	Steps                  []RepositoryImportStep `json:"steps"`
 	TeamID                 string                 `json:"teamId"`
@@ -92,21 +93,14 @@ func (c *Client) ListGitHubRepositories(ctx context.Context, orgID string) ([]Gi
 	return out.Repositories, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/github-app/repositories", orgID), &out)
 }
 
-func (c *Client) StartRepositoryImport(ctx context.Context, orgID, teamID, repositoryID string) (*RepositoryImport, error) {
+func (c *Client) StartRepositoryImport(ctx context.Context, orgID, teamID, owner, repo string) (*RepositoryImport, error) {
 	var out RepositoryImport
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports", orgID), map[string]string{"teamId": teamID, "repositoryId": repositoryID}, &out)
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports", orgID), map[string]string{"teamId": teamID, "owner": owner, "repo": repo}, &out)
 }
 
 func (c *Client) GetRepositoryImport(ctx context.Context, orgID, importID string) (*RepositoryImport, error) {
 	var out RepositoryImport
 	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports/%s", orgID, importID), &out)
-}
-
-func (c *Client) ListRepositoryImports(ctx context.Context, orgID string) ([]RepositoryImport, error) {
-	var out struct {
-		Imports []RepositoryImport `json:"imports"`
-	}
-	return out.Imports, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports", orgID), &out)
 }
 
 func (c *Client) GetLatestRepositoryImport(ctx context.Context, orgID string) (*RepositoryImport, error) {
