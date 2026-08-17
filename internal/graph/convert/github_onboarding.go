@@ -38,70 +38,79 @@ func GitHubRepositoriesToModel(repositories []uigraphapi.GitHubRepository) []*mo
 	return out
 }
 
-func RepositoryOnboardingStatusToModel(status uigraphapi.RepositoryOnboardingStatus) (model.RepositoryOnboardingStatus, error) {
+func RepositoryImportStatusToModel(status uigraphapi.RepositoryImportStatus) (model.RepositoryImportStatus, error) {
 	switch status {
-	case uigraphapi.RepositoryOnboardingStatusRunning:
-		return model.RepositoryOnboardingStatusRunning, nil
-	case uigraphapi.RepositoryOnboardingStatusSelected:
-		return model.RepositoryOnboardingStatusSelected, nil
-	case uigraphapi.RepositoryOnboardingStatusCheckingAI:
-		return model.RepositoryOnboardingStatusCheckingAiConfiguration, nil
-	case uigraphapi.RepositoryOnboardingStatusWaitingAI:
-		return model.RepositoryOnboardingStatusWaitingAiConfiguration, nil
-	case uigraphapi.RepositoryOnboardingStatusRunQueued:
-		return model.RepositoryOnboardingStatusRunQueued, nil
-	case uigraphapi.RepositoryOnboardingStatusRunRunning:
-		return model.RepositoryOnboardingStatusRunRunning, nil
-	case uigraphapi.RepositoryOnboardingStatusCompleted:
-		return model.RepositoryOnboardingStatusCompleted, nil
-	case uigraphapi.RepositoryOnboardingStatusFailed:
-		return model.RepositoryOnboardingStatusFailed, nil
-	case uigraphapi.RepositoryOnboardingStatusCancelled:
-		return model.RepositoryOnboardingStatusCancelled, nil
+	case uigraphapi.RepositoryImportStatusSelected:
+		return model.RepositoryImportStatusSelected, nil
+	case uigraphapi.RepositoryImportStatusCheckingAI:
+		return model.RepositoryImportStatusCheckingAiConfiguration, nil
+	case uigraphapi.RepositoryImportStatusWaitingAI:
+		return model.RepositoryImportStatusWaitingAiConfiguration, nil
+	case uigraphapi.RepositoryImportStatusRunQueued:
+		return model.RepositoryImportStatusRunQueued, nil
+	case uigraphapi.RepositoryImportStatusRunRunning:
+		return model.RepositoryImportStatusRunRunning, nil
+	case uigraphapi.RepositoryImportStatusCompleted:
+		return model.RepositoryImportStatusCompleted, nil
+	case uigraphapi.RepositoryImportStatusFailed:
+		return model.RepositoryImportStatusFailed, nil
+	case uigraphapi.RepositoryImportStatusCancelled:
+		return model.RepositoryImportStatusCancelled, nil
 	default:
-		return "", fmt.Errorf("unsupported repository onboarding status %q", status)
+		return "", fmt.Errorf("unsupported repository import status %q", status)
 	}
 }
 
-func RepositoryOnboardingToModel(onboarding uigraphapi.RepositoryOnboarding) (*model.RepositoryOnboarding, error) {
-	status, err := RepositoryOnboardingStatusToModel(onboarding.Status)
+func RepositoryImportToModel(value uigraphapi.RepositoryImport) (*model.RepositoryImport, error) {
+	status, err := RepositoryImportStatusToModel(value.Status)
 	if err != nil {
 		return nil, err
 	}
-	missingAIConfiguration := onboarding.MissingAIConfiguration
+	missingAIConfiguration := value.MissingAIConfiguration
 	if missingAIConfiguration == nil {
 		missingAIConfiguration = []string{}
 	}
-	return &model.RepositoryOnboarding{
-		ID:                     onboarding.ID,
-		Repository:             GitHubRepositoryToModel(onboarding.Repository),
+	steps := make([]*model.RepositoryImportStep, len(value.Steps))
+	for i, step := range value.Steps {
+		conclusion := step.Conclusion
+		steps[i] = &model.RepositoryImportStep{
+			Number:      step.Number,
+			Name:        step.Name,
+			Status:      step.Status,
+			StartedAt:   step.StartedAt,
+			CompletedAt: step.CompletedAt,
+		}
+		if conclusion != "" {
+			steps[i].Conclusion = &conclusion
+		}
+	}
+	return &model.RepositoryImport{
+		ID:                     value.ID,
+		Repository:             GitHubRepositoryToModel(value.Repository),
 		Status:                 status,
-		Branch:                 onboarding.Branch,
-		RunURL:                 onboarding.RunURL,
-		PullRequestURL:         onboarding.PullRequestURL,
+		Steps:                  steps,
+		TeamID:                 value.TeamID,
+		TeamName:               value.TeamName,
+		Branch:                 value.Branch,
+		RunURL:                 value.RunURL,
+		PullRequestURL:         value.PullRequestURL,
 		MissingAIConfiguration: missingAIConfiguration,
-		Error:                  onboarding.Error,
-		ServiceID:              onboarding.ServiceID,
+		Error:                  value.Error,
+		ServiceID:              value.ServiceID,
+		CreatedAt:              value.CreatedAt,
+		RunStartedAt:           value.RunStartedAt,
+		RunCompletedAt:         value.RunCompletedAt,
 	}, nil
 }
 
-func RepositoryOnboardingBatchToModel(batch *uigraphapi.RepositoryOnboardingBatch) (*model.RepositoryOnboardingBatch, error) {
-	status, err := RepositoryOnboardingStatusToModel(batch.Status)
-	if err != nil {
-		return nil, err
-	}
-	repositories := make([]*model.RepositoryOnboarding, len(batch.Repositories))
-	for i, repository := range batch.Repositories {
-		repositories[i], err = RepositoryOnboardingToModel(repository)
+func RepositoryImportsToModel(values []uigraphapi.RepositoryImport) ([]*model.RepositoryImport, error) {
+	out := make([]*model.RepositoryImport, len(values))
+	for i, value := range values {
+		converted, err := RepositoryImportToModel(value)
 		if err != nil {
 			return nil, err
 		}
+		out[i] = converted
 	}
-	return &model.RepositoryOnboardingBatch{
-		ID:           batch.ID,
-		Status:       status,
-		TeamID:       batch.TeamID,
-		TeamName:     batch.TeamName,
-		Repositories: repositories,
-	}, nil
+	return out, nil
 }

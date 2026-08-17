@@ -22,39 +22,51 @@ func (r *mutationResolver) DisconnectGitHubApp(ctx context.Context, orgID string
 	return true, r.GitHubAPI.DisconnectGitHubApp(ctx, orgID)
 }
 
-// StartRepositoryOnboarding is the resolver for the startRepositoryOnboarding field.
-func (r *mutationResolver) StartRepositoryOnboarding(ctx context.Context, input model.StartRepositoryOnboardingInput) (*model.RepositoryOnboardingBatch, error) {
-	batch, err := r.GitHubAPI.StartRepositoryOnboarding(ctx, input.OrgID, uigraphapi.StartRepositoryOnboardingInput{
-		TeamID:        input.TeamID,
-		RepositoryIDs: input.RepositoryIds,
+// StartRepositoryImport is the resolver for the startRepositoryImport field.
+func (r *mutationResolver) StartRepositoryImport(ctx context.Context, orgID string, teamID string, repositoryID string) (*model.RepositoryImport, error) {
+	value, err := r.GitHubAPI.StartRepositoryImport(ctx, orgID, uigraphapi.StartRepositoryImportInput{
+		TeamID:       teamID,
+		RepositoryID: repositoryID,
 	})
 	if err != nil {
 		return nil, err
 	}
-	return convert.RepositoryOnboardingBatchToModel(batch)
+	return convert.RepositoryImportToModel(*value)
 }
 
-// RecheckRepositoryOnboarding is the resolver for the recheckRepositoryOnboarding field.
-func (r *mutationResolver) RecheckRepositoryOnboarding(ctx context.Context, orgID string, batchID string, onboardingID string) (*model.RepositoryOnboarding, error) {
-	onboarding, err := r.GitHubAPI.RecheckRepositoryOnboarding(ctx, orgID, batchID, onboardingID)
+// RecheckRepositoryImport is the resolver for the recheckRepositoryImport field.
+func (r *mutationResolver) RecheckRepositoryImport(ctx context.Context, orgID string, importID string) (*model.RepositoryImport, error) {
+	value, err := r.GitHubAPI.RecheckRepositoryImport(ctx, orgID, importID)
 	if err != nil {
 		return nil, err
 	}
-	return convert.RepositoryOnboardingToModel(*onboarding)
+	return convert.RepositoryImportToModel(*value)
 }
 
-// RetryRepositoryOnboarding is the resolver for the retryRepositoryOnboarding field.
-func (r *mutationResolver) RetryRepositoryOnboarding(ctx context.Context, orgID string, batchID string, onboardingID string) (*model.RepositoryOnboarding, error) {
-	onboarding, err := r.GitHubAPI.RetryRepositoryOnboarding(ctx, orgID, batchID, onboardingID)
+// RetryRepositoryImport is the resolver for the retryRepositoryImport field.
+func (r *mutationResolver) RetryRepositoryImport(ctx context.Context, orgID string, importID string) (*model.RepositoryImport, error) {
+	value, err := r.GitHubAPI.RetryRepositoryImport(ctx, orgID, importID)
 	if err != nil {
 		return nil, err
 	}
-	return convert.RepositoryOnboardingToModel(*onboarding)
+	return convert.RepositoryImportToModel(*value)
+}
+
+// GithubAppEnabled is the resolver for the githubAppEnabled field.
+func (r *queryResolver) GithubAppEnabled(ctx context.Context, orgID string) (bool, error) {
+	enabled, _, err := r.GitHubAPI.GetGitHubApp(ctx, orgID)
+	if uigraphapi.IsNotFound(err) {
+		return false, nil
+	}
+	if err != nil {
+		return false, err
+	}
+	return enabled, nil
 }
 
 // GithubApp is the resolver for the githubApp field.
 func (r *queryResolver) GithubApp(ctx context.Context, orgID string) (*model.GitHubAppInstallation, error) {
-	installation, err := r.GitHubAPI.GetGitHubApp(ctx, orgID)
+	_, installation, err := r.GitHubAPI.GetGitHubApp(ctx, orgID)
 	if uigraphapi.IsNotFound(err) {
 		return nil, nil
 	}
@@ -76,26 +88,35 @@ func (r *queryResolver) GithubRepositories(ctx context.Context, orgID string) ([
 	return convert.GitHubRepositoriesToModel(repositories), nil
 }
 
-// RepositoryOnboarding is the resolver for the repositoryOnboarding field.
-func (r *queryResolver) RepositoryOnboarding(ctx context.Context, orgID string, batchID string) (*model.RepositoryOnboardingBatch, error) {
-	batch, err := r.GitHubAPI.GetRepositoryOnboarding(ctx, orgID, batchID)
+// RepositoryImport is the resolver for the repositoryImport field.
+func (r *queryResolver) RepositoryImport(ctx context.Context, orgID string, importID string) (*model.RepositoryImport, error) {
+	value, err := r.GitHubAPI.GetRepositoryImport(ctx, orgID, importID)
 	if err != nil {
 		return nil, err
 	}
-	return convert.RepositoryOnboardingBatchToModel(batch)
+	return convert.RepositoryImportToModel(*value)
 }
 
-// LatestRepositoryOnboarding is the resolver for the latestRepositoryOnboarding field.
-func (r *queryResolver) LatestRepositoryOnboarding(ctx context.Context, orgID string) (*model.RepositoryOnboardingBatch, error) {
-	batch, err := r.GitHubAPI.GetLatestRepositoryOnboarding(ctx, orgID)
+// RepositoryImports is the resolver for the repositoryImports field.
+func (r *queryResolver) RepositoryImports(ctx context.Context, orgID string) ([]*model.RepositoryImport, error) {
+	values, err := r.GitHubAPI.ListRepositoryImports(ctx, orgID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.RepositoryImportsToModel(values)
+}
+
+// LatestRepositoryImport is the resolver for the latestRepositoryImport field.
+func (r *queryResolver) LatestRepositoryImport(ctx context.Context, orgID string) (*model.RepositoryImport, error) {
+	value, err := r.GitHubAPI.GetLatestRepositoryImport(ctx, orgID)
 	if uigraphapi.IsNotFound(err) {
 		return nil, nil
 	}
 	if err != nil {
 		return nil, err
 	}
-	if batch == nil {
+	if value == nil {
 		return nil, nil
 	}
-	return convert.RepositoryOnboardingBatchToModel(batch)
+	return convert.RepositoryImportToModel(*value)
 }

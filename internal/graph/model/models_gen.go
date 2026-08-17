@@ -1815,24 +1815,31 @@ type OrgSummary struct {
 type Query struct {
 }
 
-type RepositoryOnboarding struct {
-	ID                     string                     `json:"id"`
-	Repository             *GitHubRepository          `json:"repository"`
-	Status                 RepositoryOnboardingStatus `json:"status"`
-	Branch                 string                     `json:"branch"`
-	RunURL                 *string                    `json:"runUrl,omitempty"`
-	PullRequestURL         *string                    `json:"pullRequestUrl,omitempty"`
-	MissingAIConfiguration []string                   `json:"missingAIConfiguration"`
-	Error                  *string                    `json:"error,omitempty"`
-	ServiceID              *string                    `json:"serviceId,omitempty"`
+type RepositoryImport struct {
+	ID                     string                  `json:"id"`
+	Repository             *GitHubRepository       `json:"repository"`
+	Status                 RepositoryImportStatus  `json:"status"`
+	Steps                  []*RepositoryImportStep `json:"steps"`
+	TeamID                 string                  `json:"teamId"`
+	TeamName               *string                 `json:"teamName,omitempty"`
+	Branch                 string                  `json:"branch"`
+	RunURL                 *string                 `json:"runUrl,omitempty"`
+	PullRequestURL         *string                 `json:"pullRequestUrl,omitempty"`
+	MissingAIConfiguration []string                `json:"missingAIConfiguration"`
+	Error                  *string                 `json:"error,omitempty"`
+	ServiceID              *string                 `json:"serviceId,omitempty"`
+	CreatedAt              time.Time               `json:"createdAt"`
+	RunStartedAt           *time.Time              `json:"runStartedAt,omitempty"`
+	RunCompletedAt         *time.Time              `json:"runCompletedAt,omitempty"`
 }
 
-type RepositoryOnboardingBatch struct {
-	ID           string                     `json:"id"`
-	Status       RepositoryOnboardingStatus `json:"status"`
-	TeamID       string                     `json:"teamId"`
-	TeamName     *string                    `json:"teamName,omitempty"`
-	Repositories []*RepositoryOnboarding    `json:"repositories"`
+type RepositoryImportStep struct {
+	Number      int        `json:"number"`
+	Name        string     `json:"name"`
+	Status      string     `json:"status"`
+	Conclusion  *string    `json:"conclusion,omitempty"`
+	StartedAt   *time.Time `json:"startedAt,omitempty"`
+	CompletedAt *time.Time `json:"completedAt,omitempty"`
 }
 
 type ResourceDailyCost struct {
@@ -2082,12 +2089,6 @@ type ServiceStats struct {
 	DocCount      int    `json:"docCount"`
 	DbTableCount  int    `json:"dbTableCount"`
 	TestCaseCount int    `json:"testCaseCount"`
-}
-
-type StartRepositoryOnboardingInput struct {
-	OrgID         string   `json:"orgId"`
-	TeamID        string   `json:"teamId"`
-	RepositoryIds []string `json:"repositoryIds"`
 }
 
 type SyncAPIGroupInput struct {
@@ -2912,62 +2913,60 @@ func (e InfraResourceStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-type RepositoryOnboardingStatus string
+type RepositoryImportStatus string
 
 const (
-	RepositoryOnboardingStatusRunning                 RepositoryOnboardingStatus = "RUNNING"
-	RepositoryOnboardingStatusSelected                RepositoryOnboardingStatus = "SELECTED"
-	RepositoryOnboardingStatusCheckingAiConfiguration RepositoryOnboardingStatus = "CHECKING_AI_CONFIGURATION"
-	RepositoryOnboardingStatusWaitingAiConfiguration  RepositoryOnboardingStatus = "WAITING_AI_CONFIGURATION"
-	RepositoryOnboardingStatusRunQueued               RepositoryOnboardingStatus = "RUN_QUEUED"
-	RepositoryOnboardingStatusRunRunning              RepositoryOnboardingStatus = "RUN_RUNNING"
-	RepositoryOnboardingStatusCompleted               RepositoryOnboardingStatus = "COMPLETED"
-	RepositoryOnboardingStatusFailed                  RepositoryOnboardingStatus = "FAILED"
-	RepositoryOnboardingStatusCancelled               RepositoryOnboardingStatus = "CANCELLED"
+	RepositoryImportStatusSelected                RepositoryImportStatus = "SELECTED"
+	RepositoryImportStatusCheckingAiConfiguration RepositoryImportStatus = "CHECKING_AI_CONFIGURATION"
+	RepositoryImportStatusWaitingAiConfiguration  RepositoryImportStatus = "WAITING_AI_CONFIGURATION"
+	RepositoryImportStatusRunQueued               RepositoryImportStatus = "RUN_QUEUED"
+	RepositoryImportStatusRunRunning              RepositoryImportStatus = "RUN_RUNNING"
+	RepositoryImportStatusCompleted               RepositoryImportStatus = "COMPLETED"
+	RepositoryImportStatusFailed                  RepositoryImportStatus = "FAILED"
+	RepositoryImportStatusCancelled               RepositoryImportStatus = "CANCELLED"
 )
 
-var AllRepositoryOnboardingStatus = []RepositoryOnboardingStatus{
-	RepositoryOnboardingStatusRunning,
-	RepositoryOnboardingStatusSelected,
-	RepositoryOnboardingStatusCheckingAiConfiguration,
-	RepositoryOnboardingStatusWaitingAiConfiguration,
-	RepositoryOnboardingStatusRunQueued,
-	RepositoryOnboardingStatusRunRunning,
-	RepositoryOnboardingStatusCompleted,
-	RepositoryOnboardingStatusFailed,
-	RepositoryOnboardingStatusCancelled,
+var AllRepositoryImportStatus = []RepositoryImportStatus{
+	RepositoryImportStatusSelected,
+	RepositoryImportStatusCheckingAiConfiguration,
+	RepositoryImportStatusWaitingAiConfiguration,
+	RepositoryImportStatusRunQueued,
+	RepositoryImportStatusRunRunning,
+	RepositoryImportStatusCompleted,
+	RepositoryImportStatusFailed,
+	RepositoryImportStatusCancelled,
 }
 
-func (e RepositoryOnboardingStatus) IsValid() bool {
+func (e RepositoryImportStatus) IsValid() bool {
 	switch e {
-	case RepositoryOnboardingStatusRunning, RepositoryOnboardingStatusSelected, RepositoryOnboardingStatusCheckingAiConfiguration, RepositoryOnboardingStatusWaitingAiConfiguration, RepositoryOnboardingStatusRunQueued, RepositoryOnboardingStatusRunRunning, RepositoryOnboardingStatusCompleted, RepositoryOnboardingStatusFailed, RepositoryOnboardingStatusCancelled:
+	case RepositoryImportStatusSelected, RepositoryImportStatusCheckingAiConfiguration, RepositoryImportStatusWaitingAiConfiguration, RepositoryImportStatusRunQueued, RepositoryImportStatusRunRunning, RepositoryImportStatusCompleted, RepositoryImportStatusFailed, RepositoryImportStatusCancelled:
 		return true
 	}
 	return false
 }
 
-func (e RepositoryOnboardingStatus) String() string {
+func (e RepositoryImportStatus) String() string {
 	return string(e)
 }
 
-func (e *RepositoryOnboardingStatus) UnmarshalGQL(v any) error {
+func (e *RepositoryImportStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
 	}
 
-	*e = RepositoryOnboardingStatus(str)
+	*e = RepositoryImportStatus(str)
 	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid RepositoryOnboardingStatus", str)
+		return fmt.Errorf("%s is not a valid RepositoryImportStatus", str)
 	}
 	return nil
 }
 
-func (e RepositoryOnboardingStatus) MarshalGQL(w io.Writer) {
+func (e RepositoryImportStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *RepositoryOnboardingStatus) UnmarshalJSON(b []byte) error {
+func (e *RepositoryImportStatus) UnmarshalJSON(b []byte) error {
 	s, err := strconv.Unquote(string(b))
 	if err != nil {
 		return err
@@ -2975,7 +2974,7 @@ func (e *RepositoryOnboardingStatus) UnmarshalJSON(b []byte) error {
 	return e.UnmarshalGQL(s)
 }
 
-func (e RepositoryOnboardingStatus) MarshalJSON() ([]byte, error) {
+func (e RepositoryImportStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

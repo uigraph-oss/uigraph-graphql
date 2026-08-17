@@ -386,15 +386,16 @@ type timelineClient interface {
 }
 
 type githubOnboardingClient interface {
-	GetGitHubApp(ctx context.Context, orgID string) (*uigraphapi.GitHubAppInstallation, error)
+	GetGitHubApp(ctx context.Context, orgID string) (bool, *uigraphapi.GitHubAppInstallation, error)
 	GetGitHubAppInstallURL(ctx context.Context, orgID string) (string, error)
 	DisconnectGitHubApp(ctx context.Context, orgID string) error
 	ListGitHubRepositories(ctx context.Context, orgID string) ([]uigraphapi.GitHubRepository, error)
-	StartRepositoryOnboarding(ctx context.Context, orgID string, input uigraphapi.StartRepositoryOnboardingInput) (*uigraphapi.RepositoryOnboardingBatch, error)
-	GetRepositoryOnboarding(ctx context.Context, orgID, batchID string) (*uigraphapi.RepositoryOnboardingBatch, error)
-	GetLatestRepositoryOnboarding(ctx context.Context, orgID string) (*uigraphapi.RepositoryOnboardingBatch, error)
-	RecheckRepositoryOnboarding(ctx context.Context, orgID, batchID, onboardingID string) (*uigraphapi.RepositoryOnboarding, error)
-	RetryRepositoryOnboarding(ctx context.Context, orgID, batchID, onboardingID string) (*uigraphapi.RepositoryOnboarding, error)
+	StartRepositoryImport(ctx context.Context, orgID string, input uigraphapi.StartRepositoryImportInput) (*uigraphapi.RepositoryImport, error)
+	GetRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
+	ListRepositoryImports(ctx context.Context, orgID string) ([]uigraphapi.RepositoryImport, error)
+	GetLatestRepositoryImport(ctx context.Context, orgID string) (*uigraphapi.RepositoryImport, error)
+	RecheckRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
+	RetryRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
 }
 
 type Resolver struct {
