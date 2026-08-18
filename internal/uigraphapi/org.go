@@ -16,16 +16,6 @@ type Org struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-type OnboardingProgress struct {
-	Step      string  `json:"step"`
-	TeamID    *string `json:"teamId,omitempty"`
-	TeamName  string  `json:"teamName,omitempty"`
-	Runner    *string `json:"runner,omitempty"`
-	RepoOwner string  `json:"repoOwner,omitempty"`
-	RepoName  string  `json:"repoName,omitempty"`
-	ImportID  *string `json:"importId,omitempty"`
-}
-
 type Member struct {
 	UserID    string    `json:"userId"`
 	OrgID     string    `json:"orgId"`
@@ -111,16 +101,6 @@ func (c *Client) DeleteOrg(ctx context.Context, id string) error {
 
 func (c *Client) CompleteOnboarding(ctx context.Context, orgID string) error {
 	return c.post(ctx, "/api/v1/orgs/"+orgID+"/onboarding-complete", nil, nil)
-}
-
-func (c *Client) GetOnboardingProgress(ctx context.Context, orgID string) (*OnboardingProgress, error) {
-	var out OnboardingProgress
-	return &out, c.get(ctx, "/api/v1/orgs/"+orgID+"/onboarding", &out)
-}
-
-func (c *Client) SaveOnboardingProgress(ctx context.Context, orgID string, body map[string]interface{}) (*OnboardingProgress, error) {
-	var out OnboardingProgress
-	return &out, c.put(ctx, "/api/v1/orgs/"+orgID+"/onboarding", body, &out)
 }
 
 func (c *Client) ServerListOrgs(ctx context.Context) ([]Org, error) {

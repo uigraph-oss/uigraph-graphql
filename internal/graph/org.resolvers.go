@@ -40,30 +40,6 @@ func (r *mutationResolver) CompleteOnboarding(ctx context.Context, orgID string)
 	return true, r.OrgAPI.CompleteOnboarding(ctx, orgID)
 }
 
-// SaveOnboardingProgress is the resolver for the saveOnboardingProgress field.
-func (r *mutationResolver) SaveOnboardingProgress(ctx context.Context, orgID string, input model.OnboardingProgressInput) (*model.OnboardingProgress, error) {
-	step, err := convert.OnboardingStepFromModel(input.Step)
-	if err != nil {
-		return nil, err
-	}
-	body := map[string]interface{}{
-		"step": step, "teamId": input.TeamID, "importId": input.ImportID,
-		"repoOwner": input.RepoOwner, "repoName": input.RepoName,
-	}
-	if input.Runner != nil {
-		runner, err := convert.OnboardingRunnerFromModel(*input.Runner)
-		if err != nil {
-			return nil, err
-		}
-		body["runner"] = runner
-	}
-	progress, err := r.OrgAPI.SaveOnboardingProgress(ctx, orgID, body)
-	if err != nil {
-		return nil, err
-	}
-	return convert.OnboardingProgressToModel(progress)
-}
-
 // PrepareOrgLogoUpload is the resolver for the prepareOrgLogoUpload field.
 func (r *mutationResolver) PrepareOrgLogoUpload(ctx context.Context, orgID string) (*model.AssetUpload, error) {
 	u, err := r.OrgAPI.PrepareOrgLogoUpload(ctx, orgID)
@@ -291,13 +267,4 @@ func (r *queryResolver) ServiceAccountTokens(ctx context.Context, orgID string, 
 // ServiceAccountScopes is the resolver for the serviceAccountScopes field.
 func (r *queryResolver) ServiceAccountScopes(ctx context.Context, orgID string) ([]string, error) {
 	return r.OrgAPI.ListServiceAccountScopes(ctx, orgID)
-}
-
-// OnboardingProgress is the resolver for the onboardingProgress field.
-func (r *queryResolver) OnboardingProgress(ctx context.Context, orgID string) (*model.OnboardingProgress, error) {
-	progress, err := r.OrgAPI.GetOnboardingProgress(ctx, orgID)
-	if err != nil {
-		return nil, err
-	}
-	return convert.OnboardingProgressToModel(progress)
 }

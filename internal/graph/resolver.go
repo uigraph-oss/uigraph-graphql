@@ -46,8 +46,6 @@ type orgClient interface {
 	UpdateOrg(ctx context.Context, id string, body map[string]interface{}) (*uigraphapi.Org, error)
 	DeleteOrg(ctx context.Context, id string) error
 	CompleteOnboarding(ctx context.Context, orgID string) error
-	GetOnboardingProgress(ctx context.Context, orgID string) (*uigraphapi.OnboardingProgress, error)
-	SaveOnboardingProgress(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.OnboardingProgress, error)
 	PrepareOrgLogoUpload(ctx context.Context, orgID string) (*uigraphapi.AssetUpload, error)
 	SetOrgLogo(ctx context.Context, orgID string) error
 	RemoveOrgLogo(ctx context.Context, orgID string) error
