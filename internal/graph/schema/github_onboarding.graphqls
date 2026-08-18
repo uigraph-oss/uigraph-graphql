@@ -3,6 +3,7 @@ extend type Query {
     githubRepositories(orgId: ID!): [GitHubRepository!]!
     repositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
     latestRepositoryImport(orgId: ID!): RepositoryImport
+    repositoryAIConfiguration(orgId: ID!, owner: String!, repo: String!): RepositoryAIConfiguration!
 }
 
 extend type Mutation {
@@ -48,6 +49,11 @@ type RepositoryImport {
     createdAt: Time!
     runStartedAt: Time
     runCompletedAt: Time
+}
+
+type RepositoryAIConfiguration {
+    missing: [String!]!
+    ready: Boolean!
 }
 
 type RepositoryImportStep {

@@ -93,6 +93,16 @@ func (c *Client) ListGitHubRepositories(ctx context.Context, orgID string) ([]Gi
 	return out.Repositories, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/github-app/repositories", orgID), &out)
 }
 
+type RepositoryAIConfiguration struct {
+	Missing []string `json:"missing"`
+	Ready   bool     `json:"ready"`
+}
+
+func (c *Client) GetRepositoryAIConfiguration(ctx context.Context, orgID, owner, repo string) (*RepositoryAIConfiguration, error) {
+	var out RepositoryAIConfiguration
+	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/github-app/repositories/%s/%s/ai-configuration", orgID, owner, repo), &out)
+}
+
 func (c *Client) StartRepositoryImport(ctx context.Context, orgID, teamID, owner, repo string) (*RepositoryImport, error) {
 	var out RepositoryImport
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports", orgID), map[string]string{"teamId": teamID, "owner": owner, "repo": repo}, &out)

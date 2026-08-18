@@ -46,6 +46,8 @@ type orgClient interface {
 	UpdateOrg(ctx context.Context, id string, body map[string]interface{}) (*uigraphapi.Org, error)
 	DeleteOrg(ctx context.Context, id string) error
 	CompleteOnboarding(ctx context.Context, orgID string) error
+	GetOnboardingProgress(ctx context.Context, orgID string) (*uigraphapi.OnboardingProgress, error)
+	SaveOnboardingProgress(ctx context.Context, orgID string, body map[string]interface{}) (*uigraphapi.OnboardingProgress, error)
 	PrepareOrgLogoUpload(ctx context.Context, orgID string) (*uigraphapi.AssetUpload, error)
 	SetOrgLogo(ctx context.Context, orgID string) error
 	RemoveOrgLogo(ctx context.Context, orgID string) error
@@ -390,6 +392,7 @@ type githubImportClient interface {
 	GetGitHubAppInstallURL(ctx context.Context, orgID string) (string, error)
 	DisconnectGitHubApp(ctx context.Context, orgID string) error
 	ListGitHubRepositories(ctx context.Context, orgID string) ([]uigraphapi.GitHubRepository, error)
+	GetRepositoryAIConfiguration(ctx context.Context, orgID, owner, repo string) (*uigraphapi.RepositoryAIConfiguration, error)
 	StartRepositoryImport(ctx context.Context, orgID, teamID, owner, repo string) (*uigraphapi.RepositoryImport, error)
 	GetRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
 	GetLatestRepositoryImport(ctx context.Context, orgID string) (*uigraphapi.RepositoryImport, error)

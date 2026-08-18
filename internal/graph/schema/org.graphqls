@@ -9,6 +9,7 @@ extend type Query {
     serviceAccount(orgId: ID!, id: ID!):              ServiceAccount!
     serviceAccountTokens(orgId: ID!, saId: ID!):      [ServiceAccountToken!]!
     serviceAccountScopes(orgId: ID!):                 [String!]!
+    onboardingProgress(orgId: ID!):                   OnboardingProgress!
 }
 
 extend type Mutation {
@@ -16,6 +17,7 @@ extend type Mutation {
     updateOrg(id: ID!, input: UpdateOrgInput!):       Org!
     deleteOrg(id: ID!):                               Boolean!
     completeOnboarding(orgId: ID!):                   Boolean!
+    saveOnboardingProgress(orgId: ID!, input: OnboardingProgressInput!): OnboardingProgress!
     prepareOrgLogoUpload(orgId: ID!):                 AssetUpload!
     setOrgLogo(orgId: ID!):                           Boolean!
     removeOrgLogo(orgId: ID!):                        Boolean!
@@ -50,6 +52,29 @@ type Org {
     autoJoin:  Boolean!
     createdAt: Time!
     updatedAt: Time!
+}
+
+type OnboardingProgress {
+    step:      OnboardingStep!
+    teamId:    ID
+    teamName:  String
+    runner:    OnboardingRunner
+    repoOwner: String
+    repoName:  String
+    importId:  ID
+}
+
+enum OnboardingStep {
+    TEAM
+    RUNNER
+    GITHUB
+    REPOSITORY
+    ENVIRONMENT
+    RUN
+}
+
+enum OnboardingRunner {
+    GITHUB_ACTIONS
 }
 
 type Member {
@@ -124,6 +149,15 @@ input CreateOrgInput {
 input UpdateOrgInput {
     name:     String
     disabled: Boolean
+}
+
+input OnboardingProgressInput {
+    step:      OnboardingStep!
+    teamId:    ID
+    runner:    OnboardingRunner
+    repoOwner: String
+    repoName:  String
+    importId:  ID
 }
 
 input AddMemberInput {

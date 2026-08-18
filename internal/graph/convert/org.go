@@ -1,6 +1,8 @@
 package convert
 
 import (
+	"fmt"
+
 	"github.com/uigraph/graphql/internal/graph/model"
 	"github.com/uigraph/graphql/internal/uigraphapi"
 )
@@ -11,6 +13,76 @@ func OrgToModel(o *uigraphapi.Org) *model.Org {
 		m.LogoURL = &o.LogoURL
 	}
 	return m
+}
+
+func onboardingStepToModel(step string) (model.OnboardingStep, error) {
+	switch step {
+	case "team":
+		return model.OnboardingStepTeam, nil
+	case "runner":
+		return model.OnboardingStepRunner, nil
+	case "github":
+		return model.OnboardingStepGithub, nil
+	case "repository":
+		return model.OnboardingStepRepository, nil
+	case "environment":
+		return model.OnboardingStepEnvironment, nil
+	case "run":
+		return model.OnboardingStepRun, nil
+	default:
+		return "", fmt.Errorf("unsupported onboarding step %q", step)
+	}
+}
+
+func OnboardingStepFromModel(step model.OnboardingStep) (string, error) {
+	switch step {
+	case model.OnboardingStepTeam:
+		return "team", nil
+	case model.OnboardingStepRunner:
+		return "runner", nil
+	case model.OnboardingStepGithub:
+		return "github", nil
+	case model.OnboardingStepRepository:
+		return "repository", nil
+	case model.OnboardingStepEnvironment:
+		return "environment", nil
+	case model.OnboardingStepRun:
+		return "run", nil
+	default:
+		return "", fmt.Errorf("unsupported onboarding step %q", step)
+	}
+}
+
+func OnboardingRunnerFromModel(runner model.OnboardingRunner) (string, error) {
+	if runner != model.OnboardingRunnerGithubActions {
+		return "", fmt.Errorf("unsupported onboarding runner %q", runner)
+	}
+	return "github_actions", nil
+}
+
+func OnboardingProgressToModel(p *uigraphapi.OnboardingProgress) (*model.OnboardingProgress, error) {
+	step, err := onboardingStepToModel(p.Step)
+	if err != nil {
+		return nil, err
+	}
+	out := &model.OnboardingProgress{Step: step, TeamID: p.TeamID, ImportID: p.ImportID}
+	if p.TeamName != "" {
+		out.TeamName = &p.TeamName
+	}
+	if p.RepoOwner != "" {
+		out.RepoOwner = &p.RepoOwner
+	}
+	if p.RepoName != "" {
+		out.RepoName = &p.RepoName
+	}
+	if p.Runner != nil {
+		if *p.Runner != "github_actions" {
+			return nil, fmt.Errorf("unsupported onboarding runner %q", *p.Runner)
+		}
+		runner := model.OnboardingRunnerGithubActions
+		out.Runner = &runner
+	}
+	return out, nil
 }
 
 func MemberToModel(m uigraphapi.Member) *model.Member {
