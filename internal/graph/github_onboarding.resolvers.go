@@ -89,3 +89,12 @@ func (r *queryResolver) LatestRepositoryImport(ctx context.Context, orgID string
 	}
 	return convert.RepositoryImportToModel(*value)
 }
+
+// RepositoryAIConfiguration is the resolver for the repositoryAIConfiguration field.
+func (r *queryResolver) RepositoryAIConfiguration(ctx context.Context, orgID string, owner string, repo string) (*model.RepositoryAIConfiguration, error) {
+	value, err := r.GitHubAPI.GetRepositoryAIConfiguration(ctx, orgID, owner, repo)
+	if err != nil {
+		return nil, err
+	}
+	return &model.RepositoryAIConfiguration{Missing: value.Missing, Ready: value.Ready}, nil
+}

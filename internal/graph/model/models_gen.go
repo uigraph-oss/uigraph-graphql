@@ -1821,6 +1821,11 @@ type OrgSummary struct {
 type Query struct {
 }
 
+type RepositoryAIConfiguration struct {
+	Missing []string `json:"missing"`
+	Ready   bool     `json:"ready"`
+}
+
 type RepositoryImport struct {
 	ID                     string                  `json:"id"`
 	GithubOwnerID          string                  `json:"githubOwnerId"`
