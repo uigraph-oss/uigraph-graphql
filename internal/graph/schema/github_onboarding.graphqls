@@ -1,17 +1,18 @@
 extend type Query {
     githubApp(orgId: ID!): GitHubAppInstallation
     githubRepositories(orgId: ID!): [GitHubRepository!]!
+    githubImportEnvironment(orgId: ID!): GitHubImportEnvironment!
     repositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
     latestRepositoryImport(orgId: ID!): RepositoryImport
-    repositoryAIConfiguration(orgId: ID!, owner: String!, repo: String!): RepositoryAIConfiguration!
 }
 
 extend type Mutation {
     githubAppInstallURL(orgId: ID!): String!
     disconnectGitHubApp(orgId: ID!): Boolean!
+    createRepositoryImportToken(orgId: ID!, owner: String!, repo: String!): String!
     startRepositoryImport(orgId: ID!, teamId: ID!, owner: String!, repo: String!): RepositoryImport!
-    recheckRepositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
     retryRepositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
+    rerunRepositoryImportFailedJobs(orgId: ID!, importId: ID!): RepositoryImport!
 }
 
 type GitHubAppInstallation {
@@ -32,6 +33,11 @@ type GitHubRepository {
     archived: Boolean!
 }
 
+type GitHubImportEnvironment {
+    apiUrl: String!
+    gatewayUrl: String!
+}
+
 type RepositoryImport {
     id: ID!
     githubOwnerId: ID!
@@ -43,17 +49,11 @@ type RepositoryImport {
     branch: String!
     runUrl: String
     pullRequestUrl: String
-    missingAIConfiguration: [String!]!
     error: String
     serviceId: ID
     createdAt: Time!
     runStartedAt: Time
     runCompletedAt: Time
-}
-
-type RepositoryAIConfiguration {
-    missing: [String!]!
-    ready: Boolean!
 }
 
 type RepositoryImportStep {
@@ -67,8 +67,6 @@ type RepositoryImportStep {
 
 enum RepositoryImportStatus {
     SELECTED
-    CHECKING_AI_CONFIGURATION
-    WAITING_AI_CONFIGURATION
     RUN_QUEUED
     RUN_RUNNING
     COMPLETED
