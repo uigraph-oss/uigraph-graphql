@@ -1335,6 +1335,11 @@ type GitHubAppInstallation struct {
 	Suspended      bool   `json:"suspended"`
 }
 
+type GitHubImportEnvironment struct {
+	APIURL     string `json:"apiUrl"`
+	GatewayURL string `json:"gatewayUrl"`
+}
+
 type GitHubRepository struct {
 	GithubID      string `json:"githubId"`
 	Owner         string `json:"owner"`
@@ -1821,28 +1826,22 @@ type OrgSummary struct {
 type Query struct {
 }
 
-type RepositoryAIConfiguration struct {
-	Missing []string `json:"missing"`
-	Ready   bool     `json:"ready"`
-}
-
 type RepositoryImport struct {
-	ID                     string                  `json:"id"`
-	GithubOwnerID          string                  `json:"githubOwnerId"`
-	GithubRepo             string                  `json:"githubRepo"`
-	Status                 RepositoryImportStatus  `json:"status"`
-	Steps                  []*RepositoryImportStep `json:"steps"`
-	TeamID                 string                  `json:"teamId"`
-	TeamName               *string                 `json:"teamName,omitempty"`
-	Branch                 string                  `json:"branch"`
-	RunURL                 *string                 `json:"runUrl,omitempty"`
-	PullRequestURL         *string                 `json:"pullRequestUrl,omitempty"`
-	MissingAIConfiguration []string                `json:"missingAIConfiguration"`
-	Error                  *string                 `json:"error,omitempty"`
-	ServiceID              *string                 `json:"serviceId,omitempty"`
-	CreatedAt              time.Time               `json:"createdAt"`
-	RunStartedAt           *time.Time              `json:"runStartedAt,omitempty"`
-	RunCompletedAt         *time.Time              `json:"runCompletedAt,omitempty"`
+	ID             string                  `json:"id"`
+	GithubOwnerID  string                  `json:"githubOwnerId"`
+	GithubRepo     string                  `json:"githubRepo"`
+	Status         RepositoryImportStatus  `json:"status"`
+	Steps          []*RepositoryImportStep `json:"steps"`
+	TeamID         string                  `json:"teamId"`
+	TeamName       *string                 `json:"teamName,omitempty"`
+	Branch         string                  `json:"branch"`
+	RunURL         *string                 `json:"runUrl,omitempty"`
+	PullRequestURL *string                 `json:"pullRequestUrl,omitempty"`
+	Error          *string                 `json:"error,omitempty"`
+	ServiceID      *string                 `json:"serviceId,omitempty"`
+	CreatedAt      time.Time               `json:"createdAt"`
+	RunStartedAt   *time.Time              `json:"runStartedAt,omitempty"`
+	RunCompletedAt *time.Time              `json:"runCompletedAt,omitempty"`
 }
 
 type RepositoryImportStep struct {
@@ -2928,19 +2927,15 @@ func (e InfraResourceStatus) MarshalJSON() ([]byte, error) {
 type RepositoryImportStatus string
 
 const (
-	RepositoryImportStatusSelected                RepositoryImportStatus = "SELECTED"
-	RepositoryImportStatusCheckingAiConfiguration RepositoryImportStatus = "CHECKING_AI_CONFIGURATION"
-	RepositoryImportStatusWaitingAiConfiguration  RepositoryImportStatus = "WAITING_AI_CONFIGURATION"
-	RepositoryImportStatusRunQueued               RepositoryImportStatus = "RUN_QUEUED"
-	RepositoryImportStatusRunRunning              RepositoryImportStatus = "RUN_RUNNING"
-	RepositoryImportStatusCompleted               RepositoryImportStatus = "COMPLETED"
-	RepositoryImportStatusFailed                  RepositoryImportStatus = "FAILED"
+	RepositoryImportStatusSelected   RepositoryImportStatus = "SELECTED"
+	RepositoryImportStatusRunQueued  RepositoryImportStatus = "RUN_QUEUED"
+	RepositoryImportStatusRunRunning RepositoryImportStatus = "RUN_RUNNING"
+	RepositoryImportStatusCompleted  RepositoryImportStatus = "COMPLETED"
+	RepositoryImportStatusFailed     RepositoryImportStatus = "FAILED"
 )
 
 var AllRepositoryImportStatus = []RepositoryImportStatus{
 	RepositoryImportStatusSelected,
-	RepositoryImportStatusCheckingAiConfiguration,
-	RepositoryImportStatusWaitingAiConfiguration,
 	RepositoryImportStatusRunQueued,
 	RepositoryImportStatusRunRunning,
 	RepositoryImportStatusCompleted,
@@ -2949,7 +2944,7 @@ var AllRepositoryImportStatus = []RepositoryImportStatus{
 
 func (e RepositoryImportStatus) IsValid() bool {
 	switch e {
-	case RepositoryImportStatusSelected, RepositoryImportStatusCheckingAiConfiguration, RepositoryImportStatusWaitingAiConfiguration, RepositoryImportStatusRunQueued, RepositoryImportStatusRunRunning, RepositoryImportStatusCompleted, RepositoryImportStatusFailed:
+	case RepositoryImportStatusSelected, RepositoryImportStatusRunQueued, RepositoryImportStatusRunRunning, RepositoryImportStatusCompleted, RepositoryImportStatusFailed:
 		return true
 	}
 	return false

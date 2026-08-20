@@ -42,10 +42,6 @@ func repositoryImportStatusToModel(status uigraphapi.RepositoryImportStatus) (mo
 	switch status {
 	case uigraphapi.RepositoryImportStatusSelected:
 		return model.RepositoryImportStatusSelected, nil
-	case uigraphapi.RepositoryImportStatusCheckingAI:
-		return model.RepositoryImportStatusCheckingAiConfiguration, nil
-	case uigraphapi.RepositoryImportStatusWaitingAI:
-		return model.RepositoryImportStatusWaitingAiConfiguration, nil
 	case uigraphapi.RepositoryImportStatusRunQueued:
 		return model.RepositoryImportStatusRunQueued, nil
 	case uigraphapi.RepositoryImportStatusRunRunning:
@@ -78,21 +74,20 @@ func RepositoryImportToModel(value uigraphapi.RepositoryImport) (*model.Reposito
 		}
 	}
 	return &model.RepositoryImport{
-		ID:                     value.ID,
-		GithubOwnerID:          strconv.FormatInt(value.GitHubOwnerID, 10),
-		GithubRepo:             value.GitHubRepo,
-		Status:                 status,
-		Steps:                  steps,
-		TeamID:                 value.TeamID,
-		TeamName:               value.TeamName,
-		Branch:                 value.Branch,
-		RunURL:                 value.RunURL,
-		PullRequestURL:         value.PullRequestURL,
-		MissingAIConfiguration: value.MissingAIConfiguration,
-		Error:                  value.Error,
-		ServiceID:              value.ServiceID,
-		CreatedAt:              value.CreatedAt,
-		RunStartedAt:           value.RunStartedAt,
-		RunCompletedAt:         value.RunCompletedAt,
+		ID:             value.ID,
+		GithubOwnerID:  strconv.FormatInt(value.GitHubOwnerID, 10),
+		GithubRepo:     value.GitHubRepo,
+		Status:         status,
+		Steps:          steps,
+		TeamID:         value.TeamID,
+		TeamName:       value.TeamName,
+		Branch:         value.Branch,
+		RunURL:         value.RunURL,
+		PullRequestURL: value.PullRequestURL,
+		Error:          value.Error,
+		ServiceID:      value.ServiceID,
+		CreatedAt:      value.CreatedAt,
+		RunStartedAt:   value.RunStartedAt,
+		RunCompletedAt: value.RunCompletedAt,
 	}, nil
 }

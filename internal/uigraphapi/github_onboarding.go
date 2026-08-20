@@ -24,12 +24,15 @@ type GitHubRepository struct {
 	Archived      bool   `json:"archived"`
 }
 
+type GitHubImportEnvironment struct {
+	APIURL     string `json:"apiUrl"`
+	GatewayURL string `json:"gatewayUrl"`
+}
+
 type RepositoryImportStatus string
 
 const (
 	RepositoryImportStatusSelected   RepositoryImportStatus = "selected"
-	RepositoryImportStatusCheckingAI RepositoryImportStatus = "checking_ai_configuration"
-	RepositoryImportStatusWaitingAI  RepositoryImportStatus = "waiting_ai_configuration"
 	RepositoryImportStatusRunQueued  RepositoryImportStatus = "run_queued"
 	RepositoryImportStatusRunRunning RepositoryImportStatus = "run_running"
 	RepositoryImportStatusCompleted  RepositoryImportStatus = "completed"
@@ -46,22 +49,21 @@ type RepositoryImportStep struct {
 }
 
 type RepositoryImport struct {
-	ID                     string                 `json:"id"`
-	GitHubOwnerID          int64                  `json:"githubOwnerId"`
-	GitHubRepo             string                 `json:"githubRepo"`
-	Status                 RepositoryImportStatus `json:"status"`
-	Steps                  []RepositoryImportStep `json:"steps"`
-	TeamID                 string                 `json:"teamId"`
-	TeamName               *string                `json:"team"`
-	Branch                 string                 `json:"branch"`
-	RunURL                 *string                `json:"runUrl"`
-	PullRequestURL         *string                `json:"prUrl"`
-	MissingAIConfiguration []string               `json:"missingAIConfiguration"`
-	Error                  *string                `json:"error"`
-	ServiceID              *string                `json:"serviceId"`
-	CreatedAt              time.Time              `json:"createdAt"`
-	RunStartedAt           *time.Time             `json:"runStartedAt"`
-	RunCompletedAt         *time.Time             `json:"runCompletedAt"`
+	ID             string                 `json:"id"`
+	GitHubOwnerID  int64                  `json:"githubOwnerId"`
+	GitHubRepo     string                 `json:"githubRepo"`
+	Status         RepositoryImportStatus `json:"status"`
+	Steps          []RepositoryImportStep `json:"steps"`
+	TeamID         string                 `json:"teamId"`
+	TeamName       *string                `json:"team"`
+	Branch         string                 `json:"branch"`
+	RunURL         *string                `json:"runUrl"`
+	PullRequestURL *string                `json:"prUrl"`
+	Error          *string                `json:"error"`
+	ServiceID      *string                `json:"serviceId"`
+	CreatedAt      time.Time              `json:"createdAt"`
+	RunStartedAt   *time.Time             `json:"runStartedAt"`
+	RunCompletedAt *time.Time             `json:"runCompletedAt"`
 }
 
 func (c *Client) GetGitHubApp(ctx context.Context, orgID string) (enabled bool, installation *GitHubAppInstallation, err error) {
@@ -93,14 +95,20 @@ func (c *Client) ListGitHubRepositories(ctx context.Context, orgID string) ([]Gi
 	return out.Repositories, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/github-app/repositories", orgID), &out)
 }
 
-type RepositoryAIConfiguration struct {
-	Missing []string `json:"missing"`
-	Ready   bool     `json:"ready"`
+func (c *Client) GetGitHubImportEnvironment(ctx context.Context, orgID string) (GitHubImportEnvironment, error) {
+	var out GitHubImportEnvironment
+	return out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/github-app/environment", orgID), &out)
 }
 
-func (c *Client) GetRepositoryAIConfiguration(ctx context.Context, orgID, owner, repo string) (*RepositoryAIConfiguration, error) {
-	var out RepositoryAIConfiguration
-	return &out, c.get(ctx, fmt.Sprintf("/api/v1/orgs/%s/github-app/repositories/%s/%s/ai-configuration", orgID, owner, repo), &out)
+func (c *Client) CreateRepositoryImportToken(ctx context.Context, orgID, owner, repo string) (string, error) {
+	var out struct {
+		Token string `json:"token"`
+	}
+	path := fmt.Sprintf("/api/v1/orgs/%s/github-app/repositories/%s/%s/import-token", orgID, owner, repo)
+	if err := c.post(ctx, path, nil, &out); err != nil {
+		return "", err
+	}
+	return out.Token, nil
 }
 
 func (c *Client) StartRepositoryImport(ctx context.Context, orgID, teamID, owner, repo string) (*RepositoryImport, error) {
@@ -121,11 +129,6 @@ func (c *Client) GetLatestRepositoryImport(ctx context.Context, orgID string) (*
 		return nil, err
 	}
 	return out.Import, nil
-}
-
-func (c *Client) RecheckRepositoryImport(ctx context.Context, orgID, importID string) (*RepositoryImport, error) {
-	var out RepositoryImport
-	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports/%s/recheck", orgID, importID), nil, &out)
 }
 
 func (c *Client) RetryRepositoryImport(ctx context.Context, orgID, importID string) (*RepositoryImport, error) {

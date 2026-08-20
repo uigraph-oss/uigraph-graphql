@@ -21,18 +21,14 @@ func (r *mutationResolver) DisconnectGitHubApp(ctx context.Context, orgID string
 	return true, r.GitHubAPI.DisconnectGitHubApp(ctx, orgID)
 }
 
+// CreateRepositoryImportToken is the resolver for the createRepositoryImportToken field.
+func (r *mutationResolver) CreateRepositoryImportToken(ctx context.Context, orgID string, owner string, repo string) (string, error) {
+	return r.GitHubAPI.CreateRepositoryImportToken(ctx, orgID, owner, repo)
+}
+
 // StartRepositoryImport is the resolver for the startRepositoryImport field.
 func (r *mutationResolver) StartRepositoryImport(ctx context.Context, orgID string, teamID string, owner string, repo string) (*model.RepositoryImport, error) {
 	value, err := r.GitHubAPI.StartRepositoryImport(ctx, orgID, teamID, owner, repo)
-	if err != nil {
-		return nil, err
-	}
-	return convert.RepositoryImportToModel(*value)
-}
-
-// RecheckRepositoryImport is the resolver for the recheckRepositoryImport field.
-func (r *mutationResolver) RecheckRepositoryImport(ctx context.Context, orgID string, importID string) (*model.RepositoryImport, error) {
-	value, err := r.GitHubAPI.RecheckRepositoryImport(ctx, orgID, importID)
 	if err != nil {
 		return nil, err
 	}
@@ -69,6 +65,15 @@ func (r *queryResolver) GithubRepositories(ctx context.Context, orgID string) ([
 	return convert.GitHubRepositoriesToModel(repositories), nil
 }
 
+// GithubImportEnvironment is the resolver for the githubImportEnvironment field.
+func (r *queryResolver) GithubImportEnvironment(ctx context.Context, orgID string) (*model.GitHubImportEnvironment, error) {
+	environment, err := r.GitHubAPI.GetGitHubImportEnvironment(ctx, orgID)
+	if err != nil {
+		return nil, err
+	}
+	return &model.GitHubImportEnvironment{APIURL: environment.APIURL, GatewayURL: environment.GatewayURL}, nil
+}
+
 // RepositoryImport is the resolver for the repositoryImport field.
 func (r *queryResolver) RepositoryImport(ctx context.Context, orgID string, importID string) (*model.RepositoryImport, error) {
 	value, err := r.GitHubAPI.GetRepositoryImport(ctx, orgID, importID)
@@ -88,13 +93,4 @@ func (r *queryResolver) LatestRepositoryImport(ctx context.Context, orgID string
 		return nil, nil
 	}
 	return convert.RepositoryImportToModel(*value)
-}
-
-// RepositoryAIConfiguration is the resolver for the repositoryAIConfiguration field.
-func (r *queryResolver) RepositoryAIConfiguration(ctx context.Context, orgID string, owner string, repo string) (*model.RepositoryAIConfiguration, error) {
-	value, err := r.GitHubAPI.GetRepositoryAIConfiguration(ctx, orgID, owner, repo)
-	if err != nil {
-		return nil, err
-	}
-	return &model.RepositoryAIConfiguration{Missing: value.Missing, Ready: value.Ready}, nil
 }
