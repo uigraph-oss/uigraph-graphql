@@ -396,6 +396,7 @@ type githubImportClient interface {
 	GetRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
 	GetLatestRepositoryImport(ctx context.Context, orgID string) (*uigraphapi.RepositoryImport, error)
 	RetryRepositoryImport(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
+	RerunRepositoryImportFailedJobs(ctx context.Context, orgID, importID string) (*uigraphapi.RepositoryImport, error)
 }
 
 type Resolver struct {

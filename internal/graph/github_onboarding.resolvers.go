@@ -44,6 +44,15 @@ func (r *mutationResolver) RetryRepositoryImport(ctx context.Context, orgID stri
 	return convert.RepositoryImportToModel(*value)
 }
 
+// RerunRepositoryImportFailedJobs is the resolver for the rerunRepositoryImportFailedJobs field.
+func (r *mutationResolver) RerunRepositoryImportFailedJobs(ctx context.Context, orgID string, importID string) (*model.RepositoryImport, error) {
+	value, err := r.GitHubAPI.RerunRepositoryImportFailedJobs(ctx, orgID, importID)
+	if err != nil {
+		return nil, err
+	}
+	return convert.RepositoryImportToModel(*value)
+}
+
 // GithubApp is the resolver for the githubApp field.
 func (r *queryResolver) GithubApp(ctx context.Context, orgID string) (*model.GitHubAppInstallation, error) {
 	_, installation, err := r.GitHubAPI.GetGitHubApp(ctx, orgID)

@@ -12,6 +12,7 @@ extend type Mutation {
     createRepositoryImportToken(orgId: ID!, owner: String!, repo: String!): String!
     startRepositoryImport(orgId: ID!, teamId: ID!, owner: String!, repo: String!): RepositoryImport!
     retryRepositoryImport(orgId: ID!, importId: ID!): RepositoryImport!
+    rerunRepositoryImportFailedJobs(orgId: ID!, importId: ID!): RepositoryImport!
 }
 
 type GitHubAppInstallation {

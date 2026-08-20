@@ -135,3 +135,8 @@ func (c *Client) RetryRepositoryImport(ctx context.Context, orgID, importID stri
 	var out RepositoryImport
 	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports/%s/retry", orgID, importID), nil, &out)
 }
+
+func (c *Client) RerunRepositoryImportFailedJobs(ctx context.Context, orgID, importID string) (*RepositoryImport, error) {
+	var out RepositoryImport
+	return &out, c.post(ctx, fmt.Sprintf("/api/v1/orgs/%s/repository-imports/%s/rerun-failed-jobs", orgID, importID), nil, &out)
+}
